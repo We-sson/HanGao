@@ -16,12 +16,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
             //Test
-            Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.MedianImage, Method_Run_Time = 156, V_1 = 156, V_2 = 123, V_3 = 6556 });
+            //Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.MedianImage, Method_Run_Time = 156, V_1 = 156, V_2 = 123, V_3 = 6556 });
 
-            Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.MedianImage, Method_Run_Time = 356, V_1 = 156, V_2 = 123, V_3 = 6556 });
+            //Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.MedianImage, Method_Run_Time = 356, V_1 = 156, V_2 = 123, V_3 = 6556 });
 
-            Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.Illuminate, Method_Run_Time = 356, V_1 = 156, V_2 = 123, V_3 = 6556 });
-            Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.GrayClosingRect, Method_Run_Time = 356, V_1 = 156, V_2 = 123, V_3 = 6556 });
+            //Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.Illuminate, Method_Run_Time = 356, V_1 = 156, V_2 = 123, V_3 = 6556 });
+            //Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.GrayClosingRect, Method_Run_Time = 356, V_1 = 156, V_2 = 123, V_3 = 6556 });
 
 
         }

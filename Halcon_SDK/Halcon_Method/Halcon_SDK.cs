@@ -431,7 +431,7 @@ namespace Halcon_SDK_DLL
             try
             {
 
-                image.Dispose();
+                //image.Dispose();
                 //转换halcon图像格式
                 image.GenImage1("byte", _Width, _Height, _pData);
 
@@ -1020,7 +1020,6 @@ namespace Halcon_SDK_DLL
     }
 
     [AddINotifyPropertyChangedInterface]
-
     public class Halcon_Window_Display_Model : IDisposable
     {
 
@@ -1204,7 +1203,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_XLD"></param>
         /// <param name="_DrawColor"></param>
         /// <param name="_Show"></param>
-        public void Display_HObject(HObject _HImage, HObject _Region, HObject _XLD, string _DrawColor, Window_Show_Name_Enum _Show)
+        public void Display_HObject( Window_Show_Name_Enum _Show ,HObject? _HImage=null, HObject? _Region=null, HObject? _XLD=null, string? _DrawColor=null)
         {
             if (_DrawColor != null)
             {

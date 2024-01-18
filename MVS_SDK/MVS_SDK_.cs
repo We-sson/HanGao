@@ -32,7 +32,7 @@ namespace MVS_SDK
         /// <summary>
         /// 相机选择信息
         /// </summary>
-        public  MVS_Camera_Info_Model Select_Camera { set; get; } = new MVS_Camera_Info_Model();
+        public  MVS_Camera_Info_Model Select_Camera { set; get; } 
 
         /// <summary>
         /// 查找相机状态

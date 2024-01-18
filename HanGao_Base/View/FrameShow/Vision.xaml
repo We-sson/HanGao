@@ -112,7 +112,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Live_Window_Button" Grid.Column=" 0"
-                                         IsChecked="False"
+                                         IsChecked="True"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -156,7 +156,7 @@
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Features_Window_Button" Grid.Column=" 2"
-                                         IsChecked="True"
+                                         IsChecked="False"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1266,6 +1266,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Robot_Model" Grid.Row=" 3"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1288,6 +1289,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model" Grid.Row=" 4"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -3074,7 +3076,7 @@
                                                        VerticalAlignment="Center"
                                                        Source="/Resources/Control_创建模型_ioc.png" />
                                             </Border>
-                                            <TextBlock Text="创建读取模板"
+                                            <TextBlock Text="创建模板"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5079,6 +5081,7 @@
                                                                                                 <Style.Triggers>
                                                                                                     <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
                                                                                                         <Setter Property="Visibility" Value="Visible" />
+                                                                                                        
                                                                                                     </DataTrigger>
                                                                                                 </Style.Triggers>
                                                                                             </Style>
@@ -5111,7 +5114,8 @@
                                                                                                 Maximum="101"
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
-                                                                                                TickFrequency=" 2" />
+                                                                                                TickFrequency=" 2"
+                                                                                                Value="{Binding V_1, TargetNullValue=0, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Median_Rect_MaskWidth, Path=Value}"
@@ -5143,7 +5147,7 @@
 
 
                                                                                         <TextBlock Grid.Column=" 0"
-                                                                                                   Text="掩码宽度"
+                                                                                                   Text="掩码高度"
                                                                                                    TextWrapping="Wrap"
                                                                                                    HorizontalAlignment="Left"
                                                                                                    VerticalAlignment="Center"
@@ -5163,7 +5167,7 @@
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency=" 2"
-                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Median_Rect_MaskHeight, Path=Value}"
@@ -5216,7 +5220,8 @@
                                                                                                 Maximum="501"
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
-                                                                                                TickFrequency=" 2" />
+                                                                                                TickFrequency=" 2"
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Gray_Opening_Rect_MaskWidth, Path=Value}"
@@ -5248,7 +5253,7 @@
 
 
                                                                                         <TextBlock Grid.Column=" 0"
-                                                                                                   Text="掩码宽度"
+                                                                                                   Text="掩码高度"
                                                                                                    TextWrapping="Wrap"
                                                                                                    HorizontalAlignment="Left"
                                                                                                    VerticalAlignment="Center"
@@ -5268,7 +5273,7 @@
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency=" 2"
-                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Gray_Opening_Rect_MaskHeight, Path=Value}"
@@ -5372,7 +5377,7 @@
                                                                                                 Minimum="1"
                                                                                                 SmallChange="1"
                                                                                                 TickFrequency=" 1"
-                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Median_Image_Radius, Path=Value}"
@@ -5475,7 +5480,7 @@
                                                                                                 Minimum="2"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency=" 10"
-                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Illuminate_MaskWidth, Path=Value}"
@@ -5507,7 +5512,7 @@
 
 
                                                                                         <TextBlock Grid.Column=" 0"
-                                                                                                   Text="掩码宽度"
+                                                                                                   Text="掩码高度"
                                                                                                    TextWrapping="Wrap"
                                                                                                    HorizontalAlignment="Left"
                                                                                                    VerticalAlignment="Center"
@@ -5527,7 +5532,7 @@
                                                                                                 Minimum="2"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency="10"
-                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Illuminate_MaskHeight, Path=Value}"
@@ -5579,7 +5584,7 @@
                                                                                                 Minimum="0"
                                                                                                 SmallChange="0.1"
                                                                                                 TickFrequency="0.1"
-                                                                                                Value="{Binding V_3, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_3, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Illuminate_Factor, Path=Value, StringFormat={}{0:F1}}"
@@ -5633,7 +5638,7 @@
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency=" 2"
-                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Emphasize_MaskWidth, Path=Value}"
@@ -5665,7 +5670,7 @@
 
 
                                                                                         <TextBlock Grid.Column=" 0"
-                                                                                                   Text="掩码宽度"
+                                                                                                   Text="掩码高度"
                                                                                                    TextWrapping="Wrap"
                                                                                                    HorizontalAlignment="Left"
                                                                                                    VerticalAlignment="Center"
@@ -5685,7 +5690,7 @@
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency="2"
-                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Emphasize_MaskHeight, Path=Value}"
@@ -5737,7 +5742,7 @@
                                                                                                 Minimum="0"
                                                                                                 SmallChange="0.1"
                                                                                                 TickFrequency="0.2"
-                                                                                                Value="{Binding V_3, TargetNullValue=0, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_3, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Emphasize_Factor, Path=Value, StringFormat={}{0:F1}}"
@@ -5791,7 +5796,7 @@
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency=" 2"
-                                                                                                Value="{Binding V_1, TargetNullValue=0, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=GrayClosingRect_MaskWidth, Path=Value}"
@@ -5823,7 +5828,7 @@
 
 
                                                                                         <TextBlock Grid.Column=" 0"
-                                                                                                   Text="掩码宽度"
+                                                                                                   Text="掩码高度"
                                                                                                    TextWrapping="Wrap"
                                                                                                    HorizontalAlignment="Left"
                                                                                                    VerticalAlignment="Center"
@@ -5843,7 +5848,7 @@
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency="2"
-                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}}" />
+                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=GrayClosingRect_MaskHeight, Path=Value}"

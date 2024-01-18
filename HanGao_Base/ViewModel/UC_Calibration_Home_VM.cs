@@ -1057,9 +1057,9 @@ namespace HanGao.ViewModel
 
 
                                     ///显示选中图像
-                                    Halcon_Window_Display.Display_HObject(_Selected.Camera_0.Calibration_Image, null, null, null, _ShowDisply);
-                                    Halcon_Window_Display.Display_HObject(_Selected.Camera_0.Calibration_Image, _Selected.Camera_0.Calibration_Region, null, KnownColor.Green.ToString(), _ShowDisply);
-                                    Halcon_Window_Display.Display_HObject(null, null, _Selected.Camera_0.Calibration_XLD, null, _ShowDisply);
+                                    Halcon_Window_Display.Display_HObject(_ShowDisply,_Selected.Camera_0.Calibration_Image);
+                                    Halcon_Window_Display.Display_HObject(_ShowDisply,_Selected.Camera_0.Calibration_Image, _Selected.Camera_0.Calibration_Region, null, KnownColor.Green.ToString());
+                                    Halcon_Window_Display.Display_HObject(_ShowDisply,_XLD: _Selected.Camera_0.Calibration_XLD );
 
                                     });
 
@@ -1095,9 +1095,9 @@ namespace HanGao.ViewModel
                                     {
 
 
-                                    Halcon_Window_Display.Display_HObject((HImage)_Selected.Camera_1.Calibration_Image, null, null, null, _ShowDisply);
-                                    Halcon_Window_Display.Display_HObject((HImage)_Selected.Camera_1.Calibration_Image, _Selected.Camera_1.Calibration_Region, null, KnownColor.Green.ToString(), _ShowDisply);
-                                    Halcon_Window_Display.Display_HObject(null, null, _Selected.Camera_1.Calibration_XLD, null, _ShowDisply);
+                                    Halcon_Window_Display.Display_HObject(_ShowDisply,(HImage)_Selected.Camera_1.Calibration_Image);
+                                    Halcon_Window_Display.Display_HObject(_ShowDisply, (HImage)_Selected.Camera_1.Calibration_Image, _Selected.Camera_1.Calibration_Region, _DrawColor: KnownColor.Green.ToString());
+                                    Halcon_Window_Display.Display_HObject(_ShowDisply,_XLD: _Selected.Camera_1.Calibration_XLD );
 
                                     });
                                 }
@@ -1617,8 +1617,8 @@ namespace HanGao.ViewModel
 
 
                                 //显示画面结果
-                                Halcon_Window_Display.Display_HObject(Camer_Check_LiveImage._Image, Camer_Check_LiveImage._CalibRegion, null, Camer_Check_LiveImage._DrawColor, _Select_Camera.Show_Window);
-                                Halcon_Window_Display.Display_HObject(null, null, Camer_Check_LiveImage._CalibXLD, null, _Select_Camera.Show_Window);
+                                Halcon_Window_Display.Display_HObject(_Select_Camera.Show_Window,Camer_Check_LiveImage._Image, Camer_Check_LiveImage._CalibRegion,_DrawColor: Camer_Check_LiveImage._DrawColor);
+                                Halcon_Window_Display.Display_HObject(_Select_Camera.Show_Window,_XLD: Camer_Check_LiveImage._CalibXLD);
 
                                 });
                             }

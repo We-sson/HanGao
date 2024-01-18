@@ -187,7 +187,7 @@ namespace HanGao.ViewModel
 
 
 
-        public static  ObservableCollection<MVS_Camera_Info_Model> _MVS_Camera_Info_List= new ObservableCollection<MVS_Camera_Info_Model>();
+        public static ObservableCollection<MVS_Camera_Info_Model> _MVS_Camera_Info_List = new ObservableCollection<MVS_Camera_Info_Model>();
 
         public static ObservableCollection<MVS_Camera_Info_Model> MVS_Camera_Info_List
         {
@@ -218,7 +218,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 初始化连接
         /// </summary>
-        public static  void Initialization_Camera_Thread()
+        public static void Initialization_Camera_Thread()
         {
             Task.Run(() =>
             {
@@ -343,7 +343,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 图像回调字段
         /// </summary>
-        private cbOutputExdelegate ImageCallback { set; get; }
+        //private cbOutputExdelegate ImageCallback;
 
 
         /// <summary>
@@ -531,8 +531,17 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
 
+
+
+                    HImage _Image = new HImage();
+                    Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+
+
+                    Image_Preprocessing_Process.Image = _Image;
                     Image_Preprocessing_Process.Preprocessing_Process_Start();
                     //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+                    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image );
 
                 });
 
@@ -920,7 +929,7 @@ namespace HanGao.ViewModel
                         {
 
                             Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
-                            Halcon_Window_Display.Display_HObject(null, null, _Haclon.Shape_ModelContours, null, Window_Show_Name_Enum.Features_Window);
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window,_Region: _Haclon.Shape_ModelContours );
                         });
                         //Features_Window.HWindow.ClearWindow();
                         //Features_Window.HWindow.DispObj(_Haclon.Shape_ModelContours);
@@ -1475,8 +1484,8 @@ namespace HanGao.ViewModel
         }
         //public int Vision_Data_ID_UI { set; get; }
 
-
-
+        //使用静态委托避免GC回收
+        private static cbOutputExdelegate Image_delegate;
 
         /// <summary>
         /// 相机图像回调方法
@@ -1484,26 +1493,22 @@ namespace HanGao.ViewModel
         /// <param name="pData"></param>
         /// <param name="pFrameInfo"></param>
         /// <param name="pUser"></param>
-        private void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
+        private   void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
         {
             //HImage_Display_Model MVS_TOHalcon = new HImage_Display_Model();
             HImage _Image = new HImage();
             ///转换海康图像类型
             if (Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, pFrameInfo.nWidth, pFrameInfo.nHeight, pData))
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
 
-                    Halcon_Window_Display.Display_HObject(_Image, null, null, null, Window_Show_Name_Enum.Live_Window);
-                });
-                //传送控件显示
-                //Messenger.Send<HImage_Display_Model, string>(new HImage_Display_Model()
-                //{
-                //    Image = _Image,
-                //    Image_Show_Halcon = UC_Visal_Function_VM.Live_Window.HWindow
-                //}, nameof(Meg_Value_Eunm.HWindow_Image_Show));
+                Application.Current.Dispatcher.Invoke(() =>
+            {
+                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Live_Window,_Image);
+
+            });
+
             }
-            _Image.Dispose();
+
         }
 
 
@@ -1524,14 +1529,14 @@ namespace HanGao.ViewModel
                     if ((bool)E.IsChecked)
                     {
 
-                        Task.Run(() =>
-                        {
-                            ///连续采集
-                            Camera_Device_List.Select_Camera.Camera_parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+                        //Task.Run(() =>
+                        //{
+                        ///连续采集
+                        Camera_Device_List.Select_Camera.Camera_parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
                         //设置GEGI网络包大小
                         Camera_Device_List.Select_Camera.Set_Camera_GEGI_GevSCPSPacketSize();
                         //创建抓图回调函数
-                        Camera_Device_List.Select_Camera.RegisterImageCallBackEx(ImageCallback = new cbOutputExdelegate(ImageCallbackFunc));
+                        Camera_Device_List.Select_Camera.RegisterImageCallBackEx(Image_delegate=new cbOutputExdelegate(ImageCallbackFunc));
                         //开始取流
                         Camera_Device_List.Select_Camera.StartGrabbing();
 
@@ -1542,17 +1547,17 @@ namespace HanGao.ViewModel
                         //}
 
 
-                        User_Log_Add("开启实时相机图像成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                        User_Log_Add("开启实时相机图像成功！", Log_Show_Window_Enum.Home);
 
-                        });
+                        //});
 
                     }
                     else if ((bool)E.IsChecked == false)
                     {
 
-                        Task.Run(() => 
+                        Task.Run(() =>
                         {
-                        Camera_Device_List.Select_Camera.StopGrabbing();
+                            Camera_Device_List.Select_Camera.StopGrabbing();
                         });
 
                         User_Log_Add("关闭实时相机图像！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
@@ -1563,6 +1568,9 @@ namespace HanGao.ViewModel
                 }
                 catch (Exception _e)
                 {
+
+
+
                     Camera_Device_List.Select_Camera.StopGrabbing();
                     E.IsChecked = false;
                     User_Log_Add("开启实时相机失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
@@ -1699,7 +1707,7 @@ namespace HanGao.ViewModel
             Application.Current.Dispatcher.Invoke(() =>
             {
 
-                Halcon_Window_Display.Display_HObject(Load_Image, null, null, null, _HW);
+                Halcon_Window_Display.Display_HObject(_HW,Load_Image);
             });
 
             //显示图像

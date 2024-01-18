@@ -929,8 +929,8 @@ namespace MVS_SDK_Base.Model
                     Set_Camera_Val(Camera_Parameters_Name_Enum.StopGrabbing, Camera.StopGrabbing());
 
                     //清空回调
-                    Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(null, IntPtr.Zero));
-
+                    //Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(null, IntPtr.Zero));
+                   
 
                 }
                 catch (Exception _e)
