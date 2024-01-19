@@ -112,7 +112,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Live_Window_Button" Grid.Column=" 0"
-                                         IsChecked="True"
+                                         IsChecked="False"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -1244,6 +1244,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Create_Model" Grid.Row=" 2"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -5081,7 +5082,7 @@
                                                                                                 <Style.Triggers>
                                                                                                     <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
                                                                                                         <Setter Property="Visibility" Value="Visible" />
-                                                                                                        
+
                                                                                                     </DataTrigger>
                                                                                                 </Style.Triggers>
                                                                                             </Style>
@@ -5105,7 +5106,7 @@
                                                                                                    Opacity=" 0.8" />
 
 
-                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Median_Rect_MaskWidth" Grid.Column=" 1"
+                                                                                        <Slider x:Name="Median_Rect_MaskWidth" Grid.Column=" 1"
                                                                                                 Margin="4"
                                                                                                 VerticalAlignment="Center"
                                                                                                 HorizontalContentAlignment="Stretch"
@@ -5115,7 +5116,21 @@
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency=" 2"
-                                                                                                Value="{Binding V_1, TargetNullValue=0, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
+                                                                                                Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                            <Slider.Style>
+                                                                                                <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                                                                    <Style.Triggers>
+
+                                                                                                        <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
+                                                                                                            <Setter Property="Value" Value="5" />
+                                                                                                        </DataTrigger>
+                                                                                                    </Style.Triggers>
+                                                                                                </Style>
+                                                                                            </Slider.Style>
+
+
+
+                                                                                        </Slider>
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Median_Rect_MaskWidth, Path=Value}"
@@ -5157,7 +5172,7 @@
                                                                                                    Opacity=" 0.8" />
 
 
-                                                                                        <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Median_Rect_MaskHeight" Grid.Column=" 1"
+                                                                                        <Slider x:Name="Median_Rect_MaskHeight" Grid.Column=" 1"
                                                                                                 Margin="4"
                                                                                                 VerticalAlignment="Center"
                                                                                                 HorizontalContentAlignment="Stretch"
@@ -5167,7 +5182,17 @@
                                                                                                 Minimum="3"
                                                                                                 SmallChange="2"
                                                                                                 TickFrequency=" 2"
-                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
+                                                                                                Value="{Binding V_2, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                            <Slider.Style>
+                                                                                                <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                                                                    <Style.Triggers>
+                                                                                                        <Trigger Property="Visibility" Value="Visible">
+                                                                                                            <Setter Property="Value" Value="3" />
+                                                                                                        </Trigger>
+                                                                                                    </Style.Triggers>
+                                                                                                </Style>
+                                                                                            </Slider.Style>
+                                                                                        </Slider>
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                                                                  Text="{Binding ElementName=Median_Rect_MaskHeight, Path=Value}"

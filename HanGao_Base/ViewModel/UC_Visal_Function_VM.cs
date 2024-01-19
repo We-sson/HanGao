@@ -409,7 +409,20 @@ namespace HanGao.ViewModel
         public Halcon_Image_Preprocessing_Process_SDK Image_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK();
 
 
+        /// <summary>
+        ///服务器启动停止按钮
+        /// </summary>
+        public ICommand Preprocessing_Process_Selected_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
 
+                ComboBox _Contol = Sm.Source as ComboBox;
+
+
+
+            });
+        }
 
 
         /// <summary>
@@ -531,18 +544,39 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
 
+                    try
+                    {
 
 
-                    HImage _Image = new HImage();
-                    Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
 
-                    Image_Preprocessing_Process.Image = _Image;
-                    Image_Preprocessing_Process.Preprocessing_Process_Start();
-                    //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+                        HImage _Image = new HImage();
+                        Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
-                    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image );
 
+                        Image_Preprocessing_Process.Image = _Image;
+                        _Image= Image_Preprocessing_Process.Preprocessing_Process_Start();
+                        //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+
+
+                        Application.Current.Dispatcher.Invoke(() => 
+                        { 
+
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image);
+
+                        });
+
+
+                        User_Log_Add("图像预处理成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+                    }
+                    catch (Exception e)
+                    {
+
+                        User_Log_Add("图像预处理失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                    }
                 });
 
             });
@@ -929,7 +963,7 @@ namespace HanGao.ViewModel
                         {
 
                             Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
-                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window,_Region: _Haclon.Shape_ModelContours );
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Region: _Haclon.Shape_ModelContours);
                         });
                         //Features_Window.HWindow.ClearWindow();
                         //Features_Window.HWindow.DispObj(_Haclon.Shape_ModelContours);
@@ -1458,8 +1492,25 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 ComboBox E = Sm.Source as ComboBox;
-                HImage _Image = new HImage();
-                Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+
+                try
+                {
+
+
+                    HImage _Image = new HImage();
+                    Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+
+                    User_Log_Add("采集图像显示到特征窗口成功! ", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+                }
+                catch (Exception e)
+                {
+
+                    User_Log_Add("采集图像失败! 原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                }
+
+
                 //_Image.Dispose();
                 //await Task.Delay(100);
             });
@@ -1493,7 +1544,7 @@ namespace HanGao.ViewModel
         /// <param name="pData"></param>
         /// <param name="pFrameInfo"></param>
         /// <param name="pUser"></param>
-        private   void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
+        private void ImageCallbackFunc(IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser)
         {
             //HImage_Display_Model MVS_TOHalcon = new HImage_Display_Model();
             HImage _Image = new HImage();
@@ -1503,7 +1554,7 @@ namespace HanGao.ViewModel
 
                 Application.Current.Dispatcher.Invoke(() =>
             {
-                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Live_Window,_Image);
+                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Live_Window, _Image);
 
             });
 
@@ -1536,7 +1587,7 @@ namespace HanGao.ViewModel
                         //设置GEGI网络包大小
                         Camera_Device_List.Select_Camera.Set_Camera_GEGI_GevSCPSPacketSize();
                         //创建抓图回调函数
-                        Camera_Device_List.Select_Camera.RegisterImageCallBackEx(Image_delegate=new cbOutputExdelegate(ImageCallbackFunc));
+                        Camera_Device_List.Select_Camera.RegisterImageCallBackEx(Image_delegate = new cbOutputExdelegate(ImageCallbackFunc));
                         //开始取流
                         Camera_Device_List.Select_Camera.StartGrabbing();
 
@@ -1547,7 +1598,7 @@ namespace HanGao.ViewModel
                         //}
 
 
-                        User_Log_Add("开启实时相机图像成功！", Log_Show_Window_Enum.Home);
+                        User_Log_Add("开启实时相机图像成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
                         //});
 
@@ -1707,7 +1758,7 @@ namespace HanGao.ViewModel
             Application.Current.Dispatcher.Invoke(() =>
             {
 
-                Halcon_Window_Display.Display_HObject(_HW,Load_Image);
+                Halcon_Window_Display.Display_HObject(_HW, Load_Image);
             });
 
             //显示图像

@@ -43,6 +43,18 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 预处理流程插入创建方法
+        /// </summary>
+        /// <param name="_Work_Enum"></param>
         public void Preprocessing_Process_Work(Image_Preprocessing_Process_Work_Enum _Work_Enum)
         {
             switch (_Work_Enum)
@@ -98,7 +110,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
-        public void Preprocessing_Process_Start()
+        /// <summary>
+        /// 预处理流程开始
+        /// </summary>
+        public HImage Preprocessing_Process_Start()
         {
 
             //清空内容
@@ -116,17 +131,25 @@ namespace Halcon_SDK_DLL.Halcon_Method
             foreach (var item in Preprocessing_Process_Method)
             {
 
-
+                
                 item.Invoke();
 
 
             }
 
 
+            return Image;
+
+
 
         }
 
 
+
+        /// <summary>
+        /// 预处理流程创建位置方法
+        /// </summary>
+        /// <param name="_List_No"></param>
         public void Preprocessing_Process_New(int _List_No)
         {
             //插入新流程
@@ -148,12 +171,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
             return _Process switch
             {
                 Image_Preprocessing_Process_Enum.ScaleImageMax => () => ScaleImageMax(),
-                Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect((int)V_1!, (int)V_2!),
-                Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect((int)V_1!, (int)V_2!),
-                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage((MedianImage_MaskType_Enum)E_1!, (int)V_2!, (MedianImage_Margin_Enum)E_2!),
-                Image_Preprocessing_Process_Enum.Illuminate => () => Illuminate((int)V_1!, (int)V_2!, (double)V_3!),
-                Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize((int)V_1!, (int)V_2!, (double)V_3!),
-                Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect((int)V_1!, (int)V_2!),
+                Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
+                Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
+                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage((MedianImage_MaskType_Enum)E_1!, Convert.ToInt32(V_2), (MedianImage_Margin_Enum)E_2!),
+                Image_Preprocessing_Process_Enum.Illuminate => () => Illuminate(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
+                Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble (V_3)),
+                Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
                 _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(_Process)),// 处理默认情况，或者根据需要抛出异常
             };
         }
@@ -174,12 +197,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public void MedianRect(int MedianRect_MaskWidth, int MedianRect_MaskHeight)
         {
 
+            DateTime startTime = DateTime.Now;
+
+
+
             MedianRect_MaskWidth.ThrowIfNull("参数不能：Null ");
             MedianRect_MaskHeight.ThrowIfNull("参数不能：Null ");
             //HOperatorSet.MedianRect(_HImage, out _HImage, _Find_Property.MedianRect_MaskWidth, _Find_Property.MedianRect_MaskHeight);
 
-            Image.MedianRect(MedianRect_MaskWidth, MedianRect_MaskHeight);
-
+            Image= Image.MedianRect(MedianRect_MaskWidth, MedianRect_MaskHeight);
 
         }
 
@@ -189,7 +215,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             maskHeight.ThrowIfNull("参数不能：Null ");
             maskWidth.ThrowIfNull("参数不能：Null ");
 
-            Image.GrayOpeningRect(maskHeight, maskWidth);
+            Image= Image.GrayOpeningRect(maskHeight, maskWidth);
 
 
         }
@@ -201,7 +227,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             Margin_Model.ThrowIfNull("参数不能：Null ");
 
 
-            Image.MedianImage(MaskType_Model.ToString(), Median_image_Radius, Margin_Model.ToString());
+            Image= Image.MedianImage(MaskType_Model.ToString(), Median_image_Radius, Margin_Model.ToString());
         }
 
 
@@ -212,7 +238,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             factor.ThrowIfNull("参数不能：Null ");
 
 
-            Image.Illuminate(maskWidth, maskHeight, factor);
+            Image= Image.Illuminate(maskWidth, maskHeight, factor);
         }
 
 
@@ -223,7 +249,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             maskHeight.ThrowIfNull("参数不能：Null ");
             factor.ThrowIfNull("参数不能：Null ");
 
-            Image.Emphasize(maskWidth, maskHeight, factor);
+            Image= Image.Emphasize(maskWidth, maskHeight, factor);
         }
 
 
@@ -232,7 +258,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             maskHeight.ThrowIfNull("参数不能：Null ");
             maskWidth.ThrowIfNull("参数不能：Null ");
 
-            Image.GrayClosingRect(maskHeight, maskWidth);
+            Image= Image.GrayClosingRect(maskHeight, maskWidth);
         }
 
 
@@ -248,7 +274,74 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         }
 
-        public Image_Preprocessing_Process_Enum Image_Preprocessing_Process_Method { set; get; } = Image_Preprocessing_Process_Enum.ScaleImageMax;
+      
+
+
+        private Image_Preprocessing_Process_Enum _Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.ScaleImageMax;
+
+        public Image_Preprocessing_Process_Enum Image_Preprocessing_Process_Method
+        {
+            get { return _Image_Preprocessing_Process_Method ; }
+            set {
+                _Image_Preprocessing_Process_Method  = value;
+                Preprocessing_Process_Work_Initialization_Value(_Image_Preprocessing_Process_Method);
+            }
+        }
+
+
+
+        /// <summary>
+        /// 选择流程方法参数初始化
+        /// </summary>
+        /// <param name="_Work_Enum"></param>
+        public void Preprocessing_Process_Work_Initialization_Value(Image_Preprocessing_Process_Enum _Work_Enum)
+        {
+
+            switch (_Work_Enum)
+            {
+                case Image_Preprocessing_Process_Enum.ScaleImageMax:
+
+
+
+                    break;
+                case Image_Preprocessing_Process_Enum.MedianRect:
+
+
+
+                    V_1 = 9;
+                    V_2 = 9;
+
+
+                    break;
+                case Image_Preprocessing_Process_Enum.GrayOpeningRect:
+                    V_1 = 9;
+                    V_2 = 9;
+                    break;
+                case Image_Preprocessing_Process_Enum.MedianImage:
+
+                    E_1 = MedianImage_MaskType_Enum.square;
+                    V_1 = 0.8;
+                    E_2 = MedianImage_Margin_Enum.continued;
+                    break;
+                case Image_Preprocessing_Process_Enum.Illuminate:
+                    V_1 = 9;
+                    V_2 = 9;
+                    V_3 = 0.8;
+                 
+                    break;
+                case Image_Preprocessing_Process_Enum.Emphasize:
+                    V_1 = 9;
+                    V_2 = 9;
+                    V_3 = 0.8;
+                    break;
+                case Image_Preprocessing_Process_Enum.GrayClosingRect:
+                    V_1 = 9;
+                    V_2 = 9;
+                    break;
+
+            }
+
+        }
 
 
 
@@ -288,14 +381,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
         MedianRect,
         [Description("矩形开运算")]
         GrayOpeningRect,
+        [Description("矩形闭运算")]
+        GrayClosingRect,
         [Description("中值滤波器")]
         MedianImage,
         [Description("高频增强对比")]
         Illuminate,
         [Description("增强边缘")]
         Emphasize,
-        [Description("矩形闭运算")]
-        GrayClosingRect
+
 
     }
 

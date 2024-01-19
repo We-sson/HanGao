@@ -12,5 +12,6 @@ namespace HanGao.View.FrameShow
             InitializeComponent();
         }
 
+   
     }
 }
