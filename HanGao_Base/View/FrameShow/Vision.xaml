@@ -956,6 +956,16 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </MenuItem>
+                                    <Separator />
+                                    <MenuItem x:Name="Set_Origin" Header="设置特征原点">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </MenuItem>
                                 </ContextMenu>
                             </Halcon:HSmartWindowControlWPF.ContextMenu>
                             <i:Interaction.Triggers>
@@ -5957,7 +5967,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <TextBlock Grid.Column=" 1"
-                                                       Text="1532 ms"
+                                                       Text="{Binding Image_Preprocessing_Process.Preprocessing_Process_List_RunTime, StringFormat=\{0\} ms}"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"

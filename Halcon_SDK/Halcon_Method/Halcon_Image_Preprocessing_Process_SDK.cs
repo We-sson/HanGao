@@ -31,6 +31,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+
+        public int Preprocessing_Process_List_RunTime { set; get; } = 0;
+
         public Preprocessing_Process_Lsit_Model? Preprocessing_Process_List_Selete { set; get; }
 
 
@@ -39,7 +42,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         //public ADD_delegate<object> ADD_Delegate_Model { set; get; }
 
-        private List<Action> Preprocessing_Process_Method { set; get; } = new List<Action>();
+        //private List<Action> Preprocessing_Process_Method { set; get; } = new List<Action>();
 
 
 
@@ -116,27 +119,25 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HImage Preprocessing_Process_Start()
         {
 
-            //清空内容
-            Preprocessing_Process_Method.Clear();
+
+
+            //计算总时间处理
+            DateTime AllstartTime = DateTime.Now;
 
             foreach (var item in Preprocessing_Process_List)
             {
+                //开始单个处理时间
+                DateTime startTime = DateTime.Now;
+              
 
-                Preprocessing_Process_Method.Add(Get_Preprocessing_Method(item.Image_Preprocessing_Process_Method, item.V_1, item.V_2, item.V_3, item.V_4, item.V_5, item.E_1, item.E_2, item.E_3, item.E_4, item.E_5));
+                // 计算时间差
+              
+                Get_Preprocessing_Method(item.Image_Preprocessing_Process_Method, item.V_1, item.V_2, item.V_3, item.V_4, item.V_5, item.E_1, item.E_2, item.E_3, item.E_4, item.E_5).Invoke();
 
-
+                item.Method_Run_Time=(DateTime.Now - startTime).Milliseconds;
             }
 
-            //执行
-            foreach (var item in Preprocessing_Process_Method)
-            {
-
-                
-                item.Invoke();
-
-
-            }
-
+            Preprocessing_Process_List_RunTime= (DateTime.Now - AllstartTime).Milliseconds;
 
             return Image;
 
@@ -170,7 +171,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             return _Process switch
             {
-                Image_Preprocessing_Process_Enum.ScaleImageMax => () => ScaleImageMax(),
+                Image_Preprocessing_Process_Enum.ScaleImageMax =>()=> ScaleImageMax(),
                 Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
                 Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
                 Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage((MedianImage_MaskType_Enum)E_1!, Convert.ToInt32(V_2), (MedianImage_Margin_Enum)E_2!),

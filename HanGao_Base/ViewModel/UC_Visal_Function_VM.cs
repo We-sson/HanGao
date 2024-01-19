@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using MVS_SDK_Base.Model;
 using Ookii.Dialogs.Wpf;
 using Roboto_Socket_Library;
+using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static MVS_SDK_Base.Model.MVS_Model;
@@ -706,7 +707,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 保存添加模型点属性
         /// </summary>
-        public static Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; } = new Vision_Create_Model_Drawing_Model();
+        public  Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; } = new Vision_Create_Model_Drawing_Model();
         /// <summary>
         /// UI绑定查找模型区域名字
         /// </summary>
@@ -1735,7 +1736,7 @@ namespace HanGao.ViewModel
             {
                 case Get_Image_Model_Enum.相机采集:
 
-
+                    Camera_Device_List.Select_Camera.ThrowIfNull("未选择相机设备，不能采集图像！");
                     Camera_Device_List.Select_Camera.GetOneFrameTimeout(ref _Image);
 
 
