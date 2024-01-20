@@ -37,9 +37,6 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>-->
 
-
-
-
         <DataTemplate x:Key="Result_ListViewItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding}"
@@ -271,11 +268,7 @@
                                         </Label>
                                     </Grid>
                                 </ToggleButton>
-
                             </Grid>
-
-
-
                         </Grid>
                         <!--  图像窗口信息  -->
                         <!--<Grid Grid.Column=" 2">
@@ -490,11 +483,7 @@
                                     </TextBlock>
                                 </StackPanel>
                             </Grid>
-
-
                         </Grid>
-
-
 
                         <Grid Grid.Row=" 2" Grid.Column=" 0">
                             <Grid.Style>
@@ -613,9 +602,7 @@
                                     </TextBlock>
                                 </StackPanel>
                             </Grid>
-
                         </Grid>
-
 
                         <Grid Grid.Row="0" Grid.Column=" 2">
                             <Grid.Style>
@@ -646,7 +633,6 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Halcon:HSmartWindowControlWPF>
-
 
                             <Grid x:Name="G4">
                                 <Grid.ColumnDefinitions>
@@ -734,9 +720,7 @@
                                     </TextBlock>
                                 </StackPanel>
                             </Grid>
-
                         </Grid>
-
 
                         <Grid Grid.Row="2" Grid.Column="2">
                             <Grid.Style>
@@ -857,12 +841,8 @@
                                     </TextBlock>
                                 </StackPanel>
                             </Grid>
-
                         </Grid>
                         <!--  图像坐标信息  -->
-
-
-
 
                         <!--  窗口分割条  -->
                         <Border Grid.Row=" 0" Grid.Column=" 1"
@@ -907,7 +887,9 @@
                             <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                             HDraw="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                             IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayRegion}" />
-                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayXLD}" />
+                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetColor}"
+                                                            IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayXLD}"
+                                                            LineWidth=" 1" />
                             <Halcon:HSmartWindowControlWPF.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem x:Name="Draw_Pos" Header="添加特征点">
@@ -921,16 +903,11 @@
                                     </MenuItem>
                                     <Separator />
                                     <MenuItem x:Name="Lin_Draw_Ok" Header="特征组合直线">
-                                        <Menu>
-                                            <Menu.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Vertical" />
-                                                </ItemsPanelTemplate>
-                                            </Menu.ItemsPanel>
-                                            <MenuItem Header="1：R角中轮廓线" />
-                                            <MenuItem Header="2 ：盆胆侧轮廓线" />
-                                            <MenuItem Header="3： 盆胆侧轮廓线" />
-                                        </Menu>
+
+                                        <MenuItem Header="1：R角中轮廓线" />
+                                        <MenuItem Header="2 ：盆胆侧轮廓线" />
+                                        <MenuItem Header="3： 盆胆侧轮廓线" />
+
                                         <!--<i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding Lin_Draw_Ok_Comm}"
@@ -940,11 +917,10 @@
                                         </i:Interaction.Triggers>-->
                                     </MenuItem>
                                     <MenuItem x:Name="Cir_Draw_Ok" Header="特征组合圆弧">
-                                        <Menu>
-                                            <MenuItem Header="1：R角中轮廓线" />
-                                            <MenuItem Header="2 ：盆胆侧轮廓线" />
-                                            <MenuItem Header="3： 盆胆侧轮廓线" />
-                                        </Menu>
+
+                                        <MenuItem Header="1：R角中轮廓线" />
+                                        <MenuItem Header="2 ：盆胆侧轮廓线" />
+                                        <MenuItem Header="3： 盆胆侧轮廓线" />
 
                                         <!--<i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
@@ -998,13 +974,19 @@
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
                                             Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Halcon_Position, StringFormat=鼠标位置: {0}}"
-                                               Margin="0,0,4,0"
+                                    <TextBlock Margin="0,0,4,0"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="12"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                    <TextBlock Text="{Binding Mouse_Pos_Gray, StringFormat=鼠标灰度值: {0}}"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="鼠标位置 X:{0:F3} Y:{1:F3}">
+                                                <Binding Path="Halcon_Shape_Mode.Chick_Position.X" />
+                                                <Binding Path="Halcon_Shape_Mode.Chick_Position.Y" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding Halcon_Shape_Mode.Chick_Position_Gray, StringFormat=鼠标灰度值: {0}}"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="12"
@@ -1608,10 +1590,7 @@
                                   VirtualizingPanel.ScrollUnit="Pixel"
                                   VirtualizingPanel.VirtualizationMode="Recycling">
 
-
-
                         <StackPanel Grid.Row=" 0" Orientation="Vertical">
-
 
                             <Expander Style="{DynamicResource Vision_Fence_Expander_Style}" x:Name="E1"
                                       Margin="0,0,0,10"
@@ -1636,7 +1615,6 @@
 
                                         <Grid>
 
-
                                             <StackPanel Margin="10"
                                                         HorizontalAlignment="Left"
                                                         VerticalAlignment="Center"
@@ -1657,16 +1635,12 @@
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                             </StackPanel>
-
-
                                         </Grid>
-
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
                                     <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                                     <StackPanel Margin="5" Orientation="Vertical">
-
 
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -1722,12 +1696,7 @@
                                             </StackPanel>
                                         </Grid>
 
-
                                         <Grid>
-
-
-
-
 
                                             <DataGrid Grid.Column=" 0"
                                                       HorizontalContentAlignment="Stretch"
@@ -1758,8 +1727,6 @@
                                                       SelectionUnit="FullRow">
 
                                                 <DataGrid.Columns>
-
-
 
                                                     <DataGridTemplateColumn Width="50">
                                                         <DataGridTemplateColumn.Header>
@@ -1797,11 +1764,8 @@
                                                                         </Style>
                                                                     </Border.Style>
                                                                 </Border>
-
-
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellTemplate>
-
                                                     </DataGridTemplateColumn>
 
                                                     <DataGridTemplateColumn Width="*">
@@ -1823,10 +1787,7 @@
                                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellTemplate>
-
                                                     </DataGridTemplateColumn>
-
-
 
                                                     <DataGridTemplateColumn Width="*">
                                                         <DataGridTemplateColumn.Header>
@@ -1848,46 +1809,19 @@
                                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellTemplate>
-
                                                     </DataGridTemplateColumn>
-
-
-
-
-
                                                 </DataGrid.Columns>
                                             </DataGrid>
-
-
-
                                         </Grid>
-
-
-
-
-
-
-
-
-
-
-
 
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
                                                 Background="{DynamicResource 全局_按钮_黑颜色}"
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
-
-
-
-
-
                                     </StackPanel>
-
                                 </Grid>
                             </Expander>
-
 
                             <Expander Style="{DynamicResource Vision_Fence_Expander_Style}" x:Name="E2"
                                       Margin="0,0,0,10"
@@ -1912,7 +1846,6 @@
 
                                         <Grid>
 
-
                                             <StackPanel Margin="10"
                                                         HorizontalAlignment="Left"
                                                         VerticalAlignment="Center"
@@ -1934,32 +1867,20 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                             </StackPanel>
                                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" />
-
                                         </Grid>
-
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
                                     <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
 
-
-
                                     <StackPanel Margin="5" Orientation="Vertical">
 
-
-
-
-
-
                                         <Grid Margin="0,5,0,5">
-
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
-
                                             </Grid.ColumnDefinitions>
-
 
                                             <Button x:Name="Connection_Camera" Grid.Column=" 0"
                                                     Height=" 38"
@@ -1995,8 +1916,6 @@
                                                     </TextBlock.Style>
                                                 </TextBlock>
 
-
-
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
@@ -2006,11 +1925,6 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                             </Button>
-
-
-
-
-
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                                     Height=" 38"
@@ -2031,20 +1945,14 @@
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-
                                             </Button>
-
                                         </Grid>
-
-
-
 
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
                                                 Background="{DynamicResource 全局_按钮_黑颜色}"
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
-
 
                                         <Grid Height="35" Margin="0,5,0,5">
 
@@ -2329,7 +2237,6 @@
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
 
-
                                         <Grid Height=" 35" Margin="0,5,0,5">
 
                                             <Grid.ColumnDefinitions>
@@ -2384,8 +2291,6 @@
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
 
-
-
                                                 <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="SelectionChanged">
@@ -2394,21 +2299,14 @@
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>-->
-
-
                                             </ComboBox>
-
-
                                         </Grid>
-
-
 
                                         <Grid Height=" 35" Margin="0,5,0,5">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Text="参数操作"
                                                        HorizontalAlignment="Left"
@@ -2417,13 +2315,9 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
-
-
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                                     Margin="10,0,0,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}">
-
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
@@ -2439,11 +2333,8 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
-
-
                                             </Button>
                                         </Grid>
-
 
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
@@ -2453,13 +2344,11 @@
 
                                         <Grid Margin="0,5,0,5">
 
-
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-
 
                                             <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
                                                       Content="闪光灯"
@@ -2496,8 +2385,6 @@
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-
-
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
@@ -2507,11 +2394,6 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                             </CheckBox>
-
-
-
-
-
 
                                             <Button x:Name="Camera_OneImage" Grid.Column=" 2"
                                                     Width="90"
@@ -2543,30 +2425,14 @@
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-
                                             </Button>
-
                                         </Grid>
-
-
                                     </StackPanel>
-
                                 </Grid>
                             </Expander>
-
-
-
-
-
                         </StackPanel>
-
-
                     </ScrollViewer>
-
-
                 </Grid>
-
-
             </Grid>
 
             <Grid Width="350" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Point_Calibration}">
@@ -2594,10 +2460,7 @@
                                   VirtualizingPanel.ScrollUnit="Pixel"
                                   VirtualizingPanel.VirtualizationMode="Recycling">
 
-
-
                         <StackPanel Grid.Row=" 0" Orientation="Vertical">
-
 
                             <Expander Style="{DynamicResource Vision_Fence_Expander_Style}"
                                       Margin="0,0,0,10"
@@ -2617,9 +2480,6 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
-
-
-
 
                                         <StackPanel Margin="10"
                                                     HorizontalAlignment="Left"
@@ -2641,9 +2501,6 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                         </StackPanel>
-
-
-
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
@@ -2656,7 +2513,6 @@
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="采集方式"
@@ -2689,7 +2545,6 @@
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
 
-
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                                     Margin="0,0,0,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}">
@@ -2709,9 +2564,7 @@
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                             </Button>
-
                                         </Grid>
-
 
                                         <Grid Margin="8">
 
@@ -2726,7 +2579,6 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
 
                                             <Openfile:UC_Open_File Grid.Column=" 1"
                                                                    File_Filter="图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;"
@@ -2750,9 +2602,6 @@
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
 
-
-
-
                                         <TextBox x:Name="ST2" Grid.Column=" 0"
                                                  Text="{Binding Image_Location_UI}"
                                                  TextWrapping="Wrap"
@@ -2764,7 +2613,6 @@
                                                  FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                  FontSize="16"
                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
 
                                         <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                                 Margin="8,4,8,4"
@@ -2785,32 +2633,10 @@
                                                    Effect="{DynamicResource 全局背景阴影}"
                                                    Source="/Resources/Vision_文件夹_ioc.png" />
                                         </Button>
-
-
                                     </Grid>
                                 </Border>-->
-
-
-
                                         </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                     </StackPanel>
-
                                 </Grid>
                             </Expander>
 
@@ -2818,7 +2644,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="False">
+                                      IsExpanded="True">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                                         <Border.Style>
@@ -2852,11 +2678,8 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                         </StackPanel>
-
-
                                     </Border>
                                 </Expander.Header>
-
 
                                 <Grid>
 
@@ -2866,14 +2689,11 @@
 
                                     <StackPanel>
 
-
-
                                         <!--<Grid Margin="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=" 80" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-
 
                                 <TextBlock Grid.Column=" 0"
                                            Text="创建类型"
@@ -2915,21 +2735,13 @@
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                     </StackPanel>
                                 </Grid>
-
-
-
-
-
                             </Grid>-->
-
-
 
                                         <Grid Height=" 34" Margin="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="模型工艺"
@@ -2955,18 +2767,13 @@
                                                                    FontSize="14"
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                    TextTrimming="CharacterEllipsis" />
-
-
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-
                                         </Grid>
-
 
                                         <Grid Margin="8">
                                             <StackPanel Orientation="Vertical">
-
 
                                                 <DataGrid AlternatingRowBackground="Gainsboro"
                                                           AlternationCount="2"
@@ -2995,7 +2802,6 @@
 
                                                     <DataGrid.Columns>
 
-
                                                         <DataGridTemplateColumn Width="*">
                                                             <DataGridTemplateColumn.Header>
                                                                 <TextBlock Text="特征工艺"
@@ -3015,7 +2821,6 @@
                                                                                FontSize="14" />
                                                                 </DataTemplate>
                                                             </DataGridTemplateColumn.CellTemplate>
-
                                                         </DataGridTemplateColumn>
 
                                                         <!--<DataGridTemplateColumn Width="*">
@@ -3051,7 +2856,6 @@
                                                                     </Grid>
                                                                 </DataTemplate>
                                                             </DataGridTemplateColumn.CellTemplate>
-
                                                         </DataGridTemplateColumn>-->
 
                                                         <!--<DataGridTemplateColumn CanUserResize="False">
@@ -3064,7 +2868,6 @@
                                                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                            FontSize="16"
                                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
                                                             </DataGridTemplateColumn.Header>
                                                             <DataGridTemplateColumn.CellTemplate>
 
@@ -3072,7 +2875,6 @@
                                                                     <Grid HorizontalAlignment="Stretch"
                                                                           VerticalAlignment="Center"
                                                                           ShowGridLines="True">
-
 
                                                                         <ListView Padding="0"
                                                                                   HorizontalAlignment="Stretch"
@@ -3120,21 +2922,10 @@
                                                                 </DataTemplate>
                                                             </DataGridTemplateColumn.CellTemplate>
                                                         </DataGridTemplateColumn>-->
-
-
-
-
                                                     </DataGrid.Columns>
                                                 </DataGrid>
-
-
-
                                             </StackPanel>
-
-
-
                                         </Grid>
-
 
                                         <Grid Height=" 35" Margin="8">
                                             <Grid.ColumnDefinitions>
@@ -3143,7 +2934,6 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
-
                                             <TextBlock Grid.Column=" 0"
                                                        Text="特征操作"
                                                        HorizontalAlignment="Left"
@@ -3151,8 +2941,6 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                                     Margin="0,0,0,0"
@@ -3173,16 +2961,13 @@
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                             </Button>
-
                                         </Grid>
-
 
                                         <Grid Height=" 34" Margin="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="模板类型"
@@ -3208,14 +2993,10 @@
                                                                    FontSize="14"
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                    TextTrimming="CharacterEllipsis" />
-
-
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-
                                         </Grid>
-
 
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
@@ -3225,13 +3006,11 @@
 
                                         <Grid Height="35" Margin="8">
 
-
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width=" auto" />
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Text="金字塔层"
                                                        HorizontalAlignment="Left"
@@ -3388,13 +3167,11 @@
                                             </TextBox>
                                         </Grid>
 
-
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
                                                 Background="{DynamicResource 全局_按钮_黑颜色}"
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
-
 
                                         <Grid Height="35" Margin="8">
                                             <Grid.Style>
@@ -3457,7 +3234,6 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
-
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
@@ -3643,9 +3419,6 @@
                                                      FontSize="18" />
                                         </Grid>
 
-
-
-
                                         <Grid Height="35" Margin="8">
                                             <Grid.Style>
                                                 <Style TargetType="{x:Type Grid}">
@@ -3802,9 +3575,6 @@
                                                 </Style>
                                             </Grid.Style>
 
-
-
-
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition />
@@ -3836,7 +3606,6 @@
                                                      FontSize="18" />
                                         </Grid>
 
-
                                         <Grid Height="35" Margin="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
@@ -3862,8 +3631,6 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
-
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="优化类型"
@@ -3949,9 +3716,7 @@
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
                                             </ComboBox>
-
                                         </Grid>
-
 
                                         <Grid Height="35" Margin="8">
                                             <Grid.Style>
@@ -3961,7 +3726,6 @@
                                                         <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="4">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
@@ -4009,7 +3773,6 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
-
                                             <TextBlock Grid.Column=" 0"
                                                        Text="匹配指标"
                                                        HorizontalAlignment="Left"
@@ -4035,16 +3798,10 @@
                                                                    FontSize="14"
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                    TextTrimming="CharacterEllipsis" />
-
-
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
-
                                             </ComboBox>
-
                                         </Grid>
-
-
 
                                         <Grid Height="35"
                                               Margin="8"
@@ -4066,7 +3823,6 @@
                                                 <ColumnDefinition Width=" 85" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="参数名称"
@@ -4104,9 +3860,7 @@
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
                                             </ComboBox>
-
                                         </Grid>
-
 
                                         <Grid Height="35"
                                               Margin="8"
@@ -4128,7 +3882,6 @@
                                                 <ColumnDefinition Width=" 85" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="参数名称"
@@ -4176,7 +3929,6 @@
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
                                             </ComboBox>
-
                                         </Grid>
 
                                         <!--<Border Height=" 2"
@@ -4184,9 +3936,6 @@
                                                 Background="{DynamicResource 全局_按钮_红颜色}"
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />-->
-
-
-
 
                                         <Grid Margin="8">
 
@@ -4206,17 +3955,13 @@
                                                                    File_Filter="图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;"
                                                                    File_Log="{Binding ShapeModel_Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                    File_Model="Folder" />
-
-
                                         </Grid>
-
 
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
-
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="创建ID号"
                                                        HorizontalAlignment="Left"
@@ -4224,8 +3969,6 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Create_Model_ID" Grid.Column=" 3"
                                                      Text="{Binding Halcon_Create_Shape_ModelXld_UI.Create_ID}"
@@ -4236,16 +3979,13 @@
                                                      BorderThickness="2"
                                                      FontSize="16"
                                                      IsReadOnly="False" />
-
                                         </Grid>
-
 
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
-
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="创建位置"
                                                        HorizontalAlignment="Left"
@@ -4253,7 +3993,6 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
 
                                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_Name" Grid.Column=" 1"
                                                       VerticalContentAlignment="Center"
@@ -4271,30 +4010,18 @@
                                                                    FontSize="14"
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                    TextTrimming="CharacterEllipsis" />
-
-
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-
-
-
                                         </Grid>
-
-
-
-
 
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
 
-
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-
-
 
                                             <Button Grid.Column=" 2"
                                                     Margin="0,0,0,0"
@@ -4335,11 +4062,6 @@
                                                 </i:Interaction.Triggers>
                                             </Button>
                                         </Grid>
-
-
-
-
-
                                     </StackPanel>
                                 </Grid>
                             </Expander>
@@ -4362,7 +4084,6 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
-
 
                                         <Grid>
 
@@ -4402,18 +4123,13 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>-->
-
-
                                         </Grid>
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
                                     <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
 
-
                                     <StackPanel Orientation="Vertical">
-
-
 
                                         <Grid Margin="8">
                                             <Grid.ColumnDefinitions>
@@ -4421,8 +4137,6 @@
                                                 <ColumnDefinition Width=" auto" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-
-
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 0"
                                                     Width=" 50"
@@ -4439,18 +4153,13 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
 
-
                                                 <Image Height=" 32"
                                                        Margin="5,0,5,0"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Effect="{DynamicResource 全局背景阴影}"
                                                        Source="/Resources/Vision_刷新_ioc.png" />
-
-
                                             </Button>
-
-
 
                                             <ListBox Style="{DynamicResource Vision_Data_ListBoxStyle}" Grid.Column=" 2"
                                                      HorizontalContentAlignment="Center"
@@ -4482,13 +4191,10 @@
 
                                                         <Grid>
 
-
-
                                                             <Grid Width="50"
                                                                   Height=" 50"
                                                                   VerticalAlignment="Stretch"
                                                                   ShowGridLines="False">
-
 
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="*" />
@@ -4498,8 +4204,6 @@
                                                                     <RowDefinition Height="*" />
                                                                     <RowDefinition Height="*" />
                                                                 </Grid.RowDefinitions>
-
-
 
                                                                 <Border Grid.Row="1" Grid.Column="0"
                                                                         CornerRadius=" 0 0  0 4">
@@ -4517,7 +4221,6 @@
                                                                                     </MultiDataTrigger.Conditions>
                                                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                                                 </MultiDataTrigger>
-
                                                                             </Style.Triggers>
                                                                         </Style>
                                                                     </Border.Style>
@@ -4584,12 +4287,7 @@
                                                                         </Style>
                                                                     </Border.Style>
                                                                 </Border>
-
-
-
-
                                                             </Grid>
-
 
                                                             <!--<Border Grid.Row=" 0" Grid.Column=" 0"
                                                         Background="Transparent"
@@ -4611,26 +4309,17 @@
                                                                        FontSize="22"
                                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                             <!--</Border>-->
-
                                                         </Grid>
-
-
                                                     </DataTemplate>
                                                 </ListBox.ItemTemplate>
                                             </ListBox>
-
-
-
                                         </Grid>
-
 
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
-
-
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="模型列表"
                                                        HorizontalAlignment="Left"
@@ -4638,10 +4327,6 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-
-
 
                                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Model_ID" Grid.Column=" 1"
                                                       VerticalContentAlignment="Center"
@@ -4670,13 +4355,7 @@
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-
-
-
-
-
                                         </Grid>
-
 
                                         <!--<Grid Height="35" Margin="8">
 
@@ -4691,7 +4370,6 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="16"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="ShapeModel_Number" Grid.Column=" 1"
                                          Text="{Binding ShapeModel_Number_UI}"
@@ -4724,20 +4402,7 @@
                                     </i:Interaction.Triggers>
                                 </Button>
                             </Grid>-->
-
-
-
-
-
-
-
-
-
-
-
-
                                     </StackPanel>
-
 
                                     <Border Background="{DynamicResource 全局_背景_白颜色}"
                                             CornerRadius=" 0 0 5 5"
@@ -4761,19 +4426,13 @@
                                                          IsIndeterminate="True" />
                                         </StackPanel>
                                     </Border>
-
-
                                 </Grid>
                             </Expander>
-
-
-
 
                             <Expander Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
                                       IsExpanded="True">
-
 
                                 <Expander.Style>
                                     <Style BasedOn="{StaticResource Vision_Fence_Expander_Style}" TargetType="{x:Type Expander}">
@@ -4798,7 +4457,6 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
-
 
                                         <Grid>
 
@@ -4838,23 +4496,16 @@
                                                     </Style>
                                                 </TextBlock.Style>
                                             </TextBlock>
-
-
                                         </Grid>
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
-
-
-
 
                                     <Border Grid.RowSpan=" 2"
                                             Background="{DynamicResource 全局_背景_白颜色}"
                                             CornerRadius=" 0 0 5 5" />
 
                                     <StackPanel Orientation="Vertical">
-
-
 
                                         <!--<Border Height=" 2"
                                                 Margin="8,4,8,4"
@@ -4878,14 +4529,6 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
-
-
-
-
-
-
-
                                             <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="ScaleImageMax_UI" Grid.Column=" 1"
                                                       Content="使用"
                                                       IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleImageMax_Enable}"
@@ -4901,22 +4544,9 @@
                                                       FontSize="16"
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                       Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=ScaleImageMax_UI}" />
-
-
-
-
-
-
-
                                         </Grid>
 
-
-
-
-
-
                                         <Grid Margin="8">
-
 
                                             <DataGrid HorizontalContentAlignment="Stretch"
                                                       VerticalContentAlignment="Stretch"
@@ -4947,7 +4577,6 @@
                                                     <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="{x:Type ScrollBar}" />
                                                 </DataGrid.Resources>
 
-
                                                 <DataGrid.Columns>
                                                     <!--<DataGridTemplateColumn Width="50" IsReadOnly="False">
                                                     <DataGridTemplateColumn.Header>
@@ -4967,9 +4596,7 @@
                                                                    FontSize="14" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
-
                                                 </DataGridTemplateColumn>-->
-
 
                                                     <DataGridTemplateColumn Width="*">
                                                         <DataGridTemplateColumn.Header>
@@ -5002,7 +4629,6 @@
                                                                                         VerticalAlignment="Center"
                                                                                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                                                         CornerRadius=" 4" />
-
 
                                                                                 <TextBox Grid.Column=" 0"
                                                                                          Text="{Binding Method_Num, StringFormat=\{0\} ：}"
@@ -5041,10 +4667,8 @@
                                                                                          FontSize="14"
                                                                                          Foreground="{DynamicResource 全局_背景_白颜色}"
                                                                                          IsReadOnly="True" />
-
                                                                             </Grid>
                                                                         </Expander.Header>
-
 
                                                                         <Grid Margin="0,-5,0,0" Effect="{DynamicResource 全局背景阴影}">
 
@@ -5052,12 +4676,10 @@
 
                                                                                 <StackPanel Orientation="Vertical">
 
-
                                                                                     <Grid Margin="8">
                                                                                         <Grid.ColumnDefinitions>
                                                                                             <ColumnDefinition Width="60" />
                                                                                             <ColumnDefinition />
-
                                                                                         </Grid.ColumnDefinitions>
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="功能模式"
@@ -5085,15 +4707,10 @@
                                                                                                                FontSize="12"
                                                                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                                TextTrimming="CharacterEllipsis" />
-
-
                                                                                                 </DataTemplate>
                                                                                             </ComboBox.ItemTemplate>
-
                                                                                         </ComboBox>
-
                                                                                     </Grid>
-
 
                                                                                     <Border Height=" 2"
                                                                                             Margin="8,4,8,4"
@@ -5108,7 +4725,6 @@
                                                                                                 <Style.Triggers>
                                                                                                     <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
                                                                                                         <Setter Property="Visibility" Value="Visible" />
-
                                                                                                     </DataTrigger>
                                                                                                 </Style.Triggers>
                                                                                             </Style>
@@ -5119,8 +4735,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码宽度"
                                                                                                    TextWrapping="Wrap"
@@ -5130,7 +4744,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider x:Name="Median_Rect_MaskWidth" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5153,9 +4766,6 @@
                                                                                                     </Style.Triggers>
                                                                                                 </Style>
                                                                                             </Slider.Style>
-
-
-
                                                                                         </Slider>
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -5166,7 +4776,6 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5185,8 +4794,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码高度"
                                                                                                    TextWrapping="Wrap"
@@ -5196,7 +4803,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider x:Name="Median_Rect_MaskHeight" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5228,9 +4834,7 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
-
 
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5249,8 +4853,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码宽度"
                                                                                                    TextWrapping="Wrap"
@@ -5260,7 +4862,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Gray_Opening_Rect_MaskWidth" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5282,7 +4883,6 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5301,8 +4901,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码高度"
                                                                                                    TextWrapping="Wrap"
@@ -5312,7 +4910,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Gray_Opening_Rect_MaskHeight" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5334,7 +4931,6 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
 
                                                                                     <Grid Margin="8">
@@ -5351,7 +4947,6 @@
                                                                                         <Grid.ColumnDefinitions>
                                                                                             <ColumnDefinition Width="60" />
                                                                                             <ColumnDefinition />
-
                                                                                         </Grid.ColumnDefinitions>
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码模式"
@@ -5379,13 +4974,9 @@
                                                                                                                FontSize="12"
                                                                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                                TextTrimming="CharacterEllipsis" />
-
-
                                                                                                 </DataTemplate>
                                                                                             </ComboBox.ItemTemplate>
-
                                                                                         </ComboBox>
-
                                                                                     </Grid>
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5405,8 +4996,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码半径"
                                                                                                    TextWrapping="Wrap"
@@ -5416,7 +5005,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Median_Image_Radius" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5438,7 +5026,6 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5454,7 +5041,6 @@
                                                                                         <Grid.ColumnDefinitions>
                                                                                             <ColumnDefinition Width="60" />
                                                                                             <ColumnDefinition />
-
                                                                                         </Grid.ColumnDefinitions>
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码边缘"
@@ -5482,13 +5068,9 @@
                                                                                                                FontSize="12"
                                                                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                                TextTrimming="CharacterEllipsis" />
-
-
                                                                                                 </DataTemplate>
                                                                                             </ComboBox.ItemTemplate>
-
                                                                                         </ComboBox>
-
                                                                                     </Grid>
 
                                                                                     <Grid Margin="8">
@@ -5508,8 +5090,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码宽度"
                                                                                                    TextWrapping="Wrap"
@@ -5519,7 +5099,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Illuminate_MaskWidth" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5541,7 +5120,6 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5560,8 +5138,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码高度"
                                                                                                    TextWrapping="Wrap"
@@ -5571,7 +5147,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Illuminate_MaskHeight" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5593,7 +5168,6 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5612,8 +5186,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="系数"
                                                                                                    TextWrapping="Wrap"
@@ -5623,7 +5195,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Illuminate_Factor" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5645,9 +5216,7 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
-
 
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5666,8 +5235,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码宽度"
                                                                                                    TextWrapping="Wrap"
@@ -5677,7 +5244,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Emphasize_MaskWidth" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5699,7 +5265,6 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5718,8 +5283,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码高度"
                                                                                                    TextWrapping="Wrap"
@@ -5729,7 +5292,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Emphasize_MaskHeight" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5751,7 +5313,6 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5770,8 +5331,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="系数"
                                                                                                    TextWrapping="Wrap"
@@ -5781,7 +5340,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Emphasize_Factor" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5803,9 +5361,7 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
-
 
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5824,8 +5380,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码宽度"
                                                                                                    TextWrapping="Wrap"
@@ -5835,7 +5389,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="GrayClosingRect_MaskWidth" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5857,7 +5410,6 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
                                                                                     <Grid Margin="8">
                                                                                         <Grid.Style>
@@ -5876,8 +5428,6 @@
                                                                                             <ColumnDefinition Width=" *" />
                                                                                         </Grid.ColumnDefinitions>
 
-
-
                                                                                         <TextBlock Grid.Column=" 0"
                                                                                                    Text="掩码高度"
                                                                                                    TextWrapping="Wrap"
@@ -5887,7 +5437,6 @@
                                                                                                    FontSize="12"
                                                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                    Opacity=" 0.8" />
-
 
                                                                                         <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="GrayClosingRect_MaskHeight" Grid.Column=" 1"
                                                                                                 Margin="4"
@@ -5909,25 +5458,15 @@
                                                                                                  BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                  BorderThickness="2"
                                                                                                  FontSize="16" />
-
                                                                                     </Grid>
                                                                                 </StackPanel>
                                                                             </Border>
-
-
                                                                         </Grid>
-
-
                                                                     </Expander>
-
-
-
                                                                 </Grid>
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellTemplate>
-
                                                     </DataGridTemplateColumn>
-
 
                                                     <!--<DataGridTemplateColumn Width="50">
                                                     <DataGridTemplateColumn.Header>
@@ -5953,26 +5492,18 @@
                                                                      IsReadOnly="True" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
-
                                                 </DataGridTemplateColumn>-->
-
-
                                                 </DataGrid.Columns>
-
                                             </DataGrid>
-
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
-
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="总耗时："
@@ -5990,7 +5521,6 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                                     Margin="0,0,5,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
@@ -6002,8 +5532,6 @@
                                                            FontSize="14"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-
-
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
@@ -6013,14 +5541,9 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                             </Button>
-
-
-
                                         </Grid>
 
-
                                         <Grid Height="35" Margin="8">
-
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
@@ -6030,14 +5553,12 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
-
                                             <TextBlock Text="流程功能"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                                     Margin="0,0,5,0"
@@ -6050,8 +5571,6 @@
                                                            FontSize="14"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-
-
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
@@ -6061,7 +5580,6 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                             </Button>
-
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                                     Margin="0,0,5,0"
@@ -6074,8 +5592,6 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="14"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
-
-
 
                                                 <i:Interaction.Triggers>
 
@@ -6099,8 +5615,6 @@
                                                            FontSize="14"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-
-
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
@@ -6111,15 +5625,10 @@
                                                 </i:Interaction.Triggers>
                                             </Button>
 
-
-
-
-
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 4"
                                                     Margin="0,0,0,0"
                                                     Background="{DynamicResource 全局_按钮_红颜色}"
                                                     Tag="{x:Static Process_Enum:Image_Preprocessing_Process_Work_Enum.Delete_List}">
-
 
                                                 <TextBlock Text="删除"
                                                            HorizontalAlignment="Center"
@@ -6136,13 +5645,8 @@
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-
                                             </Button>
-
                                         </Grid>
-
-
-
 
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
@@ -6184,9 +5688,7 @@
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-
                                         </Grid>
-
 
                                         <!--<Grid Margin="8" Visibility="Collapsed">
 
@@ -6195,8 +5697,6 @@
                                                 <ColumnDefinition Width=" *" />
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="中值滤波器"
@@ -6221,10 +5721,7 @@
                                                       FontSize="16"
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                       Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=MedianRect_Enable}" />
-
-
                                         </Grid>-->
-
 
                                         <!--<Grid  Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=MedianRect_Enable}">
 
@@ -6233,8 +5730,6 @@
                                                 <ColumnDefinition Width=" *" />
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="滤镜掩码宽度"
@@ -6245,7 +5740,6 @@
                                                        FontSize="12"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                        Opacity=" 0.8" />
-
 
                                             <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="MedianRect_MaskWidth" Grid.Column=" 1"
                                                     Margin="4"
@@ -6270,10 +5764,7 @@
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="18" />
-
                                         </Grid>-->
-
-
 
                                         <!--<Grid Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=MedianRect_Enable}">
 
@@ -6282,8 +5773,6 @@
                                                 <ColumnDefinition Width=" *" />
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="滤镜掩码高度"
@@ -6318,12 +5807,7 @@
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="18" />
-
                                         </Grid>-->
-
-
-
-
 
                                         <!--<Grid Margin="8">
 
@@ -6332,11 +5816,6 @@
                                                 <ColumnDefinition Width=" *" />
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-
-
-
-
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="中值遮罩"
@@ -6347,9 +5826,6 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-
 
                                             <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Median_image_Enable" Grid.Column=" 1"
                                                       Content="使用"
@@ -6366,17 +5842,7 @@
                                                       FontSize="16"
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                       Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Median_image_Enable}" />
-
-
-
-
-
-
-
                                         </Grid>-->
-
-
-
 
                                         <!--<Grid Margin="8">
                                             <Grid.Style>
@@ -6434,13 +5900,7 @@
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
-
-
-
-
                                             </ComboBox>
-
-
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
@@ -6489,8 +5949,6 @@
                                                      BorderThickness="2"
                                                      FontSize="18" />
                                         </Grid>
-
-
 
                                         <Grid Margin="8">
                                             <Grid.Style>
@@ -6560,30 +6018,19 @@
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
-
-
-
                                             </ComboBox>
-
-
                                         </Grid>-->
-
-
-
 
                                         <!--<Grid>
 
                                             <StackPanel Orientation="Vertical">
                                                 <Grid Margin="8">
 
-
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="80" />
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width=" *" />
                                                     </Grid.ColumnDefinitions>
-
-
 
                                                     <TextBlock Grid.Column=" 0"
                                                                Text="高频增强"
@@ -6609,25 +6056,16 @@
                                                               FontSize="16"
                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                               Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Illuminate_Enable}" />
-
-
-
-
-
-
                                                 </Grid>
-
 
                                         -->
                                         <!--<Grid Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Illuminate_Enable}">
-
 
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="80" />
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width=" auto" />
                                                     </Grid.ColumnDefinitions>
-
 
                                                     <TextBlock Grid.Column=" 0"
                                                                Text="低通掩码宽度"
@@ -6660,20 +6098,15 @@
                                                              BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                              BorderThickness="2"
                                                              FontSize="18" />
-
-
-
                                                 </Grid>
 
                                                 <Grid Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Illuminate_Enable}">
-
 
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="80" />
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width=" auto" />
                                                     </Grid.ColumnDefinitions>
-
 
                                                     <TextBlock Grid.Column=" 0"
                                                                Text="低通掩码高度"
@@ -6708,13 +6141,9 @@
                                                              BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                              BorderThickness="2"
                                                              FontSize="18" />
-
-
-
                                                 </Grid>
 
                                                 <Grid Margin="8" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Illuminate_Enable}">
-
 
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="80" />
@@ -6755,39 +6184,10 @@
                                                              BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                              BorderThickness="2"
                                                              FontSize="18" />
-
-
                                                 </Grid>-->
                                         <!--
-
                                             </StackPanel>
-
                                         </Grid>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                                         <!--<Grid Margin="8">
 
@@ -6796,8 +6196,6 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-
-
 
                                             <TextBlock Text="边缘增强"
                                                        TextWrapping="Wrap"
@@ -6823,9 +6221,6 @@
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                       IsEnabled="{Binding IsChecked, ElementName=Emphasize_Enable}"
                                                       Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Emphasize_Enable}" />
-
-
-
                                         </Grid>
 
                                         <Grid Height="35"
@@ -6950,8 +6345,6 @@
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
 
-
-
                                             <TextBlock Text="灰度开运算"
                                                        TextWrapping="Wrap"
                                                        HorizontalAlignment="Left"
@@ -6976,9 +6369,6 @@
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                       IsEnabled="{Binding IsChecked, ElementName=GrayOpeningRect_Enable}"
                                                       Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=GrayOpeningRect_Enable}" />
-
-
-
                                         </Grid>
 
                                         <Grid Height="35"
@@ -7065,8 +6455,6 @@
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
 
-
-
                                             <TextBlock Text="灰度闭运算"
                                                        TextWrapping="Wrap"
                                                        HorizontalAlignment="Left"
@@ -7091,9 +6479,6 @@
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                       IsEnabled="{Binding IsChecked, ElementName=GrayClosingRect_Enable}"
                                                       Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=GrayClosingRect_Enable}" />
-
-
-
                                         </Grid>
 
                                         <Grid Height="35"
@@ -7172,8 +6557,6 @@
                                                      FontSize="18" />
                                         </Grid>-->
 
-
-
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -7199,8 +6582,6 @@
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
                                                     Value="{Binding Halcon_Find_Shape_ModelXld_UI.AngleStart}" />
-
-
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_AngleStart}"
@@ -7249,17 +6630,11 @@
                                                      FontSize="18" />
                                         </Grid>
 
-
-
-
-
-
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
                                                 Background="{DynamicResource 全局_按钮_黑颜色}"
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
-
 
                                         <Grid Height="35" Margin="8">
                                             <Grid.Style>
@@ -7273,9 +6648,6 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
-
-
-
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
@@ -7467,7 +6839,6 @@
                                             </Border.Style>
                                         </Border>
 
-
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -7576,8 +6947,6 @@
                                                      FontSize="18" />
                                         </Grid>
 
-
-
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -7613,9 +6982,6 @@
                                                      BorderThickness="2"
                                                      FontSize="18" />
                                         </Grid>
-
-
-
 
                                         <Grid Height="35" Margin="8">
                                             <Grid.Style>
@@ -7705,7 +7071,6 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
-
                                             <TextBlock Grid.Column=" 0"
                                                        Text="像素精度"
                                                        HorizontalAlignment="Left"
@@ -7771,13 +7136,8 @@
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
-
-
-
                                             </ComboBox>
-
                                         </Grid>
-
 
                                         <Grid Height="35" Margin="8">
                                             <Grid.Style>
@@ -7785,16 +7145,12 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-
                                                         <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="2">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
-
-
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
@@ -7836,11 +7192,9 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-
                                                         <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="2">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
@@ -7878,14 +7232,11 @@
                                                      FontSize="18" />
                                         </Grid>
 
-
-
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
-
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="查找ID号"
                                                        HorizontalAlignment="Left"
@@ -7893,10 +7244,6 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-
-
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Find_Model_ID" Grid.Column=" 3"
                                                      Text="{Binding Halcon_Find_Shape_ModelXld_UI.FInd_ID}"
@@ -7907,7 +7254,6 @@
                                                      BorderThickness="2"
                                                      FontSize="16"
                                                      IsReadOnly="False" />
-
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
@@ -7915,7 +7261,6 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
-
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="查找位置"
                                                        HorizontalAlignment="Left"
@@ -7923,7 +7268,6 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
 
                                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Find_ShapeModel_Name" Grid.Column=" 1"
                                                       VerticalContentAlignment="Center"
@@ -7941,7 +7285,6 @@
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
-
 
                                                 <ComboBoxItem>
 
@@ -7974,12 +7317,7 @@
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
                                             </ComboBox>
-
-
-
-
                                         </Grid>
-
 
                                         <Grid Height="35" Margin="8">
 
@@ -7996,7 +7334,6 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                                     Margin="4,0,4,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}">
@@ -8012,8 +7349,6 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                             </Button>
-
-
 
                                             <Button x:Name="Text_Models" Grid.Column=" 2"
                                                     Margin="0,0,0,0"
@@ -8054,40 +7389,17 @@
                                                 </i:Interaction.Triggers>
                                             </Button>
                                         </Grid>
-
-
-
-
                                     </StackPanel>
-
-
-
-
-
-
-
-
-
                                 </Grid>
                             </Expander>
-
-
-
-
                         </StackPanel>
-
-
                     </ScrollViewer>
-
-
                 </Grid>
-
             </Grid>
 
             <Grid Width="350" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Auto_Model}">
 
                 <!--<Vision_Control:UC_Vision_Auto_Model Width="330" />-->
-
 
                 <Grid Effect="{DynamicResource 全局背景阴影}">
 
@@ -8101,10 +7413,7 @@
                                   VirtualizingPanel.ScrollUnit="Pixel"
                                   VirtualizingPanel.VirtualizationMode="Recycling">
 
-
-
                         <StackPanel Grid.Row=" 0" Orientation="Vertical">
-
 
                             <Expander Style="{DynamicResource Vision_Fence_Expander_Style}"
                                       Margin="0,0,0,10"
@@ -8146,8 +7455,6 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                         </StackPanel>
-
-
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
@@ -8160,7 +7467,6 @@
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width=" auto" />
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="本机网址"
@@ -8189,19 +7495,9 @@
                                                                    FontSize="16"
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                    TextTrimming="CharacterEllipsis" />
-
-
-
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-
-
-
-
-
-
-
                                         </Grid>
 
                                         <Grid Height=" 35" Margin="8">
@@ -8210,7 +7506,6 @@
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width=" auto" />
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="服务端口"
@@ -8234,7 +7529,6 @@
                                                      FontSize="16"
                                                      Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                      IsEnabled="{Binding Receive_Start_Type}" />
-
 
                                             <Button Grid.Column=" 2"
                                                     Width="100"
@@ -8266,7 +7560,6 @@
                                                     </TextBlock.Style>
                                                 </TextBlock>
 
-
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
                                                         <i:InvokeCommandAction Command="{Binding Server_End_Comm}"
@@ -8274,30 +7567,11 @@
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-
-
-
-
                                             </Button>
-
-
-
                                         </Grid>
-
-
-
-
-
-
-
-
-
                                     </StackPanel>
-
                                 </Grid>
                             </Expander>
-
-
 
                             <Expander Style="{DynamicResource Vision_Fence_Expander_Style}"
                                       Margin="0,0,0,10"
@@ -8337,14 +7611,9 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                         </StackPanel>
-
-
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
-
-
-
 
                                     <Border Grid.RowSpan=" 2"
                                             Background="{DynamicResource 全局_背景_白颜色}"
@@ -8424,7 +7693,6 @@
                                                      FontSize="18" />
                                         </Grid>
 
-
                                         <!--<Grid Margin="8">
 
                               <Grid.ColumnDefinitions>
@@ -8475,9 +7743,7 @@
                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                  TextTrimming="CharacterEllipsis" />
                                   </ComboBoxItem>
-
                               </ComboBox>
-
                           </Grid>-->
 
                                         <Grid Height="35" Margin="8">
@@ -8552,9 +7818,6 @@
                                                      FontSize="18" />
                                         </Grid>
 
-
-
-
                                         <Grid Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -8605,9 +7868,7 @@
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
-
                                             </ComboBox>
-
                                         </Grid>
 
                                         <Grid Margin="8">
@@ -8627,36 +7888,14 @@
                                                         <i:InvokeCommandAction Command="{Binding Save_Config_File_Comm}" PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-
-
                                             </Button>
                                         </Grid>
-
                                     </StackPanel>
-
-
-
-
-
-
-
-
-
                                 </Grid>
                             </Expander>
-
-
-
-
                         </StackPanel>
-
-
                     </ScrollViewer>
-
-
                 </Grid>
-
-
             </Grid>
 
             <Grid Width="350" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Robot_Model}">
@@ -8675,10 +7914,7 @@
                                   VirtualizingPanel.ScrollUnit="Pixel"
                                   VirtualizingPanel.VirtualizationMode="Recycling">
 
-
-
                         <StackPanel Grid.Row=" 0" Orientation="Vertical">
-
 
                             <Expander Style="{DynamicResource Vision_Fence_Expander_Style}"
                                       Margin="0,0,0,10"
@@ -8720,8 +7956,6 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                         </StackPanel>
-
-
                                     </Border>
                                 </Expander.Header>
                                 <Grid>
@@ -8734,7 +7968,6 @@
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width=" auto" />
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="通讯协议"
@@ -8779,26 +8012,14 @@
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
-
-
-
                                             </ComboBox>
-
-
-
-
-
-
-
                                         </Grid>
 
                                         <Grid Height=" 35" Margin="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition />
-
                                             </Grid.ColumnDefinitions>
-
 
                                             <TextBlock Grid.Column=" 0"
                                                        Text="内容编码"
@@ -8843,15 +8064,8 @@
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </ComboBoxItem>
-
-
-
                                             </ComboBox>
-
-
-
                                         </Grid>
-
 
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
@@ -8863,7 +8077,6 @@
 
                                             <StackPanel Orientation="Vertical">
 
-
                                                 <TextBlock Grid.Column=" 0"
                                                            Text="上位机发送机器人通讯内容"
                                                            Margin="0,0,0,8"
@@ -8872,9 +8085,6 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="18"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-
 
                                                 <!--<ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}"
                                               Width=" auto"
@@ -8887,8 +8097,6 @@
                                               VirtualizingPanel.ScrollUnit="Pixel"
                                               VirtualizingPanel.VirtualizationMode="Recycling">-->
 
-
-
                                                 <TextBox Grid.Column=" 2"
                                                          Text="{Binding Send_Socket_String}"
                                                          MinHeight=" 300"
@@ -8899,16 +8107,12 @@
                                                          FontSize="16" />
 
                                                 <!--</ScrollViewer>-->
-
-
                                             </StackPanel>
-
                                         </Grid>
 
                                         <Grid Margin="8">
 
                                             <StackPanel Orientation="Vertical">
-
 
                                                 <TextBlock Grid.Column=" 0"
                                                            Text="上位机接收机器人通讯内容"
@@ -8919,8 +8123,6 @@
                                                            FontSize="18"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
-
                                                 <!--<ScrollViewer Background="Transparent"
                                               CanContentScroll="False"
                                               PanningMode="Both"
@@ -8929,8 +8131,6 @@
                                               VirtualizingPanel.IsVirtualizing="True"
                                               VirtualizingPanel.ScrollUnit="Pixel"
                                               VirtualizingPanel.VirtualizationMode="Recycling">-->
-
-
 
                                                 <TextBox Grid.Column=" 2"
                                                          Text="{Binding Receive_Socket_String}"
@@ -8942,10 +8142,7 @@
                                                          FontSize="16" />
 
                                                 <!--</ScrollViewer>-->
-
-
                                             </StackPanel>
-
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
@@ -8971,7 +8168,6 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding UI_IP}"
                                                      HorizontalContentAlignment="Center"
@@ -8981,7 +8177,6 @@
                                                      BorderThickness="2"
                                                      FontSize="18" />
                                         </Grid>
-
 
                                         <Grid Height="35" Margin="8">
                                             <Grid.Style>
@@ -9005,7 +8200,6 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding UI_Port}"
                                                      HorizontalContentAlignment="Center"
@@ -9016,7 +8210,6 @@
                                                      FontSize="18" />
                                         </Grid>
 
-
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -9025,9 +8218,6 @@
                                                 <ColumnDefinition Width=" *" />
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-
-
-
 
                                             <Button x:Name="Connect_UI" Grid.Column=" 1"
                                                     Margin="0,0,4,0"
@@ -9079,8 +8269,6 @@
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
-
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
@@ -9090,10 +8278,6 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                             </Button>
-
-
-
-
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
@@ -9109,7 +8293,6 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="$OUT[1]"
                                                      HorizontalContentAlignment="Center"
@@ -9119,7 +8302,6 @@
                                                      BorderThickness="2"
                                                      FontSize="18" />
                                         </Grid>
-
 
                                         <Grid Height="35" Margin="8">
 
@@ -9134,7 +8316,6 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="False"
                                                      HorizontalContentAlignment="Center"
@@ -9145,7 +8326,6 @@
                                                      FontSize="18" />
                                         </Grid>
 
-
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -9154,9 +8334,6 @@
                                                 <ColumnDefinition Width=" *" />
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-
-
-
 
                                             <Button Grid.Column=" 1"
                                                     Margin="0,0,4,0"
@@ -9208,8 +8385,6 @@
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-
-
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
@@ -9217,17 +8392,10 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                             </Button>
-
-
-
-
                                         </Grid>
-
-
 
                                         <Grid Margin="8">
                                             <StackPanel Orientation="Vertical">
-
 
                                                 <TextBlock Grid.Column=" 0"
                                                            Text="循环读取变量名列表"
@@ -9237,7 +8405,6 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="18"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
 
                                                 <DataGrid AlternatingRowBackground="Gainsboro"
                                                           AlternationCount="2"
@@ -9267,8 +8434,6 @@
 
                                                     <DataGrid.Columns>
 
-
-
                                                         <DataGridTemplateColumn Width="auto" IsReadOnly="True">
                                                             <DataGridTemplateColumn.Header>
                                                                 <Border Background="Transparent"
@@ -9292,7 +8457,6 @@
                                                                                FontSize="16" />
                                                                 </DataTemplate>
                                                             </DataGridTemplateColumn.CellTemplate>
-
                                                         </DataGridTemplateColumn>
 
                                                         <DataGridTemplateColumn Width="auto">
@@ -9318,9 +8482,7 @@
                                                                                FontSize="14" />
                                                                 </DataTemplate>
                                                             </DataGridTemplateColumn.CellTemplate>
-
                                                         </DataGridTemplateColumn>
-
 
                                                         <DataGridTemplateColumn CanUserResize="False">
                                                             <DataGridTemplateColumn.Header>
@@ -9349,20 +8511,11 @@
                                                         </DataGridTemplateColumn>
                                                     </DataGrid.Columns>
                                                 </DataGrid>
-
-
-
                                             </StackPanel>
-
-
-
                                         </Grid>
-
-
 
                                         <Grid Margin="8">
                                             <StackPanel Orientation="Vertical">
-
 
                                                 <TextBlock Grid.Column=" 0"
                                                            Text="短期读取变量名列表"
@@ -9372,7 +8525,6 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="18"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
 
                                                 <DataGrid AlternatingRowBackground="Gainsboro"
                                                           AlternationCount="2"
@@ -9419,7 +8571,6 @@
                                                                                FontSize="16" />
                                                                 </DataTemplate>
                                                             </DataGridTemplateColumn.CellTemplate>
-
                                                         </DataGridTemplateColumn>
 
                                                         <DataGridTemplateColumn Width="auto">
@@ -9440,7 +8591,6 @@
                                                                                FontSize="14" />
                                                                 </DataTemplate>
                                                             </DataGridTemplateColumn.CellTemplate>
-
                                                         </DataGridTemplateColumn>
                                                         <DataGridTemplateColumn CanUserResize="False">
                                                             <DataGridTemplateColumn.Header>
@@ -9464,44 +8614,14 @@
                                                         </DataGridTemplateColumn>
                                                     </DataGrid.Columns>
                                                 </DataGrid>
-
-
-
                                             </StackPanel>
-
-
-
                                         </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                     </StackPanel>
-
                                 </Grid>
                             </Expander>
-
-
-
                         </StackPanel>
-
-
                     </ScrollViewer>
-
-
                 </Grid>
-
-
             </Grid>
         </Grid>
     </Grid>

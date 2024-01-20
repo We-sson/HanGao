@@ -764,13 +764,13 @@ namespace MVS_SDK_Base.Model
             /// 获得一图像显示到指定窗口
             /// </summary>
             /// <param name="_HWindow"></param>
-            public void  GetOneFrameTimeout(ref HImage _HImage)
+            public HImage  GetOneFrameTimeout()
             {
 
 
                 try
                 {
-
+                    HImage _HImage = new HImage();
 
                     if (Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
                     {
@@ -788,11 +788,11 @@ namespace MVS_SDK_Base.Model
                     StartGrabbing();
 
                     //获得一帧图片信息
-                    MVS_Image_Mode _MVS_Image = GetOneFrameTimeout();
+                    MVS_Image_Mode _MVS_Image = MVS_GetOneFrameTimeout();
 
                     StopGrabbing();
                     //转换Halcon图像变量
-                    Halcon_SDK.Mvs_To_Halcon_Image(ref _HImage, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData);
+                    _HImage = Halcon_SDK.Mvs_To_Halcon_Image(_MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData);
 
 
                     //发送显示图像位置
@@ -802,7 +802,7 @@ namespace MVS_SDK_Base.Model
                     //User_Log_Add(Select_Camera.Camera.ToString() + "相机图像采集成功！", Log_Show_Window_Enum.Home);
 
 
-                    //return true;
+                    return _HImage;
 
                 }
                 catch (Exception _e)
@@ -827,7 +827,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             /// <param name="_Timeout"></param>
             /// <returns></returns>
-            public MVS_Image_Mode GetOneFrameTimeout(int _Timeout = 5000)
+            public MVS_Image_Mode MVS_GetOneFrameTimeout(int _Timeout = 5000)
              {
 
 

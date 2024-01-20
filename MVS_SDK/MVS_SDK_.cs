@@ -1,17 +1,8 @@
-﻿using Generic_Extension;
-using Halcon_SDK_DLL.Model;
+﻿using Halcon_SDK_DLL.Model;
 using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using PropertyChanged;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Threading;
 using static MVS_SDK_Base.Model.MVS_Model;
 
 namespace MVS_SDK
@@ -19,23 +10,14 @@ namespace MVS_SDK
     [AddINotifyPropertyChangedInterface]
     public class MVS_Camera_SDK
     {
-
-
-
-       public MVS_Camera_SDK() 
+        public MVS_Camera_SDK()
         {
-
-
-
-
         }
 
         /// <summary>
         /// 相机选择信息
         /// </summary>
-        public  MVS_Camera_Info_Model Select_Camera { set; get; }
-
-
+        public MVS_Camera_Info_Model Select_Camera { set; get; }
 
         public Get_Image_Model_Enum Get_Image_Model { set; get; } = Get_Image_Model_Enum.相机采集;
 
@@ -43,7 +25,7 @@ namespace MVS_SDK
         /// 查找相机对象驱动
         /// </summary>
         /// <returns></returns>
-        public static   List<CGigECameraInfo> Find_Camera_Devices()
+        public static List<CGigECameraInfo> Find_Camera_Devices()
         {
             //初始化
             int nRet;
@@ -59,56 +41,37 @@ namespace MVS_SDK
                 CGCamera_List.Clear();
                 foreach (var _CCamer in _CCamera_List)
                 {
-
                     if (_CCamer.nTLayerType == CSystem.MV_GIGE_DEVICE)
                     {
-
                         CGigECameraInfo _GEGI = _CCamer as CGigECameraInfo;
                         CGCamera_List.Add(_GEGI);
                     }
-
                 }
 
                 return CGCamera_List;
             }
             else
             {
-
                 return CGCamera_List;
             }
-
-
-
         }
-
-
- 
-
-
     }
-
 
     /// <summary>
     /// 相机运行情况消息读取属性
     /// </summary>
     public class MPR_Status_Model
     {
-
         /// <summary>
         /// 泛型类型委托声明
         /// </summary>
         /// <param name="_Connect_State"></param>
         public delegate void MVS_T_delegate<T>(T _Tl);
 
-
-
-
         /// <summary>
         /// 相机设置错误委托属性
         /// </summary>
-        public  MVS_T_delegate<string> MVS_ErrorInfo_delegate { set; get; }
-
-
+        public MVS_T_delegate<string> MVS_ErrorInfo_delegate { set; get; }
 
         public MPR_Status_Model(MVE_Result_Enum _Status)
         {
@@ -116,17 +79,13 @@ namespace MVS_SDK
 
             //if (_Status != MVE_Result_Enum.Run_OK)
             //{
-
             //}
-
         }
 
         /// <summary>
         /// 运行错误状态
         /// </summary>
         public MVE_Result_Enum Result_Status { set; get; }
-
-
 
         /// <summary>
         /// 运行错误详细信息
@@ -140,11 +99,8 @@ namespace MVS_SDK
             {
                 _Result_Error_Info = value;
                 MVS_ErrorInfo_delegate?.Invoke(GetResult_Info());
-
             }
         }
-
-
 
         /// <summary>
         /// 获得运行状态
@@ -155,7 +111,6 @@ namespace MVS_SDK
             if (Result_Status == MVE_Result_Enum.Run_OK) { return true; } else { return false; }
         }
 
-
         /// <summary>
         /// 获得运行状态信息
         /// </summary>
@@ -163,13 +118,7 @@ namespace MVS_SDK
         /// <returns></returns>
         public string GetResult_Info()
         {
-
             return Result_Status.ToString() + "  " + Result_Error_Info;
         }
-
     }
-
-
-
-
 }

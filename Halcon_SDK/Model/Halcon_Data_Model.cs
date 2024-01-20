@@ -1,5 +1,4 @@
-﻿using Generic_Extension;
-using HalconDotNet;
+﻿using HalconDotNet;
 
 using PropertyChanged;
 using System.Collections.ObjectModel;
@@ -17,9 +16,6 @@ namespace Halcon_SDK_DLL.Model
     public class Halcon_Data_Model
     {
         [AddINotifyPropertyChangedInterface]
-        /// <summary>
-        /// 窗口显示内容模型
-        /// </summary>
         public class DisplayHObject_Model
         {
             public HObject Display { set; get; } = new HObject();
@@ -31,19 +27,17 @@ namespace Halcon_SDK_DLL.Model
             public DisplayDrawColor_Model SetDisplay { set; get; } = new DisplayDrawColor_Model();
         }
 
-
-
         /// <summary>
         /// 三维模型显示属性模型
         /// </summary>
-        /// 
+        ///
         [AddINotifyPropertyChangedInterface]
         public class Display3DModel_Model
         {
             public Display3DModel_Model()
             {
-
             }
+
             public Display3DModel_Model(List<HObjectModel3D> objectModel3D)
             {
                 _ObjectModel3D = objectModel3D;
@@ -64,13 +58,13 @@ namespace Halcon_SDK_DLL.Model
             /// 模型位置单位：M
             /// </summary>
             public HPose? _PoseIn { set; get; }
+
             //public HTuple _PoseOut { set; get; } = new HTuple();
             //public HTuple _GenParamName { set; get; } = new HTuple();
             //public HTuple _GenParamValue { set; get; } = new HTuple();
             //public HTuple _Title { set; get; } = new HTuple();
             //public HTuple _Label { set; get; } = new HTuple();
             //public HTuple _Information { set; get; } = new HTuple();
-
         }
 
         /// <summary>
@@ -81,7 +75,6 @@ namespace Halcon_SDK_DLL.Model
         {
             public DisplaySetDraw_Enum SetDraw { set; get; } = DisplaySetDraw_Enum.fill;
 
-
             private string _SetColor = KnownColor.Red.ToString().ToLower();
 
             public string SetColor
@@ -89,9 +82,7 @@ namespace Halcon_SDK_DLL.Model
                 get { return _SetColor; }
                 set { _SetColor = value.ToLower(); }
             }
-
         }
-
 
         /// <summary>
         /// Halcon窗口名称
@@ -102,6 +93,7 @@ namespace Halcon_SDK_DLL.Model
             /// 海康威视图像信息
             /// </summary>
             public HObject Image { set; get; } = new HObject();
+
             /// <summary>
             /// 图像显示位置Halcon控件
             /// </summary>
@@ -117,63 +109,77 @@ namespace Halcon_SDK_DLL.Model
             /// 模型实例的行坐标
             /// </summary>
             public List<double> Row { set; get; } = new List<double>();
+
             /// <summary>
             /// 模型实例的列坐标
             /// </summary>
             public List<double> Column { set; get; } = new List<double>();
+
             /// <summary>
             /// 模型实例的旋转角度
             /// </summary>
             public List<double> Angle { set; get; } = new List<double>();
+
             /// <summary>
             /// 模型和找到的实例相似值
             /// </summary>
             public List<double> Score { set; get; } = new List<double>();
+
             /// <summary>
             /// 查找耗时
             /// </summary>
             public double Find_Time { set; get; } = 0;
+
             /// <summary>
             /// 查找模型结果
             /// </summary>
             public List<bool> FInd_Results { set; get; } = new List<bool>();
+
             /// <summary>
             /// 存储结果点
             /// </summary>
             public List<Point3D> Vision_Pos { set; get; } = new List<Point3D>();
+
             /// <summary>
             /// 存储结果点
             /// </summary>
             public List<Point3D> Robot_Pos { set; get; } = new List<Point3D>();
+
             //public double Right_Angle { set; get; } = 0;
             /// <summary>
             /// 找到的模型实例的分数
             /// </summary>
             public List<HTuple> HomMat2D { set; get; } = new List<HTuple>();
+
             /// <summary>
             /// 页面显示结过集合
             /// </summary>
             public List<string> Text_Arr_UI { set; get; } = new List<string>() { };
+
             /// <summary>
             /// 显示结果界面
             /// </summary>
             public HWindow DispWiindow { set; get; } = new HWindow();
         }
+
         public class Pos_List_Model
         {
             /// <summary>
             /// 存储结果点
             /// </summary>
             public List<Point3D> Vision_Pos { set; get; } = new List<Point3D>();
+
             /// <summary>
             /// 存储结果点
             /// </summary>
             public List<Point3D> Robot_Pos { set; get; } = new List<Point3D>();
+
             /// <summary>
             /// 直角角度
             /// </summary>
             public double Right_Angle { set; get; } = 0;
         }
+
         /// <summary>
         /// 创建形状匹配模板总类型参数
         /// </summary>
@@ -183,91 +189,113 @@ namespace Halcon_SDK_DLL.Model
             /// 模板类型
             /// </summary>
             public Shape_Based_Model_Enum Shape_Based_Model { set; get; } = Shape_Based_Model_Enum.Ncc_Model;
+
             /// <summary>
             /// UI绑定查找模型区域名字
             /// </summary>
             public ShapeModel_Name_Enum ShapeModel_Name { set; get; } = ShapeModel_Name_Enum.F_45;
+
             /// <summary>
             /// 模型创建ID号
             /// </summary>
             public int Create_ID { set; get; } = 1;
+
             /// <summary>
             /// 金字塔层的最大数量默认值：“自动”值列表：1， 2， 3， 4， 5， 6， 7， 8， 9， 10，“自动”
             /// </summary>
             public string NumLevels { set; get; } = "auto";
+
             /// <summary>
             /// 图案的最小旋转。默认值：-0.39 建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
             /// </summary>
             public double AngleStart { set; get; } = -10;
+
             /// <summary>
             /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39
             /// </summary>
             public double AngleExtent { set; get; } = 20;
+
             /// <summary>
             /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
             /// </summary>
             public double AngleStep { set; get; } = 0.01;
+
             /// <summary>
             /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
             /// </summary>
             public double ScaleRMin { set; get; } = 1.0;
+
             /// <summary>
             /// 不使用此参数。默认值：[]
             /// </summary>
             public double ScaleRMax { set; get; } = 0;
+
             /// <summary>
             /// 在行方向上缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
             /// </summary>
             public string ScaleRStep { set; get; } = "auto";
+
             /// <summary>
             /// 不使用此参数。默认值：[]
             /// </summary>
             public double ScaleCMax { set; get; } = 0;
+
             /// <summary>
             /// 阵列在列方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
             /// </summary>
             public double ScaleCMin { set; get; } = 1.0;
+
             /// <summary>
             /// 在列方向上缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
             /// </summary>
             public string ScaleCStep { set; get; } = "auto";
+
             /// <summary>
             /// 用于生成模型的优化类型和可选方法。默认值： “自动”
             /// </summary>
             public Optimization_Enum Optimization { set; get; } = Optimization_Enum.auto;
+
             /// <summary>
             /// 匹配指标。默认值： “ignore_local_polarity”
             /// </summary>
             public Metric_Enum Metric { set; get; } = Metric_Enum.ignore_local_polarity;
+
             /// <summary>
             /// 搜索图像中对象的最小对比度。默认值：5,建议值：1、2、3、5、7、10、20、30、40
             /// </summary>
             public double MinContrast { set; get; } = 5;
+
             /// <summary>
             /// 泛型参数名称。默认值：[]
             /// </summary>
             public GenParam_Enum GenParamName { set; get; }
+
             /// <summary>
             /// 泛型参数的值。默认值：[]
             /// </summary>
             public GenParam_Enum GenParamVal { set; get; }
+
             /// <summary>
             /// 图案的最小比例。 默认值：0.9,建议值：0.5、0.6、0.7、0.8、0.9、1.0
             /// </summary>
             public double ScaleMin { set; get; } = 0.9;
+
             /// <summary>
             /// 图案的最大比例。 默认值：1.1,建议值：1.0、1.1、1.2、1.3、1.4、1.5
             /// </summary>
             public double ScaleMax { set; get; } = 1.1;
+
             /// <summary>
             /// 缩放步长（分辨率）。默认值： “自动”建议值：“自动”, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2
             /// </summary>
             public string ScaleStep { set; get; } = "auto";
+
             /// <summary>
             /// 用圆形结构元素扩张区域。
             /// </summary>
             public double DilationCircle { set; get; } = 25;
         }
+
         /// <summary>
         /// 查找形状匹配模板总类型参数
         /// </summary>
@@ -278,187 +306,233 @@ namespace Halcon_SDK_DLL.Model
             /// 模板类型
             /// </summary>
             public Shape_Based_Model_Enum Shape_Based_Model { set; get; } = Shape_Based_Model_Enum.Ncc_Model;
+
             /// <summary>
             /// UI绑定查找模型区域名字
             /// </summary>
             public ShapeModel_Name_Enum ShapeModel_Name { set; get; } = ShapeModel_Name_Enum.F_45;
+
             /// <summary>
             /// 模型创建ID号
             /// </summary>
             public int FInd_ID { set; get; } = 1;
+
             /// <summary>
             /// 模型的最小旋转。默认值：-0.39,建议值： -3.14， -1.57， -0.79， -0.39， -0.20， 0.0
             /// </summary>
             public double AngleStart { set; get; } = 0;
+
             /// <summary>
             /// 旋转角度的范围。默认值：0.79,建议值：6.29、3.14、1.57、0.79、0.39、0.0
             /// </summary>
             public double AngleExtent { set; get; } = 360;
+
             /// <summary>
             /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
             /// </summary>
             public double ScaleRMin { set; get; } = 1.0;
+
             /// <summary>
             /// 不使用此参数。默认值：[]
             /// </summary>
             public double ScaleRMax { set; get; } = 1.0;
+
             /// <summary>
             /// 不使用此参数。默认值：[]
             /// </summary>
             public double ScaleCMax { set; get; } = 1.0;
+
             /// <summary>
             /// 阵列在列方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
             /// </summary>
             public double ScaleCMin { set; get; } = 1.0;
+
             /// <summary>
             /// 要查找的模型实例的最低分数。 默认值：0.5,建议值：0.3、 0.4、 0.5、 0.6、 0.7、 0.8、 0.9、 1.0
             /// </summary>
             public double MinScore { set; get; } = 0.8;
+
             /// <summary>
             /// 要找到的模型的实例数（对于所有匹配项，为 0）。默认值：1,建议值：0、1、2、3、4、5、10、20
             /// </summary>
             public int NumMatches { set; get; } = 1;
+
             /// <summary>
             /// 要查找的模型实例的最大重叠。默认值：0.5,建议值：0.0， 0.1， 0.2， 0.3， 0.4， 0.5， 0.6， 0.7， 0.8， 0.9， 1.0
             /// </summary>
             public double MaxOverlap { set; get; } = 0;
+
             /// <summary>
             /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
             /// </summary>
             public int NumLevels { set; get; } = 3;
+
             /// <summary>
             /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
             /// </summary>
             public double Greediness { set; get; } = 0.9;
+
             /// <summary>
             /// 亚像素精度（如果不等于）“无”.默认值： “least_squares”
             /// </summary>
             public Subpixel_Values_Enum SubPixel { set; get; } = Subpixel_Values_Enum.least_squares;
+
             /// <summary>
             /// 最大容许角度畸变 可以限制,作为默认值已设置3.14159/2，为 0，则根本不允许失真。
             /// </summary>
             public double Angle_change_restriction { set; get; } = 1.57;
+
             /// <summary>
-            ///  可以限制各向异性缩放（较小的比例因子除以 更大的比例因子）。 此参数的值范围从默认值 0.0，其中 允许任意失真，到 1.0，其中不允许失真。 
+            ///  可以限制各向异性缩放（较小的比例因子除以 更大的比例因子）。 此参数的值范围从默认值 0.0，其中 允许任意失真，到 1.0，其中不允许失真。
             /// </summary>
             public double Aniso_scale_change_restriction { set; get; } = 0.3;
+
             /// <summary>
             /// 最大灰度值功能使能
             /// </summary>
             public bool ScaleImageMax_Enable { set; get; } = true;
+
             /// <summary>
             /// 最大灰度值功能显示
             /// </summary>
             public bool ScaleImageMax_Disp { set; get; } = true;
+
             /// <summary>
             /// 增强图像功能使能
             /// </summary>
             public bool Illuminate_Enable { set; get; } = true;
+
             /// <summary>
             /// 增强图像功能显示
             /// </summary>
             public bool Illuminate_Disp { set; get; } = true;
+
             /// <summary>
             ///  增强图像的低通掩码的宽度。
             /// </summary>
             public int Illuminate_MaskWidth { set; get; } = 101;
+
             /// <summary>
             ///  增强图像的低通掩码的高度。
             /// </summary>
             public int Illuminate_MaskHeight { set; get; } = 101;
+
             /// <summary>
             /// 增强图像的对比强调的强度
             /// </summary>
             public double Illuminate_Factor { set; get; } = 0.8;
+
             /// <summary>
             /// 增强图像功能使能
             /// </summary>
             public bool Emphasize_Enable { set; get; } = true;
+
             /// <summary>
             /// 增强图像功能显示
             /// </summary>
             public bool Emphasize_Disp { set; get; } = true;
+
             /// <summary>
             ///  增强图像的低通掩码的宽度。
             /// </summary>
             public int Emphasize_MaskWidth { set; get; } = 15;
+
             /// <summary>
             ///  增强图像的低通掩码的高度。
             /// </summary>
             public int Emphasize_MaskHeight { set; get; } = 15;
+
             /// <summary>
             /// 增强图像的对比强调的强度
             /// </summary>
             public double Emphasize_Factor { set; get; } = 5;
+
             /// <summary>
             /// /计算带有矩形掩码的中值滤波器是使能
             /// </summary>
             public bool Median_image_Enable { set; get; } = true;
+
             /// <summary>
             /// 计算带有矩形掩码的中值滤波器显示
             /// </summary>
             public bool Median_image_Disp { set; get; } = true;
+
             /// <summary>
             /// 滤镜遮罩类型。默认值： “圆  值列表：“圆”, “正方形”值列表（对于计算设备）：“正方形”
             /// </summary>
             public MedianImage_MaskType_Enum MaskType_Model { set; get; } = MedianImage_MaskType_Enum.circle;
+
             /// <summary>
             /// 滤镜掩码的半径。默认值：1  值列表（用于计算设备）：1、2  建议值：1， 2， 3， 4， 5， 6， 7， 8， 9， 11， 15， 19， 25， 31， 39， 47， 59  典型值范围：1 ≤ radius ≤ 4095
             /// </summary>
             public int Median_image_Radius { set; get; } = 5;
+
             /// <summary>
             /// 边境处理。默认值： “镜像”值列表（对于计算设备）：“镜像”建议值：“镜像”, “循环”, “续”, 0, 30, 60, 90, 120, 150, 180, 210, 240, 255
             /// </summary>
             public MedianImage_Margin_Enum Margin_Model { set; get; } = MedianImage_Margin_Enum.mirrored;
+
             /// <summary>
             /// 矩形掩码的中值滤波器使能
             /// </summary>
             public bool MedianRect_Enable { set; get; } = true;
+
             /// <summary>
             /// /矩形掩码的中值滤波器显示
             /// </summary>
             public bool MedianRect_Disp { set; get; } = true;
+
             /// <summary>
             /// 矩形掩码的中值滤波器使能,滤镜掩码的宽度。
             /// </summary>
             public int MedianRect_MaskWidth { set; get; } = 3;
+
             /// <summary>
             /// 矩形掩码的中值滤波器使能,滤镜掩码的高度。
             /// /// </summary>
             public int MedianRect_MaskHeight { set; get; } = 3;
+
             /// <summary>
             /// 灰度开运算使能
             /// </summary>
             public bool GrayOpeningRect_Enable { set; get; } = true;
+
             /// <summary>
             /// 灰度开运算显示
             /// </summary>
             public bool GrayOpeningRect_Disp { set; get; } = true;
+
             /// <summary>
             /// 灰度开运算滤镜掩码的高度
             /// </summary>
             public int GrayOpeningRect_MaskHeight { set; get; } = 16;
+
             /// <summary>
             /// 灰度开运算滤镜掩码的宽度
             /// </summary>
             public int GrayOpeningRect_MaskWidth { set; get; } = 16;
+
             /// <summary>
             /// 灰度开运算使能
             /// </summary>
             public bool GrayClosingRect_Enable { set; get; } = true;
+
             /// <summary>
             /// 灰度开运算显示
             /// </summary>
             public bool GrayClosingRect_Disp { set; get; } = true;
+
             /// <summary>
             /// 灰度开运算滤镜掩码的高度
             /// </summary>
             public int GrayClosingRect_MaskHeight { set; get; } = 16;
+
             /// <summary>
             /// 灰度开运算滤镜掩码的宽度
             /// </summary>
             public int GrayClosingRect_MaskWidth { set; get; } = 16;
         }
+
         /// <summary>
         /// 查找九点标定模型参数
         /// </summary>
@@ -468,74 +542,87 @@ namespace Halcon_SDK_DLL.Model
             /// 用户选择采集图片方式
             /// </summary>
             public Get_Image_Model_Enum Get_Image_Model { set; get; } = Get_Image_Model_Enum.相机采集;
+
             /// <summary>
             /// /计算带有矩形掩码的中值滤波器是使能
             /// </summary>
             public bool Median_image_Enable { set; get; } = true;
+
             /// <summary>
             /// 计算带有矩形掩码的中值滤波器显示
             /// </summary>
             public bool Median_image_Disp { set; get; } = true;
+
             /// <summary>
             /// 滤镜遮罩类型。默认值： “圆  值列表：“圆”, “正方形”值列表（对于计算设备）：“正方形”
             /// </summary>
             public MedianImage_MaskType_Enum MaskType_Model { set; get; } = MedianImage_MaskType_Enum.circle;
+
             /// <summary>
             /// 滤镜掩码的半径。默认值：1  值列表（用于计算设备）：1、2  建议值：1， 2， 3， 4， 5， 6， 7， 8， 9， 11， 15， 19， 25， 31， 39， 47， 59  典型值范围：1 ≤ radius ≤ 4095
             /// </summary>
             public int Median_image_Radius { set; get; } = 5;
+
             /// <summary>
             /// 边境处理。默认值： “镜像”值列表（对于计算设备）：“镜像”建议值：“镜像”, “循环”, “续”, 0, 30, 60, 90, 120, 150, 180, 210, 240, 255
             /// </summary>
             public MedianImage_Margin_Enum Margin_Model { set; get; } = MedianImage_Margin_Enum.mirrored;
+
             /// <summary>
             /// 增强图像的对比度使能
             /// </summary>
             public bool Emphasize_Enable { set; get; } = true;
+
             /// <summary>
             /// 增强图像的对比度显示参数
             /// </summary>
             public bool Emphasize_Disp { set; get; } = true;
+
             /// <summary>
             /// 滤镜掩码的宽度。默认值：15  值列表（用于计算设备）：3、5  建议值：3， 5， 7， 9， 11， 13， 15， 17， 19， 21， 31， 49， 51， 61， 71， 81， 91， 101  典型值范围：3 ≤ maskWidth ≤ 201
             /// </summary>
             public double Emphasize_MaskWidth { set; get; } = 50;
+
             /// <summary>
             /// 滤镜掩模的高度。 默认值：15  值列表（用于计算设备）：3、5  建议值：3， 5， 7， 9， 11， 13， 15， 17， 19， 21， 31， 49， 51， 61， 71， 81， 91， 101  典型值范围：3 ≤ maskHeight ≤ 201
             /// </summary>
             public double Emphasize_MaskHeight { set; get; } = 50;
+
             /// <summary>
             /// 对比强调的强度。 默认值：1.0建议值：0.3， 0.5， 0.7， 1.0， 1.4， 1.8， 2.0典型值范围：（sqrt）0.0 ≤ factor ≤ 20.0
             /// </summary>
             public double Emphasize_Factor { set; get; } = 20;
+
             /// <summary>
-            /// 灰度值选区 
+            /// 灰度值选区
             /// </summary>
             public bool Gray_Disp { set; get; } = true;
+
             /// <summary>
             /// 灰度值的较低阈值或“Min”.默认值：128.0 建议值：0.0， 10.0， 30.0， 64.0， 128.0， 200.0， 220.0， 255.0，“Min”
             /// </summary>
             public double MinGray { set; get; } = 0;
+
             /// <summary>
             /// 灰度值的上限阈值或“Max”.默认值：255.0  建议值：0.0， 10.0， 30.0， 64.0， 128.0， 200.0， 220.0， 255.0，“Max”
             /// </summary>
             public double MaxGray { set; get; } = 100;
+
             /// <summary>
             /// 开运算消除边缘
             /// </summary>
             public double OpeningCircle_Radius { set; get; } = 2;
+
             /// <summary>
             /// 最小面积
             /// </summary>
             public double Min_Area { set; get; } = 50000;
+
             /// <summary>
             /// 最大面积
             /// </summary>
             public double Max_Area { set; get; } = 2000000;
         }
-
-
-
 
         /// <summary>
         /// Halcon标定相机参数
@@ -543,10 +630,8 @@ namespace Halcon_SDK_DLL.Model
         [AddINotifyPropertyChangedInterface]
         public class Halcon_Camera_Calibration_Parameters_Model
         {
-
             public Halcon_Camera_Calibration_Parameters_Model()
             {
-
             }
 
             public Halcon_Camera_Calibration_Parameters_Model(HCamPar hCamPar)
@@ -576,14 +661,9 @@ namespace Halcon_SDK_DLL.Model
                 Image_Width = _Parameters_Model.Image_Width;
             }
 
-
-
-
-
             private void Set_HCamPar(HCamPar hCamPar)
             {
                 //HCamPar = hCamPar;
-
 
                 switch (Enum.Parse<Halocn_Camera_Calibration_Enum>(hCamPar[0]))
                 {
@@ -599,7 +679,6 @@ namespace Halcon_SDK_DLL.Model
                         Image_Height = hCamPar[8];
 
                         break;
-
 
                     case Halocn_Camera_Calibration_Enum.area_scan_polynomial:
                         Camera_Calibration_Model = Halocn_Camera_Calibration_Enum.area_scan_polynomial;
@@ -617,16 +696,12 @@ namespace Halcon_SDK_DLL.Model
                         Image_Height = hCamPar[12];
 
                         break;
-
                 }
             }
 
-
             public HCamPar Get_HCamPar()
             {
-
                 HCamPar hCamPar = new HCamPar();
-
 
                 switch (Camera_Calibration_Model)
                 {
@@ -643,7 +718,6 @@ namespace Halcon_SDK_DLL.Model
                         hCamPar[8] = Image_Height;
 
                         break;
-
 
                     case Halocn_Camera_Calibration_Enum.area_scan_polynomial:
 
@@ -662,16 +736,10 @@ namespace Halcon_SDK_DLL.Model
                         hCamPar[12] = Image_Height;
 
                         break;
-
                 }
 
-
                 return hCamPar;
-
-
-
             }
-
 
             /// <summary>
             /// 标定内参参数变量
@@ -687,10 +755,8 @@ namespace Halcon_SDK_DLL.Model
                 }
                 set
                 {
-
                     _HCamPar = value;
                     Set_HCamPar(value);
-
                 }
             }
 
@@ -703,6 +769,7 @@ namespace Halcon_SDK_DLL.Model
             /// 单个像高度：微米
             /// </summary>
             public double Sy { set; get; } = 2.2;
+
             /// <summary>
             /// 单个像宽度：微米
             /// </summary>
@@ -722,10 +789,12 @@ namespace Halcon_SDK_DLL.Model
             /// 径向2阶：1/㎡
             /// </summary>
             public double K1 { set; get; } = 0;
+
             /// <summary>
             /// 径向4阶：1/㎡
             /// </summary>
             public double K2 { set; get; } = 0;
+
             /// <summary>
             /// 径向6阶：1/㎡
             /// </summary>
@@ -735,19 +804,17 @@ namespace Halcon_SDK_DLL.Model
             /// 切向2阶：1/㎡
             /// </summary>
             public double P1 { set; get; } = 0;
+
             /// <summary>
             /// 切向2阶：1/㎡
             /// </summary>
             public double P2 { set; get; } = 0;
 
-
-
-
-
             /// <summary>
             /// 中间高度度位置
             /// </summary>
             public double Cy { set; get; } = 250;
+
             /// <summary>
             /// 中间宽度位置
             /// </summary>
@@ -757,14 +824,13 @@ namespace Halcon_SDK_DLL.Model
             /// 最大高度像素
             /// </summary>
             public int Image_Width { set; get; } = 500;
+
             /// <summary>
             /// 最大宽度像素
             /// </summary>
             public int Image_Height { set; get; } = 500;
         }
-
     }
-
 
     /// <summary>
     /// 图像查找标定板结果类型
@@ -774,7 +840,6 @@ namespace Halcon_SDK_DLL.Model
     {
         public FindCalibObject_Results()
         {
-
         }
 
         /// <summary>
@@ -791,28 +856,20 @@ namespace Halcon_SDK_DLL.Model
             hv_Column = _Results.hv_Column;
             hv_I = _Results.hv_I;
             hv_Pose = _Results.hv_Pose;
-
-
-
         }
 
         public HObject _Image { set; get; } = new HObject();
         public HObject _CalibXLD { set; get; } = new HObject();
         public HObject _CalibRegion { set; get; } = new HObject();
 
-
-
         //public HRegion ShowGray { set; get; } = new HRegion();
 
         public string _DrawColor { set; get; } = KnownColor.Blue.ToString();
-
 
         public HTuple hv_Row = new HTuple();
         public HTuple hv_Column = new HTuple();
         public HTuple hv_I = new HTuple();
         public HTuple hv_Pose = new HTuple();
-
-
 
         public void Dispose()
         {
@@ -829,47 +886,36 @@ namespace Halcon_SDK_DLL.Model
         }
     }
 
-
-
-
     /// <summary>
     /// 相机标定属性模型
     /// </summary>
     [AddINotifyPropertyChangedInterface]
     public class Halcon_Camera_Calibration_Model
     {
-
         public Halcon_Camera_Calibration_Model()
         {
             Read_Calibration_Plate_File();
         }
-
 
         /// <summary>
         /// 标定相机类型
         /// </summary>
         //public Halcon_Camera_Calibration_Parameters_Model Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
 
-
         /// <summary>
         /// 相机标定类型
         /// </summary>
         public Halcon_Calibration_Setup_Model_Enum Calibration_Setup_Model { set; get; } = Halcon_Calibration_Setup_Model_Enum.calibration_object;
-
 
         /// <summary>
         /// 手眼标定校正模式
         /// </summary>
         public HandEye_Optimization_Method_Enum HandEye_Optimization_Method { set; get; } = HandEye_Optimization_Method_Enum.stochastic;
 
-
-
         /// <summary>
         /// 标定结果保存文件夹
         /// </summary>
         public string HandEye_Result_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File\\";
-
-
 
         /// <summary>
         /// 标定板厚度mm
@@ -877,7 +923,7 @@ namespace Halcon_SDK_DLL.Model
         public double Halcon_CaltabThickness { set; get; } = 2;
 
         /// <summary>
-        ///  标定相机数量 
+        ///  标定相机数量
         /// </summary>
         public int Haclon_Camera_number { set; get; } = 0;
 
@@ -885,7 +931,6 @@ namespace Halcon_SDK_DLL.Model
         /// 标定板图像数量
         /// </summary>
         public int Haclon_Calibration_Image_number { get; } = 10;
-
 
         /// <summary>
         /// 标定板默认数量：1
@@ -902,11 +947,11 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public bool Halcon_Find_Calib_Model { set; get; } = false;
 
-
         /// <summary>
         /// 手眼标定的旋转容差：单位度
         /// </summary>
         public double HandEye_Calibration_Check_Rotation { set; get; } = 5;
+
         /// <summary>
         /// 手眼标定的平移容差：单位mm
         /// </summary>
@@ -917,20 +962,16 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public List<FileInfo> Calibration_Plate_List { set; get; } = new List<FileInfo>();
 
-
         /// <summary>
         /// 选择标定板类型
         /// </summary>
         public FileInfo? Selected_Calibration_Pate_Address { set; get; }
-
-
 
         /// <summary>
         /// 读取标定板类型文件方法
         /// </summary>
         public void Read_Calibration_Plate_File()
         {
-
             //固定标定板存放位置
             string _address = Directory.GetCurrentDirectory() + "\\Calibration_File\\CalTabFile";
 
@@ -940,7 +981,6 @@ namespace Halcon_SDK_DLL.Model
             //获得的文件夹内文件
             FileInfo[] Files = new DirectoryInfo(_address).GetFiles();
 
-
             //读取标定板文件
             foreach (var file in Files)
             {
@@ -948,25 +988,10 @@ namespace Halcon_SDK_DLL.Model
                 {
                     //添加到列表中
                     Calibration_Plate_List.Add(file);
-
-
-
                 }
             }
-
-
         }
-
-
     }
-
-
-
-
-
-
-
-
 
     public class Match_Models_List_Model
     {
@@ -974,30 +999,37 @@ namespace Halcon_SDK_DLL.Model
         /// 模型号
         /// </summary>
         public int Match_ID { set; get; }
+
         /// <summary>
         /// 模型文件
         /// </summary>
         public FileInfo? Match_File { set; get; }
+
         /// <summary>
         /// 模型区域
         /// </summary>
         public ShapeModel_Name_Enum Match_Area { set; get; }
+
         /// <summary>
         /// 模型匹配类型
         /// </summary>
         public Shape_Based_Model_Enum Match_Model { set; get; }
+
         /// <summary>
         /// 模型文件格式类型
         /// </summary>
         public Match_FileName_Type_Enum File_Type { set; get; }
+
         /// <summary>
         /// 模型文件号
         /// </summary>
         public int Match_No { set; get; }
+
         /// <summary>
         /// 匹配模型预存类型
         /// </summary>
         public Halcon_Method_Model Model { set; get; } = new Halcon_Method_Model();
+
         /// <summary>
         /// 获得模型文件名
         /// </summary>
@@ -1007,16 +1039,13 @@ namespace Halcon_SDK_DLL.Model
             return Match_ID + (int)Match_Model + Match_No + "." + File_Type;
         }
     }
+
     /// <summary>
     /// 集合算子运行情况属性
     /// </summary>
     [AddINotifyPropertyChangedInterface]
     public class HPR_Status_Model<T1>
     {
-
-
-
-
         /// <summary>
         /// 泛型类型委托声明
         /// </summary>
@@ -1028,31 +1057,24 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public static HVS_T_delegate<string>? HVS_ErrorInfo_delegate { set; get; }
 
-
-
-
-
         public HPR_Status_Model(HVE_Result_Enum _Status)
         {
             Result_Status = _Status;
-
-
         }
 
         public HPR_Status_Model()
         {
-
         }
 
         /// <summary>
         /// 运行错误状态
         /// </summary>
         public HVE_Result_Enum Result_Status { set; get; } = HVE_Result_Enum.Run_OK;
+
         /// <summary>
         /// 运行错误详细信息
         /// </summary>
         private string _Result_Error_Info = string.Empty;
-
 
         public string Result_Error_Info
         {
@@ -1061,13 +1083,9 @@ namespace Halcon_SDK_DLL.Model
             {
                 _Result_Error_Info = value;
 
-
                 HVS_ErrorInfo_delegate?.Invoke(GetResult_Info());
             }
         }
-
-
-
 
         /// <summary>
         /// 结果值
@@ -1086,11 +1104,10 @@ namespace Halcon_SDK_DLL.Model
             }
             else
             {
-
-
                 return false;
             }
         }
+
         /// <summary>
         /// 获得算法运行状态信息
         /// </summary>
@@ -1098,12 +1115,9 @@ namespace Halcon_SDK_DLL.Model
         /// <returns></returns>
         public string GetResult_Info()
         {
-
-
             return Result_Status.ToString() + " " + Result_Error_Info;
         }
     }
-
 
     /// <summary>
     /// 标定图像集合模型参数
@@ -1120,35 +1134,23 @@ namespace Halcon_SDK_DLL.Model
         /// 主相机
         /// </summary>
         public Calibration_Image_Camera_Model Camera_0 { set; get; } = new Calibration_Image_Camera_Model();
+
         /// <summary>
         /// 副相机
         /// </summary>
         public Calibration_Image_Camera_Model Camera_1 { set; get; } = new Calibration_Image_Camera_Model();
-
-
-
-
-
 
         /// <summary>
         /// 标定板位置
         /// </summary>
         public Point_Model Calibration_Plate_Pos { set; get; } = new Point_Model();
 
-
-
         public Point_Model HandEye_Robot_Pos { set; get; } = new Point_Model();
-
-
-
-
-
 
         /// <summary>
         /// 相机控制类型
         /// </summary>
         public Camera_Connect_Control_Type_Enum Camera_No { set; get; } = Camera_Connect_Control_Type_Enum.Camera_0;
-
 
         //public void Set_HImage(HObject _Image)
         //{
@@ -1189,30 +1191,25 @@ namespace Halcon_SDK_DLL.Model
         //    }
         //}
 
-
         public void Set_Parameter_Val(Calibration_Image_Camera_Model _Model)
         {
-
             switch (Camera_No)
             {
                 case Camera_Connect_Control_Type_Enum.双目相机:
 
                     break;
+
                 case Camera_Connect_Control_Type_Enum.Camera_0:
 
                     Camera_0 = _Model;
 
                     break;
+
                 case Camera_Connect_Control_Type_Enum.Camera_1:
                     Camera_1 = _Model;
 
                     break;
-
             }
-
-
-
-
         }
 
         public void Dispose()
@@ -1226,8 +1223,6 @@ namespace Halcon_SDK_DLL.Model
         }
     }
 
-
-
     [AddINotifyPropertyChangedInterface]
     public class Calibration_Plate_Pos_Model
     {
@@ -1235,7 +1230,6 @@ namespace Halcon_SDK_DLL.Model
         /// 标定图像序号
         /// </summary>
         public int Calibration_No { set; get; } = 0;
-
 
         public Point_Model Plate_Point { set; get; } = new Point_Model();
 
@@ -1245,21 +1239,18 @@ namespace Halcon_SDK_DLL.Model
         public string Calibration_State { set; get; } = "";
     }
 
-
     [AddINotifyPropertyChangedInterface]
     public class Point_Model
     {
-
         public Point_Model()
         {
-
         }
+
         public Point_Model(Point_Model _Point)
         {
             HPose = new HPose(_Point.HPose);
             HType = _Point.HType;
         }
-
 
         public double X { set; get; } = 0;
         public double Y { set; get; } = 0;
@@ -1272,7 +1263,6 @@ namespace Halcon_SDK_DLL.Model
         /// 读取位置点类型
         /// </summary>
         public Halcon_Pose_Type_Enum HType { set; get; } = Halcon_Pose_Type_Enum.gba;
-
 
         private HPose _HPose = new HPose();
 
@@ -1289,10 +1279,6 @@ namespace Halcon_SDK_DLL.Model
             }
         }
 
-
-
-
-
         /// <summary>
         /// 设置位置显示方法
         /// </summary>
@@ -1301,13 +1287,9 @@ namespace Halcon_SDK_DLL.Model
         {
             if (_Pose.RawData.Length != 0)
             {
-
-
-
                 if (_Pose.RawData.Length == 7)
                 {
                     HType = (Halcon_Pose_Type_Enum)(int)_Pose[6];
-
                 }
                 X = _Pose[0] * 1000;
                 Y = _Pose[1] * 1000;
@@ -1316,10 +1298,7 @@ namespace Halcon_SDK_DLL.Model
                 Ry = _Pose[4];
                 Rz = _Pose[5];
             }
-
-
         }
-
 
         /// <summary>
         /// 获得对应机器人的位姿
@@ -1328,51 +1307,39 @@ namespace Halcon_SDK_DLL.Model
         /// <returns></returns>
         public Point_Model Get_HPos(Robot_Type_Enum _Robot)
         {
-
             Point_Model _Pos = new Point_Model();
-
-
 
             switch (_Robot)
             {
                 case Robot_Type_Enum.KUKA:
 
-
                     _Pos = new Point_Model() { X = X, Y = Y, Z = Z, Rx = Rz, Ry = Ry, Rz = Rx };
 
-
-
                     break;
+
                 case Robot_Type_Enum.ABB:
 
                     _Pos = new Point_Model() { X = X, Y = Y, Z = Z, Rx = Rx, Ry = Ry, Rz = Rz };
 
                     //需要四元数转换
                     break;
+
                 case Robot_Type_Enum.川崎:
 
                     //_Pos.CreatePose(X / 1000, Y / 1000, Z / 1000, Rx, Ry, Rz, "Rp+T", "gba", "point");
-
-
 
                     break;
 
                 case Robot_Type_Enum.通用:
 
-
                     //_Pos.CreatePose(X, Y, Z, Rx, Ry, Rz, "Rp+T", "gba", "point");
-
 
                     break;
             }
 
-
-
             //HTuple _Pos=new HTuple();
 
-
             return _Pos;
-
         }
 
         /// <summary>
@@ -1385,30 +1352,21 @@ namespace Halcon_SDK_DLL.Model
         {
             try
             {
-
-
                 //窗口同步模型下运行保存
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-
-
                     if (!Checked_SaveFile(_File, _name))
                     {
                         //HPose _Pos = new HPose(X/1000, Y/1000, Z / 1000, A, B, C, "Rp+T", "gba", "point");
                         HPose.WritePose(_File + _name + ".dat");
                     }
-
                 });
             }
             catch (Exception _e)
             {
-
                 throw new Exception(_name + "：位姿文件保存失败！原因：" + _e.Message);
             }
-
-
         }
-
 
         /// <summary>
         /// 检查保存文件是否存在？
@@ -1416,10 +1374,6 @@ namespace Halcon_SDK_DLL.Model
         /// <returns></returns>
         private bool Checked_SaveFile(string _File, string _name)
         {
-
-
-
-
             ////检查文件夹，创建
             if (!Directory.Exists(_File)) Directory.CreateDirectory(_File);
 
@@ -1429,22 +1383,13 @@ namespace Halcon_SDK_DLL.Model
             if (File.Exists(_File_Address += ".dat"))
             {
                 if (MessageBox.Show("位资文件：" + _name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
-
             }
             else
             {
                 return false;
             }
-
         }
-
-
     }
-
-
-
-
-
 
     /// <summary>
     /// 相机标定误差模型
@@ -1452,7 +1397,6 @@ namespace Halcon_SDK_DLL.Model
     [AddINotifyPropertyChangedInterface]
     public class HandEye_RMS_Max_Error_Model
     {
-
         public double RMS_Translational { set; get; } = 0;
 
         public double RMS_Rotational { set; get; } = 0;
@@ -1461,7 +1405,6 @@ namespace Halcon_SDK_DLL.Model
 
         public double Maximum_Rotational { set; get; } = 0;
 
-
         public void Set_Data(HTuple _Data)
         {
             RMS_Translational = _Data.TupleSelect(0) * 1000;
@@ -1469,13 +1412,7 @@ namespace Halcon_SDK_DLL.Model
             Maximum_Translational = _Data.TupleSelect(2) * 1000;
             Maximum_Rotational = _Data.TupleSelect(3);
         }
-
     }
-
-
-
-
-
 
     /// <summary>
     /// 标定相机集合类型
@@ -1483,35 +1420,23 @@ namespace Halcon_SDK_DLL.Model
     [AddINotifyPropertyChangedInterface]
     public class Caliration_AllCamera_Results_Model
     {
-
         public Calibration_Camera_Data_Results_Model Camera_0_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
 
         public Calibration_Camera_Data_Results_Model Camera_1_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
-
     }
-
-
-
-
 
     [AddINotifyPropertyChangedInterface]
     public class Calibration_Camera_Data_Results_Model
     {
-
         public Calibration_Camera_Data_Results_Model(Calibration_Camera_Data_Results_Model _Results_Model)
         {
             Camera_Calib_Error = _Results_Model.Camera_Calib_Error;
             Camera_Result_Pama = _Results_Model.Camera_Result_Pama;
             Calibration_Name = _Results_Model.Calibration_Name;
-
         }
 
         public Calibration_Camera_Data_Results_Model()
         {
-
-
-
-
         }
 
         /// <summary>
@@ -1519,14 +1444,10 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public Camera_Calinration_Process_Enum Camera_Calinration_Process_Type { set; get; } = Camera_Calinration_Process_Enum.Uncalibrated;
 
-
-
         /// <summary>
         /// 相机结果保存文件夹
         /// </summary>
         public string Result_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File";
-
-
 
         /// <summary>
         /// 相机标定参数
@@ -1538,19 +1459,15 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public string Calibration_Name { set; get; } = string.Empty;
 
-
         /// <summary>
         /// 保存相机内参文件地址
         /// </summary>
         private string Save_File_Address { set; get; } = string.Empty;
 
-
-
         /// <summary>
         /// 手眼校准成功后，将返回使用校正工具姿势的完整变换链的姿势误差
         /// </summary>
         public HandEye_RMS_Max_Error_Model HandEye_Tool_in_Pase_Pose_Corrected_Error { set; get; } = new HandEye_RMS_Max_Error_Model();
-
 
         /// <summary>
         /// 手眼校准成功后，将返回使用校正工具姿势的完整变换链的姿势误差。
@@ -1562,13 +1479,10 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public double Camera_Calib_Error_Corrected_Tool { set; get; } = 0;
 
-
         /// <summary>
         /// 摄像机系统优化后投影的均方根误差（RMSE）。通常情况下，在执行手眼校准（calibrate_hand_eye）后会查询此误差，在此过程中会对摄像机系统进行内部校准，但不会返回摄像机校准的误差
         /// </summary>
         public HandEye_RMS_Max_Error_Model HandEye_Calib_Error { set; get; } = new HandEye_RMS_Max_Error_Model();
-
-
 
         /// <summary>
         /// 以机器人基准坐标表示的机器人工具输入位置的标准平移偏差
@@ -1580,7 +1494,6 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public double HandEye_Tool_Rotational_Deviation { set; get; } = 0;
 
-
         /// <summary>
         /// 标定结果像素误差:单位像素
         /// </summary>
@@ -1590,7 +1503,6 @@ namespace Halcon_SDK_DLL.Model
         ///  使用校正工具姿势的完整转换链的姿态误差
         /// </summary>
         //public double Camera_Calib_Error_Corrected_Tool { set; get; } = 0;
-
 
         /// <summary>
         /// 机器人工具在相机坐标系中的姿态
@@ -1602,23 +1514,14 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public Point_Model HandEye_Tool_in_Cam_Pose_Deviations { set; get; } = new Point_Model();
 
-
         /// <summary>
         /// 相机在机器人基坐标中的姿态
         /// </summary>
         public Point_Model HandEye_Cam_In_Base_Pos { set; get; } = new Point_Model();
 
-
-
-
         public Point_Model HandEye_Obj_In_Base_Pose { set; get; } = new Point_Model();
 
-
-
         public Point_Model HandEye_Obj_In_Base_Pose_Deviations { set; get; } = new Point_Model();
-
-
-
 
         /// <summary>
         /// 检查保存文件是否存在？
@@ -1626,10 +1529,6 @@ namespace Halcon_SDK_DLL.Model
         /// <returns></returns>
         public bool Checked_SaveFile()
         {
-
-
-
-
             ////检查文件夹，创建
             if (!Directory.Exists(Result_Fold_Address)) Directory.CreateDirectory(Result_Fold_Address);
 
@@ -1638,17 +1537,12 @@ namespace Halcon_SDK_DLL.Model
 
             if (File.Exists(Save_File_Address += ".dat"))
             {
-
-
                 if (MessageBox.Show("相机内参文件：" + Calibration_Name + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
-
             }
             else
             {
                 return false;
             }
-
-
         }
 
         /// <summary>
@@ -1657,42 +1551,24 @@ namespace Halcon_SDK_DLL.Model
         /// <exception cref="Exception"></exception>
         public void Save_Camera_Parameters()
         {
-
-
-
             Camera_Calinration_Process_Type.Throw(Calibration_Name + "：未进行手眼标定！").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
-
 
             if (Camera_Result_Pama.HCamPar != null)
             {
-
                 //窗口同步模式运行
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-
                     if (!Checked_SaveFile())
                     {
-
                         Camera_Result_Pama.HCamPar.WriteCamPar(Save_File_Address);
-
                     }
-
                 });
-
-
             }
             else
             {
                 throw new Exception("未进行相机标定，无法保存！");
-
             }
-
-
-
-
-
         }
-
 
         /// <summary>
         /// 手眼标定结果保存
@@ -1701,18 +1577,11 @@ namespace Halcon_SDK_DLL.Model
         /// <param name="_Results"></param>
         public void HandEye_Results_Save()
         {
-
             //保存相机内参
             Save_Camera_Parameters();
             //保存相机在工具坐标
             HandEye_Tool_in_Cam_Pos.Pos_Save(Result_Fold_Address, "HandEyeToolinCam_" + Calibration_Name);
-
-
-
         }
-
-
-
     }
 
     /// <summary>
@@ -1725,15 +1594,18 @@ namespace Halcon_SDK_DLL.Model
         /// 模型是否可读取
         /// </summary>
         public bool IsRead { set; get; } = false;
+
         /// <summary>
         /// 模型是否创建
         /// </summary>
         public bool IsEnable { set; get; } = true;
+
         /// <summary>
         /// 模型类型
         /// </summary>
         public Shape_Based_Model_Enum Shape_Based_Model { set; get; }
     }
+
     /// <summary>
     /// 模型文件参数属性
     /// </summary>
@@ -1744,23 +1616,28 @@ namespace Halcon_SDK_DLL.Model
         /// 模型文件id号
         /// </summary>
         public int File_ID { set; get; } = -1;
+
         /// <summary>
         /// 45区域是否可读属性
         /// </summary>
         public bool IsRead_F45 { set; get; } = false;
+
         /// <summary>
         /// 135区域是否可读属性
         /// </summary>
         public bool IsRead_F135 { set; get; } = false;
+
         /// <summary>
         /// 225区域是否可读属性
         /// </summary>
         public bool IsRead_F225 { set; get; } = false;
+
         /// <summary>
         /// 315区域是否可读属性
         /// </summary>
         public bool IsRead_F315 { set; get; } = false;
     }
+
     /// <summary>
     /// 选择模型序号显示详细信息
     /// </summary>
@@ -1770,6 +1647,7 @@ namespace Halcon_SDK_DLL.Model
         public string File_Name { set; get; } = string.Empty;
         public string File_Directory { set; get; } = Environment.CurrentDirectory + "\\ShapeModel";
     }
+
     /// <summary>
     /// 画画类型枚举
     /// </summary>
@@ -1777,10 +1655,11 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("直线")]
         Draw_Lin,
+
         [Description("圆弧")]
         Draw_Cir,
-        [Description("完成")]
 
+        [Description("完成")]
         Draw_Ok
     }
 
@@ -1794,10 +1673,12 @@ namespace Halcon_SDK_DLL.Model
         ///绘图_类型
         /// </summary>
         public Drawing_Type_Enme Drawing_Type { set; get; } = new Drawing_Type_Enme();
+
         /// <summary>
         /// 绘画数据
         /// </summary>
         public ObservableCollection<Point3D> Drawing_Data { set; get; } = new ObservableCollection<Point3D>();
+
         /// <summary>
         /// 数据计算xld类型存放
         /// </summary>
@@ -1807,25 +1688,19 @@ namespace Halcon_SDK_DLL.Model
     [AddINotifyPropertyChangedInterface]
     public class Calibration_Image_Camera_Model : IDisposable
     {
-
         public Calibration_Image_Camera_Model()
         {
-
         }
-
-
 
         /// <summary>
         /// 标定精度
         /// </summary>
         public double Calibration_Accuracy { set; get; } = 0;
 
-
         /// <summary>
         /// 标定图像
         /// </summary>
         public HObject? Calibration_Image { set; get; }
-
 
         /// <summary>
         /// 标定板特征
@@ -1837,14 +1712,10 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public HObject Calibration_XLD { set; get; } = new HObject();
 
-
         /// <summary>
         /// 标定模型
         /// </summary>
         public List<HObjectModel3D> Calibration_3D_Model { set; get; } = new List<HObjectModel3D>();
-
-
-
 
         //相机名称图像的
         public string Carme_Name { set; get; } = string.Empty;
@@ -1854,20 +1725,14 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public Camera_Calibration_Image_State_Enum Calibration_State { set; get; } = Camera_Calibration_Image_State_Enum.None;
 
-
-
-
         /// <summary>
         /// 清理模型内存
         /// </summary>
         public void Dispose()
         {
-
-
             Calibration_Image?.Dispose();
             Calibration_Region?.Dispose();
             Calibration_XLD?.Dispose();
-
 
             foreach (var _model in Calibration_3D_Model)
             {
@@ -1878,12 +1743,8 @@ namespace Halcon_SDK_DLL.Model
 
             GC.Collect();
             GC.SuppressFinalize(this);
-
         }
     }
-
-
-
 
     /// <summary>
     /// 相机标定
@@ -1895,14 +1756,13 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         [Description("面扫描_普通式")]
         area_scan_division,
+
         /// <summary>
         /// 面扫相机_多项式
         /// </summary>
         [Description("面扫描_多项式")]
         area_scan_polynomial
     }
-
-
 
     /// <summary>
     /// Halcon 标定模式枚举
@@ -1916,10 +1776,6 @@ namespace Halcon_SDK_DLL.Model
         hand_eye_stationary_cam
     }
 
-
-
-
-
     /// <summary>
     /// 查找模型位置预处理方法名称枚举
     /// </summary>
@@ -1929,15 +1785,18 @@ namespace Halcon_SDK_DLL.Model
         /// 增强图像的对比度。
         /// </summary>
         Emphasize,
+
         /// <summary>
         /// 计算带有矩形掩码的中值滤波器。
         /// </summary>
         MedianRect,
+
         /// <summary>
         /// 最大灰度值分布在值范围0到255 中。
         /// </summary>
         ScaleImageMax,
     }
+
     /// <summary>
     /// 获得泛指名称
     /// </summary>
@@ -1948,6 +1807,7 @@ namespace Halcon_SDK_DLL.Model
         medium,
         small
     }
+
     public enum Shape_Model_Type_Enum
     {
         Create_Shape_Model,
@@ -1955,6 +1815,7 @@ namespace Halcon_SDK_DLL.Model
         Create_Local_Model,
         Create_Scaled_Model
     }
+
     /// <summary>
     /// 查找匹配模型类型
     /// </summary>
@@ -1965,6 +1826,7 @@ namespace Halcon_SDK_DLL.Model
         Local_Deformable_Model,
         Scale_Model
     }
+
     /// <summary>
     /// 中值滤波器滤镜遮罩类型枚举
     /// </summary>
@@ -1972,9 +1834,11 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("圆形")]
         circle,
+
         [Description("正方形")]
         square
     }
+
     /// <summary>
     /// 中值滤波器边境处理类型枚举。
     /// </summary>
@@ -1982,11 +1846,14 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("边缘反射")]
         mirrored,
+
         [Description("边缘循环延续")]
         cyclic,
+
         [Description("边缘延续")]
-                continued,
+        continued,
     }
+
     /// <summary>
     /// 匹配模型后缀类型
     /// </summary>
@@ -1997,6 +1864,7 @@ namespace Halcon_SDK_DLL.Model
         dfm,
         shm
     }
+
     /// <summary>
     /// 形状匹配模板类型枚举
     /// </summary>
@@ -2005,36 +1873,40 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 一般形状匹配模板
         /// </summary>
-        /// 
+        ///
         [Description("一般形状模板")]
         shape_model,
+
         /// <summary>
         /// 线性变形匹配模板
         /// </summary>
         [Description("线性变形匹配模板")]
         planar_deformable_model,
+
         /// <summary>
         /// 局部可变形模板
         /// </summary>
         [Description("局部可变形模板")]
         local_deformable_model,
+
         /// <summary>
         /// 和比例缩放模板
         /// </summary>
         [Description("比例缩放模板")]
         Scale_model,
+
         /// <summary>
         /// 相关性匹配模板
         /// </summary>
         [Description("相关性匹配模板")]
         Ncc_Model,
+
         /// <summary>
         /// Halcon通用保存格式
         /// </summary>
         [Description("通用保存格式")]
         Halcon_DXF
     }
-
 
     /// <summary>
     /// 匹配模型焊接工艺轮廓
@@ -2043,14 +1915,7 @@ namespace Halcon_SDK_DLL.Model
     {
         焊接盆胆R角,
         焊接面板围边
-
-
-
     }
-
-
-
-
 
     public enum FilePath_Type_Model_Enum
     {
@@ -2058,11 +1923,13 @@ namespace Halcon_SDK_DLL.Model
         /// 文件路径获取
         /// </summary>
         Get,
+
         /// <summary>
         /// 文件路径保存
         /// </summary>
         Save,
     }
+
     /// <summary>
     /// 匹配模型位置名称
     /// </summary>
@@ -2070,13 +1937,17 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("区域 1")]
         F_45,
+
         [Description("区域 2")]
         F_135,
+
         [Description("区域 3")]
         F_225,
+
         [Description("区域 4")]
         F_315
     }
+
     /// <summary>
     /// 工装号数
     /// </summary>
@@ -2088,6 +1959,7 @@ namespace Halcon_SDK_DLL.Model
         Work_3,
         Work_4
     }
+
     /// <summary>
     /// 对于特别大的模型，通过设置来减少模型点的数量可能很有用optimization更改为不同于“无”.如果optimization = “无”，则存储所有模型点。在所有其他情况下，点数根据optimization.如果点数减少，则可能需要FindScaledShapeModel将参数设置为较小的值，例如 0.7 或 0.8。对于小型模型，模型点数量的减少不会导致搜索速度加快，因为在这种情况下，通常必须检查模型的更多潜在实例
     /// </summary>
@@ -2095,19 +1967,26 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("自动")]
         auto,
+
         [Description("不预生成")]
         no_pregeneration,
+
         [Description("无")]
         none,
+
         [Description("生成点数减少高")]
         point_reduction_high,
+
         [Description("生成点数减少底")]
         point_reduction_low,
+
         [Description("生成点数减少中")]
         point_reduction_medium,
+
         [Description("预生成")]
         pregeneration
     }
+
     /// <summary>
     /// 参数metric确定在图像中识别模型的条件。
     /// </summary>
@@ -2115,13 +1994,17 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("忽略颜色极性")]
         ignore_color_polarity,
+
         [Description("忽略全局极性")]
         ignore_global_polarity,
+
         [Description("忽略本地极性")]
         ignore_local_polarity,
+
         [Description("使用极性")]
         use_polarity
     }
+
     /// <summary>
     /// 亚像素精度枚举
     /// </summary>
@@ -2129,15 +2012,20 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("无")]
         none,
+
         [Description("插值")]
         interpolation,
+
         [Description("最小二乘法")]
         least_squares,
+
         [Description("最小二乘法高")]
         least_squares_high,
+
         [Description("最小二乘法非常高")]
         least_squares_very_high,
     }
+
     /// <summary>
     /// 获得采集图片方式
     /// </summary>
@@ -2145,12 +2033,7 @@ namespace Halcon_SDK_DLL.Model
     {
         相机采集,
         图像采集,
-        触发采集
     }
-
-
-
-
 
     public enum HFIle_Type_Enum
     {
@@ -2158,37 +2041,46 @@ namespace Halcon_SDK_DLL.Model
         /// 将打开已存在的输入文件以文本格式进行读取。
         /// </summary>
         input,
+
         /// <summary>
         /// 将打开一个新的输出文件以文本格式写入。
         /// </summary>
         output,
+
         /// <summary>
         /// 一个已经存在的输出文件被打开，在文件的最后以文本格式写入。
         /// </summary>
         append,
+
         /// <summary>
         /// 一个已经存在的输入文件被打开以读取二进制格式。
         /// </summary>
         input_binary,
+
         /// <summary>
         /// 一个新的输出文件被打开，用于写入二进制格式的文件。
         /// </summary>
         output_binary,
+
         /// <summary>
         /// 一个已经存在的输出文件被打开，在文件的最后以二进制格式写入。
         /// 对于文本文件，传递给fileType的元组可以通过以下编码设置之一进行扩展：
         /// </summary>
         append_binary,
+
         /// <summary>
         /// 文件中的字符串是以UTF-8编码的。这是默认的，所以对于UTF-8编码的文件和所有只使用纯7位US-ASCII字符的文件，这个值可以省略。
         /// </summary>
         utf8_encoding,
+
         /// <summary>
         /// 文件中的字符串以本地8位编码进行编码，这取决于系统当前的locale设置。有效的编码定义，例如，在Windows下由1252（微软的Latin-1方言）或932（Shift-JIS）代码页定义，或在Linux下由en_US.utf8、de_DE.iso885915或ja_JP.sjis等区域性编码定义。
         /// </summary>
         locale_encoding,
+
         ignore_encoding
     }
+
     /// <summary>
     /// 标定错误消息返回
     /// </summary>
@@ -2253,9 +2145,6 @@ namespace Halcon_SDK_DLL.Model
         未进行相机标定无法保存,
     }
 
-
-
-
     /// <summary>
     /// 显示类型
     /// </summary>
@@ -2265,9 +2154,8 @@ namespace Halcon_SDK_DLL.Model
         Region,
         XLD,
         SetDrawColor,
-
-
     }
+
     /// <summary>
     /// 窗口显示变量
     /// </summary>
@@ -2275,8 +2163,10 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("相机视角页面")]
         Live_Window,
+
         [Description("图像特征页面")]
         Features_Window,
+
         Results_Window_1,
         Results_Window_2,
         Results_Window_3,
@@ -2300,7 +2190,6 @@ namespace Halcon_SDK_DLL.Model
         margin
     }
 
-
     /// <summary>
     /// 手眼标定设备模型状态枚举
     /// </summary>
@@ -2310,12 +2199,11 @@ namespace Halcon_SDK_DLL.Model
         /// 在线模型
         /// </summary>
         Online,
+
         /// <summary>
         /// 本地模式
         /// </summary>
         Local
-
-
     }
 
     /// <summary>
@@ -2327,16 +2215,17 @@ namespace Halcon_SDK_DLL.Model
         /// 未标定
         /// </summary>
         Uncalibrated,
+
         /// <summary>
         /// 标定中状态
         /// </summary>
         Calibrationing,
+
         /// <summary>
         /// 标定成功
         /// </summary>
         Calibration_Successful
     }
-
 
     /// <summary>
     /// 图像标定检测状态
@@ -2345,17 +2234,18 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("...")]
         None,
+
         [Description("图像加载...")]
         Image_Loading,
+
         [Description("图像检测中...")]
         Image_Detectioning,
 
         [Description("图像检测成功...")]
         Image_Successful,
+
         [Description("图像检测异常...")]
         Image_UnSuccessful,
-
-
     }
 
     /// <summary>
@@ -2368,6 +2258,7 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         [Description("X-Y-Z")]
         gba = 0,
+
         /// <summary>
         /// "Rp+T"	"abg"	"point"
         /// </summary>
@@ -2383,8 +2274,6 @@ namespace Halcon_SDK_DLL.Model
         Calibration_Start,
         Calibration_Progress,
         Calibration_End
-
-
     }
 
     /// <summary>
@@ -2392,7 +2281,6 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum Vision_Model_Enum
     {
-
         Calibration_New,
         Calibration_Text,
         Calibration_Add,
@@ -2401,19 +2289,15 @@ namespace Halcon_SDK_DLL.Model
         HandEye_Calib_Date,
     }
 
-
     public enum Robot_Type_Enum
     {
         [Description("KUKA -->(Z-Y-X)")]
         KUKA,
+
         [Description("ABB -->(Z-Y-X)")]
         ABB,
+
         川崎,
         通用
-
-
     }
-
-
-
 }

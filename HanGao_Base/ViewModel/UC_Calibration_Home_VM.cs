@@ -1599,15 +1599,15 @@ namespace HanGao.ViewModel
 
                         HImage _Image = new HImage();
 
-                        MVS_Image_Mode _MVS_Image = _Select_Camera.GetOneFrameTimeout();
+                        MVS_Image_Mode _MVS_Image = _Select_Camera.MVS_GetOneFrameTimeout();
 
                         ///获得图像才开始识别流程
                         if (_MVS_Image != null)
                         {
 
                             //发送到图像显示
-                            if (Halcon_SDK.Mvs_To_Halcon_Image(ref _Image, _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData))
-                            {
+                              _Image= Halcon_SDK.Mvs_To_Halcon_Image( _MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData);
+                            
                                 //设置标定内参
 
                                 Camer_Check_LiveImage = Halcon_Camera_Calibra.Check_CalibObject_Features(_Image, Camera_Interna_Parameters);
@@ -1621,7 +1621,7 @@ namespace HanGao.ViewModel
                                 Halcon_Window_Display.Display_HObject(_Select_Camera.Show_Window,_XLD: Camer_Check_LiveImage._CalibXLD);
 
                                 });
-                            }
+                            
                         }
 
                         //根据循环模式读取
