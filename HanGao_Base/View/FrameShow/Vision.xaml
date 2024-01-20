@@ -37,27 +37,9 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>-->
 
-        <ObjectDataProvider x:Key="ShapeModel_Name_Enum_Model"
-                            MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Halcon_Enum:ShapeModel_Name_Enum" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="Metric_Enum_Model"
-                            MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Halcon_Enum:Metric_Enum" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="Shape_Based_Model_Enum"
-                            MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Halcon_Enum:Shape_Based_Model_Enum" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+
+
+
         <DataTemplate x:Key="Result_ListViewItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding}"
@@ -134,7 +116,7 @@
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Results_Window_Button" Grid.Column=" 1"
-                                         IsChecked="True"
+                                         IsChecked="False"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -156,7 +138,7 @@
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Features_Window_Button" Grid.Column=" 2"
-                                         IsChecked="False"
+                                         IsChecked="True"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -939,22 +921,38 @@
                                     </MenuItem>
                                     <Separator />
                                     <MenuItem x:Name="Lin_Draw_Ok" Header="特征组合直线">
-                                        <i:Interaction.Triggers>
+                                        <Menu>
+                                            <Menu.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical" />
+                                                </ItemsPanelTemplate>
+                                            </Menu.ItemsPanel>
+                                            <MenuItem Header="1：R角中轮廓线" />
+                                            <MenuItem Header="2 ：盆胆侧轮廓线" />
+                                            <MenuItem Header="3： 盆胆侧轮廓线" />
+                                        </Menu>
+                                        <!--<i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding Lin_Draw_Ok_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                        </i:Interaction.Triggers>-->
                                     </MenuItem>
                                     <MenuItem x:Name="Cir_Draw_Ok" Header="特征组合圆弧">
-                                        <i:Interaction.Triggers>
+                                        <Menu>
+                                            <MenuItem Header="1：R角中轮廓线" />
+                                            <MenuItem Header="2 ：盆胆侧轮廓线" />
+                                            <MenuItem Header="3： 盆胆侧轮廓线" />
+                                        </Menu>
+
+                                        <!--<i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding Cir_Draw_Ok_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                        </i:Interaction.Triggers>-->
                                     </MenuItem>
                                     <Separator />
                                     <MenuItem x:Name="Set_Origin" Header="设置特征原点">
@@ -1209,7 +1207,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
-                                     IsChecked="True"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -2636,7 +2634,7 @@
                                                        VerticalAlignment="Center"
                                                        Source="/Resources/Control_创建模型_ioc.png" />
                                             </Border>
-                                            <TextBlock Text="Camera 创建模板"
+                                            <TextBlock Text="图像读取"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -2669,35 +2667,26 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                                      Width=" 100"
                                                       HorizontalAlignment="Left"
                                                       VerticalContentAlignment="Center"
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="{Binding Get_Image_Model, ConverterParameter={x:Type Halcon_Enum:Get_Image_Model_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
-
-
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="相机采集"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="图片采集"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Get_Image_Model_Enum}"
+                                                      SelectedValue="{Binding Camera_Device_List.Get_Image_Model}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="12"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
                                             </ComboBox>
 
 
@@ -2804,237 +2793,6 @@
 
 
                                         </Grid>
-
-
-
-                                        <Grid Margin="8">
-                                            <StackPanel Orientation="Vertical">
-
-
-                                                <DataGrid AlternatingRowBackground="Gainsboro"
-                                                          AlternationCount="2"
-                                                          AutoGenerateColumns="False"
-                                                          Background="Transparent"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
-                                                          CanUserAddRows="False"
-                                                          CanUserDeleteRows="False"
-                                                          CanUserReorderColumns="False"
-                                                          CanUserResizeColumns="False"
-                                                          CanUserResizeRows="False"
-                                                          CanUserSortColumns="False"
-                                                          CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
-                                                          ColumnHeaderHeight="40"
-                                                          ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
-                                                          FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                          FrozenColumnCount="2"
-                                                          GridLinesVisibility="Horizontal"
-                                                          HeadersVisibility="Column"
-                                                          ItemsSource="{Binding Drawing_Data_List}"
-                                                          RowHeaderWidth="0"
-                                                          RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
-                                                          SelectionMode="Single"
-                                                          SelectionUnit="CellOrRowHeader">
-
-                                                    <DataGrid.Columns>
-                                                        <!--<DataGridTemplateColumn Width="auto" IsReadOnly="True">
-                                                <DataGridTemplateColumn.Header>
-                                                    <TextBlock Text="图号"
-                                                               Margin="4"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                </DataGridTemplateColumn.Header>
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Number}"
-                                                                   HorizontalAlignment="Center"
-                                                                   VerticalAlignment="Center"
-                                                                   FontSize="16" />
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-
-                                            </DataGridTemplateColumn>-->
-
-                                                        <DataGridTemplateColumn Width="auto">
-                                                            <DataGridTemplateColumn.Header>
-                                                                <TextBlock Text="类型"
-                                                                           Margin="4"
-                                                                           HorizontalAlignment="Center"
-                                                                           VerticalAlignment="Center"
-                                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                           FontSize="16"
-                                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                            </DataGridTemplateColumn.Header>
-                                                            <DataGridTemplateColumn.CellTemplate>
-                                                                <DataTemplate>
-                                                                    <TextBlock Text="{Binding Drawing_Type}"
-                                                                               Margin="4"
-                                                                               HorizontalAlignment="Center"
-                                                                               VerticalAlignment="Center"
-                                                                               FontSize="14" />
-                                                                </DataTemplate>
-                                                            </DataGridTemplateColumn.CellTemplate>
-
-                                                        </DataGridTemplateColumn>
-
-                                                        <DataGridTemplateColumn Width="auto">
-                                                            <DataGridTemplateColumn.Header>
-
-                                                                <TextBlock Text="方向"
-                                                                           Margin="4"
-                                                                           HorizontalAlignment="Center"
-                                                                           VerticalAlignment="Center"
-                                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                           FontSize="16"
-                                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                            </DataGridTemplateColumn.Header>
-                                                            <DataGridTemplateColumn.CellTemplate>
-                                                                <DataTemplate>
-                                                                    <Grid>
-                                                                        <Grid.RowDefinitions>
-                                                                            <RowDefinition />
-                                                                            <RowDefinition />
-                                                                        </Grid.RowDefinitions>
-                                                                        <TextBlock Grid.Row=" 0"
-                                                                                   Text="X"
-                                                                                   Margin="0"
-                                                                                   HorizontalAlignment="Center"
-                                                                                   VerticalAlignment="Center"
-                                                                                   FontSize="16" />
-                                                                        <TextBlock Grid.Row=" 1"
-                                                                                   Text="Y"
-                                                                                   Margin="0"
-                                                                                   HorizontalAlignment="Center"
-                                                                                   VerticalAlignment="Center"
-                                                                                   FontSize="16" />
-                                                                    </Grid>
-                                                                </DataTemplate>
-                                                            </DataGridTemplateColumn.CellTemplate>
-
-                                                        </DataGridTemplateColumn>
-
-
-                                                        <DataGridTemplateColumn CanUserResize="False">
-                                                            <DataGridTemplateColumn.Header>
-
-                                                                <TextBlock Text="数据"
-                                                                           Margin="4"
-                                                                           HorizontalAlignment="Center"
-                                                                           VerticalAlignment="Center"
-                                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                           FontSize="16"
-                                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                                            </DataGridTemplateColumn.Header>
-                                                            <DataGridTemplateColumn.CellTemplate>
-
-                                                                <DataTemplate>
-                                                                    <Grid HorizontalAlignment="Stretch"
-                                                                          VerticalAlignment="Center"
-                                                                          ShowGridLines="True">
-
-
-                                                                        <ListView Padding="0"
-                                                                                  HorizontalAlignment="Stretch"
-                                                                                  VerticalAlignment="Stretch"
-                                                                                  HorizontalContentAlignment="Stretch"
-                                                                                  VerticalContentAlignment="Stretch"
-                                                                                  Background="Transparent"
-                                                                                  BorderBrush="Transparent"
-                                                                                  BorderThickness="0"
-                                                                                  ItemsSource="{Binding Drawing_Data}"
-                                                                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                                                                  ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                                                                            <ListView.ItemsPanel>
-                                                                                <ItemsPanelTemplate>
-                                                                                    <WrapPanel />
-                                                                                </ItemsPanelTemplate>
-                                                                            </ListView.ItemsPanel>
-                                                                            <ListView.ItemTemplate>
-                                                                                <DataTemplate>
-                                                                                    <Grid>
-                                                                                        <Grid.RowDefinitions>
-                                                                                            <RowDefinition />
-                                                                                            <RowDefinition />
-                                                                                        </Grid.RowDefinitions>
-                                                                                        <TextBlock Grid.Row=" 0"
-                                                                                                   Text="{Binding X}"
-                                                                                                   Margin="0"
-                                                                                                   Padding="2"
-                                                                                                   HorizontalAlignment="Right"
-                                                                                                   VerticalAlignment="Center"
-                                                                                                   FontSize="16"
-                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                                                        <TextBlock Grid.Row=" 1"
-                                                                                                   Text="{Binding Y}"
-                                                                                                   Padding="2"
-                                                                                                   HorizontalAlignment="Right"
-                                                                                                   VerticalAlignment="Center"
-                                                                                                   FontSize="16"
-                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                                                    </Grid>
-                                                                                </DataTemplate>
-                                                                            </ListView.ItemTemplate>
-                                                                        </ListView>
-                                                                    </Grid>
-                                                                </DataTemplate>
-                                                            </DataGridTemplateColumn.CellTemplate>
-                                                        </DataGridTemplateColumn>
-                                                    </DataGrid.Columns>
-                                                </DataGrid>
-
-
-
-                                            </StackPanel>
-
-
-
-                                        </Grid>
-
-
-                                        <Grid Height=" 35" Margin="8">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 80" />
-
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
-
-
-                                            <TextBlock Grid.Column=" 0"
-                                                       Text="特征操作"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-
-                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                                    Margin="0,0,0,0"
-                                                    Background="{DynamicResource 全局_按钮_红颜色}">
-                                                <i:Interaction.Triggers>
-
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Create_Delete_Comm}"
-                                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-
-                                                <TextBlock Text="清除全部特征"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="16"
-                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                            </Button>
-
-                                        </Grid>
-
 
 
 
@@ -3165,6 +2923,7 @@
                             </Grid>-->
 
 
+
                                         <Grid Height=" 34" Margin="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
@@ -3173,19 +2932,19 @@
 
 
                                             <TextBlock Grid.Column=" 0"
-                                                       Text="模板参数"
+                                                       Text="模型工艺"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI" Grid.Column=" 1"
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
                                                       VerticalContentAlignment="Center"
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Binding Source={StaticResource Shape_Based_Model_Enum}}"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Match_Model_Craft_Type_Enum}"
                                                       SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
@@ -3203,6 +2962,260 @@
                                             </ComboBox>
 
                                         </Grid>
+
+
+                                        <Grid Margin="8">
+                                            <StackPanel Orientation="Vertical">
+
+
+                                                <DataGrid AlternatingRowBackground="Gainsboro"
+                                                          AlternationCount="2"
+                                                          AutoGenerateColumns="False"
+                                                          Background="Transparent"
+                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                          BorderThickness="2"
+                                                          CanUserAddRows="False"
+                                                          CanUserDeleteRows="False"
+                                                          CanUserReorderColumns="False"
+                                                          CanUserResizeColumns="False"
+                                                          CanUserResizeRows="False"
+                                                          CanUserSortColumns="False"
+                                                          CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
+                                                          ColumnHeaderHeight="40"
+                                                          ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
+                                                          FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                          FrozenColumnCount="2"
+                                                          GridLinesVisibility="Horizontal"
+                                                          HeadersVisibility="Column"
+                                                          ItemsSource="{Binding Halcon_Shape_Mode.Drawing_Data_List}"
+                                                          RowHeaderWidth="0"
+                                                          RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
+                                                          SelectionMode="Single"
+                                                          SelectionUnit="CellOrRowHeader">
+
+                                                    <DataGrid.Columns>
+
+
+                                                        <DataGridTemplateColumn Width="*">
+                                                            <DataGridTemplateColumn.Header>
+                                                                <TextBlock Text="特征工艺"
+                                                                           Margin="4"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                           FontSize="16"
+                                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                            </DataGridTemplateColumn.Header>
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding Drawing_Type}"
+                                                                               Margin="4"
+                                                                               HorizontalAlignment="Center"
+                                                                               VerticalAlignment="Center"
+                                                                               FontSize="14" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+
+                                                        </DataGridTemplateColumn>
+
+                                                        <!--<DataGridTemplateColumn Width="*">
+                                                            <DataGridTemplateColumn.Header>
+
+                                                                <TextBlock Text="方向"
+                                                                           Margin="4"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                           FontSize="16"
+                                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                            </DataGridTemplateColumn.Header>
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition />
+                                                                            <RowDefinition />
+                                                                        </Grid.RowDefinitions>
+                                                                        <TextBlock Grid.Row=" 0"
+                                                                                   Text="X"
+                                                                                   Margin="0"
+                                                                                   HorizontalAlignment="Center"
+                                                                                   VerticalAlignment="Center"
+                                                                                   FontSize="16" />
+                                                                        <TextBlock Grid.Row=" 1"
+                                                                                   Text="Y"
+                                                                                   Margin="0"
+                                                                                   HorizontalAlignment="Center"
+                                                                                   VerticalAlignment="Center"
+                                                                                   FontSize="16" />
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+
+                                                        </DataGridTemplateColumn>-->
+
+                                                        <!--<DataGridTemplateColumn CanUserResize="False">
+                                                            <DataGridTemplateColumn.Header>
+
+                                                                <TextBlock Text="数据"
+                                                                           Margin="4"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                           FontSize="16"
+                                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                            </DataGridTemplateColumn.Header>
+                                                            <DataGridTemplateColumn.CellTemplate>
+
+                                                                <DataTemplate>
+                                                                    <Grid HorizontalAlignment="Stretch"
+                                                                          VerticalAlignment="Center"
+                                                                          ShowGridLines="True">
+
+
+                                                                        <ListView Padding="0"
+                                                                                  HorizontalAlignment="Stretch"
+                                                                                  VerticalAlignment="Stretch"
+                                                                                  HorizontalContentAlignment="Stretch"
+                                                                                  VerticalContentAlignment="Stretch"
+                                                                                  Background="Transparent"
+                                                                                  BorderBrush="Transparent"
+                                                                                  BorderThickness="0"
+                                                                                  ItemsSource="{Binding Drawing_Data}"
+                                                                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                                                                  ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                                                            <ListView.ItemsPanel>
+                                                                                <ItemsPanelTemplate>
+                                                                                    <WrapPanel />
+                                                                                </ItemsPanelTemplate>
+                                                                            </ListView.ItemsPanel>
+                                                                            <ListView.ItemTemplate>
+                                                                                <DataTemplate>
+                                                                                    <Grid>
+                                                                                        <Grid.RowDefinitions>
+                                                                                            <RowDefinition />
+                                                                                            <RowDefinition />
+                                                                                        </Grid.RowDefinitions>
+                                                                                        <TextBlock Grid.Row=" 0"
+                                                                                                   Text="{Binding X}"
+                                                                                                   Margin="0"
+                                                                                                   Padding="2"
+                                                                                                   HorizontalAlignment="Right"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontSize="16"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                                        <TextBlock Grid.Row=" 1"
+                                                                                                   Text="{Binding Y}"
+                                                                                                   Padding="2"
+                                                                                                   HorizontalAlignment="Right"
+                                                                                                   VerticalAlignment="Center"
+                                                                                                   FontSize="16"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                                    </Grid>
+                                                                                </DataTemplate>
+                                                                            </ListView.ItemTemplate>
+                                                                        </ListView>
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>-->
+
+
+
+
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+
+
+
+                                            </StackPanel>
+
+
+
+                                        </Grid>
+
+
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="特征操作"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Margin="0,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_红颜色}">
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Create_Delete_Comm}"
+                                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                                <TextBlock Text="清除全部特征"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                            </Button>
+
+                                        </Grid>
+
+
+                                        <Grid Height=" 34" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="模板类型"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Shape_Based_Model_Enum}"
+                                                      SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+
+
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+
+                                        </Grid>
+
 
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
@@ -4011,7 +4024,7 @@
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Binding Source={StaticResource Metric_Enum_Model}}"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Metric_Enum}"
                                                       SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.Metric}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
@@ -4247,7 +4260,7 @@
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Binding Source={StaticResource ShapeModel_Name_Enum_Model}}"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:ShapeModel_Name_Enum}"
                                                       SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
@@ -4896,6 +4909,9 @@
 
 
                                         </Grid>
+
+
+
 
 
 
@@ -6154,62 +6170,19 @@
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
-                                                               Text="一般形状匹配参数"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
-                                                               Text="线性变形匹配参数"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
-                                                               Text="局部变形匹配参数"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
-                                                               Text="比例缩放匹配参数"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
-                                                               Text="相关性匹配参数"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Shape_Based_Model_Enum}"
+                                                      SelectedValue="{Binding Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="12"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
                                             </ComboBox>
 
                                         </Grid>

@@ -12,7 +12,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
 
-
+            Drawing_Data_List.Add(new Vision_Create_Model_Drawing_Model());
 
 
         }
@@ -84,5 +84,20 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //    //_ModelsXld.Dispose();
             //}
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Generic_Extension;
+using Halcon_SDK_DLL.Model;
 using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using PropertyChanged;
@@ -32,18 +33,11 @@ namespace MVS_SDK
         /// <summary>
         /// 相机选择信息
         /// </summary>
-        public  MVS_Camera_Info_Model Select_Camera { set; get; } 
-
-        /// <summary>
-        /// 查找相机状态
-        /// </summary>
-        public static  void Initialization_Camera()
-        {
+        public  MVS_Camera_Info_Model Select_Camera { set; get; }
 
 
-       
 
-        }
+        public Get_Image_Model_Enum Get_Image_Model { set; get; } = Get_Image_Model_Enum.相机采集;
 
         /// <summary>
         /// 查找相机对象驱动

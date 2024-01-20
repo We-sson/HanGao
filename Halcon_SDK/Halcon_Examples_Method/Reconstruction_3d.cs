@@ -2591,12 +2591,12 @@ public class Reconstruction_3d
 
             return hv_OM3DArrow;
         }
-        catch (HalconException HDevExpDefaultException)
+        catch (Exception )
         {
 
+          throw  new Exception("获得模型失败，原因：");  
 
-
-            throw HDevExpDefaultException;
+            
         }
         finally
         {
@@ -3859,7 +3859,7 @@ public class Reconstruction_3d
 
             return;
         }
-        catch (HalconException HDevExpDefaultException)
+        catch (Exception )
         {
 
             hv_MinLargeRotationFraction.Dispose();
@@ -3948,7 +3948,8 @@ public class Reconstruction_3d
             hvec_CamDualQuatsCal.Dispose();
             hvec_BaseDualQuatsTool.Dispose();
 
-            throw HDevExpDefaultException;
+            throw new Exception("失败！");
+
         }
     }
 

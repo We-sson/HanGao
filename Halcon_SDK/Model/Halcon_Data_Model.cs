@@ -2034,6 +2034,24 @@ namespace Halcon_SDK_DLL.Model
         [Description("通用保存格式")]
         Halcon_DXF
     }
+
+
+    /// <summary>
+    /// 匹配模型焊接工艺轮廓
+    /// </summary>
+    public enum Match_Model_Craft_Type_Enum
+    {
+        焊接盆胆R角,
+        焊接面板围边
+
+
+
+    }
+
+
+
+
+
     public enum FilePath_Type_Model_Enum
     {
         /// <summary>

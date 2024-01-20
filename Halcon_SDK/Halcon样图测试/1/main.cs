@@ -212,7 +212,7 @@ public partial class HDevelopExport
 
       return;
     }
-    catch (HalconException HDevExpDefaultException)
+    catch (Exception e )
     {
 
       hv_CameraType.Dispose();
@@ -224,7 +224,8 @@ public partial class HDevelopExport
       hv_Message3.Dispose();
       hv_Index.Dispose();
 
-      throw HDevExpDefaultException;
+            throw new Exception("获得多视角摄像机参数失败！原因：" + e.Message);
+            //throw;
     }
   }
 
@@ -379,7 +380,7 @@ public partial class HDevelopExport
 
       return;
     }
-    catch (HalconException HDevExpDefaultException)
+    catch (Exception e)
     {
 
       hv_Style.Dispose();
@@ -390,9 +391,9 @@ public partial class HDevelopExport
       hv_Message2.Dispose();
       hv_Message3.Dispose();
 
-      throw HDevExpDefaultException;
+            throw new Exception("设置多视角摄像机姿势失败！原因：" + e.Message);
+        }
     }
-  }
 
   public void enforce_visualization (HTuple hv_WindowHandles)
   {
@@ -422,12 +423,12 @@ public partial class HDevelopExport
 
       return;
     }
-    catch (HalconException HDevExpDefaultException)
+    catch (Exception e)
     {
 
       hv_Index.Dispose();
 
-      throw HDevExpDefaultException;
+      throw new Exception ("强制可视化失败！原因："+e.Message);
     }
   }
 
@@ -532,7 +533,7 @@ public partial class HDevelopExport
 
       return;
     }
-    catch (HalconException HDevExpDefaultException)
+    catch (Exception e)
     {
 
       hv_WindowHandle3.Dispose();
@@ -540,9 +541,10 @@ public partial class HDevelopExport
       hv_WindowHandle1.Dispose();
       hv_WindowHandle0.Dispose();
 
-      throw HDevExpDefaultException;
+            throw new Exception("多视图设置失败！原因：" + e.Message);
+
+        }
     }
-  }
 
 #if !NO_EXPORT_MAIN
   // Main procedure 
@@ -1073,7 +1075,7 @@ public partial class HDevelopExport
       // stop(...); only in hdevelop
       //
     }
-    catch (HalconException HDevExpDefaultException)
+    catch (Exception e)
     {
       ho_Image.Dispose();
       ho_Caltab.Dispose();
@@ -1130,9 +1132,10 @@ public partial class HDevelopExport
       hv_ObjectModel3DCone.Dispose();
       hv_UnionObjectModel3D.Dispose();
 
-      throw HDevExpDefaultException;
-    }
-    ho_Image.Dispose();
+            throw new Exception("失败！原因：" + e.Message);
+
+        }
+        ho_Image.Dispose();
     ho_Caltab.Dispose();
     ho_Marks.Dispose();
 

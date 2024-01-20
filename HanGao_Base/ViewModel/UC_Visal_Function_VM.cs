@@ -184,6 +184,10 @@ namespace HanGao.ViewModel
             }
         }
 
+
+
+
+
         public int UI_Find_Data_Number { set; get; } = 0;
 
 
@@ -202,6 +206,9 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 相机设备列表
+        /// </summary>
         public MVS_Camera_SDK Camera_Device_List { set; get; } = new MVS_Camera_SDK();
         /// <summary>
         /// 相机设备列表
@@ -552,7 +559,7 @@ namespace HanGao.ViewModel
 
 
                         HImage _Image = new HImage();
-                        Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                        Get_Image(ref _Image, Camera_Device_List. Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
 
                         Image_Preprocessing_Process.Image = _Image;
@@ -676,12 +683,16 @@ namespace HanGao.ViewModel
         public ObservableCollection<FileInfo> Shape_FileFull_UI { set; get; } = new ObservableCollection<FileInfo>() { };
 
 
-        public Halcon_Shape_Mode_SDK Halcon_Shape_Mode_List { set; get; } = new Halcon_Shape_Mode_SDK();
+        public Halcon_Shape_Mode_SDK Halcon_Shape_Mode { set; get; } = new Halcon_Shape_Mode_SDK();
 
 
 
-
-        public ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
+        //public ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
+        
+        
+        
+        
+        
         /// <summary>
         /// 画画数据列表
         /// </summary>
@@ -728,6 +739,13 @@ namespace HanGao.ViewModel
         /// 创建模型UI按钮使能
         /// </summary>
         public bool Create_Shape_ModelXld_UI_IsEnable { set; get; } = false;
+
+
+
+
+
+
+
         /// <summary>
         /// 一般形状模型匹配创建属性
         /// </summary>
@@ -757,7 +775,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 用户选择采集图片方式
         /// </summary>
-        public Get_Image_Model_Enum Get_Image_Model { set; get; } = Get_Image_Model_Enum.相机采集;
+     
         /// <summary>
         /// UI图像文件显示地址
         /// </summary>
@@ -1044,14 +1062,16 @@ namespace HanGao.ViewModel
                     //}
 
 
-                    Halcon_Shape_Mode_List.Group_All_XLD();
+                    Halcon_Shape_Mode.Group_All_XLD();
 
 
                     //限制操作
                     Create_Shape_ModelXld_UI_IsEnable = true;
 
+
+
                     //读取图片
-                    Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                    Get_Image(ref _Image, Camera_Device_List.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
                     _Halcon._HImage = new HObject(_Image);
 
@@ -1241,7 +1261,7 @@ namespace HanGao.ViewModel
                     //if (Display_Status(Shape_ModelXld_ReadALLFile(ref _Halcon_List, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.FInd_ID)).GetResult())
                     //{
                     //读取图片
-                    Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                    Get_Image(ref _Image, Camera_Device_List.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
                     //查找模型    Vision_Auto_Cofig.Find_TimeOut_Millisecond
                     _Find_Result = Find_Model_Method(Halcon_Find_Shape_ModelXld_UI, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Find_Shape_ModelXld_UI.FInd_ID);
@@ -1266,7 +1286,7 @@ namespace HanGao.ViewModel
                 HImage _Image = new HImage();
                 Halcon_Method_Model _Halcon = new Halcon_Method_Model();
                 //读取图片
-                Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                Get_Image(ref _Image, Camera_Device_List.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
                 _Halcon._HImage = new HObject(_Image);
                 //图像预处理
@@ -1499,7 +1519,7 @@ namespace HanGao.ViewModel
 
 
                     HImage _Image = new HImage();
-                    Get_Image(ref _Image, Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                    Get_Image(ref _Image, Camera_Device_List.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
                     User_Log_Add("采集图像显示到特征窗口成功! ", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
@@ -1529,7 +1549,7 @@ namespace HanGao.ViewModel
                 //HOperatorSet.ClearWindow(Features_Window.HWindow);
                 Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
                 //移除集合中的对象
-                Halcon_Shape_Mode_List.Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
+                Halcon_Shape_Mode.Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
                 User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 User_Log_Add("清除全部XLD特征成功! ", Log_Show_Window_Enum.Home);
             });
@@ -1920,7 +1940,7 @@ namespace HanGao.ViewModel
                     User_Drawing_Data.User_XLD = _Cir;
                     User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Cir;
                     //添加显示集合
-                    Halcon_Shape_Mode_List.Drawing_Data_List.Add(User_Drawing_Data);
+                    Halcon_Shape_Mode.Drawing_Data_List.Add(User_Drawing_Data);
                     //情况之前的数据
                     User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 }
@@ -1942,7 +1962,7 @@ namespace HanGao.ViewModel
                     User_Drawing_Data.User_XLD = _Lin;
                     User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Lin;
                     //添加显示集合
-                    Halcon_Shape_Mode_List.Drawing_Data_List.Add(User_Drawing_Data);
+                    Halcon_Shape_Mode.Drawing_Data_List.Add(User_Drawing_Data);
                     //情况之前的数据
                     User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 }
