@@ -589,19 +589,22 @@ namespace Halcon_SDK_DLL
         /// <param name="_Cir"></param>
         /// <param name="_Point"></param>
         /// <returns></returns>
-        public static HPR_Status_Model<bool> Draw_Group_Cir(ref HObject _Cir, List<Point3D> _Point, HWindow _Window)
+        public static HXLDCont  Draw_Group_Cir( List<Point3D> _Point)
         {
             HTuple _Row = new HTuple();
             HTuple _Col = new HTuple();
-
+            HXLDCont _Cir = new HXLDCont();
             try
             {
                 if (_Point.Count >= 3)
                 {
                     foreach (var _P in _Point)
                     {
-                        HOperatorSet.TupleConcat(_Row, _P.X, out _Row);
-                        HOperatorSet.TupleConcat(_Col, _P.Y, out _Col);
+                        _Row= _Row.TupleConcat(_P.X);
+                        //HOperatorSet.TupleConcat(_Row, _P.X, out _Row);
+                        _Col = _Col.TupleConcat(_P.Y);
+
+                        //HOperatorSet.TupleConcat(_Col, _P.Y, out _Col);
                     }
 
                     HOperatorSet.GenContourPolygonXld(out HObject Cir_Contour, _Row, _Col);
