@@ -882,6 +882,7 @@
                                                        VerticalAlignment="Stretch"
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
+                                                       HDisableAutoResize="True"
                                                        SnapsToDevicePixels="True">
                             <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayImage}" />
                             <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
@@ -902,25 +903,44 @@
                                         </i:Interaction.Triggers>
                                     </MenuItem>
                                     <Separator />
-                                    <MenuItem x:Name="Lin_Draw_Ok" Header="特征组合直线">
+                                    <MenuItem x:Name="Lin_Draw_Ok"
+                                              Header="特征组合直线"
+                                              ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Sink_Basin_R_Welding}">
 
-                                        <MenuItem Header="1：R角中轮廓线" />
-                                        <MenuItem Header="2 ：盆胆侧轮廓线" />
-                                        <MenuItem Header="3： 盆胆侧轮廓线" />
-
-                                        <!--<i:Interaction.Triggers>
+                                        <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding Lin_Draw_Ok_Comm}"
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}, Path=DataContext. Lin_Draw_Ok_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
-                                        </i:Interaction.Triggers>-->
+                                        </i:Interaction.Triggers>
+                                        <MenuItem.ItemContainerStyle>
+                                            <Style TargetType="MenuItem">
+                                                <Setter Property="Header" Value="{Binding Converter={StaticResource Enum_DescriptionConverter}}" />
+                                                <Setter Property="Tag" Value="{Binding}" />
+                                            </Style>
+                                        </MenuItem.ItemContainerStyle>
                                     </MenuItem>
-                                    <MenuItem x:Name="Cir_Draw_Ok" Header="特征组合圆弧">
+                                    <MenuItem x:Name="Cir_Draw_Ok"
+                                              Header="特征组合圆弧"
+                                              ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Sink_Basin_R_Welding}">
 
-                                        <MenuItem Header="1：R角中轮廓线" />
-                                        <MenuItem Header="2 ：盆胆侧轮廓线" />
-                                        <MenuItem Header="3： 盆胆侧轮廓线" />
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}, Path=DataContext. Cir_Draw_Ok_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <MenuItem.ItemContainerStyle>
+                                            <Style TargetType="MenuItem">
+                                                <Setter Property="Header" Value="{Binding Converter={StaticResource Enum_DescriptionConverter}}" />
+                                                <Setter Property="Tag" Value="{Binding}" />
+                                            </Style>
+                                        </MenuItem.ItemContainerStyle>
+
+
+
 
                                         <!--<i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
@@ -2757,14 +2777,14 @@
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Match_Model_Craft_Type_Enum}"
-                                                      SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model}">
+                                                      SelectedValue="{Binding Halcon_Shape_Mode.Match_Model_Craft_Type_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                   FontSize="14"
+                                                                   FontSize="12"
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                    TextTrimming="CharacterEllipsis" />
                                                     </DataTemplate>
@@ -2788,7 +2808,7 @@
                                                           CanUserResizeRows="False"
                                                           CanUserSortColumns="False"
                                                           CellStyle="{DynamicResource Point_UI_DataGridCellStyle}"
-                                                          ColumnHeaderHeight="40"
+                                                          ColumnHeaderHeight="35"
                                                           ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                           FrozenColumnCount="2"
@@ -2804,7 +2824,7 @@
 
                                                         <DataGridTemplateColumn Width="*">
                                                             <DataGridTemplateColumn.Header>
-                                                                <TextBlock Text="特征工艺"
+                                                                <TextBlock Text="注意工艺，描述位置轮廓！"
                                                                            Margin="4"
                                                                            HorizontalAlignment="Center"
                                                                            VerticalAlignment="Center"
@@ -2814,11 +2834,48 @@
                                                             </DataGridTemplateColumn.Header>
                                                             <DataGridTemplateColumn.CellTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBlock Text="{Binding Drawing_Type}"
-                                                                               Margin="4"
-                                                                               HorizontalAlignment="Center"
-                                                                               VerticalAlignment="Center"
-                                                                               FontSize="14" />
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width=" *" />
+                                                                            <ColumnDefinition />
+
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Border Grid.Column="0"
+                                                                                Grid.ColumnSpan=" 3"
+                                                                                Height=" 40"
+                                                                                Margin="4"
+                                                                                CornerRadius=" 4"
+                                                                                Effect="{DynamicResource 全局背景阴影}"
+                                                                                Opacity="0.7">
+                                                                            <Border.Style>
+                                                                                <Style TargetType="Border">
+                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_青颜色}" />
+                                                                                    <Style.Triggers>
+
+                                                                                        <DataTrigger Binding="{Binding Craft_XLd_Creation_Status}" Value="{x:Static Halcon_Enum:XLD_Contours_Creation_Status.Creation_OK}">
+                                                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Border.Style>
+
+                                                                        </Border>
+
+                                                                        <TextBlock Grid.Column="0"
+                                                                                   Text="{Binding Craft_Type_Enum, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                                   Margin="10,0,0,0"
+                                                                                   HorizontalAlignment="Stretch"
+                                                                                   VerticalAlignment="Center"
+                                                                                   FontSize="14"
+                                                                                   Foreground="{DynamicResource 全局_背景_白颜色}" />
+
+                                                                        <TextBlock Grid.Column="1"
+                                                                                   Text="{Binding Drawing_Type, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                                   HorizontalAlignment="Center"
+                                                                                   VerticalAlignment="Center"
+                                                                                   FontSize="14"
+                                                                                   Foreground="{DynamicResource 全局_背景_白颜色}" />
+                                                                    </Grid>
                                                                 </DataTemplate>
                                                             </DataGridTemplateColumn.CellTemplate>
                                                         </DataGridTemplateColumn>
@@ -2930,6 +2987,7 @@
                                         <Grid Height=" 35" Margin="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
 
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
@@ -2954,7 +3012,7 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
 
-                                                <TextBlock Text="清除全部特征"
+                                                <TextBlock Text="清除特征"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -2962,6 +3020,121 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                             </Button>
                                         </Grid>
+
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 X"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_X" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="9999"
+                                                    Minimum="-9999"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Origin_X, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18"
+                                                     IsReadOnly="True" />
+                                        </Grid>
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 Y"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_Y" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="9999"
+                                                    Minimum="-9999"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Origin_Y, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="膨胀系数"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Expansion_Factor" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="9999"
+                                                    Minimum="-0"
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Expansion_Factor, StringFormat={}{0}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Border Height=" 2"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_红颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
 
                                         <Grid Height=" 34" Margin="8">
                                             <Grid.ColumnDefinitions>
@@ -2998,11 +3171,6 @@
                                             </ComboBox>
                                         </Grid>
 
-                                        <Border Height=" 2"
-                                                Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_红颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
 
                                         <Grid Height="35" Margin="8">
 

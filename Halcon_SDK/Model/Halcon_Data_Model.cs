@@ -1648,20 +1648,7 @@ namespace Halcon_SDK_DLL.Model
         public string File_Directory { set; get; } = Environment.CurrentDirectory + "\\ShapeModel";
     }
 
-    /// <summary>
-    /// 画画类型枚举
-    /// </summary>
-    public enum Drawing_Type_Enme
-    {
-        [Description("直线")]
-        Draw_Lin,
 
-        [Description("圆弧")]
-        Draw_Cir,
-
-        [Description("完成")]
-        Draw_Ok
-    }
 
     /// <summary>
     /// 创建模板画画模型
@@ -1672,7 +1659,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         ///绘图_类型
         /// </summary>
-        public Drawing_Type_Enme Drawing_Type { set; get; } = new Drawing_Type_Enme();
+        public Drawing_Type_Enme Drawing_Type { set; get; } = Drawing_Type_Enme.Draw_None;
 
         /// <summary>
         /// 绘画数据
@@ -1680,9 +1667,23 @@ namespace Halcon_SDK_DLL.Model
         public ObservableCollection<Point3D> Drawing_Data { set; get; } = new ObservableCollection<Point3D>();
 
         /// <summary>
+        /// 集合对象
+        /// </summary>
+        public HXLDCont Drawing_XLD { set; get; } = new HXLDCont();
+
+
+        public Enum? Craft_Type_Enum { set; get; }
+
+        /// <summary>
         /// 数据计算xld类型存放
         /// </summary>
         public HObject User_XLD { set; get; } = new HObject();
+
+
+        /// <summary>
+        /// XLD轮廓创建状态
+        /// </summary>
+        public XLD_Contours_Creation_Status Craft_XLd_Creation_Status { set; get; } = XLD_Contours_Creation_Status.None;
     }
 
     [AddINotifyPropertyChangedInterface]
@@ -1913,8 +1914,66 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum Match_Model_Craft_Type_Enum
     {
+        [Description("请选择模型工艺！")]
+        请选择模型工艺,
+        [Description("焊接盆胆R角！")]
         焊接盆胆R角,
+        [Description("焊接面板围边！")]
         焊接面板围边
+    }
+
+    /// <summary>
+    /// 画画类型枚举
+    /// </summary>
+    public enum Drawing_Type_Enme
+    {
+        [Description("直线")]
+        Draw_Lin,
+
+        [Description("圆弧")]
+        Draw_Cir,
+
+        [Description("...")]
+        Draw_None
+    }
+
+
+    /// <summary>
+    /// XLD轮廓创建状态枚举
+    /// </summary>
+    public enum XLD_Contours_Creation_Status
+    {
+        [Description("未创建特征！")]
+        None,
+        [Description("创建特征成功！")]
+        Creation_OK,
+
+    }
+
+
+    /// <summary>
+    /// 盆胆R角焊接工艺
+    /// </summary>
+    public enum Sink_Basin_R_Welding
+    {
+
+        [Description("1：R角中线轮廓")]
+        R角中线轮廓,
+        [Description("2：盆胆左侧线")]
+        盆胆左侧线轮廓,
+        [Description("3：盆胆左侧线")]
+        盆胆右侧线轮廓,
+    }
+
+
+    public enum Sink_Board_R_Welding
+    {
+        [Description("1：面板横直线轮廓")]
+        面板横直线轮廓,
+        [Description("2：面板圆弧轮廓")]
+        面板圆弧轮廓,
+        [Description("3：面板竖直线轮廓")]
+        面板竖直线轮廓,
     }
 
     public enum FilePath_Type_Model_Enum

@@ -476,7 +476,7 @@ namespace HanGao.ViewModel
                     try
                     {
                         HImage _Image = new HImage();
-                        _Image= Get_Image(Camera_Device_List.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                        _Image = Get_Image(Camera_Device_List.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
                         Image_Preprocessing_Process.Image = _Image;
                         _Image = Image_Preprocessing_Process.Preprocessing_Process_Start();
@@ -1661,7 +1661,7 @@ namespace HanGao.ViewModel
                     {
                         //获得点击图像位置
                         Halcon_Shape_Mode.Chick_Position = new Point(_E.Row, _E.Column);
-                        Halcon_Shape_Mode.Get_Pos_Gray(new HImage (  Load_Image));
+                        Halcon_Shape_Mode.Get_Pos_Gray(new HImage(Load_Image));
                         //HOperatorSet.GetGrayval(Load_Image, _E.Row, _E.Column, out HTuple _Gray);
                         //Mouse_Pos_Gray = (int)_Gray.D;
                     }
@@ -1706,19 +1706,45 @@ namespace HanGao.ViewModel
                 HXLDCont _Cross = new HXLDCont();
 
 
-                //生产十字架
-                _Cross = Halcon_SDK.Draw_Cross(Halcon_Shape_Mode.Chick_Position.X, Halcon_Shape_Mode.Chick_Position.Y);
 
-                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: _Cross, _DrawColor: nameof(KnownColor.Red).ToLower());
-                //情况之前的数据
-                //User_Drawing_Data.Drawing_Data.Clear();
-                //添加坐标点数据
-                Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data.Add(new Point3D(Halcon_Shape_Mode.Chick_Position.X, Halcon_Shape_Mode.Chick_Position.Y, 0));
+                try
+                {
 
 
+                    //生产十字架
+                    _Cross = Halcon_SDK.Draw_Cross(Halcon_Shape_Mode.Chick_Position.X, Halcon_Shape_Mode.Chick_Position.Y);
 
-                User_Log_Add("X：" + Halcon_Shape_Mode.Chick_Position.X + "，Y：" + Halcon_Shape_Mode.Chick_Position.Y + ",添加数据成功！", Log_Show_Window_Enum.Home);
 
+
+                    //判断集合是否为空对象
+                    if (!Halcon_Shape_Mode.User_Drawing_Data.Drawing_XLD.IsInitialized())
+                    {
+                        Halcon_Shape_Mode.User_Drawing_Data.Drawing_XLD.GenEmptyObj();
+
+                    }
+
+                    ///合并显示对象
+                    Halcon_Shape_Mode.User_Drawing_Data.Drawing_XLD = Halcon_Shape_Mode.User_Drawing_Data.Drawing_XLD.ConcatObj(_Cross);
+
+
+                    //显示描述位置点
+                    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: Halcon_Shape_Mode.User_Drawing_Data.Drawing_XLD, _DrawColor: nameof(KnownColor.Red).ToLower());
+
+
+
+                    //添加坐标点数据
+                    Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data.Add(new Point3D(Halcon_Shape_Mode.Chick_Position.X, Halcon_Shape_Mode.Chick_Position.Y, 0));
+
+
+                    User_Log_Add("X：" + Halcon_Shape_Mode.Chick_Position.X.ToString("N3") + "，Y：" + Halcon_Shape_Mode.Chick_Position.Y.ToString("N3") + ",添加特征点成功！", Log_Show_Window_Enum.Home);
+
+                }
+                catch (Exception e)
+                {
+
+                    User_Log_Add("行政特征点失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                }
 
 
 
@@ -1755,8 +1781,11 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                MenuItem _E = Sm.Source as MenuItem;
+                MenuItem _E = Sm.OriginalSource as MenuItem;
                 HObject _Lin = new HObject();
+
+
+
                 //拟合直线
                 if (Display_Status(Halcon_SDK.Draw_Group_Lin(ref _Lin, Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data.ToList(), Halcon_Window_Display.Features_Window.HWindow)).GetResult())
                 {

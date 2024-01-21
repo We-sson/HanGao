@@ -12,7 +12,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
     {
         public Halcon_Shape_Mode_SDK()
         {
-            Drawing_Data_List.Add(new Vision_Create_Model_Drawing_Model());
+            
         }
 
         public ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
@@ -33,6 +33,53 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// 保存单次生产手动描述特征点
         /// </summary>
         public Vision_Create_Model_Drawing_Model User_Drawing_Data { set; get; } = new Vision_Create_Model_Drawing_Model();
+
+
+
+
+        private Match_Model_Craft_Type_Enum _Match_Model_Craft_Type= Match_Model_Craft_Type_Enum.请选择模型工艺;
+
+        public Match_Model_Craft_Type_Enum Match_Model_Craft_Type_Enum
+        {
+            get { return _Match_Model_Craft_Type; }
+            set { _Match_Model_Craft_Type = value; Init_Crafe_Type_List(value); }
+        }
+
+
+
+        /// <summary>
+        ///  切换工艺更改工艺轮廓特征
+        /// </summary>
+        /// <param name="_Craft"></param>
+        public void Init_Crafe_Type_List(Match_Model_Craft_Type_Enum _Craft)
+        {
+
+            switch (_Craft)
+            {
+                case Match_Model_Craft_Type_Enum.焊接盆胆R角:
+                    
+                    Drawing_Data_List.Clear();
+                    Drawing_Data_List.Add(new Vision_Create_Model_Drawing_Model() { Craft_Type_Enum= Sink_Basin_R_Welding.R角中线轮廓 });
+                    Drawing_Data_List.Add(new Vision_Create_Model_Drawing_Model() { Craft_Type_Enum= Sink_Basin_R_Welding.盆胆左侧线轮廓 });
+                    Drawing_Data_List.Add(new Vision_Create_Model_Drawing_Model() { Craft_Type_Enum= Sink_Basin_R_Welding.盆胆右侧线轮廓 });
+                    break;
+                case Match_Model_Craft_Type_Enum.焊接面板围边:
+                    Drawing_Data_List.Clear();
+                    Drawing_Data_List.Add(new Vision_Create_Model_Drawing_Model() { Craft_Type_Enum = Sink_Board_R_Welding.面板横直线轮廓 });
+                    Drawing_Data_List.Add(new Vision_Create_Model_Drawing_Model() { Craft_Type_Enum = Sink_Board_R_Welding.面板圆弧轮廓 });
+                    Drawing_Data_List.Add(new Vision_Create_Model_Drawing_Model() { Craft_Type_Enum = Sink_Board_R_Welding.面板竖直线轮廓 });
+
+                    break;
+                case Match_Model_Craft_Type_Enum.请选择模型工艺:
+                    Drawing_Data_List.Clear();
+
+                    break;
+         
+            }
+
+
+
+        }
 
 
 
