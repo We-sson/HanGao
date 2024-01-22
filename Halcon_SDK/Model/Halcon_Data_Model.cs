@@ -263,7 +263,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 搜索图像中对象的最小对比度。默认值：5,建议值：1、2、3、5、7、10、20、30、40
             /// </summary>
-            public double MinContrast { set; get; } = 5;
+            public int MinContrast { set; get; } = 5;
 
             /// <summary>
             /// 泛型参数名称。默认值：[]
@@ -1656,6 +1656,13 @@ namespace Halcon_SDK_DLL.Model
     [AddINotifyPropertyChangedInterface]
     public class Vision_Create_Model_Drawing_Model
     {
+
+        public Vision_Create_Model_Drawing_Model()
+        {
+           
+        }
+
+
         /// <summary>
         ///绘图_类型
         /// </summary>
@@ -1677,7 +1684,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 数据计算xld类型存放
         /// </summary>
-        public HObject User_XLD { set; get; } = new HObject();
+        public HObject Model_XLD { set; get; } = new HObject();
 
 
         /// <summary>
@@ -1895,7 +1902,11 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         [Description("比例缩放模板")]
         Scale_model,
-
+        /// <summary>
+        /// 各向异性缩放的形状模型
+        /// </summary>
+        [Description("异性缩放的匹配模型")]
+        Aniso_Model,
         /// <summary>
         /// 相关性匹配模板
         /// </summary>
@@ -2213,6 +2224,7 @@ namespace Halcon_SDK_DLL.Model
         Region,
         XLD,
         SetDrawColor,
+        Draw
     }
 
     /// <summary>
@@ -2252,7 +2264,7 @@ namespace Halcon_SDK_DLL.Model
     /// <summary>
     /// 手眼标定设备模型状态枚举
     /// </summary>
-    public enum HaneEye_Calibration_Diver_Model_Enum
+    public enum Image_Diver_Model_Enum
     {
         /// <summary>
         /// 在线模型

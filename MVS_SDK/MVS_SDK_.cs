@@ -19,7 +19,17 @@ namespace MVS_SDK
         /// </summary>
         public MVS_Camera_Info_Model Select_Camera { set; get; }
 
-        public Get_Image_Model_Enum Get_Image_Model { set; get; } = Get_Image_Model_Enum.相机采集;
+        //public Get_Image_Model_Enum Get_Image_Model { set; get; } = Get_Image_Model_Enum.相机采集;
+
+        /// <summary>
+        /// 用户采集相机
+        /// </summary>
+        //public MVS_Camera_Info_Model Camera_Select_Val { set; get; }
+        /// <summary>
+        /// 设备图像来源设置
+        /// </summary>
+        public Image_Diver_Model_Enum Camera_Diver_Model { get; set; } = Image_Diver_Model_Enum.Online;
+
 
         /// <summary>
         /// 查找相机对象驱动

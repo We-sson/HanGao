@@ -793,13 +793,13 @@ namespace HanGao.ViewModel
 
                     switch (Camera_Calibration_0.HaneEye_Calibration_Diver_Model)
                     {
-                        case HaneEye_Calibration_Diver_Model_Enum.Online:
+                        case Image_Diver_Model_Enum.Online:
 
                             Camera_0_Select_Val.ThrowIfNull(_Camera_Enum.ToString() + "：相机设备未选择！");
                             HandEye_Camera_0_Results.Calibration_Name = Camera_0_Select_Val.Camera_Info.SerialNumber.ToString();
 
                             break;
-                        case HaneEye_Calibration_Diver_Model_Enum.Local:
+                        case Image_Diver_Model_Enum.Local:
                             HandEye_Camera_0_Results.Calibration_Name = _Camera_Enum.ToString();
 
                             break;
@@ -817,13 +817,13 @@ namespace HanGao.ViewModel
 
                     switch (Camera_Calibration_0.HaneEye_Calibration_Diver_Model)
                     {
-                        case HaneEye_Calibration_Diver_Model_Enum.Online:
+                        case Image_Diver_Model_Enum.Online:
                             Camera_1_Select_Val.ThrowIfNull(_Camera_Enum.ToString() + "：相机设备未选择！");
                             //获得相机名称
                             HandEye_Camera_1_Results.Calibration_Name = Camera_1_Select_Val.Camera_Info.SerialNumber.ToString();
 
                             break;
-                        case HaneEye_Calibration_Diver_Model_Enum.Local:
+                        case Image_Diver_Model_Enum.Local:
                             HandEye_Camera_1_Results.Calibration_Name = _Camera_Enum.ToString();
 
 
@@ -1119,7 +1119,7 @@ namespace HanGao.ViewModel
 
                                         ///显示选中图像
                                         Halcon_Window_Display.Display_HObject(_ShowDisply, (HImage)_Selected.Camera_1.Calibration_Image);
-                                        Halcon_Window_Display.Display_HObject(_ShowDisply, (HImage)_Selected.Camera_1.Calibration_Image, _Selected.Camera_1.Calibration_Region, null, KnownColor.Green.ToString());
+                                        Halcon_Window_Display.Display_HObject(_ShowDisply, (HImage)_Selected.Camera_1.Calibration_Image, _Selected.Camera_1.Calibration_Region, null);
                                         Halcon_Window_Display.Display_HObject(_ShowDisply, _XLD: _Selected.Camera_1.Calibration_XLD);
                                     });
 
@@ -2098,7 +2098,7 @@ namespace HanGao.ViewModel
                         {
 
 
-                            Halcon_Window_Display.Display_HObject(_Select_Camera.Show_Window, HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibRegion, null, HandEye_Check_LiveImage._DrawColor);
+                            Halcon_Window_Display.Display_HObject(_Select_Camera.Show_Window, HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibRegion, null);
                             Halcon_Window_Display.Display_HObject(_Select_Camera.Show_Window, _XLD: HandEye_Check_LiveImage._CalibXLD);
 
 

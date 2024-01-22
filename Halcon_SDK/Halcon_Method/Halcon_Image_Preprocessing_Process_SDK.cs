@@ -116,10 +116,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 预处理流程开始
         /// </summary>
-        public HImage Preprocessing_Process_Start()
+        public HImage Preprocessing_Process_Start(HImage _OldImage)
         {
 
-
+            Image = _OldImage;
 
             //计算总时间处理
             DateTime AllstartTime = DateTime.Now;
@@ -130,10 +130,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 DateTime startTime = DateTime.Now;
               
 
-                // 计算时间差
               
                 Get_Preprocessing_Method(item.Image_Preprocessing_Process_Method, item.V_1, item.V_2, item.V_3, item.V_4, item.V_5, item.E_1, item.E_2, item.E_3, item.E_4, item.E_5).Invoke();
 
+                // 计算时间差
                 item.Method_Run_Time=(DateTime.Now - startTime).Milliseconds;
             }
 
@@ -163,6 +163,23 @@ namespace Halcon_SDK_DLL.Halcon_Method
             }
         }
 
+
+        /// <summary>
+        /// 获得对应预处理方法
+        /// </summary>
+        /// <param name="_Process"></param>
+        /// <param name="V_1"></param>
+        /// <param name="V_2"></param>
+        /// <param name="V_3"></param>
+        /// <param name="V_4"></param>
+        /// <param name="V_5"></param>
+        /// <param name="E_1"></param>
+        /// <param name="E_2"></param>
+        /// <param name="E_3"></param>
+        /// <param name="E_4"></param>
+        /// <param name="E_5"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public Action Get_Preprocessing_Method(Image_Preprocessing_Process_Enum _Process, object? V_1 = null, object? V_2 = null, object? V_3 = null, object? V_4 = null, object? V_5 = null, Enum? E_1 = null, Enum? E_2 = null, Enum? E_3 = null, Enum? E_4 = null, Enum? E_5 = null)
         {
 
@@ -182,8 +199,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
             };
         }
 
+        /// <summary>
+        /// 处理图像
+        /// </summary>
+        private  HImage Image { set; get; } = new HImage();
 
-        public HImage Image { set; get; } = new HImage();
+
 
         public void ScaleImageMax()
         {

@@ -99,7 +99,7 @@ namespace Halcon_SDK_DLL
 
             lock (HCalibData)
             {
-
+                
 
                 try
                 {

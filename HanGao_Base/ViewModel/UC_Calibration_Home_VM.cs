@@ -1058,7 +1058,7 @@ namespace HanGao.ViewModel
 
                                     ///显示选中图像
                                     Halcon_Window_Display.Display_HObject(_ShowDisply,_Selected.Camera_0.Calibration_Image);
-                                    Halcon_Window_Display.Display_HObject(_ShowDisply,_Selected.Camera_0.Calibration_Image, _Selected.Camera_0.Calibration_Region, null, KnownColor.Green.ToString());
+                                    Halcon_Window_Display.Display_HObject(_ShowDisply,_Selected.Camera_0.Calibration_Image, _Selected.Camera_0.Calibration_Region, null);
                                     Halcon_Window_Display.Display_HObject(_ShowDisply,_XLD: _Selected.Camera_0.Calibration_XLD );
 
                                     });
@@ -1266,12 +1266,12 @@ namespace HanGao.ViewModel
                 {
                     case Camera_Connect_Control_Type_Enum.Camera_0:
 
-                        Camera_Calibration_0 = new Camera_Calibration_Info_Model() { HaneEye_Calibration_Diver_Model = HaneEye_Calibration_Diver_Model_Enum.Local };
+                        Camera_Calibration_0 = new Camera_Calibration_Info_Model() { HaneEye_Calibration_Diver_Model = Image_Diver_Model_Enum.Local };
                         Camera_0_Select_Val = null;
                         break;
                     case Camera_Connect_Control_Type_Enum.Camera_1:
 
-                        Camera_Calibration_1 = new Camera_Calibration_Info_Model() { HaneEye_Calibration_Diver_Model = HaneEye_Calibration_Diver_Model_Enum.Local };
+                        Camera_Calibration_1 = new Camera_Calibration_Info_Model() { HaneEye_Calibration_Diver_Model = Image_Diver_Model_Enum.Local };
                         Camera_1_Select_Val = null;
 
 

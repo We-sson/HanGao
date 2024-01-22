@@ -257,7 +257,7 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 通讯设备图像来源设置
             /// </summary>
-            public HaneEye_Calibration_Diver_Model_Enum HaneEye_Socket_Diver_Model { get; set; } = HaneEye_Calibration_Diver_Model_Enum.Online;
+            public Image_Diver_Model_Enum HaneEye_Socket_Diver_Model { get; set; } = Image_Diver_Model_Enum.Online;
 
 
 

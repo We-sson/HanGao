@@ -446,7 +446,7 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 设备图像来源设置
             /// </summary>
-            public HaneEye_Calibration_Diver_Model_Enum HaneEye_Calibration_Diver_Model { get; set; } = HaneEye_Calibration_Diver_Model_Enum.Online;
+            public Image_Diver_Model_Enum HaneEye_Calibration_Diver_Model { get; set; } = Image_Diver_Model_Enum.Online;
 
 
         }

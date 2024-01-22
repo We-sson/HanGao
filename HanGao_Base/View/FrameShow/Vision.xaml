@@ -888,9 +888,13 @@
                             <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                             HDraw="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                             IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayRegion}" />
-                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetColor}"
+                            <Halcon:HIconicDisplayObjectWPF HColor="green"
                                                             IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayXLD}"
+                                                            LineWidth=" 2" />
+                            <Halcon:HIconicDisplayObjectWPF HColor="red"
+                                                            IconicObject="{Binding Halcon_Window_Display.Features_Window.Draw_XLD}"
                                                             LineWidth=" 1" />
+
                             <Halcon:HSmartWindowControlWPF.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem x:Name="Draw_Pos" Header="添加特征点">
@@ -902,11 +906,28 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </MenuItem>
+                                    <MenuItem x:Name="Delete_Pos" Header="清除特征点">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Delete_Draw_Data_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </MenuItem>
                                     <Separator />
                                     <MenuItem x:Name="Lin_Draw_Ok"
                                               Header="特征组合直线"
-                                              ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Sink_Basin_R_Welding}">
-
+                                              ItemsSource="{Binding Halcon_Shape_Mode.Drawing_Data_List}">
+                                        <MenuItem.Style>
+                                            <Style TargetType="MenuItem">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Halcon_Shape_Mode.Match_Model_Craft_Type}" Value="{x:Static Halcon_Enum:Match_Model_Craft_Type_Enum.请选择模型工艺}">
+                                                        <Setter Property="IsEnabled" Value="False" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </MenuItem.Style>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}, Path=DataContext. Lin_Draw_Ok_Comm}"
@@ -916,15 +937,23 @@
                                         </i:Interaction.Triggers>
                                         <MenuItem.ItemContainerStyle>
                                             <Style TargetType="MenuItem">
-                                                <Setter Property="Header" Value="{Binding Converter={StaticResource Enum_DescriptionConverter}}" />
-                                                <Setter Property="Tag" Value="{Binding}" />
+                                                <Setter Property="Header" Value="{Binding Craft_Type_Enum, Converter={StaticResource Enum_DescriptionConverter}}" />
+                                                <Setter Property="Tag" Value="{Binding Craft_Type_Enum}" />
                                             </Style>
                                         </MenuItem.ItemContainerStyle>
                                     </MenuItem>
                                     <MenuItem x:Name="Cir_Draw_Ok"
                                               Header="特征组合圆弧"
-                                              ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Sink_Basin_R_Welding}">
-
+                                              ItemsSource="{Binding Halcon_Shape_Mode.Drawing_Data_List}">
+                                        <MenuItem.Style>
+                                            <Style TargetType="MenuItem">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Halcon_Shape_Mode.Match_Model_Craft_Type}" Value="{x:Static Halcon_Enum:Match_Model_Craft_Type_Enum.请选择模型工艺}">
+                                                        <Setter Property="IsEnabled" Value="False" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </MenuItem.Style>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}, Path=DataContext. Cir_Draw_Ok_Comm}"
@@ -934,8 +963,8 @@
                                         </i:Interaction.Triggers>
                                         <MenuItem.ItemContainerStyle>
                                             <Style TargetType="MenuItem">
-                                                <Setter Property="Header" Value="{Binding Converter={StaticResource Enum_DescriptionConverter}}" />
-                                                <Setter Property="Tag" Value="{Binding}" />
+                                                <Setter Property="Header" Value="{Binding Craft_Type_Enum, Converter={StaticResource Enum_DescriptionConverter}}" />
+                                                <Setter Property="Tag" Value="{Binding Craft_Type_Enum}" />
                                             </Style>
                                         </MenuItem.ItemContainerStyle>
 
@@ -954,7 +983,7 @@
                                     <MenuItem x:Name="Set_Origin" Header="设置特征原点">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding}"
+                                                <i:InvokeCommandAction Command="{Binding Set_XLD_Origin_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
@@ -2527,6 +2556,172 @@
                                     <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                                     <StackPanel Orientation="Vertical">
 
+
+                                        <Grid Height="40" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+
+                                                <ColumnDefinition Width=" *" />
+
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="设备模式"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                            <Border Grid.Column=" 1"
+                                                    Margin="0,0,0,0"
+                                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                    BorderThickness="2.5"
+                                                    CornerRadius=" 6">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="Camera_0_Diver" Grid.Column=" 0"
+                                                                 Content="在线设备"
+                                                                 IsChecked="{Binding Camera_Device_List.Image_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
+                                                                 FontSize=" 14"
+                                                                 GroupName="Camera_0_Diver"
+                                                                 Tag="Camera_0" />
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
+                                                                 Content="本地模式"
+                                                                 IsChecked="{Binding Camera_Device_List.Image_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
+                                                                 FontSize="14"
+                                                                 GroupName="Camera_0_Diver"
+                                                                 Tag="Camera_0">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Checked">
+                                                                <i:InvokeCommandAction Command="{Binding}"
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                       PassEventArgsToCommand="True" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </RadioButton>
+
+                                                </Grid>
+
+                                            </Border>
+
+                                            <Label Grid.Column=" 3"
+                                                   Content=""
+                                                   Margin="0"
+                                                   Padding="0"
+                                                   HorizontalContentAlignment="Center"
+                                                   VerticalContentAlignment="Center"
+                                                   FontSize=" 14" />
+
+
+                                        </Grid>
+
+                                        <Grid Height=" 35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="相机选择"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ComboBox x:Name="Camera_0" Grid.Column=" 1"
+                                                      HorizontalContentAlignment="Left"
+                                                      VerticalContentAlignment="Center"
+                                                      FontSize="20"
+                                                      IsDropDownOpen="False"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding MVS_Camera_Info_List}"
+                                                      SelectedIndex=" -1"
+                                                      SelectedValue="{Binding Camera_Select_Val}">
+                                                <ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+
+                                                            <DataTrigger Binding="{Binding Camera_Device_List.Get_Image_Model}" Value="">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>
+                                                <!--<i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                        <i:InvokeCommandAction Command="{Binding Selected_Camera_Paramer_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>-->
+
+
+
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+
+                                                            <Border Width=" 23"
+                                                                    Height=" 23"
+                                                                    Margin="10,4,4,4"
+                                                                    BorderThickness="2"
+                                                                    CornerRadius=" 5">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_黄颜色}" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Possess}">
+                                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Camer_Status, Mode=TwoWay}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
+                                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                            </DataTrigger>
+
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                            </Border>
+
+                                                            <TextBlock Text="{Binding Camera_Info.SerialNumber}"
+                                                                       TextWrapping="Wrap"
+                                                                       Margin="10,0,0,0"
+                                                                       Padding="0,4,0,4"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                       FontSize="16 "
+                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                       IsEnabled="True"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                        </StackPanel>
+
+
+
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+
+
+
+
+
+                                            </ComboBox>
+
+
+
+                                        </Grid>
+
+
                                         <Grid Height=" 35" Margin="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
@@ -2558,7 +2753,7 @@
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                   FontSize="12"
+                                                                   FontSize="14"
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                    TextTrimming="CharacterEllipsis" />
                                                     </DataTemplate>
@@ -2664,7 +2859,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="True">
+                                      IsExpanded="False">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                                         <Border.Style>
@@ -2777,14 +2972,14 @@
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Match_Model_Craft_Type_Enum}"
-                                                      SelectedValue="{Binding Halcon_Shape_Mode.Match_Model_Craft_Type_Enum}">
+                                                      SelectedValue="{Binding Halcon_Shape_Mode.Match_Model_Craft_Type}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                   FontSize="12"
+                                                                   FontSize="14"
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                    TextTrimming="CharacterEllipsis" />
                                                     </DataTemplate>
@@ -2824,7 +3019,7 @@
 
                                                         <DataGridTemplateColumn Width="*">
                                                             <DataGridTemplateColumn.Header>
-                                                                <TextBlock Text="注意工艺，描述位置轮廓！"
+                                                                <TextBlock Text="注意工艺，描述点轮廓位置！"
                                                                            Margin="4"
                                                                            HorizontalAlignment="Center"
                                                                            VerticalAlignment="Center"
@@ -3045,7 +3240,7 @@
                                                     Minimum="-9999"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Model_XLD_Origin.X}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Origin_X, StringFormat={}{0:F3}}"
@@ -3081,7 +3276,7 @@
                                                     Minimum="-9999"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Model_XLD_Origin.Y, UpdateSourceTrigger=PropertyChanged}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Origin_Y, StringFormat={}{0:F3}}"
@@ -3117,7 +3312,7 @@
                                                     Minimum="-0"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.DilationCircle}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Expansion_Factor, StringFormat={}{0}}"
@@ -3150,13 +3345,13 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI" Grid.Column=" 1"
                                                       VerticalContentAlignment="Center"
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Shape_Based_Model_Enum}"
-                                                      SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.Shape_Based_Model}">
+                                                      SelectedValue="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.Shape_Based_Model}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -3196,7 +3391,7 @@
                                                     Minimum=" 0"
                                                     SmallChange="1"
                                                     TickFrequency=" 1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.NumLevels, Converter={StaticResource Halcon_StringConverter}}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.NumLevels, Converter={StaticResource Halcon_StringConverter}}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Width=" 100"
@@ -3242,7 +3437,7 @@
                                                     Minimum="-360"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStart}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.AngleStart}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=AngleStart}"
@@ -3277,7 +3472,7 @@
                                                     Maximum="360"
                                                     Minimum=" 0"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleExtent}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.AngleExtent}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=AngleExtent}"
@@ -3312,7 +3507,7 @@
                                                     Maximum="10"
                                                     Minimum="0.01"
                                                     TickFrequency=" 0.01"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.AngleStep}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.AngleStep}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Width=" 100"
@@ -3346,10 +3541,10 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3375,7 +3570,7 @@
                                                     Maximum="1"
                                                     Minimum="0.5"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleRMin}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleRMin}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=ScaleRMin}"
@@ -3393,10 +3588,10 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3423,7 +3618,7 @@
                                                     Maximum="0.2"
                                                     Minimum="0"
                                                     TickFrequency=" 0.01"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleRStep, Converter={StaticResource Halcon_StringConverter}}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleRStep, Converter={StaticResource Halcon_StringConverter}}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Width=" 100"
@@ -3451,10 +3646,10 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3480,7 +3675,7 @@
                                                     Maximum="1.0"
                                                     Minimum="0.5"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleCMin}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleCMin}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=ScaleCMin}"
@@ -3498,10 +3693,10 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="0">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="3">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Scale_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3527,7 +3722,7 @@
                                                     Maximum="1"
                                                     Minimum="0.5"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleMin}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleMin}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=ScaleMin}"
@@ -3545,10 +3740,10 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="0">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="3">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Scale_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3574,7 +3769,7 @@
                                                     Maximum="1.5"
                                                     Minimum="1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleMax}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleMax}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=ScaleMax}"
@@ -3592,10 +3787,10 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3621,7 +3816,7 @@
                                                     Maximum="0.2"
                                                     Minimum="0"
                                                     TickFrequency=" 0.01"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleCStep, Converter={StaticResource Halcon_StringConverter}}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleCStep, Converter={StaticResource Halcon_StringConverter}}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Width=" 100"
@@ -3649,10 +3844,10 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="0">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="3">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3678,7 +3873,7 @@
                                                     Maximum="0.2"
                                                     Minimum=" 0"
                                                     TickFrequency=" 0.01"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.ScaleStep, Converter={StaticResource Halcon_StringConverter}}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleStep, Converter={StaticResource Halcon_StringConverter}}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Width=" 100"
@@ -3727,16 +3922,16 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="0">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="3">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Scale_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3761,7 +3956,7 @@
                                                     Maximum="40"
                                                     Minimum="1"
                                                     TickFrequency=" 1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.MinContrast}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.MinContrast}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=MinContrast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -3784,16 +3979,16 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="0">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="3">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Scale_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3814,86 +4009,31 @@
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="{Binding Halcon_Create_Shape_ModelXld_UI.Optimization, ConverterParameter={x:Type Halcon_Enum:Optimization_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="auto"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-
-                                                <ComboBoxItem>
-                                                    <TextBlock Text="no_pregeneration"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-                                                    <TextBlock Text="none"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-                                                    <TextBlock Text="point_reduction_high"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="point_reduction_low"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="point_reduction_medium"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="pregeneration"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Optimization_Enum}"
+                                                      SelectedValue="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.Optimization}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
                                             </ComboBox>
                                         </Grid>
 
-                                        <Grid Height="35" Margin="8">
+                                        <!--<Grid Height="35" Margin="8">
                                             <Grid.Style>
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="4">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Ncc_Model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
+
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
@@ -3917,7 +4057,7 @@
                                                     Maximum="551.5"
                                                     Minimum="0.5"
                                                     TickFrequency=" 1"
-                                                    Value="{Binding Halcon_Create_Shape_ModelXld_UI.DilationCircle}" />
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.DilationCircle}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Width=" 100"
@@ -3933,7 +4073,7 @@
                                                     </Style>
                                                 </TextBox.Style>
                                             </TextBox>
-                                        </Grid>
+                                        </Grid>-->
 
                                         <Grid Height="35" Margin="8">
                                             <Grid.ColumnDefinitions>
@@ -3956,7 +4096,7 @@
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Metric_Enum}"
-                                                      SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.Metric}">
+                                                      SelectedValue="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.Metric}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -3978,12 +4118,13 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
+
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
@@ -4037,12 +4178,14 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
+
+
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
@@ -4105,7 +4248,7 @@
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />-->
 
-                                        <Grid Margin="8">
+                                        <!--<Grid Margin="8">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
@@ -4123,7 +4266,7 @@
                                                                    File_Filter="图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;"
                                                                    File_Log="{Binding ShapeModel_Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                    File_Model="Folder" />
-                                        </Grid>
+                                        </Grid>-->
 
                                         <Grid Height="35" Margin="8">
 
@@ -4139,7 +4282,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Create_Model_ID" Grid.Column=" 3"
-                                                     Text="{Binding Halcon_Create_Shape_ModelXld_UI.Create_ID}"
+                                                     Text="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.Create_ID}"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
                                                      Background="Transparent"
@@ -4155,7 +4298,7 @@
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="创建位置"
+                                            <TextBlock Text="创建名称"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -4168,7 +4311,7 @@
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:ShapeModel_Name_Enum}"
-                                                      SelectedValue="{Binding Halcon_Create_Shape_ModelXld_UI.ShapeModel_Name}">
+                                                      SelectedValue="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ShapeModel_Name}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"

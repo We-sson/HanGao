@@ -2187,7 +2187,7 @@
 
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Camera_0_Diver" Grid.Column=" 1"
-                                                          IsChecked="{Binding Camera_Calibration_0.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:HaneEye_Calibration_Diver_Model_Enum.Online}}"
+                                                          IsChecked="{Binding Camera_Calibration_0.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
                                                           HorizontalContentAlignment="Stretch"
                                                           VerticalContentAlignment="Center"
                                                           Tag="Camera_0">
@@ -3264,7 +3264,7 @@
 
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Camera_1_Diver" Grid.Column=" 1"
-                                                          IsChecked="{Binding Camera_Calibration_1.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:HaneEye_Calibration_Diver_Model_Enum.Online}}"
+                                                          IsChecked="{Binding Camera_Calibration_1.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
                                                           VerticalContentAlignment="Center"
