@@ -198,7 +198,7 @@ namespace HanGao.ViewModel
         }
 
 
- 
+
 
 
         /// <summary>
@@ -680,7 +680,7 @@ namespace HanGao.ViewModel
                     try
                     {
                         HImage _Image = new HImage();
-                        _Image = Get_Image(Camera_Device_List.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
 
                         _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(_Image);
@@ -817,7 +817,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 创建模型存放位置
         /// </summary>
-         public    string  ShapeModel_Location { set; get; } = Environment.CurrentDirectory + "\\ShapeModel";
+        public string ShapeModel_Location { set; get; } = Environment.CurrentDirectory + "\\ShapeModel";
 
         /// <summary>
         /// 模型文件重新加载
@@ -977,19 +977,28 @@ namespace HanGao.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         //显示图像
-                    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window,  _HImage:  _Image);
-                 
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Image);
+
                     });
+
+
+
+
+
 
                     //图像预处理
                     //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
                     //_Halcon.Halcon_Image_Pre_Processing(Halcon_Find_Shape_ModelXld_UI);
 
+                    Halcon_Shape_Mode.ShapeModel_Create_Save(_Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose);
+                   
+                    
+                    
                     ///保存创建模型
-                    if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Shape_Mode.Create_Shape_ModelXld)).GetResult())
-                    {
-                        User_Log_Add("创建区域：" + Halcon_Shape_Mode.Create_Shape_ModelXld.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Shape_Mode.Create_Shape_ModelXld.Create_ID.ToString() + "，创建模型特征成功！", Log_Show_Window_Enum.Home);
-                    }
+                    //if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Shape_Mode.Create_Shape_ModelXld)).GetResult())
+                    //{
+                    //    User_Log_Add("创建区域：" + Halcon_Shape_Mode.Create_Shape_ModelXld.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Shape_Mode.Create_Shape_ModelXld.Create_ID.ToString() + "，创建模型特征成功！", Log_Show_Window_Enum.Home);
+                    //}
 
                     //解除操作
                     Create_Shape_ModelXld_UI_IsEnable = false;
@@ -1165,7 +1174,7 @@ namespace HanGao.ViewModel
                     //if (Display_Status(Shape_ModelXld_ReadALLFile(ref _Halcon_List, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.FInd_ID)).GetResult())
                     //{
                     //读取图片
-                    _Image = Get_Image(Camera_Device_List.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
                     //查找模型    Vision_Auto_Cofig.Find_TimeOut_Millisecond
                     _Find_Result = Find_Model_Method(Halcon_Find_Shape_ModelXld_UI, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Find_Shape_ModelXld_UI.FInd_ID);
@@ -1191,7 +1200,7 @@ namespace HanGao.ViewModel
                 HImage _Image = new HImage();
                 Halcon_Method_Model _Halcon = new Halcon_Method_Model();
                 //读取图片
-                _Image = Get_Image(Camera_Device_List.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
                 _Halcon._HImage = new HObject(_Image);
                 //图像预处理
@@ -1400,10 +1409,15 @@ namespace HanGao.ViewModel
 
                 try
                 {
-                    HImage _Image = new HImage();
-                    _Image = Get_Image(Camera_Device_List.Get_Image_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
 
-                    User_Log_Add("采集图像显示到特征窗口成功! ", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    Task.Run(() =>
+                    {
+
+                        HImage _Image = new HImage();
+                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+
+                        User_Log_Add("采集图像显示到特征窗口成功! ", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -1423,13 +1437,13 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 Button _B = Sm.Source as Button;
-     
+
 
                 //情况关于模型特征的数据
                 Halcon_Shape_Mode.Match_Model_Craft_Type = Match_Model_Craft_Type_Enum.请选择模型工艺;
                 Halcon_Shape_Mode.Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
                 Halcon_Shape_Mode.User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
-                Halcon_Shape_Mode.Model_XLD_Origin = new Point(0, 0);
+                Halcon_Shape_Mode.Model_XLD_Origin = new Point_Model();
 
                 Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Draw: Halcon_Shape_Mode.User_Drawing_Data.Drawing_XLD);
                 Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: Halcon_Shape_Mode.User_Drawing_Data.Model_XLD);
@@ -1573,7 +1587,7 @@ namespace HanGao.ViewModel
                     {
                         HImage _Image = new HImage();
 
-                        _Image = Get_Image(Get_Image_Model_Enum.相机采集, Camera_Device_List.Select_Camera.Show_Window);
+                        _Image = Get_Image(Image_Diver_Model_Enum.Online, Camera_Device_List.Select_Camera.Show_Window);
 
                         User_Log_Add(Camera_Device_List.Select_Camera.Camera_Info.SerialNumber.ToString() + "：相机采集图像成功到窗口：" + Camera_Device_List.Select_Camera.Show_Window, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
                     }
@@ -1844,10 +1858,10 @@ namespace HanGao.ViewModel
                 try
                 {
 
-                    Halcon_Shape_Mode.Model_XLD_Origin =new Point( Halcon_Shape_Mode.Chick_Position.X, Halcon_Shape_Mode.Chick_Position.Y);
+                    Halcon_Shape_Mode.Model_XLD_Origin = new Point_Model() { X = Halcon_Shape_Mode.Chick_Position.X, Y = Halcon_Shape_Mode.Chick_Position.Y };
 
 
-                    User_Log_Add("设置工艺模型原点成功！", Log_Show_Window_Enum.Home);
+                    User_Log_Add($"设置工艺模型原点成功！", Log_Show_Window_Enum.Home);
 
                 }
                 catch (Exception e)

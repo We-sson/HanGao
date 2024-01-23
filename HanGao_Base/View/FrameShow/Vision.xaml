@@ -28,7 +28,7 @@
         <Enum_Converter:EnumDescriptionConverter x:Key="Enum_DescriptionConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Enum_Converter:ValueToObject_Converter x:Key="ValueToObject_Converter" />
-
+        <Enum_Converter:Radio_CheckedToEnumConverter x:Key="Radio_CheckedToEnum" />
         <!--<ObjectDataProvider x:Key="Image_Preprocessing_Process_Enum_Model"
                             MethodName="GetNames"
                             ObjectType="{x:Type sys:Enum}">
@@ -2560,11 +2560,11 @@
                                         <Grid Height="40" Margin="8">
 
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition Width=" 80" />
 
                                                 <ColumnDefinition Width=" *" />
 
-                                                <ColumnDefinition Width=" 35" />
+
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="设备模式"
                                                        HorizontalAlignment="Left"
@@ -2587,43 +2587,50 @@
 
                                                     </Grid.ColumnDefinitions>
 
-                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="Camera_0_Diver" Grid.Column=" 0"
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
                                                                  Content="在线设备"
-                                                                 IsChecked="{Binding Camera_Device_List.Image_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
+                                                                 IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
                                                                  FontSize=" 14"
-                                                                 GroupName="Camera_0_Diver"
+                                                                 GroupName="Camera_Diver_Model"
                                                                  Tag="Camera_0" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                  Content="本地模式"
-                                                                 IsChecked="{Binding Camera_Device_List.Image_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
+                                                                 IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
                                                                  FontSize="14"
-                                                                 GroupName="Camera_0_Diver"
+                                                                 GroupName="Camera_Diver_Model"
                                                                  Tag="Camera_0">
-                                                        <i:Interaction.Triggers>
+                                                        <!--<i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="Checked">
                                                                 <i:InvokeCommandAction Command="{Binding}"
                                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                        PassEventArgsToCommand="True" />
                                                             </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
+                                                        </i:Interaction.Triggers>-->
                                                     </RadioButton>
 
                                                 </Grid>
 
                                             </Border>
 
-                                            <Label Grid.Column=" 3"
-                                                   Content=""
-                                                   Margin="0"
-                                                   Padding="0"
-                                                   HorizontalContentAlignment="Center"
-                                                   VerticalContentAlignment="Center"
-                                                   FontSize=" 14" />
+
 
 
                                         </Grid>
 
                                         <Grid Height=" 35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Camera_Device_List.Camera_Diver_Model}" Value="{x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+
+
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
@@ -2645,13 +2652,13 @@
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding MVS_Camera_Info_List}"
                                                       SelectedIndex=" -1"
-                                                      SelectedValue="{Binding Camera_Select_Val}">
+                                                      SelectedValue="{Binding Camera_Device_List.Select_Camera}">
                                                 <ComboBox.Style>
                                                     <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
                                                         <Setter Property="IsEnabled" Value="True" />
                                                         <Style.Triggers>
 
-                                                            <DataTrigger Binding="{Binding Camera_Device_List.Get_Image_Model}" Value="">
+                                                            <DataTrigger Binding="{Binding Camera_Device_List.Camera_Diver_Model}" Value="{x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}">
                                                                 <Setter Property="IsEnabled" Value="False" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
@@ -2721,67 +2728,19 @@
 
                                         </Grid>
 
-
-                                        <Grid Height=" 35" Margin="8">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition />
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock Grid.Column=" 0"
-                                                       Text="采集方式"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
-                                                      Width=" 100"
-                                                      HorizontalAlignment="Left"
-                                                      VerticalContentAlignment="Center"
-                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                      BorderThickness="2"
-                                                      IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Get_Image_Model_Enum}"
-                                                      SelectedValue="{Binding Camera_Device_List.Get_Image_Model}">
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
-                                                                   TextWrapping="Wrap"
-                                                                   Padding="0,4,0,4"
-                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                   FontSize="14"
-                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                                   TextTrimming="CharacterEllipsis" />
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
-
-                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                                    Margin="0,0,0,0"
-                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                                <i:Interaction.Triggers>
-
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Image_CollectionMethod_Comm}"
-                                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-
-                                                <TextBlock Text="采集"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="16"
-                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                            </Button>
-                                        </Grid>
-
                                         <Grid Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Camera_Device_List.Camera_Diver_Model}" Value="{x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
@@ -2851,6 +2810,44 @@
                                     </Grid>
                                 </Border>-->
                                         </Grid>
+
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="采集操作"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Margin="0,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Image_CollectionMethod_Comm}"
+                                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                                <TextBlock Text="采集"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                            </Button>
+                                        </Grid>
+
                                     </StackPanel>
                                 </Grid>
                             </Expander>
@@ -3216,6 +3213,108 @@
                                             </Button>
                                         </Grid>
 
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="膨胀系数"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Expansion_Factor" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="9999"
+                                                    Minimum="-0"
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.DilationCircle}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Expansion_Factor, StringFormat={}{0:F1}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+
+                                        <Border Height=" 2"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_红颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
+
+                                        <Grid Height="40" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+
+                                                <ColumnDefinition Width=" *" />
+
+
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点类型"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                            <Border Grid.Column=" 1"
+                                                    Margin="0,0,0,0"
+                                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                    BorderThickness="2.5"
+                                                    CornerRadius=" 6">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
+                                                                 Content="二维原点"
+                                                                 IsChecked="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_2D}}"
+                                                                 FontSize=" 14"
+                                                                 GroupName="Model_XLD_Origin_Type"
+                                                                 Tag="Camera_0" />
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
+                                                                 Content="三维原定"
+                                                                 IsChecked="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_3D}}"
+                                                                 FontSize="14"
+                                                                 GroupName="Model_XLD_Origin_Type"
+                                                                 Tag="Camera_0">
+                                                        <!--<i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Checked">
+                                                                <i:InvokeCommandAction Command="{Binding}"
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                       PassEventArgsToCommand="True" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>-->
+                                                    </RadioButton>
+
+                                                </Grid>
+
+                                            </Border>
+
+
+
+
+                                        </Grid>
 
                                         <Grid Height="35" Margin="8">
 
@@ -3290,32 +3389,45 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_3D}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width=" auto" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="膨胀系数"
+                                            <TextBlock Text="原点 Z"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Expansion_Factor" Grid.Column=" 1"
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_Z" Grid.Column=" 1"
                                                     Margin="5"
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="9999"
-                                                    Minimum="-0"
-                                                    SmallChange="1"
-                                                    TickFrequency="1"
-                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.DilationCircle}" />
+                                                    Minimum="-9999"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Shape_Mode.Model_XLD_Origin.Z, UpdateSourceTrigger=PropertyChanged}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=Expansion_Factor, StringFormat={}{0}}"
+                                                     Text="{Binding Value, ElementName=Origin_Z, StringFormat={}{0:F3}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -3324,6 +3436,145 @@
                                                      BorderThickness="2"
                                                      FontSize="18" />
                                         </Grid>
+
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_3D}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 Rx"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_Rx" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="360"
+                                                    Minimum="-360"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Shape_Mode.Model_XLD_Origin.Rx, UpdateSourceTrigger=PropertyChanged}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Origin_Rx, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_3D}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 Ry"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_Ry" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="360"
+                                                    Minimum="-360"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Shape_Mode.Model_XLD_Origin.Ry, UpdateSourceTrigger=PropertyChanged}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Origin_Ry, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_3D}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 Rz"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_Rz" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="360"
+                                                    Minimum="-360"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Shape_Mode.Model_XLD_Origin.Rz, UpdateSourceTrigger=PropertyChanged}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Origin_Rz, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
 
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"

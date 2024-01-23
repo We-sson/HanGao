@@ -5557,19 +5557,13 @@
 
 
                                     <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="65*" />
-                                            <ColumnDefinition Width="366*" />
-                                        </Grid.ColumnDefinitions>
 
 
 
 
 
 
-                                        <DataGrid Grid.Column=" 0"
-                                                  Grid.ColumnSpan="2"
-                                                  HorizontalContentAlignment="Stretch"
+                                        <DataGrid HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch"
                                                   AutoGenerateColumns="False"
                                                   Background="{DynamicResource 全局_背景_白颜色}"

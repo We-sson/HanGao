@@ -830,6 +830,14 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public int Image_Height { set; get; } = 500;
         }
+
+
+
+
+
+
+
+
     }
 
     /// <summary>
@@ -1250,6 +1258,10 @@ namespace Halcon_SDK_DLL.Model
         {
             HPose = new HPose(_Point.HPose);
             HType = _Point.HType;
+        }
+        public Point_Model(HPose _Pose)
+        {
+            HPose = new  HPose (_Pose);
         }
 
         public double X { set; get; } = 0;
@@ -1684,7 +1696,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 数据计算xld类型存放
         /// </summary>
-        public HObject Model_XLD { set; get; } = new HObject();
+        public HXLDCont Model_XLD { set; get; } = new HXLDCont();
 
 
         /// <summary>
@@ -1932,6 +1944,22 @@ namespace Halcon_SDK_DLL.Model
         [Description("焊接面板围边！")]
         焊接面板围边
     }
+
+
+
+
+
+    public enum Model_XLD_Origin_Type_Enum
+    {
+        [Description("二维原点")]
+        Origin_2D,
+        [Description("三维原点")]
+        Origin_3D
+
+
+
+    }
+
 
     /// <summary>
     /// 画画类型枚举

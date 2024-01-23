@@ -7,6 +7,7 @@ using MvCamCtrl.NET.CameraParams;
 using MVS_SDK;
 using PropertyChanged;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -442,6 +443,11 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             public Halcon_Camera_Calibration_Parameters_Model Camera_Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
 
+
+            /// <summary>
+            /// 相机手眼标定位置
+            /// </summary>
+            public Point_Model HandEye_ToolinCamera { set; get; }
 
             /// <summary>
             /// 设备图像来源设置
@@ -1468,13 +1474,17 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             /// <returns></returns>
             /// <exception cref="Exception"></exception>
-            public bool Get_HCamPar_File()
+            public void  Get_HCamPar_File()
             {
                 try
                 {
 
                     string _File = Directory.GetCurrentDirectory() + "\\Calibration_File\\" + Camera_Info.SerialNumber + ".dat";
 
+                    string _HandEye_File = Directory.GetCurrentDirectory() + "\\Calibration_File\\HandEyeToolinCam_" + Camera_Info.SerialNumber + ".dat";
+
+
+                    //加载手眼相机内参文件
                     if (File.Exists(_File))
                     {
 
@@ -1486,14 +1496,24 @@ namespace MVS_SDK_Base.Model
                         Camera_Calibration.Camera_Calibration_State = Camera_Calibration_File_Type_Enum.内参标定;
 
 
-                        return true;
+                        //return true;
 
                     }
 
 
+                    ///加载手眼文件
+                    if (File.Exists(_HandEye_File))
+                    {
+                        HPose _HandEyeP = new HPose();
+                        _HandEyeP.ReadPose(_HandEye_File);
+
+                        Camera_Calibration.HandEye_ToolinCamera = new Point_Model(_HandEyeP);
+                        Camera_Calibration.Camera_Calibration_Setup = Camera_Calibration_Mobile_Type_Enum.Calibrated_OK;
+                    }
+
 
                     //throw new Exception(Camera_Info.SerialNumber + "：相机没有内参信息，请把内参文件存放在："+_File);
-                    return false;
+                    //return false;
 
 
                 }
@@ -1682,11 +1702,19 @@ namespace MVS_SDK_Base.Model
         /// <summary>
         /// 不用校准
         /// </summary>
+        [Description("未标定")]
         UnCalibration,
         /// <summary>
         /// 开始校准
         /// </summary>
-        Start_Calibration
+        [Description("正在标定")]
+        Start_Calibration,
+        /// <summary>
+        /// 已经标定完成
+        /// </summary>
+        [Description("已经标定")]
+        Calibrated_OK
+
     }
 
 
