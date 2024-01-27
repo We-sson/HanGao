@@ -3283,21 +3283,23 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition />
                                                         <ColumnDefinition />
+                                                        <ColumnDefinition />
 
                                                     </Grid.ColumnDefinitions>
 
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
-                                                                 Content="二维原点"
-                                                                 IsChecked="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_2D}}"
+                                                                 Content="图像原点"
+                                                                 IsChecked="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Imag}}"
                                                                  FontSize=" 14"
                                                                  GroupName="Model_XLD_Origin_Type"
                                                                  Tag="Camera_0" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
-                                                                 Content="三维原定"
-                                                                 IsChecked="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_3D}}"
+                                                                 Content="采集坐标"
+                                                                 IsChecked="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Camera}}"
                                                                  FontSize="14"
                                                                  GroupName="Model_XLD_Origin_Type"
                                                                  Tag="Camera_0">
+
                                                         <!--<i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="Checked">
                                                                 <i:InvokeCommandAction Command="{Binding}"
@@ -3306,7 +3308,12 @@
                                                             </i:EventTrigger>
                                                         </i:Interaction.Triggers>-->
                                                     </RadioButton>
-
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
+                                                                 Content="模型原点"
+                                                                 IsChecked="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Model}}"
+                                                                 FontSize=" 14"
+                                                                 GroupName="Model_XLD_Origin_Type"
+                                                                 Tag="Camera_0" />
                                                 </Grid>
 
                                             </Border>
@@ -3393,10 +3400,12 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_3D}">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Camera}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Model}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
@@ -3442,10 +3451,12 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_3D}">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Camera}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Model}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
@@ -3488,7 +3499,10 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_3D}">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Camera}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
 
@@ -3534,7 +3548,10 @@
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_3D}">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Camera}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
 

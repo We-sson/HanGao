@@ -59,7 +59,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 模型原地设置类型
         /// </summary>
-        public Model_XLD_Origin_Type_Enum Model_XLD_Origin_Type { set; get; } = Model_XLD_Origin_Type_Enum.Origin_2D;
+        public Model_XLD_Origin_Type_Enum Model_XLD_Origin_Type { set; get; } = Model_XLD_Origin_Type_Enum.Origin_Imag;
 
 
         private string Shape_Save_Path { set; get; } = Environment.CurrentDirectory + "\\ShapeModel";

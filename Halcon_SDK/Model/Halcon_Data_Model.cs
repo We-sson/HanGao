@@ -1951,10 +1951,12 @@ namespace Halcon_SDK_DLL.Model
 
     public enum Model_XLD_Origin_Type_Enum
     {
-        [Description("二维原点")]
-        Origin_2D,
-        [Description("三维原点")]
-        Origin_3D
+        [Description("图像原点")]
+        Origin_Imag,
+        [Description("采集原点")]
+        Origin_Camera,
+        [Description("模型原点")]
+        Origin_Model
 
 
 
