@@ -1,4 +1,5 @@
-﻿using Halcon_SDK_DLL.Halcon_Method;
+﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
+using Halcon_SDK_DLL.Halcon_Method;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using Microsoft.Win32;
@@ -163,6 +164,11 @@ namespace HanGao.ViewModel
         /// halcon 控件显示属性
         /// </summary>
         public Halcon_Window_Display_Model Halcon_Window_Display { set; get; } = new Halcon_Window_Display_Model();
+
+
+   
+
+
 
         /// <summary>
         /// 保存读取图像属性
@@ -549,6 +555,9 @@ namespace HanGao.ViewModel
                 HSmartWindowControlWPF Window_UserContol = Sm.Source as HSmartWindowControlWPF;
 
                 Halcon_Window_Display.HWindows_Initialization(Window_UserContol);
+
+
+
             });
         }
 

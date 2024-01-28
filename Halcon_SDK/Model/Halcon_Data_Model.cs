@@ -2267,7 +2267,7 @@ namespace Halcon_SDK_DLL.Model
 
         [Description("图像特征页面")]
         Features_Window,
-
+        Features_3D_Results,
         Results_Window_1,
         Results_Window_2,
         Results_Window_3,
@@ -2279,7 +2279,7 @@ namespace Halcon_SDK_DLL.Model
         HandEye_Window_2,
         HandEye_Results_Window_1,
         HandEye_Results_Window_2,
-        HandEye_3DResults
+        HandEye_3D_Results
     }
 
     /// <summary>

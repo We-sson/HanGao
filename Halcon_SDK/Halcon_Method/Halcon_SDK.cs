@@ -1,4 +1,5 @@
-﻿using Halcon_SDK_DLL.Model;
+﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
+using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using PropertyChanged;
 using System.Drawing;
@@ -797,7 +798,10 @@ namespace Halcon_SDK_DLL
         public Halcon_SDK HandEye_Window_2 { set; get; } = new Halcon_SDK();
         public Halcon_SDK HandEye_Results_Window_1 { set; get; } = new Halcon_SDK();
         public Halcon_SDK HandEye_Results_Window_2 { set; get; } = new Halcon_SDK();
-        public Halcon_SDK HandEye_3DResults { set; get; } = new Halcon_SDK();
+        public Halcon_SDK HandEye_3D_Results { set; get; } = new Halcon_SDK();
+
+        public Halcon_SDK Features_3D_Results{ set; get; } = new Halcon_SDK();
+
 
         /// <summary>
         /// 实施相机视角控件
@@ -844,6 +848,13 @@ namespace Halcon_SDK_DLL
         /// </summary>
         public Halcon_SDK Calibration_Window_2 { set; get; } = new Halcon_SDK();
 
+
+        /// <summary>
+        /// 三维可视乎属性
+        /// </summary>
+        public H3D_Model_Display? HDisplay_3D { set; get; }
+
+
         /// <summary>
         /// Halcon窗口初始化
         /// </summary>
@@ -881,6 +892,50 @@ namespace Halcon_SDK_DLL
                     //加载halcon图像属性
                     Results_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     break;
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_3D_Results)):
+                    //加载halcon图像属性
+                    Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+
+                    //可视化显示
+                    HDisplay_3D = new H3D_Model_Display(Calibration_3D_Results);
+                    break;
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_3D_Results)):
+                    //加载halcon图像属性
+                    HandEye_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    HDisplay_3D = new H3D_Model_Display(HandEye_3D_Results);
+
+                    break;
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_3D_Results)):
+                    //加载halcon图像属性
+                    Features_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    HDisplay_3D = new H3D_Model_Display(Features_3D_Results);
+
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_2)):
+                    //加载halcon图像属性
+                    Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_1)):
+                    //加载halcon图像属性
+                    Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_1)):
+                    //加载halcon图像属性
+                    HandEye_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_2)):
+                    //加载halcon图像属性
+                    HandEye_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_1)):
+                    //加载halcon图像属性
+                    HandEye_Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_2)):
+                    //加载halcon图像属性
+                    HandEye_Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    break;
+          
             }
             //设置halcon窗体大小
             Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
@@ -963,8 +1018,8 @@ namespace Halcon_SDK_DLL
 
                     break;
 
-                case Window_Show_Name_Enum.HandEye_3DResults:
-                    HandEye_3DResults.HWindow.ClearWindow();
+                case Window_Show_Name_Enum.HandEye_3D_Results:
+                    HandEye_3D_Results.HWindow.ClearWindow();
 
                     break;
 
@@ -1037,8 +1092,8 @@ namespace Halcon_SDK_DLL
 
                     break;
 
-                case Window_Show_Name_Enum.HandEye_3DResults:
-                    HandEye_3DResults.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                case Window_Show_Name_Enum.HandEye_3D_Results:
+                    HandEye_3D_Results.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
 
                     break;
 
@@ -1144,8 +1199,8 @@ namespace Halcon_SDK_DLL
                     _WindowDisplay = Calibration_3D_Results;
                     break;
 
-                case Window_Show_Name_Enum.HandEye_3DResults:
-                    _WindowDisplay = HandEye_3DResults;
+                case Window_Show_Name_Enum.HandEye_3D_Results:
+                    _WindowDisplay = HandEye_3D_Results;
                     break;
             }
 
@@ -1195,7 +1250,7 @@ namespace Halcon_SDK_DLL
             HandEye_Window_2?.Dispose();
             HandEye_Results_Window_1?.Dispose();
             HandEye_Results_Window_2?.Dispose();
-            HandEye_3DResults?.Dispose();
+            HandEye_3D_Results?.Dispose();
             Calibration_3D_Results?.Dispose();
             Calibration_Window_1?.Dispose();
             Calibration_Window_2?.Dispose();

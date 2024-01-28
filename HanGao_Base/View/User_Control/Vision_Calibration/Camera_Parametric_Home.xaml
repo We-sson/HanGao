@@ -557,11 +557,11 @@
                                                    HMoveContent="False"
                                                    HZoomContent="Off"
                                                    SnapsToDevicePixels="True">
-                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_3DResults.DisplayImage}" />
-                        <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_3DResults.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                        HDraw="{Binding Halcon_Window_Display.HandEye_3DResults.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                        IconicObject="{Binding Halcon_Window_Display.HandEye_3DResults.DisplayRegion}" />
-                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_3DResults.DisplayXLD}" />
+                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_3D_Results.DisplayImage}" />
+                        <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                        HDraw="{Binding Halcon_Window_Display.HandEye_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                        IconicObject="{Binding Halcon_Window_Display.HandEye_3D_Results.DisplayRegion}" />
+                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_3D_Results.DisplayXLD}" />
 
                     </Halcon:HSmartWindowControlWPF>
 

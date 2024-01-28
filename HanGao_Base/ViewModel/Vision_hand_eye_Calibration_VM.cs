@@ -1382,11 +1382,11 @@ namespace HanGao.ViewModel
                 Halcon_Window_Display.HandEye_Results_Window_1 = new Halcon_SDK() { HWindow = E.HandEye_Results_Window_1.HalconWindow, Halcon_UserContol = E.HandEye_Results_Window_1 };
                 Halcon_Window_Display.HandEye_Results_Window_2 = new Halcon_SDK() { HWindow = E.HandEye_Results_Window_2.HalconWindow, Halcon_UserContol = E.HandEye_Results_Window_2 };
 
-                Halcon_Window_Display.HandEye_3DResults = new Halcon_SDK() { HWindow = E.HandEye_3DResults.HalconWindow, Halcon_UserContol = E.HandEye_3DResults };
+                Halcon_Window_Display.HandEye_3D_Results = new Halcon_SDK() { HWindow = E.HandEye_3D_Results.HalconWindow, Halcon_UserContol = E.HandEye_3D_Results };
 
 
                 //可视化显示
-                HDisplay_3D = new H3D_Model_Display(Halcon_Window_Display.HandEye_3DResults);
+                HDisplay_3D = new H3D_Model_Display(Halcon_Window_Display.HandEye_3D_Results);
 
 
 

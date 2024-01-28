@@ -73,6 +73,9 @@
                         <RowDefinition Height="40" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
+
+
+
                     <Grid Grid.Row=" 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
@@ -86,6 +89,7 @@
                         <!--  图像窗口按钮  -->
                         <Grid Grid.Column=" 0">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -135,7 +139,7 @@
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Features_Window_Button" Grid.Column=" 2"
-                                         IsChecked="True"
+                                         IsChecked="False"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -156,6 +160,30 @@
                                                FontSize="16" />
                                 </StackPanel>
                             </RadioButton>
+
+                            <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Features_3D_Window_Button" Grid.Column=" 3"
+                                         IsChecked="True"
+                                         Margin="5"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         GroupName="Halcon_Window">
+                                <StackPanel Margin="5"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                    <Image Height=" 20"
+                                           Margin="5,0,5,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Source="/Resources/Vision_特征图像_ioc.png" />
+                                    <TextBlock Text="三维图像"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16" />
+                                </StackPanel>
+                            </RadioButton>
+
                         </Grid>
                         <!--  图像功能按钮  -->
                         <Grid Grid.Column=" 1" HorizontalAlignment="Right">
@@ -270,26 +298,7 @@
                                 </ToggleButton>
                             </Grid>
                         </Grid>
-                        <!--  图像窗口信息  -->
-                        <!--<Grid Grid.Column=" 2">
-                            <StackPanel Margin="5"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal">
-                                <TextBlock Text="{Binding Camera_IP_Address, StringFormat=相机IP : {0}}"
-                                           Margin="4"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="16" />
-                                <TextBlock Text="{Binding Camera_Resolution, StringFormat=分辨率 : {0}}"
-                                           Margin="4"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="16" />
-                                <TextBlock Text="{Binding Camera_FrameRate, StringFormat=帧率 : {0}}"
-                                           Margin="4"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="16" />
-                            </StackPanel>
-                        </Grid>-->
+
                     </Grid>
                     <Grid Grid.Row=" 1">
                         <Grid.Style>
@@ -302,19 +311,7 @@
                                 </Style.Triggers>
                             </Style>
                         </Grid.Style>
-                        <!--  窗口蒙版  -->
-                        <!--<Border x:Name="Mask"
-                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                CornerRadius="0 0 10 10 " />
-                        <Border x:Name="Mask1"
-                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                CornerRadius="0 0 0 0 " />-->
-                        <!--<ContentControl x:Name="Live_Window" Content="{Binding Live_Window}">
-                            <ContentControl.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=Mask}" />
-                            </ContentControl.OpacityMask>
-                        </ContentControl>-->
-                        <!--  相机图像  -->
+
                         <Halcon:HSmartWindowControlWPF x:Name="Live_Window"
                                                        HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Stretch"
@@ -334,9 +331,7 @@
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                            <!--<Halcon:HSmartWindowControlWPF.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=Mask}" />
-                            </Halcon:HSmartWindowControlWPF.OpacityMask>-->
+
                         </Halcon:HSmartWindowControlWPF>
                     </Grid>
                     <Grid Grid.Row=" 1">
@@ -1009,6 +1004,7 @@
                             </Halcon:HSmartWindowControlWPF.OpacityMask>-->
                         </Halcon:HSmartWindowControlWPF>
                         <Grid Grid.Row=" 2" Grid.Column=" 0">
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="auto" />
@@ -1084,6 +1080,290 @@
                             </Border>
                         </Grid>
                     </Grid>
+
+
+                    <Grid Grid.Row=" 1" Grid.Column=" 2"
+                          Margin="0"
+                          Effect="{DynamicResource 全局背景阴影}">
+
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Hidden" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Features_3D_Window_Button}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition />
+                            <RowDefinition Height=" auto" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row=" 0" Grid.Column=" 0"
+                                Grid.ColumnSpan=" 3"
+                                Height=" 40"
+                                Padding="5"
+                                Background="{DynamicResource 全局_背景_白颜色}"
+                                CornerRadius=" 0 0 0 0">
+                            <StackPanel Orientation="Horizontal">
+
+
+                                <StackPanel Margin="4,0,4,0" Orientation="Horizontal">
+
+                                    <TextBlock Text="显示方式"
+                                               Margin="4,0,4,0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                    <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI_1" Grid.Column=" 1"
+                                              Width=" 80"
+                                              HorizontalContentAlignment="Center"
+                                              VerticalContentAlignment="Center"
+                                              IsSynchronizedWithCurrentItem="True"
+                                              SelectedIndex="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Instance.Attribute, ConverterParameter={x:Type Halcon_Enum:Attribute_Val_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
+                                        <ComboBoxItem>
+                                            <TextBlock Text="自动"
+                                                       TextWrapping="Wrap"
+                                                       Padding="10,5,10,5"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+
+                                            <TextBlock Text="面"
+                                                       TextWrapping="Wrap"
+                                                       Padding="10,5,10,5"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+
+                                            <TextBlock Text="原始"
+                                                       TextWrapping="Wrap"
+                                                       Padding="10,5,10,5"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+
+                                            <TextBlock Text="点云"
+                                                       TextWrapping="Wrap"
+                                                       Padding="10,5,10,5"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+
+                                            <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                       Text="线段"
+                                                       TextWrapping="Wrap"
+                                                       Padding="10,5,10,5"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </ComboBoxItem>
+                                    </ComboBox>
+
+
+                                    <TextBlock Text="透明度"
+                                               Margin="4,0,4,0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                    <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Scene3D_Alpha_1" Grid.Column=" 1"
+                                            Width=" 50"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            HorizontalContentAlignment="Stretch"
+                                            VerticalContentAlignment="Stretch"
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="1"
+                                            Minimum="0.01"
+                                            TickFrequency=" 0.01"
+                                            Value="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Param.Alpha, UpdateSourceTrigger=PropertyChanged}" />
+
+                                    <TextBox Grid.Column=" 2"
+                                             Text="{Binding ElementName=Scene3D_Alpha_1, Path=Value, StringFormat={}{0:F2}}"
+                                             Width="80"
+                                             HorizontalContentAlignment="Center"
+                                             VerticalContentAlignment="Center"
+                                             Background="Transparent"
+                                             BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                             BorderThickness="2"
+                                             FontSize="16" />
+                                </StackPanel>
+
+                                <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
+                                              IsChecked="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Instance.Disp_pose}"
+                                              Margin="4,0,4,0"
+                                              Padding="0,0,0,0"
+                                              FontSize=" 16">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="&#xe62f;"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="/Resources/#iconfont"
+                                               FontSize="18"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <Label Content="坐标系"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               Visibility="Collapsed" />
+                                    </StackPanel>
+
+                                    <!--<i:Interaction.Triggers>
+    <i:EventTrigger EventName="Checked">
+        <i:InvokeCommandAction Command="{Binding Set_Scene3D_Disp_Pose_Comm}" PassEventArgsToCommand="True" />
+    </i:EventTrigger>
+</i:Interaction.Triggers>-->
+                                </ToggleButton>
+
+                                <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
+                                              IsChecked="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Instance.Disp_normals}"
+                                              Margin="4,0,4,0"
+                                              Padding="0,0,0,0"
+                                              FontSize=" 16">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="&#xe63b;"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="/Resources/#iconfont"
+                                               FontSize=" 18"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <Label Content="模型法线"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               Visibility="Collapsed" />
+                                    </StackPanel>
+                                </ToggleButton>
+                                <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
+                                              IsChecked="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Instance.Disp_lines}"
+                                              Margin="4,0,4,0"
+                                              Padding="0,0,0,0"
+                                              FontSize=" 16">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="&#xe63d;"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="/Resources/#iconfont"
+                                               FontSize=" 18"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <Label Content="模型轮廓"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               Visibility="Collapsed" />
+                                    </StackPanel>
+                                </ToggleButton>
+
+
+                                <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
+                                              IsChecked="False"
+                                              Margin="4,0,4,0"
+                                              Padding="0,0,0,0"
+                                              FontSize=" 16">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="&#xe629;"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="/Resources/#iconfont"
+                                               FontSize=" 18"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <Label Content="模型编号"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                               Visibility="Collapsed" />
+                                    </StackPanel>
+                                </ToggleButton>
+
+                            </StackPanel>
+                        </Border>
+
+
+
+
+
+
+
+                        <Halcon:HSmartWindowControlWPF x:Name="Features_3D_Results" Grid.Row=" 1" Grid.Column=" 1"
+                                                       Grid.ColumnSpan=" 2"
+                                                       MinWidth="400"
+                                                       MinHeight="400"
+                                                       HorizontalAlignment="Stretch"
+                                                       VerticalAlignment="Stretch"
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"
+                                                       HDisableAutoResize="False"
+                                                       HDoubleClickToFitContent="False"
+                                                       HKeepAspectRatio="False"
+                                                       HMoveContent="False"
+                                                       HZoomContent="Off"
+                                                       SnapsToDevicePixels="True">
+                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_3D_Results.DisplayImage}" />
+                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_3D_Results.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                            HDraw="{Binding Halcon_Window_Display.Features_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                            IconicObject="{Binding Halcon_Window_Display.Features_3D_Results.DisplayRegion}" />
+                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Features_3D_Results.DisplayXLD}" />
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Halcon:HSmartWindowControlWPF>
+
+
+
+                        <Border Grid.Row=" 2" Grid.Column=" 1"
+                                Grid.ColumnSpan=" 2"
+                                Height=" 25"
+                                Padding="2"
+                                Background="{DynamicResource 全局_背景_白颜色}">
+                            <Grid>
+                                <TextBlock Margin="5,0,0,0"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontSize="12">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="坐标 : X: {0:N3}, Y: {1:N3} , Z: {2:N3} , Rx: {3:N3} , Ry: {4:N3} , Rz: {5:N3}">
+                                            <Binding Path="Halcon_Window_Display.HDisplay_3D.UI_PoseIn_Tr.X" TargetNullValue="0" />
+                                            <Binding Path="Halcon_Window_Display.HDisplay_3D.UI_PoseIn_Tr.Y" TargetNullValue="0" />
+                                            <Binding Path="Halcon_Window_Display.HDisplay_3D.UI_PoseIn_Tr.Z" TargetNullValue="0" />
+                                            <Binding Path="Halcon_Window_Display.HDisplay_3D.UI_PoseIn_Ro.X" TargetNullValue="0" />
+                                            <Binding Path="Halcon_Window_Display.HDisplay_3D.UI_PoseIn_Ro.Y" TargetNullValue="0" />
+                                            <Binding Path="Halcon_Window_Display.HDisplay_3D.UI_PoseIn_Ro.Z" TargetNullValue="0" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+
+
                 </Grid>
                 <Grid Grid.Column=" 1" Margin="3,6,3,3">
                     <Grid.RowDefinitions>
@@ -2856,7 +3136,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="False">
+                                      IsExpanded="True">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                                         <Border.Style>
@@ -3592,6 +3872,56 @@
                                                      FontSize="18" />
                                         </Grid>
 
+                                        <Grid Height=" 34" Margin="8">
+
+
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Camera}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_XLD_Origin_Type}" Value="{x:Static Halcon_Enum:Model_XLD_Origin_Type_Enum.Origin_Model}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="位置类型"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Pos_Model_UI" Grid.Column=" 1"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Halcon_Pose_Type_Enum}"
+                                                      SelectedValue="{Binding Halcon_Shape_Mode.Model_XLD_Origin.HType}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </Grid>
 
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
