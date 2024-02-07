@@ -100,44 +100,7 @@ namespace Roboto_Socket_Library
         }
 
 
-        //private Type? Get_Data_Type()
-        //{
-        //    //T1? _Get_data = default;
-
-
-        //    switch (Vision_Model_Type)
-        //    {
-        //        case Vision_Model_Enum.Calibration_New:
-        //            break;
-        //        case Vision_Model_Enum.Calibration_Text:
-        //            break;
-        //        case Vision_Model_Enum.Calibration_Add:
-        //            break;
-        //        case Vision_Model_Enum.Find_Model:
-
-
-
-        //            return typeof(Vision_Find_Data_Receive);
-
-
-
-        //        case Vision_Model_Enum.Vision_Ini_Data:
-
-        //            return typeof(Vision_Ini_Data_Receive);
-
-
-
-        //        case Vision_Model_Enum.HandEye_Calib_Date:
-
-
-        //            return typeof(HandEye_Calibration_Receive);
-
-
-        //    }
-
-
-        //    return default;
-        //}
+  
 
 
 
@@ -170,6 +133,12 @@ namespace Roboto_Socket_Library
                 case Vision_Model_Enum.HandEye_Calib_Date:
 
                     return (T1)(Object)HandEye_Calibration_Receive_Protocol();
+
+                case Vision_Model_Enum.Vision_Creation_Model:
+
+                    return (T1)(Object)Vision_Creation_Model_Receive_Protocol();
+
+
 
                 default:
                     throw new Exception("现有通讯协议无法解析，请联系开发者！");
@@ -211,6 +180,11 @@ namespace Roboto_Socket_Library
                 case Vision_Model_Enum.HandEye_Calib_Date:
 
                     return HandEye_Calibration_Send_Protocol( (_Propertie as HandEye_Calibration_Send)!);
+
+
+                case Vision_Model_Enum.Vision_Creation_Model:
+                    return Vision_Creation_Model_Send_Procotol((_Propertie as Vision_Creation_Model_Send)!);
+
 
                 default:
                     throw new Exception("现有通讯协议无法解析，请联系开发者！");
@@ -296,6 +270,12 @@ namespace Roboto_Socket_Library
 
         }
 
+
+        /// <summary>
+        /// 手眼标定发送协议
+        /// </summary>
+        /// <param name="_Propertie"></param>
+        /// <returns></returns>
         private byte[] HandEye_Calibration_Send_Protocol(HandEye_Calibration_Send _Propertie)
         {
 
@@ -363,6 +343,83 @@ namespace Roboto_Socket_Library
             return Array.Empty<byte>();
         }
 
+
+
+
+        /// <summary>
+        /// 视觉创建模式协议发送方法
+        /// </summary>
+        /// <param name="_Propertie"></param>
+        /// <returns></returns>
+        private byte[] Vision_Creation_Model_Send_Procotol(Vision_Creation_Model_Send _Propertie)
+        {
+
+            switch (Socket_Robot)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.ABB:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.川崎:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.通用:
+
+
+
+                    break;
+
+            }
+
+            return Array.Empty<byte>();
+        }
+
+        /// <summary>
+        /// 视觉创建模式协议接受方法
+        /// </summary>
+        /// <returns></returns>
+        private Vision_Creation_Model_Receive Vision_Creation_Model_Receive_Protocol()
+        {
+
+            switch (Socket_Robot)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.ABB:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.川崎:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.通用:
+
+
+
+                    break;
+
+            }
+
+
+            return new Vision_Creation_Model_Receive();
+
+        }
+
+
         /// <summary>
         /// 视觉初始化数据接收协议解析
         /// </summary>
@@ -399,6 +456,9 @@ namespace Roboto_Socket_Library
             return new Vision_Ini_Data_Receive();
 
         }
+
+
+
 
         private byte[]? Vision_Ini_Send_Procotol(Vision_Ini_Data_Send _Propertie)
         {

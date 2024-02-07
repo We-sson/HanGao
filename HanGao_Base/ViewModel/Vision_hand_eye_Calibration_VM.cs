@@ -130,7 +130,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 手眼机器人通讯参数
         /// </summary>
-        public HandEye_Socket_Robot_Parameters_Model HandEye_Socket_Robot_Parameters { set; get; } = new HandEye_Socket_Robot_Parameters_Model() { };
+        public Socket_Robot_Parameters_Model Socket_Robot_Model_Parameters { set; get; } = new Socket_Robot_Parameters_Model() ;
 
 
         /// <summary>
@@ -165,17 +165,17 @@ namespace HanGao.ViewModel
             {
 
 
-                HandEye_Socket_Robot_Parameters.Local_IP_UI = new ObservableCollection<string>(_List) { };
+                Socket_Robot_Model_Parameters.Local_IP_UI = new ObservableCollection<string>(_List) { };
 
 
                 ///启动服务器添加接收事件
-                foreach (var _Sever in HandEye_Socket_Robot_Parameters.Local_IP_UI)
+                foreach (var _Sever in Socket_Robot_Model_Parameters.Local_IP_UI)
                 {
 
-                    HandEye_Socket_Robot_Parameters.HandEye_Receive_List.Add(new Socket_Receive(_Sever, HandEye_Socket_Robot_Parameters.HandEye_Socket_Port.ToString())
+                    Socket_Robot_Model_Parameters.Receive_List.Add(new Socket_Receive(_Sever, Socket_Robot_Model_Parameters.Sever_Socket_Port.ToString())
                     {
-                        Socket_Robot = HandEye_Socket_Robot_Parameters.HandEye_Socket_Robot,
-                        HandEye_Calibration_Data_Delegate = HandEye_Calib_Socket_Receive,
+                        Socket_Robot = Socket_Robot_Model_Parameters.Socket_Robot_Model,
+                        HandEye_Calibration_Data_Delegate = HandEye_Calib_Socket_Receive, 
                         Socket_Receive_Meg = HanddEye_Socked_Receive_information.Data_Converts_Str_Method,
                         Socket_Send_Meg = HanddEye_Socked_Send_information.Data_Converts_Str_Method,
                         Socket_ErrorInfo_delegate = Socket_Log_Show,
@@ -189,7 +189,7 @@ namespace HanGao.ViewModel
 
                 //KUKA_Receive.Server_Strat(Local_IP_UI[IP_UI_Select].ToString(), Local_Port_UI.ToString());
                 //HandEye_Socket_Server_Type = false;
-                User_Log_Add("开启手眼标定服务器端口:" + HandEye_Socket_Robot_Parameters.HandEye_Socket_Port, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                User_Log_Add("开启手眼标定服务器端口:" + Socket_Robot_Model_Parameters.Sever_Socket_Port, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
             }
 
@@ -202,7 +202,7 @@ namespace HanGao.ViewModel
         public void HandEye_Calib_Sever_Stop()
         {
 
-            foreach (var _Sock in HandEye_Socket_Robot_Parameters.HandEye_Receive_List)
+            foreach (var _Sock in Socket_Robot_Model_Parameters.Receive_List)
             {
 
 
@@ -210,7 +210,7 @@ namespace HanGao.ViewModel
             }
 
             ///关闭通讯清理IP显示
-            HandEye_Socket_Robot_Parameters.HandEye_Receive_List.Clear();
+            Socket_Robot_Model_Parameters.Receive_List.Clear();
 
 
 

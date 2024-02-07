@@ -2,6 +2,7 @@
 using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -29,6 +30,12 @@ namespace MVS_SDK
         /// 设备图像来源设置
         /// </summary>
         public Image_Diver_Model_Enum Camera_Diver_Model { get; set; } = Image_Diver_Model_Enum.Online;
+
+        /// <summary>
+        /// UI图像文件显示地址
+        /// </summary>
+        public string Image_Location_UI { set; get; } =string.Empty;
+
 
 
         /// <summary>

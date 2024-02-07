@@ -1,11 +1,12 @@
-﻿using Halcon_SDK_DLL.Halcon_Examples_Method;
-using Halcon_SDK_DLL.Halcon_Method;
+﻿using Halcon_SDK_DLL.Halcon_Method;
+using HanGao.View.User_Control.Vision_Calibration;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using Microsoft.Win32;
 using MVS_SDK_Base.Model;
 using Ookii.Dialogs.Wpf;
 using Roboto_Socket_Library;
+using System.Windows.Controls.Primitives;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
@@ -166,7 +167,7 @@ namespace HanGao.ViewModel
         public Halcon_Window_Display_Model Halcon_Window_Display { set; get; } = new Halcon_Window_Display_Model();
 
 
-   
+
 
 
 
@@ -235,11 +236,9 @@ namespace HanGao.ViewModel
         /// </summary>
         public void Initialization_Sever_STOP()
         {
-            foreach (var _Sock in Robot_Receive)
-            {
-                _Sock.Sever_End();
-            }
-            User_Log_Add("停止所有服务器连接!", Log_Show_Window_Enum.Home);
+            Vision_Socket_Robot_Parameters.Server_List_End();
+
+
         }
 
         /// <summary>
@@ -250,27 +249,61 @@ namespace HanGao.ViewModel
             List<string> _List = new List<string>();
             if (Socket_Receive.GetLocalIP(ref _List))
             {
-                Local_IP_UI = new ObservableCollection<string>(_List) { };
+                Vision_Socket_Robot_Parameters.Local_IP_UI = new ObservableCollection<string>(_List) { };
 
                 ///启动服务器添加接收事件
-                foreach (var _Sever in Local_IP_UI)
+                foreach (var _Sever in Vision_Socket_Robot_Parameters.Local_IP_UI)
                 {
-                    Robot_Receive.Add(new Socket_Receive(_Sever, Vision_Auto_Cofig.Stat_Network_Port.ToString())
+                    Vision_Socket_Robot_Parameters.Receive_List.Add(new Socket_Receive(_Sever, Vision_Socket_Robot_Parameters.Sever_Socket_Port.ToString())
                     {
-                        //Receive_Calibration_New_String = Static_KUKA_Receive_Calibration_New_String,
-                        //Receive_Calibration_Add_String=Static_KUKA_Receive_Calibration_Add_String,
-                        //KUKA_Receive_Calibration_Text_String=Static_KUKA_Receive_Calibration_Text_String,
-                        //KUKA_Receive_Find_String = Static_KUKA_Receive_Find_String,
-                        //Receive_Vision_Ini_String=Static_KUKA_Receive_Vision_Ini_String,
+                        Socket_Robot = Vision_Socket_Robot_Parameters.Socket_Robot_Model,
+                        Vision_Ini_Data_Delegate = Vision_Ini_Data_Receive_Method,
+                        Vision_Creation_Model_Data_Delegate = Vision_Creation_Model_Receive_Method,
                         Socket_ErrorInfo_delegate = Socket_Log_Show
                     });
                 }
 
                 //KUKA_Receive.Server_Strat(Local_IP_UI[IP_UI_Select].ToString(), Local_Port_UI.ToString());
-                Receive_Start_Type = false;
-                User_Log_Add("开启所有网络服务器设备端口:" + Vision_Auto_Cofig.Stat_Network_Port.ToString(), Log_Show_Window_Enum.Home);
+                Vision_Socket_Robot_Parameters.Sever_IsRuning = true ;
             }
+       
         }
+
+
+        public Vision_Find_Data_Send Vision_Find_Data_Receive_Method(Vision_Find_Data_Receive _Receive)
+        {
+
+
+
+
+
+
+            return new Vision_Find_Data_Send();
+        }
+
+        public Vision_Ini_Data_Send Vision_Ini_Data_Receive_Method(Vision_Ini_Data_Receive _Receive)
+        {
+
+
+
+
+            return new Vision_Ini_Data_Send();
+        }
+
+        public Vision_Creation_Model_Send Vision_Creation_Model_Receive_Method(Vision_Creation_Model_Receive _Receive)
+        {
+
+
+
+
+
+
+            return new Vision_Creation_Model_Send();
+        }
+
+
+
+
 
         /// <summary>
         /// 重新读取模型之前清除旧缓存..
@@ -561,15 +594,14 @@ namespace HanGao.ViewModel
             });
         }
 
-        /// <summary>
-        /// 库卡通讯服务器属性
-        /// </summary>
-        public List<Socket_Receive> Robot_Receive { set; get; } = new List<Socket_Receive>();
+
 
         /// <summary>
-        /// 电脑网口设备IP网址
+        /// 手眼机器人通讯参数
         /// </summary>
-        public ObservableCollection<string> Local_IP_UI { set; get; }
+        public Socket_Robot_Parameters_Model Vision_Socket_Robot_Parameters { set; get; } = new Socket_Robot_Parameters_Model() { Sever_Socket_Port=5000 };
+
+
 
         /// <summary>
         /// 图像处理流程
@@ -587,28 +619,48 @@ namespace HanGao.ViewModel
             });
         }
 
-        /// <summary>
-        /// 服务器开始状态
-        /// </summary>
-        public bool Receive_Start_Type { set; get; } = true;
+
 
         /// <summary>
         ///服务器启动停止按钮
         /// </summary>
         public ICommand Server_End_Comm
         {
-            get => new RelayCommand<Vision_hand_eye_Calibration_Window>((Sm) =>
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                if (Receive_Start_Type)
+                    ToggleButton _Contol = Sm.Source as ToggleButton;
+                try
                 {
-                    Initialization_Sever_Start();
-                    Receive_Start_Type = false;
+
+                    
+
+
+                    if (!Vision_Socket_Robot_Parameters.Sever_IsRuning)
+                    {
+                        Initialization_Sever_Start();
+
+                
+                        User_Log_Add("开启所有IP服务器连接：" + Vision_Socket_Robot_Parameters.Sever_Socket_Port.ToString(), Log_Show_Window_Enum.Home);
+
+                    }
+                    else
+                    {
+                        Initialization_Sever_STOP();
+                  
+                        User_Log_Add("停止所有IP服务器连接!", Log_Show_Window_Enum.Home);
+
+                    }
                 }
-                else
+                catch (Exception _e)
                 {
-                    Initialization_Sever_STOP();
-                    Receive_Start_Type = true;
+                    Vision_Socket_Robot_Parameters.Sever_IsRuning = false;
+                    _Contol.IsChecked = false;
+                    User_Log_Add("开启服务器接受失败！原因："+_e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
                 }
+
+
+
             });
         }
 
@@ -689,7 +741,7 @@ namespace HanGao.ViewModel
                     try
                     {
                         HImage _Image = new HImage();
-                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List. Image_Location_UI);
 
 
                         _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(_Image);
@@ -818,10 +870,7 @@ namespace HanGao.ViewModel
         /// 用户选择采集图片方式
         /// </summary>
 
-        /// <summary>
-        /// UI图像文件显示地址
-        /// </summary>
-        public string Image_Location_UI { set; get; } = Environment.CurrentDirectory;
+
 
         /// <summary>
         /// 创建模型存放位置
@@ -915,13 +964,13 @@ namespace HanGao.ViewModel
                 {
                     Filter = "图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;",
                     RestoreDirectory = true,
-                    FileName = Image_Location_UI,
+                    FileName = Camera_Device_List.Image_Location_UI,
                 };
                 //选择图像文件
                 if ((bool)openFileDialog.ShowDialog())
                 {
                     //赋值图像地址到到UI
-                    Image_Location_UI = openFileDialog.FileName;
+                    Camera_Device_List.Image_Location_UI = openFileDialog.FileName;
                 }
             });
         }
@@ -975,7 +1024,7 @@ namespace HanGao.ViewModel
                     Create_Shape_ModelXld_UI_IsEnable = true;
 
                     //读取图片
-                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                     //_Halcon._HImage = new HObject(_Image);
 
@@ -1000,9 +1049,9 @@ namespace HanGao.ViewModel
                     //_Halcon.Halcon_Image_Pre_Processing(Halcon_Find_Shape_ModelXld_UI);
 
                     Halcon_Shape_Mode.ShapeModel_Create_Save(_Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose);
-                   
-                    
-                    
+
+
+
                     ///保存创建模型
                     //if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Shape_Mode.Create_Shape_ModelXld)).GetResult())
                     //{
@@ -1183,7 +1232,7 @@ namespace HanGao.ViewModel
                     //if (Display_Status(Shape_ModelXld_ReadALLFile(ref _Halcon_List, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.FInd_ID)).GetResult())
                     //{
                     //读取图片
-                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                     //查找模型    Vision_Auto_Cofig.Find_TimeOut_Millisecond
                     _Find_Result = Find_Model_Method(Halcon_Find_Shape_ModelXld_UI, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Find_Shape_ModelXld_UI.FInd_ID);
@@ -1209,7 +1258,7 @@ namespace HanGao.ViewModel
                 HImage _Image = new HImage();
                 Halcon_Method_Model _Halcon = new Halcon_Method_Model();
                 //读取图片
-                _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                 _Halcon._HImage = new HObject(_Image);
                 //图像预处理
@@ -1423,7 +1472,7 @@ namespace HanGao.ViewModel
                     {
 
                         HImage _Image = new HImage();
-                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Image_Location_UI);
+                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                         User_Log_Add("采集图像显示到特征窗口成功! ", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
                     });
@@ -1550,6 +1599,106 @@ namespace HanGao.ViewModel
             });
         }
 
+
+
+        /// <summary>
+        /// 相机内参工具开启
+        /// </summary>
+        public ICommand Cameras_Parametric_Calibration_Window_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+
+                try
+                {
+
+                    foreach (Window window in Application.Current.Windows)
+                    {
+                        if (window.GetType() == typeof(Camera_Parametric_Home))//使用窗体类进行匹配查找
+                        {
+                            User_Log_Add("相机内参标定工具窗口已经打开!", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                            return;
+                        }
+                    }
+
+                    Camera_Parametric_Home Parametric_Window =
+                    new Camera_Parametric_Home()
+                    {
+
+                        DataContext = new Vision_Calibration_Home_VM()
+                        {
+
+                        },
+
+                    };
+
+
+                    Parametric_Window.Show();
+
+                }
+                catch (Exception e)
+                {
+                    User_Log_Add("打开相机内存标定窗口失败! 原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+            });
+        }
+
+
+        /// <summary>
+        /// 相机手眼工具开启
+        /// </summary>
+        public ICommand Cameras_HandEye_Calibration_Window_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+
+                try
+                {
+
+
+                    foreach (Window window in Application.Current.Windows)
+                    {
+                        if (window.GetType() == typeof(Vision_hand_eye_Calibration_Window))//使用窗体类进行匹配查找
+                        {
+                            User_Log_Add("相机内参标定工具窗口已经打开!", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                            return;
+                        }
+
+                    }
+
+
+
+
+                    Vision_hand_eye_Calibration_Window HandEye_Window =
+                    new Vision_hand_eye_Calibration_Window()
+                    {
+
+                        DataContext = new Vision_hand_eye_Calibration_VM()
+                        {
+
+                        },
+
+                    };
+
+
+                    HandEye_Window.Show();
+
+                }
+                catch (Exception e)
+                {
+                    User_Log_Add("打开手眼标定窗口失败! 原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+
+
+            });
+        }
+
+
+
+
+
         /// <summary>
         /// 设置相机参数确认方法
         /// </summary>
@@ -1596,13 +1745,13 @@ namespace HanGao.ViewModel
                     {
                         HImage _Image = new HImage();
 
-                        _Image = Get_Image(Image_Diver_Model_Enum.Online, Camera_Device_List.Select_Camera.Show_Window);
+                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
-                        User_Log_Add(Camera_Device_List.Select_Camera.Camera_Info.SerialNumber.ToString() + "：相机采集图像成功到窗口：" + Camera_Device_List.Select_Camera.Show_Window, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                        User_Log_Add("采集图像成功到窗口：" + Window_Show_Name_Enum.Features_Window, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
                     }
                     catch (Exception _e)
                     {
-                        User_Log_Add(Camera_Device_List.Select_Camera.Camera.ToString() + "相机采集图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                        User_Log_Add( "采集图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                     }
                 });
             });
@@ -1638,7 +1787,17 @@ namespace HanGao.ViewModel
 
                 case Image_Diver_Model_Enum.Local:
 
-                    _Image.ReadImage(_path);
+                    if (File.Exists(_path))
+                    {
+                        _Image.ReadImage(_path);
+
+                    }
+                    else
+                    {
+                        throw new Exception("读取的地址不是文件，请重新选择！");
+
+                    }
+
                     //Halcon_SDK.HRead_Image(ref _Image, _path);
 
                     //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);

@@ -10,6 +10,29 @@ namespace Roboto_Socket_Library.Model
     {
 
         /// <summary>
+        /// 手眼相机标定发送协议格式
+        /// </summary>
+        [Serializable]
+        [XmlType("Send")]
+        public class HandEye_Calibration_Send
+        {
+            /// <summary>
+            /// 标定消息错误
+            /// </summary>
+            public string Message_Error { set; get; } = string.Empty;
+            /// <summary>
+            /// 标定状态
+            /// </summary>
+            [XmlAttribute]
+            public int IsStatus { set; get; }
+
+            /// <summary>
+            /// 结果位置
+            /// </summary>
+            public Point_Models Calib_Point { set; get; } = new Point_Models();
+        }
+
+        /// <summary>
         /// 手眼相机标定接收协议格式
         /// </summary>
         [Serializable]
@@ -32,6 +55,71 @@ namespace Roboto_Socket_Library.Model
 
 
         }
+
+        /// <summary>
+        /// 手眼相机标定发送协议格式
+        /// </summary>
+        [Serializable]
+        [XmlType("Send")]
+        public class Vision_Creation_Model_Send
+        {
+            /// <summary>
+            /// 标定消息错误
+            /// </summary>
+            public string Message_Error { set; get; } = string.Empty;
+            /// <summary>
+            /// 标定状态
+            /// </summary>
+            [XmlAttribute]
+            public int IsStatus { set; get; }
+
+            /// <summary>
+            /// 结果位置
+            /// </summary>
+            public Point_Models Calib_Point { set; get; } = new Point_Models();
+        }
+
+        /// <summary>
+        /// 手眼相机标定接收协议格式
+        /// </summary>
+        [Serializable]
+        [XmlType("Receive")]
+        public class Vision_Creation_Model_Receive
+        {
+
+            /// <summary>
+            /// 接收模式
+            /// </summary>
+            //[XmlAttribute]
+            //public Vision_Model_Enum Model { set; get; }
+            [XmlAttribute]
+            public HandEye_Calibration_Type_Enum? Calibration_Model { set; get; }
+
+
+            /// <summary>
+            /// 模型平面位置
+            /// </summary>
+            public Point_Models ACT_Point { set; get; } = new Point_Models();
+
+
+
+            /// <summary>
+            ///  相机拍摄点
+            /// </summary>
+            public Point_Models Camera_Point { set; get; } = new Point_Models();
+
+
+            /// <summary>
+            /// 视觉功能
+            /// </summary>
+            public Vision_Model_Enum? Vision_Model { set; get; }
+
+
+        }
+
+
+
+
 
         /// <summary>
         /// 相机标定发送协议格式
@@ -64,29 +152,6 @@ namespace Roboto_Socket_Library.Model
         }
 
 
-
-        /// <summary>
-        /// 手眼相机标定发送协议格式
-        /// </summary>
-        [Serializable]
-        [XmlType("Send")]
-        public class HandEye_Calibration_Send
-        {
-            /// <summary>
-            /// 标定消息错误
-            /// </summary>
-            public string Message_Error { set; get; } = string.Empty;
-            /// <summary>
-            /// 标定状态
-            /// </summary>
-            [XmlAttribute]
-            public int IsStatus { set; get; }
-
-            /// <summary>
-            /// 结果位置
-            /// </summary>
-            public Point_Models Calib_Point { set; get; } = new Point_Models();
-        }
 
 
         /// <summary>
@@ -128,6 +193,10 @@ namespace Roboto_Socket_Library.Model
 
 
         }
+      
+        
+
+        
         /// <summary>
         /// 标定点数据格式内容
         /// </summary>
@@ -230,7 +299,7 @@ namespace Roboto_Socket_Library.Model
         /// 手眼标定机器人通讯参数模型
         /// </summary>
         [AddINotifyPropertyChangedInterface]
-        public class HandEye_Socket_Robot_Parameters_Model
+        public class Socket_Robot_Parameters_Model
         {
 
 
@@ -243,25 +312,39 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 通讯服务器属性
             /// </summary>
-            public List<Socket_Receive> HandEye_Receive_List { set; get; } = new List<Socket_Receive>();
+            public List<Socket_Receive> Receive_List { set; get; } = new List<Socket_Receive>();
 
             /// <summary>
             /// 手眼标定通讯协议机器人
             /// </summary>
-            public Socket_Robot_Protocols_Enum HandEye_Socket_Robot { set; get; } = Socket_Robot_Protocols_Enum.KUKA;
+            public Socket_Robot_Protocols_Enum Socket_Robot_Model { set; get; } = Socket_Robot_Protocols_Enum.KUKA;
             /// <summary>
             /// 手眼标定通讯端口
             /// </summary>
-            public int HandEye_Socket_Port { set; get; } = 5400;
+            public int Sever_Socket_Port { set; get; } = 5400;
 
             /// <summary>
             /// 通讯设备图像来源设置
             /// </summary>
-            public Image_Diver_Model_Enum HaneEye_Socket_Diver_Model { get; set; } = Image_Diver_Model_Enum.Online;
+            public Image_Diver_Model_Enum Socket_Diver_Model { get; set; } = Image_Diver_Model_Enum.Online;
+
+            /// <summary>
+            /// 接受服务器运行状态
+            /// </summary>
+            public bool Sever_IsRuning { set; get; } = false;
 
 
 
 
+            public void Server_List_End()
+            {
+                foreach (var _Sock in Receive_List)
+                {
+                    _Sock.Sever_End();
+                    Sever_IsRuning = false;
+                }
+                Local_IP_UI.Clear();
+            }
 
         }
 

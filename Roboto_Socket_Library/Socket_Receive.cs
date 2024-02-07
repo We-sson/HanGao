@@ -1,14 +1,7 @@
-﻿
-using ABB_Socket;
-using Halcon_SDK_DLL.Model;
-using KUKA_Socket;
+﻿using Halcon_SDK_DLL.Model;
 using Roboto_Socket_Library.Model;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Xml.Linq;
 
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 
@@ -47,27 +40,37 @@ namespace Roboto_Socket_Library
         /// </summary>
         public Socket_Robot_Protocols_Enum Socket_Robot { set; get; }
 
+
+
+        public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send>? Vision_Find_Model_Delegate { set; get; }
+
+
         /// <summary>
-        /// 声明接收信息委托
+        /// 视觉程序初始化协议委托
         /// </summary>
-        //public ReceiveMessage_delegate<Calibration_Data_Receive, string> Receive_Calibration_New_String { set; get; }
-        //public ReceiveMessage_delegate<Calibration_Data_Receive, string> Receive_Calibration_Add_String { set; get; }
-        //public ReceiveMessage_delegate<Calibration_Data_Receive, string> Receive_Calibration_Text_String { set; get; }
-
-        public ReceiveMessage_delegate<Vision_Find_Data_Receive,  Vision_Find_Data_Send>? Vision_Find_Model_Delegate { set; get; }
-        public ReceiveMessage_delegate<Vision_Ini_Data_Receive,  Vision_Ini_Data_Send>? Vision_Ini_Data_Delegate { set; get; }
+        public ReceiveMessage_delegate<Vision_Ini_Data_Receive, Vision_Ini_Data_Send>? Vision_Ini_Data_Delegate { set; get; }
 
 
+        /// <summary>
+        /// 手眼标定数据协议委托
+        /// </summary>
         public ReceiveMessage_delegate<HandEye_Calibration_Receive, HandEye_Calibration_Send>? HandEye_Calibration_Data_Delegate { set; get; }
 
-        
-        public Message_Byte_delegate <byte[]>? Socket_Receive_Meg { set; get; }
-        public Message_Byte_delegate <byte[]>? Socket_Send_Meg { set; get; }
+
+
+        /// <summary>
+        /// 视觉创建模型接受协议委托
+        /// </summary>
+        public ReceiveMessage_delegate<Vision_Creation_Model_Receive, Vision_Creation_Model_Send>? Vision_Creation_Model_Data_Delegate { set; get; }
+
+
+        public Message_Byte_delegate<byte[]>? Socket_Receive_Meg { set; get; }
+        public Message_Byte_delegate<byte[]>? Socket_Send_Meg { set; get; }
 
         /// <summary>
         /// 通讯连接错误委托
         /// </summary>
-        public Socket_T_delegate<string >? Socket_ErrorInfo_delegate { set; get; }
+        public Socket_T_delegate<string>? Socket_ErrorInfo_delegate { set; get; }
 
 
 
@@ -84,13 +87,13 @@ namespace Roboto_Socket_Library
         /// <summary>
         /// 接收文件编码信息
         /// </summary>
-        public string Receive_Information { set; get; }=string.Empty;
+        public string Receive_Information { set; get; } = string.Empty;
 
 
         /// <summary>
         /// 发生文本编码信息
         /// </summary>
-        public string Send_Information { set; get; }=string.Empty;  
+        public string Send_Information { set; get; } = string.Empty;
 
 
         /// <summary>
@@ -128,14 +131,14 @@ namespace Roboto_Socket_Library
             try
             {
 
-            Socket_Sever?.Shutdown(SocketShutdown.Both);
-            Socket_Sever?.Close();
+                Socket_Sever?.Shutdown(SocketShutdown.Both);
+                Socket_Sever?.Close();
             }
             catch (Exception)
             {
 
-            Socket_Sever?.Dispose();
-              
+                Socket_Sever?.Dispose();
+
             }
 
         }
@@ -168,10 +171,10 @@ namespace Roboto_Socket_Library
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception _e)
             {
 
-                return false;
+                throw new Exception("本地IP获取失败！，请检查网络配置。原因：" + _e.Message);
 
             }
 
@@ -242,12 +245,12 @@ namespace Roboto_Socket_Library
                 {
                     int length = client.EndReceive(ar);
                     string _S = string.Empty;
-           
-                    Byte[] Send_byte= Array.Empty<byte>();
+
+                    Byte[] Send_byte = Array.Empty<byte>();
                     //WriteLine(clientipe + " ：" + message, ConsoleColor.White);
                     //每当服务器收到消息就会给客户端返回一个Server received data
-                    
-     
+
+
 
                     if (length == 0)
                     {
@@ -262,48 +265,10 @@ namespace Roboto_Socket_Library
                     Socket_Receive_Meg?.Invoke(_Reveice_Meg);
 
 
-                    //创建协议处理类型
+                    //创建协议处理类型,处理协议头部解析类型
                     Robot_Socket_Protocol _Socket_Protocol = new Robot_Socket_Protocol(Socket_Robot, _Reveice_Meg);
 
-
-                   
-
-
-                    //switch (Socket_Robot)
-                    //{
-                    //    case Socket_Robot_Protocols_Enum.KUKA:
-
-                    //        string message = Encoding.UTF8.GetString(_Reveice_Meg);
-
-                    //        //HandEye_Calibration_Receive _HandEye_Receive = KUKA_Send_Receive_Xml.String_Xml<HandEye_Calibration_Receive>(_St);
-
-                    //        //  _S = KUKA_Socket.KUKA_EKL_Socket(message);
-                    //        Send_byte = Encoding.UTF8.GetBytes(_S);
-
-
-
-                    //        Receive_Information = message;
-
-                    //        break;
-                    //    case Socket_Robot_Protocols_Enum.ABB:
-
-                           
-
-                    //        //HandEye_Calibration_Data_Delegate();
-
-                    //        //Send_byte = ABB_Socket.ABB_PC_Socket(_Reveice_Meg);
-
-
-
-                    //        break;
-                    //    case Socket_Robot_Protocols_Enum.川崎:
-                    //        break;
-                    //}
-
-
-   
-                    //}
-
+                    ///根据协议类型处理对应内容
                     switch (_Socket_Protocol.Vision_Model_Type)
                     {
                         case Vision_Model_Enum.Calibration_New:
@@ -342,7 +307,17 @@ namespace Roboto_Socket_Library
 
 
                             break;
-                     
+
+                        case Vision_Model_Enum.Vision_Creation_Model:
+
+                            Vision_Creation_Model_Receive? _Vision_Creation_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Vision_Creation_Model_Receive>();
+
+                            Vision_Creation_Model_Send? __Vision_Creation_Send = Vision_Creation_Model_Data_Delegate?.Invoke(_Vision_Creation_Rece!);
+
+                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(__Vision_Creation_Send ?? new Vision_Creation_Model_Send()) ?? Array.Empty<byte>();
+
+                            break;
+
                     }
 
 
@@ -353,9 +328,9 @@ namespace Roboto_Socket_Library
 
                         //委托显示发送数据
                         Socket_Send_Meg?.Invoke(Send_byte);
-                    client.Send(Send_byte);
-                    //通过递归不停的接收该客户端的消息
-                    client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
+                        client.Send(Send_byte);
+                        //通过递归不停的接收该客户端的消息
+                        client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
                     }
                     else
                     {
@@ -421,14 +396,14 @@ namespace Roboto_Socket_Library
 
         //                _Str = KUKA_Receive_Vision_Ini_String(_Vision_Receive, _St);
 
-                 
+
 
         //                break;
 
         //            case Vision_Model_Enum.HandEye_Calib_Date:
 
         //                KUKA_HandEye_Calibration_Receive _HandEye_Receive = KUKA_Send_Receive_Xml.String_Xml<KUKA_HandEye_Calibration_Receive>(_St);
-                       
+
         //                _Str= HandEye_Calibration_String?.Invoke(_HandEye_Receive, _St);
 
         //                break;

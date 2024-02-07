@@ -2388,7 +2388,10 @@ namespace Halcon_SDK_DLL.Model
         Find_Model,
         Vision_Ini_Data,
         HandEye_Calib_Date,
+        Vision_Creation_Model,
     }
+
+
 
     public enum Robot_Type_Enum
     {

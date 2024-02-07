@@ -2300,7 +2300,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Robot_Diver" Grid.Column=" 1"
-                                                          IsChecked="{Binding HandEye_Socket_Robot_Parameters.HaneEye_Socket_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
+                                                          IsChecked="{Binding Socket_Robot_Model_Parameters.Socket_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
                                                           VerticalContentAlignment="Center"
@@ -2374,13 +2374,13 @@
 
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="Robot_Diver" Grid.Column=" 0"
                                                                  Content="在线设备"
-                                                                 IsChecked="{Binding HandEye_Socket_Robot_Parameters.HaneEye_Socket_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
+                                                                 IsChecked="{Binding Socket_Robot_Model_Parameters.Socket_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
                                                                  FontSize=" 14"
                                                                  GroupName="Robot_Diver"
                                                                  Tag="Camera_0" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                  Content="本地模式"
-                                                                 IsChecked="{Binding HandEye_Socket_Robot_Parameters.HaneEye_Socket_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
+                                                                 IsChecked="{Binding Socket_Robot_Model_Parameters.Socket_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
                                                                  FontSize="14"
                                                                  GroupName="Robot_Diver"
                                                                  Tag="Camera_0">
@@ -2421,7 +2421,7 @@
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Source={StaticResource Robot_Enum}}"
-                                                      SelectedValue="{Binding HandEye_Socket_Robot_Parameters.HandEye_Socket_Robot}">
+                                                      SelectedValue="{Binding Socket_Robot_Model_Parameters.Socket_Robot_Model}">
                                                 <ComboBox.Style>
                                                     <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
                                                         <Setter Property="IsEnabled" Value="True" />
@@ -2474,7 +2474,7 @@
                                                       FontSize="24"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Binding HandEye_Socket_Robot_Parameters.Local_IP_UI, Mode=TwoWay}">
+                                                      ItemsSource="{Binding Socket_Robot_Model_Parameters.Local_IP_UI, Mode=TwoWay}">
                                                 <ComboBox.Style>
                                                     <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
                                                         <Setter Property="IsEnabled" Value="True" />
@@ -2526,7 +2526,7 @@
 
 
                                             <TextBox Grid.Column=" 1"
-                                                     Text="{Binding HandEye_Socket_Robot_Parameters.HandEye_Socket_Port}"
+                                                     Text="{Binding Socket_Robot_Model_Parameters.Sever_Socket_Port}"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
                                                      Background="Transparent"
