@@ -647,7 +647,7 @@ namespace HanGao.ViewModel
                     {
                         Initialization_Sever_STOP();
                   
-                        User_Log_Add("停止所有IP服务器连接!", Log_Show_Window_Enum.Home);
+                        User_Log_Add("停止所有IP服务器连接!", Log_Show_Window_Enum.Home,  MessageBoxImage.Stop);
 
                     }
                 }

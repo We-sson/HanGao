@@ -106,7 +106,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Border x:Name="border_Bottom" Grid.Column=" 0"
-                                    Margin="1.5" 
+                                    Margin="1.5"
                                     Background="{DynamicResource 全局_按钮_绿颜色}"
                                     BorderBrush="Transparent"
                                     BorderThickness="{Binding ElementName=border, Path=BorderThickness}"
@@ -136,6 +136,7 @@
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
                             <Setter TargetName="border_Bottom" Property="Grid.Column" Value="1" />
+                            <Setter TargetName="border_Bottom" Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />

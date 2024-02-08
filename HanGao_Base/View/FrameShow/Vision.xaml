@@ -1342,12 +1342,13 @@
                                 Grid.ColumnSpan=" 2"
                                 Height=" 25"
                                 Padding="2"
-                                Background="{DynamicResource 全局_背景_白颜色}">
+                                Background="{DynamicResource 全局_按钮_黑颜色}">
                             <Grid>
                                 <TextBlock Margin="5,0,0,0"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           FontSize="12">
+                                           FontSize="12"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="坐标 : X: {0:N3}, Y: {1:N3} , Z: {2:N3} , Rx: {3:N3} , Ry: {4:N3} , Rz: {5:N3}">
                                             <Binding Path="Halcon_Window_Display.HDisplay_3D.UI_PoseIn_Tr.X" TargetNullValue="0" />
@@ -2340,7 +2341,7 @@
                                                         </DataGridTemplateColumn.Header>
                                                         <DataGridTemplateColumn.CellTemplate>
                                                             <DataTemplate>
-                                                                <TextBlock Text="{Binding Camera_Info.SerialNumber}"
+                                                                <TextBlock Text="{Binding Camera_Info.ModelName}"
                                                                            HorizontalAlignment="Center"
                                                                            VerticalAlignment="Center"
                                                                            FontSize="16"
@@ -2361,7 +2362,7 @@
                                                         </DataGridTemplateColumn.Header>
                                                         <DataGridTemplateColumn.CellTemplate>
                                                             <DataTemplate>
-                                                                <TextBlock Text="{Binding Camera_Info.ModelName}"
+                                                                <TextBlock Text="{Binding Camera_Info.SerialNumber}"
                                                                            Margin="4"
                                                                            HorizontalAlignment="Center"
                                                                            VerticalAlignment="Center"

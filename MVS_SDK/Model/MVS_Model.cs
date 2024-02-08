@@ -681,7 +681,7 @@ namespace MVS_SDK_Base.Model
 
 
 
-               
+
                 foreach (PropertyInfo _Type in Camera_parameter.GetType().GetProperties())
                 {
 
@@ -770,7 +770,7 @@ namespace MVS_SDK_Base.Model
             /// 获得一图像显示到指定窗口
             /// </summary>
             /// <param name="_HWindow"></param>
-            public HImage  GetOneFrameTimeout()
+            public HImage GetOneFrameTimeout()
             {
 
 
@@ -834,7 +834,7 @@ namespace MVS_SDK_Base.Model
             /// <param name="_Timeout"></param>
             /// <returns></returns>
             public MVS_Image_Mode MVS_GetOneFrameTimeout(int _Timeout = 5000)
-             {
+            {
 
 
 
@@ -854,7 +854,7 @@ namespace MVS_SDK_Base.Model
                     Set_Camera_Val(Camera_Parameters_Name_Enum.PayloadSize, Camera.GetIntValue("PayloadSize", ref stParam));
 
 
-             
+
 
                     //创建帧图像信息
                     MVS_Image_Mode Frame_Image = new MVS_Image_Mode
@@ -863,7 +863,7 @@ namespace MVS_SDK_Base.Model
                         pData_Buffer = new byte[stParam.CurValue]
                     };
 
-           
+
 
                     //抓取一张图片
                     if (Set_Camera_Val(Camera_Parameters_Name_Enum.GetOneFrameTimeout, Camera.GetOneFrameTimeout(Frame_Image.pData_Buffer, (uint)stParam.CurValue, ref Frame_Image.FrameEx_Info, _Timeout)))
@@ -904,7 +904,7 @@ namespace MVS_SDK_Base.Model
 
                     if (!Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.StartGrabbing()))
                     {
-                        throw new Exception("开始取流失败！" );
+                        throw new Exception("开始取流失败！");
 
                     }
 
@@ -936,7 +936,7 @@ namespace MVS_SDK_Base.Model
 
                     //清空回调
                     //Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(null, IntPtr.Zero));
-                   
+
 
                 }
                 catch (Exception _e)
@@ -1009,7 +1009,7 @@ namespace MVS_SDK_Base.Model
             /// 关闭相机
             /// </summary>
             /// <returns></returns>
-            public  void Close_Camera()
+            public void Close_Camera()
             {
                 if (Camera != null)
                 {
@@ -1127,7 +1127,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             /// <param name="_name">相机参数名称枚举</param>
             /// <param name="_key">相机状态码</param>
-            public  bool Set_Camera_Val<T1, T2>(T1 _name, T2 _key)
+            public bool Set_Camera_Val<T1, T2>(T1 _name, T2 _key)
             {
                 var aa = _name.GetType();
 
@@ -1228,7 +1228,7 @@ namespace MVS_SDK_Base.Model
             /// <param name="_name"></param>
             /// <param name="_key"></param>
             /// <returns></returns>
-            public  bool Get_Camera_Val<T1, T2>(T1 _name, T2 _key)
+            public bool Get_Camera_Val<T1, T2>(T1 _name, T2 _key)
             {
 
                 if (_name is PropertyInfo _Tname)
@@ -1377,7 +1377,7 @@ namespace MVS_SDK_Base.Model
             /// 设置探测网络最佳包大小(只对GigE相机有效)
             /// </summary>
             /// <returns></returns>
-            public  bool Set_Camera_GEGI_GevSCPSPacketSize()
+            public bool Set_Camera_GEGI_GevSCPSPacketSize()
             {
 
                 if (MVS_CameraInfo.nTLayerType == CSystem.MV_GIGE_DEVICE)
@@ -1407,7 +1407,7 @@ namespace MVS_SDK_Base.Model
             /// 检查相机列表中选择相机是否可用
             /// </summary>
             /// <param name="_Camera_Number"></param>
-            public  bool Check_IsDeviceAccessible()
+            public bool Check_IsDeviceAccessible()
             {
 
                 //读取选择相机信息
@@ -1417,7 +1417,7 @@ namespace MVS_SDK_Base.Model
                 //检查相机设备可用情况
                 return CSystem.IsDeviceAccessible(ref MVS_CameraInfo, MV_ACCESS_MODE.MV_ACCESS_EXCLUSIVE);
 
-               
+
 
 
 
@@ -1429,7 +1429,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             /// <param name="_delegate"></param>
             /// <returns></returns>
-            public  bool RegisterImageCallBackEx( cbOutputExdelegate _delegate)
+            public bool RegisterImageCallBackEx(cbOutputExdelegate _delegate)
             {
 
                 return Set_Camera_Val(Camera_Parameters_Name_Enum.RegisterImageCallBackEx, Camera.RegisterImageCallBackEx(_delegate, IntPtr.Zero));
@@ -1438,7 +1438,7 @@ namespace MVS_SDK_Base.Model
 
 
 
-            public  bool FreeImageBuffer()
+            public bool FreeImageBuffer()
             {
                 CFrameout _Frame = new CFrameout();
                 Camera.FreeImageBuffer(ref _Frame);
@@ -1474,14 +1474,23 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             /// <returns></returns>
             /// <exception cref="Exception"></exception>
-            public void  Get_HCamPar_File()
+            public void Get_HCamPar_File()
             {
                 try
                 {
 
-                    string _File = Directory.GetCurrentDirectory() + "\\Calibration_File\\" + Camera_Info.SerialNumber + ".dat";
+                    string _Calib_File = Directory.GetCurrentDirectory() + "\\Calibration_File";
 
-                    string _HandEye_File = Directory.GetCurrentDirectory() + "\\Calibration_File\\HandEyeToolinCam_" + Camera_Info.SerialNumber + ".dat";
+                    ///检查标定文件夹
+                    if (!Directory.Exists(_Calib_File))
+                    {
+                        DirectoryInfo directoryInfo = new DirectoryInfo(_Calib_File);
+                        directoryInfo.Create();
+                    }
+
+                    string _File = _Calib_File + "\\" + Camera_Info.SerialNumber + ".dat";
+
+                    string _HandEye_File = _Calib_File + "\\HandEyeToolinCam_" + Camera_Info.SerialNumber + ".dat";
 
 
                     //加载手眼相机内参文件
