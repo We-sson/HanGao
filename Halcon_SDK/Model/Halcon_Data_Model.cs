@@ -2378,6 +2378,15 @@ namespace Halcon_SDK_DLL.Model
     }
 
     /// <summary>
+    /// 创建模型带你类型
+    /// </summary>
+    public enum Vision_Creation_Model_Pos_Enum
+    {
+        Camer_Pos,
+        Model_Pos,
+    }
+
+    /// <summary>
     /// 视觉识别功能
     /// </summary>
     public enum Vision_Model_Enum
