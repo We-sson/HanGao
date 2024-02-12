@@ -42,24 +42,27 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public Create_Shape_Based_ModelXld Create_Shape_ModelXld { set; get; } = new Create_Shape_Based_ModelXld();
 
-
-        /// <summary>
-        /// 全部模型原点位置
-        /// </summary>
-        //public Point Model_XLD_Origin { set; get; } = new Point(0, 0);
-
-
         /// <summary>
         /// 全部模型三维原点
         /// </summary>
-        public Point_Model Model_XLD_Origin { set; get; } = new Point_Model();
+        public Point_Model Model_Plane_Pos { set; get; } = new Point_Model();
 
+
+        /// <summary>
+        /// 相机拍摄位置
+        /// </summary>
+        public Point_Model Model_Camera_Pos { set; get; } = new Point_Model();
+
+        /// <summary>
+        /// 二维平面原点位置
+        /// </summary>
+        public Point_Model Model_2D_Origin { set; get; } = new Point_Model();
 
 
         /// <summary>
         /// 模型原地设置类型
         /// </summary>
-        public Model_XLD_Origin_Type_Enum Model_XLD_Origin_Type { set; get; } = Model_XLD_Origin_Type_Enum.Origin_Camera;
+        public Model_2D_Origin_Type_Enum Model_2D_Origin_Type { set; get; } = Model_2D_Origin_Type_Enum.Origin_Camera;
 
 
         private string Shape_Save_Path { set; get; } = Environment.CurrentDirectory + "\\ShapeModel";
@@ -401,7 +404,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                                 Create_Shape_ModelXld.Optimization.ToString(), Create_Shape_ModelXld.Metric.ToString(),
                                                 Create_Shape_ModelXld.MinContrast);
 
-                        _ShapeModel.SetShapeModelOrigin(Model_XLD_Origin.X, Model_XLD_Origin.Y);
+                        _ShapeModel.SetShapeModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
                         //保存模型文件
                         _ShapeModel.WriteShapeModel(_shape_model_Location);
 
@@ -466,7 +469,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         }
 
 
-                        _DeformableModel.SetDeformableModelOrigin(Model_XLD_Origin.X, Model_XLD_Origin.Y);
+                        _DeformableModel.SetDeformableModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
 
                         //保存模型文件
                         _DeformableModel.WriteDeformableModel(_planar_deformable_model_Location);
@@ -499,7 +502,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                 new HTuple(), new HTuple());
 
 
-                        _DeformableModel.SetDeformableModelOrigin(Model_XLD_Origin.X, Model_XLD_Origin.Y);
+                        _DeformableModel.SetDeformableModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
 
 
                         //保存模型文件
@@ -529,7 +532,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                  Create_Shape_ModelXld.MinContrast);
 
 
-                        _ShapeModel.SetShapeModelOrigin(Model_XLD_Origin.X, Model_XLD_Origin.Y);
+                        _ShapeModel.SetShapeModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
                         //保存模型文件
                         _ShapeModel.WriteShapeModel(_Scale_model_Location);
 
@@ -562,7 +565,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                 Create_Shape_ModelXld.Metric.ToString(),
                                  Create_Shape_ModelXld.MinContrast);
 
-                        _ShapeModel.SetShapeModelOrigin(Model_XLD_Origin.X, Model_XLD_Origin.Y);
+                        _ShapeModel.SetShapeModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
 
 
                         //保存模型文件
@@ -654,7 +657,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                 Create_Shape_ModelXld.Metric.ToString());
 
 
-                        _NccModel.SetNccModelOrigin(Model_XLD_Origin.X, Model_XLD_Origin.Y);
+                        _NccModel.SetNccModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
 
                         //获得保存模板名称
                         string _NccModel_Location = SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);

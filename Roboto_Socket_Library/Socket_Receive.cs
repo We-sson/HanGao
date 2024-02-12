@@ -169,6 +169,9 @@ namespace Roboto_Socket_Library
 
                 }
 
+                //添加本地监听
+                _IPAddress.Add("127.0.0.1");
+
                 return true;
             }
             catch (Exception _e)

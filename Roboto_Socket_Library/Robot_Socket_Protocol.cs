@@ -2,7 +2,6 @@
 using Halcon_SDK_DLL.Model;
 using KUKA_Socket;
 using Roboto_Socket_Library.Model;
-using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
@@ -26,9 +25,9 @@ namespace Roboto_Socket_Library
 
 
 
-       /// <summary>
-       /// 通讯对接机器人类型
-       /// </summary>
+        /// <summary>
+        /// 通讯对接机器人类型
+        /// </summary>
         public Socket_Robot_Protocols_Enum Socket_Robot { set; get; } = Socket_Robot_Protocols_Enum.通用;
 
 
@@ -44,11 +43,11 @@ namespace Roboto_Socket_Library
         /// </summary>
         public List<byte> Receice_byte = new List<byte>();
 
-       /// <summary>
-       /// 解析头部数据是属于那个方法
-       /// </summary>
-       /// <returns></returns>
-       /// <exception cref="Exception"></exception>
+        /// <summary>
+        /// 解析头部数据是属于那个方法
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private Vision_Model_Enum Socket_Get_Vision_Model()
         {
 
@@ -64,22 +63,29 @@ namespace Roboto_Socket_Library
 
                 case Socket_Robot_Protocols_Enum.ABB:
 
-
-                    var aa = Encoding.UTF8.GetString(Receice_byte.ToArray(), 0, 1);
-                    var ee = Encoding.UTF8.GetString(Receice_byte.ToArray(), Receice_byte.Count - 1, 1);
-
-
-                    if (aa == "[" && ee == "]")
+         
+                    //装换接收总数字节
+                    var INI = BitConverter.ToInt16(Receice_byte.Skip(0).Take(2).ToArray());
+                  
+                    if (INI != Receice_byte.Count() - 2)
                     {
-                        var tt = Receice_byte.Skip(1).Take(4).ToArray();
-                        int e = BitConverter.ToInt32(tt);
+                        throw new Exception("通讯协议存在丢包，请检查网络！");
+                    }
 
-                        return (Vision_Model_Enum)e;
-                    }
-                    else
+                    //装换接收功能
+                    var mode = BitConverter.ToInt16(Receice_byte.Skip(2).Take(2).ToArray());
+
+
+                    if (!Enum.IsDefined((Vision_Model_Enum)mode))
                     {
-                        throw new Exception("通讯协议无法解析，请联系开发者！");
+                        throw new Exception("通讯协议无该功能码，请联系开发者！");
                     }
+
+
+                    return (Vision_Model_Enum)mode;
+
+
+
 
                 case Socket_Robot_Protocols_Enum.川崎:
 
@@ -100,7 +106,7 @@ namespace Roboto_Socket_Library
         }
 
 
-  
+
 
 
 
@@ -179,7 +185,7 @@ namespace Roboto_Socket_Library
 
                 case Vision_Model_Enum.HandEye_Calib_Date:
 
-                    return HandEye_Calibration_Send_Protocol( (_Propertie as HandEye_Calibration_Send)!);
+                    return HandEye_Calibration_Send_Protocol((_Propertie as HandEye_Calibration_Send)!);
 
 
                 case Vision_Model_Enum.Vision_Creation_Model:
@@ -283,7 +289,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                  var bt=  Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_Propertie));
+                    var bt = Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_Propertie));
 
                     return bt;
                 case Socket_Robot_Protocols_Enum.ABB:
@@ -291,8 +297,8 @@ namespace Roboto_Socket_Library
                     List<byte> _Send_ABB_Byte = new List<byte>();
 
                     //var ss = Encoding.UTF8.GetBytes("[");
-                    var st=  BitConverter.GetBytes(_Propertie.IsStatus);
-                    var mes= Encoding.UTF8.GetBytes(_Propertie.Message_Error);
+                    var st = BitConverter.GetBytes(_Propertie.IsStatus);
+                    var mes = Encoding.UTF8.GetBytes(_Propertie.Message_Error);
                     var mes_num = BitConverter.GetBytes(mes.Length);
                     var xx = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.X)));
                     var yy = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Y)));
@@ -398,9 +404,43 @@ namespace Roboto_Socket_Library
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
 
+                    Vision_Creation_Model_Receive _ABB_Creation_Model_Rece = new Vision_Creation_Model_Receive();
 
 
-                    break;
+                    //解析协议
+                    int _Pos_Model = BitConverter.ToInt16(Receice_byte.Skip(4).Take(2).ToArray());
+
+                    if (!Enum.IsDefined((Vision_Creation_Model_Pos_Enum)_Pos_Model))
+                    {
+                        throw new Exception("通讯协议无该功能码，请联系开发者！");
+                    }
+
+                    var xx = Receice_byte.Skip(6).Take(4).ToArray();
+                    var yy = Receice_byte.Skip(10).Take(4).ToArray();
+                    var zz = Receice_byte.Skip(14).Take(4).ToArray();
+                    var Rxx = Receice_byte.Skip(18).Take(4).ToArray();
+                    var Ryy = Receice_byte.Skip(22).Take(4).ToArray();
+                    var Rzz = Receice_byte.Skip(26).Take(4).ToArray();
+                    double x = BitConverter.ToSingle(xx);
+                    double y = BitConverter.ToSingle(yy);
+                    double z = BitConverter.ToSingle(zz);
+                    double Rx = BitConverter.ToSingle(Rxx);
+                    double Ry = BitConverter.ToSingle(Ryy);
+                    double Rz = BitConverter.ToSingle(Rzz);
+
+
+                    _ABB_Creation_Model_Rece.Vision_Model = Vision_Model_Type;
+                    _ABB_Creation_Model_Rece.Creation_Pos_Model = (Vision_Creation_Model_Pos_Enum)_Pos_Model;
+                    _ABB_Creation_Model_Rece.ACT_Point.X = Math.Round(x, 4).ToString();
+                    _ABB_Creation_Model_Rece.ACT_Point.Y = Math.Round(y, 4).ToString();
+                    _ABB_Creation_Model_Rece.ACT_Point.Z = Math.Round(z, 4).ToString();
+                    _ABB_Creation_Model_Rece.ACT_Point.Rx = Math.Round(Rx, 4).ToString();
+                    _ABB_Creation_Model_Rece.ACT_Point.Ry = Math.Round(Ry, 4).ToString();
+                    _ABB_Creation_Model_Rece.ACT_Point.Rz = Math.Round(Rz, 4).ToString();
+
+
+
+                    return _ABB_Creation_Model_Rece;
                 case Socket_Robot_Protocols_Enum.川崎:
 
 
@@ -493,7 +533,7 @@ namespace Roboto_Socket_Library
 
 
 
-        private byte [] Vision_Find_Send_Protocol(Vision_Find_Data_Send _Propertie )
+        private byte[] Vision_Find_Send_Protocol(Vision_Find_Data_Send _Propertie)
         {
             switch (Socket_Robot)
             {
@@ -560,7 +600,7 @@ namespace Roboto_Socket_Library
 
         }
 
-        
+
 
 
 

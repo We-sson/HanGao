@@ -93,7 +93,7 @@ namespace Roboto_Socket_Library.Model
             //[XmlAttribute]
             //public Vision_Model_Enum Model { set; get; }
             [XmlAttribute]
-            public HandEye_Calibration_Type_Enum? Calibration_Model { set; get; }
+            public Vision_Creation_Model_Pos_Enum? Creation_Pos_Model { set; get; }
 
 
             /// <summary>
@@ -101,12 +101,6 @@ namespace Roboto_Socket_Library.Model
             /// </summary>
             public Point_Models ACT_Point { set; get; } = new Point_Models();
 
-
-
-            /// <summary>
-            ///  相机拍摄点
-            /// </summary>
-            public Point_Models Camera_Point { set; get; } = new Point_Models();
 
 
             /// <summary>

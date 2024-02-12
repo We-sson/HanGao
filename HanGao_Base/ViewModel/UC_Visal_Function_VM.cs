@@ -1501,7 +1501,7 @@ namespace HanGao.ViewModel
                 Halcon_Shape_Mode.Match_Model_Craft_Type = Match_Model_Craft_Type_Enum.请选择模型工艺;
                 Halcon_Shape_Mode.Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
                 Halcon_Shape_Mode.User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
-                Halcon_Shape_Mode.Model_XLD_Origin = new Point_Model();
+                Halcon_Shape_Mode.Model_2D_Origin = new Point_Model();
 
                 Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Draw: Halcon_Shape_Mode.User_Drawing_Data.Drawing_XLD);
                 Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: Halcon_Shape_Mode.User_Drawing_Data.Model_XLD);
@@ -2026,7 +2026,7 @@ namespace HanGao.ViewModel
                 try
                 {
 
-                    Halcon_Shape_Mode.Model_XLD_Origin = new Point_Model() { X = Halcon_Shape_Mode.Chick_Position.X, Y = Halcon_Shape_Mode.Chick_Position.Y };
+                    Halcon_Shape_Mode.Model_2D_Origin = new Point_Model() { X = Halcon_Shape_Mode.Chick_Position.X, Y = Halcon_Shape_Mode.Chick_Position.Y };
 
 
                     User_Log_Add($"设置工艺模型原点成功！", Log_Show_Window_Enum.Home);

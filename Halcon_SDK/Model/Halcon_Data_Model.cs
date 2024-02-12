@@ -1344,7 +1344,7 @@ namespace Halcon_SDK_DLL.Model
 
                 case Robot_Type_Enum.通用:
 
-                    //_Pos.CreatePose(X, Y, Z, Rx, Ry, Rz, "Rp+T", "gba", "point");
+                    _Pos = new Point_Model() { X = X, Y = Y, Z = Z, Rx = Rx, Ry = Ry, Rz = Rz };
 
                     break;
             }
@@ -1949,7 +1949,7 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-    public enum Model_XLD_Origin_Type_Enum
+    public enum Model_2D_Origin_Type_Enum
     {
         [Description("图像原点")]
         Origin_Imag,
