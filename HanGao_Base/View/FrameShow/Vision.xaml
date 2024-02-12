@@ -1612,7 +1612,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model" Grid.Row=" 4"
-                                     IsChecked="True"
+                                     IsChecked="True" 
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -3829,7 +3829,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_X" Grid.Column=" 1"
+                                            <Slider x:Name="Origin_X" Grid.Column=" 1"
                                                     Margin="5"
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
@@ -3838,8 +3838,23 @@
                                                     Maximum="9999"
                                                     Minimum="-9999"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.X}" />
+                                                    TickFrequency="0.1">
+                                                <Slider.Style>
+                                                    <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Imag}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.X}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Camera}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Camera_Pos.X}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Model}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Plane_Pos.X}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Slider.Style>
+                                            </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Origin_X, StringFormat={}{0:F3}}"
@@ -3865,7 +3880,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_Y" Grid.Column=" 1"
+                                            <Slider x:Name="Origin_Y" Grid.Column=" 1"
                                                     Margin="5"
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
@@ -3874,8 +3889,23 @@
                                                     Maximum="9999"
                                                     Minimum="-9999"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.Y, UpdateSourceTrigger=PropertyChanged}" />
+                                                    TickFrequency="0.1">
+                                                <Slider.Style>
+                                                    <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Imag}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.Y}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Camera}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Camera_Pos.Y}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Model}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Plane_Pos.Y}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Slider.Style>
+                                            </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Origin_Y, StringFormat={}{0:F3}}"
@@ -3916,7 +3946,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_Z" Grid.Column=" 1"
+                                            <Slider x:Name="Origin_Z" Grid.Column=" 1"
                                                     Margin="5"
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
@@ -3925,8 +3955,23 @@
                                                     Maximum="9999"
                                                     Minimum="-9999"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.Z, UpdateSourceTrigger=PropertyChanged}" />
+                                                    TickFrequency="0.1">
+                                                <Slider.Style>
+                                                    <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Imag}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.Z}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Camera}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Camera_Pos.Z}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Model}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Plane_Pos.Z}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Slider.Style>
+                                            </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Origin_Z, StringFormat={}{0:F3}}"
@@ -3964,7 +4009,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_Rx" Grid.Column=" 1"
+                                            <Slider x:Name="Origin_Rx" Grid.Column=" 1"
                                                     Margin="5"
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
@@ -3973,8 +4018,23 @@
                                                     Maximum="360"
                                                     Minimum="-360"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.Rx, UpdateSourceTrigger=PropertyChanged}" />
+                                                    TickFrequency="0.1">
+                                                <Slider.Style>
+                                                    <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Imag}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.Rx}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Camera}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Camera_Pos.Rx}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Model}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Plane_Pos.Rx}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Slider.Style>
+                                            </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Origin_Rx, StringFormat={}{0:F3}}"
@@ -4013,7 +4073,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_Ry" Grid.Column=" 1"
+                                            <Slider x:Name="Origin_Ry" Grid.Column=" 1"
                                                     Margin="5"
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
@@ -4022,8 +4082,23 @@
                                                     Maximum="360"
                                                     Minimum="-360"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.Ry, UpdateSourceTrigger=PropertyChanged}" />
+                                                    TickFrequency="0.1">
+                                                <Slider.Style>
+                                                    <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Imag}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.Ry}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Camera}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Camera_Pos.Ry}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Model}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Plane_Pos.Ry}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Slider.Style>
+                                            </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Origin_Ry, StringFormat={}{0:F3}}"
@@ -4062,7 +4137,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Origin_Rz" Grid.Column=" 1"
+                                            <Slider x:Name="Origin_Rz" Grid.Column=" 1"
                                                     Margin="5"
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
@@ -4071,8 +4146,23 @@
                                                     Maximum="360"
                                                     Minimum="-360"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.Rz, UpdateSourceTrigger=PropertyChanged}" />
+                                                    TickFrequency="0.1">
+                                                <Slider.Style>
+                                                    <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Imag}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.Rz}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Camera}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Camera_Pos.Rz}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Model}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Model_Plane_Pos.Rz}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Slider.Style>
+                                            </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Origin_Rz, StringFormat={}{0:F3}}"
@@ -4115,13 +4205,28 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Pos_Model_UI" Grid.Column=" 1"
+                                            <ComboBox x:Name="Pos_Model_UI" Grid.Column=" 1"
                                                       VerticalContentAlignment="Center"
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Halcon_Pose_Type_Enum}"
-                                                      SelectedValue="{Binding Halcon_Shape_Mode.Model_2D_Origin.HType}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Halcon_Pose_Type_Enum}">
+                                                <ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Imag}">
+                                                                <Setter Property="SelectedValue" Value="{Binding Halcon_Shape_Mode.Model_2D_Origin.HType}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Camera}">
+                                                                <Setter Property="SelectedValue" Value="{Binding Halcon_Shape_Mode.Model_Camera_Pos.HType}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Model}">
+                                                                <Setter Property="SelectedValue" Value="{Binding Halcon_Shape_Mode.Model_Plane_Pos.HType}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>
+
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"

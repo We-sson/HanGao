@@ -1,6 +1,5 @@
 ﻿using Halcon_SDK_DLL.Model;
 using PropertyChanged;
-using System;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
@@ -51,7 +50,7 @@ namespace Roboto_Socket_Library.Model
             public Point_Models ACT_Point { set; get; } = new Point_Models();
 
 
-            public Vision_Model_Enum Vision_Model { set; get; } 
+            public Vision_Model_Enum Vision_Model { set; get; }
 
 
         }
@@ -76,7 +75,7 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 结果位置
             /// </summary>
-            public Point_Models Calib_Point { set; get; } = new Point_Models();
+            public Point_Models Creation_Point { set; get; } = new Point_Models();
         }
 
         /// <summary>
@@ -102,6 +101,10 @@ namespace Roboto_Socket_Library.Model
             public Point_Models ACT_Point { set; get; } = new Point_Models();
 
 
+            /// <summary>
+            /// 接收点位类型的机器人
+            /// </summary>
+            public Robot_Type_Enum? Robot_Type { set; get; } 
 
             /// <summary>
             /// 视觉功能
@@ -187,10 +190,10 @@ namespace Roboto_Socket_Library.Model
 
 
         }
-      
-        
 
-        
+
+
+
         /// <summary>
         /// 标定点数据格式内容
         /// </summary>

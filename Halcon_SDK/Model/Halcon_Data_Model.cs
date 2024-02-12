@@ -1354,6 +1354,37 @@ namespace Halcon_SDK_DLL.Model
             return _Pos;
         }
 
+
+        /// <summary>
+        /// 设置点类型
+        /// </summary>
+        /// <param name="_Robot"></param>
+        public void Set_HPos_Type(Robot_Type_Enum? _Robot)
+        {
+            switch (_Robot)
+            {
+                case Robot_Type_Enum.KUKA:
+                    HType = Halcon_Pose_Type_Enum.abg;
+
+                    break;
+                case Robot_Type_Enum.ABB:
+                    HType = Halcon_Pose_Type_Enum.abg;
+
+                    break;
+                case Robot_Type_Enum.川崎:
+
+
+                    break;
+                case Robot_Type_Enum.通用:
+                    HType = Halcon_Pose_Type_Enum.gba;
+
+                    break;
+            
+            }
+        }
+
+
+
         /// <summary>
         /// 保存位姿以单位：m
         /// </summary>

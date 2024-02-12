@@ -90,30 +90,30 @@ namespace HanGao.ViewModel
             Initialization_Camera_Thread();
         }
 
-        /// <summary>
-        /// 静态委托接收处理相机标定点添加事件
-        /// </summary>
-        public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_Add_String { set; get; }
+        ///// <summary>
+        ///// 静态委托接收处理相机标定点添加事件
+        ///// </summary>
+        //public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_Add_String { set; get; }
 
-        /// <summary>
-        /// 静态委托接收处理相机标定精度测试事件
-        /// </summary>
-        public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_Text_String { set; get; }
+        ///// <summary>
+        ///// 静态委托接收处理相机标定精度测试事件
+        ///// </summary>
+        //public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_Text_String { set; get; }
 
-        /// <summary>
-        /// 静态委托处理查找模型特征
-        /// </summary>
-        public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Find_String { set; get; }
+        ///// <summary>
+        ///// 静态委托处理查找模型特征
+        ///// </summary>
+        //public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Find_String { set; get; }
 
-        /// <summary>
-        /// 静态委托接收处理相机标定事件
-        /// </summary>
-        public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_New_String { set; get; }
+        ///// <summary>
+        ///// 静态委托接收处理相机标定事件
+        ///// </summary>
+        //public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_New_String { set; get; }
 
-        /// <summary>
-        /// 静态委托处理查找模型特征
-        /// </summary>
-        public ReceiveMessage_delegate<Vision_Ini_Data_Receive, Vision_Ini_Data_Send> Receive_Vision_Ini_String { set; get; }
+        ///// <summary>
+        ///// 静态委托处理查找模型特征
+        ///// </summary>
+        //public ReceiveMessage_delegate<Vision_Ini_Data_Receive, Vision_Ini_Data_Send> Receive_Vision_Ini_String { set; get; }
 
         /// <summary>
         /// 静态属性更新通知事件
@@ -292,13 +292,43 @@ namespace HanGao.ViewModel
 
         public Vision_Creation_Model_Send Vision_Creation_Model_Receive_Method(Vision_Creation_Model_Receive _Receive)
         {
+            Vision_Creation_Model_Send _Send = new Vision_Creation_Model_Send();
 
 
 
+            switch (_Receive.Creation_Pos_Model)
+            {
+                case Vision_Creation_Model_Pos_Enum.Camer_Pos:
+
+                    Halcon_Shape_Mode.Model_Camera_Pos.X =double .Parse( _Receive.ACT_Point.X);
+                    Halcon_Shape_Mode.Model_Camera_Pos.Y =double .Parse( _Receive.ACT_Point.Y);
+                    Halcon_Shape_Mode.Model_Camera_Pos.Z =double .Parse( _Receive.ACT_Point.Z);
+                    Halcon_Shape_Mode.Model_Camera_Pos.Rx =double .Parse( _Receive.ACT_Point.Rx);
+                    Halcon_Shape_Mode.Model_Camera_Pos.Ry =double .Parse( _Receive.ACT_Point.Ry);
+                    Halcon_Shape_Mode.Model_Camera_Pos.Rz =double .Parse( _Receive.ACT_Point.Rz);
+
+                    Halcon_Shape_Mode.Model_Camera_Pos.Set_HPos_Type(_Receive.Robot_Type);
+
+                    break;
+
+                case Vision_Creation_Model_Pos_Enum.Model_Pos:
+
+                    Halcon_Shape_Mode.Model_Plane_Pos.X = double.Parse(_Receive.ACT_Point.X);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Y = double.Parse(_Receive.ACT_Point.Y);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Z = double.Parse(_Receive.ACT_Point.Z);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Rx = double.Parse(_Receive.ACT_Point.Rx);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Ry = double.Parse(_Receive.ACT_Point.Ry);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Rz = double.Parse(_Receive.ACT_Point.Rz);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Set_HPos_Type(_Receive.Robot_Type);
 
 
+                    break;
+   
+            }
+            _Send.IsStatus = 1;
+            _Send.Message_Error = "Read Position data OK!";
 
-            return new Vision_Creation_Model_Send();
+            return _Send;
         }
 
 

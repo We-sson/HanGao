@@ -45,20 +45,6 @@ namespace ABB_Socket
                     //HandEye_Calibration_Receive _HandEye_Calib_Rece = new HandEye_Calibration_Receive();
 
 
-                    int _Calib_Model = BitConverter.ToInt32(Receice_byte.Skip(5).Take(4).ToArray());
-
-                    var xx = Receice_byte.Skip(9).Take(4).ToArray();
-                    var yy = Receice_byte.Skip(13).Take(4).ToArray();
-                    var zz = Receice_byte.Skip(17).Take(4).ToArray();
-                    var Rxx = Receice_byte.Skip(21).Take(4).ToArray();
-                    var Ryy = Receice_byte.Skip(25).Take(4).ToArray();
-                    var Rzz = Receice_byte.Skip(29).Take(4).ToArray();
-                    double x = BitConverter.ToSingle(xx);
-                    double y = BitConverter.ToSingle(yy);
-                    double z = BitConverter.ToSingle(zz);
-                    double Rx = BitConverter.ToSingle(Rxx);
-                    double Ry = BitConverter.ToSingle(Ryy);
-                    double Rz = BitConverter.ToSingle(Rzz);
 
 
 

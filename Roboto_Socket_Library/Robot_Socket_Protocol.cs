@@ -63,10 +63,10 @@ namespace Roboto_Socket_Library
 
                 case Socket_Robot_Protocols_Enum.ABB:
 
-         
+
                     //装换接收总数字节
                     var INI = BitConverter.ToInt16(Receice_byte.Skip(0).Take(2).ToArray());
-                  
+
                     if (INI != Receice_byte.Count() - 2)
                     {
                         throw new Exception("通讯协议存在丢包，请检查网络！");
@@ -296,7 +296,7 @@ namespace Roboto_Socket_Library
 
                     List<byte> _Send_ABB_Byte = new List<byte>();
 
-                    //var ss = Encoding.UTF8.GetBytes("[");
+                    //装换数据
                     var st = BitConverter.GetBytes(_Propertie.IsStatus);
                     var mes = Encoding.UTF8.GetBytes(_Propertie.Message_Error);
                     var mes_num = BitConverter.GetBytes(mes.Length);
@@ -306,11 +306,11 @@ namespace Roboto_Socket_Library
                     var Rxx = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Rx)));
                     var Ryy = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Ry)));
                     var Rzz = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Rz)));
-                    //var ee = Encoding.UTF8.GetBytes("]");
+
 
 
                     //拼接
-                    //_Send_ABB_Byte.AddRange(ss);
+
                     _Send_ABB_Byte.AddRange(st);
                     _Send_ABB_Byte.AddRange(mes_num);
                     _Send_ABB_Byte.AddRange(mes);
@@ -320,7 +320,7 @@ namespace Roboto_Socket_Library
                     _Send_ABB_Byte.AddRange(Rxx);
                     _Send_ABB_Byte.AddRange(Ryy);
                     _Send_ABB_Byte.AddRange(Rzz);
-                    //_Send_ABB_Byte.AddRange(ee);
+
 
                     var _num = BitConverter.GetBytes(_Send_ABB_Byte.Count);
 
@@ -370,8 +370,38 @@ namespace Roboto_Socket_Library
                 case Socket_Robot_Protocols_Enum.ABB:
 
 
+                    List<byte> _Send_ABB_Byte = new List<byte>();
 
-                    break;
+                    //装换数据
+                    var st = BitConverter.GetBytes(_Propertie.IsStatus);
+                    var mes = Encoding.UTF8.GetBytes(_Propertie.Message_Error);
+                    var mes_num = BitConverter.GetBytes(mes.Length);
+                    var xx = BitConverter.GetBytes((float.Parse(_Propertie.Creation_Point.X)));
+                    var yy = BitConverter.GetBytes((float.Parse(_Propertie.Creation_Point.Y)));
+                    var zz = BitConverter.GetBytes((float.Parse(_Propertie.Creation_Point.Z)));
+                    var Rxx = BitConverter.GetBytes((float.Parse(_Propertie.Creation_Point.Rx)));
+                    var Ryy = BitConverter.GetBytes((float.Parse(_Propertie.Creation_Point.Ry)));
+                    var Rzz = BitConverter.GetBytes((float.Parse(_Propertie.Creation_Point.Rz)));
+
+
+
+                    //拼接
+
+                    _Send_ABB_Byte.AddRange(st);
+                    _Send_ABB_Byte.AddRange(mes_num);
+                    _Send_ABB_Byte.AddRange(mes);
+                    _Send_ABB_Byte.AddRange(xx);
+                    _Send_ABB_Byte.AddRange(yy);
+                    _Send_ABB_Byte.AddRange(zz);
+                    _Send_ABB_Byte.AddRange(Rxx);
+                    _Send_ABB_Byte.AddRange(Ryy);
+                    _Send_ABB_Byte.AddRange(Rzz);
+
+
+                    var _num = BitConverter.GetBytes(_Send_ABB_Byte.Count);
+
+                    _Send_ABB_Byte.InsertRange(0, _num);
+                    return _Send_ABB_Byte.ToArray();
                 case Socket_Robot_Protocols_Enum.川崎:
 
 
@@ -415,12 +445,20 @@ namespace Roboto_Socket_Library
                         throw new Exception("通讯协议无该功能码，请联系开发者！");
                     }
 
-                    var xx = Receice_byte.Skip(6).Take(4).ToArray();
-                    var yy = Receice_byte.Skip(10).Take(4).ToArray();
-                    var zz = Receice_byte.Skip(14).Take(4).ToArray();
-                    var Rxx = Receice_byte.Skip(18).Take(4).ToArray();
-                    var Ryy = Receice_byte.Skip(22).Take(4).ToArray();
-                    var Rzz = Receice_byte.Skip(26).Take(4).ToArray();
+                    int _Robot_Type = BitConverter.ToInt16(Receice_byte.Skip(6).Take(2).ToArray());
+
+                    if (!Enum.IsDefined((Robot_Type_Enum)_Robot_Type))
+                    {
+                        throw new Exception("通讯协议无该机器人类型，请联系开发者！");
+                    }
+
+
+                    var xx = Receice_byte.Skip(8).Take(4).ToArray();
+                    var yy = Receice_byte.Skip(12).Take(4).ToArray();
+                    var zz = Receice_byte.Skip(16).Take(4).ToArray();
+                    var Rxx = Receice_byte.Skip(20).Take(4).ToArray();
+                    var Ryy = Receice_byte.Skip(24).Take(4).ToArray();
+                    var Rzz = Receice_byte.Skip(28).Take(4).ToArray();
                     double x = BitConverter.ToSingle(xx);
                     double y = BitConverter.ToSingle(yy);
                     double z = BitConverter.ToSingle(zz);
@@ -431,6 +469,7 @@ namespace Roboto_Socket_Library
 
                     _ABB_Creation_Model_Rece.Vision_Model = Vision_Model_Type;
                     _ABB_Creation_Model_Rece.Creation_Pos_Model = (Vision_Creation_Model_Pos_Enum)_Pos_Model;
+                    _ABB_Creation_Model_Rece.Robot_Type = (Robot_Type_Enum)_Robot_Type;
                     _ABB_Creation_Model_Rece.ACT_Point.X = Math.Round(x, 4).ToString();
                     _ABB_Creation_Model_Rece.ACT_Point.Y = Math.Round(y, 4).ToString();
                     _ABB_Creation_Model_Rece.ACT_Point.Z = Math.Round(z, 4).ToString();

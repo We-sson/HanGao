@@ -28,6 +28,7 @@ MODULE Glode_HanGao(SYSMODULE)
     RECORD Creation_Model_Send_Model
         num Vision_Model;
         num Creation_Model;
+        num Robot_Type;
         HPoint ACT_Point;
     ENDRECORD
 
@@ -70,6 +71,9 @@ MODULE Glode_HanGao(SYSMODULE)
         !Vision function code
         Creation_Model_Send.Vision_Model:=6;
 
+        !Vision RobotPos Type
+        Creation_Model_Send.Robot_Type:=1;
+        
         TEST Model
         CASE HE_Creation_CameraPos_Model:
             Creation_Model_Send.Creation_Model:=0;

@@ -66,6 +66,7 @@ MODULE HG_Socket(SYSMODULE)
 
         PackRawBytes Send_Model.Vision_Model,Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=INT;
         PackRawBytes Send_Model.Creation_Model,Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=INT;
+        PackRawBytes Send_Model.Robot_Type,Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=INT;
         PackRawBytes Send_Model.ACT_Point.x,Send_raw,(RawBytesLen(Send_raw)+1)\Float4;
         PackRawBytes Send_Model.ACT_Point.Y,Send_raw,(RawBytesLen(Send_raw)+1)\Float4;
         PackRawBytes Send_Model.ACT_Point.z,Send_raw,(RawBytesLen(Send_raw)+1)\Float4;
@@ -74,7 +75,7 @@ MODULE HG_Socket(SYSMODULE)
         PackRawBytes Send_Model.ACT_Point.Rz,Send_raw,(RawBytesLen(Send_raw)+1)\Float4;
 
         PackRawBytes RawBytesLen(Send_raw),Data_raw,1,\IntX:=INT;
-       
+
         CopyRawBytes Send_raw,1,Data_raw,3;
         ! HTWrite ValToStr(Send_raw );
 
@@ -126,17 +127,8 @@ MODULE HG_Socket(SYSMODULE)
             RETURN ;
         ENDIF
 
-        ! Unpack message header/data
-        !UnpackRawBytes Rece_raw, 1, Msg_Start,\ASCII:=1;
-        !UnpackRawBytes Rece_raw, msg_len-1, Msg_End,\ASCII:=1;
-
-        !IF Msg_Start<>"[" AND Msg_End<>"]"  THEN
-        !   ErrWrite \W, "Socket Recv Message", "Receive Byte Error!";
-
-        !  Rece_Model.IsStatus:=FALSE;
-        !  RETURN  ;    
-        !ENDIF
-        !Stop \NoRegain;
+  
+        Stop \NoRegain;
         !Vision message
         UnpackRawBytes Rece_raw,1,Rece_Model.IsStatus,\IntX:=DINT;
         UnpackRawBytes Rece_raw,5,Error_Length,\IntX:=DINT;
@@ -236,16 +228,6 @@ MODULE HG_Socket(SYSMODULE)
             RETURN ;
         ENDIF
 
-        ! Unpack message header/data
-        !UnpackRawBytes Rece_raw, 1, Msg_Start,\ASCII:=1;
-        !UnpackRawBytes Rece_raw, msg_len-1, Msg_End,\ASCII:=1;
-
-        !IF Msg_Start<>"[" AND Msg_End<>"]"  THEN
-        !   ErrWrite \W, "Socket Recv Message", "Receive Byte Error!";
-
-        !  Rece_Model.IsStatus:=FALSE;
-        !  RETURN  ;    
-        !ENDIF
         !Stop \NoRegain;
         !Vision message
         UnpackRawBytes Rece_raw,1,Rece_Model.IsStatus,\IntX:=DINT;
