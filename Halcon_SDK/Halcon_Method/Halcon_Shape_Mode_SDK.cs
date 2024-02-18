@@ -100,6 +100,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+
+
+
+
         /// <summary>
         /// 加载工艺模型加载集合中
         /// </summary>
@@ -138,7 +142,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-                            
+
                             break;
                         default:
                             break;
@@ -263,7 +267,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         if (_Xld.Model_XLD.IsInitialized())
                         {
                             //集合一起
-                            ALL_Models_XLD =ALL_Models_XLD.ConcatObj(_Xld.Model_XLD);
+                            ALL_Models_XLD = ALL_Models_XLD.ConcatObj(_Xld.Model_XLD);
 
                         }
                     }
@@ -365,6 +369,91 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
+        public HImage ShapeModel_Creation_ImageRectified(HImage _Image, Halcon_Camera_Calibration_Parameters_Model _Camera_Paramteters, Point_Model HandEye_ToolinCamera)
+        {
+            //check data
+            if (Model_Camera_Pos == new Point_Model()) { throw new Exception("创建模型的相机位置未设定数据，请手动或者机器人通讯获取！"); }
+            if (Model_Plane_Pos == new Point_Model()) { throw new Exception("创建模型三维位置未设定数据，请手动或者机器人通讯获取！"); }
+
+
+            //把位置坐标转换通用类型
+            Point_Model Default_Model_Camera_Pos = new Point_Model(Model_Camera_Pos.HPose);
+            Point_Model Default_Model_Plane_Pos = new Point_Model(Model_Plane_Pos.HPose);
+            Point_Model Default_HandEye_ToolinCamera = new Point_Model(HandEye_ToolinCamera.HPose);
+
+            Default_Model_Camera_Pos.HPose.ConvertPoseType("Rp+T", "gba", "point");
+            Default_Model_Plane_Pos.HPose.ConvertPoseType("Rp+T", "gba", "point");
+            Default_HandEye_ToolinCamera.HPose.ConvertPoseType("Rp+T", "gba", "point");
+
+            //创建相机的视角平面,对齐XY,Z方向原理相机
+
+            Point_Model BaseInToolPose = new Point_Model(Default_Model_Camera_Pos.HPose.PoseInvert());
+
+            Point_Model BaseInCamPose = new Point_Model(HandEye_ToolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
+
+            Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(Default_Model_Plane_Pos.HPose));
+
+            //计算平面位置在基坐标
+
+            Point_Model CamInBasePose = new Point_Model(BaseInCamPose.HPose.PoseInvert());
+
+            Point_Model PlaneInBasePose = new Point_Model(CamInBasePose.HPose.PoseCompose(PlaneInCamPose.HPose));
+
+
+            //计算缩放比例
+            HRegion RegionGrid = new HRegion();
+
+            //创建图像布局平均点
+            RegionGrid.GenGridRegion(20, 20, "points", _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Height);
+
+
+            RegionGrid.GetRegionPoints(out HTuple _Rows, out HTuple _Colums);
+
+            HXLDCont _ContCircle = new HXLDCont();
+
+            _ContCircle.GenCircleContourXld(_Rows, _Colums, HTuple.TupleGenConst(_Rows.Length, 1.0), new HTuple(0), new HTuple(360).TupleDeg(), new HTuple("positive"), 0.1);
+
+            HXLDCont _ContCircleWorldPlane = new HXLDCont();
+
+            _ContCircleWorldPlane = _ContCircle.ContourToWorldPlaneXld(_Camera_Paramteters.HCamPar, PlaneInCamPose.HPose, "m");
+
+            _ContCircleWorldPlane.FitEllipseContourXld("fitzgibbon", -1, 0, 0, 200, 3, 2, out _, out _, out _, out _, out HTuple _Radius2, out _, out _, out _);
+
+            //得到最小的缩放比例
+            HTuple _ScaleRectification = _Radius2.TupleMin();
+
+
+            //计算平面边界
+            HRegion ImageArea = new HRegion(0, 0, (double)_Camera_Paramteters.Image_Height - 1, (double)_Camera_Paramteters.Image_Width - 1);
+
+            HRegion RegionBorder = ImageArea.Boundary("outer");
+
+            RegionBorder.GetRegionPoints(out HTuple _BorderRows, out HTuple _BorderColumns);
+
+            //根据相机平面坐标，生产最小位置
+            _Camera_Paramteters.HCamPar.ImagePointsToWorldPlane(PlaneInCamPose.HPose, _BorderRows, _BorderColumns, "m", out HTuple _BorderX, out HTuple _BorderY);
+
+            Point_Model MatchingPlaneRectifiedPartInMatchingPlanePose = new Point_Model();
+            MatchingPlaneRectifiedPartInMatchingPlanePose.X = _BorderX.TupleMin();
+            MatchingPlaneRectifiedPartInMatchingPlanePose.Y = _BorderY.TupleMin();
+
+            //转换到相机坐标下位置
+            Point_Model MatchingPlaneRectifiedPartInCamPose = new Point_Model(PlaneInCamPose.HPose.PoseCompose(MatchingPlaneRectifiedPartInMatchingPlanePose.HPose));
+
+            //比例缩放下最大图像尺寸
+            int _WidthRect = ((_BorderX.TupleMax() - _BorderX.TupleMin()) / _ScaleRectification + 0.5);
+            int _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5);
+
+
+            //计算校正图像
+            HImage ImageRectified = _Image.ImageToWorldPlane(_Camera_Paramteters.HCamPar, MatchingPlaneRectifiedPartInCamPose.HPose, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
+
+            return ImageRectified;
+
+        }
+
+
+
 
         /// <summary>
         ///创建匹配模型保存文件
@@ -420,7 +509,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         string _planar_deformable_model_Location = SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
 
 
-                        if (_Select_Camera_Parameter == null && _ReferencePose==null)
+                        if (_Select_Camera_Parameter == null && _ReferencePose == null)
                         {
 
                             //创建模型
@@ -587,7 +676,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         HRegion Dilation_Region = new HRegion();
                         HTuple _Pos_Row = new HTuple();
                         HTuple _Pos_Col = new HTuple();
-                        
+
 
                         Polygon_Xld.GenEmptyObj();
 
@@ -698,7 +787,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         //保存模板xld文件
                         //HOperatorSet.WriteContourXldDxf(DXF_XLD, Shape_Save_Path);
-              
+
                         //清楚模型
                         ALL_Models_XLD.Dispose();
 
@@ -711,7 +800,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             }
             catch (Exception e)
             {
-                throw new Exception("创建"+ Create_Shape_ModelXld.Shape_Based_Model + "模型失败！原因："+e.Message);
+                throw new Exception("创建" + Create_Shape_ModelXld.Shape_Based_Model + "模型失败！原因：" + e.Message);
 
                 //return new HPR_Status_Model<bool>(HVE_Result_Enum.创建匹配模型失败) { Result_Error_Info = e.Message };
             }

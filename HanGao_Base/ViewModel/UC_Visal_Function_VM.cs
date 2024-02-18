@@ -290,6 +290,14 @@ namespace HanGao.ViewModel
             return new Vision_Ini_Data_Send();
         }
 
+
+
+
+        /// <summary>
+        /// 视觉创建模型接收位置数据方法
+        /// </summary>
+        /// <param name="_Receive"></param>
+        /// <returns></returns>
         public Vision_Creation_Model_Send Vision_Creation_Model_Receive_Method(Vision_Creation_Model_Receive _Receive)
         {
             Vision_Creation_Model_Send _Send = new Vision_Creation_Model_Send();
@@ -1210,33 +1218,33 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_Window"></param>
         /// <param name="_Name_Enum"></param>
-        public static Window_Show_Name_Enum Read_HWindow_ID(string _Name_Enum)
-        {
-            Window_Show_Name_Enum _Window = Window_Show_Name_Enum.Features_Window;
+        //public static Window_Show_Name_Enum Read_HWindow_ID(string _Name_Enum)
+        //{
+        //    Window_Show_Name_Enum _Window = Window_Show_Name_Enum.Features_Window;
 
-            switch (Enum.Parse(typeof(ShapeModel_Name_Enum), _Name_Enum))
-            {
-                case ShapeModel_Name_Enum.F_45:
-                    _Window = Window_Show_Name_Enum.Results_Window_1;
+        //    switch (Enum.Parse(typeof(ShapeModel_Name_Enum), _Name_Enum))
+        //    {
+        //        case ShapeModel_Name_Enum.F_45:
+        //            _Window = Window_Show_Name_Enum.Results_Window_1;
 
-                    break;
+        //            break;
 
-                case ShapeModel_Name_Enum.F_135:
-                    _Window = Window_Show_Name_Enum.Results_Window_2;
+        //        case ShapeModel_Name_Enum.F_135:
+        //            _Window = Window_Show_Name_Enum.Results_Window_2;
 
-                    break;
+        //            break;
 
-                case ShapeModel_Name_Enum.F_225:
-                    _Window = Window_Show_Name_Enum.Results_Window_3;
-                    break;
+        //        case ShapeModel_Name_Enum.F_225:
+        //            _Window = Window_Show_Name_Enum.Results_Window_3;
+        //            break;
 
-                case ShapeModel_Name_Enum.F_315:
-                    _Window = Window_Show_Name_Enum.Results_Window_4;
-                    break;
-            }
+        //        case ShapeModel_Name_Enum.F_315:
+        //            _Window = Window_Show_Name_Enum.Results_Window_4;
+        //            break;
+        //    }
 
-            return _Window;
-        }
+        //    return _Window;
+        //}
 
         /// <summary>
         /// 测试匹配模型方法

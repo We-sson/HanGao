@@ -16,8 +16,8 @@
 <l>dev_close_window ()</l>
 <c>* Directories with calibration images and data files</c>
 <c>* 包含校准图像和数据文件的目录</c>
-<l>ImageNameStart := '3d_machine_vision/hand_eye/stationarycam_'</l>
-<l>DataNameStart := 'hand_eye/stationarycam_'</l>
+<l>ImageNameStart := 'D:/Halcon/2023/HALCON-23.11-Progress/examples/images/3d_machine_vision/hand_eye/stationarycam_'</l>
+<l>DataNameStart := 'D:/Halcon/2023/HALCON-23.11-Progress/examples/solution_guide/3d_vision/hand_eye/stationarycam_'</l>
 <l>read_image (Image, ImageNameStart + 'nut12_square')</l>
 <l>dev_close_window ()</l>
 <l>get_image_size (Image, Width, Height)</l>

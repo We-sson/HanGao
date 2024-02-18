@@ -1612,7 +1612,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model" Grid.Row=" 4"
-                                     IsChecked="True" 
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -5248,7 +5248,31 @@
                                                 <ColumnDefinition Width="80" />
 
                                                 <ColumnDefinition Width=" *" />
+                                                <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
+
+
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                    Margin="0,0,8,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                                <TextBlock Text="图像校正"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                            </Button>
+
 
                                             <Button Grid.Column=" 2"
                                                     Margin="0,0,0,0"
@@ -5289,6 +5313,10 @@
                                                 </i:Interaction.Triggers>
                                             </Button>
                                         </Grid>
+
+
+
+
                                     </StackPanel>
                                 </Grid>
                             </Expander>

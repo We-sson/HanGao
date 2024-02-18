@@ -560,6 +560,7 @@
 <l>gen_matching_object_model_3d (ModelID, ObjectHeight, Poses, HandEyeCalibData, RectificationData, OM3DModel)</l>
 <c>* </c>
 <c>* Visualize the robot and matched object.</c>
+<c>* 可视化机器人和匹配对象。</c>
 <l>gen_robot_tool_and_base_object_model_3d (0.005, 0.05, OM3DToolOrigin, OM3DBase)</l>
 <l>gen_current_setup_moving_cam_object_model_3d (0.05, ToolInBasePose2DMatching, HandEyeCalibData, OM3DToolOrigin, OM3DBase, OM3DCamera, OM3DTool, OM3DPlane)</l>
 <c>* </c>
