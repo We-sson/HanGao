@@ -302,6 +302,8 @@ namespace HanGao.ViewModel
         {
             Vision_Creation_Model_Send _Send = new Vision_Creation_Model_Send();
 
+            try
+            {
 
 
             switch (_Receive.Creation_Pos_Model)
@@ -333,10 +335,29 @@ namespace HanGao.ViewModel
                     break;
    
             }
+
+
+            HImage _Image = new HImage();
+
+            _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+
             _Send.IsStatus = 1;
             _Send.Message_Error = "Read Position data OK!";
 
             return _Send;
+
+
+
+            }
+            catch (Exception e)
+            {
+
+                User_Log_Add("创建模型接收位置数据失败原因："+e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                _Send.IsStatus = 0;
+                _Send.Message_Error = "Read Position data Error!";
+                return _Send;
+            }
         }
 
 
@@ -1623,6 +1644,8 @@ namespace HanGao.ViewModel
                         Task.Run(() =>
                         {
                             Camera_Device_List.Select_Camera.StopGrabbing();
+                            Camera_Device_List.Select_Camera.RegisterImageCallBackEx(Image_delegate = null);
+
                         });
 
                         User_Log_Add("关闭实时相机图像！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);

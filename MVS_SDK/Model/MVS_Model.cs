@@ -9,6 +9,7 @@ using PropertyChanged;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -203,6 +204,7 @@ namespace MVS_SDK_Base.Model
         /// 相机参数类型
         /// </summary>
         [Serializable]
+        [AddINotifyPropertyChangedInterface]
         public class MVS_Camera_Parameter_Model
         {
             public MVS_Camera_Parameter_Model(MVS_Camera_Parameter_Model _Param)
@@ -379,14 +381,14 @@ namespace MVS_SDK_Base.Model
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
             public MV_CAM_LINEMODE_MODE LineMode { set; get; } = MV_CAM_LINEMODE_MODE.Strobe;
 
-            [StringValue("设置控制所选输入或输出线的信号反转失败")]
-            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public bool LineInverter { set; get; } = false;
-
-
             [StringValue("设置使能输出信号输出到所选线路失败")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
             public bool StrobeEnable { set; get; } = true;
+
+
+            [StringValue("设置控制所选输入或输出线的信号反转失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            public bool LineInverter { set; get; } = false;
 
 
             /// <summary>
@@ -408,6 +410,11 @@ namespace MVS_SDK_Base.Model
             [StringValue("获得允许的最大采集帧速率的“绝对”值~失败!")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public double ResultingFrameRate { set; get; } = 0;
+
+
+
+
+
         }
         /// <summary>
         /// 相机标定类型
@@ -734,8 +741,22 @@ namespace MVS_SDK_Base.Model
 
                 try
                 {
-                    //遍历设置参数
-                    foreach (PropertyInfo _Type in _Parameter.GetType().GetProperties())
+                    //var b = _Parameter.GetType().GetProperties().OrderBy(x => x.MetadataToken);
+
+                    //var a = _Parameter.GetType().GetProperties().Where((_w) =>
+                    //{
+                    //    Camera_ReadWriteAttribute _CameraRW_Type = (Camera_ReadWriteAttribute)_w.GetCustomAttribute(typeof(Camera_ReadWriteAttribute));
+                    //    if (_CameraRW_Type.GetCamera_ReadWrite_Type() == Camera_Parameter_RW_Type.Write) { return true; } else { return false; }
+
+                    //}).ToList();
+
+                    //a.Sort((x) =>
+                    //{
+                    //    ParameterOrderAttribute Orl = (ParameterOrderAttribute)x.GetCustomAttribute(typeof(ParameterOrderAttribute));
+                    //    return Orl.GetOrder();
+                    //        });
+                    //遍历设置参数,调整参数顺序
+                    foreach (PropertyInfo _Type in _Parameter.GetType().GetProperties().OrderBy(x => x.MetadataToken))
                     {
                         Camera_ReadWriteAttribute _CameraRW_Type = (Camera_ReadWriteAttribute)_Type.GetCustomAttribute(typeof(Camera_ReadWriteAttribute));
 

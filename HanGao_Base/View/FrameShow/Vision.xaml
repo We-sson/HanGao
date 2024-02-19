@@ -2824,12 +2824,22 @@
                                                           VerticalContentAlignment="Center"
                                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                           BorderThickness="2"
-                                                          FontSize="20"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
-                                                          SelectedIndex="{Binding Camera_Device_List.Select_Camera.Camera_parameter.AcquisitionMode, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type MVS:MV_CAM_ACQUISITION_MODE}}">
-
-                                                    <ComboBoxItem>
+                                                          ItemsSource="{Enum_Converter:EnumBindingSource MVS:MV_CAM_ACQUISITION_MODE}"
+                                                          SelectedValue="{Binding Camera_Device_List.Select_Camera.Camera_parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}"
+                                                                       TextWrapping="Wrap"
+                                                                       Padding="0,4,0,4"
+                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                       FontSize="14"
+                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                    <!--<ComboBoxItem>
 
                                                         <TextBlock Text="单帧模式"
                                                                    TextWrapping="Wrap"
@@ -2858,7 +2868,7 @@
                                                                    FontSize="14"
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                    TextTrimming="CharacterEllipsis" />
-                                                    </ComboBoxItem>
+                                                    </ComboBoxItem>-->
 
                                                     <!--<i:Interaction.Triggers>
 
