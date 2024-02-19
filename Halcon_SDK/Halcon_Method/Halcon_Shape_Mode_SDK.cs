@@ -433,12 +433,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //根据相机平面坐标，生产最小位置
             _Camera_Paramteters.HCamPar.ImagePointsToWorldPlane(PlaneInCamPose.HPose, _BorderRows, _BorderColumns, "m", out HTuple _BorderX, out HTuple _BorderY);
 
-            Point_Model MatchingPlaneRectifiedPartInMatchingPlanePose = new Point_Model();
-            MatchingPlaneRectifiedPartInMatchingPlanePose.X = _BorderX.TupleMin();
-            MatchingPlaneRectifiedPartInMatchingPlanePose.Y = _BorderY.TupleMin();
+
+            Point_Model PlaneInCamOriginPose=new Point_Model (  PlaneInCamPose.HPose.SetOriginPose(_BorderX.TupleMin(), _BorderY.TupleMin(), 0));
+
+            //Point_Model MatchingPlaneRectifiedPartInMatchingPlanePose = new Point_Model();
+            //MatchingPlaneRectifiedPartInMatchingPlanePose.X = _BorderX.TupleMin();
+            //MatchingPlaneRectifiedPartInMatchingPlanePose.Y = _BorderY.TupleMin();
 
             //转换到相机坐标下位置
-            Point_Model MatchingPlaneRectifiedPartInCamPose = new Point_Model(PlaneInCamPose.HPose.PoseCompose(MatchingPlaneRectifiedPartInMatchingPlanePose.HPose));
+            //Point_Model MatchingPlaneRectifiedPartInCamPose = new Point_Model(PlaneInCamPose.HPose.PoseCompose(MatchingPlaneRectifiedPartInMatchingPlanePose.HPose));
 
             //比例缩放下最大图像尺寸
             int _WidthRect = ((_BorderX.TupleMax() - _BorderX.TupleMin()) / _ScaleRectification + 0.5);
@@ -446,9 +449,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
             //计算校正图像
-            HImage ImageRectified = _Image.ImageToWorldPlane(_Camera_Paramteters.HCamPar, MatchingPlaneRectifiedPartInCamPose.HPose, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
+            //HImage ImageRectified = _Image.ImageToWorldPlane(_Camera_Paramteters.HCamPar, MatchingPlaneRectifiedPartInCamPose.HPose, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
-            return ImageRectified;
+            HImage ImageRectified0 = new HImage();
+             ImageRectified0.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
+
+            return ImageRectified0;
 
         }
 
