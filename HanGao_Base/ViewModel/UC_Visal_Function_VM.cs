@@ -228,40 +228,36 @@ namespace HanGao.ViewModel
             {
 
 
-            switch (_Receive.Creation_Pos_Model)
-            {
-                case Vision_Creation_Model_Pos_Enum.Camer_Pos:
 
-                    Halcon_Shape_Mode.Model_Camera_Pos.X =double .Parse( _Receive.ACT_Point.X);
-                    Halcon_Shape_Mode.Model_Camera_Pos.Y =double .Parse( _Receive.ACT_Point.Y);
-                    Halcon_Shape_Mode.Model_Camera_Pos.Z =double .Parse( _Receive.ACT_Point.Z);
-                    Halcon_Shape_Mode.Model_Camera_Pos.Rx =double .Parse( _Receive.ACT_Point.Rx);
-                    Halcon_Shape_Mode.Model_Camera_Pos.Ry =double .Parse( _Receive.ACT_Point.Ry);
-                    Halcon_Shape_Mode.Model_Camera_Pos.Rz =double .Parse( _Receive.ACT_Point.Rz);
+                    Halcon_Shape_Mode.Model_Camera_Pos.X =double .Parse( _Receive.Camera_Pos.X);
+                    Halcon_Shape_Mode.Model_Camera_Pos.Y =double .Parse( _Receive.Camera_Pos.Y);
+                    Halcon_Shape_Mode.Model_Camera_Pos.Z =double .Parse( _Receive.Camera_Pos.Z);
+                    Halcon_Shape_Mode.Model_Camera_Pos.Rx =double .Parse( _Receive.Camera_Pos.Rx);
+                    Halcon_Shape_Mode.Model_Camera_Pos.Ry =double .Parse( _Receive.Camera_Pos.Ry);
+                    Halcon_Shape_Mode.Model_Camera_Pos.Rz =double .Parse( _Receive.Camera_Pos.Rz);
 
                     Halcon_Shape_Mode.Model_Camera_Pos.Set_HPos_Type(_Receive.Robot_Type);
 
-                    break;
-
-                case Vision_Creation_Model_Pos_Enum.Model_Pos:
-
-                    Halcon_Shape_Mode.Model_Plane_Pos.X = double.Parse(_Receive.ACT_Point.X);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Y = double.Parse(_Receive.ACT_Point.Y);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Z = double.Parse(_Receive.ACT_Point.Z);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Rx = double.Parse(_Receive.ACT_Point.Rx);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Ry = double.Parse(_Receive.ACT_Point.Ry);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Rz = double.Parse(_Receive.ACT_Point.Rz);
+           
+                    Halcon_Shape_Mode.Model_Plane_Pos.X = double.Parse(_Receive.Origin_Pos.X);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Y = double.Parse(_Receive.Origin_Pos.Y);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Z = double.Parse(_Receive.Origin_Pos.Z);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Rx = double.Parse(_Receive.Origin_Pos.Rx);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Ry = double.Parse(_Receive.Origin_Pos.Ry);
+                    Halcon_Shape_Mode.Model_Plane_Pos.Rz = double.Parse(_Receive.Origin_Pos.Rz);
                     Halcon_Shape_Mode.Model_Plane_Pos.Set_HPos_Type(_Receive.Robot_Type);
 
 
-                    break;
+             
    
-            }
+            
 
 
             HImage _Image = new HImage();
 
             _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+
+
 
             _Send.IsStatus = 1;
             _Send.Message_Error = "Read Position data OK!";
@@ -748,19 +744,6 @@ namespace HanGao.ViewModel
         /// </summary>
         public int Vision_Data_ID_UI { set; get; }
 
-        //public static ObservableCollection<Shape_File_UI_Model> _Shape_File_UI_List = new ObservableCollection<Shape_File_UI_Model>();
-        ///// <summary>
-        ///// 模型文件列表
-        ///// </summary>
-        //public  ObservableCollection<Shape_File_UI_Model> Shape_File_UI_List
-        //{
-        //    get { return _Shape_File_UI_List; }
-        //    set
-        //    {
-        //        _Shape_File_UI_List = value;
-        //        StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Shape_File_UI_List)));
-        //    }
-        //}
         /// <summary>
         /// 模型文件列表
         /// </summary>
@@ -772,27 +755,12 @@ namespace HanGao.ViewModel
         public ObservableCollection<FileInfo> Shape_FileFull_UI { set; get; } = new ObservableCollection<FileInfo>() { };
 
 
-
-
         /// <summary>
         /// 关于模型功能属性
         /// </summary>
         public Halcon_Shape_Mode_SDK Halcon_Shape_Mode { set; get; } = new Halcon_Shape_Mode_SDK();
 
-        //public ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List { get; set; } = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
 
-        /// <summary>
-        /// 画画数据列表
-        /// </summary>
-        //public static ObservableCollection<Vision_Create_Model_Drawing_Model> Drawing_Data_List
-        //{
-        //    get { return Drawing_Data_List_M; }
-        //    set
-        //    {
-        //        Drawing_Data_List_M = value;
-        //        StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Drawing_Data_List)));
-        //    }
-        //}
 
         /// <summary>
         /// 静态属性更新通知事件
@@ -1046,6 +1014,35 @@ namespace HanGao.ViewModel
                 });
             });
         }
+
+
+        /// <summary>
+        /// 模板存储位置选择
+        /// </summary>
+        public ICommand Image_Rectify_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                //Button Window_UserContol = Sm.Source as Button;
+          
+               
+
+
+                Task.Run(() =>
+                {
+                    HImage _Image = new HImage();
+
+                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+
+
+                    Halcon_Shape_Mode.ImageRectified(_Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+
+
+                });
+            });
+        }
+
+
 
         /// <summary>
         /// 读取模型文件方法
@@ -1764,6 +1761,8 @@ namespace HanGao.ViewModel
                     Camera_Device_List.Select_Camera.ThrowIfNull("未选择相机设备，不能采集图像！");
                     _Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout();
 
+
+                   
                     //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
 
                     break;

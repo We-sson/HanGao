@@ -438,14 +438,14 @@ namespace Roboto_Socket_Library
 
 
                     //解析协议
-                    int _Pos_Model = BitConverter.ToInt16(Receice_byte.Skip(4).Take(2).ToArray());
+                    //int _Pos_Model = BitConverter.ToInt16(Receice_byte.Skip(4).Take(2).ToArray());
 
-                    if (!Enum.IsDefined((Vision_Creation_Model_Pos_Enum)_Pos_Model))
-                    {
-                        throw new Exception("通讯协议无该功能码，请联系开发者！");
-                    }
+                    //if (!Enum.IsDefined((Vision_Creation_Model_Pos_Enum)_Pos_Model))
+                    //{
+                    //    throw new Exception("通讯协议无该功能码，请联系开发者！");
+                    //}
 
-                    int _Robot_Type = BitConverter.ToInt16(Receice_byte.Skip(6).Take(2).ToArray());
+                    int _Robot_Type = BitConverter.ToInt16(Receice_byte.Skip(4).Take(2).ToArray());
 
                     if (!Enum.IsDefined((Robot_Type_Enum)_Robot_Type))
                     {
@@ -453,30 +453,46 @@ namespace Roboto_Socket_Library
                     }
 
 
-                    var xx = Receice_byte.Skip(8).Take(4).ToArray();
-                    var yy = Receice_byte.Skip(12).Take(4).ToArray();
-                    var zz = Receice_byte.Skip(16).Take(4).ToArray();
-                    var Rxx = Receice_byte.Skip(20).Take(4).ToArray();
-                    var Ryy = Receice_byte.Skip(24).Take(4).ToArray();
-                    var Rzz = Receice_byte.Skip(28).Take(4).ToArray();
-                    double x = BitConverter.ToSingle(xx);
-                    double y = BitConverter.ToSingle(yy);
-                    double z = BitConverter.ToSingle(zz);
-                    double Rx = BitConverter.ToSingle(Rxx);
-                    double Ry = BitConverter.ToSingle(Ryy);
-                    double Rz = BitConverter.ToSingle(Rzz);
-
+                    var xx = Receice_byte.Skip(6).Take(4).ToArray();
+                    var yy = Receice_byte.Skip(10).Take(4).ToArray();
+                    var zz = Receice_byte.Skip(14).Take(4).ToArray();
+                    var Rxx = Receice_byte.Skip(18).Take(4).ToArray();
+                    var Ryy = Receice_byte.Skip(22).Take(4).ToArray();
+                    var Rzz = Receice_byte.Skip(26).Take(4).ToArray();
+                    var xxx = Receice_byte.Skip(30).Take(4).ToArray();
+                    var yyy = Receice_byte.Skip(34).Take(4).ToArray();
+                    var zzz = Receice_byte.Skip(38).Take(4).ToArray();
+                    var Rxxx = Receice_byte.Skip(42).Take(4).ToArray();
+                    var Ryyy = Receice_byte.Skip(46).Take(4).ToArray();
+                    var Rzzz = Receice_byte.Skip(50).Take(4).ToArray();
+                    double cx = BitConverter.ToSingle(xx);
+                    double cy = BitConverter.ToSingle(yy);
+                    double cz = BitConverter.ToSingle(zz);
+                    double cRx = BitConverter.ToSingle(Rxx);
+                    double cRy = BitConverter.ToSingle(Ryy);
+                    double cRz = BitConverter.ToSingle(Rzz);
+                    double ox = BitConverter.ToSingle(xxx);
+                    double oy = BitConverter.ToSingle(yyy);
+                    double oz = BitConverter.ToSingle(zzz);
+                    double oRx = BitConverter.ToSingle(Rxxx);
+                    double oRy = BitConverter.ToSingle(Ryyy);
+                    double oRz = BitConverter.ToSingle(Rzzz);
 
                     _ABB_Creation_Model_Rece.Vision_Model = Vision_Model_Type;
-                    _ABB_Creation_Model_Rece.Creation_Pos_Model = (Vision_Creation_Model_Pos_Enum)_Pos_Model;
+                  
                     _ABB_Creation_Model_Rece.Robot_Type = (Robot_Type_Enum)_Robot_Type;
-                    _ABB_Creation_Model_Rece.ACT_Point.X = Math.Round(x, 4).ToString();
-                    _ABB_Creation_Model_Rece.ACT_Point.Y = Math.Round(y, 4).ToString();
-                    _ABB_Creation_Model_Rece.ACT_Point.Z = Math.Round(z, 4).ToString();
-                    _ABB_Creation_Model_Rece.ACT_Point.Rx = Math.Round(Rx, 4).ToString();
-                    _ABB_Creation_Model_Rece.ACT_Point.Ry = Math.Round(Ry, 4).ToString();
-                    _ABB_Creation_Model_Rece.ACT_Point.Rz = Math.Round(Rz, 4).ToString();
-
+                    _ABB_Creation_Model_Rece.Camera_Pos.X = Math.Round(cx, 4).ToString();
+                    _ABB_Creation_Model_Rece.Camera_Pos.Y = Math.Round(cy, 4).ToString();
+                    _ABB_Creation_Model_Rece.Camera_Pos.Z = Math.Round(cz, 4).ToString();
+                    _ABB_Creation_Model_Rece.Camera_Pos.Rx = Math.Round(cRx, 4).ToString();
+                    _ABB_Creation_Model_Rece.Camera_Pos.Ry = Math.Round(cRy, 4).ToString();
+                    _ABB_Creation_Model_Rece.Camera_Pos.Rz = Math.Round(cRz, 4).ToString();
+                    _ABB_Creation_Model_Rece.Origin_Pos.X = Math.Round(ox, 4).ToString();
+                    _ABB_Creation_Model_Rece.Origin_Pos.Y = Math.Round(oy, 4).ToString();
+                    _ABB_Creation_Model_Rece.Origin_Pos.Z = Math.Round(oz, 4).ToString();
+                    _ABB_Creation_Model_Rece.Origin_Pos.Rx = Math.Round(oRx, 4).ToString();
+                    _ABB_Creation_Model_Rece.Origin_Pos.Ry = Math.Round(oRy, 4).ToString();
+                    _ABB_Creation_Model_Rece.Origin_Pos.Rz = Math.Round(oRz, 4).ToString();
 
 
                     return _ABB_Creation_Model_Rece;

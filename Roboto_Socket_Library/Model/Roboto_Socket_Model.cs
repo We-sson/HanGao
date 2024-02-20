@@ -91,14 +91,19 @@ namespace Roboto_Socket_Library.Model
             /// </summary>
             //[XmlAttribute]
             //public Vision_Model_Enum Model { set; get; }
-            [XmlAttribute]
-            public Vision_Creation_Model_Pos_Enum? Creation_Pos_Model { set; get; }
+            //[XmlAttribute]
+            //public Vision_Creation_Model_Pos_Enum? Creation_Pos_Model { set; get; }
 
 
             /// <summary>
             /// 模型平面位置
             /// </summary>
-            public Point_Models ACT_Point { set; get; } = new Point_Models();
+            public Point_Models Camera_Pos { set; get; } = new Point_Models();
+
+            /// <summary>
+            /// 模型原点位置
+            /// </summary>
+            public Point_Models Origin_Pos { set; get; } = new Point_Models();
 
 
             /// <summary>

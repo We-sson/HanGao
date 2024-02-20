@@ -2207,7 +2207,7 @@ public class Reconstruction_3d
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate base and tool 3D models of the robot. 
-    public  List<HObjectModel3D> gen_robot_tool_and_base_object_model_3d(HTuple hv_ArrowThickness,
+    public  List<HObjectModel3D> gen_robot_tool_and_base_object_model_3d(HTuple hv_ArrowThickness ,
         HTuple hv_ArrowLength, Get_Robot_tool_base_Type_Enum _Get_Type)
     {
 
@@ -2285,7 +2285,7 @@ public class Reconstruction_3d
 
                     hv_FactorVisBase = hv_ArrowThickness * 10;
 
-                    hv_OM3DBasePlate.GenBoxObjectModel3d(hv_IdentityPose, hv_FactorVisBase * 1.5, hv_FactorVisBase * 1.5, hv_FactorVisBase / 12.0);
+                    hv_OM3DBasePlate.GenBoxObjectModel3d(hv_IdentityPose, hv_FactorVisBase * 15, hv_FactorVisBase * 15, hv_FactorVisBase / 12.0);
                     //HOperatorSet.GenBoxObjectModel3d(hv_IdentityPose, hv_FactorVisBase * 1.5, hv_FactorVisBase * 1.5, hv_FactorVisBase / 12.0, out hv_OM3DBasePlate);
 
                     hv_TransXPose.CreatePose(hv_ArrowLength, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
@@ -2663,6 +2663,31 @@ public class Reconstruction_3d
     }
 
 
+    /// <summary>
+    /// 获得机器人工件坐标模型
+    /// </summary>
+    /// <param name="_BasePos"></param>
+    /// <returns></returns>
+    public List<HObjectModel3D> GenRobot_Base_Model(HPose _BasePos)
+    {
+
+
+        ////生产机器人坐标模型
+        List<HObjectModel3D> _RobotBase3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
+
+        /// 偏移模式到TCP坐标坐标
+        for (int _N = 0; _N < _RobotBase3D.Count; _N++)
+        {
+            _RobotBase3D[_N] = _RobotBase3D[_N].RigidTransObjectModel3d(_BasePos);
+        }
+
+       
+
+
+
+
+        return _RobotBase3D;
+    }
 
 
 

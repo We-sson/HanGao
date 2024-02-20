@@ -822,6 +822,9 @@ namespace MVS_SDK_Base.Model
                     _HImage = Halcon_SDK.Mvs_To_Halcon_Image(_MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData);
 
 
+
+
+
                     //发送显示图像位置
                     //_Window.DispObj(_HImage);
 

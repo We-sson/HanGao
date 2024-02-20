@@ -5269,7 +5269,7 @@
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                        <i:InvokeCommandAction Command="{Binding Image_Rectify_Comm}"
                                                                                CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
