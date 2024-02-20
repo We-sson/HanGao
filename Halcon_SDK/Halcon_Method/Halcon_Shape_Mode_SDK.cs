@@ -369,7 +369,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
-        public HImage ShapeModel_Creation_ImageRectified(HImage _Image, Halcon_Camera_Calibration_Parameters_Model _Camera_Paramteters, Point_Model HandEye_ToolinCamera)
+        public HImage ImageRectified(HImage _Image, Halcon_Camera_Calibration_Parameters_Model _Camera_Paramteters, Point_Model HandEye_ToolinCamera)
         {
             //check data
             if (Model_Camera_Pos == new Point_Model()) { throw new Exception("创建模型的相机位置未设定数据，请手动或者机器人通讯获取！"); }
@@ -433,7 +433,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //根据相机平面坐标，生产最小位置
             _Camera_Paramteters.HCamPar.ImagePointsToWorldPlane(PlaneInCamPose.HPose, _BorderRows, _BorderColumns, "m", out HTuple _BorderX, out HTuple _BorderY);
 
-
+            //设置查找平面原点
             Point_Model PlaneInCamOriginPose=new Point_Model (  PlaneInCamPose.HPose.SetOriginPose(_BorderX.TupleMin(), _BorderY.TupleMin(), 0));
 
             //Point_Model MatchingPlaneRectifiedPartInMatchingPlanePose = new Point_Model();

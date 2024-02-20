@@ -90,85 +90,23 @@ namespace HanGao.ViewModel
             Initialization_Camera_Thread();
         }
 
-        ///// <summary>
-        ///// 静态委托接收处理相机标定点添加事件
-        ///// </summary>
-        //public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_Add_String { set; get; }
 
-        ///// <summary>
-        ///// 静态委托接收处理相机标定精度测试事件
-        ///// </summary>
-        //public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_Text_String { set; get; }
-
-        ///// <summary>
-        ///// 静态委托处理查找模型特征
-        ///// </summary>
-        //public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Find_String { set; get; }
-
-        ///// <summary>
-        ///// 静态委托接收处理相机标定事件
-        ///// </summary>
-        //public ReceiveMessage_delegate<Vision_Find_Data_Receive, Vision_Find_Data_Send> Receive_Calibration_New_String { set; get; }
-
-        ///// <summary>
-        ///// 静态委托处理查找模型特征
-        ///// </summary>
-        //public ReceiveMessage_delegate<Vision_Ini_Data_Receive, Vision_Ini_Data_Send> Receive_Vision_Ini_String { set; get; }
-
-        /// <summary>
-        /// 静态属性更新通知事件
-        /// </summary>
-        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-
-        //private  Vision_Auto_Cofig_Model _Vision_Auto_Cofig { set; get; } = new Vision_Auto_Cofig_Model();
 
         /// <summary>
         /// 视觉自动参数属性
         /// </summary>
         public Vision_Auto_Cofig_Model Vision_Auto_Cofig { set; get; } = new Vision_Auto_Cofig_Model();
 
-        //{
-        //    get
-        //    {
-        //        return _Vision_Auto_Cofig;
-        //    }
-        //    set
-        //    {
-        //        _Vision_Auto_Cofig = value;
-        //        //OnStaticPropertyChanged();
-        //        StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Vision_Auto_Cofig)));
 
-        //    }
-        //}
-
-        /// <summary>
-        /// 静态属性更新通知事件
-        /// </summary>
-        //private static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-        //public Vision_Data Find_Data_List_UI { set; get; }
         /// <summary>
         /// 视觉参数内容列表
         /// </summary>
         public Vision_Data Find_Data_List { get; set; } = new Vision_Data();
 
-        //public static Vision_Data Find_Data_List
-        //{
-        //    get { return _Find_Data_List; }
-        //    set
-        //    {
-        //        _Find_Data_List = value;
-        //        StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Find_Data_List)));
-        //    }
-        //}
-
         /// <summary>
         /// halcon 控件显示属性
         /// </summary>
         public Halcon_Window_Display_Model Halcon_Window_Display { set; get; } = new Halcon_Window_Display_Model();
-
-
-
-
 
 
         /// <summary>
@@ -204,27 +142,11 @@ namespace HanGao.ViewModel
             }
         }
 
-
-
-
-
         /// <summary>
         /// 相机设备功能
         /// </summary>
         public MVS_Camera_SDK Camera_Device_List { set; get; } = new MVS_Camera_SDK();
 
-        /// <summary>
-        /// 相机设备列表
-        /// </summary>
-        //public static MVS_Camera_SDK Camera_Device_List
-        //{
-        //    get { return _Camera_Device_List; }
-        //    set
-        //    {
-        //        _Camera_Device_List = value;
-        //        StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Camera_Device_List)));
-        //    }
-        //}
 
         public void Socket_Log_Show(string _log)
         {
