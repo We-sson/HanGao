@@ -260,8 +260,6 @@ namespace HanGao.ViewModel
                 Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
                 //生产相机标模型
                 List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CameraInBase.HPose);
-               
-                
                 //生产机器人坐标模型
                 List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Model_Plane_Pos.HPose);
 
