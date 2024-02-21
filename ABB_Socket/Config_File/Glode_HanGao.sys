@@ -92,16 +92,16 @@ MODULE Glode_HanGao(SYSMODULE)
         Creation_Model_Send.CameraPos.X:=ACT_Point.trans.x;
         Creation_Model_Send.CameraPos.Y:=ACT_Point.trans.y;
         Creation_Model_Send.CameraPos.Z:=ACT_Point.trans.z;
-        Creation_Model_Send.CameraPos.Rz:=EulerZYX(\X,ACT_Point.rot);
+        Creation_Model_Send.CameraPos.Rx:=EulerZYX(\X,ACT_Point.rot);
         Creation_Model_Send.CameraPos.Ry:=EulerZYX(\Y,ACT_Point.rot);
-        Creation_Model_Send.CameraPos.Rx:=EulerZYX(\Z,ACT_Point.rot);
+        Creation_Model_Send.CameraPos.Rz:=EulerZYX(\Z,ACT_Point.rot);
 
         Creation_Model_Send.OriginPos.X:=OriginPos.uframe.trans.x;
         Creation_Model_Send.OriginPos.Y:=OriginPos.uframe.trans.y;
         Creation_Model_Send.OriginPos.Z:=OriginPos.uframe.trans.z;
-        Creation_Model_Send.OriginPos.Rz:=EulerZYX(\X,OriginPos.uframe.rot);
+        Creation_Model_Send.OriginPos.Rx:=EulerZYX(\X,OriginPos.uframe.rot);
         Creation_Model_Send.OriginPos.Ry:=EulerZYX(\Y,OriginPos.uframe.rot);
-        Creation_Model_Send.OriginPos.Rx:=EulerZYX(\Z,OriginPos.uframe.rot);
+        Creation_Model_Send.OriginPos.Rz:=EulerZYX(\Z,OriginPos.uframe.rot);
 
         !show pos
         HTWrite("CameraPos:"+ValToStr(Creation_Model_Send.CameraPos));
@@ -158,9 +158,9 @@ MODULE Glode_HanGao(SYSMODULE)
             HandEye_Send.ACT_Point.X:=ACT_Point.trans.x;
             HandEye_Send.ACT_Point.Y:=ACT_Point.trans.y;
             HandEye_Send.ACT_Point.Z:=ACT_Point.trans.z;
-            HandEye_Send.ACT_Point.Rz:=EulerZYX(\X,ACT_Point.rot);
+            HandEye_Send.ACT_Point.Rx:=EulerZYX(\X,ACT_Point.rot);
             HandEye_Send.ACT_Point.Ry:=EulerZYX(\Y,ACT_Point.rot);
-            HandEye_Send.ACT_Point.Rx:=EulerZYX(\Z,ACT_Point.rot);
+            HandEye_Send.ACT_Point.Rz:=EulerZYX(\Z,ACT_Point.rot);
         CASE HE_Calib_End_Model:
             HandEye_Send.Calibration_Model:=2;
 
