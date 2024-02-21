@@ -419,7 +419,7 @@ namespace Halcon_SDK_DLL
                         HCalibData.SetCalibData("tool", (HTuple)i, "tool_in_base_pose", _ImageList[i].HandEye_Robot_Pos.HPose);
 
                         //生产机器人坐标模型
-                        List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.GenRobotTcp_Point_Model(_ImageList[i].HandEye_Robot_Pos.HPose);
+                        List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.GenRobot_Tcp_Base_Model(_ImageList[i].HandEye_Robot_Pos.HPose);
 
 
                         //结果赋值

@@ -2634,7 +2634,7 @@ public class Reconstruction_3d
     /// </summary>
     /// <param name="_RobotTcpPos"></param>
     /// <returns></returns>
-    public List<HObjectModel3D> GenRobotTcp_Point_Model(HPose _RobotTcpPos)
+    public List<HObjectModel3D> GenRobot_Tcp_Base_Model(HPose _RobotTcpPos)
     {
 
 
@@ -2668,17 +2668,17 @@ public class Reconstruction_3d
     /// </summary>
     /// <param name="_BasePos"></param>
     /// <returns></returns>
-    public List<HObjectModel3D> GenRobot_Base_Model(HPose _BasePos)
+    public List<HObjectModel3D> GenRobot_Tcp_Model(HPose _TcpPos)
     {
 
 
         ////生产机器人坐标模型
-        List<HObjectModel3D> _RobotBase3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
+        List<HObjectModel3D> _RobotTcp3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Tool);
 
         /// 偏移模式到TCP坐标坐标
-        for (int _N = 0; _N < _RobotBase3D.Count; _N++)
+        for (int _N = 0; _N < _RobotTcp3D.Count; _N++)
         {
-            _RobotBase3D[_N] = _RobotBase3D[_N].RigidTransObjectModel3d(_BasePos);
+            _RobotTcp3D[_N] = _RobotTcp3D[_N].RigidTransObjectModel3d(_TcpPos);
         }
 
        
@@ -2686,7 +2686,7 @@ public class Reconstruction_3d
 
 
 
-        return _RobotBase3D;
+        return _RobotTcp3D;
     }
 
 
@@ -4059,10 +4059,42 @@ public class Reconstruction_3d
     }
 
 
+    public List<HObjectModel3D> Gen_Camera_object_model_3d(HCamPar hv_CamParam, HPose _CameraPos,double hv_CameraSize=0.05, double  hv_ConeLength=0.3)
+    {
+
+        HPose hv_IdentityPose = new HPose();
+        HCameraSetupModel hv_CameraSetupModelID = new HCameraSetupModel();
+
+
+        hv_IdentityPose.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
+
+        hv_CameraSetupModelID.CreateCameraSetupModel(1);
+   
+        hv_CameraSetupModelID.SetCameraSetupCamParam(0, new HTuple(), new HCamPar(hv_CamParam), hv_IdentityPose);
+
+
+        List<HObjectModel3D> hv_OM3DCamera_Cone_Orig = gen_camera_setup_object_model_3d(hv_CameraSetupModelID, hv_CameraSize, hv_ConeLength);
+
+
+        //偏移相机模型
+        for (int i = 0; i < hv_OM3DCamera_Cone_Orig.Count; i++)
+        {
+            hv_OM3DCamera_Cone_Orig[i] = hv_OM3DCamera_Cone_Orig[i].RigidTransObjectModel3d(_CameraPos);
+        }
+
+
+        hv_CameraSetupModelID.ClearCameraSetupModel();
+
+
+        return hv_OM3DCamera_Cone_Orig;
+
+    }
+
+
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate 3D object models for the camera and the robot's tool. 
-    public List<HObjectModel3D> gen_camera_and_tool_moving_cam_object_model_3d(HCalibData HCalibData_Model, int tool_in_base_num, double hv_CameraSize, double hv_ConeLength)
+    public List<HObjectModel3D> gen_camera_and_tool_moving_cam_object_model_3d(HCalibData HCalibData_Model, int tool_in_base_num, double hv_CameraSize=0.05, double hv_ConeLength=0.3)
     {
 
 
@@ -4122,7 +4154,7 @@ public class Reconstruction_3d
             
             
             //生产工具坐标模型
-            List<HObjectModel3D> hv_OM3DToolOrigin_Base = GenRobotTcp_Point_Model(new HPose(hv_ToolInBasePose));
+            List<HObjectModel3D> hv_OM3DToolOrigin_Base = GenRobot_Tcp_Base_Model(new HPose(hv_ToolInBasePose));
 
             //添加到结果集合中
             hv_Tool_Moving_Cam_Object_Model.AddRange(hv_OM3DToolOrigin_Base);

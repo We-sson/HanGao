@@ -1252,6 +1252,7 @@ namespace Halcon_SDK_DLL.Model
     {
         public Point_Model()
         {
+           
         }
 
         public Point_Model(Point_Model _Point)
@@ -1264,19 +1265,70 @@ namespace Halcon_SDK_DLL.Model
             HPose = new  HPose (_Pose);
         }
 
-        public double X { set; get; } = 0;
-        public double Y { set; get; } = 0;
-        public double Z { set; get; } = 0;
-        public double Rx { set; get; } = 0;
-        public double Ry { set; get; } = 0;
-        public double Rz { set; get; } = 0;
+        private double  _x;
+
+        public double  X
+        {
+            get { return _x; }
+            set { _x = value; HPose[0] = value/1000.000; }
+        }
+        private double _y;
+
+        public double Y
+        {
+            get { return _y; }
+            set { _y = value; HPose[1] = value/1000.000; }
+        }
+
+        private double  _z;
+
+        public double  Z
+        {
+            get { return _z; }
+            set { _z = value; HPose[2] = value/1000.000; }
+        }
+
+        private double _Rx;
+
+        public double Rx 
+        {
+            get { return _Rx; }
+            set { _Rx = value; HPose[3] = value; }
+        }
+
+        private double  _Ry;
+
+        public double  Ry
+        {
+            get { return _Ry; }
+            set { _Ry = value; HPose[4] = value; }
+        }
+
+        private double  _Rz;
+
+        public double  Rz
+        {
+            get { return _Rz; }
+            set { _Rz = value; HPose[5] = value; }
+        }
+
+
 
         /// <summary>
         /// 读取位置点类型
         /// </summary>
-        public Halcon_Pose_Type_Enum HType { set; get; } = Halcon_Pose_Type_Enum.gba;
+        private Halcon_Pose_Type_Enum _HType = Halcon_Pose_Type_Enum.gba;
 
-        private HPose _HPose = new HPose();
+        public Halcon_Pose_Type_Enum HType
+        {
+            get { return _HType; }
+            set { _HType = value; HPose[6] = (int)value; }
+        }
+
+
+
+
+        private HPose _HPose = new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
 
         public HPose HPose
         {

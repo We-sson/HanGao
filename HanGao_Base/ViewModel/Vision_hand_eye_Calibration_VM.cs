@@ -318,7 +318,7 @@ namespace HanGao.ViewModel
                             //_Robot_Pos.Set_Pose_Data(_RobotBase);
 
                             ///生成对应机器人的模型
-                            _Calib_Rotob_Model = _HandEye_3DModel.GenRobotTcp_Point_Model(_RobotBase);
+                            _Calib_Rotob_Model = _HandEye_3DModel.GenRobot_Tcp_Base_Model(_RobotBase);
 
                             //显示机器人坐标模型
                             HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });

@@ -186,9 +186,9 @@ namespace HanGao.ViewModel
                 }
 
                 //KUKA_Receive.Server_Strat(Local_IP_UI[IP_UI_Select].ToString(), Local_Port_UI.ToString());
-                Vision_Socket_Robot_Parameters.Sever_IsRuning = true ;
+                Vision_Socket_Robot_Parameters.Sever_IsRuning = true;
             }
-       
+
         }
 
 
@@ -223,46 +223,60 @@ namespace HanGao.ViewModel
         public Vision_Creation_Model_Send Vision_Creation_Model_Receive_Method(Vision_Creation_Model_Receive _Receive)
         {
             Vision_Creation_Model_Send _Send = new Vision_Creation_Model_Send();
-
+            Reconstruction_3d _3DModel = new Reconstruction_3d();
             try
             {
 
 
 
-                    Halcon_Shape_Mode.Model_Camera_Pos.X =double .Parse( _Receive.Camera_Pos.X);
-                    Halcon_Shape_Mode.Model_Camera_Pos.Y =double .Parse( _Receive.Camera_Pos.Y);
-                    Halcon_Shape_Mode.Model_Camera_Pos.Z =double .Parse( _Receive.Camera_Pos.Z);
-                    Halcon_Shape_Mode.Model_Camera_Pos.Rx =double .Parse( _Receive.Camera_Pos.Rx);
-                    Halcon_Shape_Mode.Model_Camera_Pos.Ry =double .Parse( _Receive.Camera_Pos.Ry);
-                    Halcon_Shape_Mode.Model_Camera_Pos.Rz =double .Parse( _Receive.Camera_Pos.Rz);
+                Halcon_Shape_Mode.Model_Camera_Pos.X = double.Parse(_Receive.Camera_Pos.X);
+                Halcon_Shape_Mode.Model_Camera_Pos.Y = double.Parse(_Receive.Camera_Pos.Y);
+                Halcon_Shape_Mode.Model_Camera_Pos.Z = double.Parse(_Receive.Camera_Pos.Z);
+                Halcon_Shape_Mode.Model_Camera_Pos.Rx = double.Parse(_Receive.Camera_Pos.Rx);
+                Halcon_Shape_Mode.Model_Camera_Pos.Ry = double.Parse(_Receive.Camera_Pos.Ry);
+                Halcon_Shape_Mode.Model_Camera_Pos.Rz = double.Parse(_Receive.Camera_Pos.Rz);
 
-                    Halcon_Shape_Mode.Model_Camera_Pos.Set_HPos_Type(_Receive.Robot_Type);
-
-           
-                    Halcon_Shape_Mode.Model_Plane_Pos.X = double.Parse(_Receive.Origin_Pos.X);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Y = double.Parse(_Receive.Origin_Pos.Y);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Z = double.Parse(_Receive.Origin_Pos.Z);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Rx = double.Parse(_Receive.Origin_Pos.Rx);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Ry = double.Parse(_Receive.Origin_Pos.Ry);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Rz = double.Parse(_Receive.Origin_Pos.Rz);
-                    Halcon_Shape_Mode.Model_Plane_Pos.Set_HPos_Type(_Receive.Robot_Type);
+                Halcon_Shape_Mode.Model_Camera_Pos.Set_HPos_Type(_Receive.Robot_Type);
 
 
-             
-   
-            
-
-
-            HImage _Image = new HImage();
-
-            _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                Halcon_Shape_Mode.Model_Plane_Pos.X = double.Parse(_Receive.Origin_Pos.X);
+                Halcon_Shape_Mode.Model_Plane_Pos.Y = double.Parse(_Receive.Origin_Pos.Y);
+                Halcon_Shape_Mode.Model_Plane_Pos.Z = double.Parse(_Receive.Origin_Pos.Z);
+                Halcon_Shape_Mode.Model_Plane_Pos.Rx = double.Parse(_Receive.Origin_Pos.Rx);
+                Halcon_Shape_Mode.Model_Plane_Pos.Ry = double.Parse(_Receive.Origin_Pos.Ry);
+                Halcon_Shape_Mode.Model_Plane_Pos.Rz = double.Parse(_Receive.Origin_Pos.Rz);
+                Halcon_Shape_Mode.Model_Plane_Pos.Set_HPos_Type(_Receive.Robot_Type);
 
 
 
-            _Send.IsStatus = 1;
-            _Send.Message_Error = "Read Position data OK!";
 
-            return _Send;
+
+                // pose_invert(ToolInCamPose, CamInToolPose)
+                ///  pose_compose(ToolInBasePose, CamInToolPose, CamInBasePose)
+                //  pose_compose(CamInBasePose, ObjInCamPose, ObjInBasePose)
+
+                Point_Model CamInTool = new Point_Model(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseInvert());
+                Point_Model ToolInBase = new Point_Model(Halcon_Shape_Mode.Model_Camera_Pos.HPose);
+                Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
+                //生产相机标模型
+                List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CameraInBase.HPose);
+                //生产机器人坐标模型
+                List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Model_Plane_Pos.HPose);
+
+                _RobotTcp3D.AddRange(_Camera_3D);
+                //显示模型
+                Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_RobotTcp3D));
+
+                HImage _Image = new HImage();
+
+                _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+
+
+
+                _Send.IsStatus = 1;
+                _Send.Message_Error = "Read Position data OK!";
+
+                return _Send;
 
 
 
@@ -270,7 +284,7 @@ namespace HanGao.ViewModel
             catch (Exception e)
             {
 
-                User_Log_Add("创建模型接收位置数据失败原因："+e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                User_Log_Add("创建模型接收位置数据失败原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                 _Send.IsStatus = 0;
                 _Send.Message_Error = "Read Position data Error!";
@@ -576,7 +590,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 手眼机器人通讯参数
         /// </summary>
-        public Socket_Robot_Parameters_Model Vision_Socket_Robot_Parameters { set; get; } = new Socket_Robot_Parameters_Model() { Sever_Socket_Port=5000 };
+        public Socket_Robot_Parameters_Model Vision_Socket_Robot_Parameters { set; get; } = new Socket_Robot_Parameters_Model() { Sever_Socket_Port = 5000 };
 
 
 
@@ -605,26 +619,26 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                    ToggleButton _Contol = Sm.Source as ToggleButton;
+                ToggleButton _Contol = Sm.Source as ToggleButton;
                 try
                 {
 
-                    
+
 
 
                     if (!Vision_Socket_Robot_Parameters.Sever_IsRuning)
                     {
                         Initialization_Sever_Start();
 
-                
+
                         User_Log_Add("开启所有IP服务器连接：" + Vision_Socket_Robot_Parameters.Sever_Socket_Port.ToString(), Log_Show_Window_Enum.Home);
 
                     }
                     else
                     {
                         Initialization_Sever_STOP();
-                  
-                        User_Log_Add("停止所有IP服务器连接!", Log_Show_Window_Enum.Home,  MessageBoxImage.Stop);
+
+                        User_Log_Add("停止所有IP服务器连接!", Log_Show_Window_Enum.Home, MessageBoxImage.Stop);
 
                     }
                 }
@@ -632,7 +646,7 @@ namespace HanGao.ViewModel
                 {
                     Vision_Socket_Robot_Parameters.Sever_IsRuning = false;
                     _Contol.IsChecked = false;
-                    User_Log_Add("开启服务器接受失败！原因："+_e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    User_Log_Add("开启服务器接受失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                 }
 
@@ -718,7 +732,7 @@ namespace HanGao.ViewModel
                     try
                     {
                         HImage _Image = new HImage();
-                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List. Image_Location_UI);
+                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
 
                         _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(_Image);
@@ -1024,8 +1038,8 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 //Button Window_UserContol = Sm.Source as Button;
-          
-               
+
+
 
 
                 Task.Run(() =>
@@ -1731,7 +1745,7 @@ namespace HanGao.ViewModel
                     }
                     catch (Exception _e)
                     {
-                        User_Log_Add( "采集图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                        User_Log_Add("采集图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                     }
                 });
             });
@@ -1762,7 +1776,7 @@ namespace HanGao.ViewModel
                     _Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout();
 
 
-                   
+
                     //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
 
                     break;
