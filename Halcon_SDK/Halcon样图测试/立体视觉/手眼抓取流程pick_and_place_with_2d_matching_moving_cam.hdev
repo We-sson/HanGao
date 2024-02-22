@@ -39,7 +39,7 @@
 <l>read_pose (DataDir + 'tool_in_base_pose_2d_matching_moving_cam.dat', ToolInBasePose2DMatching)</l>
 <c>* Specify the height of the object, in meters.</c>
 <c>* 指定对象的高度（以米为单位）。</c>
-<l>ObjectHeight := 0.032</l>
+<l>ObjectHeight := 0.0</l>
 <l>dev_disp_2d_matching_instructions (Image2DMatching, ToolInBasePose2DMatching, ObjectHeight)</l>
 <l>stop ()</l>
 <c>* </c>
