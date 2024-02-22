@@ -3875,7 +3875,7 @@
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
                                                      FontSize="18"
-                                                     IsReadOnly="True" />
+                                                     IsReadOnly="False" />
                                         </Grid>
                                         <Grid Height="35" Margin="8">
 

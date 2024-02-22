@@ -377,26 +377,21 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
             //把位置坐标转换通用类型
-            Point_Model Default_Model_Camera_Pos = new Point_Model(Model_Camera_Pos.HPose);
-            Point_Model Default_Model_Plane_Pos = new Point_Model(Model_Plane_Pos.HPose);
-            Point_Model Default_HandEye_ToolinCamera = new Point_Model(HandEye_ToolinCamera.HPose);
+            //Point_Model Default_Model_Camera_Pos = new Point_Model(Model_Camera_Pos.HPose);
+            //Point_Model Default_Model_Plane_Pos = new Point_Model(Model_Plane_Pos.HPose);
+            //Point_Model Default_HandEye_ToolinCamera = new Point_Model(HandEye_ToolinCamera.HPose);
 
-            Default_Model_Camera_Pos.HPose.ConvertPoseType("Rp+T", "gba", "point");
-            Default_Model_Plane_Pos.HPose.ConvertPoseType("Rp+T", "gba", "point");
-            Default_HandEye_ToolinCamera.HPose.ConvertPoseType("Rp+T", "gba", "point");
+            //Default_Model_Camera_Pos.HPose.ConvertPoseType("Rp+T", "gba", "point");
+            //Default_Model_Plane_Pos.HPose.ConvertPoseType("Rp+T", "gba", "point");
+            //Default_HandEye_ToolinCamera.HPose.ConvertPoseType("Rp+T", "gba", "point");
 
-            //创建相机的视角平面,对齐XY,Z方向原理相机
-
-            Point_Model BaseInToolPose = new Point_Model(Default_Model_Camera_Pos.HPose.PoseInvert());
-
+            //转换平面在相机的坐标,创建平面Z方向远离相机
+            Point_Model BaseInToolPose = new Point_Model(Model_Camera_Pos.HPose.PoseInvert());
             Point_Model BaseInCamPose = new Point_Model(HandEye_ToolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
-
-            Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(Default_Model_Plane_Pos.HPose));
+            Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(Model_Plane_Pos.HPose));
 
             //计算平面位置在基坐标
-
             Point_Model CamInBasePose = new Point_Model(BaseInCamPose.HPose.PoseInvert());
-
             Point_Model PlaneInBasePose = new Point_Model(CamInBasePose.HPose.PoseCompose(PlaneInCamPose.HPose));
 
 
@@ -406,12 +401,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //创建图像布局平均点
             RegionGrid.GenGridRegion(20, 20, "points", _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Height);
 
-
+            //获得区域点
             RegionGrid.GetRegionPoints(out HTuple _Rows, out HTuple _Colums);
 
             HXLDCont _ContCircle = new HXLDCont();
-
-            _ContCircle.GenCircleContourXld(_Rows, _Colums, HTuple.TupleGenConst(_Rows.Length, 1.0), new HTuple(0), new HTuple(360).TupleDeg(), new HTuple("positive"), 0.1);
+            
+            _ContCircle.GenCircleContourXld(_Rows, _Colums, HTuple.TupleGenConst(_Rows.Length, 1.0), new HTuple(0), new HTuple(6.28318), new HTuple("positive"), 0.1);
 
             HXLDCont _ContCircleWorldPlane = new HXLDCont();
 
@@ -424,9 +419,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
             //计算平面边界
-            HRegion ImageArea = new HRegion(0, 0, (double)_Camera_Paramteters.Image_Height - 1, (double)_Camera_Paramteters.Image_Width - 1);
+            HRegion ImageArea = new HRegion();
 
-            HRegion RegionBorder = ImageArea.Boundary("outer");
+            ImageArea.GenRectangle1(new HTuple(0), new HTuple (0), new HTuple( _Camera_Paramteters.Image_Height ), new HTuple ( _Camera_Paramteters.Image_Width ));
+
+            HRegion RegionBorder = ImageArea.Boundary("inner_filled");
 
             RegionBorder.GetRegionPoints(out HTuple _BorderRows, out HTuple _BorderColumns);
 
@@ -444,9 +441,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //Point_Model MatchingPlaneRectifiedPartInCamPose = new Point_Model(PlaneInCamPose.HPose.PoseCompose(MatchingPlaneRectifiedPartInMatchingPlanePose.HPose));
 
             //比例缩放下最大图像尺寸
-            int _WidthRect = ((_BorderX.TupleMax() - _BorderX.TupleMin()) / _ScaleRectification + 0.5);
-            int _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5);
-
+            int  _WidthRect =((_BorderX.TupleMax() - _BorderX.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
+            int  _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
+          
 
             //计算校正图像
             //HImage ImageRectified = _Image.ImageToWorldPlane(_Camera_Paramteters.HCamPar, MatchingPlaneRectifiedPartInCamPose.HPose, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
@@ -454,7 +451,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
             HImage ImageRectified0 = new HImage();
              ImageRectified0.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
-            return ImageRectified0;
+            _Image= _Image.MapImage(ImageRectified0);
+
+
+            return _Image;
 
         }
 

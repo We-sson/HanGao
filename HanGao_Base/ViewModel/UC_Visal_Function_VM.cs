@@ -1039,7 +1039,10 @@ namespace HanGao.ViewModel
             {
                 //Button Window_UserContol = Sm.Source as Button;
 
+                try
+                {
 
+    
 
 
                 Task.Run(() =>
@@ -1049,10 +1052,25 @@ namespace HanGao.ViewModel
                     _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
 
-                    Halcon_Shape_Mode.ImageRectified(_Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+                    _Image=Halcon_Shape_Mode.ImageRectified(_Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        //显示图像
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Image);
+
+                    });
+
+                    User_Log_Add("图像校准成功.", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
                 });
+                }
+                catch (Exception e)
+                {
+
+                    User_Log_Add("图像校准失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                }
             });
         }
 
