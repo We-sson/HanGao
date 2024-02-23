@@ -688,29 +688,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         Dilation_Region.DilationCircle(Create_Shape_ModelXld.DilationCircle);
                         //HOperatorSet.DilationCircle(Polygon_Xld, out Dilation_Region, Create_Shape_ModelXld.DilationCircle);
 
-                        //转换区域类型
-                        //D_Region = new HRegion(Dilation_Region);
-
-
-
-
-                        //    //xld集合
-                        //    All_XLD = new List<HObject>
-                        //{
-                        //    new HObject(_ModelsXld.SelectObj(1)).ConcatObj(_ModelsXld.SelectObj(2)),
-                        //    new HObject(_ModelsXld.SelectObj(3)).ConcatObj(_ModelsXld.SelectObj(2)),
-                        //    new HObject(_ModelsXld.SelectObj(4)).ConcatObj(_ModelsXld.SelectObj(5).ConcatObj(_ModelsXld.SelectObj(2))),
-                        //};
-
-                        //    //区域集合
-                        //    All_Region = new List<HObject>
-                        //{
-                        //    new HObject(D_Region.SelectObj(1).Union2(D_Region.SelectObj(2))),
-                        //    new HObject(D_Region.SelectObj(3).Union2(D_Region.SelectObj(2))),
-                        //    new HObject(D_Region.SelectObj(4).Union2(D_Region.SelectObj(5)).Union2(D_Region.SelectObj(2))),
-                        //};
-
-
 
                         HImage ImageRegion = new HImage();
                         ImageRegion.GenEmptyObj();

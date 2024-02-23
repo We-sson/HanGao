@@ -987,20 +987,20 @@ namespace HanGao.ViewModel
                     Create_Shape_ModelXld_UI_IsEnable = true;
 
                     //读取图片
-                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                    //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
-                    //_Halcon._HImage = new HObject(_Image);
+                    ////_Halcon._HImage = new HObject(_Image);
 
 
-                    //图像预处理
-                    _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(_Image);
+                    ////图像预处理
+                    //_Image = Image_Preprocessing_Process.Preprocessing_Process_Start(_Image);
 
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        //显示图像
-                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Image);
+                    //Application.Current.Dispatcher.Invoke(() =>
+                    //{
+                    //    //显示图像
+                    //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Image);
 
-                    });
+                    //});
 
 
 
