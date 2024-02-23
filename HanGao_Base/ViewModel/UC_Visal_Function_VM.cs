@@ -732,10 +732,10 @@ namespace HanGao.ViewModel
                     try
                     {
                         HImage _Image = new HImage();
-                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                        //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
 
-                        _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(_Image);
+                        _Image = Image_Preprocessing_Process.Preprocessing_Process_Start((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
                         //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
 
                         Application.Current.Dispatcher.Invoke(() =>
@@ -1049,10 +1049,10 @@ namespace HanGao.ViewModel
                 {
                     HImage _Image = new HImage();
 
-                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                    //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                    
 
-
-                    _Image=Halcon_Shape_Mode.ImageRectified(_Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+                    _Image =Halcon_Shape_Mode.ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
                     Application.Current.Dispatcher.Invoke(() =>
                     {

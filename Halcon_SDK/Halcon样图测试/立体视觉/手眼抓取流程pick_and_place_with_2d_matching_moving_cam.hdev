@@ -70,6 +70,7 @@
 <c>* </c>
 <c>* ** 3) Optionally: Teach the robot how to approach, grasp,</c>
 <c>*                  and move the object.</c>
+<c>* ** 3) 可选： 教机器人如何接近、抓取 * 和移动物体、和移动物体。</c>
 <l>NumRobotPathSteps := 2</l>
 <l>dev_disp_robot_path_steps_instructions (WindowHandle, WindowHandleGraphics)</l>
 <l>stop ()</l>
@@ -806,8 +807,10 @@
 <body>
 <c>* </c>
 <c>* Read an image for training the grasping path steps.</c>
+<c>* 读取图像以训练抓取路径步骤。</c>
 <l>read_image (Image, ImageDir + 'corner_bracket_model_moving_cam')</l>
 <c>* Additionally, read the pose of the robot when the image was acquired.</c>
+<c>* 此外，还可读取获取图像时机器人的姿势。</c>
 <l>read_pose (DataDir + 'tool_in_base_pose_2d_matching_moving_cam.dat', ToolInBasePose)</l>
 <l>dev_disp_acquire_image_and_pose_for_teaching_path_steps_instructions (Image)</l>
 <l>stop ()</l>
@@ -815,6 +818,8 @@
 <c>* </c>
 <c>* Read the poses that determine the steps of the robot</c>
 <c>* when approaching, grasping, ... the object.</c>
+<c>* 读取决定机器人步骤的姿势</c>
+<c>* 接近、抓取......物体时的姿势。</c>
 <l>for Index := 1 to NumRobotPathSteps by 1</l>
 <l>    read_pose (DataDir + 'tool_in_base_pose_moving_cam_robot_path_0' + Index + '.dat', ToolInBaseRobotPathPose)</l>
 <l>    dev_disp_read_robot_path_poses (ImageRectified, Index, NumRobotPathSteps, ModelID)</l>
@@ -822,6 +827,7 @@
 <l>    ToolInBaseRobotPathPoses.at(Index-1) := ToolInBaseRobotPathPose</l>
 <l>endfor</l>
 <c>* Calculate the ToolInModelRobotPathPoses.</c>
+<c>* 计算 ToolInModelRobotPathPoses。</c>
 <l>find_shape_model (Image, ModelID, 0, rad(360), 0.5, 1, 0.5, 'least_squares', 0, 0.9, Row, Column, Angle, Score)</l>
 <l>obtain_3d_pose_of_match_moving_cam (Row, Column, Angle, ToolInBasePose, HandEyeCalibData, Poses, RectificationData, ModelInBaseRobotPathPose)</l>
 <l>calculate_tool_in_model_robot_path_poses (ModelInBaseRobotPathPose, ToolInBaseRobotPathPoses, NumRobotPathSteps, ToolInModelRobotPathPoses)</l>

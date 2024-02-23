@@ -58,6 +58,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public Point_Model Model_2D_Origin { set; get; } = new Point_Model();
 
+        /// <summary>
+        /// 图像校正变量
+        /// </summary>
+        public HImage Image_Rectified { set; get; } = new HImage();
+
 
         /// <summary>
         /// 模型原地设置类型
@@ -359,13 +364,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             return Shape_Save_Path;
 
-            //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件路径读取成功！" };
-
-            //else
-            //{
-            //    //User_Log_Add("读取模型文件地址错误，请检查设置！");
-            //    //return new HPR_Status_Model<bool>(HVE_Result_Enum.文件路径提取失败) { Result_Error_Info = Shape_Save_Path };
-            //}
         }
 
 
@@ -374,16 +372,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //check data
             if (Model_Camera_Pos == new Point_Model()) { throw new Exception("创建模型的相机位置未设定数据，请手动或者机器人通讯获取！"); }
             if (Model_Plane_Pos == new Point_Model()) { throw new Exception("创建模型三维位置未设定数据，请手动或者机器人通讯获取！"); }
-
-
-            //把位置坐标转换通用类型
-            //Point_Model Default_Model_Camera_Pos = new Point_Model(Model_Camera_Pos.HPose);
-            //Point_Model Default_Model_Plane_Pos = new Point_Model(Model_Plane_Pos.HPose);
-            //Point_Model Default_HandEye_ToolinCamera = new Point_Model(HandEye_ToolinCamera.HPose);
-
-            //Default_Model_Camera_Pos.HPose.ConvertPoseType("Rp+T", "gba", "point");
-            //Default_Model_Plane_Pos.HPose.ConvertPoseType("Rp+T", "gba", "point");
-            //Default_HandEye_ToolinCamera.HPose.ConvertPoseType("Rp+T", "gba", "point");
 
             //转换平面在相机的坐标,创建平面Z方向远离相机
             Point_Model BaseInToolPose = new Point_Model(Model_Camera_Pos.HPose.PoseInvert());
@@ -433,25 +421,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //设置查找平面原点
             Point_Model PlaneInCamOriginPose=new Point_Model (  PlaneInCamPose.HPose.SetOriginPose(_BorderX.TupleMin(), _BorderY.TupleMin(), 0));
 
-            //Point_Model MatchingPlaneRectifiedPartInMatchingPlanePose = new Point_Model();
-            //MatchingPlaneRectifiedPartInMatchingPlanePose.X = _BorderX.TupleMin();
-            //MatchingPlaneRectifiedPartInMatchingPlanePose.Y = _BorderY.TupleMin();
-
-            //转换到相机坐标下位置
-            //Point_Model MatchingPlaneRectifiedPartInCamPose = new Point_Model(PlaneInCamPose.HPose.PoseCompose(MatchingPlaneRectifiedPartInMatchingPlanePose.HPose));
-
             //比例缩放下最大图像尺寸
             int  _WidthRect =((_BorderX.TupleMax() - _BorderX.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
             int  _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
-          
 
             //计算校正图像
-            //HImage ImageRectified = _Image.ImageToWorldPlane(_Camera_Paramteters.HCamPar, MatchingPlaneRectifiedPartInCamPose.HPose, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
-            HImage ImageRectified0 = new HImage();
-             ImageRectified0.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
+            Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
-            _Image= _Image.MapImage(ImageRectified0);
+            _Image= _Image.MapImage(Image_Rectified);
 
 
             return _Image;

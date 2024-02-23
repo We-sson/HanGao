@@ -191,7 +191,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Image_Preprocessing_Process_Enum.ScaleImageMax =>()=> ScaleImageMax(),
                 Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
                 Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
-                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage((MedianImage_MaskType_Enum)E_1!, Convert.ToInt32(V_2), (MedianImage_Margin_Enum)E_2!),
+                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage((MedianImage_MaskType_Enum)E_1!, Convert.ToInt32(V_1), (MedianImage_Margin_Enum)E_2!),
                 Image_Preprocessing_Process_Enum.Illuminate => () => Illuminate(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
                 Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble (V_3)),
                 Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
