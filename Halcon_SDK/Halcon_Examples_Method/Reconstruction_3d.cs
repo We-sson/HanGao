@@ -2966,11 +2966,11 @@ public class Reconstruction_3d
             //    out hv_Qx2, out hv_Qy2, out hv_Qz);
             //
             //Generate the visualization.
-            hv_OM3DPlane.Dispose();
+         
             hv_OM3DPlane.GenObjectModel3dFromPoints(hv_Qx2, hv_Qy2, hv_Qz);
             //HOperatorSet.GenObjectModel3dFromPoints(hv_Qx2, hv_Qy2, hv_Qz, out hv_OM3DPlane);
-            hv_Faces.Dispose();
-            hv_Faces = ((((new HTuple(4)).TupleConcat(0)).TupleConcat(1)).TupleConcat(2)).TupleConcat(3);
+        
+            hv_Faces =new HTuple().TupleConcat(4).TupleConcat(0).TupleConcat(1).TupleConcat(2).TupleConcat(3);
 
             
             hv_OM3DPlane.SetObjectModel3dAttribMod(new HTuple("polygons"), new HTuple(), hv_Faces);
