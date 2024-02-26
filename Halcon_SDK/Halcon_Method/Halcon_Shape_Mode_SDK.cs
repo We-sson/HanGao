@@ -70,7 +70,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public Model_2D_Origin_Type_Enum Model_2D_Origin_Type { set; get; } = Model_2D_Origin_Type_Enum.Origin_Camera;
 
 
-        private string Shape_Save_Path { set; get; } = Environment.CurrentDirectory + "\\ShapeModel";
+        //private string Shape_Save_Path { set; get; } 
+
+        private string Save_Path { set; get; } = Environment.CurrentDirectory + "\\ShapeModel";
 
         /// <summary>
         /// 用户点击位置
@@ -308,15 +310,18 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
             ////获得识别位置名称
 
+            string Shape_Save_Path = string.Empty;
+
+            if (!Directory.Exists(Save_Path)) Directory.CreateDirectory(Save_Path);
             switch (_FilePath_Type)
             {
                 case FilePath_Type_Model_Enum.Get:
 
 
 
-                    if (!Directory.Exists(Shape_Save_Path)) Directory.CreateDirectory(Shape_Save_Path);
 
-                    DirectoryInfo _FileInfo = new DirectoryInfo(Shape_Save_Path);
+
+                    DirectoryInfo _FileInfo = new DirectoryInfo(Save_Path);
 
                     foreach (FileInfo _FileName in _FileInfo.GetFiles())
                     {
@@ -332,7 +337,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                 case FilePath_Type_Model_Enum.Save:
 
-                    Shape_Save_Path = "\\" + _ID.ToString() + "_" + _Name;
+                    Shape_Save_Path = "\\" + "Job" + _ID.ToString() + "_" + (int)_Name;
 
                     //路径添加格式后缀
                     switch (_Model_Enum)
@@ -393,7 +398,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             RegionGrid.GetRegionPoints(out HTuple _Rows, out HTuple _Colums);
 
             HXLDCont _ContCircle = new HXLDCont();
-            
+
             _ContCircle.GenCircleContourXld(_Rows, _Colums, HTuple.TupleGenConst(_Rows.Length, 1.0), new HTuple(0), new HTuple(6.28318), new HTuple("positive"), 0.1);
 
             HXLDCont _ContCircleWorldPlane = new HXLDCont();
@@ -409,7 +414,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //计算平面边界
             HRegion ImageArea = new HRegion();
 
-            ImageArea.GenRectangle1(new HTuple(0), new HTuple (0), new HTuple( _Camera_Paramteters.Image_Height ), new HTuple ( _Camera_Paramteters.Image_Width ));
+            ImageArea.GenRectangle1(new HTuple(0), new HTuple(0), new HTuple(_Camera_Paramteters.Image_Height), new HTuple(_Camera_Paramteters.Image_Width));
 
             HRegion RegionBorder = ImageArea.Boundary("inner_filled");
 
@@ -419,17 +424,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
             _Camera_Paramteters.HCamPar.ImagePointsToWorldPlane(PlaneInCamPose.HPose, _BorderRows, _BorderColumns, "m", out HTuple _BorderX, out HTuple _BorderY);
 
             //设置查找平面原点
-            Point_Model PlaneInCamOriginPose=new Point_Model (  PlaneInCamPose.HPose.SetOriginPose(_BorderX.TupleMin(), _BorderY.TupleMin(), 0));
+            Point_Model PlaneInCamOriginPose = new Point_Model(PlaneInCamPose.HPose.SetOriginPose(_BorderX.TupleMin(), _BorderY.TupleMin(), 0));
 
             //比例缩放下最大图像尺寸
-            int  _WidthRect =((_BorderX.TupleMax() - _BorderX.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
-            int  _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
+            int _WidthRect = ((_BorderX.TupleMax() - _BorderX.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
+            int _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
 
             //计算校正图像
 
             Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
-            _Image= _Image.MapImage(Image_Rectified);
+            _Image = _Image.MapImage(Image_Rectified);
 
 
             return _Image;
@@ -466,7 +471,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     case Shape_Based_Model_Enum.shape_model:
 
                         //获得保存模型文件地址
-                        string _shape_model_Location = SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
+                        string _shape_model_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
 
 
                         //创建模型
@@ -490,7 +495,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     case Shape_Based_Model_Enum.planar_deformable_model:
 
                         //获得保存模型文件地址
-                        string _planar_deformable_model_Location = SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
+                        string _planar_deformable_model_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
 
 
                         if (_Select_Camera_Parameter == null && _ReferencePose == null)
@@ -555,7 +560,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     case Shape_Based_Model_Enum.local_deformable_model:
 
                         //获得保存模型文件地址
-                        string _local_deformable_Location = SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
+                        string _local_deformable_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
 
                         _DeformableModel.CreateLocalDeformableModelXld(
                                 ALL_Models_XLD,
@@ -579,7 +584,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                         //保存模型文件
-                        _DeformableModel.WriteDeformableModel(Shape_Save_Path);
+                        _DeformableModel.WriteDeformableModel(_local_deformable_Location);
 
                         //清楚模型
                         _DeformableModel.ClearDeformableModel();
@@ -589,7 +594,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     case Shape_Based_Model_Enum.Scale_model:
 
                         //获得保存模型文件地址
-                        string _Scale_model_Location = SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
+                        string _Scale_model_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
 
                         //创建模型
                         _ShapeModel.CreateScaledShapeModelXld(ALL_Models_XLD,
@@ -620,7 +625,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     case Shape_Based_Model_Enum.Aniso_Model:
 
                         //获得保存模型文件地址
-                        string _Aniso_Model_Location = SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
+                        string _Aniso_Model_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
 
                         //创建模型
                         _ShapeModel.CreateAnisoShapeModelXld(ALL_Models_XLD,
@@ -654,7 +659,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     case Shape_Based_Model_Enum.Ncc_Model:
 
 
-                        HXLDCont Polygon_Xld = new HXLDCont();
+                        HRegion Polygon_Xld = new HRegion();
                         HXLDPoly Select_Region = new HXLDPoly();
                         HRegion Gen_Region = new HRegion();
                         HRegion Dilation_Region = new HRegion();
@@ -685,9 +690,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         }
 
                         //膨胀全部区域
-                        Dilation_Region.DilationCircle(Create_Shape_ModelXld.DilationCircle);
+                        Dilation_Region = Polygon_Xld.DilationCircle(Create_Shape_ModelXld.DilationCircle);
                         //HOperatorSet.DilationCircle(Polygon_Xld, out Dilation_Region, Create_Shape_ModelXld.DilationCircle);
-
+                        //区域合并
+                        Dilation_Region = Dilation_Region.Union1();
 
                         HImage ImageRegion = new HImage();
                         ImageRegion.GenEmptyObj();
@@ -695,7 +701,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                         //抠图出
-                        ImageRegion = ImageRegion.ReduceDomain(Dilation_Region);
+                        ImageRegion = _Image.ReduceDomain(Dilation_Region);
 
                         //创建NCC模板
                         _NccModel.CreateNccModel(
@@ -710,7 +716,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         _NccModel.SetNccModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
 
                         //获得保存模板名称
-                        string _NccModel_Location = SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
+                        string _NccModel_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
 
                         _NccModel.WriteNccModel(_NccModel_Location);
 
@@ -742,7 +748,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-                        string _XLD_Save_Path_Location = SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Shape_Based_Model_Enum.Halcon_DXF, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
+                        string _XLD_Save_Path_Location = Save_Path+ SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Shape_Based_Model_Enum.Halcon_DXF, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
                         //保存描述XLD轮廓
                         ALL_Models_XLD.WriteContourXldDxf(_XLD_Save_Path_Location);
 
@@ -750,7 +756,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         //HOperatorSet.WriteContourXldDxf(DXF_XLD, Shape_Save_Path);
 
                         //清楚模型
-                        ALL_Models_XLD.Dispose();
+                        //ALL_Models_XLD.Dispose();
 
 
 

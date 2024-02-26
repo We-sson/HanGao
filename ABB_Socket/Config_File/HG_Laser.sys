@@ -1,0 +1,9 @@
+MODULE HG_Laser(SYSMODULE)
+    
+    
+    PROC Set_LaserData()
+        <SMT>
+    ENDPROC
+    
+    
+ENDMODULE

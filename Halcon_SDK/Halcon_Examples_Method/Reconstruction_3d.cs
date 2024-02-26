@@ -153,7 +153,7 @@ public class Reconstruction_3d
         catch (HalconException)
         {
 
-            return new List<HObjectModel3D>() ;
+            return new List<HObjectModel3D>();
 
         }
         finally
@@ -2207,7 +2207,7 @@ public class Reconstruction_3d
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate base and tool 3D models of the robot. 
-    public  List<HObjectModel3D> gen_robot_tool_and_base_object_model_3d(HTuple hv_ArrowThickness ,
+    public List<HObjectModel3D> gen_robot_tool_and_base_object_model_3d(HTuple hv_ArrowThickness,
         HTuple hv_ArrowLength, Get_Robot_tool_base_Type_Enum _Get_Type)
     {
 
@@ -2591,12 +2591,12 @@ public class Reconstruction_3d
 
             return hv_OM3DArrow;
         }
-        catch (Exception )
+        catch (Exception)
         {
 
-          throw  new Exception("获得模型失败，原因：");  
+            throw new Exception("获得模型失败，原因：");
 
-            
+
         }
         finally
         {
@@ -2663,6 +2663,345 @@ public class Reconstruction_3d
     }
 
 
+
+    private void get_bounding_box_points_from_min_max(HTuple hv_BoundingBox, out HTuple hv_PX,
+    out HTuple hv_PY, out HTuple hv_PZ)
+    {
+
+
+
+        // Local iconic variables 
+
+        // Local control variables 
+
+        HTuple hv_Index = new HTuple();
+
+        HTupleVector hvec_Points = new HTupleVector(1);
+        // Initialize local and output iconic variables 
+        hv_PX = new HTuple();
+        hv_PY = new HTuple();
+        hv_PZ = new HTuple();
+        try
+        {
+            hvec_Points.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hvec_Points = dh.Take((
+                    dh.Add(new HTupleVector(1)).Insert(0, dh.Add(new HTupleVector(new HTuple())))));
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hvec_Points[0] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
+                    0))).TupleConcat(hv_BoundingBox.TupleSelect(1)))).TupleConcat(hv_BoundingBox.TupleSelect(
+                    2))));
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hvec_Points[1] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
+                    3))).TupleConcat(hv_BoundingBox.TupleSelect(1)))).TupleConcat(hv_BoundingBox.TupleSelect(
+                    2))));
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hvec_Points[2] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
+                    3))).TupleConcat(hv_BoundingBox.TupleSelect(4)))).TupleConcat(hv_BoundingBox.TupleSelect(
+                    2))));
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hvec_Points[3] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
+                    0))).TupleConcat(hv_BoundingBox.TupleSelect(4)))).TupleConcat(hv_BoundingBox.TupleSelect(
+                    2))));
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hvec_Points[4] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
+                    0))).TupleConcat(hv_BoundingBox.TupleSelect(1)))).TupleConcat(hv_BoundingBox.TupleSelect(
+                    5))));
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hvec_Points[5] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
+                    3))).TupleConcat(hv_BoundingBox.TupleSelect(1)))).TupleConcat(hv_BoundingBox.TupleSelect(
+                    5))));
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hvec_Points[6] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
+                    3))).TupleConcat(hv_BoundingBox.TupleSelect(4)))).TupleConcat(hv_BoundingBox.TupleSelect(
+                    5))));
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hvec_Points[7] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
+                    0))).TupleConcat(hv_BoundingBox.TupleSelect(4)))).TupleConcat(hv_BoundingBox.TupleSelect(
+                    5))));
+            }
+            hv_PX.Dispose();
+            hv_PX = new HTuple();
+            hv_PY.Dispose();
+            hv_PY = new HTuple();
+            hv_PZ.Dispose();
+            hv_PZ = new HTuple();
+            for (hv_Index = 0; (int)hv_Index <= 7; hv_Index = (int)hv_Index + 1)
+            {
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_PX = hv_PX.TupleConcat(
+                            (hvec_Points[hv_Index].T).TupleSelect(0));
+                        hv_PX.Dispose();
+                        hv_PX = ExpTmpLocalVar_PX;
+                    }
+                }
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_PY = hv_PY.TupleConcat(
+                            (hvec_Points[hv_Index].T).TupleSelect(1));
+                        hv_PY.Dispose();
+                        hv_PY = ExpTmpLocalVar_PY;
+                    }
+                }
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_PZ = hv_PZ.TupleConcat(
+                            (hvec_Points[hv_Index].T).TupleSelect(2));
+                        hv_PZ.Dispose();
+                        hv_PZ = ExpTmpLocalVar_PZ;
+                    }
+                }
+            }
+
+            hv_Index.Dispose();
+            hvec_Points.Dispose();
+
+            return;
+        }
+        catch (HalconException HDevExpDefaultException)
+        {
+
+            hv_Index.Dispose();
+            hvec_Points.Dispose();
+
+            throw HDevExpDefaultException;
+        }
+    }
+
+
+
+    // Chapter: 3D Object Model / Transformations
+    private void get_extent_by_axis(HObjectModel3D hv_OM3D, HTuple hv_XExtent, HTuple hv_YExtent,
+        HTuple hv_ZExtent, out HTuple hv_XExtentOut, out HTuple hv_YExtentOut, out HTuple hv_ZExtentOut)
+    {
+        HTuple hv_BB = new HTuple(), hv_Index = new HTuple();
+        // Initialize local and output iconic variables 
+        hv_XExtentOut = new HTuple();
+        hv_YExtentOut = new HTuple();
+        hv_ZExtentOut = new HTuple();
+        try
+        {
+            hv_XExtentOut = new HTuple(hv_XExtent);
+            hv_YExtentOut = new HTuple(hv_YExtent);
+            hv_ZExtentOut = new HTuple(hv_ZExtent);
+            hv_BB = hv_OM3D.GetObjectModel3dParams("bounding_box1");
+            for (hv_Index = 0; (int)hv_Index <= (int)(((new HTuple(hv_BB.TupleLength())) / 6) - 1); hv_Index = (int)hv_Index + 1)
+            {
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_XExtentOut = ((hv_XExtentOut.TupleConcat(
+                            hv_BB.TupleSelect(hv_Index * 6)))).TupleConcat(hv_BB.TupleSelect((hv_Index * 6) + 3));
+                        hv_XExtentOut.Dispose();
+                        hv_XExtentOut = ExpTmpLocalVar_XExtentOut;
+                    }
+                }
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_YExtentOut = ((hv_YExtentOut.TupleConcat(
+                            hv_BB.TupleSelect((hv_Index * 6) + 1)))).TupleConcat(hv_BB.TupleSelect((hv_Index * 6) + 4));
+                        hv_YExtentOut.Dispose();
+                        hv_YExtentOut = ExpTmpLocalVar_YExtentOut;
+                    }
+                }
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    {
+                        HTuple
+                          ExpTmpLocalVar_ZExtentOut = ((hv_ZExtentOut.TupleConcat(
+                            hv_BB.TupleSelect((hv_Index * 6) + 2)))).TupleConcat(hv_BB.TupleSelect((hv_Index * 6) + 5));
+                        hv_ZExtentOut.Dispose();
+                        hv_ZExtentOut = ExpTmpLocalVar_ZExtentOut;
+                    }
+                }
+            }
+
+            return;
+        }
+        catch (Exception e)
+        {
+
+            hv_BB.Dispose();
+            hv_Index.Dispose();
+
+            throw new Exception(e.Message);
+        }
+    }
+
+    public HObjectModel3D Gen_ground_plane_object_model_3d(List<HObjectModel3D> _ListModel, HPose hv_PlaneInBasePose, double hv_FactorBorder=1.5)
+    {
+
+
+
+        // Local iconic variables 
+        HObjectModel3D hv_OM3DPlane = new HObjectModel3D();
+        // Local control variables 
+
+        HTuple hv_XBase = new HTuple(), hv_YBase = new HTuple();
+        HTuple hv_ZBase = new HTuple(), hv_MinXt = new HTuple();
+        HTuple hv_MinYt = new HTuple(), hv_MinZt = new HTuple();
+        HTuple hv_MaxXt = new HTuple(), hv_MaxYt = new HTuple();
+        HTuple hv_MaxZt = new HTuple(), hv_Min = new HTuple();
+        HTuple hv_Max = new HTuple(), hv_MinT = new HTuple(), hv_MaxT = new HTuple();
+        HTuple hv_BoundingBox = new HTuple(), hv_PXBB = new HTuple();
+        HTuple hv_PYBB = new HTuple(), hv_PZBB = new HTuple();
+        HPose hv_BaseInPlanePose = new HPose();
+        HHomMat3D hv_HomMat3D = new HHomMat3D();
+        HTuple hv_PX = new HTuple(), hv_PY = new HTuple(), hv_PZ = new HTuple();
+        HTuple hv_Qx = new HTuple(), hv_Qx1 = new HTuple(), hv_Qy = new HTuple();
+        HTuple hv_Qy1 = new HTuple(), hv_XPlane = new HTuple();
+        HTuple hv_YPlane = new HTuple(), hv_ZPlane = new HTuple();
+        HHomMat3D hv_HomMat3D1 = new HHomMat3D();
+           HTuple hv_Qx2 = new HTuple();
+        HTuple hv_Qy2 = new HTuple(), hv_Qz = new HTuple(), hv_Faces = new HTuple();
+        // Initialize local and output iconic variables 
+
+        try
+        {
+            //This procedure generates the 3D object model of
+            //the plane on which objects are matched and grasped.
+            //
+
+            hv_XBase = new HTuple();
+            hv_YBase = new HTuple();
+            hv_ZBase = new HTuple();
+            //Extent of tool in base coordinates.
+            {
+
+                foreach (var _Model in _ListModel)
+                {
+
+                    get_extent_by_axis(_Model, hv_XBase, hv_YBase, hv_ZBase, out hv_XBase,
+                    out hv_YBase, out hv_ZBase);
+                }
+
+
+                //
+                //Joint bounding box.
+
+                hv_MinXt = hv_XBase.TupleMin();
+                hv_MinYt = hv_YBase.TupleMin();
+                hv_MinZt = hv_ZBase.TupleMin();
+                hv_MaxXt = hv_XBase.TupleMax();
+                hv_MaxYt = hv_YBase.TupleMax();
+                hv_MaxZt = hv_ZBase.TupleMax();
+
+                hv_Min = hv_Min.TupleConcat(hv_MinXt, hv_MinYt, hv_MinZt);
+                hv_Max = hv_Max.TupleConcat(hv_MaxXt, hv_MaxYt, hv_MaxZt);
+            
+                //最小
+                hv_MinT = ((hv_Max * (1.0 - hv_FactorBorder)) / 2.0) + ((hv_Min * (1.0 + hv_FactorBorder)) / 2.0);
+                //最大
+                hv_MaxT = ((hv_Max * (1.0 + hv_FactorBorder)) / 2.0) + ((hv_Min * (1.0 - hv_FactorBorder)) / 2.0);
+
+                hv_BoundingBox = hv_BoundingBox.TupleConcat(hv_MinT, hv_MaxT);
+
+                //
+                //Get the eight corner points of the bounding box from the min/max representation.
+                // 从最小/最大表示法中获取边界框的八个角点。
+                get_bounding_box_points_from_min_max(hv_BoundingBox, out hv_PXBB, out hv_PYBB,out hv_PZBB);
+
+                //Transform to plane coordinates (z is direction of the normal of the plane).
+                hv_BaseInPlanePose= hv_PlaneInBasePose.PoseInvert();
+                //HOperatorSet.PoseInvert(hv_PlaneInBasePose, out hv_BaseInPlanePose);
+                hv_HomMat3D = hv_BaseInPlanePose.PoseToHomMat3d();
+                //HOperatorSet.PoseToHomMat3d(hv_BaseInPlanePose, out hv_HomMat3D);
+                //hv_PX.Dispose(); hv_PY.Dispose(); hv_PZ.Dispose();
+                hv_PX= hv_HomMat3D.AffineTransPoint3d(hv_PXBB, hv_PYBB, hv_PZBB,  out hv_PY, out hv_PZ);
+                //HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PXBB, hv_PYBB, hv_PZBB, out hv_PX,
+                //    out hv_PY, out hv_PZ);
+                //
+                //Get outline of projection onto the plane.
+
+                hv_Qx = hv_PX.TupleMin();
+     
+                hv_Qx1 = hv_PX.TupleMax() ;
+ 
+                hv_Qy = hv_PY.TupleMin() ;
+     
+                hv_Qy1 = hv_PY.TupleMax()  ;
+            }
+
+                hv_XPlane = hv_XPlane.TupleConcat(hv_Qx, hv_Qx, hv_Qx1, hv_Qx1);
+
+                hv_YPlane = hv_YPlane.TupleConcat(hv_Qy, hv_Qy1, hv_Qy1, hv_Qy);
+
+            hv_ZPlane= HTuple.TupleGenConst( 4, 0);
+            //HOperatorSet.TupleGenConst(4, 0, out hv_ZPlane);
+            //
+            //Transform back to base coordinates.
+
+
+            hv_HomMat3D1= hv_PlaneInBasePose.PoseToHomMat3d();
+
+            hv_Qx2 = hv_HomMat3D1.AffineTransPoint3d(hv_XPlane, hv_YPlane, hv_ZPlane, out hv_Qy2, out hv_Qz);
+            //HOperatorSet.AffineTransPoint3d(hv_HomMat3D1, hv_XPlane, hv_YPlane, hv_ZPlane,
+            //    out hv_Qx2, out hv_Qy2, out hv_Qz);
+            //
+            //Generate the visualization.
+            hv_OM3DPlane.Dispose();
+            hv_OM3DPlane.GenObjectModel3dFromPoints(hv_Qx2, hv_Qy2, hv_Qz);
+            //HOperatorSet.GenObjectModel3dFromPoints(hv_Qx2, hv_Qy2, hv_Qz, out hv_OM3DPlane);
+            hv_Faces.Dispose();
+            hv_Faces = ((((new HTuple(4)).TupleConcat(0)).TupleConcat(1)).TupleConcat(2)).TupleConcat(3);
+
+            
+            hv_OM3DPlane.SetObjectModel3dAttribMod(new HTuple("polygons"), new HTuple(), hv_Faces);
+            //
+
+      
+
+            return hv_OM3DPlane;
+        }
+        catch (Exception e)
+        {
+
+
+            throw new Exception(e.Message);
+        }
+    }
+
+
+    public HObjectModel3D GenPlane_Model(List<HObjectModel3D> _List_Model)
+    {
+        HObjectModel3D _PlaneModel = new HObjectModel3D();
+
+
+
+
+
+
+        return _PlaneModel;
+    }
+
+
     /// <summary>
     /// 获得机器人工件坐标模型
     /// </summary>
@@ -2681,7 +3020,7 @@ public class Reconstruction_3d
             _RobotTcp3D[_N] = _RobotTcp3D[_N].RigidTransObjectModel3d(_TcpPos);
         }
 
-       
+
 
 
 
@@ -3884,7 +4223,7 @@ public class Reconstruction_3d
 
             return;
         }
-        catch (Exception )
+        catch (Exception)
         {
 
             hv_MinLargeRotationFraction.Dispose();
@@ -4059,7 +4398,7 @@ public class Reconstruction_3d
     }
 
 
-    public List<HObjectModel3D> Gen_Camera_object_model_3d(HCamPar hv_CamParam, HPose _CameraPos,double hv_CameraSize=0.05, double  hv_ConeLength=0.3)
+    public List<HObjectModel3D> Gen_Camera_object_model_3d(HCamPar hv_CamParam, HPose _CameraPos, double hv_CameraSize = 0.05, double hv_ConeLength = 0.3)
     {
 
         HPose hv_IdentityPose = new HPose();
@@ -4069,7 +4408,7 @@ public class Reconstruction_3d
         hv_IdentityPose.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
 
         hv_CameraSetupModelID.CreateCameraSetupModel(1);
-   
+
         hv_CameraSetupModelID.SetCameraSetupCamParam(0, new HTuple(), new HCamPar(hv_CamParam), hv_IdentityPose);
 
 
@@ -4094,7 +4433,7 @@ public class Reconstruction_3d
 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate 3D object models for the camera and the robot's tool. 
-    public List<HObjectModel3D> gen_camera_and_tool_moving_cam_object_model_3d(HCalibData HCalibData_Model, int tool_in_base_num, double hv_CameraSize=0.05, double hv_ConeLength=0.3)
+    public List<HObjectModel3D> gen_camera_and_tool_moving_cam_object_model_3d(HCalibData HCalibData_Model, int tool_in_base_num, double hv_CameraSize = 0.05, double hv_ConeLength = 0.3)
     {
 
 
@@ -4151,8 +4490,8 @@ public class Reconstruction_3d
 
             //获得工具到基坐标坐标
             hv_ToolInBasePose = new HPose(HCalibData_Model.GetCalibData("tool", tool_in_base_num, "tool_in_base_pose"));
-            
-            
+
+
             //生产工具坐标模型
             List<HObjectModel3D> hv_OM3DToolOrigin_Base = GenRobot_Tcp_Base_Model(new HPose(hv_ToolInBasePose));
 

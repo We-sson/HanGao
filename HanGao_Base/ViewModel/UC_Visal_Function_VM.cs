@@ -971,7 +971,7 @@ namespace HanGao.ViewModel
                 //Button Window_UserContol = Sm.Source as Button;
                 HImage _Image = new HImage();
                 Halcon_Method_Model _Halcon = new Halcon_Method_Model();
-
+                Reconstruction_3d _3DModel = new Reconstruction_3d();
                 Task.Run(() =>
                 {
                     ////合并全部xld数据
@@ -984,7 +984,7 @@ namespace HanGao.ViewModel
                     //Halcon_Shape_Mode.Group_All_XLD();
 
                     //限制操作
-                    Create_Shape_ModelXld_UI_IsEnable = true;
+                    //Create_Shape_ModelXld_UI_IsEnable = true;
 
                     //读取图片
                     //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
@@ -1011,9 +1011,26 @@ namespace HanGao.ViewModel
                     //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
                     //_Halcon.Halcon_Image_Pre_Processing(Halcon_Find_Shape_ModelXld_UI);
 
-                    Halcon_Shape_Mode.ShapeModel_Create_Save(_Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose);
+                    Halcon_Shape_Mode.ShapeModel_Create_Save((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose);
 
 
+
+
+                    Point_Model CamInTool = new Point_Model(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseInvert());
+                    Point_Model ToolInBase = new Point_Model(Halcon_Shape_Mode.Model_Camera_Pos.HPose);
+                    Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
+                    //生产相机标模型
+                    List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CameraInBase.HPose);
+                    //生产机器人坐标模型
+                    List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Model_Plane_Pos.HPose);
+                    //生产模型平面模型
+                    HObjectModel3D _Plane3D = _3DModel.Gen_ground_plane_object_model_3d(_Camera_3D, Halcon_Shape_Mode.Model_Plane_Pos.HPose);
+
+
+                    _Camera_3D.AddRange(_Camera_3D);
+                    _Camera_3D.Add(_Plane3D);
+                    //显示模型
+                    Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_3D));
 
                     ///保存创建模型
                     //if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Shape_Mode.Create_Shape_ModelXld)).GetResult())
@@ -1042,28 +1059,28 @@ namespace HanGao.ViewModel
                 try
                 {
 
-    
 
 
-                Task.Run(() =>
-                {
-                    HImage _Image = new HImage();
 
-                    //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
-                    
-
-                    _Image =Halcon_Shape_Mode.ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
-
-                    Application.Current.Dispatcher.Invoke(() =>
+                    Task.Run(() =>
                     {
-                        //显示图像
-                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Image);
+                        HImage _Image = new HImage();
+
+                        //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+
+
+                        _Image = Halcon_Shape_Mode.ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            //显示图像
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Image);
+
+                        });
+
+                        User_Log_Add("图像校准成功.", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
                     });
-
-                    User_Log_Add("图像校准成功.", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
-
-                });
                 }
                 catch (Exception e)
                 {
