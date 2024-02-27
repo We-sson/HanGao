@@ -45,13 +45,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 全部模型三维原点
         /// </summary>
-        public Point_Model Model_Plane_Pos { set; get; } = new Point_Model();
+        public Point_Model Model_Plane_Pos { set; get; } = new Point_Model() {X=659.792,Y=-308.937,Z=243.794,Rx=171.291,Ry=-85.334,Rz=50.470, HType= Halcon_Pose_Type_Enum.abg };
 
 
         /// <summary>
         /// 相机拍摄位置
         /// </summary>
-        public Point_Model Model_Camera_Pos { set; get; } = new Point_Model();
+        public Point_Model Model_Camera_Pos { set; get; } = new Point_Model() { X=704.849,Y=-436.028,Z=217.698,Rx=175.625,Ry=-58.682,Rz=39.613, HType= Halcon_Pose_Type_Enum.abg};
 
         /// <summary>
         /// 二维平面原点位置
