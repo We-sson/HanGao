@@ -2022,7 +2022,15 @@
                                                                  IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
                                                                  FontSize="16"
                                                                  GroupName="Camera_Diver_Model"
-                                                                 Tag="Camera_0" />
+                                                                 Tag="Camera_0">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Checked">
+                                                                <i:InvokeCommandAction Command="{Binding Camera_Selected_Local_Model_Comm}"
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                       PassEventArgsToCommand="True" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </RadioButton>
 
                                                 </Grid>
 

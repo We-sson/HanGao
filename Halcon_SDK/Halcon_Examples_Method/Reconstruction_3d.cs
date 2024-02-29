@@ -2953,7 +2953,7 @@ public class Reconstruction_3d
 
                 hv_YPlane = hv_YPlane.TupleConcat(hv_Qy, hv_Qy1, hv_Qy1, hv_Qy);
 
-            hv_ZPlane= HTuple.TupleGenConst( 4, 0);
+            hv_ZPlane= HTuple.TupleGenConst(_ListModel.Count, 0);
             //HOperatorSet.TupleGenConst(4, 0, out hv_ZPlane);
             //
             //Transform back to base coordinates.
@@ -2972,11 +2972,11 @@ public class Reconstruction_3d
         
             hv_Faces =new HTuple().TupleConcat(4).TupleConcat(0).TupleConcat(1).TupleConcat(2).TupleConcat(3);
 
-            
+            hv_Faces = hv_Faces.TupleConcat( ((((new HTuple(4)).TupleConcat(0)).TupleConcat(1)).TupleConcat(2)).TupleConcat(3));
             hv_OM3DPlane.SetObjectModel3dAttribMod(new HTuple("polygons"), new HTuple(), hv_Faces);
             //
 
-      
+
 
             return hv_OM3DPlane;
         }

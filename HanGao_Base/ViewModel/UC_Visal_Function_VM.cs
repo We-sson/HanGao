@@ -1056,6 +1056,53 @@ namespace HanGao.ViewModel
             {
                 //Button Window_UserContol = Sm.Source as Button;
 
+
+
+
+
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        HImage _Image = new HImage();
+
+                        //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+
+                        if (Halcon_Window_Display.Features_Window.DisplayImage == null)
+                        {
+                            throw new Exception("特征窗口无图像请采集图像到窗口！");
+                        }
+
+                        _Image = Halcon_Shape_Mode.ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                //显示图像
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Image);
+
+                    });
+
+                        User_Log_Add("图像校准成功.", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+                    }
+                    catch (Exception e)
+                    {
+
+                        User_Log_Add("图像校准失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                    }
+                });
+            });
+        }
+
+
+
+        public ICommand Camera_Selected_Local_Model_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button _UserContol = Sm.Source as Button;
+
                 try
                 {
 
@@ -1064,33 +1111,40 @@ namespace HanGao.ViewModel
 
                     Task.Run(() =>
                     {
-                        HImage _Image = new HImage();
+
+                        switch (Camera_Device_List.Camera_Diver_Model)
+                        {
+                            case Image_Diver_Model_Enum.Online:
+                                Camera_Device_List.Select_Camera = null;
+
+
+                                User_Log_Add("切换在线相机模式,请选择相机！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+                                break;
+                            case Image_Diver_Model_Enum.Local:
+                                Camera_Device_List.Select_Camera = new MVS_Camera_Info_Model() { Camera_Info = new Get_Camera_Info_Model() { SerialNumber = "Local_Camera" } };
+                                Camera_Device_List.Select_Camera.Get_HCamPar_File();
+
+                                User_Log_Add("切换本地相机模式！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+                                break;
+                        }
+
 
                         //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
 
-                        _Image = Halcon_Shape_Mode.ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
-
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            //显示图像
-                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Image);
-
-                        });
-
-                        User_Log_Add("图像校准成功.", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
                     });
                 }
                 catch (Exception e)
                 {
 
-                    User_Log_Add("图像校准失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    User_Log_Add("切换相机模式失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                 }
             });
         }
-
 
 
         /// <summary>
