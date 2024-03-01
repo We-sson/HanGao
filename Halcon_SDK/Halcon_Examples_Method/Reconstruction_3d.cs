@@ -2283,7 +2283,7 @@ public class Reconstruction_3d
                     //
                     //3D model for the base.
 
-                    hv_FactorVisBase = hv_ArrowThickness * 10;
+                    hv_FactorVisBase = hv_ArrowThickness * 5;
 
                     hv_OM3DBasePlate.GenBoxObjectModel3d(hv_IdentityPose, hv_FactorVisBase * 15, hv_FactorVisBase * 15, hv_FactorVisBase / 12.0);
                     //HOperatorSet.GenBoxObjectModel3d(hv_IdentityPose, hv_FactorVisBase * 1.5, hv_FactorVisBase * 1.5, hv_FactorVisBase / 12.0, out hv_OM3DBasePlate);
@@ -2855,7 +2855,7 @@ public class Reconstruction_3d
         }
     }
 
-    public HObjectModel3D Gen_ground_plane_object_model_3d(List<HObjectModel3D> _ListModel, HPose hv_PlaneInBasePose, double hv_FactorBorder=1.5)
+    public HObjectModel3D Gen_ground_plane_object_model_3d(List<HObjectModel3D> _ListModel, HPose hv_PlaneInBasePose, double hv_FactorBorder=1.2)
     {
 
 
@@ -2907,7 +2907,7 @@ public class Reconstruction_3d
                 //Joint bounding box.
 
                 hv_MinXt = hv_XBase.TupleMin();
-                hv_MinYt = hv_YBase.TupleMin();
+                 hv_MinYt = hv_YBase.TupleMin();
                 hv_MinZt = hv_ZBase.TupleMin();
                 hv_MaxXt = hv_XBase.TupleMax();
                 hv_MaxYt = hv_YBase.TupleMax();
@@ -2929,7 +2929,7 @@ public class Reconstruction_3d
                 get_bounding_box_points_from_min_max(hv_BoundingBox, out hv_PXBB, out hv_PYBB,out hv_PZBB);
 
                 //Transform to plane coordinates (z is direction of the normal of the plane).
-                hv_BaseInPlanePose= hv_PlaneInBasePose.PoseInvert();
+                 hv_BaseInPlanePose= hv_PlaneInBasePose.PoseInvert();
                 //HOperatorSet.PoseInvert(hv_PlaneInBasePose, out hv_BaseInPlanePose);
                 hv_HomMat3D = hv_BaseInPlanePose.PoseToHomMat3d();
                 //HOperatorSet.PoseToHomMat3d(hv_BaseInPlanePose, out hv_HomMat3D);
@@ -2953,7 +2953,7 @@ public class Reconstruction_3d
 
                 hv_YPlane = hv_YPlane.TupleConcat(hv_Qy, hv_Qy1, hv_Qy1, hv_Qy);
 
-            hv_ZPlane= HTuple.TupleGenConst(_ListModel.Count, 0);
+            hv_ZPlane= HTuple.TupleGenConst(4, 0);
             //HOperatorSet.TupleGenConst(4, 0, out hv_ZPlane);
             //
             //Transform back to base coordinates.
@@ -2966,16 +2966,17 @@ public class Reconstruction_3d
             //    out hv_Qx2, out hv_Qy2, out hv_Qz);
             //
             //Generate the visualization.
-         
+            hv_OM3DPlane.GenEmptyObjectModel3d();
             hv_OM3DPlane.GenObjectModel3dFromPoints(hv_Qx2, hv_Qy2, hv_Qz);
             //HOperatorSet.GenObjectModel3dFromPoints(hv_Qx2, hv_Qy2, hv_Qz, out hv_OM3DPlane);
         
-            hv_Faces =new HTuple().TupleConcat(4).TupleConcat(0).TupleConcat(1).TupleConcat(2).TupleConcat(3);
+           // hv_Faces =new HTuple().TupleConcat(4).TupleConcat(0).TupleConcat(1).TupleConcat(2).TupleConcat(3);
 
             hv_Faces = hv_Faces.TupleConcat( ((((new HTuple(4)).TupleConcat(0)).TupleConcat(1)).TupleConcat(2)).TupleConcat(3));
-            hv_OM3DPlane.SetObjectModel3dAttribMod(new HTuple("polygons"), new HTuple(), hv_Faces);
+           // hv_OM3DPlane.SetObjectModel3dAttribMod(new HTuple("polygons"), new HTuple(), hv_Faces);
             //
-
+            HOperatorSet.SetObjectModel3dAttribMod(hv_OM3DPlane, "polygons", new HTuple(),
+    hv_Faces);
 
 
             return hv_OM3DPlane;
@@ -2984,7 +2985,7 @@ public class Reconstruction_3d
         {
 
 
-            throw new Exception(e.Message);
+            throw new Exception("生成识别平面模型失败！，原因："+e.Message);
         }
     }
 

@@ -19,7 +19,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 模型透明度
         /// </summary>
-        public double Alpha { set; get; } = 1.0;
+        public double Alpha { set; get; } = 0.8;
 
         /// <summary>
         /// 如果当前窗口内容应用作背景

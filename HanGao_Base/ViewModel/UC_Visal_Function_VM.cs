@@ -1023,11 +1023,11 @@ namespace HanGao.ViewModel
                     List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CameraInBase.HPose);
                     //生产机器人坐标模型
                     List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Model_Plane_Pos.HPose);
-                    _Camera_3D.AddRange(_RobotTcp3D);
                     //生产模型平面模型
                     HObjectModel3D _Plane3D = _3DModel.Gen_ground_plane_object_model_3d(_Camera_3D, Halcon_Shape_Mode.Model_Plane_Pos.HPose);
 
 
+                    _Camera_3D.AddRange(_RobotTcp3D);
                     _Camera_3D.Add(_Plane3D);
                     //显示模型
                     Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_3D));

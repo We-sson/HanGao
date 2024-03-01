@@ -722,6 +722,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         _NccModel.ClearNccModel();
 
+
+
                         //保存模型文件
                         //HOperatorSet.WriteNccModel(_ModelID, _Path);
                         //模型序列化
