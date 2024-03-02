@@ -1001,6 +1001,7 @@ namespace Halcon_SDK_DLL.Model
         }
     }
 
+    [AddINotifyPropertyChangedInterface]
     public class Match_Models_List_Model
     {
         /// <summary>
@@ -1252,7 +1253,7 @@ namespace Halcon_SDK_DLL.Model
     {
         public Point_Model()
         {
-           
+
         }
 
         public Point_Model(Point_Model _Point)
@@ -1262,51 +1263,51 @@ namespace Halcon_SDK_DLL.Model
         }
         public Point_Model(HPose _Pose)
         {
-            HPose = new  HPose (_Pose);
+            HPose = new HPose(_Pose);
         }
 
-        private double  _x;
+        private double _x;
 
-        public double  X
+        public double X
         {
             get { return _x; }
-            set { _x = value; HPose[0] = value/1000.000; }
+            set { _x = value; HPose[0] = value / 1000.000; }
         }
         private double _y;
 
         public double Y
         {
             get { return _y; }
-            set { _y = value; HPose[1] = value/1000.000; }
+            set { _y = value; HPose[1] = value / 1000.000; }
         }
 
-        private double  _z;
+        private double _z;
 
-        public double  Z
+        public double Z
         {
             get { return _z; }
-            set { _z = value; HPose[2] = value/1000.000; }
+            set { _z = value; HPose[2] = value / 1000.000; }
         }
 
         private double _Rx;
 
-        public double Rx 
+        public double Rx
         {
             get { return _Rx; }
             set { _Rx = value; HPose[3] = value; }
         }
 
-        private double  _Ry;
+        private double _Ry;
 
-        public double  Ry
+        public double Ry
         {
             get { return _Ry; }
             set { _Ry = value; HPose[4] = value; }
         }
 
-        private double  _Rz;
+        private double _Rz;
 
-        public double  Rz
+        public double Rz
         {
             get { return _Rz; }
             set { _Rz = value; HPose[5] = value; }
@@ -1431,7 +1432,7 @@ namespace Halcon_SDK_DLL.Model
                     HType = Halcon_Pose_Type_Enum.gba;
 
                     break;
-            
+
             }
         }
 
@@ -1754,7 +1755,7 @@ namespace Halcon_SDK_DLL.Model
 
         public Vision_Create_Model_Drawing_Model()
         {
-           
+
         }
 
 
@@ -1848,6 +1849,60 @@ namespace Halcon_SDK_DLL.Model
             GC.SuppressFinalize(this);
         }
     }
+
+    [AddINotifyPropertyChangedInterface]
+        public class Shape_Mode_File_Model
+    {
+        public Shape_Mode_File_Model()
+        {
+
+        }
+
+
+        /// <summary>
+        /// 创建模型类型
+        /// </summary>
+        public Shape_Based_Model_Enum Shape_Model { set; get; }
+
+
+        /// <summary>
+        /// 创建模型类型所在区域
+        /// </summary>
+        public ShapeModel_Name_Enum Shape_Area { set; get; }
+
+
+        /// <summary>
+        /// 创建模型所应用的工艺
+        /// </summary>
+        public Match_Model_Craft_Type_Enum Shape_Craft { set; get; }
+
+        /// <summary>
+        /// 创建模型句柄集合
+        /// </summary>
+        public List<HObject> Shape_Handle_List { set; get; } = new List<HObject>();
+
+        /// <summary>
+        /// 创建模型xld句柄
+        /// </summary>
+        public List<HXLDCont> Shape_XLD_Handle_List { set; get; } = new List<HXLDCont>();
+
+        /// <summary>
+        /// 模型识别前图像校正图像
+        /// </summary>
+        public HImage Shape_Image_Rectified { set; get; } = new HImage();
+
+        /// <summary>
+        /// 模型识别顺序号
+        /// </summary>
+        public int Shape_Order { set; get; } = 0;
+
+        /// <summary>
+        /// 模型创建日期
+        /// </summary>
+        public string Creation_Date { set; get; } = string.Empty;
+    }
+
+
 
     /// <summary>
     /// 相机标定
@@ -1967,6 +2022,12 @@ namespace Halcon_SDK_DLL.Model
         dfm,
         shm
     }
+
+
+
+
+
+
 
     /// <summary>
     /// 形状匹配模板类型枚举

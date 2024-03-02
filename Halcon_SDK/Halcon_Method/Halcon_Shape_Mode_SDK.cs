@@ -300,6 +300,38 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+
+        public HDict Save_Shape_HDict(Shape_Mode_File_Model _Shape_File)
+        {
+           
+            HDict _ModelHDict=new HDict();
+            HObject _Shape_Handle_List=new HObject  ();
+
+            _ModelHDict.CreateDict();
+
+            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model),_Shape_File.Shape_Model.ToString(),);
+            _ModelHDict.SetDictTuple( nameof(_Shape_File.Shape_Area), _Shape_File.Shape_Area.ToString());
+            _ModelHDict.SetDictTuple( nameof(_Shape_File.Shape_Craft), _Shape_File.Shape_Craft.ToString());
+
+            foreach (var _handle in _Shape_File.Shape_Handle_List)
+            {
+                _Shape_Handle_List = _Shape_Handle_List.ConcatObj(_handle);
+            }
+            _ModelHDict.SetDictObject(_Shape_Handle_List, nameof(_Shape_File.Shape_Handle_List));
+            foreach (var _handle in _Shape_File)
+            {
+                _Shape_Handle_List = _Shape_Handle_List.ConcatObj(_handle);
+            }
+            _ModelHDict.SetDictObject(_Shape_Handle_List, nameof(_Shape_File.Shape_Handle_List));
+
+
+            return _ModelHDict;
+
+        }
+
+
+
+
         /// <summary>
         /// 根据模型类型获得模型文件地址
         /// </summary>
@@ -718,11 +750,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         //获得保存模板名称
                         string _NccModel_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
 
+
+
+
                         _NccModel.WriteNccModel(_NccModel_Location);
 
                         _NccModel.ClearNccModel();
 
-
+                        
 
                         //保存模型文件
                         //HOperatorSet.WriteNccModel(_ModelID, _Path);
