@@ -1520,7 +1520,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
-                                     IsChecked="False"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1566,7 +1566,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Create_Model" Grid.Row=" 2"
-                                     IsChecked="True"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1993,7 +1993,6 @@
                                             <TextBlock Text="设备模式"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
@@ -2043,7 +2042,94 @@
 
                                         <Border Height=" 2"
                                                 Margin="0,4,0,4"
-                                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                Background="{DynamicResource 全局_按钮_红颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
+
+                                        <Grid Height="45" Margin="0,0,0,0">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+
+                                                <ColumnDefinition Width=" *" />
+                                                <ColumnDefinition Width=" *" />
+
+
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="标定文件"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <StackPanel Grid.Column=" 1"
+                                                        Margin="0,5,0,5"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+
+                                                <Border Width=" 23"
+                                                        Height=" 23"
+                                                        Margin="4"
+                                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                        BorderThickness="2"
+                                                        CornerRadius=" 5">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_State}" Value="{x:Static MVS_Enum:Camera_Calibration_File_Type_Enum.内参标定}">
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+                                                <Label Content="相机内参"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize=" 16" />
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column=" 2"
+                                                        Margin="0,5,0,5"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+
+                                                <Border Width=" 23"
+                                                        Height=" 23"
+                                                        Margin="4"
+                                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                        BorderThickness="2"
+                                                        CornerRadius=" 5">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Setup}" Value="{x:Static MVS_Enum:Camera_Calibration_Mobile_Type_Enum.Calibrated_OK}">
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+
+                                                </Border>
+                                                <Label Content="手眼标定"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize=" 16" />
+                                            </StackPanel>
+
+
+
+
+                                        </Grid>
+
+
+                                        <Border Height=" 2"
+                                                Margin="0,4,0,4"
+                                                Background="{DynamicResource 全局_按钮_红颜色}"
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
 

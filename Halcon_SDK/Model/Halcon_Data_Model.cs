@@ -1899,7 +1899,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 模型创建日期
         /// </summary>
-        public string Creation_Date { set; get; } = string.Empty;
+        public string Creation_Date { set; get; } = DateTime.Now.ToString("F");
     }
 
 

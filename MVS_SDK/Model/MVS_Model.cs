@@ -1532,6 +1532,7 @@ namespace MVS_SDK_Base.Model
                         //return true;
 
                     }
+               
 
 
                     ///加载手眼文件
@@ -1543,6 +1544,7 @@ namespace MVS_SDK_Base.Model
                         Camera_Calibration.HandEye_ToolinCamera = new Point_Model(_HandEyeP);
                         Camera_Calibration.Camera_Calibration_Setup = Camera_Calibration_Mobile_Type_Enum.Calibrated_OK;
                     }
+               
 
 
                     //throw new Exception(Camera_Info.SerialNumber + "：相机没有内参信息，请把内参文件存放在："+_File);

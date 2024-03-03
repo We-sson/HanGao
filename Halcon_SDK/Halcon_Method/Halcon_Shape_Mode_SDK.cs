@@ -1,6 +1,7 @@
 ﻿using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using PropertyChanged;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -301,28 +302,39 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public HDict Save_Shape_HDict(Shape_Mode_File_Model _Shape_File)
+        public HDict Save_Shape_HDict(Shape_Mode_File_Model _Shape_File,string _Save_Path)
         {
            
             HDict _ModelHDict=new HDict();
             HObject _Shape_Handle_List=new HObject  ();
+            HObject _Shape_XLD_List=new HObject  ();
 
             _ModelHDict.CreateDict();
 
-            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model),_Shape_File.Shape_Model.ToString(),);
+            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model),_Shape_File.Shape_Model.ToString());
             _ModelHDict.SetDictTuple( nameof(_Shape_File.Shape_Area), _Shape_File.Shape_Area.ToString());
             _ModelHDict.SetDictTuple( nameof(_Shape_File.Shape_Craft), _Shape_File.Shape_Craft.ToString());
+            _ModelHDict.SetDictTuple( nameof(_Shape_File.Shape_Order), _Shape_File.Shape_Order.ToString());
+            _ModelHDict.SetDictTuple( nameof(_Shape_File.Creation_Date), _Shape_File.Creation_Date);
 
             foreach (var _handle in _Shape_File.Shape_Handle_List)
             {
                 _Shape_Handle_List = _Shape_Handle_List.ConcatObj(_handle);
             }
             _ModelHDict.SetDictObject(_Shape_Handle_List, nameof(_Shape_File.Shape_Handle_List));
-            foreach (var _handle in _Shape_File)
+            foreach (var _handle in _Shape_File.Shape_XLD_Handle_List)
             {
-                _Shape_Handle_List = _Shape_Handle_List.ConcatObj(_handle);
+                _Shape_XLD_List = _Shape_Handle_List.ConcatObj(_handle);
             }
-            _ModelHDict.SetDictObject(_Shape_Handle_List, nameof(_Shape_File.Shape_Handle_List));
+            _ModelHDict.SetDictObject(_Shape_XLD_List, nameof(_Shape_File.Shape_XLD_Handle_List));
+
+
+
+            _ModelHDict.SetDictObject(_Shape_File.Shape_Image_Rectified, nameof(_Shape_File.Shape_Image_Rectified));
+
+
+            _ModelHDict.WriteDict(_Save_Path, new HTuple(), new HTuple());
+
 
 
             return _ModelHDict;
@@ -697,7 +709,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         HRegion Dilation_Region = new HRegion();
                         HTuple _Pos_Row = new HTuple();
                         HTuple _Pos_Col = new HTuple();
-
+                        HDict _Data_Dict = new HDict();
 
                         Polygon_Xld.GenEmptyObj();
 
@@ -751,9 +763,22 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         string _NccModel_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
 
 
+                        var a = new List<HObject> { new HObject(_NccModel) };
 
 
-                        _NccModel.WriteNccModel(_NccModel_Location);
+
+                            Save_Shape_HDict(new Shape_Mode_File_Model()
+                            {
+                                 Shape_Area= Create_Shape_ModelXld.ShapeModel_Name,
+                                  Shape_Craft= Match_Model_Craft_Type,
+                                   Shape_Handle_List =  new List<HObject> { new HObject(_NccModel) },
+                                    Shape_XLD_Handle_List= new List<HXLDCont> { ALL_Models_XLD },
+                                     Shape_Image_Rectified= Image_Rectified,
+                                      Shape_Model= Create_Shape_ModelXld.Shape_Based_Model,
+                                       Shape_Order=0
+                            }, _NccModel_Location);
+
+                        //_NccModel.WriteNccModel(_NccModel_Location);
 
                         _NccModel.ClearNccModel();
 
@@ -785,9 +810,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-                        string _XLD_Save_Path_Location = Save_Path+ SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Shape_Based_Model_Enum.Halcon_DXF, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
+                        //string _XLD_Save_Path_Location = Save_Path+ SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Shape_Based_Model_Enum.Halcon_DXF, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
                         //保存描述XLD轮廓
-                        ALL_Models_XLD.WriteContourXldDxf(_XLD_Save_Path_Location);
+                        //ALL_Models_XLD.WriteContourXldDxf(_XLD_Save_Path_Location);
 
                         //保存模板xld文件
                         //HOperatorSet.WriteContourXldDxf(DXF_XLD, Shape_Save_Path);
