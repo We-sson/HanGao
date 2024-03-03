@@ -306,7 +306,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
            
             HDict _ModelHDict=new HDict();
-            HObject _Shape_Handle_List=new HObject  ();
+            HTuple _Shape_Handle_List =new HTuple();
             HObject _Shape_XLD_List=new HObject  ();
 
             _ModelHDict.CreateDict();
@@ -319,12 +319,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             foreach (var _handle in _Shape_File.Shape_Handle_List)
             {
-                _Shape_Handle_List = _Shape_Handle_List.ConcatObj(_handle);
+                _Shape_Handle_List = _Shape_Handle_List.TupleConcat (_handle);
             }
-            _ModelHDict.SetDictObject(_Shape_Handle_List, nameof(_Shape_File.Shape_Handle_List));
+            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Handle_List), _Shape_Handle_List);
+
+
             foreach (var _handle in _Shape_File.Shape_XLD_Handle_List)
             {
-                _Shape_XLD_List = _Shape_Handle_List.ConcatObj(_handle);
+                _Shape_XLD_List = _Shape_XLD_List.ConcatObj(_handle);
             }
             _ModelHDict.SetDictObject(_Shape_XLD_List, nameof(_Shape_File.Shape_XLD_Handle_List));
 
@@ -763,7 +765,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         string _NccModel_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Shape_Based_Model, Create_Shape_ModelXld.ShapeModel_Name, Create_Shape_ModelXld.Create_ID);
 
 
-                        var a = new List<HObject> { new HObject(_NccModel) };
+                       
 
 
 
@@ -771,7 +773,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             {
                                  Shape_Area= Create_Shape_ModelXld.ShapeModel_Name,
                                   Shape_Craft= Match_Model_Craft_Type,
-                                   Shape_Handle_List =  new List<HObject> { new HObject(_NccModel) },
+                                   Shape_Handle_List =  new List<HTuple> { new HTuple(_NccModel) },
                                     Shape_XLD_Handle_List= new List<HXLDCont> { ALL_Models_XLD },
                                      Shape_Image_Rectified= Image_Rectified,
                                       Shape_Model= Create_Shape_ModelXld.Shape_Based_Model,

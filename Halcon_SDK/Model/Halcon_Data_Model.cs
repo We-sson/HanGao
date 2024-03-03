@@ -1879,7 +1879,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 创建模型句柄集合
         /// </summary>
-        public List<HObject> Shape_Handle_List { set; get; } = new List<HObject>();
+        public List<HTuple> Shape_Handle_List { set; get; } = new List<HTuple>();
 
         /// <summary>
         /// 创建模型xld句柄
