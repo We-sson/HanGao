@@ -800,7 +800,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 读取模型文件按钮控制
         /// </summary>
-        public bool Read_Models_File_UI_IsEnable { set; get; } = true;
+        public bool Read_Models_File_UI_IsEnable { set; get; } = false ;
 
         /// <summary>
         /// 创建模型UI按钮使能

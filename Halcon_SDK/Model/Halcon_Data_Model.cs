@@ -1884,17 +1884,14 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 创建模型xld句柄
         /// </summary>
-        public List<HXLDCont> Shape_XLD_Handle_List { set; get; } = new List<HXLDCont>();
+        public List<HObject> Shape_XLD_Handle_List { set; get; } = new List<HObject>();
 
         /// <summary>
         /// 模型识别前图像校正图像
         /// </summary>
         public HImage Shape_Image_Rectified { set; get; } = new HImage();
 
-        /// <summary>
-        /// 模型识别顺序号
-        /// </summary>
-        public int Shape_Order { set; get; } = 0;
+
 
         /// <summary>
         /// 模型创建日期
