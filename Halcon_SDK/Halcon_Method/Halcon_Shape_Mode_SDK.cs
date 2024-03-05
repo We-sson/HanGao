@@ -276,7 +276,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         {
                             //集合一起
                             ALL_Models_XLD = ALL_Models_XLD.ConcatObj(_Xld.Model_XLD);
-
+                            
                         }
                     }
 
@@ -363,6 +363,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
             HDict _ModelHDict = new HDict();
+           
+
             Shape_Mode_File_Model _Shape_Mode_File_Model = new Shape_Mode_File_Model();
 
 
@@ -381,9 +383,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
             HTuple a = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Handle_List));
-            HObject b = _ModelHDict.GetDictObject(nameof(_Shape_Mode_File_Model.Shape_XLD_Handle_List));
 
 
+            HTuple b = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_XLD_Handle_List));
+
+            HDict _XLDHDict = new HDict(b.H);
 
 
             for (int i = 0; i < a.Length; i++)
@@ -391,9 +395,21 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         _Shape_Mode_File_Model.Shape_Handle_List.Add(a.TupleSelect(i));
 
             }
-            for (int i = 1; i < b.CountObj(); i++)
+            
+         HTuple aa=   _XLDHDict.GetDictParam("keys",  new HTuple ());
+
+
+            
+
+
+            for (int i = 0; i < aa.Length; i++)
             {
-                _Shape_Mode_File_Model.Shape_XLD_Handle_List.Add(b.SelectObj(i));
+
+              var tr=  _XLDHDict.GetDictParam("key_data_type", i);
+
+                HObject bc = new HObject ( _XLDHDict.GetDictObject(i));
+
+                _Shape_Mode_File_Model.Shape_XLD_Handle_List.Add(new HObject(bc)); ;
             }
 
             return _Shape_Mode_File_Model;
@@ -404,8 +420,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
             HDict _ModelHDict = new HDict();
+        
             HTuple _Shape_Handle_List = new HTuple();
-            HObject _Shape_XLD_List = new HObject();
+            HDict _Shape_XLD_List = new HDict();
 
             ///参数设置到字典中
             _ModelHDict.CreateDict();
@@ -423,12 +440,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
             ///添加xld模型到集合
-            _Shape_XLD_List.GenEmptyObj();
-            foreach (var _handle in _Shape_File.Shape_XLD_Handle_List)
+            _Shape_XLD_List.CreateDict();
+
+
+            for (int i = 0; i < _Shape_File.Shape_XLD_Handle_List.Count; i++)
             {
-                _Shape_XLD_List = _Shape_XLD_List.ConcatObj(_handle);
+
+                _Shape_XLD_List.SetDictObject(_Shape_File.Shape_XLD_Handle_List[i], i);
             }
-            _ModelHDict.SetDictObject(_Shape_XLD_List, nameof(_Shape_File.Shape_XLD_Handle_List));
+            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_XLD_Handle_List),_Shape_XLD_List);
 
 
             ///添加图像校正图像到字典中
@@ -851,7 +871,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                         //保存模型
-                        Save_ShapeModel(new List<HTuple>() { _NccModel }, new List<HObject>() { ALL_Models_XLD });
+                        Save_ShapeModel(new List<HTuple>() { _NccModel, _NccModel }, new List<HObject>() { ALL_Models_XLD , ALL_Models_XLD });
 
 
                         _NccModel.ClearNccModel();
