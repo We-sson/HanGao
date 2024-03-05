@@ -4,6 +4,8 @@ using PropertyChanged;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Security.Cryptography;
+using System.Windows.Shapes;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using Point = System.Windows.Point;
 
@@ -21,11 +23,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
         /// <summary>
-        /// 选择相机参数
+        /// 模型文件列表
         /// </summary>
-        //public HCamPar? Select_Camera_Parameter { set; get; }
-
-
+        public ObservableCollection<Shape_Mode_File_Model> Shape_Mode_File_Model_List { set; get; } = new ObservableCollection<Shape_Mode_File_Model>();
 
 
         /// <summary>
@@ -301,16 +301,39 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-
-        public Shape_Mode_File_Model Get_ShapeModel()
+        public void Read_Fold_ShapeModel()
         {
-            Shape_Mode_File_Model _ShapeModel = new Shape_Mode_File_Model();
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+        public List<Shape_Mode_File_Model> Get_ShapeModel()
+        {
+           List< Shape_Mode_File_Model >_ShapeModel = new List<Shape_Mode_File_Model>();
 
             //获得保存模板名称
-            string _Model_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Get, Create_Shape_ModelXld.Create_ID);
+            List<FileInfo> _Model_Location = Get_ShapeModel_Path();
 
 
-            _ShapeModel= Get_Shape_HDict(_Model_Location);
+            foreach (var _path in _Model_Location)
+            {
+                Shape_Mode_File_Model_List.Add ( Get_Shape_HDict(_path));
+            }
+
+
             return _ShapeModel;
         }
 
@@ -319,7 +342,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
             //获得保存模板名称
-            string _NccModel_Location = Save_Path + SetGet_ModelXld_Path(FilePath_Type_Model_Enum.Save, Create_Shape_ModelXld.Create_ID);
+            string _Model_Location = Save_Path + Set_ShapeModel_Path();
 
             Set_Shape_HDict(new Shape_Mode_File_Model()
             {
@@ -330,31 +353,54 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Shape_Image_Rectified = Image_Rectified,
                 Shape_Model = Create_Shape_ModelXld.Shape_Based_Model,
 
-            }, _NccModel_Location);
+            }, _Model_Location);
 
 
         }
 
 
-        public Shape_Mode_File_Model Get_Shape_HDict(string _Shape_File)
+        private Shape_Mode_File_Model Get_Shape_HDict(FileInfo _Shape_File)
         {
 
             HDict _ModelHDict = new HDict();
             Shape_Mode_File_Model _Shape_Mode_File_Model = new Shape_Mode_File_Model();
 
 
-            _ModelHDict.ReadDict(_Shape_File, new HTuple(),new HTuple ());
+            _ModelHDict.ReadDict(_Shape_File.FullName, new HTuple(), new HTuple());
+
+            _Shape_Mode_File_Model.ID = int.Parse(_Shape_File.Name.Split(".")[0].Split("_")[1]);
+
+            _Shape_Mode_File_Model.Shape_Craft= Enum.Parse<Match_Model_Craft_Type_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Craft)));
+
+            _Shape_Mode_File_Model.Shape_Model = Enum.Parse<Shape_Based_Model_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Model)));
+
+            _Shape_Mode_File_Model.Shape_Area = Enum.Parse<ShapeModel_Name_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Area)));
+
+            _Shape_Mode_File_Model.Shape_Image_Rectified =new HImage(  _ModelHDict.GetDictObject(nameof(_Shape_Mode_File_Model.Shape_Image_Rectified)));
+           
+
+
+            HTuple a = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Handle_List));
+            HObject b = _ModelHDict.GetDictObject(nameof(_Shape_Mode_File_Model.Shape_XLD_Handle_List));
 
 
 
-            _Shape_Mode_File_Model.Shape_Model =  Enum.Parse< Shape_Based_Model_Enum >( _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Model)));
 
+            for (int i = 0; i < a.Length; i++)
+            {
+                        _Shape_Mode_File_Model.Shape_Handle_List.Add(a.TupleSelect(i));
+
+            }
+            for (int i = 1; i < b.CountObj(); i++)
+            {
+                _Shape_Mode_File_Model.Shape_XLD_Handle_List.Add(b.SelectObj(i));
+            }
 
             return _Shape_Mode_File_Model;
         }
 
 
-        private  HDict Set_Shape_HDict(Shape_Mode_File_Model _Shape_File, string _Save_Path)
+        private HDict Set_Shape_HDict(Shape_Mode_File_Model _Shape_File, string _Save_Path)
         {
 
             HDict _ModelHDict = new HDict();
@@ -398,7 +444,27 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
+        private List<FileInfo> Get_ShapeModel_Path()
+        {
+            List<FileInfo> _PathList = new List<FileInfo>();
+            if (!Directory.Exists(Save_Path)) Directory.CreateDirectory(Save_Path);
 
+            DirectoryInfo _FileInfo = new DirectoryInfo(Save_Path);
+
+
+
+            //检查文件夹内文件情况,到集合中
+            foreach (FileInfo _FileName in _FileInfo.GetFiles())
+            {
+                if (_FileName.Extension== ".hdict")
+                {
+                    _PathList.Add(_FileName);
+                }
+            }
+
+
+            return _PathList;
+        }
 
         /// <summary>
         /// 根据模型类型获得模型文件地址
@@ -406,70 +472,20 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <param name="_path"></param>
         /// <param name="_Model_Enum"></param>
         /// <returns></returns>
-        private  string SetGet_ModelXld_Path(FilePath_Type_Model_Enum _FilePath_Type, int _ID)
+        private string Set_ShapeModel_Path()
         {
             ////获得识别位置名称
 
             string Shape_Save_Path = string.Empty;
 
             if (!Directory.Exists(Save_Path)) Directory.CreateDirectory(Save_Path);
-            switch (_FilePath_Type)
-            {
-                case FilePath_Type_Model_Enum.Get:
 
 
 
+            Shape_Save_Path = "\\" + "Job_" + Create_Shape_ModelXld.Create_ID.ToString();
 
 
-                    DirectoryInfo _FileInfo = new DirectoryInfo(Save_Path);
 
-                    foreach (FileInfo _FileName in _FileInfo.GetFiles())
-                    {
-                        string[] NameList = _FileName.Name.Split('.')[0].Split('_');
-
-
-                        //if (NameList[0] == _ID.ToString() && NameList[2] == _Name.ToString().Split('_')[1] && NameList[3] == ((int)_Model_Enum).ToString())
-                        if (NameList[0] == _ID.ToString())
-                        {
-                            File_ModelIDS.Add(_FileName);
-                        }
-                    }
-
-                    break;
-
-                case FilePath_Type_Model_Enum.Save:
-
-                    Shape_Save_Path = "\\" + "Job_" + _ID.ToString();
-
-                    //检测文件是否存在
-
-                    //路径添加格式后缀
-                    //switch (_Model_Enum)
-                    //{
-                    //    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
-
-                    //        Shape_Save_Path += "_" + ((int)_Model_Enum).ToString() + "_" + _Number + ".shm";
-
-                    //        break;
-
-                    //    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
-
-                    //        Shape_Save_Path += "_" + ((int)_Model_Enum).ToString() + "_" + _Number + ".dfm";
-                    //        break;
-
-                    //    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Ncc_Model:
-
-                    //        Shape_Save_Path += "_" + ((int)_Model_Enum).ToString() + "_" + _Number + ".ncm";
-                    //        break;
-
-                    //    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Halcon_DXF:
-
-                    //        Shape_Save_Path += "_" + ((int)Shape_Based_Model_Enum.Ncc_Model).ToString() + "_" + _Number + ".dxf";
-                    //        break;
-                    //}
-
-                    break;
-            }
 
             return Shape_Save_Path;
 

@@ -3453,7 +3453,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="True">
+                                      IsExpanded="false">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                                         <Border.Style>
@@ -5429,7 +5429,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="False">
+                                      IsExpanded="true">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                                         <Border.Style>

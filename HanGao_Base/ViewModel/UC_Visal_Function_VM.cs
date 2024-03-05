@@ -333,6 +333,10 @@ namespace HanGao.ViewModel
             }
             else
             {
+
+                Halcon_Shape_Mode.Get_ShapeModel();
+
+
                 //UI界面锁定操作
                 Read_Models_File_UI_IsEnable = true;
                 try

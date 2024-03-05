@@ -1892,6 +1892,10 @@ namespace Halcon_SDK_DLL.Model
         public HImage Shape_Image_Rectified { set; get; } = new HImage();
 
 
+        /// <summary>
+        /// 模型ID号
+        /// </summary>
+        public int ID { set; get; } = -1;  
 
         /// <summary>
         /// 模型创建日期
