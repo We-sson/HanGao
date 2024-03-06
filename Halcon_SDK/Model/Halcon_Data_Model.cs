@@ -1851,7 +1851,7 @@ namespace Halcon_SDK_DLL.Model
     }
 
     [AddINotifyPropertyChangedInterface]
-        public class Shape_Mode_File_Model
+    public class Shape_Mode_File_Model:IDisposable
     {
         public Shape_Mode_File_Model()
         {
@@ -1895,12 +1895,27 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 模型ID号
         /// </summary>
-        public int ID { set; get; } = -1;  
+        public int ID { set; get; } = -1;
 
         /// <summary>
         /// 模型创建日期
         /// </summary>
         public string Creation_Date { set; get; } = DateTime.Now.ToString("F");
+
+
+
+        public void Dispose()
+        {
+            foreach (var _Model in Shape_Handle_List)
+            {
+                _Model.Dispose();
+            }
+            foreach (var _Model in Shape_XLD_Handle_List)
+            {
+                _Model.Dispose();
+            }
+            Shape_Image_Rectified.Dispose();
+        }
     }
 
 

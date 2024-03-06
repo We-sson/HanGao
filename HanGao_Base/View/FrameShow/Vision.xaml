@@ -5526,7 +5526,7 @@
                                                      d:ItemsSource="{d:SampleData ItemCount=5}"
                                                      Background="Transparent"
                                                      ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
-                                                     ItemsSource="{Binding Shape_File_UI_List}"
+                                                     ItemsSource="{Binding Halcon_Shape_Mode.Shape_Mode_File_Model_List}"
                                                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                      SelectedIndex="-1"
@@ -5550,124 +5550,29 @@
 
                                                         <Grid>
 
-                                                            <Grid Width="50"
-                                                                  Height=" 50"
-                                                                  VerticalAlignment="Stretch"
-                                                                  ShowGridLines="False">
 
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*" />
-                                                                    <ColumnDefinition Width="*" />
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="*" />
-                                                                    <RowDefinition Height="*" />
-                                                                </Grid.RowDefinitions>
 
-                                                                <Border Grid.Row="1" Grid.Column="0"
-                                                                        CornerRadius=" 0 0  0 4">
-                                                                    <Border.Style>
-                                                                        <Style TargetType="{x:Type Border}">
-                                                                            <Setter Property="Background" Value="Transparent" />
-                                                                            <Style.Triggers>
-                                                                                <DataTrigger Binding="{Binding IsRead_F135}" Value="True">
-                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
-                                                                                </DataTrigger>
-                                                                                <MultiDataTrigger>
-                                                                                    <MultiDataTrigger.Conditions>
-                                                                                        <Condition Binding="{Binding IsRead_F135}" Value="True" />
-                                                                                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="true" />
-                                                                                    </MultiDataTrigger.Conditions>
-                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                                                                </MultiDataTrigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </Border.Style>
-                                                                </Border>
-
-                                                                <Border Grid.Row="1" Grid.Column="1"
-                                                                        CornerRadius=" 0 0  4 0">
-                                                                    <Border.Style>
-                                                                        <Style TargetType="{x:Type Border}">
-                                                                            <Setter Property="Background" Value="Transparent" />
-                                                                            <Style.Triggers>
-                                                                                <DataTrigger Binding="{Binding IsRead_F225}" Value="True">
-                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
-                                                                                </DataTrigger>
-                                                                                <MultiDataTrigger>
-                                                                                    <MultiDataTrigger.Conditions>
-                                                                                        <Condition Binding="{Binding IsRead_F225}" Value="True" />
-                                                                                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="true" />
-                                                                                    </MultiDataTrigger.Conditions>
-                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                                                                </MultiDataTrigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </Border.Style>
-                                                                </Border>
-
-                                                                <Border Grid.Row="0" Grid.Column="0"
-                                                                        CornerRadius=" 4 0  0 0">
-                                                                    <Border.Style>
-                                                                        <Style TargetType="{x:Type Border}">
-                                                                            <Setter Property="Background" Value="Transparent" />
-                                                                            <Style.Triggers>
-                                                                                <DataTrigger Binding="{Binding IsRead_F45}" Value="True">
-                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
-                                                                                </DataTrigger>
-                                                                                <MultiDataTrigger>
-                                                                                    <MultiDataTrigger.Conditions>
-                                                                                        <Condition Binding="{Binding IsRead_F45}" Value="True" />
-                                                                                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="true" />
-                                                                                    </MultiDataTrigger.Conditions>
-                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                                                                </MultiDataTrigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </Border.Style>
-                                                                </Border>
-                                                                <Border Grid.Row="0" Grid.Column="1"
-                                                                        CornerRadius=" 0 4  0 0">
-                                                                    <Border.Style>
-                                                                        <Style TargetType="{x:Type Border}">
-                                                                            <Setter Property="Background" Value="Transparent" />
-                                                                            <Style.Triggers>
-                                                                                <DataTrigger Binding="{Binding IsRead_F315}" Value="True">
-                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
-                                                                                </DataTrigger>
-                                                                                <MultiDataTrigger>
-                                                                                    <MultiDataTrigger.Conditions>
-                                                                                        <Condition Binding="{Binding IsRead_F315}" Value="True" />
-                                                                                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="true" />
-                                                                                    </MultiDataTrigger.Conditions>
-                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                                                                </MultiDataTrigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </Border.Style>
-                                                                </Border>
-                                                            </Grid>
-
-                                                            <!--<Border Grid.Row=" 0" Grid.Column=" 0"
-                                                        Background="Transparent"
-                                                        CornerRadius="5">-->
-                                                            <!--<Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true">
-                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>-->
-                                                            <TextBlock Text="{Binding File_ID}"
-                                                                       HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center"
-                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                       FontSize="22"
-                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                            <!--</Border>-->
+                                                            <Border Grid.Row=" 0" Grid.Column=" 0"
+                                                                    Width=" 50"
+                                                                    Height=" 50"
+                                                                    CornerRadius="5">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="true">
+                                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Text="{Binding ID}"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                           FontSize="22"
+                                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                            </Border>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ListBox.ItemTemplate>
