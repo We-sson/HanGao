@@ -29,6 +29,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public ObservableCollection<Shape_Mode_File_Model> Shape_Mode_File_Model_List { set; get; } = new ObservableCollection<Shape_Mode_File_Model>();
 
 
+        public Shape_Mode_File_Model? Selected_Shape_Model { set; get; } = null;
         /// <summary>
         /// 全部工艺模型合并
         /// </summary>

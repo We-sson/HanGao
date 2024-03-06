@@ -771,15 +771,15 @@ namespace HanGao.ViewModel
          
 
 
-                if ((Shape_File_UI_Model)E.SelectedValue is Shape_File_UI_Model _Shape_Model)
-                {
-                    //清空集合
-                    Shape_FileFull_UI.Clear();
-                    //将同一模型序号提取
-                    Shape_FileFull_UI = new ObservableCollection<FileInfo>(Halcon_SDK.Match_Models_List
-                                                                                                              .Where(_M => _M.Match_ID == _Shape_Model.File_ID)
-                                                                                                              .Select(_M => _M.Match_File).ToList());
-                }
+                //if ((Shape_File_UI_Model)E.SelectedValue is Shape_File_UI_Model _Shape_Model)
+                //{
+                //    ////清空集合
+                //    //Shape_FileFull_UI.Clear();
+                //    ////将同一模型序号提取
+                //    //Shape_FileFull_UI = new ObservableCollection<FileInfo>(Halcon_SDK.Match_Models_List
+                //    //                                                                                          .Where(_M => _M.Match_ID == _Shape_Model.File_ID)
+                //    //                                                                                          .Select(_M => _M.Match_File).ToList());
+                //}
                 }
                 catch (Exception e)
                 {

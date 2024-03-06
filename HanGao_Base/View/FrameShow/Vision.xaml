@@ -5465,23 +5465,7 @@
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                             </StackPanel>
-                                            <!--<TextBlock Text="{Binding Camera_Data_ID_UI, StringFormat=模型号 : {0}}"
-                                           Margin="0,0,10,0"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="16">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Camera_Data_ID_UI}" Value="-1">
-                                                    <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黄颜色}" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>-->
+
                                         </Grid>
                                     </Border>
                                 </Expander.Header>
@@ -5532,6 +5516,7 @@
                                                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                      SelectedIndex="-1"
+                                                     SelectedValue="{Binding Halcon_Shape_Mode.Selected_Shape_Model}"
                                                      VirtualizingPanel.IsVirtualizing="True"
                                                      VirtualizingPanel.ScrollUnit="Pixel"
                                                      VirtualizingPanel.VirtualizationMode="Recycling">
@@ -5557,7 +5542,8 @@
                                                             <Border Grid.Row=" 0" Grid.Column=" 0"
                                                                     Width=" 50"
                                                                     Height=" 50"
-                                                                    CornerRadius="5">
+                                                                    CornerRadius="5"
+                                                                    Effect="{DynamicResource 全局背景阴影}">
                                                                 <Border.Style>
                                                                     <Style TargetType="Border">
                                                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
@@ -5588,6 +5574,123 @@
                                                 Background="{DynamicResource 全局_按钮_红颜色}"
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
+
+                                        <Grid Height="35"
+                                              Margin="8"
+                                              ShowGridLines="True">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="模型信息"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <TextBlock Grid.Column=" 1"
+                                                       Text="工艺："
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <TextBlock Grid.Column=" 2"
+                                                       Text="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Shape_Craft, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 1"
+                                                       Text="类型："
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <TextBlock Grid.Column=" 2"
+                                                       Text="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Shape_Model, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                        </Grid>
+
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 1"
+                                                       Text="位置："
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <TextBlock Grid.Column=" 2"
+                                                       Text="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Shape_Area, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 1"
+                                                       Text="创建日期："
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <TextBlock Grid.Column=" 2"
+                                                       Text="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Creation_Date}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                        </Grid>
 
                                         <Grid Height="35" Margin="8">
 
