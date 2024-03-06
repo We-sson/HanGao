@@ -311,14 +311,16 @@ namespace HanGao.ViewModel
                 //UI界面锁定操作
                 Read_Models_File_UI_IsEnable = true;
 
+                Halcon_Shape_Mode.Dispose();
 
-                Application.Current.Dispatcher.Invoke(() =>
+                Application.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    Shape_File_UI_List.Clear();
-                    Shape_FileFull_UI.Clear();
+                    Halcon_Shape_Mode.Shape_Mode_File_Model_List.Clear();
                 });
 
-                Halcon_Shape_Mode.Dispose();
+
+
+
 
                 Halcon_Shape_Mode.Get_ShapeModel();
                 User_Log_Add("模型文件全部读取完成！", Log_Show_Window_Enum.Home);
@@ -738,6 +740,43 @@ namespace HanGao.ViewModel
         /// </summary>
         public string ShapeModel_Location { set; get; } = Environment.CurrentDirectory + "\\ShapeModel";
 
+
+        /// <summary>
+        /// 连接相机命令
+        /// </summary>
+        public ICommand Check_Shape_Image_Rectified_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((E) =>
+            {
+
+
+                try
+                {
+                    //判断图像校正是否存在
+                    if (!Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified.IsInitialized())
+                    {
+                        throw new Exception(Halcon_Shape_Mode.Selected_Shape_Model .ID+ "号模型校正图变量不存在！");
+                    }
+
+                    //显示校正图像
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified);
+                    
+                    });
+
+                }
+                catch (Exception _e)
+                {
+                    User_Log_Add("匹配模型校正图像加载失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+
+                //连接成功后关闭UI操作
+            });
+        }
+
+
         /// <summary>
         /// 模型文件重新加载
         /// </summary>
@@ -746,13 +785,25 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 Button Window_UserContol = Sm.Source as Button;
+
+                Read_Models_File_UI_IsEnable = true;
                 Task.Run(() =>
                 {
-                    Read_Models_File_UI_IsEnable = true;
+                    try
+                    {
 
-                    Initialization_ShapeModel_File();
-                   
-                    Read_Models_File_UI_IsEnable = false;
+                        Initialization_ShapeModel_File();
+
+                        Read_Models_File_UI_IsEnable = false;
+
+                    }
+                    catch (Exception e)
+                    {
+                        Read_Models_File_UI_IsEnable = false;
+                        User_Log_Add("更新模型文件错误! 原因: " + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+
+                    }
                 });
             });
         }
@@ -768,24 +819,24 @@ namespace HanGao.ViewModel
                 try
                 {
 
-         
 
 
-                //if ((Shape_File_UI_Model)E.SelectedValue is Shape_File_UI_Model _Shape_Model)
-                //{
-                //    ////清空集合
-                //    //Shape_FileFull_UI.Clear();
-                //    ////将同一模型序号提取
-                //    //Shape_FileFull_UI = new ObservableCollection<FileInfo>(Halcon_SDK.Match_Models_List
-                //    //                                                                                          .Where(_M => _M.Match_ID == _Shape_Model.File_ID)
-                //    //                                                                                          .Select(_M => _M.Match_File).ToList());
-                //}
+
+                    //if ((Shape_File_UI_Model)E.SelectedValue is Shape_File_UI_Model _Shape_Model)
+                    //{
+                    //    ////清空集合
+                    //    //Shape_FileFull_UI.Clear();
+                    //    ////将同一模型序号提取
+                    //    //Shape_FileFull_UI = new ObservableCollection<FileInfo>(Halcon_SDK.Match_Models_List
+                    //    //                                                                                          .Where(_M => _M.Match_ID == _Shape_Model.File_ID)
+                    //    //                                                                                          .Select(_M => _M.Match_File).ToList());
+                    //}
                 }
                 catch (Exception e)
                 {
 
-                    E.SelectedIndex= -1;    
-                    User_Log_Add("模型文件错误! 原因: "+e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    E.SelectedIndex = -1;
+                    User_Log_Add("模型文件错误! 原因: " + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                 }
             });
@@ -886,7 +937,7 @@ namespace HanGao.ViewModel
                 Reconstruction_3d _3DModel = new Reconstruction_3d();
                 Task.Run(() =>
                 {
-      
+
 
                     //图像预处理
                     //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);

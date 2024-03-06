@@ -316,19 +316,20 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             try
             {
+                //获得保存模板名称
+                List<FileInfo> _Model_Location = Get_ShapeModel_Path();
+                foreach (var _path in _Model_Location)
+                {
+                    _ShapeModel.Add(Get_Shape_HDict(_path));
+                }
 
 
-
-                Application.Current.Dispatcher.Invoke(() =>
+                Application.Current.Dispatcher.BeginInvoke(() =>
                 {
 
+                    Shape_Mode_File_Model_List=new ObservableCollection<Shape_Mode_File_Model> ( _ShapeModel);
 
-                    //获得保存模板名称
-                    List<FileInfo> _Model_Location = Get_ShapeModel_Path();
-                    foreach (var _path in _Model_Location)
-                    {
-                        Shape_Mode_File_Model_List.Add(Get_Shape_HDict(_path));
-                    }
+
                 });
 
 
@@ -401,7 +402,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 for (int i = 0; i < _HShape_Handle_List.Length; i++)
                 {
                     _Shape_Mode_File_Model.Shape_Handle_List.Add(_HShape_Handle_List.TupleSelect(i));
-
+               
                 }
 
 
@@ -415,6 +416,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 for (int i = 0; i < _XLDHDict.GetDictParam("keys", new HTuple()).Length; i++)
                 {
                     _Shape_Mode_File_Model.Shape_XLD_Handle_List.Add(new HObject(_XLDHDict.GetDictObject(i))); ;
+                   var aa= _Shape_Mode_File_Model.Shape_XLD_Handle_List[0];
                 }
                 return _Shape_Mode_File_Model;
 

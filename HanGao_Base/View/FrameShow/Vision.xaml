@@ -5575,13 +5575,11 @@
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
 
-                                        <Grid Height="35"
-                                              Margin="8"
-                                              ShowGridLines="True">
+                                        <Grid Height="35" Margin="8,0,8,0">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
@@ -5610,11 +5608,11 @@
 
                                         </Grid>
 
-                                        <Grid Height="35" Margin="8">
+                                        <Grid Height="35" Margin="8,0,8,0">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
@@ -5638,11 +5636,11 @@
                                         </Grid>
 
 
-                                        <Grid Height="35" Margin="8">
+                                        <Grid Height="35" Margin="8,0,8,0">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
@@ -5665,11 +5663,11 @@
 
                                         </Grid>
 
-                                        <Grid Height="35" Margin="8">
+                                        <Grid Height="35" Margin="8,0,8,0">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
 
@@ -5692,29 +5690,69 @@
 
                                         </Grid>
 
-                                        <Grid Height="35" Margin="8">
+                                        <Grid Height="35" Margin="8,0,8,0">
 
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width=" *" />
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="模型列表"
+
+                                            <TextBlock Grid.Column=" 1"
+                                                       Text="图像校正："
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Model_ID" Grid.Column=" 1"
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Margin="0,0,5,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontSize=" 26">
+                                                <TextBlock Text="查看"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Check_Shape_Image_Rectified_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width=" *" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="匹配模型"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
                                                       VerticalContentAlignment="Center"
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Binding Shape_FileFull_UI}"
-                                                      SelectedIndex="0">
+                                                      ItemsSource="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Shape_Handle_List}"
+                                                      SelectedIndex="-1">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="SelectionChanged">
-                                                        <i:InvokeCommandAction Command="{Binding ShapeModel_File_Show_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding}"
                                                                                CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -5722,7 +5760,7 @@
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
-                                                                   Text="{Binding Name}"
+                                                                   Text="{Binding H}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5734,7 +5772,47 @@
                                             </ComboBox>
                                         </Grid>
 
+                                        <Grid Height="35" Margin="8">
 
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width=" *" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="XLD模型"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Shape_XLD_Handle_List}"
+                                                      SelectedIndex="-1">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                                   Text="{Binding H}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </Grid>
                                     </StackPanel>
 
                                     <Border Background="{DynamicResource 全局_背景_白颜色}"
