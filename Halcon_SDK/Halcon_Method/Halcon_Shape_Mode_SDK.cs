@@ -1,12 +1,11 @@
 ﻿using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using PropertyChanged;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
-using System.Security.Cryptography;
 using System.Windows;
-using System.Windows.Shapes;
+using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using Point = System.Windows.Point;
 
@@ -305,6 +304,89 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+        public HObject Get_Shape_Model_Image(Shape_Based_Model_Enum _Shape_Model,HTuple _ShapeHandl)
+        {
+            HObject _Image = new HObject();
+
+
+            switch (_Shape_Model)
+            {
+                case Shape_Based_Model_Enum.shape_model:
+                    break;
+                case Shape_Based_Model_Enum.planar_deformable_model:
+                    break;
+                case Shape_Based_Model_Enum.local_deformable_model:
+                    break;
+                case Shape_Based_Model_Enum.Scale_model:
+                    break;
+                case Shape_Based_Model_Enum.Aniso_Model:
+                    break;
+                case Shape_Based_Model_Enum.Ncc_Model:
+
+                    HNCCModel _NccModel = new HNCCModel(_ShapeHandl.H);
+
+                    _Image= new HObject ( _NccModel.GetNccModelRegion());
+
+                    break;
+         
+
+            }
+
+            return _Image;
+
+        }
+
+
+        public HObject Show_Shape_Model_HObject(Shape_HObject_Type_Enum _HObject_Type)
+        {
+            HObject _HObject = new HObject();
+
+            Selected_Shape_Model.ThrowIfNull("请选择显示模型号！");
+
+
+
+            switch (_HObject_Type)
+            {
+                case Shape_HObject_Type_Enum.Shape_Handle:
+
+
+                    if (Selected_Shape_Model.Selected_Shape_Handle.Length==0)
+                    {
+                        throw new Exception(Selected_Shape_Model.ID + "号模型加载显示详情失败！");
+                    }
+
+                    _HObject = Get_Shape_Model_Image(Selected_Shape_Model.Shape_Model, Selected_Shape_Model.Selected_Shape_Handle);
+
+
+                    break;
+                case Shape_HObject_Type_Enum.Shape_XLD:
+
+                    if (!Selected_Shape_Model.Selected_Shape_XLD_Handle.IsInitialized())
+                    {
+                        throw new Exception(Selected_Shape_Model.ID + "号模型XLD变量不存在！");
+                    }
+                    _HObject = Selected_Shape_Model.Selected_Shape_XLD_Handle;
+
+
+                    break;
+                case Shape_HObject_Type_Enum.Shape_Image_Rectified:
+
+                    //判断图像校正是否存在
+                    if (!Selected_Shape_Model.Shape_Image_Rectified.IsInitialized())
+                    {
+                        throw new Exception(Selected_Shape_Model.ID + "号模型校正图变量不存在！");
+                    }
+
+                    _HObject = Selected_Shape_Model.Shape_Image_Rectified;
+                    break;
+           
+            }
+
+
+
+
+            return _HObject;
+        }
 
 
         public List<Shape_Mode_File_Model> Get_ShapeModel()
@@ -327,7 +409,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Application.Current.Dispatcher.BeginInvoke(() =>
                 {
 
-                    Shape_Mode_File_Model_List=new ObservableCollection<Shape_Mode_File_Model> ( _ShapeModel);
+                    Shape_Mode_File_Model_List = new ObservableCollection<Shape_Mode_File_Model>(_ShapeModel);
 
 
                 });
@@ -344,7 +426,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
-        public void Save_ShapeModel(List<HTuple> _Shape_Handle_List, List<HObject> _Shape_XLD_Handle_List)
+        public void Save_ShapeModel(List<HTuple> _Shape_Handle_List, List<HXLDCont> _Shape_XLD_Handle_List)
         {
 
             //获得保存模板名称
@@ -402,7 +484,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 for (int i = 0; i < _HShape_Handle_List.Length; i++)
                 {
                     _Shape_Mode_File_Model.Shape_Handle_List.Add(_HShape_Handle_List.TupleSelect(i));
-               
+
                 }
 
 
@@ -415,12 +497,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 //添加到变量里面
                 for (int i = 0; i < _XLDHDict.GetDictParam("keys", new HTuple()).Length; i++)
                 {
-                    _Shape_Mode_File_Model.Shape_XLD_Handle_List.Add(new HObject(_XLDHDict.GetDictObject(i))); ;
-                   var aa= _Shape_Mode_File_Model.Shape_XLD_Handle_List[0];
+                    _Shape_Mode_File_Model.Shape_XLD_Handle_List.Add(new HXLDCont(_XLDHDict.GetDictObject(i)));
+
                 }
                 return _Shape_Mode_File_Model;
-
-
             }
             catch (Exception e)
             {
@@ -639,7 +719,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                         //保存模型
-                        Save_ShapeModel(new List<HTuple>() { _ShapeModel }, new List<HObject>() { });
+                        Save_ShapeModel(new List<HTuple>() { _ShapeModel }, new List<HXLDCont>() { });
 
 
 
@@ -701,7 +781,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                         //保存模型
-                        Save_ShapeModel(new List<HTuple>() { _DeformableModel }, new List<HObject>() { });
+                        Save_ShapeModel(new List<HTuple>() { _DeformableModel }, new List<HXLDCont>() { });
 
 
                         break;
@@ -730,7 +810,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         _DeformableModel.SetDeformableModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
 
                         //保存模型
-                        Save_ShapeModel(new List<HTuple>() { _DeformableModel }, new List<HObject>() { });
+                        Save_ShapeModel(new List<HTuple>() { _DeformableModel }, new List<HXLDCont>() { });
 
 
                         break;
@@ -754,7 +834,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         _ShapeModel.SetShapeModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
 
                         //保存模型
-                        Save_ShapeModel(new List<HTuple>() { _ShapeModel }, new List<HObject>() { });
+                        Save_ShapeModel(new List<HTuple>() { _ShapeModel }, new List<HXLDCont>() { });
 
 
 
@@ -785,7 +865,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                         //保存模型
-                        Save_ShapeModel(new List<HTuple>() { _ShapeModel }, new List<HObject>() { });
+                        Save_ShapeModel(new List<HTuple>() { _ShapeModel }, new List<HXLDCont>() { });
 
 
 
@@ -854,9 +934,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         _NccModel.SetNccModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
 
+                        //jiang
+                        HHomMat2D _Tran = new HHomMat2D();
+                        _Tran=_Tran.HomMat2dTranslate(-Model_2D_Origin.X, -Model_2D_Origin.Y);
+
+                        var bb = ALL_Models_XLD;
+
+                        var   aa= ALL_Models_XLD= ALL_Models_XLD.AffineTransContourXld(_Tran);
+
 
                         //保存模型
-                        Save_ShapeModel(new List<HTuple>() { _NccModel }, new List<HObject>() { ALL_Models_XLD });
+                        Save_ShapeModel(new List<HTuple>() { _NccModel }, new List<HXLDCont>() { ALL_Models_XLD });
 
 
 

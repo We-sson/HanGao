@@ -777,6 +777,43 @@ namespace HanGao.ViewModel
         }
 
 
+
+        /// <summary>
+        /// 连接相机命令
+        /// </summary>
+        public ICommand Show_Shape_Model_Handle_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+                Button E = Sm.Source as Button;
+
+
+                try
+                {
+                    HObject _Hobject = new HObject();
+
+
+                    _Hobject =  Halcon_Shape_Mode.Show_Shape_Model_HObject((Shape_HObject_Type_Enum)E.Tag);
+                    //显示校正图像
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Hobject);
+
+                    });
+
+                }
+                catch (Exception _e)
+                {
+                    User_Log_Add("匹配模型参数加载失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+
+                //连接成功后关闭UI操作
+            });
+        }
+
+
         /// <summary>
         /// 模型文件重新加载
         /// </summary>
@@ -1515,7 +1552,7 @@ namespace HanGao.ViewModel
                 Halcon_Shape_Mode.Drawing_Data_List = new ObservableCollection<Vision_Create_Model_Drawing_Model>();
                 Halcon_Shape_Mode.User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
                 Halcon_Shape_Mode.Model_2D_Origin = new Point_Model();
-
+                Halcon_Shape_Mode.ALL_Models_XLD = new HXLDCont();
                 Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Draw: Halcon_Shape_Mode.User_Drawing_Data.Drawing_XLD);
                 Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: Halcon_Shape_Mode.User_Drawing_Data.Model_XLD);
 

@@ -1881,15 +1881,30 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public List<HTuple> Shape_Handle_List { set; get; } = new List<HTuple>();
 
+
+        /// <summary>
+        /// 选择的模型句柄
+        /// </summary>
+        public HTuple Selected_Shape_Handle { set; get; } = new HTuple();
+
+
         /// <summary>
         /// 创建模型xld句柄
         /// </summary>
-        public List<HObject> Shape_XLD_Handle_List { set; get; } = new List<HObject>();
+        public List<HXLDCont> Shape_XLD_Handle_List { set; get; } = new List<HXLDCont>();
+
+        /// <summary>
+        /// 选择XLD对象模型
+        /// </summary>
+        public HXLDCont Selected_Shape_XLD_Handle { set; get; } = new HXLDCont();
+
 
         /// <summary>
         /// 模型识别前图像校正图像
         /// </summary>
         public HImage Shape_Image_Rectified { set; get; } = new HImage();
+
+
 
 
         /// <summary>
@@ -2418,6 +2433,18 @@ namespace Halcon_SDK_DLL.Model
     }
 
     /// <summary>
+    /// 匹配模型类型枚举
+    /// </summary>
+    public enum Shape_HObject_Type_Enum
+    {
+        Shape_Handle,
+        Shape_XLD,
+        Shape_Image_Rectified
+    }
+
+
+
+    /// <summary>
     /// 窗口显示变量
     /// </summary>
     public enum Window_Show_Name_Enum
@@ -2573,4 +2600,8 @@ namespace Halcon_SDK_DLL.Model
         川崎,
         通用
     }
+
+
+
+
 }

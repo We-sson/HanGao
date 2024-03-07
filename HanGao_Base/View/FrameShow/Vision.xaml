@@ -5690,7 +5690,7 @@
 
                                         </Grid>
 
-                                        <Grid Height="35" Margin="8,0,8,0">
+                                        <Grid Height="35" Margin="8,0,8,4">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
@@ -5707,9 +5707,12 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                                    Margin="0,0,5,0"
+                                                    Width=" 70"
+                                                    Margin="0,0,0,0"
+                                                    HorizontalAlignment="Right"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                                    FontSize=" 26">
+                                                    FontSize=" 26"
+                                                    Tag="{x:Static Halcon_Enum:Shape_HObject_Type_Enum.Shape_Image_Rectified}">
                                                 <TextBlock Text="查看"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
@@ -5720,7 +5723,7 @@
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Check_Shape_Image_Rectified_Comm}"
+                                                        <i:InvokeCommandAction Command="{Binding Show_Shape_Model_Handle_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
@@ -5730,11 +5733,12 @@
 
                                         </Grid>
 
-                                        <Grid Height="35" Margin="8">
+                                        <Grid Height="35" Margin="8,4,8,4">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
+                                                <ColumnDefinition Width=" 75" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="匹配模型"
                                                        HorizontalAlignment="Left"
@@ -5749,7 +5753,8 @@
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Shape_Handle_List}"
-                                                      SelectedIndex="-1">
+                                                      SelectedIndex="-1"
+                                                      SelectedValue="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Handle}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="SelectionChanged">
                                                         <i:InvokeCommandAction Command="{Binding}"
@@ -5770,13 +5775,44 @@
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Width=" 70"
+                                                    Margin="0,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontSize=" 26"
+                                                    Tag="{x:Static Halcon_Enum:Shape_HObject_Type_Enum.Shape_Handle}">
+                                                <TextBlock Text="查看"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Show_Shape_Model_Handle_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+
+
+
                                         </Grid>
 
-                                        <Grid Height="35" Margin="8">
+                                        <Grid Height="35" Margin="8,4,8,4">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
+                                                <ColumnDefinition Width=" 75" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="XLD模型"
                                                        HorizontalAlignment="Left"
@@ -5791,7 +5827,8 @@
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Shape_XLD_Handle_List}"
-                                                      SelectedIndex="-1">
+                                                      SelectedIndex="-1"
+                                                      SelectedValue="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_XLD_Handle}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="SelectionChanged">
                                                         <i:InvokeCommandAction Command="{Binding}"
@@ -5802,7 +5839,7 @@
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
-                                                                   Text="{Binding H}"
+                                                                   Text="{Binding}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5812,6 +5849,34 @@
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
+
+                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                    Width=" 70"
+                                                    Margin="0,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontSize=" 26"
+                                                    Tag="{x:Static Halcon_Enum:Shape_HObject_Type_Enum.Shape_XLD}">
+                                                <TextBlock Text="查看"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Show_Shape_Model_Handle_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+
                                         </Grid>
                                     </StackPanel>
 
