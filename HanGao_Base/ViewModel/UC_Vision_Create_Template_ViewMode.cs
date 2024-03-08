@@ -31,13 +31,13 @@ namespace HanGao.ViewModel
             //    if (_Find !=null)
             //    {
 
-            //        Halcon_Find_Shape_ModelXld_UI = _Find.Find_Shape_Data;
+            //        Find_Shape_Model = _Find.Find_Shape_Data;
             //    Vision_Data_ID_UI = (int)_V;
             //    User_Log_Add("视觉参数" + Vision_Data_ID_UI + "号已加载到参数列表中！", Log_Show_Window_Enum.Home);
             //    }
             //    else
             //    {
-            //        Halcon_Find_Shape_ModelXld_UI = null;
+            //        Find_Shape_Model = null;
             //        User_Log_Add("视觉参数" + Vision_Data_ID_UI + "号已加载失败！", Log_Show_Window_Enum.Home);
 
             //    }

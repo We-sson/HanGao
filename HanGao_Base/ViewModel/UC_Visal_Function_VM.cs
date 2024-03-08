@@ -712,17 +712,17 @@ namespace HanGao.ViewModel
 
 
 
-        public Find_Shape_Based_ModelXld Halcon_Find_Shape_ModelXld_UI { get; set; } = new Find_Shape_Based_ModelXld();
+        //public Find_Shape_Based_ModelXld Find_Shape_Model { get; set; } = new Find_Shape_Based_ModelXld();
         /// <summary>
         /// 一般形状模型匹配查找属性
         /// </summary>
-        //public static Find_Shape_Based_ModelXld Halcon_Find_Shape_ModelXld_UI
+        //public static Find_Shape_Based_ModelXld Find_Shape_Model
         //{
-        //    get { return _Halcon_Find_Shape_ModelXld_UI; }
+        //    get { return _Find_Shape_Model; }
         //    set
         //    {
-        //        _Halcon_Find_Shape_ModelXld_UI = value;
-        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Halcon_Find_Shape_ModelXld_UI)));
+        //        _Find_Shape_Model = value;
+        //        StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(nameof(Find_Shape_Model)));
         //    }
         //}
         /// <summary>
@@ -977,8 +977,8 @@ namespace HanGao.ViewModel
 
 
                     //图像预处理
-                    //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Halcon_Find_Shape_ModelXld_UI);
-                    //_Halcon.Halcon_Image_Pre_Processing(Halcon_Find_Shape_ModelXld_UI);
+                    //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Find_Shape_Model);
+                    //_Halcon.Halcon_Image_Pre_Processing(Find_Shape_Model);
 
                     Halcon_Shape_Mode.ShapeModel_Create_Save((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose);
 
@@ -998,6 +998,10 @@ namespace HanGao.ViewModel
 
                     _Camera_3D.AddRange(_RobotTcp3D);
                     _Camera_3D.Add(_Plane3D);
+
+
+
+
                     //显示模型
                     Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_3D));
 
@@ -1265,12 +1269,7 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                //Button Window_UserContol = Sm.Source as Button;
-                //List<HTuple> _ModelID = new List<HTuple>();
-                //List<HObject> _ModelContours = new List<HObject>();
-                //HObject _ModelXld = new HObject();
-                //Halcon_Method _Halcon= new Halcon_Method();
-                //Pos_List_Model Out_Point = new Pos_List_Model();
+           
                 HImage _Image = new HImage();
                 Find_Shape_Results_Model _Find_Result = new Find_Shape_Results_Model
                 {
@@ -1279,13 +1278,13 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
                     ////读取模型文件
-                    //if (Display_Status(Shape_ModelXld_ReadALLFile(ref _Halcon_List, Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, Halcon_Find_Shape_ModelXld_UI.FInd_ID)).GetResult())
+                    //if (Display_Status(Shape_ModelXld_ReadALLFile(ref _Halcon_List, Find_Shape_Model.Shape_Based_Model, Find_Shape_Model.ShapeModel_Name, Find_Shape_Model.FInd_ID)).GetResult())
                     //{
                     //读取图片
-                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                    //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                     //查找模型    Vision_Auto_Cofig.Find_TimeOut_Millisecond
-                    _Find_Result = Find_Model_Method(Halcon_Find_Shape_ModelXld_UI, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Find_Shape_ModelXld_UI.FInd_ID);
+                    _Find_Result = Find_Model_Method(Halcon_Shape_Mode.Find_Shape_Model, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Shape_Mode.Find_Shape_Model.FInd_ID);
                     //设置结果显示页面
                     Messenger.Send<Find_Shape_Results_Model, string>(_Find_Result, nameof(Meg_Value_Eunm.Find_Shape_Out));
 
@@ -1312,7 +1311,7 @@ namespace HanGao.ViewModel
 
                 _Halcon._HImage = new HObject(_Image);
                 //图像预处理
-                //_Halcon.Halcon_Image_Pre_Processing(Halcon_Find_Shape_ModelXld_UI);
+                //_Halcon.Halcon_Image_Pre_Processing(Find_Shape_Model);
 
                 //_Image.Dispose();
                 //_Halcon.Dispose();

@@ -2450,7 +2450,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.Shape_Based_Model, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
+                                          SelectedIndex="{Binding Find_Shape_Model.Shape_Based_Model, ConverterParameter={x:Type Halcon_Enum:Shape_Based_Model_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
@@ -2543,14 +2543,14 @@
 
                                 <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="ScaleImageMax_UI" Grid.Column=" 1"
                                           Content="使用"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleImageMax_Enable}"
+                                          IsChecked="{Binding Find_Shape_Model.ScaleImageMax_Enable}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 2"
                                           Content="显示"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleImageMax_Disp}"
+                                          IsChecked="{Binding Find_Shape_Model.ScaleImageMax_Disp}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
@@ -2597,14 +2597,14 @@
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="MedianRect_Enable" Grid.Column=" 1"
                                           Content="使用"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_Enable}"
+                                          IsChecked="{Binding Find_Shape_Model.MedianRect_Enable}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 2"
                                           Content="显示"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_Disp}"
+                                          IsChecked="{Binding Find_Shape_Model.MedianRect_Disp}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
@@ -2646,7 +2646,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency=" 2"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_MaskWidth}" />
+                                        Value="{Binding Find_Shape_Model.MedianRect_MaskWidth}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=MedianRect_MaskWidth}"
@@ -2694,7 +2694,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency=" 2"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.MedianRect_MaskHeight}" />
+                                        Value="{Binding Find_Shape_Model.MedianRect_MaskHeight}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=MedianRect_MaskHeight}"
@@ -2742,14 +2742,14 @@
 
                                 <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Median_image_Enable" Grid.Column=" 1"
                                           Content="使用"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.Median_image_Enable}"
+                                          IsChecked="{Binding Find_Shape_Model.Median_image_Enable}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 2"
                                           Content="显示"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.Median_image_Disp}"
+                                          IsChecked="{Binding Find_Shape_Model.Median_image_Disp}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
@@ -2798,7 +2798,7 @@
                                           FontSize="16"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.MaskType_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:MedianImage_MaskType_Enum}}">
+                                          SelectedIndex="{Binding Find_Shape_Model.MaskType_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:MedianImage_MaskType_Enum}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="圆形"
@@ -2865,7 +2865,7 @@
                                         Minimum="1"
                                         SmallChange="1"
                                         TickFrequency="1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.Median_image_Radius}" />
+                                        Value="{Binding Find_Shape_Model.Median_image_Radius}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Radius_UI, Path=Value}"
@@ -2912,7 +2912,7 @@
                                           FontSize="16"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.Margin_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:MedianImage_Margin_Enum}}">
+                                          SelectedIndex="{Binding Find_Shape_Model.Margin_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:MedianImage_Margin_Enum}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="镜像"
@@ -2985,14 +2985,14 @@
 
                                         <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Illuminate_Enable" Grid.Column=" 1"
                                                   Content="使用"
-                                                  IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_Enable}"
+                                                  IsChecked="{Binding Find_Shape_Model.Illuminate_Enable}"
                                                   HorizontalAlignment="Center"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                   FontSize="16"
                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                         <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 2"
                                                   Content="显示"
-                                                  IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_Disp}"
+                                                  IsChecked="{Binding Find_Shape_Model.Illuminate_Disp}"
                                                   HorizontalAlignment="Center"
                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                   FontSize="16"
@@ -3036,7 +3036,7 @@
                                                 Minimum="3"
                                                 SmallChange="2"
                                                 TickFrequency=" 2"
-                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_MaskWidth}" />
+                                                Value="{Binding Find_Shape_Model.Illuminate_MaskWidth}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                  Text="{Binding Value, ElementName=Illuminate_MaskWidth}"
@@ -3083,7 +3083,7 @@
                                                 Minimum="3"
                                                 SmallChange="2"
                                                 TickFrequency=" 2"
-                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_MaskHeight}" />
+                                                Value="{Binding Find_Shape_Model.Illuminate_MaskHeight}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                  Text="{Binding Value, ElementName=Illuminate_MaskHeight}"
@@ -3130,7 +3130,7 @@
                                                 Minimum="0"
                                                 SmallChange="0.01"
                                                 TickFrequency="0.01"
-                                                Value="{Binding Halcon_Find_Shape_ModelXld_UI.Illuminate_Factor}" />
+                                                Value="{Binding Find_Shape_Model.Illuminate_Factor}" />
 
                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                  Text="{Binding Value, ElementName=Illuminate_Factor}"
@@ -3196,14 +3196,14 @@
 
                                 <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="Emphasize_Enable" Grid.Column=" 1"
                                           Content="使用"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_Enable}"
+                                          IsChecked="{Binding Find_Shape_Model.Emphasize_Enable}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 2"
                                           Content="显示"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_Disp}"
+                                          IsChecked="{Binding Find_Shape_Model.Emphasize_Disp}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
@@ -3240,7 +3240,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency=" 2"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_MaskWidth}" />
+                                        Value="{Binding Find_Shape_Model.Emphasize_MaskWidth}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Emphasize_MaskWidth_UI, Path=Value}"
@@ -3278,7 +3278,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency="2"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_MaskHeight}" />
+                                        Value="{Binding Find_Shape_Model.Emphasize_MaskHeight}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Emphasize_MaskHeight, Path=Value}"
@@ -3316,7 +3316,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.Emphasize_Factor}" />
+                                        Value="{Binding Find_Shape_Model.Emphasize_Factor}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=Emphasize_Factor, Path=Value}"
@@ -3349,14 +3349,14 @@
 
                                 <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="GrayOpeningRect_Enable" Grid.Column=" 1"
                                           Content="使用"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.GrayOpeningRect_Enable}"
+                                          IsChecked="{Binding Find_Shape_Model.GrayOpeningRect_Enable}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 2"
                                           Content="显示"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.GrayOpeningRect_Disp}"
+                                          IsChecked="{Binding Find_Shape_Model.GrayOpeningRect_Disp}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
@@ -3393,7 +3393,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency=" 2"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.GrayOpeningRect_MaskWidth}" />
+                                        Value="{Binding Find_Shape_Model.GrayOpeningRect_MaskWidth}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=GrayOpeningRect_MaskWidth, Path=Value}"
@@ -3431,7 +3431,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency="2"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.GrayOpeningRect_MaskHeight}" />
+                                        Value="{Binding Find_Shape_Model.GrayOpeningRect_MaskHeight}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=GrayOpeningRect_MaskHeight, Path=Value}"
@@ -3464,14 +3464,14 @@
 
                                 <CheckBox Style="{DynamicResource Button_List_Style}" x:Name="GrayClosingRect_Enable" Grid.Column=" 1"
                                           Content="使用"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.GrayClosingRect_Enable}"
+                                          IsChecked="{Binding Find_Shape_Model.GrayClosingRect_Enable}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                 <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Column=" 2"
                                           Content="显示"
-                                          IsChecked="{Binding Halcon_Find_Shape_ModelXld_UI.GrayClosingRect_Disp}"
+                                          IsChecked="{Binding Find_Shape_Model.GrayClosingRect_Disp}"
                                           HorizontalAlignment="Center"
                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                           FontSize="16"
@@ -3508,7 +3508,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency=" 2"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.GrayClosingRect_MaskWidth}" />
+                                        Value="{Binding Find_Shape_Model.GrayClosingRect_MaskWidth}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=GrayClosingRect_MaskWidth, Path=Value}"
@@ -3546,7 +3546,7 @@
                                         Minimum="3"
                                         SmallChange="2"
                                         TickFrequency="2"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.GrayClosingRect_MaskHeight}" />
+                                        Value="{Binding Find_Shape_Model.GrayClosingRect_MaskHeight}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding ElementName=GrayClosingRect_MaskHeight, Path=Value}"
@@ -3589,7 +3589,7 @@
                                         Minimum=" -360"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.AngleStart}" />
+                                        Value="{Binding Find_Shape_Model.AngleStart}" />
 
 
 
@@ -3627,7 +3627,7 @@
                                         Minimum=" 0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.AngleExtent}" />
+                                        Value="{Binding Find_Shape_Model.AngleExtent}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Find_AngleExtent}"
@@ -3689,7 +3689,7 @@
                                         Minimum=" 0.5"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleRMin}" />
+                                        Value="{Binding Find_Shape_Model.ScaleRMin}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Find_ScaleRMin}"
@@ -3735,7 +3735,7 @@
                                         Minimum="1.0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleRMax}" />
+                                        Value="{Binding Find_Shape_Model.ScaleRMax}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Find_ScaleRMax}"
@@ -3781,7 +3781,7 @@
                                         Minimum=" 0.5"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleCMin}" />
+                                        Value="{Binding Find_Shape_Model.ScaleCMin}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Find_ScaleCMin}"
@@ -3827,7 +3827,7 @@
                                         Minimum="1.0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.01"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.ScaleCMax}" />
+                                        Value="{Binding Find_Shape_Model.ScaleCMax}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Find_ScaleCMax}"
@@ -3882,7 +3882,7 @@
                                         Minimum=" 0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.MinScore}" />
+                                        Value="{Binding Find_Shape_Model.MinScore}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Find_MinScore}"
@@ -3918,7 +3918,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency=" 1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.NumMatches}" />
+                                        Value="{Binding Find_Shape_Model.NumMatches}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Find_NumMatches}"
@@ -3954,7 +3954,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.MaxOverlap}" />
+                                        Value="{Binding Find_Shape_Model.MaxOverlap}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Find_MaxOverlap}"
@@ -3992,7 +3992,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.01"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.NumLevels}" />
+                                        Value="{Binding Find_Shape_Model.NumLevels}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Find_NumLevels}"
@@ -4050,7 +4050,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.Greediness}" />
+                                        Value="{Binding Find_Shape_Model.Greediness}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Find_Greediness}"
@@ -4111,7 +4111,7 @@
                                           BorderThickness="2"
                                           IsDropDownOpen="False"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.SubPixel, ConverterParameter={x:Type Halcon_Enum:Subpixel_Values_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
+                                          SelectedIndex="{Binding Find_Shape_Model.SubPixel, ConverterParameter={x:Type Halcon_Enum:Subpixel_Values_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="none"
@@ -4208,7 +4208,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.Angle_change_restriction}" />
+                                        Value="{Binding Find_Shape_Model.Angle_change_restriction}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Angle_change_restriction}"
@@ -4256,7 +4256,7 @@
                                         Minimum="0"
                                         SmallChange="0.1"
                                         TickFrequency=" 0.1"
-                                        Value="{Binding Halcon_Find_Shape_ModelXld_UI.Aniso_scale_change_restriction}" />
+                                        Value="{Binding Find_Shape_Model.Aniso_scale_change_restriction}" />
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                          Text="{Binding Value, ElementName=Aniso_scale_change_restriction}"
@@ -4290,7 +4290,7 @@
 
 
                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Find_Model_ID" Grid.Column=" 3"
-                                         Text="{Binding Halcon_Find_Shape_ModelXld_UI.FInd_ID}"
+                                         Text="{Binding Find_Shape_Model.FInd_ID}"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
                                          Background="Transparent"
@@ -4321,7 +4321,7 @@
                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                           BorderThickness="2"
                                           IsSynchronizedWithCurrentItem="True"
-                                          SelectedIndex="{Binding Halcon_Find_Shape_ModelXld_UI.ShapeModel_Name, ConverterParameter={x:Type Halcon_Enum:ShapeModel_Name_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
+                                          SelectedIndex="{Binding Find_Shape_Model.ShapeModel_Name, ConverterParameter={x:Type Halcon_Enum:ShapeModel_Name_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                     <ComboBoxItem>
 
                                         <TextBlock Text="F_45"
