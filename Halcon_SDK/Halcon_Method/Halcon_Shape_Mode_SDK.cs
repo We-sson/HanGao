@@ -112,7 +112,59 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+        public void Find_Shape_Model_Results(HImage _image)
+        {
 
+            //初始化匹配类型
+            HShapeModel _ShapeModel = new HShapeModel();
+            HDeformableModel _DeformableModel = new HDeformableModel();
+            HNCCModel _NccModel = new HNCCModel();
+
+
+            Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID);
+
+            _Model.ThrowIfNull(Find_Shape_Model.FInd_ID+"号模型，无法在模型库中找到！");
+
+            Find_Shape_Model.Shape_Based_Model.Throw(Find_Shape_Model.FInd_ID + "号模型，与模型库中的"+ _Model.Shape_Model+"").IfNotEquals(_Model.Shape_Model);
+
+
+            switch (Find_Shape_Model.Shape_Based_Model)
+            {
+                case Shape_Based_Model_Enum.shape_model:
+
+
+                    break;
+                case Shape_Based_Model_Enum.planar_deformable_model:
+
+
+                    break;
+                case Shape_Based_Model_Enum.local_deformable_model:
+
+
+                    break;
+                case Shape_Based_Model_Enum.Scale_model:
+
+
+                    break;
+                case Shape_Based_Model_Enum.Aniso_Model:
+
+
+
+                    break;
+                case Shape_Based_Model_Enum.Ncc_Model:
+
+
+                    break;
+
+
+            }
+
+
+
+
+
+
+        }
 
 
         /// <summary>
@@ -305,7 +357,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-
+        /// <summary>
+        /// 获得匹配模型区域
+        /// </summary>
+        /// <param name="_Shape_Model"></param>
+        /// <param name="_ShapeHandl"></param>
+        /// <returns></returns>
         public HObject Get_Shape_Model_Image(Shape_Based_Model_Enum _Shape_Model, HTuple _ShapeHandl)
         {
             HObject _Image = new HObject();
@@ -339,6 +396,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
+
+        /// <summary>
+        /// 显示匹配模型对象
+        /// </summary>
+        /// <param name="_HObject_Type"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public HObject Show_Shape_Model_HObject(Shape_HObject_Type_Enum _HObject_Type)
         {
             HObject _HObject = new HObject();
@@ -391,6 +455,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
+
+        /// <summary>
+        /// 获得本地匹配模型文件对象
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<Shape_Mode_File_Model> Get_ShapeModel()
         {
 
@@ -427,6 +497,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
+        /// <summary>
+        /// 保存匹配模型文件
+        /// </summary>
+        /// <param name="_Shape_Handle_List"></param>
+        /// <param name="_Shape_XLD_Handle_List"></param>
         public void Save_ShapeModel(List<HTuple> _Shape_Handle_List, List<HXLDCont> _Shape_XLD_Handle_List)
         {
 
@@ -459,7 +534,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         }
 
-
+        /// <summary>
+        /// 获得匹配模型文件字典
+        /// </summary>
+        /// <param name="_Shape_File"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private Shape_Mode_File_Model Get_Shape_HDict(FileInfo _Shape_File)
         {
 
@@ -518,6 +598,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
+        /// <summary>
+        /// 设置匹配模型文件字典
+        /// </summary>
+        /// <param name="_Shape_File"></param>
+        /// <param name="_Save_Path"></param>
+        /// <returns></returns>
         private HDict Set_Shape_HDict(Shape_Mode_File_Model _Shape_File, string _Save_Path)
         {
 
@@ -566,6 +652,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
+        /// <summary>
+        /// 获得匹配文件文件夹的名称
+        /// </summary>
+        /// <returns></returns>
         private List<FileInfo> Get_ShapeModel_Path()
         {
             List<FileInfo> _PathList = new List<FileInfo>();
@@ -613,7 +703,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         }
 
-
+        /// <summary>
+        /// 进行图像相机校正
+        /// </summary>
+        /// <param name="_Image"></param>
+        /// <param name="_Camera_Paramteters"></param>
+        /// <param name="HandEye_ToolinCamera"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public HImage ImageRectified(HImage _Image, Halcon_Camera_Calibration_Parameters_Model _Camera_Paramteters, Point_Model HandEye_ToolinCamera)
         {
             //check data
@@ -948,7 +1045,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         var bb = ALL_Models_XLD;
 
                         var aa = ALL_Models_XLD = ALL_Models_XLD.AffineTransContourXld(_Tran);
-                       
+
 
                         //保存模型
                         Save_ShapeModel(new List<HTuple>() { _NccModel }, new List<HXLDCont>() { ALL_Models_XLD });
@@ -986,6 +1083,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             }
         }
+
+
 
         public void Dispose()
         {

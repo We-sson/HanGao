@@ -879,40 +879,40 @@ namespace HanGao.ViewModel
             });
         }
 
-        /// <summary>
-        /// 模型文件读取显示方法
-        /// </summary>
-        public ICommand ShapeModel_File_Show_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
-                ComboBox E = Sm.Source as ComboBox;
-                Halcon_Method_Model _Haclon = new Halcon_Method_Model();
-                if ((FileInfo)E.SelectedValue is FileInfo _Shape)
-                {
-                    string[] _ShapeName = _Shape.Name.Split('_');
-                    //FileInfo _File = new FileInfo(_Shape.File_Directory);
-                    //List<Match_Models_List_Model> _MID = Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.ncm).ToList();
-                    //List<Match_Models_List_Model> _MContent = Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.dxf).ToList();
-                    var a = Halcon_SDK.Match_Models_List.Where(_M => _M.Match_File.Name == _Shape.Name).FirstOrDefault().Match_File;
-                    //读取模型文件
-                    if (Display_Status(
-                        _Haclon.ShapeModel_ReadFile(Halcon_SDK.Match_Models_List.Where(_M => _M.Match_File.Name == _Shape.Name).FirstOrDefault().Match_File)).GetResult())
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
-                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Region: _Haclon.Shape_ModelContours);
-                        });
-                        //Features_Window.HWindow.ClearWindow();
-                        //Features_Window.HWindow.DispObj(_Haclon.Shape_ModelContours);
-                    }
+        ///// <summary>
+        ///// 模型文件读取显示方法
+        ///// </summary>
+        //public ICommand ShapeModel_File_Show_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
+        //        ComboBox E = Sm.Source as ComboBox;
+        //        Halcon_Method_Model _Haclon = new Halcon_Method_Model();
+        //        if ((FileInfo)E.SelectedValue is FileInfo _Shape)
+        //        {
+        //            string[] _ShapeName = _Shape.Name.Split('_');
+        //            //FileInfo _File = new FileInfo(_Shape.File_Directory);
+        //            //List<Match_Models_List_Model> _MID = Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.ncm).ToList();
+        //            //List<Match_Models_List_Model> _MContent = Match_Models_List.Where(_X => _X.Match_ID == _ID && _X.Match_Model == _Model_Enum && _X.Match_Area == _Name && _X.File_Type == Match_FileName_Type_Enum.dxf).ToList();
+        //            var a = Halcon_SDK.Match_Models_List.Where(_M => _M.Match_File.Name == _Shape.Name).FirstOrDefault().Match_File;
+        //            //读取模型文件
+        //            if (Display_Status(
+        //                _Haclon.ShapeModel_ReadFile(Halcon_SDK.Match_Models_List.Where(_M => _M.Match_File.Name == _Shape.Name).FirstOrDefault().Match_File)).GetResult())
+        //            {
+        //                Application.Current.Dispatcher.Invoke(() =>
+        //                {
+        //                    Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+        //                    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Region: _Haclon.Shape_ModelContours);
+        //                });
+        //                //Features_Window.HWindow.ClearWindow();
+        //                //Features_Window.HWindow.DispObj(_Haclon.Shape_ModelContours);
+        //            }
 
-                    //清楚内存
-                    _Haclon.Dispose();
-                }
-            });
-        }
+        //            //清楚内存
+        //            _Haclon.Dispose();
+        //        }
+        //    });
+        //}
 
         /// <summary>
         /// 图片加载
@@ -938,28 +938,28 @@ namespace HanGao.ViewModel
             });
         }
 
-        /// <summary>
-        /// 模板存储位置选择
-        /// </summary>
-        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
-        public ICommand ShapeModel_Location_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
-                Button Window_UserContol = Sm.Source as Button;
-                var FolderDialog = new VistaFolderBrowserDialog
-                {
-                    Description = "选择模板文件存放位置.",
-                    UseDescriptionForTitle = true, // This applies to the Vista style dialog only, not the old dialog.
-                    SelectedPath = Directory.GetCurrentDirectory() + "\\ShapeModel",
-                    ShowNewFolderButton = true,
-                };
-                if ((bool)FolderDialog.ShowDialog())
-                {
-                    ShapeModel_Location = FolderDialog.SelectedPath;
-                }
-            });
-        }
+        ///// <summary>
+        ///// 模板存储位置选择
+        ///// </summary>
+        //[System.Runtime.Versioning.SupportedOSPlatform("windows")]
+        //public ICommand ShapeModel_Location_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
+        //        Button Window_UserContol = Sm.Source as Button;
+        //        var FolderDialog = new VistaFolderBrowserDialog
+        //        {
+        //            Description = "选择模板文件存放位置.",
+        //            UseDescriptionForTitle = true, // This applies to the Vista style dialog only, not the old dialog.
+        //            SelectedPath = Directory.GetCurrentDirectory() + "\\ShapeModel",
+        //            ShowNewFolderButton = true,
+        //        };
+        //        if ((bool)FolderDialog.ShowDialog())
+        //        {
+        //            ShapeModel_Location = FolderDialog.SelectedPath;
+        //        }
+        //    });
+        //}
 
         /// <summary>
         /// 模板存储位置选择
