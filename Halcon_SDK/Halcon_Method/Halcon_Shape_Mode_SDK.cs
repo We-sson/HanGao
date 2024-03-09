@@ -1110,7 +1110,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                        //var dd= ALL_Models_XLD.AreaCenterPointsXld(out double  _row, out double  _column);
                         
-                        _Tran.VectorAngleToRigid(-Model_2D_Origin.X, -Model_2D_Origin.Y, 0, Model_2D_Origin.X, Model_2D_Origin.Y, 0);
+                        _Tran.VectorAngleToRigid(0, 0, 0, Model_2D_Origin.X, Model_2D_Origin.Y, 0);
                         var aa = ALL_Models_XLD = ALL_Models_XLD.AffineTransContourXld(_Tran);
 
 
