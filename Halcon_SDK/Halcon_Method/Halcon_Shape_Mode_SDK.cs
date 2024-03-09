@@ -112,20 +112,26 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public void Find_Shape_Model_Results(HImage _image)
+        public Find_Shape_Results_Model Find_Shape_Model_Results(HImage _image)
         {
 
             //初始化匹配类型
             HShapeModel _ShapeModel = new HShapeModel();
             HDeformableModel _DeformableModel = new HDeformableModel();
-            HNCCModel _NccModel = new HNCCModel();
+            //HNCCModel _NccModel = new HNCCModel();
+            Find_Shape_Results_Model _Results = new Find_Shape_Results_Model();
 
+            HHomMat2D _HomMat3D = new HHomMat2D();
 
             Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID);
 
-            _Model.ThrowIfNull(Find_Shape_Model.FInd_ID+"号模型，无法在模型库中找到！");
+            _Model.ThrowIfNull(Find_Shape_Model.FInd_ID + "号模型，无法在模型库中找到！");
 
-            Find_Shape_Model.Shape_Based_Model.Throw(Find_Shape_Model.FInd_ID + "号模型，与模型库中的"+ _Model.Shape_Model+"").IfNotEquals(_Model.Shape_Model);
+            Find_Shape_Model.Shape_Based_Model.Throw(@Find_Shape_Model.FInd_ID + "号模型，与模型库中的" + _Model.Shape_Model + "模型类型不一致，无法进行匹配！").IfNotEquals(_Model.Shape_Model);
+
+
+            //进行图像校正后识别
+            _image = _image.MapImage(_Model.Shape_Image_Rectified);
 
 
             switch (Find_Shape_Model.Shape_Based_Model)
@@ -154,6 +160,62 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 case Shape_Based_Model_Enum.Ncc_Model:
 
 
+                    HTuple _row = new HTuple();
+                    HTuple _column = new HTuple();
+                    HTuple _angle = new HTuple();
+                    HTuple _score = new HTuple();
+                    HHomMat2D _HomMat2D = new HHomMat2D();
+                    List<HNCCModel> _NccModel = new List<HNCCModel>(); ;
+
+                    for (int i = 0; i < _Model.Shape_Handle_List.Count; i++)
+                    {
+
+
+                        HNCCModel _ncc = new HNCCModel(_Model.Shape_Handle_List[i].H);
+                        HXLDCont _Xld = new HXLDCont();
+                        HRegion _Ncc_Region = new HRegion();
+                        HXLDCont _Ncc_Xld = new HXLDCont();
+
+                        _ncc.FindNccModel(
+                        _image,
+                        Find_Shape_Model.AngleStart,
+                        Find_Shape_Model.AngleExtent,
+                        Find_Shape_Model.MinScore,
+                        Find_Shape_Model.NumMatches,
+                        Find_Shape_Model.MaxOverlap,
+                        new HTuple(Find_Shape_Model.NCC_SubPixel.ToString().ToLower()),
+                        Find_Shape_Model.NumLevels,
+                        out _row,
+                        out _column,
+                        out _angle,
+                        out _score);
+
+                        if (_score > 0)
+                        {
+
+                            _HomMat2D.VectorAngleToRigid(0, 0, 0, _row, _column, _angle);
+
+
+                            _Xld = _Model.Shape_XLD_Handle_List[i];
+                            _Xld = _Model.Shape_XLD_Handle_List[i].AffineTransContourXld(_HomMat2D);
+
+                            _Results.Results_HomMat2D_List.Add(_HomMat2D);
+                            _Results.Results_HXLD_List.Add(_Xld);
+
+                            _Ncc_Region = _ncc.GetNccModelRegion();
+                            _Ncc_Xld = _Ncc_Region.GenContourRegionXld("border_holes");
+
+                            _Ncc_Xld = _Ncc_Xld.AffineTransContourXld(_HomMat2D);
+                        }
+                    }
+                    _Results.Image_Rectified = _image;
+
+
+
+
+
+
+
                     break;
 
 
@@ -163,7 +225,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-
+            return _Results;
         }
 
 
@@ -563,7 +625,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _Shape_Mode_File_Model.Shape_Model = Enum.Parse<Shape_Based_Model_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Model)));
                 _Shape_Mode_File_Model.Shape_Area = Enum.Parse<ShapeModel_Name_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Area)));
                 _Shape_Mode_File_Model.Shape_Image_Rectified = new HImage(_ModelHDict.GetDictObject(nameof(_Shape_Mode_File_Model.Shape_Image_Rectified)));
-
+                _Shape_Mode_File_Model.Creation_Date = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Creation_Date));
 
                 //读取模型集合
                 HTuple _HShape_Handle_List = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Handle_List));
@@ -617,7 +679,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model), _Shape_File.Shape_Model.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Area), _Shape_File.Shape_Area.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Craft), _Shape_File.Shape_Craft.ToString());
-            _ModelHDict.SetDictTuple(nameof(_Shape_File.Creation_Date), _Shape_File.Creation_Date);
+            _ModelHDict.SetDictTuple(nameof(_Shape_File.Creation_Date), DateTime.Now.ToString("F"));
 
             //添加匹配模型集合中
             foreach (var _handle in _Shape_File.Shape_Handle_List)
@@ -1040,10 +1102,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         //jiang
                         HHomMat2D _Tran = new HHomMat2D();
-                        _Tran = _Tran.HomMat2dTranslate(-Model_2D_Origin.X, -Model_2D_Origin.Y);
+
+
+                        //_Tran = _Tran.HomMat2dTranslate(-Model_2D_Origin.X, -Model_2D_Origin.Y);
 
                         var bb = ALL_Models_XLD;
 
+                       //var dd= ALL_Models_XLD.AreaCenterPointsXld(out double  _row, out double  _column);
+                        
+                        _Tran.VectorAngleToRigid(-Model_2D_Origin.X, -Model_2D_Origin.Y, 0, Model_2D_Origin.X, Model_2D_Origin.Y, 0);
                         var aa = ALL_Models_XLD = ALL_Models_XLD.AffineTransContourXld(_Tran);
 
 

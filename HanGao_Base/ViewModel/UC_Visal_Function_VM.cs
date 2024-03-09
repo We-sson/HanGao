@@ -1284,12 +1284,25 @@ namespace HanGao.ViewModel
                     //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                     //查找模型    Vision_Auto_Cofig.Find_TimeOut_Millisecond
-                    _Find_Result = Find_Model_Method(Halcon_Shape_Mode.Find_Shape_Model, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Shape_Mode.Find_Shape_Model.FInd_ID);
+
+                    _Find_Result= Halcon_Shape_Mode.Find_Shape_Model_Results((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        //显示图像
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Find_Result.Image_Rectified,_XLD: _Find_Result.Results_HXLD_List[0]);
+
+                    });
+
+
+                    //_Find_Result = Find_Model_Method(Halcon_Shape_Mode.Find_Shape_Model, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Shape_Mode.Find_Shape_Model.FInd_ID);
+
                     //设置结果显示页面
-                    Messenger.Send<Find_Shape_Results_Model, string>(_Find_Result, nameof(Meg_Value_Eunm.Find_Shape_Out));
+                    //Messenger.Send<Find_Shape_Results_Model, string>(_Find_Result, nameof(Meg_Value_Eunm.Find_Shape_Out));
 
                     //}
-                    _Image.Dispose();
+                    //_Image.Dispose();
                 });
             });
         }

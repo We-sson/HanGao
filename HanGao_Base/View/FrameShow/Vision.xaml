@@ -5429,7 +5429,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="true">
+                                      IsExpanded="False">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                                         <Border.Style>
@@ -7212,7 +7212,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7259,7 +7259,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7305,7 +7305,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7351,7 +7351,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7401,7 +7401,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7517,6 +7517,9 @@
                                                      FontSize="18" />
                                         </Grid>
 
+
+
+
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -7553,22 +7556,106 @@
                                                      FontSize="18" />
                                         </Grid>
 
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Ncc_Model}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 85" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 100" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="亚像素精度"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 2"
+                                                          IsChecked="{Binding Halcon_Shape_Mode.Find_Shape_Model.NCC_SubPixel}"
+                                                          Margin="0,0,0,0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Stretch"
+                                                          BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                                          BorderThickness="2">
+
+
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="开"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="关"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+                                                </Grid>
+
+
+
+                                                <!--<i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Server_End_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>-->
+
+
+
+
+                                            </ToggleButton>
+
+
+
+
+                                        </Grid>
+
+
+
                                         <Grid Height="35" Margin="8">
                                             <Grid.Style>
                                                 <Style TargetType="{x:Type Grid}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="0">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="3">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Scale_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7620,16 +7707,16 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="0">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="1">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="3">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Scale_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7677,7 +7764,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7724,7 +7811,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=Text_ShapeModel_UI}" Value="2">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>

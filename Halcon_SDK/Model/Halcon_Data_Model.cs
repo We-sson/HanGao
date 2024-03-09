@@ -105,6 +105,15 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public class Find_Shape_Results_Model
         {
+
+
+            public List<HHomMat2D> Results_HomMat2D_List { set; get; } = new List<HHomMat2D>();
+
+            public List<HXLDCont> Results_HXLD_List { set; get; } = new List<HXLDCont>();
+
+
+            public HImage Image_Rectified { set; get; } = new HImage();
+
             /// <summary>
             /// 模型实例的行坐标
             /// </summary>
@@ -376,6 +385,8 @@ namespace Halcon_SDK_DLL.Model
             /// 亚像素精度（如果不等于）“无”.默认值： “least_squares”
             /// </summary>
             public Subpixel_Values_Enum SubPixel { set; get; } = Subpixel_Values_Enum.least_squares;
+
+            public bool NCC_SubPixel { set; get; } = true;
 
             /// <summary>
             /// 最大容许角度畸变 可以限制,作为默认值已设置3.14159/2，为 0，则根本不允许失真。
@@ -1915,7 +1926,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 模型创建日期
         /// </summary>
-        public string Creation_Date { set; get; } = DateTime.Now.ToString("F");
+        public string Creation_Date { set; get; } 
 
 
 
