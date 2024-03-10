@@ -799,7 +799,7 @@ namespace HanGao.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
 
-                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Hobject);
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: _Hobject);
 
                     });
 

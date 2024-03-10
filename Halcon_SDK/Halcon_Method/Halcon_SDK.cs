@@ -4,6 +4,7 @@ using HalconDotNet;
 using PropertyChanged;
 using System.Drawing;
 using System.IO;
+using System.Windows;
 using System.Windows.Media.Media3D;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -15,6 +16,8 @@ namespace Halcon_SDK_DLL
     {
         public Halcon_SDK()
         {
+
+            
         }
 
         /// <summary>
@@ -866,6 +869,7 @@ namespace Halcon_SDK_DLL
                 case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Live_Window):
                     //初始化halcon图像属性
                     Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Live_Window. HWindow.SetWindowParam("background_color", "#334C66");
                     break;
 
                 case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window):

@@ -165,7 +165,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     HTuple _angle = new HTuple();
                     HTuple _score = new HTuple();
                     HHomMat2D _HomMat2D = new HHomMat2D();
-                    List<HNCCModel> _NccModel = new List<HNCCModel>(); ;
+                    List<HNCCModel> _NccModel = new List<HNCCModel>(); 
 
                     for (int i = 0; i < _Model.Shape_Handle_List.Count; i++)
                     {
@@ -206,6 +206,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             _Ncc_Xld = _Ncc_Region.GenContourRegionXld("border_holes");
 
                             _Ncc_Xld = _Ncc_Xld.AffineTransContourXld(_HomMat2D);
+
+
                         }
                     }
                     _Results.Image_Rectified = _image;
@@ -1098,7 +1100,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                 Create_Shape_ModelXld.Metric.ToString());
 
 
-                        _NccModel.SetNccModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
+
+                        //计算区域中心，设置模型中心点
+                        Dilation_Region.AreaCenter(out double  _row,out double _col);
+                        _NccModel.SetNccModelOrigin(Model_2D_Origin.X- _row, Model_2D_Origin.Y- _col);
 
                         //jiang
                         HHomMat2D _Tran = new HHomMat2D();
@@ -1109,8 +1114,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         var bb = ALL_Models_XLD;
 
                        //var dd= ALL_Models_XLD.AreaCenterPointsXld(out double  _row, out double  _column);
-                        
-                        _Tran.VectorAngleToRigid(0, 0, 0, Model_2D_Origin.X, Model_2D_Origin.Y, 0);
+                        ///xld模型偏移
+                        _Tran.VectorAngleToRigid(Model_2D_Origin.X, Model_2D_Origin.Y, 0,0,0, 0);
                         var aa = ALL_Models_XLD = ALL_Models_XLD.AffineTransContourXld(_Tran);
 
 
