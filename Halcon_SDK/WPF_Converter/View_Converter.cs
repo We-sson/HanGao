@@ -22,7 +22,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
         {
             if (value is string @String)
             {
-                if (@String == "auto")
+                if (@String.ToLower() == "auto")
                 {
                     return (double)0;
                 }

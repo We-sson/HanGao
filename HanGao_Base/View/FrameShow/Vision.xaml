@@ -4422,10 +4422,10 @@
                                                      BorderThickness="2"
                                                      FontSize="18">
                                                 <TextBox.Style>
-                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
-                                                        <Setter Property="Text" Value="{Binding Value, ElementName=NumLeves}" />
+                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                                        <Setter Property="Text" Value="{Binding Value, ElementName=NumLeves, StringFormat={}{0:N0}}" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Value, ElementName=NumLeves}" Value="0">
+                                                            <DataTrigger Binding="{Binding ElementName=NumLeves, Path=Value}" Value="0">
                                                                 <Setter Property="Text" Value="Auto" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
@@ -4460,7 +4460,7 @@
                                                     Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.AngleStart}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=AngleStart}"
+                                                     Text="{Binding Value, ElementName=AngleStart, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -4495,7 +4495,7 @@
                                                     Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.AngleExtent}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=AngleExtent}"
+                                                     Text="{Binding Value, ElementName=AngleExtent, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -4539,7 +4539,7 @@
                                                      FontSize="18">
                                                 <TextBox.Style>
                                                     <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
-                                                        <Setter Property="Text" Value="{Binding Value, ElementName=AngleStep}" />
+                                                        <Setter Property="Text" Value="{Binding Value, ElementName=AngleStep, StringFormat={}{0:F1}}" />
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Value, ElementName=AngleStep}" Value="0">
                                                                 <Setter Property="Text" Value="Auto" />
@@ -4593,7 +4593,7 @@
                                                     Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleRMin}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=ScaleRMin}"
+                                                     Text="{Binding Value, ElementName=ScaleRMin, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -4650,7 +4650,7 @@
                                                      FontSize="18">
                                                 <TextBox.Style>
                                                     <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
-                                                        <Setter Property="Text" Value="{Binding Value, ElementName=ScaleRStep}" />
+                                                        <Setter Property="Text" Value="{Binding Value, ElementName=ScaleRStep, StringFormat={}{0:F1}}" />
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Value, ElementName=ScaleRStep}" Value="0">
                                                                 <Setter Property="Text" Value="Auto" />
@@ -4698,7 +4698,7 @@
                                                     Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleCMin}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=ScaleCMin}"
+                                                     Text="{Binding Value, ElementName=ScaleCMin, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -4745,7 +4745,7 @@
                                                     Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleMin}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=ScaleMin}"
+                                                     Text="{Binding Value, ElementName=ScaleMin, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -4792,7 +4792,7 @@
                                                     Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ScaleMax}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=ScaleMax}"
+                                                     Text="{Binding Value, ElementName=ScaleMax, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -4848,7 +4848,7 @@
                                                      FontSize="18">
                                                 <TextBox.Style>
                                                     <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
-                                                        <Setter Property="Text" Value="{Binding Value, ElementName=ScaleCStep}" />
+                                                        <Setter Property="Text" Value="{Binding Value, ElementName=ScaleCStep, StringFormat={}{0:F1}}" />
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Value, ElementName=ScaleCStep}" Value="0">
                                                                 <Setter Property="Text" Value="Auto" />
@@ -4905,7 +4905,7 @@
                                                      FontSize="18">
                                                 <TextBox.Style>
                                                     <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
-                                                        <Setter Property="Text" Value="{Binding Value, ElementName=ScaleStep}" />
+                                                        <Setter Property="Text" Value="{Binding Value, ElementName=ScaleStep, StringFormat={}{0:F1}}" />
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Value, ElementName=ScaleStep}" Value="0">
                                                                 <Setter Property="Text" Value="Auto" />
@@ -4979,7 +4979,7 @@
                                                     Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.MinContrast}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=MinContrast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Text="{Binding Value, ElementName=MinContrast, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5429,7 +5429,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="False">
+                                      IsExpanded="True">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                                         <Border.Style>
@@ -5577,6 +5577,16 @@
 
                                         <Grid Height="35" Margin="8,0,8,0">
 
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition Width="90" />
@@ -5609,7 +5619,15 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8,0,8,0">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition Width="90" />
@@ -5637,7 +5655,15 @@
 
 
                                         <Grid Height="35" Margin="8,0,8,0">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition Width="90" />
@@ -5664,7 +5690,15 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8,0,8,0">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition Width="90" />
@@ -5691,7 +5725,15 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8,0,8,4">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition Width="90" />
@@ -5734,7 +5776,15 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8,4,8,4">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
@@ -5808,7 +5858,15 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8,4,8,4">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
@@ -7471,7 +7529,7 @@
                                                     Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.NumMatches}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=Find_NumMatches}"
+                                                     Text="{Binding Value, ElementName=Find_NumMatches, StringFormat={}{0:N0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -7506,7 +7564,7 @@
                                                     TickFrequency=" 0.1"
                                                     Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.MaxOverlap}" />
 
-                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                            <TextBox Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_MaxOverlap, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
@@ -7545,15 +7603,25 @@
                                                     TickFrequency=" 1"
                                                     Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.NumLevels}" />
 
-                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=Find_NumLevels}"
+                                            <TextBox Grid.Column=" 2"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="18" />
+                                                     FontSize="18">
+                                                <TextBox.Style>
+                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                                        <Setter Property="Text" Value="{Binding Value, ElementName=Find_NumLevels, StringFormat={}{0:N0}}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ElementName=Find_NumLevels, Path=Value}" Value="0">
+                                                                <Setter Property="Text" Value="Auto" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
                                         </Grid>
 
                                         <Grid Height=" 35" Margin="8">

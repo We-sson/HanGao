@@ -791,15 +791,13 @@ namespace HanGao.ViewModel
 
                 try
                 {
-                    HObject _Hobject = new HObject();
+                    HObject _Hobject = new HObject(Halcon_Shape_Mode.Show_Shape_Model_HObject((Shape_HObject_Type_Enum)E.Tag));
 
-
-                    _Hobject =  Halcon_Shape_Mode.Show_Shape_Model_HObject((Shape_HObject_Type_Enum)E.Tag);
                     //显示校正图像
                     Application.Current.Dispatcher.Invoke(() =>
                     {
 
-                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: _Hobject);
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Region: _Hobject);
 
                     });
 

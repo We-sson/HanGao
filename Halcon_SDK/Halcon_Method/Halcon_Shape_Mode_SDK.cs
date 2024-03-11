@@ -864,6 +864,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
             HDeformableModel _DeformableModel = new HDeformableModel();
             HNCCModel _NccModel = new HNCCModel();
 
+            Match_Model_Craft_Type.Throw("请选择创建模型的工艺！").IfEquals(Match_Model_Craft_Type_Enum.请选择模型工艺);
+
+
+            ALL_Models_XLD.CountObj().Throw("请检查创建模型工艺部位状态！").IfNotEquals(Drawing_Data_List.Count);
+    
+
+
+
+
+
 
             try
             {
@@ -1056,6 +1066,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         Polygon_Xld.GenEmptyObj();
 
+
+
+
+
+
+
                         //每个xld转换多边形类型
                         for (int X = 0; X < ALL_Models_XLD.CountObj(); X++)
                         {
@@ -1105,15 +1121,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         Dilation_Region.AreaCenter(out double  _row,out double _col);
                         _NccModel.SetNccModelOrigin(Model_2D_Origin.X- _row, Model_2D_Origin.Y- _col);
 
-                        //jiang
+           
                         HHomMat2D _Tran = new HHomMat2D();
-
-
-                        //_Tran = _Tran.HomMat2dTranslate(-Model_2D_Origin.X, -Model_2D_Origin.Y);
-
                         var bb = ALL_Models_XLD;
-
-                       //var dd= ALL_Models_XLD.AreaCenterPointsXld(out double  _row, out double  _column);
                         ///xld模型偏移
                         _Tran.VectorAngleToRigid(Model_2D_Origin.X, Model_2D_Origin.Y, 0,0,0, 0);
                         var aa = ALL_Models_XLD = ALL_Models_XLD.AffineTransContourXld(_Tran);
@@ -1121,15 +1131,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         //保存模型
                         Save_ShapeModel(new List<HTuple>() { _NccModel }, new List<HXLDCont>() { ALL_Models_XLD });
-
-
-
-
-
-
-
-
-
 
                         break;
                 }

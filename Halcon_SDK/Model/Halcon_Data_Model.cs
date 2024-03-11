@@ -227,7 +227,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
             /// </summary>
-            public double AngleStep { set; get; } = 0.01;
+            public string  AngleStep { set; get; } = "0.01";
 
             /// <summary>
             /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
@@ -374,7 +374,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
             /// </summary>
-            public int NumLevels { set; get; } = 3;
+            public string NumLevels { set; get; } = "auto";
 
             /// <summary>
             /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
