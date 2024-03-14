@@ -106,28 +106,35 @@ namespace Halcon_SDK_DLL.Model
         public class Find_Shape_Results_Model
         {
 
-
+            /// <summary>
+            /// 匹配结果2d矩阵列表
+            /// </summary>
             public List<HHomMat2D> Results_HomMat2D_List { set; get; } = new List<HHomMat2D>();
 
+
+            /// <summary>
+            /// 匹配结果xld显示列表
+            /// </summary>
             public List<HXLDCont> Results_HXLD_List { set; get; } = new List<HXLDCont>();
 
 
-            public HImage Image_Rectified { set; get; } = new HImage();
+            public HObject HXLD_Results_All { set; get; } = new HObject();
+            //public HImage Image_Rectified { set; get; } = new HImage();
 
-            /// <summary>
-            /// 模型实例的行坐标
-            /// </summary>
-            public List<double> Row { set; get; } = new List<double>();
+            ///// <summary>
+            ///// 模型实例的行坐标
+            ///// </summary>
+            //public List<double> Row { set; get; } = new List<double>();
 
-            /// <summary>
-            /// 模型实例的列坐标
-            /// </summary>
-            public List<double> Column { set; get; } = new List<double>();
+            ///// <summary>
+            ///// 模型实例的列坐标
+            ///// </summary>
+            //public List<double> Column { set; get; } = new List<double>();
 
-            /// <summary>
-            /// 模型实例的旋转角度
-            /// </summary>
-            public List<double> Angle { set; get; } = new List<double>();
+            ///// <summary>
+            ///// 模型实例的旋转角度
+            ///// </summary>
+            //public List<double> Angle { set; get; } = new List<double>();
 
             /// <summary>
             /// 模型和找到的实例相似值
@@ -374,7 +381,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
             /// </summary>
-            public string NumLevels { set; get; } = "auto";
+            public int  NumLevels { set; get; } = 5;
 
             /// <summary>
             /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
@@ -1915,8 +1922,10 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public HImage Shape_Image_Rectified { set; get; } = new HImage();
 
-
-
+        /// <summary>
+        /// 匹配模型平面位置
+        /// </summary>
+        public HPose Shape_Model_Plane_Pos { set; get; } = new HPose();
 
         /// <summary>
         /// 模型ID号

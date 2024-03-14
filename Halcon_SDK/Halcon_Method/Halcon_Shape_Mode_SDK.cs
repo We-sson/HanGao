@@ -123,6 +123,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             HHomMat2D _HomMat3D = new HHomMat2D();
 
+
+            _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized()); 
+
+
             Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID);
 
             _Model.ThrowIfNull(Find_Shape_Model.FInd_ID + "号模型，无法在模型库中找到！");
@@ -130,8 +134,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
             Find_Shape_Model.Shape_Based_Model.Throw(@Find_Shape_Model.FInd_ID + "号模型，与模型库中的" + _Model.Shape_Model + "模型类型不一致，无法进行匹配！").IfNotEquals(_Model.Shape_Model);
 
 
+
             //进行图像校正后识别
-            _image = _image.MapImage(_Model.Shape_Image_Rectified);
+            //_image = _image.MapImage(_Model.Shape_Image_Rectified);
 
 
             switch (Find_Shape_Model.Shape_Based_Model)
@@ -165,7 +170,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     HTuple _angle = new HTuple();
                     HTuple _score = new HTuple();
                     HHomMat2D _HomMat2D = new HHomMat2D();
-                    List<HNCCModel> _NccModel = new List<HNCCModel>(); 
+                    List<HNCCModel> _NccModel = new List<HNCCModel>();
+                    _Results.FInd_Results = new List<bool>();
+
 
                     for (int i = 0; i < _Model.Shape_Handle_List.Count; i++)
                     {
@@ -183,8 +190,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         Find_Shape_Model.MinScore,
                         Find_Shape_Model.NumMatches,
                         Find_Shape_Model.MaxOverlap,
-                        new HTuple(Find_Shape_Model.NCC_SubPixel.ToString().ToLower()),
-                        Find_Shape_Model.NumLevels,
+                        Find_Shape_Model.NCC_SubPixel.ToString().ToLower(),
+                         Find_Shape_Model.NumLevels,
                         out _row,
                         out _column,
                         out _angle,
@@ -195,22 +202,32 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                             _HomMat2D.VectorAngleToRigid(0, 0, 0, _row, _column, _angle);
 
-
-                            _Xld = _Model.Shape_XLD_Handle_List[i];
+                         
+                                  _Xld = _Model.Shape_XLD_Handle_List[i];
                             _Xld = _Model.Shape_XLD_Handle_List[i].AffineTransContourXld(_HomMat2D);
 
-                            _Results.Results_HomMat2D_List.Add(_HomMat2D);
-                            _Results.Results_HXLD_List.Add(_Xld);
 
                             _Ncc_Region = _ncc.GetNccModelRegion();
                             _Ncc_Xld = _Ncc_Region.GenContourRegionXld("border_holes");
-
                             _Ncc_Xld = _Ncc_Xld.AffineTransContourXld(_HomMat2D);
 
 
+                            //识别成功保存结果
+                            _Results.Results_HomMat2D_List.Add(_HomMat2D);
+                            _Results.Results_HXLD_List.Add(_Xld);
+                            _Results.FInd_Results.Add(true);
+                            _Results.Score.Add(_score);
+                        }
+                        else
+                        {
+                            //失败存储结果
+                            _Results.Results_HomMat2D_List.Add(_HomMat2D);
+                            _Results.Results_HXLD_List.Add(_Xld);
+                            _Results.FInd_Results.Add(false);
+                            _Results.Score.Add(_score);
                         }
                     }
-                    _Results.Image_Rectified = _image;
+                    //_Results.Image_Rectified = _image;
 
 
 
@@ -224,11 +241,59 @@ namespace Halcon_SDK_DLL.Halcon_Method
             }
 
 
+            switch (Match_Model_Craft_Type)
+            {
+                case Match_Model_Craft_Type_Enum.请选择模型工艺:
+
+
+                    throw new Exception("请选择需要解析模型工艺！");
+
+
+                    
+                case Match_Model_Craft_Type_Enum.焊接盆胆R角:
+
+                    if (_Results.FInd_Results.Where(_=>_==false).ToList().Count==0)
+                    {
+
+
+
+
+
+
+
+                    }
+
+
+
+                    break;
+                case Match_Model_Craft_Type_Enum.焊接面板围边:
+                    break;
+
+            }
+
+
 
 
 
             return _Results;
         }
+
+
+
+       public void Shape_Model_Crafe_Processing(Find_Shape_Results_Model _Results)
+        {
+
+           
+
+   
+
+
+
+
+
+
+        }
+
 
 
         /// <summary>
@@ -592,7 +657,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Shape_XLD_Handle_List = _Shape_XLD_Handle_List,
                 Shape_Image_Rectified = Image_Rectified,
                 Shape_Model = Create_Shape_ModelXld.Shape_Based_Model,
-
+                Shape_Model_Plane_Pos= Model_Plane_Pos.HPose,
             }, _Model_Location);
 
 
@@ -681,6 +746,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model), _Shape_File.Shape_Model.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Area), _Shape_File.Shape_Area.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Craft), _Shape_File.Shape_Craft.ToString());
+            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model_Plane_Pos), _Shape_File.Shape_Model_Plane_Pos);
+
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Creation_Date), DateTime.Now.ToString("F"));
 
             //添加匹配模型集合中
@@ -767,6 +834,28 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         }
 
+
+
+
+        public HImage Set_ImageRectified(HImage _image)
+        {
+
+            HImage _ResultImage = new HImage();
+            _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized()); 
+            Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID);
+            _Model.ThrowIfNull(Find_Shape_Model.FInd_ID + "号模型，无法在模型库中找到！");
+
+            //进行图像校正后识别
+            _ResultImage = _image.MapImage(_Model.Shape_Image_Rectified);
+
+            return _ResultImage;
+        }
+
+
+
+
+
+
         /// <summary>
         /// 进行图像相机校正
         /// </summary>
@@ -775,11 +864,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <param name="HandEye_ToolinCamera"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public HImage ImageRectified(HImage _Image, Halcon_Camera_Calibration_Parameters_Model _Camera_Paramteters, Point_Model HandEye_ToolinCamera)
+        public HImage Get_ImageRectified(HImage _Image, Halcon_Camera_Calibration_Parameters_Model _Camera_Paramteters, Point_Model HandEye_ToolinCamera)
         {
             //check data
-            if (Model_Camera_Pos == new Point_Model()) { throw new Exception("创建模型的相机位置未设定数据，请手动或者机器人通讯获取！"); }
-            if (Model_Plane_Pos == new Point_Model()) { throw new Exception("创建模型三维位置未设定数据，请手动或者机器人通讯获取！"); }
+            Model_Camera_Pos.Throw("创建模型的相机位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model());
+            Model_Plane_Pos.Throw("创建模型三维位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model());
+            _Image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized()); ;
+
 
             //转换平面在相机的坐标,创建平面Z方向远离相机
             Point_Model BaseInToolPose = new Point_Model(Model_Camera_Pos.HPose.PoseInvert());
@@ -834,7 +925,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
             int _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
 
             //计算校正图像
-
             Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
             _Image = _Image.MapImage(Image_Rectified);
@@ -864,11 +954,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
             HDeformableModel _DeformableModel = new HDeformableModel();
             HNCCModel _NccModel = new HNCCModel();
 
+            _Image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized()); ;
+
             Match_Model_Craft_Type.Throw("请选择创建模型的工艺！").IfEquals(Match_Model_Craft_Type_Enum.请选择模型工艺);
 
 
             ALL_Models_XLD.CountObj().Throw("请检查创建模型工艺部位状态！").IfNotEquals(Drawing_Data_List.Count);
-    
+
 
 
 
@@ -1118,14 +1210,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                         //计算区域中心，设置模型中心点
-                        Dilation_Region.AreaCenter(out double  _row,out double _col);
-                        _NccModel.SetNccModelOrigin(Model_2D_Origin.X- _row, Model_2D_Origin.Y- _col);
+                        Dilation_Region.AreaCenter(out double _row, out double _col);
+                        _NccModel.SetNccModelOrigin(Model_2D_Origin.X - _row, Model_2D_Origin.Y - _col);
 
-           
+
                         HHomMat2D _Tran = new HHomMat2D();
                         var bb = ALL_Models_XLD;
                         ///xld模型偏移
-                        _Tran.VectorAngleToRigid(Model_2D_Origin.X, Model_2D_Origin.Y, 0,0,0, 0);
+                        _Tran.VectorAngleToRigid(Model_2D_Origin.X, Model_2D_Origin.Y, 0, 0, 0, 0);
                         var aa = ALL_Models_XLD = ALL_Models_XLD.AffineTransContourXld(_Tran);
 
 

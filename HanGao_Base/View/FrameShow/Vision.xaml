@@ -5369,7 +5369,7 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
 
-                                                <TextBlock Text="图像校正"
+                                                <TextBlock Text="创建校正"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -7925,7 +7925,7 @@
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="查找ID号"
+                                            <TextBlock Text="模型ID号"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -7985,7 +7985,7 @@
 
                                                 <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="识别数据:"
+                                            <TextBlock Text="识别功能"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -7995,7 +7995,7 @@
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
                                                     Margin="4,0,4,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                                <TextBlock Text="图像预处理"
+                                                <TextBlock Text="图像校正"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -8003,7 +8003,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Image_Pre_Processing_Comm}" PassEventArgsToCommand="True" />
+                                                        <i:InvokeCommandAction Command="{Binding Set_Image_Rectified_Comm}" PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                             </Button>

@@ -973,6 +973,7 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
 
+                    Create_Shape_ModelXld_UI_IsEnable = true ;
 
                     //图像预处理
                     //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Find_Shape_Model);
@@ -1019,7 +1020,7 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 模板存储位置选择
+        /// 图像校正
         /// </summary>
         public ICommand Image_Rectify_Comm
         {
@@ -1037,14 +1038,11 @@ namespace HanGao.ViewModel
                     {
                         HImage _Image = new HImage();
 
-                        //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                     
+                      
+                      
 
-                        if (Halcon_Window_Display.Features_Window.DisplayImage == null)
-                        {
-                            throw new Exception("特征窗口无图像请采集图像到窗口！");
-                        }
-
-                        _Image = Halcon_Shape_Mode.ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+                        _Image = Halcon_Shape_Mode.Get_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
                         Application.Current.Dispatcher.Invoke(() =>
                             {
@@ -1053,7 +1051,7 @@ namespace HanGao.ViewModel
 
                             });
 
-                        User_Log_Add("图像校准成功.", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                        User_Log_Add("创建图像校准成功.", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
                     }
                     catch (Exception e)
@@ -1260,6 +1258,40 @@ namespace HanGao.ViewModel
         //    return _Window;
         //}
 
+
+
+
+
+
+        /// <summary>
+        /// 图像从模型中校正
+        /// </summary>
+        public ICommand Set_Image_Rectified_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+                HImage _Image = new HImage();
+         
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        Halcon_Window_Display.Features_Window.DisplayImage = Halcon_Shape_Mode.Set_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+                    }
+                    catch (Exception e)
+                    {
+
+                        User_Log_Add("模型查找失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                    }
+                });
+            });
+        }
+
+
+
+
         /// <summary>
         /// 测试匹配模型方法
         /// </summary>
@@ -1271,28 +1303,33 @@ namespace HanGao.ViewModel
                 HImage _Image = new HImage();
                 Find_Shape_Results_Model _Find_Result = new Find_Shape_Results_Model
                 {
-                    DispWiindow = Halcon_Window_Display.Features_Window.HWindow
+                    //DispWiindow = Halcon_Window_Display.Features_Window.HWindow
                 };
                 Task.Run(() =>
                 {
-                    ////读取模型文件
-                    //if (Display_Status(Shape_ModelXld_ReadALLFile(ref _Halcon_List, Find_Shape_Model.Shape_Based_Model, Find_Shape_Model.ShapeModel_Name, Find_Shape_Model.FInd_ID)).GetResult())
-                    //{
-                    //读取图片
-                    //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+         
 
-                    //查找模型    Vision_Auto_Cofig.Find_TimeOut_Millisecond
+                    try
+                    {
 
-                    _Find_Result= Halcon_Shape_Mode.Find_Shape_Model_Results((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+
+                    _Find_Result = Halcon_Shape_Mode.Find_Shape_Model_Results((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
 
 
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         //显示图像
-                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Find_Result.Image_Rectified,_XLD: _Find_Result.Results_HXLD_List[0]);
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window,_XLD: _Find_Result.HXLD_Results_All);
 
                     });
 
+                    }
+                    catch (Exception e)
+                    {
+
+                        User_Log_Add("模型查找失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                    }
 
                     //_Find_Result = Find_Model_Method(Halcon_Shape_Mode.Find_Shape_Model, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Shape_Mode.Find_Shape_Model.FInd_ID);
 
@@ -1308,29 +1345,42 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 测试匹配模型方法
         /// </summary>
-        public ICommand Image_Pre_Processing_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
-                //Button Window_UserContol = Sm.Source as Button;
-                //Task.Run(() =>
-                //{
-                HImage _Image = new HImage();
-                Halcon_Method_Model _Halcon = new Halcon_Method_Model();
-                //读取图片
-                _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+        //public ICommand Image_Pre_Processing_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
+        //        //Button Window_UserContol = Sm.Source as Button;
+        //        //Task.Run(() =>
+        //        //{
+        //        HImage _Image = new HImage();
+        //        Halcon_Method_Model _Halcon = new Halcon_Method_Model();
+        //        //读取图片
 
-                _Halcon._HImage = new HObject(_Image);
-                //图像预处理
-                //_Halcon.Halcon_Image_Pre_Processing(Find_Shape_Model);
+        //        try
+        //        {
 
-                //_Image.Dispose();
-                //_Halcon.Dispose();
-                //GC.Collect();
-                //});
-                //await Task.Delay(50);
-            });
-        }
+
+        //        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+
+        //        _Halcon._HImage = new HObject(_Image);
+        //        //图像预处理
+        //        //_Halcon.Halcon_Image_Pre_Processing(Find_Shape_Model);
+
+        //        }
+        //        catch (Exception e)
+        //        {
+
+        //        User_Log_Add("错误！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+        //        }
+
+        //        //_Image.Dispose();
+        //        //_Halcon.Dispose();
+        //        //GC.Collect();
+        //        //});
+        //        //await Task.Delay(50);
+        //    });
+        //}
 
         public delegate bool AsyncMethCaller(Action _Action, int _TimeOut);
 
