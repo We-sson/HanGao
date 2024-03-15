@@ -803,7 +803,7 @@
                                         <Style TargetType="Border">
                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Results2_Window_Result.FInd_Results}" Value="false">
+                                                <DataTrigger Binding="{Binding Find_Results2_Window_Result.Find_Score}" Value="0">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -5723,7 +5723,40 @@
 
 
                                         </Grid>
+                                        <Grid Height="35" Margin="8,0,8,0">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
 
+                                            <TextBlock Grid.Column=" 1"
+                                                       Text="校正系数："
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <TextBlock Grid.Column=" 2"
+                                                       Text="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Creation_Date}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                        </Grid>
                                         <Grid Height="35" Margin="8,0,8,4">
                                             <Grid.Style>
                                                 <Style TargetType="Grid">
