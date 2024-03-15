@@ -778,8 +778,12 @@ namespace HanGao.ViewModel
 
 
 
+
+
+
+
         /// <summary>
-        /// 连接相机命令
+        /// 查看模型信息方法
         /// </summary>
         public ICommand Show_Shape_Model_Handle_Comm
         {
@@ -844,7 +848,7 @@ namespace HanGao.ViewModel
         }
 
         /// <summary>
-        /// 发送用户选择参数
+        /// 显示选择模型的平面位置
         /// </summary>
         public ICommand Shape_File_Select_Comm
         {
@@ -853,19 +857,12 @@ namespace HanGao.ViewModel
                 ListBox E = Sm.Source as ListBox;
                 try
                 {
+                    if (Halcon_Shape_Mode.Selected_Shape_Model!=null)
+                    {
 
+                    Halcon_Shape_Mode.Model_Plane_Pos = new Point_Model(Halcon_Shape_Mode.Selected_Shape_Model.Shape_Model_Plane_Pos);
+                    }
 
-
-
-                    //if ((Shape_File_UI_Model)E.SelectedValue is Shape_File_UI_Model _Shape_Model)
-                    //{
-                    //    ////清空集合
-                    //    //Shape_FileFull_UI.Clear();
-                    //    ////将同一模型序号提取
-                    //    //Shape_FileFull_UI = new ObservableCollection<FileInfo>(Halcon_SDK.Match_Models_List
-                    //    //                                                                                          .Where(_M => _M.Match_ID == _Shape_Model.File_ID)
-                    //    //                                                                                          .Select(_M => _M.Match_File).ToList());
-                    //}
                 }
                 catch (Exception e)
                 {
@@ -973,6 +970,12 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
 
+
+
+                    try
+                    {
+
+     
                     Create_Shape_ModelXld_UI_IsEnable = true ;
 
                     //图像预处理
@@ -1010,10 +1013,23 @@ namespace HanGao.ViewModel
                     //    User_Log_Add("创建区域：" + Halcon_Shape_Mode.Create_Shape_ModelXld.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Shape_Mode.Create_Shape_ModelXld.Create_ID.ToString() + "，创建模型特征成功！", Log_Show_Window_Enum.Home);
                     //}
 
-                    //解除操作
-                    Create_Shape_ModelXld_UI_IsEnable = false;
-                    //清楚使用内存
-                    _Halcon.Dispose();
+                
+
+
+                    }
+                    catch (Exception e)
+                    {
+
+                        User_Log_Add("模型创建失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                    }
+                    finally
+                    {
+                        //解除操作
+                        Create_Shape_ModelXld_UI_IsEnable = false;
+                        //清楚使用内存
+                        _Halcon.Dispose();
+                    }
                 });
             });
         }
@@ -1176,14 +1192,14 @@ namespace HanGao.ViewModel
                                 else
                                 {
                                     User_Log_Add("缺少模型文件,请重新添加或者删除多余文件！", Log_Show_Window_Enum.Home);
-                                    _Results.FInd_Results.Add(false);
+                                    //_Results.FInd_Results.Add(false);
                                     return _Results;
                                 }
                             }
                             //记录识别时间
                             _Results.Find_Time = (DateTime.Now - _Run).TotalSeconds;
                             //全部识别成功偏移模型位置并显示
-                            if (_Results.FInd_Results.Where(_W => _W == true).Count() == _Results.FInd_Results.Count)
+                            if (_Results.Find_Score.Where(_W => _W > 0).Count() == _Results.Find_Score.Count)
                             {
                                 for (int i = 0; i < _MID.Count; i++)
                                 {
@@ -1312,8 +1328,8 @@ namespace HanGao.ViewModel
                     try
                     {
 
-
-                    _Find_Result = Halcon_Shape_Mode.Find_Shape_Model_Results((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+                        
+                    _Find_Result = Halcon_Shape_Mode.Find_Shape_Model_Results((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters);
 
 
                     Application.Current.Dispatcher.Invoke(() =>

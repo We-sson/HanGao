@@ -119,6 +119,11 @@ namespace Halcon_SDK_DLL.Model
 
 
             public HObject HXLD_Results_All { set; get; } = new HObject();
+
+            /// <summary>
+            /// 匹配结果点
+            /// </summary>
+            public Point_Model Results_Pos { set; get; } = new Point_Model();
             //public HImage Image_Rectified { set; get; } = new HImage();
 
             ///// <summary>
@@ -139,7 +144,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模型和找到的实例相似值
             /// </summary>
-            public List<double> Score { set; get; } = new List<double>();
+            public List<double> Find_Score { set; get; } = new List<double>();
 
             /// <summary>
             /// 查找耗时
@@ -149,7 +154,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 查找模型结果
             /// </summary>
-            public List<bool> FInd_Results { set; get; } = new List<bool>();
+            //public List<bool> Find_Results { set; get; } = new List<bool>();
 
             /// <summary>
             /// 存储结果点
@@ -234,7 +239,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
             /// </summary>
-            public string  AngleStep { set; get; } = "0.01";
+            public double   AngleStep { set; get; } = 0.01;
 
             /// <summary>
             /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
@@ -1925,7 +1930,8 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 匹配模型平面位置
         /// </summary>
-        public HPose Shape_Model_Plane_Pos { set; get; } = new HPose();
+        public Point_Model Shape_Model_Plane_Pos { set; get; } = new Point_Model();
+
 
         /// <summary>
         /// 模型ID号
@@ -2459,7 +2465,8 @@ namespace Halcon_SDK_DLL.Model
     {
         Shape_Handle,
         Shape_XLD,
-        Shape_Image_Rectified
+        Shape_Image_Rectified,
+        shape_Model_PlanePos
     }
 
 

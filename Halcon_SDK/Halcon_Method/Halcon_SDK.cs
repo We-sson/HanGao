@@ -1971,21 +1971,21 @@ namespace Halcon_SDK_DLL
                         // 查找模型成功保存结果数据
                         if (hv_score.Length != 0)
                         {
-                            _Find_Out.Row.Add(hv_row.Clone());
-                            _Find_Out.Column.Add(hv_column.Clone());
-                            _Find_Out.Angle.Add(hv_angle.Clone());
-                            _Find_Out.Score.Add(hv_score.Clone());
+                            //_Find_Out.Row.Add(hv_row.Clone());
+                            //_Find_Out.Column.Add(hv_column.Clone());
+                            //_Find_Out.Angle.Add(hv_angle.Clone());
+                            //_Find_Out.Score.Add(hv_score.Clone());
                             HOperatorSet.VectorAngleToRigid(0, 0, 0, hv_row, hv_column, hv_angle, out hv_HomMat2D);
                             _Find_Out.HomMat2D.Add(hv_HomMat2D.Clone());
-                            _Find_Out.FInd_Results.Add(true);
+                            //_Find_Out.FInd_Results.Add(true);
                         }
                         else
                         {
-                            _Find_Out.Row.Add(0);
-                            _Find_Out.Column.Add(0);
-                            _Find_Out.Angle.Add(0);
-                            _Find_Out.Score.Add(0);
-                            _Find_Out.FInd_Results.Add(false);
+                            //_Find_Out.Row.Add(0);
+                            //_Find_Out.Column.Add(0);
+                            //_Find_Out.Angle.Add(0);
+                            //_Find_Out.Score.Add(0);
+                            //_Find_Out.FInd_Results.Add(false);
                         }
 
                         //}
@@ -2023,13 +2023,13 @@ namespace Halcon_SDK_DLL
                         if (hv_score.Length != 0)
                         {
                             _Find_Out.HomMat2D.Add(hv_HomMat2D.Clone());
-                            _Find_Out.Score.Add(hv_score.Clone());
-                            _Find_Out.FInd_Results.Add(true);
+                            //_Find_Out.Score.Add(hv_score.Clone());
+                            //_Find_Out.FInd_Results.Add(true);
                         }
                         else
                         {
-                            _Find_Out.Score.Add(0);
-                            _Find_Out.FInd_Results.Add(false);
+                            //_Find_Out.Score.Add(0);
+                            //_Find_Out.FInd_Results.Add(false);
                         }
 
                         break;
@@ -2084,22 +2084,22 @@ namespace Halcon_SDK_DLL
                         // 查找模型成功保存结果数据
                         if (hv_score.Length != 0)
                         {
-                            _Find_Out.FInd_Results.Add(true);
-                            _Find_Out.Row.Add(hv_row.Clone());
-                            _Find_Out.Column.Add(hv_column.Clone());
-                            _Find_Out.Angle.Add(hv_angle.Clone());
-                            _Find_Out.Score.Add(hv_score.Clone());
+                            //_Find_Out.FInd_Results.Add(true);
+                            //_Find_Out.Row.Add(hv_row.Clone());
+                            //_Find_Out.Column.Add(hv_column.Clone());
+                            //_Find_Out.Angle.Add(hv_angle.Clone());
+                            //_Find_Out.Score.Add(hv_score.Clone());
 
                             HOperatorSet.VectorAngleToRigid(0, 0, 0, hv_column, hv_row, hv_angle, out hv_HomMat2D);
                             _Find_Out.HomMat2D.Add(hv_HomMat2D.Clone());
                         }
                         else
                         {
-                            _Find_Out.FInd_Results.Add(false);
-                            _Find_Out.Row.Add(0);
-                            _Find_Out.Column.Add(0);
-                            _Find_Out.Angle.Add(0);
-                            _Find_Out.Score.Add(0);
+                            //_Find_Out.FInd_Results.Add(false);
+                            //_Find_Out.Row.Add(0);
+                            //_Find_Out.Column.Add(0);
+                            //_Find_Out.Angle.Add(0);
+                            //_Find_Out.Score.Add(0);
                         }
 
                         //}
@@ -2298,7 +2298,7 @@ namespace Halcon_SDK_DLL
                 //提取结果中的XLD特征
                 if (Get_Model_Match_XLD(ref _Line_1, ref _Cir_1, ref _Line_2, ref _Line_3, ref _Line_4, Matching_Model).GetResult())
                 {
-                    if (_Find_Shape_Results.FInd_Results.Where(_W => _W == true).Count() == _Find_Shape_Results.FInd_Results.Count)
+                    if (_Find_Shape_Results.Find_Score.Where(_W => _W > 0).Count() == _Find_Shape_Results.Find_Score.Count)
                     {
                         //提出XLD数据特征
                         HOperatorSet.GetContourXld(_Line_1, out Row_1, out Col_1);
@@ -2354,7 +2354,7 @@ namespace Halcon_SDK_DLL
                         hv_Text = hv_Text.TupleConcat("识别用时 : " + _Find_Shape_Results.Find_Time + "秒.");
 
                         //添加图像分析
-                        _Find_Shape_Results.Score.ForEach((_S) =>
+                        _Find_Shape_Results.Find_Score.ForEach((_S) =>
                         {
                             hv_Text = hv_Text.TupleConcat("图像分数 : " + Math.Round(_S, 3));
                         });

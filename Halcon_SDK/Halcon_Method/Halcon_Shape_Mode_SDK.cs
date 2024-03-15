@@ -112,7 +112,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public Find_Shape_Results_Model Find_Shape_Model_Results(HImage _image)
+        public Find_Shape_Results_Model Find_Shape_Model_Results(HImage _image, Halcon_Camera_Calibration_Parameters_Model? _camera_Param=null)
         {
 
             //初始化匹配类型
@@ -124,7 +124,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             HHomMat2D _HomMat3D = new HHomMat2D();
 
 
-            _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized()); 
+            _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized());
 
 
             Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID);
@@ -171,7 +171,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     HTuple _score = new HTuple();
                     HHomMat2D _HomMat2D = new HHomMat2D();
                     List<HNCCModel> _NccModel = new List<HNCCModel>();
-                    _Results.FInd_Results = new List<bool>();
+
 
 
                     for (int i = 0; i < _Model.Shape_Handle_List.Count; i++)
@@ -200,10 +200,23 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         if (_score > 0)
                         {
 
+                            if (_camera_Param != null && Model_Plane_Pos != new Point_Model())
+                            {
+                                HHomMat3D _Resulye_Mat3D = new HHomMat3D();
+                                _camera_Param.HCamPar.ImagePointsToWorldPlane(Model_Plane_Pos.HPose, _row, _column, "mm", out HTuple _x, out HTuple _y);
+
+                                _Resulye_Mat3D.HomMat3dIdentity();
+                                _Resulye_Mat3D.HomMat3dRotate(_angle, new HTuple ("z"), new HTuple (0), new HTuple(0), new HTuple(0));
+
+
+
+                            }
+
+
                             _HomMat2D.VectorAngleToRigid(0, 0, 0, _row, _column, _angle);
 
-                         
-                                  _Xld = _Model.Shape_XLD_Handle_List[i];
+                          
+                            _Xld = _Model.Shape_XLD_Handle_List[i];
                             _Xld = _Model.Shape_XLD_Handle_List[i].AffineTransContourXld(_HomMat2D);
 
 
@@ -215,16 +228,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             //识别成功保存结果
                             _Results.Results_HomMat2D_List.Add(_HomMat2D);
                             _Results.Results_HXLD_List.Add(_Xld);
-                            _Results.FInd_Results.Add(true);
-                            _Results.Score.Add(_score);
+
+                            _Results.Find_Score.Add(_score);
                         }
                         else
                         {
                             //失败存储结果
                             _Results.Results_HomMat2D_List.Add(_HomMat2D);
                             _Results.Results_HXLD_List.Add(_Xld);
-                            _Results.FInd_Results.Add(false);
-                            _Results.Score.Add(_score);
+
+                            _Results.Find_Score.Add(0);
                         }
                     }
                     //_Results.Image_Rectified = _image;
@@ -241,7 +254,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             }
 
 
-            switch (Match_Model_Craft_Type)
+            switch (_Model.Shape_Craft)
             {
                 case Match_Model_Craft_Type_Enum.请选择模型工艺:
 
@@ -249,14 +262,20 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     throw new Exception("请选择需要解析模型工艺！");
 
 
-                    
+
                 case Match_Model_Craft_Type_Enum.焊接盆胆R角:
 
-                    if (_Results.FInd_Results.Where(_=>_==false).ToList().Count==0)
+                    if (_Results.Find_Score.Where(_ => _ == 0).ToList().Count == 0)
                     {
 
+                        if (_camera_Param!=null && Model_Plane_Pos!=new Point_Model ())
+                        {
+
+                            //_camera_Param.HCamPar.ImagePointsToWorldPlane(Model_Plane_Pos,)
 
 
+                        }
+                        
 
 
 
@@ -280,12 +299,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-       public void Shape_Model_Crafe_Processing(Find_Shape_Results_Model _Results)
+        public void Shape_Model_Crafe_Processing(Find_Shape_Results_Model _Results)
         {
 
-           
 
-   
+
+
 
 
 
@@ -657,7 +676,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Shape_XLD_Handle_List = _Shape_XLD_Handle_List,
                 Shape_Image_Rectified = Image_Rectified,
                 Shape_Model = Create_Shape_ModelXld.Shape_Based_Model,
-                Shape_Model_Plane_Pos= Model_Plane_Pos.HPose,
+                Shape_Model_Plane_Pos = Model_Plane_Pos,
             }, _Model_Location);
 
 
@@ -693,7 +712,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _Shape_Mode_File_Model.Shape_Area = Enum.Parse<ShapeModel_Name_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Area)));
                 _Shape_Mode_File_Model.Shape_Image_Rectified = new HImage(_ModelHDict.GetDictObject(nameof(_Shape_Mode_File_Model.Shape_Image_Rectified)));
                 _Shape_Mode_File_Model.Creation_Date = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Creation_Date));
-
+                _Shape_Mode_File_Model.Shape_Model_Plane_Pos = new Point_Model(new HPose(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Model_Plane_Pos))));
                 //读取模型集合
                 HTuple _HShape_Handle_List = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Handle_List));
                 //添加到变量中
@@ -746,7 +765,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model), _Shape_File.Shape_Model.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Area), _Shape_File.Shape_Area.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Craft), _Shape_File.Shape_Craft.ToString());
-            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model_Plane_Pos), _Shape_File.Shape_Model_Plane_Pos);
+            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model_Plane_Pos), _Shape_File.Shape_Model_Plane_Pos.HPose);
 
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Creation_Date), DateTime.Now.ToString("F"));
 
@@ -841,7 +860,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
             HImage _ResultImage = new HImage();
-            _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized()); 
+            _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized());
             Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID);
             _Model.ThrowIfNull(Find_Shape_Model.FInd_ID + "号模型，无法在模型库中找到！");
 
@@ -1201,7 +1220,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         //创建NCC模板
                         _NccModel.CreateNccModel(
                                  ImageRegion,
-                                Create_Shape_ModelXld.NumLevels,
+                                new HTuple(Create_Shape_ModelXld.NumLevels),
                                 (new HTuple(Create_Shape_ModelXld.AngleStart)).TupleRad(),
                                 (new HTuple(Create_Shape_ModelXld.AngleExtent)).TupleRad(),
                                 (new HTuple(Create_Shape_ModelXld.AngleStep)).TupleRad(),

@@ -445,7 +445,7 @@
                                         <Style TargetType="Border">
                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Results1_Window_Result.FInd_Results}" Value="false">
+                                                <DataTrigger Binding="{Binding Find_Results1_Window_Result.Find_Score}" Value="0">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -470,7 +470,7 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Text" Value="结果 : PASS" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Find_Results1_Window_Result.FInd_Results}" Value="false">
+                                                    <DataTrigger Binding="{Binding Find_Results1_Window_Result.Find_Score}" Value="0">
                                                         <Setter Property="Text" Value="结果 : NG" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -564,7 +564,7 @@
                                         <Style TargetType="Border">
                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Results4_Window_Result.FInd_Results}" Value="false">
+                                                <DataTrigger Binding="{Binding Find_Results4_Window_Result.Find_Score}" Value="0">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -589,7 +589,7 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Text" Value="结果 : PASS" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Find_Results4_Window_Result.FInd_Results}" Value="false">
+                                                    <DataTrigger Binding="{Binding Find_Results4_Window_Result.Find_Score}" Value="0">
                                                         <Setter Property="Text" Value="结果 : NG" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -682,7 +682,7 @@
                                         <Style TargetType="Border">
                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Results3_Window_Result.FInd_Results}" Value="false">
+                                                <DataTrigger Binding="{Binding Find_Results3_Window_Result.Find_Score}" Value="0">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -707,7 +707,7 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Text" Value="结果 : PASS" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Find_Results3_Window_Result.FInd_Results}" Value="false">
+                                                    <DataTrigger Binding="{Binding Find_Results3_Window_Result.Find_Score}" Value="0">
                                                         <Setter Property="Text" Value="结果 : NG" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -828,7 +828,7 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Text" Value="结果 : PASS" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Find_Results2_Window_Result.FInd_Results}" Value="false">
+                                                    <DataTrigger Binding="{Binding Find_Results2_Window_Result.Find_Score}" Value="0">
                                                         <Setter Property="Text" Value="结果 : NG" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -1049,7 +1049,7 @@
                                         <Setter Property="Height" Value="25" />
                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Find_Features_Window_Result.Score}" Value="0">
+                                            <DataTrigger Binding="{Binding Find_Features_Window_Result.Find_Score}" Value="0">
                                                 <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=G0}" Value="true">
@@ -4539,7 +4539,7 @@
                                                      FontSize="18">
                                                 <TextBox.Style>
                                                     <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
-                                                        <Setter Property="Text" Value="{Binding Value, ElementName=AngleStep, StringFormat={}{0:F1}}" />
+                                                        <Setter Property="Text" Value="{Binding Value, ElementName=AngleStep, StringFormat={}{0:F2}}" />
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Value, ElementName=AngleStep}" Value="0">
                                                                 <Setter Property="Text" Value="Auto" />
@@ -5774,6 +5774,8 @@
 
 
                                         </Grid>
+
+
 
                                         <Grid Height="35" Margin="8,4,8,4">
                                             <Grid.Style>
