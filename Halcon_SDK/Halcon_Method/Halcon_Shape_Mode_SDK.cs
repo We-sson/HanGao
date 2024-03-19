@@ -2,6 +2,7 @@
 using HalconDotNet;
 using PropertyChanged;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using Throw;
@@ -716,6 +717,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _Shape_Mode_File_Model.Shape_Image_Rectified = new HImage(_ModelHDict.GetDictObject(nameof(_Shape_Mode_File_Model.Shape_Image_Rectified)));
                 _Shape_Mode_File_Model.Creation_Date = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Creation_Date));
                 _Shape_Mode_File_Model.Shape_Model_Plane_Pos = new Point_Model(new HPose(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Model_Plane_Pos))));
+                _Shape_Mode_File_Model.Shape_Image_Rectified_Ratio = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Image_Rectified_Ratio));
                 //读取模型集合
                 HTuple _HShape_Handle_List = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Handle_List));
                 //添加到变量中
@@ -951,6 +953,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             _Image = _Image.MapImage(Image_Rectified);
 
+            
+            Image_Rectified_Ratio =double.Parse(_ScaleRectification.D.ToString());
 
             return _Image;
 

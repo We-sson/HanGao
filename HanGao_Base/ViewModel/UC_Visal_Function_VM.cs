@@ -986,7 +986,7 @@ namespace HanGao.ViewModel
                     //_Halcon.Halcon_Image_Pre_Processing(Find_Shape_Model);
 
                     Halcon_Shape_Mode.ShapeModel_Create_Save((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose);
-
+             
 
                     //生成可视化三维模型
 
@@ -1112,14 +1112,14 @@ namespace HanGao.ViewModel
                                 Camera_Device_List.Select_Camera = null;
 
 
-                                User_Log_Add("切换在线相机模式,请选择相机！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                                User_Log_Add("切换在线相机模式,请选择相机！", Log_Show_Window_Enum.Home);
 
                                 break;
                             case Image_Diver_Model_Enum.Local:
                                 Camera_Device_List.Select_Camera = new MVS_Camera_Info_Model() { Camera_Info = new Get_Camera_Info_Model() { SerialNumber = "Local_Camera" } };
                                 Camera_Device_List.Select_Camera.Get_HCamPar_File();
 
-                                User_Log_Add("切换本地相机模式！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                                User_Log_Add("切换本地相机模式！", Log_Show_Window_Enum.Home);
 
                                 break;
                         }

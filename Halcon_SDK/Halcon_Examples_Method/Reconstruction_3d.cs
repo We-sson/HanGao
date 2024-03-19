@@ -2782,13 +2782,14 @@ public class Reconstruction_3d
 
             return;
         }
-        catch (HalconException HDevExpDefaultException)
+        catch (Exception e)
         {
 
             hv_Index.Dispose();
             hvec_Points.Dispose();
 
-            throw HDevExpDefaultException;
+            throw new Exception(e.Message);
+
         }
     }
 

@@ -30,13 +30,6 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Enum_Converter:ValueToObject_Converter x:Key="ValueToObject_Converter" />
         <Enum_Converter:Radio_CheckedToEnumConverter x:Key="Radio_CheckedToEnum" />
-        <!--<ObjectDataProvider x:Key="Image_Preprocessing_Process_Enum_Model"
-                            MethodName="GetNames"
-                            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Process_Enum:Image_Preprocessing_Process_Enum" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>-->
 
         <DataTemplate x:Key="Result_ListViewItemTemplate">
             <StackPanel Orientation="Horizontal">
@@ -5291,7 +5284,7 @@
 
                                             <TextBlock Grid.Column=" 1"
                                                        Text="{Binding Halcon_Shape_Mode.Image_Rectified_Ratio}"
-                                                       HorizontalAlignment="Left"
+                                                       HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize="16"
@@ -5312,26 +5305,15 @@
                                             <Button Grid.Column=" 1"
                                                     Margin="0,0,8,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}">
-                                                <Button.Style>
-                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="{x:Type Button}">
-                                                        <Setter Property="Content" Value="{StaticResource UI_Image_Rectify_T1}" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Create_Image_Rectified_UI_IsEnable}" Value="true">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                                <Setter Property="Content" Value="{StaticResource UI_Image_Rectify_T2}" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Button.Style>
                                                 <Button.Resources>
-                                                    <TextBlock x:Key="UI_Image_Rectify_T1"
+                                                    <TextBlock x:Key="Rectify_T1"
                                                                Text="创建校正"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                                FontSize="16"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                                    <TextBlock x:Key="UI_Image_Rectify_T2"
+                                                    <TextBlock x:Key="Rectify_T2"
                                                                Text="创建校正中......"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
@@ -5339,6 +5321,17 @@
                                                                FontSize="16"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 </Button.Resources>
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="{x:Type Button}">
+                                                        <Setter Property="Content" Value="{StaticResource Rectify_T1}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Create_Image_Rectified_UI_IsEnable}" Value="true">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                                <Setter Property="Content" Value="{StaticResource Rectify_T2}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
@@ -5348,12 +5341,7 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
 
-                                                <TextBlock Text="创建校正"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="16"
-                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
                                             </Button>
 
 
@@ -5408,7 +5396,7 @@
                                       Margin="0,0,0,10"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
-                                      IsExpanded="True">
+                                      IsExpanded="False">
                                 <Expander.Header>
                                     <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
                                         <Border.Style>
