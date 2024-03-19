@@ -64,6 +64,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public HImage Image_Rectified { set; get; } = new HImage();
 
+        public double Image_Rectified_Ratio { set; get; } = 0;
 
         /// <summary>
         /// 模型原地设置类型
@@ -677,6 +678,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Shape_Image_Rectified = Image_Rectified,
                 Shape_Model = Create_Shape_ModelXld.Shape_Based_Model,
                 Shape_Model_Plane_Pos = Model_Plane_Pos,
+                Shape_Image_Rectified_Ratio= Image_Rectified_Ratio,
+                
             }, _Model_Location);
 
 
@@ -766,8 +769,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Area), _Shape_File.Shape_Area.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Craft), _Shape_File.Shape_Craft.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model_Plane_Pos), _Shape_File.Shape_Model_Plane_Pos.HPose);
-
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Creation_Date), DateTime.Now.ToString("F"));
+            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Image_Rectified_Ratio), _Shape_File.Shape_Image_Rectified_Ratio);
 
             //添加匹配模型集合中
             foreach (var _handle in _Shape_File.Shape_Handle_List)
@@ -905,7 +908,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             HRegion RegionGrid = new HRegion();
 
             //创建图像布局平均点
-            RegionGrid.GenGridRegion(20, 20, "points", _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Height);
+            RegionGrid.GenGridRegion(5, 5, "points", _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Height);
 
             //获得区域点
             RegionGrid.GetRegionPoints(out HTuple _Rows, out HTuple _Colums);

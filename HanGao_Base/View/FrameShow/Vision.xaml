@@ -5045,55 +5045,6 @@
                                             </ComboBox>
                                         </Grid>
 
-                                        <!--<Grid Height="35" Margin="8">
-                                            <Grid.Style>
-                                                <Style TargetType="{x:Type Grid}">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedValue, ElementName=ShapeModel_UI}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Ncc_Model}">
-                                                            <Setter Property="Visibility" Value="Visible" />
-                                                        </DataTrigger>
-
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Grid.Style>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition />
-                                                <ColumnDefinition Width=" auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="膨胀幅度"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="DilationCircle" Grid.Column=" 1"
-                                                    Margin="5"
-                                                    VerticalAlignment="Center"
-                                                    HorizontalContentAlignment="Stretch"
-                                                    VerticalContentAlignment="Stretch"
-                                                    IsSnapToTickEnabled="True"
-                                                    Maximum="551.5"
-                                                    Minimum="0.5"
-                                                    TickFrequency=" 1"
-                                                    Value="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.DilationCircle}" />
-
-                                            <TextBox Grid.Column=" 2"
-                                                     Width=" 100"
-                                                     HorizontalContentAlignment="Center"
-                                                     VerticalContentAlignment="Center"
-                                                     Background="Transparent"
-                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                     BorderThickness="2"
-                                                     FontSize="18">
-                                                <TextBox.Style>
-                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="{x:Type TextBox}">
-                                                        <Setter Property="Text" Value="{Binding Value, ElementName=DilationCircle}" />
-                                                    </Style>
-                                                </TextBox.Style>
-                                            </TextBox>
-                                        </Grid>-->
 
                                         <Grid Height="35" Margin="8">
                                             <Grid.ColumnDefinitions>
@@ -5130,6 +5081,7 @@
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
                                         </Grid>
+
 
                                         <Grid Height="35"
                                               Margin="8"
@@ -5262,31 +5214,7 @@
                                             </ComboBox>
                                         </Grid>
 
-                                        <!--<Border Height=" 2"
-                                                Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_红颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />-->
 
-                                        <!--<Grid Margin="8">
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column=" 0"
-                                                       Text="保存位置"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                            <Openfile:UC_Open_File Grid.Column=" 1"
-                                                                   File_Filter="图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;"
-                                                                   File_Log="{Binding ShapeModel_Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                   File_Model="Folder" />
-                                        </Grid>-->
 
                                         <Grid Height="35" Margin="8">
 
@@ -5346,6 +5274,30 @@
                                             </ComboBox>
                                         </Grid>
 
+
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="校正系数"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <TextBlock Grid.Column=" 1"
+                                                       Text="{Binding Halcon_Shape_Mode.Image_Rectified_Ratio}"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                        </Grid>
+
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -5357,9 +5309,36 @@
 
 
 
-                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                            <Button Grid.Column=" 1"
                                                     Margin="0,0,8,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="{x:Type Button}">
+                                                        <Setter Property="Content" Value="{StaticResource UI_Image_Rectify_T1}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Create_Image_Rectified_UI_IsEnable}" Value="true">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                                <Setter Property="Content" Value="{StaticResource UI_Image_Rectify_T2}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <Button.Resources>
+                                                    <TextBlock x:Key="UI_Image_Rectify_T1"
+                                                               Text="创建校正"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="16"
+                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                    <TextBlock x:Key="UI_Image_Rectify_T2"
+                                                               Text="创建校正中......"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="16"
+                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                </Button.Resources>
                                                 <i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
@@ -5715,7 +5694,7 @@
 
                                             <TextBlock Grid.Column=" 2"
                                                        Text="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Creation_Date}"
-                                                       HorizontalAlignment="Center"
+                                                       HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize="14"
@@ -5748,8 +5727,8 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <TextBlock Grid.Column=" 2"
-                                                       Text="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Creation_Date}"
-                                                       HorizontalAlignment="Center"
+                                                       Text="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified_Ratio}"
+                                                       HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize="14"

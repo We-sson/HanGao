@@ -1927,6 +1927,12 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public HImage Shape_Image_Rectified { set; get; } = new HImage();
 
+
+        /// <summary>
+        /// 模型图像校正后世界坐标转换系数
+        /// </summary>
+        public double Shape_Image_Rectified_Ratio { set; get; } = 0;
+
         /// <summary>
         /// 匹配模型平面位置
         /// </summary>
@@ -1941,7 +1947,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 模型创建日期
         /// </summary>
-        public string Creation_Date { set; get; } 
+        public string Creation_Date { set; get; } =string.Empty;
 
 
 

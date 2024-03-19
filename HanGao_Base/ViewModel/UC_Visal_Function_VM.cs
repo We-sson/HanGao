@@ -708,7 +708,10 @@ namespace HanGao.ViewModel
         public bool Create_Shape_ModelXld_UI_IsEnable { set; get; } = false;
 
 
-
+        /// <summary>
+        /// 创建图像校正过程按钮
+        /// </summary>
+        public bool Create_Image_Rectified_UI_IsEnable { set; get; } = false;
 
 
 
@@ -1054,11 +1057,11 @@ namespace HanGao.ViewModel
                     {
                         HImage _Image = new HImage();
 
-                     
-                      
-                      
 
-                        _Image = Halcon_Shape_Mode.Get_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+
+                        Create_Image_Rectified_UI_IsEnable = true;
+
+                          _Image = Halcon_Shape_Mode.Get_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
                         Application.Current.Dispatcher.Invoke(() =>
                             {
@@ -1074,6 +1077,12 @@ namespace HanGao.ViewModel
                     {
 
                         User_Log_Add("图像校准失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                    }
+                    finally
+                    {
+                        ///释放UI控制
+                        Create_Image_Rectified_UI_IsEnable = false ;
 
                     }
                 });
@@ -1293,7 +1302,9 @@ namespace HanGao.ViewModel
                 {
                     try
                     {
+
                         Halcon_Window_Display.Features_Window.DisplayImage = Halcon_Shape_Mode.Set_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+
                     }
                     catch (Exception e)
                     {
