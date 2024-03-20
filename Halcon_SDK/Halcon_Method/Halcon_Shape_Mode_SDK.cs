@@ -128,6 +128,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized());
 
+           
 
             Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID);
 
@@ -202,8 +203,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         if (_score > 0)
                         {
 
-                            if (_camera_Param != null && Model_Plane_Pos != new Point_Model())
+                            if (_camera_Param != null && Model_Plane_Pos != new Point_Model() && Image_Rectified_Ratio!=0)
                             {
+
+
+
+
                                 HHomMat3D _Resulye_Mat3D = new HHomMat3D();
                                 _camera_Param.HCamPar.ImagePointsToWorldPlane(Model_Plane_Pos.HPose, _row, _column, "mm", out HTuple _x, out HTuple _y);
 

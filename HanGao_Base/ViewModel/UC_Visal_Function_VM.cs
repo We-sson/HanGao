@@ -409,15 +409,6 @@ namespace HanGao.ViewModel
             });
         }
 
-        ///// <summary>
-        ///// 相机参数值
-        ///// </summary>
-        //public MVS_Camera_Parameter_Model Camera_Parameter_Val { get; set; } = new MVS_Camera_Parameter_Model();
-
-        /// <summary>
-        /// 选择相机信息
-        /// </summary>
-        //public MVS_Camera_Info_Model Select_Camera { set; get; } = new MVS_Camera_Info_Model();
 
         private Vision_Xml_Models _Select_Vision_Value;
 
@@ -435,16 +426,6 @@ namespace HanGao.ViewModel
                 }
             }
         }
-
-        /// <summary>
-        /// 图像回调字段
-        /// </summary>
-        //private cbOutputExdelegate ImageCallback;
-
-        /// <summary>
-        /// 鼠标当前位置
-        /// </summary>
-
 
 
 
