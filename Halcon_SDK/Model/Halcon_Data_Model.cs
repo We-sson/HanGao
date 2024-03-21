@@ -126,20 +126,20 @@ namespace Halcon_SDK_DLL.Model
             public Point_Model Results_Pos { set; get; } = new Point_Model();
             //public HImage Image_Rectified { set; get; } = new HImage();
 
-            ///// <summary>
-            ///// 模型实例的行坐标
-            ///// </summary>
-            //public List<double> Row { set; get; } = new List<double>();
+            /// <summary>
+            /// 模型实例的行坐标 =Y
+            /// </summary>
+            public List<double> Find_Row { set; get; } = new List<double>();
 
-            ///// <summary>
-            ///// 模型实例的列坐标
-            ///// </summary>
-            //public List<double> Column { set; get; } = new List<double>();
+            /// <summary>
+            /// 模型实例的列坐标 =X
+            /// </summary>
+            public List<double> Find_Column { set; get; } = new List<double>();
 
-            ///// <summary>
-            ///// 模型实例的旋转角度
-            ///// </summary>
-            //public List<double> Angle { set; get; } = new List<double>();
+            /// <summary>
+            /// 模型实例的旋转角度
+            /// </summary>
+            public List<double> Find_Angle { set; get; } = new List<double>();
 
             /// <summary>
             /// 模型和找到的实例相似值
