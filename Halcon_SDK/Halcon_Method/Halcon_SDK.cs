@@ -956,79 +956,121 @@ namespace Halcon_SDK_DLL
                 case Window_Show_Name_Enum.Live_Window:
 
                     Live_Window.HWindow.ClearWindow();
-
+                    Live_Window.DisplayImage = new HObject();
+                    Live_Window.DisplayXLD = new HObject();
+                    Live_Window.DisplayRegion = new HObject();
+                    Live_Window.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.Features_Window:
                     Features_Window.HWindow.ClearWindow();
-
+                    Features_Window.DisplayImage = new HObject();
+                    Features_Window.DisplayXLD = new HObject();
+                    Features_Window.DisplayRegion = new HObject();
+                    Features_Window.Draw_XLD = new HObject();
+                
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_1:
                     Results_Window_1.HWindow.ClearWindow();
-
+                    Results_Window_1.DisplayImage = new HObject();
+                    Results_Window_1.DisplayXLD = new HObject();
+                    Results_Window_1.DisplayRegion = new HObject();
+                    Results_Window_1.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_2:
                     Results_Window_2.HWindow.ClearWindow();
-
+                    Results_Window_2.DisplayImage = new HObject();
+                    Results_Window_2.DisplayXLD = new HObject();
+                    Results_Window_2.DisplayRegion = new HObject();
+                    Results_Window_2.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_3:
                     Results_Window_3.HWindow.ClearWindow();
-
+                    Results_Window_3.DisplayImage = new HObject();
+                    Results_Window_3.DisplayXLD = new HObject();
+                    Results_Window_3.DisplayRegion = new HObject();
+                    Results_Window_3.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_4:
 
                     Results_Window_4.HWindow.ClearWindow();
-
+                    Results_Window_4.DisplayImage = new HObject();
+                    Results_Window_4.DisplayXLD = new HObject();
+                    Results_Window_4.DisplayRegion = new HObject();
+                    Results_Window_4.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.Calibration_Window_1:
                     Calibration_Window_1.HWindow.ClearWindow();
-
+                    Calibration_Window_1.DisplayImage = new HObject();
+                    Calibration_Window_1.DisplayXLD = new HObject();
+                    Calibration_Window_1.DisplayRegion = new HObject();
+                    Calibration_Window_1.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.Calibration_Window_2:
 
                     Calibration_Window_2.HWindow.ClearWindow();
-
+                    Calibration_Window_2.DisplayImage = new HObject();
+                    Calibration_Window_2.DisplayXLD = new HObject();
+                    Calibration_Window_2.DisplayRegion = new HObject();
+                    Calibration_Window_2.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.Calibration_3D_Results:
 
                     Calibration_3D_Results.HWindow.ClearWindow();
-
+                    Calibration_3D_Results.DisplayImage = new HObject();
+                    Calibration_3D_Results.DisplayXLD = new HObject();
+                    Calibration_3D_Results.DisplayRegion = new HObject();
+                    Calibration_3D_Results.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Window_1:
                     HandEye_Window_1.HWindow.ClearWindow();
-
+                    HandEye_Window_1.DisplayImage = new HObject();
+                    HandEye_Window_1.DisplayXLD = new HObject();
+                    HandEye_Window_1.DisplayRegion = new HObject();
+                    HandEye_Window_1.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Window_2:
                     HandEye_Window_2.HWindow.ClearWindow();
-
+                    HandEye_Window_2.DisplayImage = new HObject();
+                    HandEye_Window_2.DisplayXLD = new HObject();
+                    HandEye_Window_2.DisplayRegion = new HObject();
+                    HandEye_Window_2.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Results_Window_1:
                     HandEye_Results_Window_1.HWindow.ClearWindow();
-
+                    HandEye_Results_Window_1.DisplayImage = new HObject();
+                    HandEye_Results_Window_1.DisplayXLD = new HObject();
+                    HandEye_Results_Window_1.DisplayRegion = new HObject();
+                    HandEye_Results_Window_1.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Results_Window_2:
                     HandEye_Results_Window_2.HWindow.ClearWindow();
-
+                    HandEye_Results_Window_2.DisplayImage = new HObject();
+                    HandEye_Results_Window_2.DisplayXLD = new HObject();
+                    HandEye_Results_Window_2.DisplayRegion = new HObject();
+                    HandEye_Results_Window_2.Draw_XLD = new HObject();
                     break;
 
                 case Window_Show_Name_Enum.HandEye_3D_Results:
                     HandEye_3D_Results.HWindow.ClearWindow();
-
+                    HandEye_3D_Results.DisplayImage = new HObject();
+                    HandEye_3D_Results.DisplayXLD = new HObject();
+                    HandEye_3D_Results.DisplayRegion = new HObject();
+                    HandEye_3D_Results.Draw_XLD = new HObject();
                     break;
 
-                default:
-                    break;
+          
             }
         }
 

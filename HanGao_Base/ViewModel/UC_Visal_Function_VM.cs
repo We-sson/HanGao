@@ -1286,11 +1286,13 @@ namespace HanGao.ViewModel
 
                         Halcon_Window_Display.Features_Window.DisplayImage = Halcon_Shape_Mode.Set_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
 
+                        User_Log_Add("图像校正成功！", Log_Show_Window_Enum.Home);
+
                     }
                     catch (Exception e)
                     {
 
-                        User_Log_Add("模型查找失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                        User_Log_Add("模型图像校正失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                     }
                 });
@@ -1311,7 +1313,7 @@ namespace HanGao.ViewModel
                 HImage _Image = new HImage();
                 Find_Shape_Results_Model _Find_Result = new Find_Shape_Results_Model
                 {
-                    //DispWiindow = Halcon_Window_Display.Features_Window.HWindow
+                   
                 };
                 Task.Run(() =>
                 {
@@ -1319,8 +1321,8 @@ namespace HanGao.ViewModel
 
                     try
                     {
+                        Find_Text_Models_UI_IsEnable = false;
 
-                        
                     _Find_Result = Halcon_Shape_Mode.Find_Shape_Model_Results((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
 
@@ -1338,14 +1340,11 @@ namespace HanGao.ViewModel
                         User_Log_Add("模型查找失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                     }
+                    finally
+                    {
+                        Find_Text_Models_UI_IsEnable = true;
+                    }
 
-                    //_Find_Result = Find_Model_Method(Halcon_Shape_Mode.Find_Shape_Model, Halcon_Window_Display.Features_Window.HWindow, _Image, Vision_Auto_Cofig.Find_TimeOut_Millisecond, null, Halcon_Shape_Mode.Find_Shape_Model.FInd_ID);
-
-                    //设置结果显示页面
-                    //Messenger.Send<Find_Shape_Results_Model, string>(_Find_Result, nameof(Meg_Value_Eunm.Find_Shape_Out));
-
-                    //}
-                    //_Image.Dispose();
                 });
             });
         }
@@ -1864,6 +1863,8 @@ namespace HanGao.ViewModel
                     try
                     {
                         HImage _Image = new HImage();
+
+                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
 
                         _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
