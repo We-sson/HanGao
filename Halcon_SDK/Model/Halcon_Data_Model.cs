@@ -149,7 +149,9 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 查找耗时
             /// </summary>
-            public double Find_Time { set; get; } = 0;
+            public List<double> Find_Time { set; get; } =new List<double>();
+
+
 
             /// <summary>
             /// 查找模型结果
@@ -181,6 +183,35 @@ namespace Halcon_SDK_DLL.Model
             /// 显示结果界面
             /// </summary>
             public HWindow DispWiindow { set; get; } = new HWindow();
+
+
+
+
+            public List<string> Set_Results_Data_List()
+            {
+                List<string> _DataList = new List<string>();
+
+                Text_Arr_UI.Add(Results_Pos.ToString());
+
+                for (int i = 0; i < Results_HXLD_List.Count; i++)
+                {
+
+                    Text_Arr_UI.Add($"匹配模型—{i}号 | 像素坐标 X: {Find_Column[i]:F4}mm,Y: {Find_Row[i]:F4}mm, Angle: {Find_Angle[i]:F4}度, 相似度：{Find_Score[i]:F4}, 匹配耗时：{Find_Time[i]:F4}秒");
+
+
+                }
+
+
+
+                return _DataList;
+            }
+
+
+
+
+
+
+
         }
 
         public class Pos_List_Model
@@ -1277,6 +1308,11 @@ namespace Halcon_SDK_DLL.Model
         public Point_Model()
         {
 
+        }
+
+        public override string ToString()
+        {
+            return $"图像坐标 X: {X:F4}, Y: {Y:F4}, Z: {Z:F4}, Rx: {Rx:F4}, Ry: {Ry:F4}, Rz: {Rz:F4}, 类型: {HType}";
         }
 
         public Point_Model(Point_Model _Point)

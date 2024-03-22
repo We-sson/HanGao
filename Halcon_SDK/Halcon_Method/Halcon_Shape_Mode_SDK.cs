@@ -175,15 +175,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     List<HNCCModel> _NccModel = new List<HNCCModel>();
 
 
-
+                    ///查找匹配模型文件里模型
                     for (int i = 0; i < _Model.Shape_Handle_List.Count; i++)
                     {
-
-
+                        //计时
+                        DateTime _Run = DateTime.Now;
                         HNCCModel _ncc = new HNCCModel(_Model.Shape_Handle_List[i].H);
                         HRegion _Ncc_Region = new HRegion();
                         HXLDCont _Ncc_Xld = new HXLDCont();
-
 
                         _ncc.FindNccModel(
                         _image,
@@ -222,6 +221,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+                        ///记录时间
+                        _Results.Find_Time.Add((DateTime.Now - _Run).TotalSeconds);
+
+
+
                     }
 
 
@@ -230,7 +234,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-
+                    ///根据工艺分析匹配文件对应计算结果位置
                     switch (_Model.Shape_Craft)
                     {
                         case Match_Model_Craft_Type_Enum.请选择模型工艺:
@@ -240,7 +244,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         case Match_Model_Craft_Type_Enum.焊接盆胆R角:
 
-
+                            ///把匹配结果计算偏移特征
                             for (int i = 0; i < _Results.Find_Score.Count; i++)
                             {
 
@@ -252,7 +256,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                 if (_Results.Find_Score[i] > 0)
                                 {
 
-
+                                    ///偏移原点模型文件到匹配位置
                                     _results_HomMat2D.VectorAngleToRigid(0, 0, 0, _Results.Find_Row[i], _Results.Find_Column[i], _Results.Find_Angle[i]);
 
                                     ///偏移模型库模型
@@ -264,52 +268,46 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     _Results.Results_HomMat2D_List.Add(_results_HomMat2D);
                                     _Results.Results_HXLD_List.Add(_Xld);
 
-
-
-                                }
-
-
-                                ///全部特征识别成功后计算结果位置，非全部识别输出坐标0
-                                if (_Results.Find_Score.Where((_) => _ != 0).ToList().Count == 0)
-                                {
-
-                                    ///转换相机坐标，必须参数输入，否则输出图像像素坐标
-                                    if (_camera_Param != null && Model_Camera_Pos != new Point_Model() && Model_Plane_Pos != new Point_Model() && _Model.Shape_Image_Rectified_Ratio != 0 && _toolinCamera != null)
-                                    {
-                                        //*Col = x, Row = y.
-                                        //转换平面在相机的坐标,创建平面Z方向远离相机
-                                        Point_Model BaseInToolPose = new Point_Model(Model_Camera_Pos.HPose.PoseInvert());
-                                        Point_Model BaseInCamPose = new Point_Model(_toolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
-                                        Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(Model_Plane_Pos.HPose));
-
-                                        //按匹配平面位置计算位置
-                                        HHomMat3D _Model_Plane_Pos_Mat3D = PlaneInCamPose.HPose.PoseToHomMat3d();
-
-                                        ///转换位置点在相机坐标下的位置
-                                        double _qx = _Model_Plane_Pos_Mat3D.AffineTransPoint3d(_Results.Find_Column[0] * Image_Rectified_Ratio, _Results.Find_Row[0] * Image_Rectified_Ratio, 0, out double _qy, out double _qz);
-                                        ///计算出结果位置
-                                        _Results.Results_Pos = new Point_Model() { X = _qx * 1000, Y = _qy * 1000, Z = _qz * 1000, Rx = Model_Plane_Pos.Rx, Ry = Model_Plane_Pos.Ry, Rz = Model_Plane_Pos.Rz, HType = Model_Plane_Pos.HType };
-
-                                    }
-                                    else
-                                    {
-
-                                        //计算条件未全，出图像像素坐标
-                                        _Results.Results_HomMat2D_List.Add(_results_HomMat2D);
-                                        _Results.Results_HXLD_List.Add(_Xld);
-                                        _Results.Results_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
-
-                                    }
-                                }
-                                else
-                                {
-                                    //识别成功保存结果
-                                    _Results.Results_HomMat2D_List.Add(_results_HomMat2D);
-                                    _Results.Results_HXLD_List.Add(_Xld);
-                                    _Results.Results_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
                                 }
 
                             }
+                            ///全部特征识别成功后计算结果位置，非全部识别输出坐标0
+                            if (_Results.Find_Score.Where((_) => _ != 0).ToList().Count != 0)
+                            {
+
+                                ///转换相机坐标，必须参数输入，否则输出图像像素坐标
+                                if (_camera_Param != null && Model_Camera_Pos != new Point_Model() && Model_Plane_Pos != new Point_Model() && _Model.Shape_Image_Rectified_Ratio != 0 && _toolinCamera != null)
+                                {
+                                    //*Col = x, Row = y.
+                                    //转换平面在相机的坐标,创建平面Z方向远离相机
+                                    Point_Model BaseInToolPose = new Point_Model(Model_Camera_Pos.HPose.PoseInvert());
+                                    Point_Model BaseInCamPose = new Point_Model(_toolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
+                                    Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(Model_Plane_Pos.HPose));
+
+                                    //按匹配平面位置计算位置
+                                    HHomMat3D _Model_Plane_Pos_Mat3D = PlaneInCamPose.HPose.PoseToHomMat3d();
+
+                                    ///转换位置点在相机坐标下的位置
+                                    double _qx = _Model_Plane_Pos_Mat3D.AffineTransPoint3d(_Results.Find_Column[0] * Image_Rectified_Ratio, _Results.Find_Row[0] * Image_Rectified_Ratio, 0, out double _qy, out double _qz);
+                                    ///计算出结果位置
+                                    _Results.Results_Pos = new Point_Model() { X = _qx * 1000, Y = _qy * 1000, Z = _qz * 1000, Rx = Model_Plane_Pos.Rx, Ry = Model_Plane_Pos.Ry, Rz = Model_Plane_Pos.Rz, HType = Model_Plane_Pos.HType };
+
+                                }
+                                else
+                                {
+
+                                    //计算条件未全，出图像像素坐标
+                                    _Results.Results_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
+
+                                }
+                            }
+                            else
+                            {
+                                //识别成功保存结果
+                                _Results.Results_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
+                            }
+
+
                             break;
                         case Match_Model_Craft_Type_Enum.焊接面板围边:
 
@@ -328,7 +326,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         _Results.HXLD_Results_All = _Results.HXLD_Results_All.ConcatObj(_xld);
                     }
 
-
+                    ///显示匹配相关信息结果
+                    _Results.Set_Results_Data_List();
 
 
 

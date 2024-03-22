@@ -7490,12 +7490,12 @@
                                                     IsSnapToTickEnabled="True"
                                                     Maximum="1.0"
                                                     Minimum=" 0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.MinScore, StringFormat={}{0:F1}}" />
+                                                    SmallChange="0.02"
+                                                    TickFrequency=" 0.02"
+                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.MinScore, StringFormat={}{0:F2}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=Find_MinScore, StringFormat={}{0:F1}}"
+                                                     Text="{Binding Value, ElementName=Find_MinScore, StringFormat={}{0:F2}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"

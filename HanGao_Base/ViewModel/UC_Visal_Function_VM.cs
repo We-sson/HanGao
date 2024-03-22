@@ -444,6 +444,12 @@ namespace HanGao.ViewModel
         /// </summary>
         public double Camera_FrameRate { set; get; } = 0;
 
+
+
+
+        /// <summary>
+        /// 查找结果数据显示
+        /// </summary>
         public Find_Shape_Results_Model Find_Features_Window_Result { set; get; } = new Find_Shape_Results_Model();
         public Find_Shape_Results_Model Find_Results1_Window_Result { set; get; } = new Find_Shape_Results_Model();
         public Find_Shape_Results_Model Find_Results2_Window_Result { set; get; } = new Find_Shape_Results_Model();
@@ -567,7 +573,7 @@ namespace HanGao.ViewModel
                 {
                     Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
 
-                    User_Log_Add("成功新增流程！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    User_Log_Add("成功新增流程！", Log_Show_Window_Enum.Home);
                 }
                 catch (Exception e)
                 {
@@ -624,7 +630,7 @@ namespace HanGao.ViewModel
                             Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image);
                         });
 
-                        User_Log_Add("图像预处理成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                        User_Log_Add("图像预处理成功！", Log_Show_Window_Enum.Home);
                     }
                     catch (Exception e)
                     {
@@ -1187,7 +1193,7 @@ namespace HanGao.ViewModel
                                 }
                             }
                             //记录识别时间
-                            _Results.Find_Time = (DateTime.Now - _Run).TotalSeconds;
+                            //_Results.Find_Time = (DateTime.Now - _Run).TotalSeconds;
                             //全部识别成功偏移模型位置并显示
                             if (_Results.Find_Score.Where(_W => _W > 0).Count() == _Results.Find_Score.Count)
                             {
@@ -1220,7 +1226,7 @@ namespace HanGao.ViewModel
             catch (Exception)
             {
                 //return new HPR_Status_Model(HVE_Result_Enum.读取全部模型文件失败) { Result_Error_Info = e.Message };
-                _Results.Find_Time = (DateTime.Now - _Run).TotalSeconds;
+                //_Results.Find_Time = (DateTime.Now - _Run).TotalSeconds;
                 return _Results;
             }
             finally
@@ -1321,15 +1327,18 @@ namespace HanGao.ViewModel
 
                     try
                     {
+                        ///屏蔽UI层操作
                         Find_Text_Models_UI_IsEnable = false;
 
-                    _Find_Result = Halcon_Shape_Mode.Find_Shape_Model_Results((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
-
+                        ///查找模型
+                        Find_Features_Window_Result = Halcon_Shape_Mode.Find_Shape_Model_Results((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+                       
+                       
 
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         //显示图像
-                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window,_XLD: _Find_Result.HXLD_Results_All);
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window,_XLD: Find_Features_Window_Result.HXLD_Results_All);
 
                     });
 
@@ -1868,7 +1877,7 @@ namespace HanGao.ViewModel
 
                         _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
-                        User_Log_Add("采集图像成功到窗口：" + Window_Show_Name_Enum.Features_Window, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                        User_Log_Add("采集图像成功到窗口：" + Window_Show_Name_Enum.Features_Window, Log_Show_Window_Enum.Home);
                     }
                     catch (Exception _e)
                     {
