@@ -457,10 +457,10 @@ namespace HanGao.ViewModel
                 switch (Chart_Select_Work)
                 {
                     case Work_Name_Enum.Work_1:
-                        Save_Xml(Work_1_Error_List);
+                        //Save_Xml(Work_1_Error_List);
                         break;
                     case Work_Name_Enum.Work_2:
-                        Save_Xml(Work_2_Error_List);
+                        //Save_Xml(Work_2_Error_List);
                         break;
                     case Work_Name_Enum.Work_3:
                         break;

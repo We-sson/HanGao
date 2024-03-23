@@ -1,5 +1,6 @@
 ﻿
 
+using HanGao.Model;
 using System.Xml.Serialization;
 using static HanGao.Model.SInk_UI_Models;
 using static HanGao.ViewModel.UC_Surround_Direction_VM;
@@ -14,7 +15,7 @@ namespace HanGao.Xml_Date.Xml_Models
     public class Xml_Model
     {
         [XmlAttribute("Date_Revise")]
-        public string Date_Last_Modify { get; set; }
+        public string Date_Last_Modify { get; set; } = DateTime.Now.ToString();
 
 
 
@@ -22,11 +23,1641 @@ namespace HanGao.Xml_Date.Xml_Models
         /// 水槽XML列表
         /// </summary>
         [XmlElement(ElementName = "Sink")]
-        public List<Xml_Sink_Model> Sink_List { get; set; }
+        public List<Xml_Sink_Model> Sink_List { get; set; } = new List<Xml_Sink_Model>()
+                {
+                    new Xml_Sink_Model()
+        {
+            Sink_Model = 952154,
+                    Sink_Size_Long = 632,
+                    Sink_Size_Panel_Thick = 0,
+                    Sink_Size_Pots_Thick = 0.75,
+                    Sink_Size_Short_Side = 23,
+                    Sink_Size_Down_Distance = 24,
+                    Sink_Size_Left_Distance = 24,
+                    Sink_Size_R = 10,
+                    Sink_Size_Short_OnePos = 36,
+                    Sink_Size_Short_TwoPos = 328,
+                    Sink_Size_Width = 352,
+                     Vision_Find_ID = 1,
+                     Vision_Find_Shape_ID = 1,
+                    Sink_Type = Sink_Type_Enum.LeftRight_One,
+                   Sink_Craft = new List<Xml_Work_Area> {
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_1,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_2,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                     }
+                    },
+                    new Xml_Sink_Model()
+        {
+            Sink_Model = 952128,
+                        Sink_Size_Long = 400,
+                        Sink_Size_Panel_Thick = 0,
+                        Sink_Size_Pots_Thick = 0.75,
+                        Sink_Size_Short_Side = 23,
+                        Sink_Size_Down_Distance = 24,
+                        Sink_Size_Short_OnePos = 36,
+                        Sink_Size_Short_TwoPos = 323,
+                        Sink_Size_Left_Distance = 24,
+                        Sink_Size_R = 12,
+                        Sink_Size_Width = 352,
+                        Vision_Find_ID = 1,
+                        Vision_Find_Shape_ID = 1,
+                        Sink_Type = Sink_Type_Enum.LeftRight_One,
+                          Sink_Craft = new List<Xml_Work_Area> {
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_1,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_2,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                     }
+                    },
+                    new Xml_Sink_Model()
+        {
+            Sink_Model = 952231,
+                        Sink_Size_Long = 722,
+                        Sink_Size_Panel_Thick = 0,
+                        Sink_Size_Pots_Thick = 0.75,
+                        Sink_Size_Short_Side = 23,
+                        Sink_Size_Down_Distance = 24,
+                        Sink_Size_Short_OnePos = 36,
+                        Sink_Size_Short_TwoPos = 356,
+                        Sink_Size_Left_Distance = 24,
+                        Sink_Size_R = 12,
+                        Sink_Size_Width = 380,
+                        Vision_Find_ID = 1,
+                        Vision_Find_Shape_ID = 1,
+                        Sink_Type = Sink_Type_Enum.LeftRight_One,
+                     Sink_Craft = new List<Xml_Work_Area> {
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_1,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_2,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                     }
+                    },
+                    new Xml_Sink_Model()
+        {
+            Sink_Model = 902182,
+                        Sink_Size_Long = 640,
+                        Sink_Size_Panel_Thick = 0,
+                        Sink_Size_Pots_Thick = 0.75,
+                        Sink_Size_Short_Side = 23,
+                        Sink_Size_Down_Distance = 24,
+                        Sink_Size_Short_OnePos = 31.2,
+                        Sink_Size_Short_TwoPos = 332.7,
+                        Sink_Size_Left_Distance = 24,
+                        Sink_Size_R = 12,
+                        Sink_Size_Width = 355,
+                        Vision_Find_ID = 1,
+                        Vision_Find_Shape_ID = 1,
+                        Sink_Type = Sink_Type_Enum.LeftRight_One,
+                       Sink_Craft = new List<Xml_Work_Area> {
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_1,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_2,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                     }
+                    },
+                    new Xml_Sink_Model()
+        {
+            Sink_Model = 952127,
+                        Sink_Size_Long = 530,
+                        Sink_Size_Panel_Thick = 0,
+                        Sink_Size_Pots_Thick = 0.75,
+                        Sink_Size_Short_Side = 23,
+                        Sink_Size_Short_OnePos = 36,
+                        Sink_Size_Short_TwoPos = 323,
+                        Sink_Size_Down_Distance = 24,
+                        Sink_Size_Left_Distance = 24,
+                        Sink_Size_R = 12,
+                        Sink_Size_Width = 345,
+                        Vision_Find_ID = 1,
+                        Vision_Find_Shape_ID = 1,
+                        Sink_Type = Sink_Type_Enum.LeftRight_One,
+                    Sink_Craft = new List<Xml_Work_Area> {
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_1,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                          new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_2,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                     }
+                    },
+                    new Xml_Sink_Model()
+        {
+            Sink_Model = 952233,
+                        Sink_Size_Long = 550,
+                        Sink_Size_Panel_Thick = 0,
+                        Sink_Size_Pots_Thick = 0.75,
+                        Sink_Size_Short_Side = 23,
+                        Sink_Size_Short_OnePos = 36.3,
+                        Sink_Size_Short_TwoPos = 327.4,
+                        Sink_Size_Down_Distance = 24,
+                        Sink_Size_Left_Distance = 24,
+                        Sink_Size_R = 12,
+                        Sink_Size_Width = 350,
+                        Vision_Find_ID = 1,
+                        Vision_Find_Shape_ID = 1,
+                        Sink_Type = Sink_Type_Enum.LeftRight_One,
+                    Sink_Craft = new List<Xml_Work_Area> {
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_1,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_2,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                     }
+                    },
+                    new Xml_Sink_Model()
+        {
+            Sink_Model = 952172,
+                        Sink_Size_Long = 530,
+                        Sink_Size_Panel_Thick = 0,
+                        Sink_Size_Pots_Thick = 0.75,
+                        Sink_Size_Short_Side = 23,
+                        Sink_Size_Down_Distance = 24,
+                        Sink_Size_Left_Distance = 75,
+                        Sink_Size_R = 12,
+                        Sink_Size_Width = 365,
+                        Vision_Find_ID = 1,
+                        Vision_Find_Shape_ID = 1,
+                        Sink_Type = Sink_Type_Enum.UpDown_One,
+                        Sink_Craft = new List<Xml_Work_Area> {
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_1,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                           new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_2,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                     }
+                    },
+                    new Xml_Sink_Model()
+        {
+            Sink_Model = 952173,
+                        Sink_Size_Long = 590,
+                        Sink_Size_Panel_Thick = 0,
+                        Sink_Size_Pots_Thick = 0.75,
+                        Sink_Size_Short_Side = 23,
+                        Sink_Size_Short_OnePos = 85.7,
+                        Sink_Size_Short_TwoPos = 508.5,
+                        Sink_Size_Down_Distance = 24,
+                        Sink_Size_Left_Distance = 75,
+                        Sink_Size_R = 12,
+                        Sink_Size_Width = 365,
+                        Vision_Find_ID = 1,
+                        Vision_Find_Shape_ID = 1,
+                        Sink_Type = Sink_Type_Enum.UpDown_One,
+                       Sink_Craft = new List<Xml_Work_Area> {
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_1,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                             new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_2,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                     }
+                    },
+                    new Xml_Sink_Model()
+        {
+            Sink_Model = 952119,
+                        Sink_Size_Long = 550,
+                        Sink_Size_Panel_Thick = 0,
+                        Sink_Size_Pots_Thick = 0.75,
+                        Sink_Size_Short_Side = 23,
+                        Sink_Size_Short_OnePos = 85.7,
+                        Sink_Size_Short_TwoPos = 528.7,
+                        Sink_Size_Down_Distance = 24,
+                        Sink_Size_Left_Distance = 75,
+                        Sink_Size_R = 12,
+                        Sink_Size_Width = 365,
+                        Vision_Find_ID = 1,
+                        Vision_Find_Shape_ID = 1,
+                        Sink_Type = Sink_Type_Enum.UpDown_One,
+                       Sink_Craft = new List<Xml_Work_Area> {
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_1,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                            new Xml_Work_Area()
+                     {
+                          Work= Work_Name_Enum.Work_2,
+                           SInk_Craft= new List<Xml_SInk_Craft> ()
+                           {
+                           new Xml_SInk_Craft ()
+                           {
+                               Craft_Type= Sink_Craft_Type_Enum.Sink_Surround_Craft,
+                                Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                {
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                         Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L0_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                     },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C45_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L90_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                       Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C135_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L180_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C225_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                    Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.L270_Welding_Craft,Write_Mode=true, Distance_Type = Distance_Type_Enum.LIN, MaxArray = 10,
+                                   },
+                                   new Xml_Direction_Craft_Model()
+                                   {
+                                        Craft_Date=new List<Xml_Craft_Date> (),
+                                        Direction= Direction_Enum.C315_Welding_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.CIR, MaxArray = 3,
+                                   }
+                                }
+                           },
+                           new Xml_SInk_Craft()
+                           {
+                                Craft_Type= Sink_Craft_Type_Enum.Sink_ShortSide_Craft,
+                                 Sink_Craft=new List<Xml_Direction_Craft_Model>()
+                                 {
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N45_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N135_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                           Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N225_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     },
+                                     new Xml_Direction_Craft_Model()
+                                     {
+                                          Craft_Date=new List<Xml_Craft_Date> (),
+                                          Direction= Direction_Enum.N315_Short_Craft,Write_Mode = true, Distance_Type = Distance_Type_Enum.Short, MaxArray = 5,
+                                     }
+                                 }
+                           }
+                           }
+                     },
+                     }
+                    },
+                    };
 
 
 
-    }
+
+}
 
     /// <summary>
     /// 视觉坐标标定文件集合

@@ -140,7 +140,7 @@ namespace HanGao.ViewModel
                                     List_Show.SinkModels.Remove(List_Show.SinkModels.FirstOrDefault(X => X.Sink_Process.Sink_Model == _Sink.Sink_Process.Sink_Model));
                                     XML_Write_Read.Sink_Date.Sink_List.Remove(XML_Write_Read.Sink_Date.Sink_List.FirstOrDefault(X => X.Sink_Model == _Sink.Sink_Process.Sink_Model));
                                     //保存文件
-                                    Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
+                                    //Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
                                 }
                             }
                         }

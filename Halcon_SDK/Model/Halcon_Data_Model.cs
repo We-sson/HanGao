@@ -354,6 +354,33 @@ namespace Halcon_SDK_DLL.Model
         [Serializable]
         public class Find_Shape_Based_ModelXld
         {
+            public Find_Shape_Based_ModelXld()
+            {
+
+            }
+            public Find_Shape_Based_ModelXld(Find_Shape_Based_ModelXld _)
+            {
+                Shape_Based_Model = _.Shape_Based_Model;
+                ShapeModel_Name = _.ShapeModel_Name;
+                FInd_ID = _.FInd_ID;
+                AngleStart = _.AngleStart;
+                AngleExtent = _.AngleExtent;
+                ScaleRMin=_.ScaleRMin;
+                ScaleRMax=_.ScaleRMax;
+                ScaleCMax = _.ScaleCMax;
+                ScaleCMin = _.ScaleCMin;
+                MinScore = _.MinScore;
+                NumMatches = _.NumMatches;
+                MaxOverlap = _.MaxOverlap;
+                NumLevels = _.NumLevels;
+                Greediness = _.Greediness;
+                SubPixel = _.SubPixel;
+                NCC_SubPixel = _.NCC_SubPixel;
+                Angle_change_restriction = _.Angle_change_restriction;
+                Aniso_scale_change_restriction = _.Aniso_scale_change_restriction;
+
+            }
+
             /// <summary>
             /// 模板类型
             /// </summary>
@@ -365,7 +392,7 @@ namespace Halcon_SDK_DLL.Model
             public ShapeModel_Name_Enum ShapeModel_Name { set; get; } = ShapeModel_Name_Enum.F_45;
 
             /// <summary>
-            /// 模型创建ID号
+            /// 模型创建查找ID号
             /// </summary>
             public int FInd_ID { set; get; } = 1;
 

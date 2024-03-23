@@ -1428,18 +1428,18 @@
                              ItemsSource="{Binding Find_Data_List.Vision_List}"
                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                             SelectedIndex="{Binding UI_Find_Data_Number}"
+                             SelectedIndex="0"
                              SelectedValue="{Binding Select_Vision_Value}"
                              VirtualizingPanel.IsVirtualizing="True"
                              VirtualizingPanel.ScrollUnit="Pixel"
                              VirtualizingPanel.VirtualizationMode="Recycling">
-                        <!--<i:Interaction.Triggers>
+                        <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding Find_Data_Send_Comm}"
                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
-                        </i:Interaction.Triggers>-->
+                        </i:Interaction.Triggers>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border Width=" 50"
@@ -6067,7 +6067,7 @@
                                                       ItemsSource="{Binding Image_Preprocessing_Process.Preprocessing_Process_List}"
                                                       RowHeaderWidth="0"
                                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
-                                                      SelectedItem="{Binding Image_Preprocessing_Process.Preprocessing_Process_List_Selete}"
+                                                      SelectedValue="{Binding Image_Preprocessing_Process.Preprocessing_Process_List_Selete}"
                                                       SelectionMode="Single"
                                                       SelectionUnit="FullRow">
                                                 <DataGrid.Resources>

@@ -132,7 +132,7 @@ namespace HanGao.ViewModel
                 XML_Write_Read.Sink_Date.Date_Last_Modify = DateTime.Now.ToString();
 
 
-                   Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
+                   //Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
 
 
                 ///清楚程序编辑界面数据选项

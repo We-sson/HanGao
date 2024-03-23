@@ -34,6 +34,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public int Preprocessing_Process_List_RunTime { set; get; } = 0;
 
+
+
         public Preprocessing_Process_Lsit_Model? Preprocessing_Process_List_Selete { set; get; }
 
 
@@ -300,6 +302,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
         private Image_Preprocessing_Process_Enum _Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.ScaleImageMax;
+
+
 
         public Image_Preprocessing_Process_Enum Image_Preprocessing_Process_Method
         {

@@ -16,7 +16,7 @@ namespace HanGao.ViewModel
             Messenger.Register<Sink_Models, string>(this, nameof(Meg_Value_Eunm.Sink_Value_All_OK), (O, S) =>
             {
                 //查找修改对象类型属性
-                Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
+                //Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
                 //关闭弹窗
                 Messenger.Send<UserControl, string>(new UserControl(), nameof(Meg_Value_Eunm.User_Contorl_Message_Show));
             });

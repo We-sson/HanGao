@@ -232,9 +232,9 @@ namespace MVS_SDK_Base.Model
                 LineMode = _Param.LineMode;
                 LineInverter = _Param.LineInverter;
                 StrobeEnable = _Param.StrobeEnable;
-                WidthMax = _Param.WidthMax;
-                HeightMax = _Param.HeightMax;
-                ResultingFrameRate = _Param.ResultingFrameRate;
+           
+                //ResultingFrameRate = _Param.ResultingFrameRate;
+                 
             }
 
             public MVS_Camera_Parameter_Model()

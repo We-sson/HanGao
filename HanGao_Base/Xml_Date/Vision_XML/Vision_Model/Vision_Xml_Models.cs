@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Halcon_SDK_DLL.Halcon_Method;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,14 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 
 
         public Find_Shape_Based_ModelXld Find_Shape_Data { set; get; } = new Find_Shape_Based_ModelXld() { };
+
+
+        /// <summary>
+        /// 预处理流程
+        /// </summary>
+        public ObservableCollection<Preprocessing_Process_Lsit_Model> Find_Preprocessing_Process_List { set; get; } = new ObservableCollection<Preprocessing_Process_Lsit_Model>();
+    
+
 
         [XmlAttribute()]
         public string  ID { set; get; } = "0";
@@ -41,7 +50,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         /// <summary>
         /// 视觉自动模式参数设置
         /// </summary>
-     public Vision_Auto_Cofig_Model Vision_Auto_Config { set; get; }=new Vision_Auto_Cofig_Model ();
+     //public Vision_Auto_Config_Model Vision_Auto_Config { set; get; }=new Vision_Auto_Config_Model ();
 
         /// <summary>
         /// 相机设置参数列表
@@ -55,8 +64,9 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 
 
 
+
     [Serializable]
-    public class Vision_Auto_Cofig_Model
+    public class Vision_Auto_Config_Model
     {
         /// <summary>
         /// 连接库卡协议外的ip

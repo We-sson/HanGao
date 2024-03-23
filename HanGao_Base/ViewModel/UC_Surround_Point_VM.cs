@@ -174,7 +174,7 @@ namespace HanGao.ViewModel
                         }
                     }
                 };
-                Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
+                //Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
                 //UI界面清除按钮
                 FrameShow.ProgramEdit_Enabled = false;
                 FrameShow.Home_Console_UI = true;

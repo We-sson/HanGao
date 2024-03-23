@@ -425,10 +425,11 @@ namespace HanGao.Xml_Date.Xml_Write_Read
         /// </summary>
         public static void Initialization_Sink_Date()
         {
+          
+         
 
-            Xml_Model _Sink_Date = new Xml_Model();
-            Vision_Xml_Method.Read_Xml_File(ref _Sink_Date);
-            Sink_Date = _Sink_Date;
+            Sink_Date= new Vision_Xml_Method().Read_Xml_File<Xml_Model>();
+
 
             foreach (var item in Sink_Date.Sink_List)
             {

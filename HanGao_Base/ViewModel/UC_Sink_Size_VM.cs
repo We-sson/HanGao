@@ -214,7 +214,7 @@ namespace HanGao.ViewModel
                                     XML_Write_Read.Sink_Date.Sink_List.Remove(XML_Write_Read.Sink_Date.Sink_List.FirstOrDefault(X => X.Sink_Model == int.Parse(Sm.Sink_Name.Text)));
 
                                     //保存文件
-                                    Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
+                                    //Vision_Xml_Method.Save_Xml(XML_Write_Read.Sink_Date);
 
                                 }
                             }

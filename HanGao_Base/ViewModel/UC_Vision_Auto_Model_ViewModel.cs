@@ -18,7 +18,7 @@ namespace HanGao.ViewModel
 
 
             ////读取存储参数文件
-            //Vision_Auto_Cofig_Model _Date = new Vision_Auto_Cofig_Model();
+            //Vision_Auto_Config_Model _Date = new Vision_Auto_Config_Model();
             //Read_Xml_File(ref _Date);
             //Vision_Auto_Cofig = _Date;
 

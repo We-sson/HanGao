@@ -4,7 +4,6 @@ using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using Microsoft.Win32;
 using MVS_SDK_Base.Model;
-using Ookii.Dialogs.Wpf;
 using Roboto_Socket_Library;
 using System.Windows.Controls.Primitives;
 using Throw;
@@ -12,7 +11,6 @@ using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static MVS_SDK_Base.Model.MVS_Model;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
-using static Roboto_Socket_Library.Socket_Receive;
 using Point = System.Windows.Point;
 
 namespace HanGao.ViewModel
@@ -22,7 +20,6 @@ namespace HanGao.ViewModel
     {
         public UC_Visal_Function_VM()
         {
-            Initialization_Vision_File();
             //halcon实时图像显示操作
             Messenger.Register<HImage_Display_Model, string>(this, nameof(Meg_Value_Eunm.HWindow_Image_Show), (O, _Mvs_Image) =>
             {
@@ -37,7 +34,7 @@ namespace HanGao.ViewModel
             //接收其他地方传送数据
             Messenger.Register<object, string>(this, nameof(Meg_Value_Eunm.UI_Find_Data_Number), (O, _S) =>
             {
-                UI_Find_Data_Number = (int)_S;
+                //UI_Find_Data_Number = (int)_S;
             });
             //操作结果显示UI
             Messenger.Register<Find_Shape_Results_Model, string>(this, nameof(Meg_Value_Eunm.Find_Shape_Out), (O, _Fout) =>
@@ -86,9 +83,10 @@ namespace HanGao.ViewModel
             };
 
             ///初始化方法
-
+            Initialization_Vision_File();
             Initialization_Camera_Thread();
             Initialization_ShapeModel_File();
+
         }
 
 
@@ -96,7 +94,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 视觉自动参数属性
         /// </summary>
-        public Vision_Auto_Cofig_Model Vision_Auto_Cofig { set; get; } = new Vision_Auto_Cofig_Model();
+        public Vision_Auto_Config_Model Vision_Auto_Cofig { set; get; } = new Vision_Auto_Config_Model();
 
 
         /// <summary>
@@ -125,7 +123,7 @@ namespace HanGao.ViewModel
             }
         }
 
-        public int UI_Find_Data_Number { set; get; } = 0;
+        //public int UI_Find_Data_Number { set; get; } = 0;
 
         public static ObservableCollection<MVS_Camera_Info_Model> _MVS_Camera_Info_List = new ObservableCollection<MVS_Camera_Info_Model>();
 
@@ -410,22 +408,22 @@ namespace HanGao.ViewModel
         }
 
 
-        private Vision_Xml_Models _Select_Vision_Value;
+        public Vision_Xml_Models Select_Vision_Value { set; get; }
 
         //用户选中的参数值
-        public Vision_Xml_Models Select_Vision_Value
-        {
-            get { return _Select_Vision_Value; }
-            set
-            {
-                _Select_Vision_Value = value;
-                SetProperty(ref _Select_Vision_Value, value);
-                if (value != null)
-                {
-                    Messenger.Send<Vision_Xml_Models, string>(value, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
-                }
-            }
-        }
+        //public Vision_Xml_Models Select_Vision_Value
+        //{
+        //    get { return _Select_Vision_Value; }
+        //    set
+        //    {
+        //        _Select_Vision_Value = value;
+        //        SetProperty(ref _Select_Vision_Value, value);
+        //        if (value != null)
+        //        {
+        //            Messenger.Send<Vision_Xml_Models, string>(value, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+        //        }
+        //    }
+        //}
 
 
 
@@ -546,7 +544,7 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
             });
         }
         /// <summary>
@@ -745,7 +743,7 @@ namespace HanGao.ViewModel
                     //判断图像校正是否存在
                     if (!Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified.IsInitialized())
                     {
-                        throw new Exception(Halcon_Shape_Mode.Selected_Shape_Model .ID+ "号模型校正图变量不存在！");
+                        throw new Exception(Halcon_Shape_Mode.Selected_Shape_Model.ID + "号模型校正图变量不存在！");
                     }
 
                     //显示校正图像
@@ -753,7 +751,7 @@ namespace HanGao.ViewModel
                     {
 
                         Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified);
-                    
+
                     });
 
                 }
@@ -847,10 +845,10 @@ namespace HanGao.ViewModel
                 ListBox E = Sm.Source as ListBox;
                 try
                 {
-                    if (Halcon_Shape_Mode.Selected_Shape_Model!=null)
+                    if (Halcon_Shape_Mode.Selected_Shape_Model != null)
                     {
 
-                    Halcon_Shape_Mode.Model_Plane_Pos = new Point_Model(Halcon_Shape_Mode.Selected_Shape_Model.Shape_Model_Plane_Pos);
+                        Halcon_Shape_Mode.Model_Plane_Pos = new Point_Model(Halcon_Shape_Mode.Selected_Shape_Model.Shape_Model_Plane_Pos);
                     }
 
                 }
@@ -965,45 +963,45 @@ namespace HanGao.ViewModel
                     try
                     {
 
-     
-                    Create_Shape_ModelXld_UI_IsEnable = true ;
 
-                    //图像预处理
-                    //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Find_Shape_Model);
-                    //_Halcon.Halcon_Image_Pre_Processing(Find_Shape_Model);
+                        Create_Shape_ModelXld_UI_IsEnable = true;
 
-                    Halcon_Shape_Mode.ShapeModel_Create_Save((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose);
-             
+                        //图像预处理
+                        //_Halcon.Halcon_Image_Pre_Processing(Halcon_Window_Display.Features_Window.HWindow, Find_Shape_Model);
+                        //_Halcon.Halcon_Image_Pre_Processing(Find_Shape_Model);
 
-                    //生成可视化三维模型
-
-                    Point_Model CamInTool = new Point_Model(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseInvert());
-                    Point_Model ToolInBase = new Point_Model(Halcon_Shape_Mode.Model_Camera_Pos.HPose);
-                    Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
-                    //生产相机标模型
-                    List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CameraInBase.HPose);
-                    //生产机器人坐标模型
-                    List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Model_Plane_Pos.HPose);
-                    //生产模型平面模型
-                    HObjectModel3D _Plane3D = _3DModel.Gen_ground_plane_object_model_3d(_Camera_3D, Halcon_Shape_Mode.Model_Plane_Pos.HPose);
+                        Halcon_Shape_Mode.ShapeModel_Create_Save((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose);
 
 
-                    _Camera_3D.AddRange(_RobotTcp3D);
-                    _Camera_3D.Add(_Plane3D);
+                        //生成可视化三维模型
+
+                        Point_Model CamInTool = new Point_Model(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseInvert());
+                        Point_Model ToolInBase = new Point_Model(Halcon_Shape_Mode.Model_Camera_Pos.HPose);
+                        Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
+                        //生产相机标模型
+                        List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CameraInBase.HPose);
+                        //生产机器人坐标模型
+                        List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Model_Plane_Pos.HPose);
+                        //生产模型平面模型
+                        HObjectModel3D _Plane3D = _3DModel.Gen_ground_plane_object_model_3d(_Camera_3D, Halcon_Shape_Mode.Model_Plane_Pos.HPose);
+
+
+                        _Camera_3D.AddRange(_RobotTcp3D);
+                        _Camera_3D.Add(_Plane3D);
 
 
 
 
-                    //显示模型
-                    Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_3D));
+                        //显示模型
+                        Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_3D));
 
-                    ///保存创建模型
-                    //if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Shape_Mode.Create_Shape_ModelXld)).GetResult())
-                    //{
-                    //    User_Log_Add("创建区域：" + Halcon_Shape_Mode.Create_Shape_ModelXld.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Shape_Mode.Create_Shape_ModelXld.Create_ID.ToString() + "，创建模型特征成功！", Log_Show_Window_Enum.Home);
-                    //}
+                        ///保存创建模型
+                        //if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Shape_Mode.Create_Shape_ModelXld)).GetResult())
+                        //{
+                        //    User_Log_Add("创建区域：" + Halcon_Shape_Mode.Create_Shape_ModelXld.ShapeModel_Name.ToString() + "，创建ID号：" + Halcon_Shape_Mode.Create_Shape_ModelXld.Create_ID.ToString() + "，创建模型特征成功！", Log_Show_Window_Enum.Home);
+                        //}
 
-                
+
 
 
                     }
@@ -1048,7 +1046,7 @@ namespace HanGao.ViewModel
 
                         Create_Image_Rectified_UI_IsEnable = true;
 
-                          _Image = Halcon_Shape_Mode.Get_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+                        _Image = Halcon_Shape_Mode.Get_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
                         Application.Current.Dispatcher.Invoke(() =>
                             {
@@ -1069,7 +1067,7 @@ namespace HanGao.ViewModel
                     finally
                     {
                         ///释放UI控制
-                        Create_Image_Rectified_UI_IsEnable = false ;
+                        Create_Image_Rectified_UI_IsEnable = false;
 
                     }
                 });
@@ -1284,7 +1282,7 @@ namespace HanGao.ViewModel
             {
 
                 HImage _Image = new HImage();
-         
+
                 Task.Run(() =>
                 {
                     try
@@ -1315,15 +1313,15 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-           
+
                 HImage _Image = new HImage();
                 Find_Shape_Results_Model _Find_Result = new Find_Shape_Results_Model
                 {
-                   
+
                 };
                 Task.Run(() =>
                 {
-         
+
 
                     try
                     {
@@ -1332,15 +1330,15 @@ namespace HanGao.ViewModel
 
                         ///查找模型
                         Find_Features_Window_Result = Halcon_Shape_Mode.Find_Shape_Model_Results((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
-                       
-                       
 
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        //显示图像
-                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window,_XLD: Find_Features_Window_Result.HXLD_Results_All);
 
-                    });
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            //显示图像
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: Find_Features_Window_Result.HXLD_Results_All);
+
+                        });
 
                     }
                     catch (Exception e)
@@ -1647,9 +1645,11 @@ namespace HanGao.ViewModel
         /// </summary>
         public void Initialization_Vision_File()
         {
-            Vision_Data _Date = new Vision_Data();
-            Vision_Xml_Method.Read_Xml_File(ref _Date);
-            Find_Data_List = _Date;
+
+          
+            Find_Data_List = new Vision_Xml_Method().Read_Xml_File<Vision_Data>();
+            
+        
         }
 
         /// <summary>
@@ -2323,14 +2323,20 @@ namespace HanGao.ViewModel
                 ListBox E = Sm.Source as ListBox;
                 Vision_Xml_Models _Vision_Model = (Vision_Xml_Models)E.SelectedValue as Vision_Xml_Models;
                 //选择为空事禁用操作
-                if (_Vision_Model == null)
+                if (_Vision_Model != null)
                 {
-                    Messenger.Send<Vision_Xml_Models, string>(new Vision_Xml_Models() { ID = "-1" }, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
-                }
+
+                    Camera_Device_List.Select_Camera.Camera_parameter = new MVS_Camera_Parameter_Model(_Vision_Model.Camera_Parameter_Data);
+                    Halcon_Shape_Mode.Find_Shape_Model = new Find_Shape_Based_ModelXld(_Vision_Model.Find_Shape_Data);
+                    Image_Preprocessing_Process.Preprocessing_Process_List = new ObservableCollection<Preprocessing_Process_Lsit_Model>(_Vision_Model.Find_Preprocessing_Process_List);
+
+                } 
                 else
                 {
+
                     User_Log_Add("参数" + _Vision_Model.ID + "号已加载到参数列表中！", Log_Show_Window_Enum.Home);
-                    Messenger.Send<Vision_Xml_Models, string>(_Vision_Model, nameof(Meg_Value_Eunm.Vision_Data_Xml_List));
+                   
+
                 }
             });
         }
@@ -2354,7 +2360,18 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 Button E = Sm.Source as Button;
-                Vision_Xml_Method.Save_Xml(Find_Data_List);
+
+                if (Select_Vision_Value != null)
+                {
+
+                    //Save_Xml(Find_Data_List);
+
+                }
+                else
+                {
+                    User_Log_Add("请选择需要保存的查找参数号！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+                }
             });
         }
 
