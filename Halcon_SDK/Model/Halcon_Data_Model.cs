@@ -468,150 +468,150 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public double Aniso_scale_change_restriction { set; get; } = 0.3;
 
-            /// <summary>
-            /// 最大灰度值功能使能
-            /// </summary>
-            public bool ScaleImageMax_Enable { set; get; } = true;
+            ///// <summary>
+            ///// 最大灰度值功能使能
+            ///// </summary>
+            //public bool ScaleImageMax_Enable { set; get; } = true;
 
-            /// <summary>
-            /// 最大灰度值功能显示
-            /// </summary>
-            public bool ScaleImageMax_Disp { set; get; } = true;
+            ///// <summary>
+            ///// 最大灰度值功能显示
+            ///// </summary>
+            //public bool ScaleImageMax_Disp { set; get; } = true;
 
-            /// <summary>
-            /// 增强图像功能使能
-            /// </summary>
-            public bool Illuminate_Enable { set; get; } = true;
+            ///// <summary>
+            ///// 增强图像功能使能
+            ///// </summary>
+            //public bool Illuminate_Enable { set; get; } = true;
 
-            /// <summary>
-            /// 增强图像功能显示
-            /// </summary>
-            public bool Illuminate_Disp { set; get; } = true;
+            ///// <summary>
+            ///// 增强图像功能显示
+            ///// </summary>
+            //public bool Illuminate_Disp { set; get; } = true;
 
-            /// <summary>
-            ///  增强图像的低通掩码的宽度。
-            /// </summary>
-            public int Illuminate_MaskWidth { set; get; } = 101;
+            ///// <summary>
+            /////  增强图像的低通掩码的宽度。
+            ///// </summary>
+            //public int Illuminate_MaskWidth { set; get; } = 101;
 
-            /// <summary>
-            ///  增强图像的低通掩码的高度。
-            /// </summary>
-            public int Illuminate_MaskHeight { set; get; } = 101;
+            ///// <summary>
+            /////  增强图像的低通掩码的高度。
+            ///// </summary>
+            //public int Illuminate_MaskHeight { set; get; } = 101;
 
-            /// <summary>
-            /// 增强图像的对比强调的强度
-            /// </summary>
-            public double Illuminate_Factor { set; get; } = 0.8;
+            ///// <summary>
+            ///// 增强图像的对比强调的强度
+            ///// </summary>
+            //public double Illuminate_Factor { set; get; } = 0.8;
 
-            /// <summary>
-            /// 增强图像功能使能
-            /// </summary>
-            public bool Emphasize_Enable { set; get; } = true;
+            ///// <summary>
+            ///// 增强图像功能使能
+            ///// </summary>
+            //public bool Emphasize_Enable { set; get; } = true;
 
-            /// <summary>
-            /// 增强图像功能显示
-            /// </summary>
-            public bool Emphasize_Disp { set; get; } = true;
+            ///// <summary>
+            ///// 增强图像功能显示
+            ///// </summary>
+            //public bool Emphasize_Disp { set; get; } = true;
 
-            /// <summary>
-            ///  增强图像的低通掩码的宽度。
-            /// </summary>
-            public int Emphasize_MaskWidth { set; get; } = 15;
+            ///// <summary>
+            /////  增强图像的低通掩码的宽度。
+            ///// </summary>
+            //public int Emphasize_MaskWidth { set; get; } = 15;
 
-            /// <summary>
-            ///  增强图像的低通掩码的高度。
-            /// </summary>
-            public int Emphasize_MaskHeight { set; get; } = 15;
+            ///// <summary>
+            /////  增强图像的低通掩码的高度。
+            ///// </summary>
+            //public int Emphasize_MaskHeight { set; get; } = 15;
 
-            /// <summary>
-            /// 增强图像的对比强调的强度
-            /// </summary>
-            public double Emphasize_Factor { set; get; } = 5;
+            ///// <summary>
+            ///// 增强图像的对比强调的强度
+            ///// </summary>
+            //public double Emphasize_Factor { set; get; } = 5;
 
-            /// <summary>
-            /// /计算带有矩形掩码的中值滤波器是使能
-            /// </summary>
-            public bool Median_image_Enable { set; get; } = true;
+            ///// <summary>
+            ///// /计算带有矩形掩码的中值滤波器是使能
+            ///// </summary>
+            //public bool Median_image_Enable { set; get; } = true;
 
-            /// <summary>
-            /// 计算带有矩形掩码的中值滤波器显示
-            /// </summary>
-            public bool Median_image_Disp { set; get; } = true;
+            ///// <summary>
+            ///// 计算带有矩形掩码的中值滤波器显示
+            ///// </summary>
+            //public bool Median_image_Disp { set; get; } = true;
 
-            /// <summary>
-            /// 滤镜遮罩类型。默认值： “圆  值列表：“圆”, “正方形”值列表（对于计算设备）：“正方形”
-            /// </summary>
-            public MedianImage_MaskType_Enum MaskType_Model { set; get; } = MedianImage_MaskType_Enum.circle;
+            ///// <summary>
+            ///// 滤镜遮罩类型。默认值： “圆  值列表：“圆”, “正方形”值列表（对于计算设备）：“正方形”
+            ///// </summary>
+            //public MedianImage_MaskType_Enum MaskType_Model { set; get; } = MedianImage_MaskType_Enum.circle;
 
-            /// <summary>
-            /// 滤镜掩码的半径。默认值：1  值列表（用于计算设备）：1、2  建议值：1， 2， 3， 4， 5， 6， 7， 8， 9， 11， 15， 19， 25， 31， 39， 47， 59  典型值范围：1 ≤ radius ≤ 4095
-            /// </summary>
-            public int Median_image_Radius { set; get; } = 5;
+            ///// <summary>
+            ///// 滤镜掩码的半径。默认值：1  值列表（用于计算设备）：1、2  建议值：1， 2， 3， 4， 5， 6， 7， 8， 9， 11， 15， 19， 25， 31， 39， 47， 59  典型值范围：1 ≤ radius ≤ 4095
+            ///// </summary>
+            //public int Median_image_Radius { set; get; } = 5;
 
-            /// <summary>
-            /// 边境处理。默认值： “镜像”值列表（对于计算设备）：“镜像”建议值：“镜像”, “循环”, “续”, 0, 30, 60, 90, 120, 150, 180, 210, 240, 255
-            /// </summary>
-            public MedianImage_Margin_Enum Margin_Model { set; get; } = MedianImage_Margin_Enum.mirrored;
+            ///// <summary>
+            ///// 边境处理。默认值： “镜像”值列表（对于计算设备）：“镜像”建议值：“镜像”, “循环”, “续”, 0, 30, 60, 90, 120, 150, 180, 210, 240, 255
+            ///// </summary>
+            //public MedianImage_Margin_Enum Margin_Model { set; get; } = MedianImage_Margin_Enum.mirrored;
 
-            /// <summary>
-            /// 矩形掩码的中值滤波器使能
-            /// </summary>
-            public bool MedianRect_Enable { set; get; } = true;
+            ///// <summary>
+            ///// 矩形掩码的中值滤波器使能
+            ///// </summary>
+            //public bool MedianRect_Enable { set; get; } = true;
 
-            /// <summary>
-            /// /矩形掩码的中值滤波器显示
-            /// </summary>
-            public bool MedianRect_Disp { set; get; } = true;
+            ///// <summary>
+            ///// /矩形掩码的中值滤波器显示
+            ///// </summary>
+            //public bool MedianRect_Disp { set; get; } = true;
 
-            /// <summary>
-            /// 矩形掩码的中值滤波器使能,滤镜掩码的宽度。
-            /// </summary>
-            public int MedianRect_MaskWidth { set; get; } = 3;
+            ///// <summary>
+            ///// 矩形掩码的中值滤波器使能,滤镜掩码的宽度。
+            ///// </summary>
+            //public int MedianRect_MaskWidth { set; get; } = 3;
 
-            /// <summary>
-            /// 矩形掩码的中值滤波器使能,滤镜掩码的高度。
-            /// /// </summary>
-            public int MedianRect_MaskHeight { set; get; } = 3;
+            ///// <summary>
+            ///// 矩形掩码的中值滤波器使能,滤镜掩码的高度。
+            ///// /// </summary>
+            //public int MedianRect_MaskHeight { set; get; } = 3;
 
-            /// <summary>
-            /// 灰度开运算使能
-            /// </summary>
-            public bool GrayOpeningRect_Enable { set; get; } = true;
+            ///// <summary>
+            ///// 灰度开运算使能
+            ///// </summary>
+            //public bool GrayOpeningRect_Enable { set; get; } = true;
 
-            /// <summary>
-            /// 灰度开运算显示
-            /// </summary>
-            public bool GrayOpeningRect_Disp { set; get; } = true;
+            ///// <summary>
+            ///// 灰度开运算显示
+            ///// </summary>
+            //public bool GrayOpeningRect_Disp { set; get; } = true;
 
-            /// <summary>
-            /// 灰度开运算滤镜掩码的高度
-            /// </summary>
-            public int GrayOpeningRect_MaskHeight { set; get; } = 16;
+            ///// <summary>
+            ///// 灰度开运算滤镜掩码的高度
+            ///// </summary>
+            //public int GrayOpeningRect_MaskHeight { set; get; } = 16;
 
-            /// <summary>
-            /// 灰度开运算滤镜掩码的宽度
-            /// </summary>
-            public int GrayOpeningRect_MaskWidth { set; get; } = 16;
+            ///// <summary>
+            ///// 灰度开运算滤镜掩码的宽度
+            ///// </summary>
+            //public int GrayOpeningRect_MaskWidth { set; get; } = 16;
 
-            /// <summary>
-            /// 灰度开运算使能
-            /// </summary>
-            public bool GrayClosingRect_Enable { set; get; } = true;
+            ///// <summary>
+            ///// 灰度开运算使能
+            ///// </summary>
+            //public bool GrayClosingRect_Enable { set; get; } = true;
 
-            /// <summary>
-            /// 灰度开运算显示
-            /// </summary>
-            public bool GrayClosingRect_Disp { set; get; } = true;
+            ///// <summary>
+            ///// 灰度开运算显示
+            ///// </summary>
+            //public bool GrayClosingRect_Disp { set; get; } = true;
 
-            /// <summary>
-            /// 灰度开运算滤镜掩码的高度
-            /// </summary>
-            public int GrayClosingRect_MaskHeight { set; get; } = 16;
+            ///// <summary>
+            ///// 灰度开运算滤镜掩码的高度
+            ///// </summary>
+            //public int GrayClosingRect_MaskHeight { set; get; } = 16;
 
-            /// <summary>
-            /// 灰度开运算滤镜掩码的宽度
-            /// </summary>
-            public int GrayClosingRect_MaskWidth { set; get; } = 16;
+            ///// <summary>
+            ///// 灰度开运算滤镜掩码的宽度
+            ///// </summary>
+            //public int GrayClosingRect_MaskWidth { set; get; } = 16;
         }
 
         /// <summary>

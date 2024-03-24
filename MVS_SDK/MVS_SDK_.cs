@@ -22,6 +22,12 @@ namespace MVS_SDK
 
         //public Get_Image_Model_Enum Get_Image_Model { set; get; } = Get_Image_Model_Enum.相机采集;
 
+
+        /// <summary>
+        /// 相机采集参数
+        /// </summary>
+        //public MVS_Camera_Parameter_Model Camera_parameter { set; get; } = new MVS_Camera_Parameter_Model();
+
         /// <summary>
         /// 用户采集相机
         /// </summary>

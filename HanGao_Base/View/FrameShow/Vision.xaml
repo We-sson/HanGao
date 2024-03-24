@@ -1428,7 +1428,7 @@
                              ItemsSource="{Binding Find_Data_List.Vision_List}"
                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                             SelectedIndex="0"
+                             SelectedIndex="-1"
                              SelectedValue="{Binding Select_Vision_Value}"
                              VirtualizingPanel.IsVirtualizing="True"
                              VirtualizingPanel.ScrollUnit="Pixel"
@@ -1513,7 +1513,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
-                                     IsChecked="False"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -2632,7 +2632,7 @@
                                                         Maximum="50000"
                                                         Minimum="0"
                                                         SmallChange="10"
-                                                        Value="{Binding Camera_Device_List.Select_Camera.Camera_parameter.ExposureTime, Mode=TwoWay}">
+                                                        Value="{Binding Select_Vision_Value.Camera_Parameter_Data.ExposureTime, Mode=TwoWay}">
                                                     <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2687,7 +2687,7 @@
                                                         Minimum="0"
                                                         SmallChange="0.1"
                                                         TickFrequency="0.01"
-                                                        Value="{Binding Camera_Device_List.Select_Camera.Camera_parameter.Gain, Mode=TwoWay}">
+                                                        Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Gain, Mode=TwoWay}">
 
                                                     <!--<i:Interaction.Triggers>
 
@@ -2733,7 +2733,7 @@
                                                         Minimum="-6"
                                                         SmallChange="0.1"
                                                         TickFrequency="0.1"
-                                                        Value="{Binding Camera_Device_List.Select_Camera.Camera_parameter.DigitalShift, Mode=TwoWay}">
+                                                        Value="{Binding Select_Vision_Value.Camera_Parameter_Data.DigitalShift, Mode=TwoWay}">
                                                     <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2778,7 +2778,7 @@
                                                         Minimum="0"
                                                         SmallChange="0.1"
                                                         TickFrequency="0.1"
-                                                        Value="{Binding Camera_Device_List.Select_Camera.Camera_parameter.Gamma, Mode=TwoWay}">
+                                                        Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Gamma, Mode=TwoWay}">
                                                     <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2800,50 +2800,7 @@
                                                          FontSize="18" />
                                             </Grid>
 
-                                            <!--<Grid Height="35" Margin="8">
 
-                             <Grid.ColumnDefinitions>
-                                 <ColumnDefinition Width="80" />
-                                 <ColumnDefinition />
-                                 <ColumnDefinition Width=" auto" />
-                             </Grid.ColumnDefinitions>
-                             <TextBlock Text="锐度"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                        FontSize="16"
-                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                             <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Sharpness" Grid.Column=" 1"
-                                     Margin="5"
-                                     VerticalAlignment="Center"
-                                     HorizontalContentAlignment="Stretch"
-                                     VerticalContentAlignment="Stretch"
-                                     IsSnapToTickEnabled="True"
-                                     Maximum="100"
-                                     Minimum="0"
-                                     SmallChange="1"
-                                     TickFrequency="0.1"
-                                     Value="{Binding Camera_Parameter_Val.Sharpness, Mode=TwoWay}">
-                                 <i:Interaction.Triggers>
-
-                                     <i:EventTrigger EventName="PreviewMouseUp">
-                                         <i:InvokeCommandAction Command="{Binding Set_Camera_Int_Val_Comm}"
-                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                PassEventArgsToCommand="True" />
-                                     </i:EventTrigger>
-                                 </i:Interaction.Triggers>
-                             </Slider>
-
-                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                      Text="{Binding Value, ElementName=Sharpness, Mode=TwoWay}"
-                                      Width=" 100"
-                                      HorizontalContentAlignment="Center"
-                                      VerticalContentAlignment="Center"
-                                      Background="Transparent"
-                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                      BorderThickness="2"
-                                      FontSize="18" />
-                         </Grid>-->
                                             <Grid Height="35" Margin="0,5,0,5">
 
                                                 <Grid.ColumnDefinitions>
@@ -2866,7 +2823,7 @@
                                                         Maximum="4095"
                                                         Minimum="0"
                                                         SmallChange="1"
-                                                        Value="{Binding Camera_Device_List.Select_Camera.Camera_parameter.BlackLevel, Mode=TwoWay}">
+                                                        Value="{Binding Select_Vision_Value.Camera_Parameter_Data.BlackLevel, Mode=TwoWay}">
                                                     <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -2914,7 +2871,7 @@
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource MVS:MV_CAM_ACQUISITION_MODE}"
-                                                          SelectedValue="{Binding Camera_Device_List.Select_Camera.Camera_parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                          SelectedValue="{Binding Select_Vision_Value.Camera_Parameter_Data.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                     <ComboBox.ItemTemplate>
                                                         <DataTemplate>
                                                             <TextBlock Text="{Binding}"
@@ -2926,45 +2883,7 @@
                                                                        TextTrimming="CharacterEllipsis" />
                                                         </DataTemplate>
                                                     </ComboBox.ItemTemplate>
-                                                    <!--<ComboBoxItem>
 
-                                                        <TextBlock Text="单帧模式"
-                                                                   TextWrapping="Wrap"
-                                                                   Padding="0,4,0,4"
-                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                   FontSize="14"
-                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                                   TextTrimming="CharacterEllipsis" />
-                                                    </ComboBoxItem>
-                                                    <ComboBoxItem>
-
-                                                        <TextBlock Text="多帧模式"
-                                                                   TextWrapping="Wrap"
-                                                                   Padding="0,4,0,4"
-                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                   FontSize="14"
-                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                                   TextTrimming="CharacterEllipsis" />
-                                                    </ComboBoxItem>
-                                                    <ComboBoxItem>
-
-                                                        <TextBlock Text="持续采集模式"
-                                                                   TextWrapping="Wrap"
-                                                                   Padding="0,4,0,4"
-                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                   FontSize="14"
-                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                                   TextTrimming="CharacterEllipsis" />
-                                                    </ComboBoxItem>-->
-
-                                                    <!--<i:Interaction.Triggers>
-
-                                                    <i:EventTrigger EventName="SelectionChanged">
-                                                        <i:InvokeCommandAction Command="{Binding Set_Camera_Enum_Val_Comm}"
-                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>-->
                                                 </ComboBox>
                                             </Grid>
 
@@ -3018,7 +2937,7 @@
 
                                                 <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
                                                           Content="闪光灯"
-                                                          IsChecked="{Binding Camera_Device_List.Select_Camera.Camera_parameter.LineInverter}"
+                                                          IsChecked="{Binding Select_Vision_Value.Camera_Parameter_Data.LineInverter}"
                                                           Margin="0"
                                                           HorizontalAlignment="Left"
                                                           VerticalAlignment="Center"

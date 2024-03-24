@@ -407,8 +407,10 @@ namespace HanGao.ViewModel
             });
         }
 
-
-        public Vision_Xml_Models Select_Vision_Value { set; get; }
+        /// <summary>
+        /// 视觉参数默认选择
+        /// </summary>
+        public Vision_Xml_Models Select_Vision_Value { set; get; } = new Vision_Xml_Models();
 
         //用户选中的参数值
         //public Vision_Xml_Models Select_Vision_Value
@@ -569,7 +571,9 @@ namespace HanGao.ViewModel
                 Button _Contol = Sm.Source as Button;
                 try
                 {
-                    Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
+                    Select_Vision_Value.Find_Preprocessing_Process_List = Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
+
+                    //Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
 
                     User_Log_Add("成功新增流程！", Log_Show_Window_Enum.Home);
                 }
@@ -1689,7 +1693,7 @@ namespace HanGao.ViewModel
                         //Task.Run(() =>
                         //{
                         ///连续采集
-                        Camera_Device_List.Select_Camera.Camera_parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+                        Select_Vision_Value.Camera_Parameter_Data.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
                         //设置GEGI网络包大小
                         Camera_Device_List.Select_Camera.Set_Camera_GEGI_GevSCPSPacketSize();
                         //创建抓图回调函数
@@ -1840,20 +1844,18 @@ namespace HanGao.ViewModel
                 {
                     if (Camera_Device_List.Select_Camera?.Camer_Status == MV_CAM_Device_Status_Enum.Connecting && Camera_Device_List.Select_Camera != null)
                     {
-                        Camera_Device_List.Select_Camera.Set_Camrea_Parameters_List(Camera_Device_List.Select_Camera.Camera_parameter);
+                        Camera_Device_List.Select_Camera.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_Parameter_Data);
                     }
                     else
                     {
-                        //User_Log_Add(HandEye_Check.Camera_Connect_Model + "：相机未连接！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
-                        //return;
-                        throw new Exception("相机设备未选择！");
+                    User_Log_Add("相机设备未选择！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
                     }
 
                     User_Log_Add(Camera_Device_List.Select_Camera.Camera_Info.SerialNumber + "：相机参数写入成功！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Question);
                 }
                 catch (Exception _e)
                 {
-                    User_Log_Add(_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
+                    User_Log_Add("设置相机参数失败！原因："+_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
                 }
             });
         }
@@ -1909,7 +1911,7 @@ namespace HanGao.ViewModel
                 case Image_Diver_Model_Enum.Online:
 
                     Camera_Device_List.Select_Camera.ThrowIfNull("未选择相机设备，不能采集图像！");
-                    _Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout();
+                    _Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout(Select_Vision_Value.Camera_Parameter_Data);
 
 
 
@@ -2326,10 +2328,10 @@ namespace HanGao.ViewModel
                 if (_Vision_Model != null)
                 {
 
-                    Camera_Device_List.Select_Camera.Camera_parameter = new MVS_Camera_Parameter_Model(_Vision_Model.Camera_Parameter_Data);
+                    Select_Vision_Value.Camera_Parameter_Data = new MVS_Camera_Parameter_Model(_Vision_Model.Camera_Parameter_Data);
                     Halcon_Shape_Mode.Find_Shape_Model = new Find_Shape_Based_ModelXld(_Vision_Model.Find_Shape_Data);
                     Image_Preprocessing_Process.Preprocessing_Process_List = new ObservableCollection<Preprocessing_Process_Lsit_Model>(_Vision_Model.Find_Preprocessing_Process_List);
-
+       
                 } 
                 else
                 {
@@ -2364,7 +2366,7 @@ namespace HanGao.ViewModel
                 if (Select_Vision_Value != null)
                 {
 
-                    //Save_Xml(Find_Data_List);
+                  new Vision_Xml_Method().Save_Xml(Find_Data_List);
 
                 }
                 else

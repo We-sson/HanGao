@@ -27,7 +27,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
-        public ObservableCollection<Preprocessing_Process_Lsit_Model> Preprocessing_Process_List { set; get; } = new ObservableCollection<Preprocessing_Process_Lsit_Model>();
+        //public ObservableCollection<Preprocessing_Process_Lsit_Model> Preprocessing_Process_List { set; get; } = new ObservableCollection<Preprocessing_Process_Lsit_Model>();
 
 
 
@@ -60,15 +60,19 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// 预处理流程插入创建方法
         /// </summary>
         /// <param name="_Work_Enum"></param>
-        public void Preprocessing_Process_Work(Image_Preprocessing_Process_Work_Enum _Work_Enum)
+        public List<Preprocessing_Process_Lsit_Model> Preprocessing_Process_Work(Image_Preprocessing_Process_Work_Enum _Work_Enum, List<Preprocessing_Process_Lsit_Model> _Preprocessing_Process_List)
         {
+
+
+            List<Preprocessing_Process_Lsit_Model> _Process_List = new List<Preprocessing_Process_Lsit_Model>(_Preprocessing_Process_List);
+
             switch (_Work_Enum)
             {
                 case Image_Preprocessing_Process_Work_Enum.Up_Insertion:
                     if (Preprocessing_Process_List_Selete != null)
                     {
 
-                      var _Index = Preprocessing_Process_List.IndexOf(Preprocessing_Process_List_Selete) ;
+                      var _Index = _Process_List.IndexOf(Preprocessing_Process_List_Selete) ;
                         if (_Index < 0)
                         { Preprocessing_Process_New(0); }
                         else
@@ -84,12 +88,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 case Image_Preprocessing_Process_Work_Enum.Down_Insertion:
                     if (Preprocessing_Process_List_Selete != null)
                     {
-                        var a = Preprocessing_Process_List.IndexOf(Preprocessing_Process_List_Selete)+1;
+                        var a = _Process_List.IndexOf(Preprocessing_Process_List_Selete)+1;
                         Preprocessing_Process_New(a);
                     }
                     else
                     {
-                        Preprocessing_Process_New(Preprocessing_Process_List.Count);
+                        Preprocessing_Process_New(_Process_List.Count);
                     }
 
 
@@ -97,6 +101,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 case Image_Preprocessing_Process_Work_Enum.Delete_List:
 
                     Preprocessing_Process_Lsit_Delete();
+                    break;
+                default:
+
                     break;
 
             }
@@ -289,6 +296,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
     }
 
     [AddINotifyPropertyChangedInterface]
+    [Serializable]
+
     public class Preprocessing_Process_Lsit_Model
     {
         public Preprocessing_Process_Lsit_Model()

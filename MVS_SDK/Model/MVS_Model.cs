@@ -232,9 +232,9 @@ namespace MVS_SDK_Base.Model
                 LineMode = _Param.LineMode;
                 LineInverter = _Param.LineInverter;
                 StrobeEnable = _Param.StrobeEnable;
-           
+
                 //ResultingFrameRate = _Param.ResultingFrameRate;
-                 
+
             }
 
             public MVS_Camera_Parameter_Model()
@@ -601,10 +601,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             public Camera_Calibration_Info_Model Camera_Calibration { set; get; } = new Camera_Calibration_Info_Model();
 
-            /// <summary>
-            /// 相机属性
-            /// </summary>
-            public MVS_Camera_Parameter_Model Camera_parameter { set; get; } = new MVS_Camera_Parameter_Model();
+
 
 
 
@@ -687,9 +684,10 @@ namespace MVS_SDK_Base.Model
             {
 
 
+                MVS_Camera_Parameter_Model _Camera_Parameter_Model = new MVS_Camera_Parameter_Model();
 
 
-                foreach (PropertyInfo _Type in Camera_parameter.GetType().GetProperties())
+                foreach (PropertyInfo _Type in _Camera_Parameter_Model.GetType().GetProperties())
                 {
 
                     try
@@ -707,7 +705,7 @@ namespace MVS_SDK_Base.Model
 
                             if (Get_Camera_Info_Val(Camera, _Type, _Type.Name, ref _Val).GetResult())
                             {
-                                _Type.SetValue(Camera_parameter, _Val);
+                                _Type.SetValue(_Camera_Parameter_Model, _Val);
                             }
 
                         }
@@ -724,7 +722,7 @@ namespace MVS_SDK_Base.Model
                 }
 
 
-                return Camera_parameter;
+                return _Camera_Parameter_Model;
 
             }
 
@@ -736,25 +734,12 @@ namespace MVS_SDK_Base.Model
             /// 设置总相机相机俩表
             /// </summary>
             /// <param name="_Camera_List"></param>
-            public bool Set_Camrea_Parameters_List(MVS_Camera_Parameter_Model _Parameter)
+            public void Set_Camrea_Parameters_List(MVS_Camera_Parameter_Model _Parameter)
             {
 
                 try
                 {
-                    //var b = _Parameter.GetType().GetProperties().OrderBy(x => x.MetadataToken);
 
-                    //var a = _Parameter.GetType().GetProperties().Where((_w) =>
-                    //{
-                    //    Camera_ReadWriteAttribute _CameraRW_Type = (Camera_ReadWriteAttribute)_w.GetCustomAttribute(typeof(Camera_ReadWriteAttribute));
-                    //    if (_CameraRW_Type.GetCamera_ReadWrite_Type() == Camera_Parameter_RW_Type.Write) { return true; } else { return false; }
-
-                    //}).ToList();
-
-                    //a.Sort((x) =>
-                    //{
-                    //    ParameterOrderAttribute Orl = (ParameterOrderAttribute)x.GetCustomAttribute(typeof(ParameterOrderAttribute));
-                    //    return Orl.GetOrder();
-                    //        });
                     //遍历设置参数,调整参数顺序
                     foreach (PropertyInfo _Type in _Parameter.GetType().GetProperties().OrderBy(x => x.MetadataToken))
                     {
@@ -766,22 +751,18 @@ namespace MVS_SDK_Base.Model
                             if (!Set_Camera_Parameters_Val(Camera, _Type, _Type.Name, _Type.GetValue(_Parameter)))
                             {
 
-                                //return new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info = "_参数名：" + _Type.Name };
+
                                 throw new Exception(MVE_Result_Enum.相机参数设置错误 + "_参数名：" + _Type.Name);
                             }
                         }
                     }
-
-
-                    //return new MPR_Status_Model(MVE_Result_Enum.Run_OK) { Result_Error_Info = "相机参数全部设置成功！" };
-                    return true;
                 }
 
 
                 catch (Exception e)
                 {
                     throw new Exception(MVE_Result_Enum.相机参数设置错误 + " 原因：" + e.Message);
-                    //return new MPR_Status_Model(MVE_Result_Enum.相机参数设置错误) { Result_Error_Info = e.Message };
+
                 }
 
 
@@ -791,7 +772,7 @@ namespace MVS_SDK_Base.Model
             /// 获得一图像显示到指定窗口
             /// </summary>
             /// <param name="_HWindow"></param>
-            public HImage GetOneFrameTimeout()
+            public HImage GetOneFrameTimeout(MVS_Camera_Parameter_Model _Camera_parameter)
             {
 
 
@@ -805,12 +786,12 @@ namespace MVS_SDK_Base.Model
                     }
 
                     //设置为单帧模式
-                    Camera_parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_SINGLE;
+                    _Camera_parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_SINGLE;
 
                     //Set_Camrea_Parameters_List(Camera_parameter);
 
                     //设置相机总参数
-                    Set_Camrea_Parameters_List(Camera_parameter);
+                    Set_Camrea_Parameters_List(_Camera_parameter);
 
                     StartGrabbing();
 
@@ -821,15 +802,6 @@ namespace MVS_SDK_Base.Model
                     //转换Halcon图像变量
                     _HImage = Halcon_SDK.Mvs_To_Halcon_Image(_MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData);
 
-
-
-
-
-                    //发送显示图像位置
-                    //_Window.DispObj(_HImage);
-
-
-                    //User_Log_Add(Select_Camera.Camera.ToString() + "相机图像采集成功！", Log_Show_Window_Enum.Home);
 
 
                     return _HImage;
@@ -1532,7 +1504,7 @@ namespace MVS_SDK_Base.Model
                         //return true;
 
                     }
-               
+
 
 
                     ///加载手眼文件
@@ -1544,7 +1516,7 @@ namespace MVS_SDK_Base.Model
                         Camera_Calibration.HandEye_ToolinCamera = new Point_Model(_HandEyeP);
                         Camera_Calibration.Camera_Calibration_Setup = Camera_Calibration_Mobile_Type_Enum.Calibrated_OK;
                     }
-               
+
 
 
                     //throw new Exception(Camera_Info.SerialNumber + "：相机没有内参信息，请把内参文件存放在："+_File);
