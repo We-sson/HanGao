@@ -95,7 +95,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public Find_Shape_Based_ModelXld Find_Shape_Model { get; set; } = new Find_Shape_Based_ModelXld();
+        //public Find_Shape_Based_ModelXld Find_Shape_Model { get; set; } = new Find_Shape_Based_ModelXld();
+
 
 
 
@@ -113,7 +114,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public Find_Shape_Results_Model Find_Shape_Model_Results(HImage _image, Halcon_Camera_Calibration_Parameters_Model? _camera_Param = null, Point_Model? _toolinCamera = null)
+        public Find_Shape_Results_Model Find_Shape_Model_Results(Find_Shape_Based_ModelXld Find_Shape_Model, HImage _image, Halcon_Camera_Calibration_Parameters_Model? _camera_Param = null, Point_Model? _toolinCamera = null)
         {
 
             //初始化匹配类型
@@ -907,7 +908,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public HImage Set_ImageRectified(HImage _image)
+        public HImage Set_ImageRectified(Find_Shape_Based_ModelXld Find_Shape_Model, HImage _image)
         {
 
             HImage _ResultImage = new HImage();

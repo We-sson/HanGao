@@ -571,7 +571,9 @@ namespace HanGao.ViewModel
                 Button _Contol = Sm.Source as Button;
                 try
                 {
-                    Select_Vision_Value.Find_Preprocessing_Process_List = Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
+
+                    Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Find_Preprocessing_Process_List;
+                    Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
 
                     //Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
 
@@ -594,6 +596,7 @@ namespace HanGao.ViewModel
             {
                 try
                 {
+                    Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Find_Preprocessing_Process_List;
                     Image_Preprocessing_Process.Preprocessing_Process_Lsit_Delete();
 
                     User_Log_Add("选择选项删除成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
@@ -623,7 +626,7 @@ namespace HanGao.ViewModel
                         HImage _Image = new HImage();
                         //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
-
+                        Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Find_Preprocessing_Process_List;
                         _Image = Image_Preprocessing_Process.Preprocessing_Process_Start((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
                         //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
 
@@ -1292,7 +1295,7 @@ namespace HanGao.ViewModel
                     try
                     {
 
-                        Halcon_Window_Display.Features_Window.DisplayImage = Halcon_Shape_Mode.Set_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+                        Halcon_Window_Display.Features_Window.DisplayImage = Halcon_Shape_Mode.Set_ImageRectified(Select_Vision_Value.Find_Shape_Data,(HImage)Halcon_Window_Display.Features_Window.DisplayImage);
 
                         User_Log_Add("图像校正成功！", Log_Show_Window_Enum.Home);
 
@@ -1333,7 +1336,7 @@ namespace HanGao.ViewModel
                         Find_Text_Models_UI_IsEnable = false;
 
                         ///查找模型
-                        Find_Features_Window_Result = Halcon_Shape_Mode.Find_Shape_Model_Results((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+                        Find_Features_Window_Result = Halcon_Shape_Mode.Find_Shape_Model_Results(Select_Vision_Value.Find_Shape_Data,(HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
 
 
@@ -1650,10 +1653,10 @@ namespace HanGao.ViewModel
         public void Initialization_Vision_File()
         {
 
-          
+
             Find_Data_List = new Vision_Xml_Method().Read_Xml_File<Vision_Data>();
-            
-        
+
+
         }
 
         /// <summary>
@@ -1848,14 +1851,14 @@ namespace HanGao.ViewModel
                     }
                     else
                     {
-                    User_Log_Add("相机设备未选择！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
+                        User_Log_Add("相机设备未选择！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
                     }
 
                     User_Log_Add(Camera_Device_List.Select_Camera.Camera_Info.SerialNumber + "：相机参数写入成功！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Question);
                 }
                 catch (Exception _e)
                 {
-                    User_Log_Add("设置相机参数失败！原因："+_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
+                    User_Log_Add("设置相机参数失败！原因：" + _e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
                 }
             });
         }
@@ -2328,16 +2331,16 @@ namespace HanGao.ViewModel
                 if (_Vision_Model != null)
                 {
 
-                    Select_Vision_Value.Camera_Parameter_Data = new MVS_Camera_Parameter_Model(_Vision_Model.Camera_Parameter_Data);
-                    Halcon_Shape_Mode.Find_Shape_Model = new Find_Shape_Based_ModelXld(_Vision_Model.Find_Shape_Data);
-                    Image_Preprocessing_Process.Preprocessing_Process_List = new ObservableCollection<Preprocessing_Process_Lsit_Model>(_Vision_Model.Find_Preprocessing_Process_List);
-       
-                } 
+                    //Select_Vision_Value.Camera_Parameter_Data = _Vision_Model.Camera_Parameter_Data;
+                    //Halcon_Shape_Mode.Find_Shape_Model =_Vision_Model.Find_Shape_Data;
+                    //Image_Preprocessing_Process.Preprocessing_Process_List = _Vision_Model.Find_Preprocessing_Process_List;
+
+                }
                 else
                 {
 
                     User_Log_Add("参数" + _Vision_Model.ID + "号已加载到参数列表中！", Log_Show_Window_Enum.Home);
-                   
+
 
                 }
             });
@@ -2366,7 +2369,9 @@ namespace HanGao.ViewModel
                 if (Select_Vision_Value != null)
                 {
 
-                  new Vision_Xml_Method().Save_Xml(Find_Data_List);
+                    new Vision_Xml_Method().Save_Xml(Find_Data_List);
+
+                    User_Log_Add($"视觉参数{Select_Vision_Value.Find_Shape_Data.FInd_ID}号保存成功。", Log_Show_Window_Enum.Home);
 
                 }
                 else

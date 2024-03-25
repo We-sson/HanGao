@@ -1428,18 +1428,18 @@
                              ItemsSource="{Binding Find_Data_List.Vision_List}"
                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                             SelectedIndex="-1"
+                             SelectedIndex="0"
                              SelectedValue="{Binding Select_Vision_Value}"
                              VirtualizingPanel.IsVirtualizing="True"
                              VirtualizingPanel.ScrollUnit="Pixel"
                              VirtualizingPanel.VirtualizationMode="Recycling">
-                        <i:Interaction.Triggers>
+                        <!--<i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding Find_Data_Send_Comm}"
                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                        </i:Interaction.Triggers>-->
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border Width=" 50"
@@ -5983,7 +5983,7 @@
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                       GridLinesVisibility="Horizontal"
                                                       HeadersVisibility="Column"
-                                                      ItemsSource="{Binding Image_Preprocessing_Process.Preprocessing_Process_List}"
+                                                      ItemsSource="{Binding Select_Vision_Value.Find_Preprocessing_Process_List}"
                                                       RowHeaderWidth="0"
                                                       RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
                                                       SelectedValue="{Binding Image_Preprocessing_Process.Preprocessing_Process_List_Selete}"
@@ -5994,25 +5994,7 @@
                                                 </DataGrid.Resources>
 
                                                 <DataGrid.Columns>
-                                                    <!--<DataGridTemplateColumn Width="50" IsReadOnly="False">
-                                                    <DataGridTemplateColumn.Header>
-                                                        <TextBlock Text="序号"
-                                                                   Margin="4"
-                                                                   HorizontalAlignment="Center"
-                                                                   VerticalAlignment="Center"
-                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                   FontSize="16"
-                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                    </DataGridTemplateColumn.Header>
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <Label Content="{Binding Method_Num}"
-                                                                   HorizontalAlignment="Center"
-                                                                   VerticalAlignment="Center"
-                                                                   FontSize="14" />
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>-->
+
 
                                                     <DataGridTemplateColumn Width="*">
                                                         <DataGridTemplateColumn.Header>
@@ -6884,31 +6866,6 @@
                                                         </DataGridTemplateColumn.CellTemplate>
                                                     </DataGridTemplateColumn>
 
-                                                    <!--<DataGridTemplateColumn Width="50">
-                                                    <DataGridTemplateColumn.Header>
-                                                        <TextBlock Text="耗时"
-                                                                   Margin="4"
-                                                                   HorizontalAlignment="Stretch"
-                                                                   VerticalAlignment="Stretch"
-                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                   FontSize="16"
-                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                    </DataGridTemplateColumn.Header>
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-
-                                                            <TextBox Text="{Binding Method_Run_Time, StringFormat=\{0\}ms, UpdateSourceTrigger=LostFocus}"
-                                                                     HorizontalAlignment="Stretch"
-                                                                     VerticalAlignment="Stretch"
-                                                                     HorizontalContentAlignment="Center"
-                                                                     VerticalContentAlignment="Center"
-                                                                     Background="Transparent"
-                                                                     BorderThickness="0"
-                                                                     FontSize="14"
-                                                                     IsReadOnly="True" />
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>-->
                                                 </DataGrid.Columns>
                                             </DataGrid>
                                         </Grid>
@@ -7091,7 +7048,7 @@
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Shape_Based_Model_Enum}"
-                                                      SelectedValue="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}">
+                                                      SelectedValue="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -7130,7 +7087,7 @@
                                                     Minimum=" -360"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.AngleStart}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.AngleStart, StringFormat={}{0:F2}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_AngleStart, StringFormat={}{0:F2}}"
@@ -7166,7 +7123,7 @@
                                                     Minimum=" 0"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.AngleExtent}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.AngleExtent, StringFormat={}{0:F2}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_AngleExtent, StringFormat={}{0:F2}}"
@@ -7191,7 +7148,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7219,7 +7176,7 @@
                                                     Minimum=" 0.5"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.ScaleRMin}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.ScaleRMin, StringFormat={}{0:F1}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_ScaleRMin, StringFormat={}{0:F1}}"
@@ -7238,7 +7195,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7265,7 +7222,7 @@
                                                     Minimum="1.0"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.ScaleRMax}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.ScaleRMax, StringFormat={}{0:F1}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_ScaleRMax, StringFormat={}{0:F1}}"
@@ -7284,7 +7241,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7311,7 +7268,7 @@
                                                     Minimum=" 0.5"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.ScaleCMin}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.ScaleCMin, StringFormat={}{0:F1}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_ScaleCMin, StringFormat={}{0:F1}}"
@@ -7330,7 +7287,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7357,10 +7314,10 @@
                                                     Minimum="1.0"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.01"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.ScaleCMax, StringFormat={}{0:F1}}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.ScaleCMax, StringFormat={}{0:F1}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=Find_ScaleCMax}"
+                                                     Text="{Binding Value, ElementName=Find_ScaleCMax, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -7380,7 +7337,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7411,7 +7368,7 @@
                                                     Minimum=" 0"
                                                     SmallChange="0.02"
                                                     TickFrequency=" 0.02"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.MinScore, StringFormat={}{0:F2}}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.MinScore, StringFormat={}{0:F2}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_MinScore, StringFormat={}{0:F2}}"
@@ -7447,7 +7404,7 @@
                                                     Minimum="0"
                                                     SmallChange="1"
                                                     TickFrequency=" 1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.NumMatches}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.NumMatches, StringFormat={}{0:N0}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_NumMatches, StringFormat={}{0:N0}}"
@@ -7483,7 +7440,7 @@
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.MaxOverlap}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.MaxOverlap, StringFormat={}{0:F1}}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_MaxOverlap, StringFormat={}{0:F1}}"
@@ -7522,7 +7479,7 @@
                                                     Minimum="0"
                                                     SmallChange="1"
                                                     TickFrequency=" 1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.NumLevels}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.NumLevels, StringFormat={}{0:N0}}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Width=" 100"
@@ -7551,7 +7508,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Ncc_Model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Ncc_Model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7576,7 +7533,7 @@
 
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 2"
-                                                          IsChecked="{Binding Halcon_Shape_Mode.Find_Shape_Model.NCC_SubPixel}"
+                                                          IsChecked="{Binding Select_Vision_Value.Find_Shape_Data.NCC_SubPixel}"
                                                           Margin="0,0,0,0"
                                                           HorizontalContentAlignment="Stretch"
                                                           VerticalContentAlignment="Stretch"
@@ -7635,16 +7592,16 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Scale_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Scale_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7671,7 +7628,7 @@
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.Greediness}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.Greediness, StringFormat={}{0:F1}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Find_Greediness, StringFormat={}{0:F1}}"
@@ -7696,16 +7653,16 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.shape_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.planar_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Scale_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.Scale_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7732,7 +7689,7 @@
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Subpixel_Values_Enum}"
-                                                      SelectedValue="{Binding Halcon_Shape_Mode.Find_Shape_Model.SubPixel}">
+                                                      SelectedValue="{Binding Select_Vision_Value.Find_Shape_Data.SubPixel}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -7753,7 +7710,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7781,7 +7738,7 @@
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.Angle_change_restriction}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.Angle_change_restriction, StringFormat={}{0:F1}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Angle_change_restriction, StringFormat={}{0:F1}}"
@@ -7800,7 +7757,7 @@
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
 
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Find_Shape_Model.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
+                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Find_Shape_Data.Shape_Based_Model}" Value="{x:Static Halcon_Enum:Shape_Based_Model_Enum.local_deformable_model}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -7827,7 +7784,7 @@
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Halcon_Shape_Mode.Find_Shape_Model.Aniso_scale_change_restriction}" />
+                                                    Value="{Binding Select_Vision_Value.Find_Shape_Data.Aniso_scale_change_restriction, StringFormat={}{0:F1}}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding Value, ElementName=Aniso_scale_change_restriction, StringFormat={}{0:F1}}"
@@ -7854,7 +7811,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="Find_Model_ID" Grid.Column=" 3"
-                                                     Text="{Binding Halcon_Shape_Mode.Find_Shape_Model.FInd_ID}"
+                                                     Text="{Binding Select_Vision_Value.Find_Shape_Data.FInd_ID, StringFormat={}{0:N0}}"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
                                                      Background="Transparent"
@@ -7883,7 +7840,7 @@
                                                       BorderThickness="2"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:ShapeModel_Name_Enum}"
-                                                      SelectedValue="{Binding Halcon_Shape_Mode.Find_Shape_Model.ShapeModel_Name}">
+                                                      SelectedValue="{Binding Select_Vision_Value.Find_Shape_Data.ShapeModel_Name}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"

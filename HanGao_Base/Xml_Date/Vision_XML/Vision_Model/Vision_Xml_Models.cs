@@ -25,7 +25,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         /// <summary>
         /// 预处理流程
         /// </summary>
-        public ObservableCollection<Preprocessing_Process_Lsit_Model> Find_Preprocessing_Process_List { set; get; } = [new Preprocessing_Process_Lsit_Model() , new Preprocessing_Process_Lsit_Model()];
+        public ObservableCollection<Preprocessing_Process_Lsit_Model> Find_Preprocessing_Process_List { set; get; } = [];
     
 
 
