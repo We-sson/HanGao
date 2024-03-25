@@ -408,15 +408,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public decimal V_5 { set; get; } = default;
      
-        public Enum? E_1 { set; get; } = default;
+        public Enum E_1 { set; get; } 
 
-        public Enum? E_2 { set; get; } = default;
+        public Enum E_2 { set; get; } 
 
-        public Enum? E_3 { set; get; } = default;
+        public Enum E_3 { set; get; } 
 
-        public Enum? E_4 { set; get; } = default;
+        public Enum E_4 { set; get; } 
   
-        public Enum? E_5 { set; get; } = default;
+        public Enum E_5 { set; get; }
 
     }
 
