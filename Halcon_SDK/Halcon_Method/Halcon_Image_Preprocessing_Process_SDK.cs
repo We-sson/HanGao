@@ -3,6 +3,7 @@ using HalconDotNet;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Xml.Serialization;
 using Throw;
 
 namespace Halcon_SDK_DLL.Halcon_Method
@@ -359,19 +360,19 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 case Image_Preprocessing_Process_Enum.MedianImage:
 
                     E_1 = MedianImage_MaskType_Enum.square;
-                    V_1 = 0.8;
+                    V_1 = (decimal)0.8;
                     E_2 = MedianImage_Margin_Enum.continued;
                     break;
                 case Image_Preprocessing_Process_Enum.Illuminate:
                     V_1 = 9;
                     V_2 = 9;
-                    V_3 = 0.8;
+                    V_3 = (decimal)0.8;  
                  
                     break;
                 case Image_Preprocessing_Process_Enum.Emphasize:
                     V_1 = 9;
                     V_2 = 9;
-                    V_3 = 0.8;
+                    V_3 = (decimal)0.8;
                     break;
                 case Image_Preprocessing_Process_Enum.GrayClosingRect:
                     V_1 = 9;
@@ -396,17 +397,26 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public int Method_Run_Time { set; get; } = 0;
 
+    
+        public decimal V_1 { set; get; } = default;
+        
+        public decimal V_2 { set; get; } = default;
+     
+        public decimal V_3 { set; get; } = default;
+      
+        public decimal V_4 { set; get; } = default;
 
-        public object? V_1 { set; get; }
-        public object? V_2 { set; get; }
-        public object? V_3 { set; get; }
-        public object? V_4 { set; get; }
-        public object? V_5 { set; get; }
-        public Enum? E_1 { set; get; }
-        public Enum? E_2 { set; get; }
-        public Enum? E_3 { set; get; }
-        public Enum? E_4 { set; get; }
-        public Enum? E_5 { set; get; }
+        public decimal V_5 { set; get; } = default;
+     
+        public Enum? E_1 { set; get; } = default;
+
+        public Enum? E_2 { set; get; } = default;
+
+        public Enum? E_3 { set; get; } = default;
+
+        public Enum? E_4 { set; get; } = default;
+  
+        public Enum? E_5 { set; get; } = default;
 
     }
 
