@@ -2409,15 +2409,18 @@ namespace HanGao.ViewModel
         /// </summary>
         public ICommand Delete_Vision_Data_Comm
         {
-            get => new RelayCommand<object>((Sm) =>
+            get => new RelayCommand<ListBox>((Sm) =>
             {
                 if (Sm != null)
                 {
-                    Vision_Xml_Models _Vision = (Vision_Xml_Models)Sm;
+                    
+                    Vision_Xml_Models _Vision = (Vision_Xml_Models)Sm.SelectedValue;
                     if (int.Parse(_Vision.ID) != 0)
                     {
                         Find_Data_List.Vision_List.Remove(_Vision);
                         Find_Data_List.Vision_List.OrderByDescending(_De => _De.ID);
+                        ///选择默认号
+                        Sm.SelectedIndex = 0;
                         User_Log_Add("参数" + _Vision.ID + "号是参数已删除！请重新选择参数号", Log_Show_Window_Enum.Home);
                     }
                     else

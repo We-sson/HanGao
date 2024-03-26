@@ -1484,7 +1484,7 @@
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Delete_Vision_Data_Comm}"
-                                                       CommandParameter="{Binding ElementName=Vision_List_UI, Path=SelectedValue}"
+                                                       CommandParameter="{Binding ElementName=Vision_List_UI}"
                                                        PassEventArgsToCommand="False" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -6361,6 +6361,7 @@
                                                                                                   IsDropDownOpen="False"
                                                                                                   IsSynchronizedWithCurrentItem="True"
                                                                                                   ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:MedianImage_MaskType_Enum}"
+                                                                                                  SelectedIndex="0"
                                                                                                   SelectedItem="{Binding E_1, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                             <ComboBox.ItemTemplate>
@@ -6412,12 +6413,12 @@
                                                                                                 IsSnapToTickEnabled="True"
                                                                                                 Maximum="4095"
                                                                                                 Minimum="1"
-                                                                                                SmallChange="1"
-                                                                                                TickFrequency=" 1"
+                                                                                                SmallChange="0.1"
+                                                                                                TickFrequency=" 0.1"
                                                                                                 Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                                                                 Text="{Binding ElementName=Median_Image_Radius, Path=Value}"
+                                                                                                 Text="{Binding ElementName=Median_Image_Radius, Path=Value, StringFormat={}{0:F1}}"
                                                                                                  HorizontalContentAlignment="Center"
                                                                                                  VerticalContentAlignment="Center"
                                                                                                  Background="Transparent"
@@ -6455,6 +6456,7 @@
                                                                                                   IsDropDownOpen="False"
                                                                                                   IsSynchronizedWithCurrentItem="True"
                                                                                                   ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:MedianImage_Margin_Enum}"
+                                                                                                  SelectedIndex="0"
                                                                                                   SelectedItem="{Binding E_2, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                             <ComboBox.ItemTemplate>

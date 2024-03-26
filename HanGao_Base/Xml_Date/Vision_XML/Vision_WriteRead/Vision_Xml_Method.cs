@@ -354,7 +354,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.OmitXmlDeclaration = true;
             settings.Encoding = Encoding.Default;
-            settings.Indent = true;
+            settings.Indent = true  ;
+            settings.WriteEndDocumentOnClose = false  ;
             //读取文件操作
 
 

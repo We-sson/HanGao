@@ -3,7 +3,6 @@ using HalconDotNet;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Xml.Serialization;
 using Throw;
 
 namespace Halcon_SDK_DLL.Halcon_Method
@@ -26,10 +25,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
         }
-         public Halcon_Image_Preprocessing_Process_SDK(ObservableCollection<Preprocessing_Process_Lsit_Model> _)
+        public Halcon_Image_Preprocessing_Process_SDK(ObservableCollection<Preprocessing_Process_Lsit_Model> _)
         {
             Preprocessing_Process_List = _;
-  
+
         }
 
         public ObservableCollection<Preprocessing_Process_Lsit_Model> Preprocessing_Process_List { set; get; } = new ObservableCollection<Preprocessing_Process_Lsit_Model>();
@@ -69,7 +68,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
 
-           
+
 
             switch (_Work_Enum)
             {
@@ -77,7 +76,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     if (Preprocessing_Process_List_Selete != null)
                     {
 
-                      var _Index = Preprocessing_Process_List.IndexOf(Preprocessing_Process_List_Selete) ;
+                        var _Index = Preprocessing_Process_List.IndexOf(Preprocessing_Process_List_Selete);
                         if (_Index < 0)
                         { Preprocessing_Process_New(0); }
                         else
@@ -93,7 +92,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 case Image_Preprocessing_Process_Work_Enum.Down_Insertion:
                     if (Preprocessing_Process_List_Selete != null)
                     {
-                        var a = Preprocessing_Process_List.IndexOf(Preprocessing_Process_List_Selete)+1;
+                        var a = Preprocessing_Process_List.IndexOf(Preprocessing_Process_List_Selete) + 1;
                         Preprocessing_Process_New(a);
                     }
                     else
@@ -142,16 +141,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
             {
                 //开始单个处理时间
                 DateTime startTime = DateTime.Now;
-              
 
-              
+
+
                 Get_Preprocessing_Method(item.Image_Preprocessing_Process_Method, item.V_1, item.V_2, item.V_3, item.V_4, item.V_5, item.E_1, item.E_2, item.E_3, item.E_4, item.E_5).Invoke();
 
                 // 计算时间差
-                item.Method_Run_Time=(DateTime.Now - startTime).Milliseconds;
+                item.Method_Run_Time = (DateTime.Now - startTime).Milliseconds;
             }
 
-            Preprocessing_Process_List_RunTime= (DateTime.Now - AllstartTime).Milliseconds;
+            Preprocessing_Process_List_RunTime = (DateTime.Now - AllstartTime).Milliseconds;
 
             return Image;
 
@@ -194,7 +193,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <param name="E_5"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public Action Get_Preprocessing_Method(Image_Preprocessing_Process_Enum _Process, object? V_1 = null, object? V_2 = null, object? V_3 = null, object? V_4 = null, object? V_5 = null, Enum? E_1 = null, Enum? E_2 = null, Enum? E_3 = null, Enum? E_4 = null, Enum? E_5 = null)
+        public Action Get_Preprocessing_Method(Image_Preprocessing_Process_Enum _Process, object? V_1 = null, object? V_2 = null, object? V_3 = null, object? V_4 = null, object? V_5 = null, string? E_1 = null, string? E_2 = null, string? E_3 = null, string? E_4 = null, string? E_5 = null)
         {
 
 
@@ -202,12 +201,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             return _Process switch
             {
-                Image_Preprocessing_Process_Enum.ScaleImageMax =>()=> ScaleImageMax(),
+                Image_Preprocessing_Process_Enum.ScaleImageMax => () => ScaleImageMax(),
                 Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
                 Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
-                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage((MedianImage_MaskType_Enum)E_1!, Convert.ToInt32(V_1), (MedianImage_Margin_Enum)E_2!),
+                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage(Enum.Parse<MedianImage_MaskType_Enum>(E_1!), Convert.ToInt32(V_1), Enum.Parse<MedianImage_Margin_Enum>(E_2!)),
                 Image_Preprocessing_Process_Enum.Illuminate => () => Illuminate(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
-                Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble (V_3)),
+                Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
                 Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
                 _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(_Process)),// 处理默认情况，或者根据需要抛出异常
             };
@@ -216,7 +215,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 处理图像
         /// </summary>
-        private  HImage Image { set; get; } = new HImage();
+        private HImage Image { set; get; } = new HImage();
 
 
 
@@ -241,7 +240,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             MedianRect_MaskHeight.ThrowIfNull("参数不能：Null ");
             //HOperatorSet.MedianRect(_HImage, out _HImage, _Find_Property.MedianRect_MaskWidth, _Find_Property.MedianRect_MaskHeight);
 
-            Image= Image.MedianRect(MedianRect_MaskWidth, MedianRect_MaskHeight);
+            Image = Image.MedianRect(MedianRect_MaskWidth, MedianRect_MaskHeight);
 
         }
 
@@ -251,7 +250,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             maskHeight.ThrowIfNull("参数不能：Null ");
             maskWidth.ThrowIfNull("参数不能：Null ");
 
-            Image= Image.GrayOpeningRect(maskHeight, maskWidth);
+            Image = Image.GrayOpeningRect(maskHeight, maskWidth);
 
 
         }
@@ -263,7 +262,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             Margin_Model.ThrowIfNull("参数不能：Null ");
 
 
-            Image= Image.MedianImage(MaskType_Model.ToString(), Median_image_Radius, Margin_Model.ToString());
+            Image = Image.MedianImage(MaskType_Model.ToString(), Median_image_Radius, Margin_Model.ToString());
         }
 
 
@@ -274,7 +273,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             factor.ThrowIfNull("参数不能：Null ");
 
 
-            Image= Image.Illuminate(maskWidth, maskHeight, factor);
+            Image = Image.Illuminate(maskWidth, maskHeight, factor);
         }
 
 
@@ -285,7 +284,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             maskHeight.ThrowIfNull("参数不能：Null ");
             factor.ThrowIfNull("参数不能：Null ");
 
-            Image= Image.Emphasize(maskWidth, maskHeight, factor);
+            Image = Image.Emphasize(maskWidth, maskHeight, factor);
         }
 
 
@@ -294,7 +293,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             maskHeight.ThrowIfNull("参数不能：Null ");
             maskWidth.ThrowIfNull("参数不能：Null ");
 
-            Image= Image.GrayClosingRect(maskHeight, maskWidth);
+            Image = Image.GrayClosingRect(maskHeight, maskWidth);
         }
 
 
@@ -312,7 +311,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         }
 
-      
+
 
 
         private Image_Preprocessing_Process_Enum _Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.ScaleImageMax;
@@ -321,9 +320,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public Image_Preprocessing_Process_Enum Image_Preprocessing_Process_Method
         {
-            get { return _Image_Preprocessing_Process_Method ; }
-            set {
-                _Image_Preprocessing_Process_Method  = value;
+            get { return _Image_Preprocessing_Process_Method; }
+            set
+            {
+                _Image_Preprocessing_Process_Method = value;
                 Preprocessing_Process_Work_Initialization_Value(_Image_Preprocessing_Process_Method);
             }
         }
@@ -348,35 +348,35 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-                    V_1 = 9;
-                    V_2 = 9;
+                    V_1 = "9";
+                    V_2 = "9";
 
 
                     break;
                 case Image_Preprocessing_Process_Enum.GrayOpeningRect:
-                    V_1 = 9;
-                    V_2 = 9;
+                    V_1 = "9";
+                    V_2 = "9";
                     break;
                 case Image_Preprocessing_Process_Enum.MedianImage:
 
-                    E_1 = MedianImage_MaskType_Enum.square;
-                    V_1 = (decimal)0.8;
-                    E_2 = MedianImage_Margin_Enum.continued;
+                    E_1 = MedianImage_MaskType_Enum.square.ToString();
+                    V_1 = "1";
+                    E_2 = MedianImage_Margin_Enum.continued.ToString();
                     break;
                 case Image_Preprocessing_Process_Enum.Illuminate:
-                    V_1 = 9;
-                    V_2 = 9;
-                    V_3 = (decimal)0.8;  
-                 
+                    V_1 = "9";
+                    V_2 = "9";
+                    V_3 = "0.8";
+
                     break;
                 case Image_Preprocessing_Process_Enum.Emphasize:
-                    V_1 = 9;
-                    V_2 = 9;
-                    V_3 = (decimal)0.8;
+                    V_1 = "9";
+                    V_2 = "9";
+                    V_3 = "0.8";
                     break;
                 case Image_Preprocessing_Process_Enum.GrayClosingRect:
-                    V_1 = 9;
-                    V_2 = 9;
+                    V_1 = "9";
+                    V_2 = "9";
                     break;
 
             }
@@ -397,26 +397,29 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public int Method_Run_Time { set; get; } = 0;
 
-    
-        public decimal V_1 { set; get; } = default;
-        
-        public decimal V_2 { set; get; } = default;
-     
-        public decimal V_3 { set; get; } = default;
-      
-        public decimal V_4 { set; get; } = default;
 
-        public decimal V_5 { set; get; } = default;
-     
-        public Enum E_1 { set; get; } 
+        public string? V_1 { set; get; } = string.Empty;
 
-        public Enum E_2 { set; get; } 
+        public string? V_2 { set; get; } = string.Empty;
 
-        public Enum E_3 { set; get; } 
+        public string? V_3 { set; get; } = string.Empty;
 
-        public Enum E_4 { set; get; } 
-  
-        public Enum E_5 { set; get; }
+        public string? V_4 { set; get; } = string.Empty;
+
+        public string? V_5 { set; get; } = string.Empty;
+
+
+        public string ? E_1 { set; get; } = string.Empty;
+
+
+        public string? E_2 { set; get; } = string.Empty;
+
+        public string? E_3 { set; get; } = string.Empty;
+
+
+        public string? E_4 { set; get; } = string.Empty;
+
+        public string? E_5 { set; get; } = string.Empty;
 
     }
 

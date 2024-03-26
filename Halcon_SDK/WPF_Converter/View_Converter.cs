@@ -140,12 +140,12 @@ namespace Halcon_SDK_DLL.WPF_Converter
         {
             try
             {
-                if (value!=null)
+                if (value != null && (object)value != string.Empty)
                 {
 
                 if (targetType == typeof(object)) return value;
                 var converter = TypeDescriptor.GetConverter(targetType);
-                return converter.ConvertFrom(value.ToString()!)!;
+                return converter.ConvertFrom(value.ToString()!);
                 }
                 return 0;
 
