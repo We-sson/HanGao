@@ -1,0 +1,36 @@
+<ETHERNETKRL>
+	<CONFIGURATION>
+		<EXTERNAL>
+		   <IP>192.168.0.1</IP>
+			<PORT>5400</PORT>
+		</EXTERNAL>
+		<INTERNAL>
+			<ALIVE Set_Flag="1"/>
+		</INTERNAL>
+	</CONFIGURATION>
+	<RECEIVE>
+		<XML>
+		 <ELEMENT Tag="Robot_Send/@IsStatus" Type="BOOL"  Set_Flag="2" /> 
+       <ELEMENT Tag="Robot_Send/Message_Error" Type="STRING"/>
+		 <ELEMENT Tag="Robot_Send/Creation_Point" Type="FRAME"/>
+		</XML>
+	</RECEIVE>
+	<SEND>
+		<XML>
+			<ELEMENT Tag="Robot_Receive/@Vision_Model" Type="STRING"/>
+         <ELEMENT Tag="Robot_Receive/@Robot_Type" Type="STRING"/>
+         <ELEMENT Tag="Robot_Receive/Camera_Pos/@X" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Camera_Pos/@Y" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Camera_Pos/@Z" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Camera_Pos/@A" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Camera_Pos/@B" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Camera_Pos/@C" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Origin_Pos/@X" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Origin_Pos/@Y" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Origin_Pos/@Z" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Origin_Pos/@A" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Origin_Pos/@B" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Origin_Pos/@C" Type="REAL"/>
+		</XML>
+	</SEND>
+</ETHERNETKRL>

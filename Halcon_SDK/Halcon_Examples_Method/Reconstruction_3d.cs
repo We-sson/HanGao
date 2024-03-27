@@ -9,6 +9,50 @@ public class Reconstruction_3d
 
 
 {
+
+
+
+    public  List<HObjectModel3D> Gen_Robot_Camera_3DModel(HPose HandEye_ToolinCamera,HPose Model_Camera_Pos,HPose Model_Plane_Pos, HCamPar Select_Camera_Par)
+    {
+        List<HObjectModel3D> _Robot_Camera_3dModel = new List<HObjectModel3D>();
+
+
+        try
+        {
+
+
+        Point_Model CamInTool = new Point_Model(HandEye_ToolinCamera.PoseInvert());
+        Point_Model ToolInBase = new Point_Model(Model_Camera_Pos);
+        Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
+        //生产相机标模型
+        List<HObjectModel3D> _Camera_3D = Gen_Camera_object_model_3d(Select_Camera_Par, CameraInBase.HPose);
+        _Robot_Camera_3dModel.AddRange(_Camera_3D);
+        //生产机器人坐标模型
+        List<HObjectModel3D> _RobotTcp3D = GenRobot_Tcp_Base_Model(Model_Plane_Pos);
+
+        _Robot_Camera_3dModel.AddRange(_RobotTcp3D);
+
+        return _Robot_Camera_3dModel;
+
+        }
+        catch (Exception e)
+        {
+
+            throw new Exception("创建机器人相机位置模型失败！原因："+e.Message);
+        }
+
+
+
+
+
+
+
+
+
+    }
+
+
+
     // Procedures 
     // Chapter: 3D Object Model / Creation
     // Short Description: Generate a symbolic 3D object model of a camera. 
@@ -2638,7 +2682,10 @@ public class Reconstruction_3d
     {
 
 
+        List<HObjectModel3D> _RobotBase3D = new List<HObjectModel3D>();
 
+        try
+        {
 
         List<HObjectModel3D> _RobotTcp3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Tool);
 
@@ -2651,7 +2698,7 @@ public class Reconstruction_3d
 
 
         ////生产机器人坐标模型
-        List<HObjectModel3D> _RobotBase3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
+         _RobotBase3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
 
 
         _RobotBase3D.AddRange(_RobotTcp3D);
@@ -2660,6 +2707,13 @@ public class Reconstruction_3d
 
 
         return _RobotBase3D;
+        }
+        catch (Exception e)
+        {
+
+            throw new Exception("创建机器人位置和基坐标模型失败！原因："+e.Message);
+        }
+
     }
 
 
@@ -4399,12 +4453,25 @@ public class Reconstruction_3d
 
     }
 
-
+    /// <summary>
+    /// 创建相机模型方法
+    /// </summary>
+    /// <param name="hv_CamParam"></param>
+    /// <param name="_CameraPos"></param>
+    /// <param name="hv_CameraSize"></param>
+    /// <param name="hv_ConeLength"></param>
+    /// <returns></returns>
     public List<HObjectModel3D> Gen_Camera_object_model_3d(HCamPar hv_CamParam, HPose _CameraPos, double hv_CameraSize = 0.05, double hv_ConeLength = 0.3)
     {
 
         HPose hv_IdentityPose = new HPose();
         HCameraSetupModel hv_CameraSetupModelID = new HCameraSetupModel();
+        List<HObjectModel3D> hv_OM3DCamera_Cone_Orig = new List<HObjectModel3D>();
+
+
+
+        try
+        {
 
 
         hv_IdentityPose.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
@@ -4414,7 +4481,7 @@ public class Reconstruction_3d
         hv_CameraSetupModelID.SetCameraSetupCamParam(0, new HTuple(), new HCamPar(hv_CamParam), hv_IdentityPose);
 
 
-        List<HObjectModel3D> hv_OM3DCamera_Cone_Orig = gen_camera_setup_object_model_3d(hv_CameraSetupModelID, hv_CameraSize, hv_ConeLength);
+    hv_OM3DCamera_Cone_Orig = gen_camera_setup_object_model_3d(hv_CameraSetupModelID, hv_CameraSize, hv_ConeLength);
 
 
         //偏移相机模型
@@ -4428,6 +4495,13 @@ public class Reconstruction_3d
 
 
         return hv_OM3DCamera_Cone_Orig;
+        }
+        catch (Exception e)
+        {
+
+            throw new Exception("创建相机模型失败！原因："+e.Message);
+        }
+
 
     }
 

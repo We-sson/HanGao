@@ -256,22 +256,37 @@ namespace HanGao.ViewModel
 
 
 
+                //Point_Model CamInTool = new Point_Model(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseInvert());
+                //Point_Model ToolInBase = new Point_Model(Halcon_Shape_Mode.Model_Camera_Pos.HPose);
+                //Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
+                ////生产相机标模型
+                //List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CameraInBase.HPose);
+                ////生产机器人坐标模型
+                //List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Model_Plane_Pos.HPose);
 
-                // pose_invert(ToolInCamPose, CamInToolPose)
-                ///  pose_compose(ToolInBasePose, CamInToolPose, CamInBasePose)
-                //  pose_compose(CamInBasePose, ObjInCamPose, ObjInBasePose)
+                //_RobotTcp3D.AddRange(_Camera_3D);
 
-                Point_Model CamInTool = new Point_Model(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseInvert());
-                Point_Model ToolInBase = new Point_Model(Halcon_Shape_Mode.Model_Camera_Pos.HPose);
-                Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
-                //生产相机标模型
-                List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CameraInBase.HPose);
-                //生产机器人坐标模型
-                List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Model_Plane_Pos.HPose);
+                if (Camera_Device_List.Select_Camera!=null && Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera!=null)
+                {
 
-                _RobotTcp3D.AddRange(_Camera_3D);
-                //显示模型
-                Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_RobotTcp3D));
+                List<HObjectModel3D> _RobotTcp3D = _3DModel.Gen_Robot_Camera_3DModel(
+                    Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose, 
+                    Halcon_Shape_Mode.Model_Camera_Pos.HPose, 
+                    Halcon_Shape_Mode.Model_Plane_Pos.HPose, 
+                    Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar);
+
+
+                    //显示模型
+                    Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_RobotTcp3D));
+                }
+                else
+                {
+                    User_Log_Add("机器人和相机坐标参数不足，无法创建！" , Log_Show_Window_Enum.Home);
+
+                }
+
+
+  
 
                 HImage _Image = new HImage();
 
@@ -293,7 +308,7 @@ namespace HanGao.ViewModel
                 User_Log_Add("创建模型接收位置数据失败原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                 _Send.IsStatus = 0;
-                _Send.Message_Error = "Read Position data Error!";
+                _Send.Message_Error = "Read Position data Error, Check PC!";
                 return _Send;
             }
         }

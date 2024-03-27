@@ -59,7 +59,7 @@ namespace Roboto_Socket_Library.Model
         /// 手眼相机标定发送协议格式
         /// </summary>
         [Serializable]
-        [XmlType("Send")]
+        [XmlType("Robot_Send")]
         public class Vision_Creation_Model_Send
         {
             /// <summary>
@@ -82,7 +82,7 @@ namespace Roboto_Socket_Library.Model
         /// 手眼相机标定接收协议格式
         /// </summary>
         [Serializable]
-        [XmlType("Receive")]
+        [XmlType("Robot_Receive")]
         public class Vision_Creation_Model_Receive
         {
 
@@ -109,12 +109,14 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 接收点位类型的机器人
             /// </summary>
-            public Robot_Type_Enum? Robot_Type { set; get; } 
+            [XmlAttribute]
+            public Robot_Type_Enum Robot_Type { set; get; } 
 
             /// <summary>
             /// 视觉功能
             /// </summary>
-            public Vision_Model_Enum? Vision_Model { set; get; }
+            [XmlAttribute]
+            public Vision_Model_Enum Vision_Model { set; get; }
 
 
         }

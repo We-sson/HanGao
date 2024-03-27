@@ -62,6 +62,9 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
 
   Decl PARAM Find_ID =  {SHORTNAME[] "ID:" ,  VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 1}, UNIT[] "", SHORTCUT[] "" }
 
+  Decl PARAM Plan_Base_No =  {SHORTNAME[] "Base:" ,  VALUE {NUMBER:MIN 1, MAX 32, STEP 1, AUTOLIMIT TRUE, DEFAULT 1}, UNIT[] "", SHORTCUT[] "" }
+
+  
   Decl PARAM HandEye_ID =  {SHORTNAME[] "ID:" ,  VALUE {NUMBER:MIN 0, MAX 999, STEP 1, AUTOLIMIT TRUE, DEFAULT 0}, UNIT[] "", SHORTCUT[] "" }
 
 
@@ -132,6 +135,14 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
             HandEye_Calib_Ini_FOLD[3]="EKRL_HandEye_Point(/"Xml_HandEye_Calib/" , #Calibration_Start)"
             HandEye_Calib_Ini_FOLD[4]=""
             HandEye_Calib_Ini_FOLD[5]=""  
+             
+             
+  DECL FOLD Vision_Creat_Plan_FOLD[5]
+            Vision_Creat_Plan_FOLD[1]=""
+            Vision_Creat_Plan_FOLD[2]=""
+            Vision_Creat_Plan_FOLD[3]="EKRL_Creation_Plan(/"Xml_Vision_Creation_Plan/" , %Plan_Base_No )"
+            Vision_Creat_Plan_FOLD[4]=""
+            Vision_Creat_Plan_FOLD[5]=""  
              
   DECL FOLD HandEye_Calib_End_FOLD[5]
             HandEye_Calib_End_FOLD[1]=""
@@ -209,9 +220,11 @@ ENDSCRIPT
     DECL  InlineForm Calibration_Ini={ FOLD[1] Calibration_Ini_FOLD ,PARAM[1] Calib_Model,ONACCEPT Calibration_Ini_Fun}
 
     DECL  InlineForm HandEye_Calib_Ini={ FOLD[1] HandEye_Calib_Ini_FOLD}
-    
     DECL  InlineForm HandEye_Calib_ADD_Point={ FOLD[1] HandEye_Calib_ADD_Point_FOLD}
     DECL  InlineForm HandEye_Calib_End={ FOLD[1] HandEye_Calib_End_FOLD,PARAM[1] Calib_Result_NAME}
+ 
+ 
+    DECL  InlineForm Vision_Creation_Plan={ FOLD[1] Vision_Creat_Plan_FOLD,PARAM[1] Plan_Base_No}
  
     DECL  InlineForm Find_Model={ FOLD[1] Find_Model_FOLD ,PARAM[1] Work_Area,PARAM[2] Area_Calib_lIST}
     DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }

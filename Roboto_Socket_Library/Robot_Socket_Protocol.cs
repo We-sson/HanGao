@@ -364,9 +364,10 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
+                    var bt = Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Vision_Creation_Model_Send>(_Propertie));
 
 
-                    break;
+                    return bt; 
                 case Socket_Robot_Protocols_Enum.ABB:
 
 
@@ -429,9 +430,11 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
+                    Vision_Creation_Model_Receive _Kuka_Creation_Model_Rece = KUKA_Send_Receive_Xml.String_Xml<Vision_Creation_Model_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
 
 
-                    break;
+
+                    return _Kuka_Creation_Model_Rece;
                 case Socket_Robot_Protocols_Enum.ABB:
 
                     Vision_Creation_Model_Receive _ABB_Creation_Model_Rece = new Vision_Creation_Model_Receive();
