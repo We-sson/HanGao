@@ -1513,7 +1513,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
-                                     IsChecked="True"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1559,7 +1559,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Create_Model" Grid.Row=" 2"
-                                     IsChecked="True"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1605,7 +1605,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Auto_Model" Grid.Row=" 4"
-                                     IsChecked="False"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -2121,7 +2121,7 @@
 
 
                                         <Border Height=" 2"
-                                                Margin="0,4,0,4"
+                                                Margin="0,4,0,8"
                                                 Background="{DynamicResource 全局_按钮_红颜色}"
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
@@ -2270,7 +2270,7 @@
                                             </Button>
                                         </Grid>
 
-                                        <Grid>
+                                        <!--<Grid>
 
                                             <Grid.Style>
                                                 <Style TargetType="Grid">
@@ -2333,7 +2333,7 @@
                                                        VerticalAlignment="Center"
                                                        FontSize=" 16" />
                                             </StackPanel>
-                                        </Grid>
+                                        </Grid>-->
 
                                         <Grid>
                                             <Grid.Style>
@@ -7986,7 +7986,7 @@
                                                        VerticalAlignment="Center"
                                                        Source="/Resources/Control_自动模式_ioc.png" />
                                             </Border>
-                                            <TextBlock Text="网络设置"
+                                            <TextBlock Text="常规网络设置"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -8006,7 +8006,7 @@
                                                 <ColumnDefinition Width=" auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column=" 0"
-                                                       Text="通讯设备"
+                                                       Text="机器类型"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -8215,6 +8215,252 @@
                                         </Border.Style>
 
                                         <StackPanel Margin="10"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                            <Border Margin="0,0,10,0"
+                                                    Background="{DynamicResource 全局_按钮_灰颜色}"
+                                                    CornerRadius=" 15"
+                                                    Opacity=" 0.8">
+                                                <Image Height=" 24"
+                                                       Margin="5"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Source="/Resources/Control_自动模式_ioc.png" />
+                                            </Border>
+                                            <TextBlock Text="Robot SDK通讯网络设置"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Expander.Header>
+                                <Grid>
+                                    <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
+                                    <StackPanel Orientation="Vertical">
+
+
+
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 85" />
+                                                <ColumnDefinition />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="IP地址"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_英文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <TextBox Grid.Column=" 1"
+                                                     Text="{Binding Vision_Socket_Robot_Parameters.Sever_Socket_Port}"
+                                                     TextWrapping="Wrap"
+                                                     Padding="5"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                     FontSize="16"
+                                                     Foreground="{DynamicResource 全局_按钮_黑颜色}">
+                                                <TextBox.Style>
+                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Vision_Socket_Robot_Parameters.Sever_IsRuning}" Value="True">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
+
+
+
+
+
+
+
+
+
+                                        </Grid>
+
+
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 85" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 120" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="IP端口"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_英文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <TextBox Grid.Column=" 1"
+                                                     Text="{Binding Vision_Socket_Robot_Parameters.Sever_Socket_Port}"
+                                                     TextWrapping="Wrap"
+                                                     Padding="5"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                     FontSize="16"
+                                                     Foreground="{DynamicResource 全局_按钮_黑颜色}">
+                                                <TextBox.Style>
+                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Vision_Socket_Robot_Parameters.Sever_IsRuning}" Value="True">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
+
+
+
+
+                                            <ToggleButton Grid.Column=" 2"
+                                                          Margin="4,0,0,0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Stretch"
+                                                          BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                                          BorderThickness="2">
+                                                <ToggleButton.Style>
+                                                    <Style BasedOn="{StaticResource Window_ToggleButtonStyle}" TargetType="ToggleButton">
+                                                        <Setter Property="IsChecked" Value="False" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Vision_Socket_Robot_Parameters.Sever_IsRuning}" Value="true">
+                                                                <Setter Property="IsChecked" Value="True" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ToggleButton.Style>
+
+
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="开"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="关"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+                                                </Grid>
+
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Server_End_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+
+
+
+                                            </ToggleButton>
+
+
+
+
+                                        </Grid>
+
+
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 85" />
+                                                <ColumnDefinition />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="通讯周期"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <TextBox Grid.Column=" 1"
+                                                     Text="123ms"
+                                                     TextWrapping="Wrap"
+                                                     Padding="5"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                     FontSize="16"
+                                                     Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                     IsReadOnly="True" />
+
+
+
+
+
+
+
+
+
+                                        </Grid>
+
+
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+
+
+
+                            <Expander Style="{DynamicResource Vision_Fence_Expander_Style}"
+                                      Margin="0,0,0,10"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      IsExpanded="True">
+                                <Expander.Header>
+                                    <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
+                                        <Border.Style>
+                                            <Style TargetType="{x:Type Border}">
+                                                <Setter Property="CornerRadius" Value="5" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}" Value="True">
+
+                                                        <Setter Property="CornerRadius" Value="5 5 0 0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+
+                                        <StackPanel Margin="10"
                                                     VerticalAlignment="Center"
                                                     Orientation="Horizontal">
                                             <Border Margin="0,0,10,0"
@@ -8226,7 +8472,7 @@
                                                        VerticalAlignment="Center"
                                                        Source="/Resources/Control_自动模式_ioc.png" />
                                             </Border>
-                                            <TextBlock Text="识别操作设置"
+                                            <TextBlock Text="视觉参数设置"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"

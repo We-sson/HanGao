@@ -117,7 +117,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
 
                     _Path = GetXml_Path<Vision_Auto_Config_Model>(Get_Xml_File_Enum.Folder_Path);
-                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
+             
                     //检查存放文件目录
                     _Path = GetXml_Path<Vision_Auto_Config_Model>(Get_Xml_File_Enum.File_Path);
 
@@ -212,6 +212,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                         case Get_Xml_File_Enum.Folder_Path:
 
                             _Path = Environment.CurrentDirectory + "\\Nine_Calibration";
+
+                            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
                             break;
                         case Get_Xml_File_Enum.File_Path:
                             _Path = Environment.CurrentDirectory + "\\Nine_Calibration" + "\\Calibration_Data.Xml";
@@ -231,6 +233,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                         case Get_Xml_File_Enum.Folder_Path:
 
                             _Path = Environment.CurrentDirectory + "\\Find_Data";
+                            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
                             break;
                         case Get_Xml_File_Enum.File_Path:
                             _Path = Environment.CurrentDirectory + "\\Find_Data" + "\\Find_Data.Xml";
@@ -247,7 +250,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                         case Get_Xml_File_Enum.Folder_Path:
 
                             _Path = Environment.CurrentDirectory + "\\Sink_Date";
-
+                            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
                             break;
                         case Get_Xml_File_Enum.File_Path:
                             _Path = Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml";
@@ -266,6 +269,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
 
                             _Path = Environment.CurrentDirectory + "\\Global_Config";
 
+                            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
+
                             break;
                         case Get_Xml_File_Enum.File_Path:
                             _Path = Environment.CurrentDirectory + "\\Global_Config" + "\\Global_Config.Xml";
@@ -282,7 +287,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_WriteRead
                         case Get_Xml_File_Enum.Folder_Path:
 
                             _Path = Environment.CurrentDirectory + "\\Error_Data";
-
+                            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
                             break;
                         case Get_Xml_File_Enum.File_Path:
 

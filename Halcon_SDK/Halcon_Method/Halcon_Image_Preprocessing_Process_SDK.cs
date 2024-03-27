@@ -341,7 +341,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
             {
                 case Image_Preprocessing_Process_Enum.ScaleImageMax:
 
-
+                    V_1 = default;
+                    V_2 = default;
+                    V_3 = default;
+                    V_4 = default;
+                    V_5 = default;
+                    E_1 = default;
+                    E_2 = default;
+                    E_3 = default;
+                    E_4 = default;
+                    E_5 = default;
 
                     break;
                 case Image_Preprocessing_Process_Enum.MedianRect:
@@ -350,33 +359,75 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                     V_1 = "9";
                     V_2 = "9";
-
-
+                    V_3 = default;
+                    V_4 = default;
+                    V_5 = default;
+                    E_1 = default;
+                    E_2 = default;
+                    E_3 = default;
+                    E_4 = default;
+                    E_5 = default;
                     break;
                 case Image_Preprocessing_Process_Enum.GrayOpeningRect:
                     V_1 = "9";
                     V_2 = "9";
+                    V_3 = default;
+                    V_4 = default;
+                    V_5 = default;
+                    E_1 = default;
+                    E_2 = default;
+                    E_3 = default;
+                    E_4 = default;
+                    E_5 = default;
                     break;
                 case Image_Preprocessing_Process_Enum.MedianImage:
 
-                    E_1 = MedianImage_MaskType_Enum.square.ToString();
                     V_1 = "1";
+                    V_2 = default;
+                    V_3 = default;
+                    V_4 = default;
+                    V_5 = default;
+                    E_1 = MedianImage_MaskType_Enum.square.ToString();
                     E_2 = MedianImage_Margin_Enum.continued.ToString();
+                    E_3 = default;
+                    E_4 = default;
+                    E_5 = default;
                     break;
                 case Image_Preprocessing_Process_Enum.Illuminate:
                     V_1 = "9";
                     V_2 = "9";
                     V_3 = "0.8";
-
+                    V_4 = default;
+                    V_5 = default;
+                    E_1 = default;
+                    E_2 = default;
+                    E_3 = default;
+                    E_4 = default;
+                    E_5 = default;
                     break;
                 case Image_Preprocessing_Process_Enum.Emphasize:
                     V_1 = "9";
                     V_2 = "9";
                     V_3 = "0.8";
+                    V_4 = default;
+                    V_5 = default;
+                    E_1 = default;
+                    E_2 = default;
+                    E_3 = default;
+                    E_4 = default;
+                    E_5 = default;
                     break;
                 case Image_Preprocessing_Process_Enum.GrayClosingRect:
                     V_1 = "9";
                     V_2 = "9";
+                    V_3 = default;
+                    V_4 = default;
+                    V_5 = default;
+                    E_1 = default;
+                    E_2 = default;
+                    E_3 = default;
+                    E_4 = default;
+                    E_5 = default;
                     break;
 
             }
@@ -398,28 +449,28 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public int Method_Run_Time { set; get; } = 0;
 
 
-        public string? V_1 { set; get; } = string.Empty;
+        public string? V_1 { set; get; } = default;
 
-        public string? V_2 { set; get; } = string.Empty;
+        public string? V_2 { set; get; } = default;
 
-        public string? V_3 { set; get; } = string.Empty;
+        public string? V_3 { set; get; } = default;
 
-        public string? V_4 { set; get; } = string.Empty;
+        public string? V_4 { set; get; } = default;
 
-        public string? V_5 { set; get; } = string.Empty;
-
-
-        public string ? E_1 { set; get; } = string.Empty;
+        public string? V_5 { set; get; } = default;
 
 
-        public string? E_2 { set; get; } = string.Empty;
-
-        public string? E_3 { set; get; } = string.Empty;
+        public string? E_1 { set; get; } = default;
 
 
-        public string? E_4 { set; get; } = string.Empty;
+        public string? E_2 { set; get; } = default;
 
-        public string? E_5 { set; get; } = string.Empty;
+        public string? E_3 { set; get; } = default;
+
+
+        public string? E_4 { set; get; } = default;
+
+        public string? E_5 { set; get; } = default;
 
     }
 

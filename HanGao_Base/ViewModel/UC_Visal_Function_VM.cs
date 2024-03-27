@@ -32,10 +32,10 @@ namespace HanGao.ViewModel
                 }
             });
             //接收其他地方传送数据
-            Messenger.Register<object, string>(this, nameof(Meg_Value_Eunm.UI_Find_Data_Number), (O, _S) =>
-            {
-                //UI_Find_Data_Number = (int)_S;
-            });
+            //Messenger.Register<object, string>(this, nameof(Meg_Value_Eunm.UI_Find_Data_Number), (O, _S) =>
+            //{
+            //    //UI_Find_Data_Number = (int)_S;
+            //});
             //操作结果显示UI
             Messenger.Register<Find_Shape_Results_Model, string>(this, nameof(Meg_Value_Eunm.Find_Shape_Out), (O, _Fout) =>
             {
@@ -82,10 +82,14 @@ namespace HanGao.ViewModel
                 User_Log_Add(_Error, Log_Show_Window_Enum.Home);
             };
 
-            ///初始化方法
+
+            ///必须首先初始化参数文件，再初始化其他功能
+            Initialization_Global_Config();
+
             Initialization_Vision_File();
             Initialization_Camera_Thread();
             Initialization_ShapeModel_File();
+            Initialization_Local_Network_Robot_Socket();
 
         }
 
@@ -477,7 +481,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 手眼机器人通讯参数
         /// </summary>
-        public Socket_Robot_Parameters_Model Vision_Socket_Robot_Parameters { set; get; } = new Socket_Robot_Parameters_Model() { Sever_Socket_Port = 5000 };
+        public Socket_Robot_Parameters_Model Vision_Socket_Robot_Parameters { set; get; } = new Socket_Robot_Parameters_Model() { };
 
 
 
@@ -516,8 +520,6 @@ namespace HanGao.ViewModel
                     if (!Vision_Socket_Robot_Parameters.Sever_IsRuning)
                     {
                         Initialization_Sever_Start();
-
-
                         User_Log_Add("开启所有IP服务器连接：" + Vision_Socket_Robot_Parameters.Sever_Socket_Port.ToString(), Log_Show_Window_Enum.Home);
 
                     }
@@ -546,7 +548,14 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+                Vision_Auto_Cofig.Local_Network_IP_List = new List<string>(Vision_Socket_Robot_Parameters.Local_IP_UI);
+                Vision_Auto_Cofig.Local_Network_Robot_Model = Vision_Socket_Robot_Parameters.Socket_Robot_Model;
+                Vision_Auto_Cofig.Local_Network_Port = Vision_Socket_Robot_Parameters.Sever_Socket_Port;
+                Vision_Auto_Cofig.Local_Network_AUTO_Connect = Vision_Socket_Robot_Parameters.Sever_IsRuning;
+
+
+               new  Vision_Xml_Method().Save_Xml(Vision_Auto_Cofig);
             });
         }
         /// <summary>
@@ -1658,6 +1667,35 @@ namespace HanGao.ViewModel
 
 
         }
+
+
+        /// <summary>
+        /// 初始化软件启动初始化视觉全局参数
+        /// </summary>
+        public void Initialization_Global_Config()
+        {
+
+            Vision_Auto_Cofig =  new Vision_Xml_Method().Read_Xml_File<Vision_Auto_Config_Model>();
+            Vision_Socket_Robot_Parameters.Socket_Robot_Model = Vision_Auto_Cofig.Local_Network_Robot_Model;
+            Vision_Socket_Robot_Parameters.Sever_Socket_Port = Vision_Auto_Cofig.Local_Network_Port;
+            Vision_Socket_Robot_Parameters.Sever_IsRuning = Vision_Auto_Cofig.Local_Network_AUTO_Connect;
+        }
+
+
+        /// <summary>
+        /// 初始化启动视觉通讯是否开启
+        /// </summary>
+        public void Initialization_Local_Network_Robot_Socket()
+        {
+
+            if (Vision_Socket_Robot_Parameters.Sever_IsRuning)
+            {
+                Initialization_Sever_Start();
+                User_Log_Add("开启所有IP服务器连接：" + Vision_Socket_Robot_Parameters.Sever_Socket_Port.ToString(), Log_Show_Window_Enum.Home);
+
+            }
+        }
+
 
         /// <summary>
         /// 相机图像回调方法
