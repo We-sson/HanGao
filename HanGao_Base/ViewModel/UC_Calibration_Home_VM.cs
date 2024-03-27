@@ -340,6 +340,17 @@ namespace HanGao.ViewModel
 
                                 Camera_0_Select_Val.Connect_Camera();
                                 Camera_Parameter_Val = Camera_0_Select_Val.Get_Camrea_Parameters(   );
+
+                                if (Camera_0_Select_Val.Camera_Calibration.Camera_Calibration_State == Camera_Calibration_File_Type_Enum.无标定)
+                                {
+                                    Camera_Calibration_0.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model() 
+                                    { Image_Height= Camera_Parameter_Val.HeightMax,
+                                        Image_Width= Camera_Parameter_Val.WidthMax,
+                                        Cx= Camera_Parameter_Val.WidthMax / 2,
+                                        Cy = Camera_Parameter_Val.HeightMax / 2
+                                    };
+                                }
+
                                 Camera_0_Select_Val.Camer_Status = MV_CAM_Device_Status_Enum.Connecting;
                             }
                             else
@@ -356,6 +367,17 @@ namespace HanGao.ViewModel
                             {
                                 Camera_1_Select_Val.Connect_Camera();
                                 Camera_Parameter_Val = Camera_1_Select_Val.Get_Camrea_Parameters();
+
+                                if (Camera_1_Select_Val.Camera_Calibration.Camera_Calibration_State == Camera_Calibration_File_Type_Enum.无标定)
+                                {
+                                    Camera_Calibration_1.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model()
+                                    {
+                                        Image_Height = Camera_Parameter_Val.HeightMax,
+                                        Image_Width = Camera_Parameter_Val.WidthMax,
+                                        Cx = Camera_Parameter_Val.WidthMax / 2,
+                                        Cy = Camera_Parameter_Val.HeightMax / 2
+                                    };
+                                }
                                 Camera_1_Select_Val.Camer_Status = MV_CAM_Device_Status_Enum.Connecting;
 
                             }
@@ -554,7 +576,7 @@ namespace HanGao.ViewModel
 
                         if (Camera_Interna_Parameters.Halcon_Find_Calib_Model)
                         {
-                        
+
 
 
                             ///加载图像到标定列表

@@ -150,7 +150,10 @@ namespace HanGao.ViewModel
         /// </summary>
         public MVS_Camera_SDK Camera_Device_List { set; get; } = new MVS_Camera_SDK();
 
-
+        /// <summary>
+        /// 网络通讯日志显示
+        /// </summary>
+        /// <param name="_log"></param>
         public void Socket_Log_Show(string _log)
         {
             User_Log_Add(_log, Log_Show_Window_Enum.Home);

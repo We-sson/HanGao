@@ -4604,7 +4604,7 @@
                                                      FontSize="18">
                                                 <TextBox.Style>
                                                     <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
-                                                        <Setter Property="Text" Value="{Binding ElementName=Camera_ExposureTime_UI, Path=Value}" />
+                                                        <Setter Property="Text" Value="{Binding ElementName=Camera_ExposureTime_UI, Path=Value, StringFormat={}{0:F0}}" />
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding ElementName=Camera_ExposureTime_UI, Path=Value}" Value="0">
                                                                 <Setter Property="Text" Value="Auto" />
@@ -4651,7 +4651,7 @@
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding ElementName=Camera_Gain_UI, Path=Value}"
+                                                     Text="{Binding ElementName=Camera_Gain_UI, Path=Value, StringFormat={}{0:F2}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -4696,7 +4696,7 @@
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay}"
+                                                     Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -4741,7 +4741,7 @@
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay}"
+                                                     Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -4829,7 +4829,7 @@
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Value, ElementName=BlackLevel, Mode=TwoWay}"
+                                                     Text="{Binding Value, ElementName=BlackLevel, Mode=TwoWay, StringFormat={}{0:F0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"

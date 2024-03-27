@@ -8059,7 +8059,7 @@
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column=" 0"
-                                                       Text="本机网址"
+                                                       Text="服务地址"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -8259,7 +8259,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <TextBox Grid.Column=" 1"
-                                                     Text="{Binding Vision_Socket_Robot_Parameters.Sever_Socket_Port}"
+                                                     Text="192.168.0.1"
                                                      TextWrapping="Wrap"
                                                      Padding="5"
                                                      HorizontalContentAlignment="Center"
@@ -8273,11 +8273,11 @@
                                                 <TextBox.Style>
                                                     <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
                                                         <Setter Property="IsEnabled" Value="True" />
-                                                        <Style.Triggers>
+                                                        <!--<Style.Triggers>
                                                             <DataTrigger Binding="{Binding Vision_Socket_Robot_Parameters.Sever_IsRuning}" Value="True">
                                                                 <Setter Property="IsEnabled" Value="False" />
                                                             </DataTrigger>
-                                                        </Style.Triggers>
+                                                        </Style.Triggers>-->
                                                     </Style>
                                                 </TextBox.Style>
                                             </TextBox>
@@ -8309,7 +8309,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <TextBox Grid.Column=" 1"
-                                                     Text="{Binding Vision_Socket_Robot_Parameters.Sever_Socket_Port}"
+                                                     Text="7000"
                                                      TextWrapping="Wrap"
                                                      Padding="5"
                                                      HorizontalContentAlignment="Center"
@@ -8323,11 +8323,11 @@
                                                 <TextBox.Style>
                                                     <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
                                                         <Setter Property="IsEnabled" Value="True" />
-                                                        <Style.Triggers>
+                                                        <!--<Style.Triggers>
                                                             <DataTrigger Binding="{Binding Vision_Socket_Robot_Parameters.Sever_IsRuning}" Value="True">
                                                                 <Setter Property="IsEnabled" Value="False" />
                                                             </DataTrigger>
-                                                        </Style.Triggers>
+                                                        </Style.Triggers>-->
                                                     </Style>
                                                 </TextBox.Style>
                                             </TextBox>
@@ -8344,11 +8344,11 @@
                                                 <ToggleButton.Style>
                                                     <Style BasedOn="{StaticResource Window_ToggleButtonStyle}" TargetType="ToggleButton">
                                                         <Setter Property="IsChecked" Value="False" />
-                                                        <Style.Triggers>
+                                                        <!--<Style.Triggers>
                                                             <DataTrigger Binding="{Binding Vision_Socket_Robot_Parameters.Sever_IsRuning}" Value="true">
                                                                 <Setter Property="IsChecked" Value="True" />
                                                             </DataTrigger>
-                                                        </Style.Triggers>
+                                                        </Style.Triggers>-->
                                                     </Style>
                                                 </ToggleButton.Style>
 

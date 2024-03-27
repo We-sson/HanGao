@@ -205,6 +205,36 @@
     <Resource Include="Resources\UC_放大_1_ioc.png" />
     <Resource Include="Resources\UC_放大_ioc.png" />
     <Resource Include="Resources\Vision_刷新_ioc.png" />
+    <None Update="Calibration_File\00C58184337.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\Camera_0.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\DA0289981.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\DA0651471.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\DA0651573.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\HandEyeToolinCam_00C58184337.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\HandEyeToolinCam_DA0289981.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\HandEyeToolinCam_Local_Camera.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\L29657599.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\Local_Camera.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="FodyWeavers.xsd">
       <SubType>Designer</SubType>
     </None>
