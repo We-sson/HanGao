@@ -2953,13 +2953,13 @@
 
                                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
                                                                          Content="ASCII"
-                                                                         IsChecked="{Binding HanddEye_Socked_Send_information.Socket_Data_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.ASCII}}"
+                                                                         IsChecked="{Binding HanddEye_Socked_Receive_information.Socket_Data_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.ASCII}}"
                                                                          Width="50"
                                                                          FontSize=" 12"
                                                                          GroupName="Socket_Send_Cover" />
                                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                          Content="HEX"
-                                                                         IsChecked="{Binding HanddEye_Socked_Send_information.Socket_Data_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.HEX}}"
+                                                                         IsChecked="{Binding HanddEye_Socked_Receive_information.Socket_Data_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.HEX}}"
                                                                          Width="50"
                                                                          FontSize="12"
                                                                          GroupName="Socket_Send_Cover" />
@@ -2977,7 +2977,7 @@
 
 
                                                 <TextBox Grid.Column=" 2"
-                                                         Text="{Binding HanddEye_Socked_Send_information.Data_Converts_Str, UpdateSourceTrigger=PropertyChanged}"
+                                                         Text="{Binding HanddEye_Socked_Receive_information.Data_Converts_Str, UpdateSourceTrigger=PropertyChanged}"
                                                          MinHeight=" 300"
                                                          TextWrapping="Wrap"
                                                          Background="Transparent"
@@ -4300,7 +4300,7 @@
 
 
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width=" 90" />
                                                         <ColumnDefinition />
                                                         <ColumnDefinition />
                                                     </Grid.ColumnDefinitions>

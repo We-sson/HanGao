@@ -2,7 +2,7 @@
 	<CONFIGURATION>
 		<EXTERNAL>
 		   <IP>192.168.0.1</IP>
-			<PORT>5400</PORT>
+			<PORT>5000</PORT>
 		</EXTERNAL>
 		<INTERNAL>
 			<ALIVE Set_Flag="1"/>
@@ -10,21 +10,21 @@
 	</CONFIGURATION>
 	<RECEIVE>
 		<XML>
-		 <ELEMENT Tag="KUKA_Send/@IsStatus" Type="BOOL"  Set_Flag="2" /> 
-         <ELEMENT Tag="KUKA_Send/Message_Error" Type="STRING"/>
-		 <ELEMENT Tag="KUKA_Send/Result_Pos" Type="FRAME"/>
+		 <ELEMENT Tag="Robot_Send/@IsStatus" Type="BOOL"  Set_Flag="2" /> 
+         <ELEMENT Tag="Robot_Send/Message_Error" Type="STRING"/>
+		 <ELEMENT Tag="Robot_Send/Result_Pos" Type="FRAME"/>
 		</XML>
 	</RECEIVE>
 	<SEND>
 		<XML>
-			<ELEMENT Tag="KUKA_Receive/@Model" Type="STRING"/>
-         <ELEMENT Tag="KUKA_Receive/@Calibration_Model" Type="STRING"/>
-         <ELEMENT Tag="KUKA_Receive/Actual_Point/@X" Type="REAL"/>
-         <ELEMENT Tag="KUKA_Receive/Actual_Point/@Y" Type="REAL"/>
-         <ELEMENT Tag="KUKA_Receive/Actual_Point/@Z" Type="REAL"/>
-         <ELEMENT Tag="KUKA_Receive/Actual_Point/@A" Type="REAL"/>
-         <ELEMENT Tag="KUKA_Receive/Actual_Point/@B" Type="REAL"/>
-         <ELEMENT Tag="KUKA_Receive/Actual_Point/@C" Type="REAL"/>
+			<ELEMENT Tag="Robot_Receive/@Vision_Model" Type="STRING"/>
+         <ELEMENT Tag="Robot_Receive/@Calibration_Model" Type="STRING"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@X" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@Y" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@Z" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@A" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@B" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@C" Type="REAL"/>
 		</XML>
 	</SEND>
 </ETHERNETKRL>

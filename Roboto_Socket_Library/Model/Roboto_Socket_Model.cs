@@ -12,7 +12,7 @@ namespace Roboto_Socket_Library.Model
         /// 手眼相机标定发送协议格式
         /// </summary>
         [Serializable]
-        [XmlType("Send")]
+        [XmlType("Robot_Send")]
         public class HandEye_Calibration_Send
         {
             /// <summary>
@@ -23,7 +23,7 @@ namespace Roboto_Socket_Library.Model
             /// 标定状态
             /// </summary>
             [XmlAttribute]
-            public int IsStatus { set; get; }
+            public int IsStatus { set; get; } = 0;
 
             /// <summary>
             /// 结果位置
@@ -35,7 +35,7 @@ namespace Roboto_Socket_Library.Model
         /// 手眼相机标定接收协议格式
         /// </summary>
         [Serializable]
-        [XmlType("Receive")]
+        [XmlType("Robot_Receive")]
         public class HandEye_Calibration_Receive
         {
 
@@ -49,7 +49,7 @@ namespace Roboto_Socket_Library.Model
 
             public Point_Models ACT_Point { set; get; } = new Point_Models();
 
-
+            [XmlAttribute]
             public Vision_Model_Enum Vision_Model { set; get; }
 
 
@@ -323,7 +323,7 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 手眼标定通讯端口
             /// </summary>
-            public int Sever_Socket_Port { set; get; } = 5400;
+            public int Sever_Socket_Port { set; get; } = 5000;
 
             /// <summary>
             /// 通讯设备图像来源设置

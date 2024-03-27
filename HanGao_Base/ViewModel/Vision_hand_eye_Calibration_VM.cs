@@ -233,7 +233,7 @@ namespace HanGao.ViewModel
 
             HandEye_Calibration_Send _HandEye_Send = new HandEye_Calibration_Send();
             Reconstruction_3d _HandEye_3DModel = new Reconstruction_3d();
-            HPose _RobotBase = new HPose();
+            Point_Model _Robot_Pos = new Point_Model();
             List<HObjectModel3D> _Calib_Rotob_Model = new List<HObjectModel3D>();
 
 
@@ -282,13 +282,13 @@ namespace HanGao.ViewModel
                         switch (Halcon_HandEye_Calibra.HandEye_Robot)
                         {
                             case Robot_Type_Enum.KUKA:
+                                //设置机器人当前位置
 
-                                _RobotBase.CreatePose(double.Parse(_S.ACT_Point.X) / 1000, double.Parse(_S.ACT_Point.Y) / 1000, double.Parse(_S.ACT_Point.Z) / 1000, double.Parse(_S.ACT_Point.Rz), double.Parse(_S.ACT_Point.Ry), double.Parse(_S.ACT_Point.Rx), "Rp+T", "abg", "point");
-
+                                _Robot_Pos = new Point_Model() { X = double.Parse(_S.ACT_Point.X), Y = double.Parse(_S.ACT_Point.Y), Z = double.Parse(_S.ACT_Point.Z), Rx = double.Parse(_S.ACT_Point.Rz), Ry = double.Parse(_S.ACT_Point.Ry), Rz = double.Parse(_S.ACT_Point.Rx), HType = Halcon_Pose_Type_Enum.abg };
+                                 
                                 break;
                             case Robot_Type_Enum.ABB:
-
-                                _RobotBase.CreatePose(double.Parse(_S.ACT_Point.X) / 1000, double.Parse(_S.ACT_Point.Y) / 1000, double.Parse(_S.ACT_Point.Z) / 1000, double.Parse(_S.ACT_Point.Rx), double.Parse(_S.ACT_Point.Ry), double.Parse(_S.ACT_Point.Rz), "Rp+T", "abg", "point");
+                                _Robot_Pos = new Point_Model() { X = double.Parse(_S.ACT_Point.X), Y = double.Parse(_S.ACT_Point.Y), Z = double.Parse(_S.ACT_Point.Z), Rx = double.Parse(_S.ACT_Point.Rx), Ry = double.Parse(_S.ACT_Point.Ry), Rz = double.Parse(_S.ACT_Point.Rz), HType = Halcon_Pose_Type_Enum.abg };
 
                                 break;
                             case Robot_Type_Enum.川崎:
@@ -313,12 +313,11 @@ namespace HanGao.ViewModel
                         {
 
 
-                            //设置机器人当前位置
-                            Point_Model _Robot_Pos = new Point_Model() { HPose = _RobotBase };
+                         
                             //_Robot_Pos.Set_Pose_Data(_RobotBase);
 
                             ///生成对应机器人的模型
-                            _Calib_Rotob_Model = _HandEye_3DModel.GenRobot_Tcp_Base_Model(_RobotBase);
+                            _Calib_Rotob_Model = _HandEye_3DModel.GenRobot_Tcp_Base_Model(_Robot_Pos.HPose);
 
                             //显示机器人坐标模型
                             HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });
