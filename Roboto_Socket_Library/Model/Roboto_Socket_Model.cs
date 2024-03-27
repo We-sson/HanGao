@@ -28,7 +28,7 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 结果位置
             /// </summary>
-            public Point_Models Calib_Point { set; get; } = new Point_Models();
+            public Point_Models Result_Pos { set; get; } = new Point_Models();
         }
 
         /// <summary>
@@ -287,11 +287,11 @@ namespace Roboto_Socket_Library.Model
             public string Y { set; get; } = "0";
             [XmlAttribute]
             public string Z { set; get; } = "0";
-            [XmlAttribute]
+            [XmlAttribute("A")]
             public string Rx { set; get; } = "0";
-            [XmlAttribute]
+            [XmlAttribute("B")]
             public string Ry { set; get; } = "0";
-            [XmlAttribute]
+            [XmlAttribute("C")]
             public string Rz { set; get; } = "0";
 
 
@@ -323,7 +323,7 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 手眼标定通讯端口
             /// </summary>
-            public int Sever_Socket_Port { set; get; } = 5000;
+            public int Sever_Socket_Port { set; get; } = 5400;
 
             /// <summary>
             /// 通讯设备图像来源设置

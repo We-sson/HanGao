@@ -385,7 +385,7 @@ namespace HanGao.ViewModel
 
                                 _HandEye_Send.IsStatus = 1;
                                 _HandEye_Send.Message_Error = "Hand-eye Calibration ResultsOK!";
-                                _HandEye_Send.Calib_Point = new Point_Models() { X = _CalibPos.X.ToString(), Y = _CalibPos.Y.ToString(), Z = _CalibPos.Z.ToString(), Rx = _CalibPos.Rx.ToString(), Ry = _CalibPos.Ry.ToString(), Rz = _CalibPos.Rz.ToString() };
+                                _HandEye_Send.Result_Pos = new Point_Models() { X = _CalibPos.X.ToString(), Y = _CalibPos.Y.ToString(), Z = _CalibPos.Z.ToString(), Rx = _CalibPos.Rx.ToString(), Ry = _CalibPos.Ry.ToString(), Rz = _CalibPos.Rz.ToString() };
 
 
                                 break;

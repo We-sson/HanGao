@@ -50,6 +50,8 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
  DECL PARAM Camera_NAME = {SHORTNAME[] "Camera_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
  DECL PARAM Calib_NAME = {SHORTNAME[] "Calib_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
  
+ DECL PARAM Calib_Result_NAME = {SHORTNAME[] "Calib_Result_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
+ 
  
   DECL PARAM Xml_Name= {SHORTNAME[] "Xml_Name: " , VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "Xml_Calibration"   , DISP[] "Xml_Calibration"},   _
@@ -131,6 +133,12 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
             HandEye_Calib_Ini_FOLD[4]=""
             HandEye_Calib_Ini_FOLD[5]=""  
              
+  DECL FOLD HandEye_Calib_End_FOLD[5]
+            HandEye_Calib_End_FOLD[1]=""
+            HandEye_Calib_End_FOLD[2]=""
+            HandEye_Calib_End_FOLD[3]="EKRL_HandEye_Point(/"Xml_HandEye_Calib/" , #Calibration_End, X%Calib_Result_NAME )"
+            HandEye_Calib_End_FOLD[4]=""
+            HandEye_Calib_End_FOLD[5]="" 
              
              
   DECL FOLD HandEye_Calib_ADD_Point_FOLD[5]
@@ -203,7 +211,7 @@ ENDSCRIPT
     DECL  InlineForm HandEye_Calib_Ini={ FOLD[1] HandEye_Calib_Ini_FOLD}
     
     DECL  InlineForm HandEye_Calib_ADD_Point={ FOLD[1] HandEye_Calib_ADD_Point_FOLD}
- 
+    DECL  InlineForm HandEye_Calib_End={ FOLD[1] HandEye_Calib_End_FOLD,PARAM[1] Calib_Result_NAME}
  
     DECL  InlineForm Find_Model={ FOLD[1] Find_Model_FOLD ,PARAM[1] Work_Area,PARAM[2] Area_Calib_lIST}
     DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }

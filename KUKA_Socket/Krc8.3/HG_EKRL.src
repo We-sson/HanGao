@@ -1,5 +1,5 @@
 &ACCESS RVO
-&REL 279
+&REL 282
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -26,7 +26,6 @@ EKRL_CONNECT()
 
 
 
-
 ;Bytes[]="hellow"
 ;halt
 
@@ -34,17 +33,21 @@ EKRL_CONNECT()
 END
 
 
-GLOBAL DEF EKRL_HandEye_Point(EKRL_NAME:IN,HandEye_Type:IN)
+GLOBAL DEF EKRL_HandEye_Point(EKRL_NAME:IN,HandEye_Type:IN,HandEye_Result_Pos:OUT)
 DECL CHAR Message_Error[1024],EKRL_NAME[],HandEye_Type_String[1024]
 DECL EKI_STATUS RET
 DECL HandEye_Calib_Model_Enum HandEye_Type
 DECL  BOOL IsStatus
 DECL INT HandEye_ID,OPFFSET
 DECL State_t _State
+DECL Frame Result_Pos
+DECL E6POS HandEye_Result_Pos
+
+
 Message_Error[]=" "
 IsStatus=false
 OPFFSET=0
-
+Result_Pos={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 
 ;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
 
@@ -70,13 +73,26 @@ Message_Wait("Wait Camera Calib!",2)
 
 RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,IsStatus)
 RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
-
+RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/HandEye_Result_Pos" ,Result_Pos)
 RET=EKI_Close(EKRL_NAME[])
 RET=EKI_Clear(EKRL_NAME[])
 
 IF  IsStatus THEN
 
 MSGNOTIFY(Message_Error[])
+
+switch HandEye_Type
+case #Calibration_Start
+
+;-----
+case #Calibration_Progress
+;-----
+case #Calibration_End
+HandEye_Result_Pos.X=Result_Pos.X
+HandEye_Result_Pos.Y=Result_Pos.Y
+HandEye_Result_Pos.Z=Result_Pos.Z
+endswitch
+
 
 else
 

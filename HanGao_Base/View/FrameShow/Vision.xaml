@@ -2745,7 +2745,7 @@
                                                 </Slider>
 
                                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                         Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay, StringFormat={}{0:F2}}"
+                                                         Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                          Width=" 100"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -2790,7 +2790,7 @@
                                                 </Slider>
 
                                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                         Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay, StringFormat={}{0:F2}}"
+                                                         Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                          Width=" 100"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -2835,7 +2835,7 @@
                                                 </Slider>
 
                                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                         Text="{Binding Value, ElementName=BlackLevel, Mode=TwoWay}"
+                                                         Text="{Binding Value, ElementName=BlackLevel, Mode=TwoWay, StringFormat={}{0:F0}}"
                                                          Width=" 100"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -2889,7 +2889,7 @@
 
                                             <Grid Height=" 35" Margin="0,5,0,5">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width=" 90" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
 

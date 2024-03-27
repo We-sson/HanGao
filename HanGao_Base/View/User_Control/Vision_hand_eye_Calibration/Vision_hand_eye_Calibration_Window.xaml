@@ -3966,7 +3966,7 @@
                                                              FontSize="18">
                                                         <TextBox.Style>
                                                             <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
-                                                                <Setter Property="Text" Value="{Binding ElementName=Camera_ExposureTime_UI, Path=Value}" />
+                                                                <Setter Property="Text" Value="{Binding ElementName=Camera_ExposureTime_UI, Path=Value, StringFormat={}{0:F0}}" />
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding ElementName=Camera_ExposureTime_UI, Path=Value}" Value="0">
                                                                         <Setter Property="Text" Value="Auto" />
@@ -4013,7 +4013,7 @@
                                                     </Slider>
 
                                                     <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                             Text="{Binding ElementName=Camera_Gain_UI, Path=Value}"
+                                                             Text="{Binding ElementName=Camera_Gain_UI, Path=Value, StringFormat={}{0:F1}}"
                                                              Width=" 100"
                                                              HorizontalContentAlignment="Center"
                                                              VerticalContentAlignment="Center"
@@ -4058,7 +4058,7 @@
                                                     </Slider>
 
                                                     <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                             Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay}"
+                                                             Text="{Binding ElementName=DigitalShift, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                              Width=" 100"
                                                              HorizontalContentAlignment="Center"
                                                              VerticalContentAlignment="Center"
@@ -4103,7 +4103,7 @@
                                                     </Slider>
 
                                                     <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                             Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay}"
+                                                             Text="{Binding ElementName=Gamma, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                              Width=" 100"
                                                              HorizontalContentAlignment="Center"
                                                              VerticalContentAlignment="Center"
@@ -4191,7 +4191,7 @@
                                                     </Slider>
 
                                                     <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                             Text="{Binding Value, ElementName=BlackLevel, Mode=TwoWay}"
+                                                             Text="{Binding Value, ElementName=BlackLevel, Mode=TwoWay, StringFormat={}{0:F0}}"
                                                              Width=" 100"
                                                              HorizontalContentAlignment="Center"
                                                              VerticalContentAlignment="Center"
@@ -4216,57 +4216,28 @@
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                                FontSize="16"
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
                                                     <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="AcquisitionMode" Grid.Column=" 1"
                                                               HorizontalContentAlignment="Left"
                                                               VerticalContentAlignment="Center"
                                                               BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                               BorderThickness="2"
-                                                              FontSize="20"
                                                               IsDropDownOpen="False"
                                                               IsSynchronizedWithCurrentItem="True"
-                                                              SelectedIndex="{Binding Camera_Parameter_Val.AcquisitionMode, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type MVS:MV_CAM_ACQUISITION_MODE}}">
-                                                        <ComboBoxItem>
-
-                                                            <TextBlock Text="单帧模式"
-                                                                       TextWrapping="Wrap"
-                                                                       Padding="0,4,0,4"
-                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                       FontSize="14"
-                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                                       TextTrimming="CharacterEllipsis" />
-                                                        </ComboBoxItem>
-                                                        <ComboBoxItem>
-
-                                                            <TextBlock Text="多帧模式"
-                                                                       TextWrapping="Wrap"
-                                                                       Padding="0,4,0,4"
-                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                       FontSize="14"
-                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                                       TextTrimming="CharacterEllipsis" />
-                                                        </ComboBoxItem>
-                                                        <ComboBoxItem>
-
-                                                            <TextBlock Text="持续采集模式"
-                                                                       TextWrapping="Wrap"
-                                                                       Padding="0,4,0,4"
-                                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                       FontSize="14"
-                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                                       TextTrimming="CharacterEllipsis" />
-                                                        </ComboBoxItem>
-
-
-
-                                                        <!--<i:Interaction.Triggers>
-
-                                                            <i:EventTrigger EventName="SelectionChanged">
-                                                                <i:InvokeCommandAction Command="{Binding Set_Camera_Enum_Val_Comm}"
-                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                                       PassEventArgsToCommand="True" />
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>-->
-
+                                                              ItemsSource="{Enum_Converter:EnumBindingSource MVS:MV_CAM_ACQUISITION_MODE}"
+                                                              SelectedValue="{Binding Camera_Parameter_Val.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding}"
+                                                                           TextWrapping="Wrap"
+                                                                           Padding="0,4,0,4"
+                                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                           FontSize="14"
+                                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                           TextTrimming="CharacterEllipsis" />
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
 
                                                     </ComboBox>
 
@@ -4281,12 +4252,13 @@
 
                                                 <Grid Height=" 35" Margin="0,5,0,5">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width=" 90" />
                                                         <ColumnDefinition />
                                                     </Grid.ColumnDefinitions>
 
 
-                                                    <TextBlock Text="参数操作"
+                                                    <TextBlock Grid.Column=" 0"
+                                                               Text="参数操作"
                                                                HorizontalAlignment="Left"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -4297,7 +4269,8 @@
 
 
                                                     <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                            Background="{DynamicResource 全局_按钮_深黄颜色}">
+                                                            HorizontalAlignment="Stretch"
+                                                            Background="{DynamicResource 全局_按钮_蓝颜色}">
 
 
                                                         <i:Interaction.Triggers>
@@ -4308,11 +4281,13 @@
                                                             </i:EventTrigger>
                                                         </i:Interaction.Triggers>
 
-                                                        <TextBlock Text="相机参数写入"
-                                                                   HorizontalAlignment="Center"
-                                                                   VerticalAlignment="Center"
+
+                                                        <TextBlock Text="参数写入"
+                                                                   HorizontalAlignment="Stretch"
+                                                                   VerticalAlignment="Stretch"
                                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                                   FontSize="16" />
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
 
                                                     </Button>

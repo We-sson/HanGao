@@ -289,7 +289,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                    var bt = Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_Propertie));
+                    var bt = Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_Propertie)); 
 
                     return bt;
                 case Socket_Robot_Protocols_Enum.ABB:
@@ -300,12 +300,12 @@ namespace Roboto_Socket_Library
                     var st = BitConverter.GetBytes(_Propertie.IsStatus);
                     var mes = Encoding.UTF8.GetBytes(_Propertie.Message_Error);
                     var mes_num = BitConverter.GetBytes(mes.Length);
-                    var xx = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.X)));
-                    var yy = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Y)));
-                    var zz = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Z)));
-                    var Rxx = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Rx)));
-                    var Ryy = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Ry)));
-                    var Rzz = BitConverter.GetBytes((float.Parse(_Propertie.Calib_Point.Rz)));
+                    var xx = BitConverter.GetBytes((float.Parse(_Propertie.Result_Pos.X)));
+                    var yy = BitConverter.GetBytes((float.Parse(_Propertie.Result_Pos.Y)));
+                    var zz = BitConverter.GetBytes((float.Parse(_Propertie.Result_Pos.Z)));
+                    var Rxx = BitConverter.GetBytes((float.Parse(_Propertie.Result_Pos.Rx)));
+                    var Ryy = BitConverter.GetBytes((float.Parse(_Propertie.Result_Pos.Ry)));
+                    var Rzz = BitConverter.GetBytes((float.Parse(_Propertie.Result_Pos.Rz)));
 
 
 

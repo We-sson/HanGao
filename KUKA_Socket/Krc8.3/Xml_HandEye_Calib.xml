@@ -10,8 +10,9 @@
 	</CONFIGURATION>
 	<RECEIVE>
 		<XML>
-			<ELEMENT Tag="KUKA_Send/@IsStatus" Type="BOOL"  Set_Flag="2" /> 
+		 <ELEMENT Tag="KUKA_Send/@IsStatus" Type="BOOL"  Set_Flag="2" /> 
          <ELEMENT Tag="KUKA_Send/Message_Error" Type="STRING"/>
+		 <ELEMENT Tag="KUKA_Send/Result_Pos" Type="FRAME"/>
 		</XML>
 	</RECEIVE>
 	<SEND>

@@ -4854,61 +4854,31 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
                                             <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="AcquisitionMode" Grid.Column=" 1"
                                                       HorizontalContentAlignment="Left"
                                                       VerticalContentAlignment="Center"
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
-                                                      FontSize="20"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="{Binding Camera_Parameter_Val.AcquisitionMode, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type MVS:MV_CAM_ACQUISITION_MODE}}">
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="单帧模式"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem IsEnabled="False">
-
-                                                    <TextBlock Text="多帧模式"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               IsEnabled="False"
-                                                               Opacity="0.5"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-
-                                                    <TextBlock Text="持续采集模式"
-                                                               TextWrapping="Wrap"
-                                                               Padding="0,4,0,4"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-
-
-
-                                                <!--<i:Interaction.Triggers>
-
-                                            <i:EventTrigger EventName="SelectionChanged">
-                                                <i:InvokeCommandAction Command="{Binding Set_Camera_Enum_Val_Comm}"
-                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                       PassEventArgsToCommand="True" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>-->
-
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource MVS:MV_CAM_ACQUISITION_MODE}"
+                                                      SelectedValue="{Binding Camera_Parameter_Val.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
 
                                             </ComboBox>
+
+
 
 
                                         </Grid>
@@ -4936,7 +4906,7 @@
 
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                    Background="{DynamicResource 全局_按钮_绿颜色}">
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
 
 
                                                 <i:Interaction.Triggers>
@@ -4947,11 +4917,12 @@
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
 
-                                                <TextBlock Text="相机参数写入"
+                                                <TextBlock Text="参数写入"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="16" />
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
 
                                             </Button>
