@@ -246,7 +246,7 @@ DEFTP Vision_Move={ SOt false,Soc false }
 
 DECL PARAM PosAct={VALUE {FREE: DEFAULT[] "" }}
 
-
+DECL PARAM CHANGE_TYPE ={VALUE {FREE: DEFAULT[] "" }}
 DECL PARAM LCONT={shortname[] "", shortcut[] "", unit[] "", value { LIST : POS 1, _
   ITEM[1] {ITEM:VALUE[] " ", disp[] ""}, _
   ITEM[2] {ITEM:VALUE[] "C_DIS C_DIS", disp[] "CONT"}}}
@@ -304,8 +304,12 @@ FLIN[4]="BAS(#CP_PARAMS,%LVEL )"
 FLIN[5]="LIN X%Point1  %LCONT"
 
 
-defscript LinSave
-Message "LinSave"
+defscript LinOk
+Message "LinOk"
+
+endscript
+
+defscript LinDataSave
 
 REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL E6POS X%Point1 =%PosAct " )
 REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT %ParamListFdat ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
@@ -315,12 +319,25 @@ Message "X%Point1  Saved Current Position"
 
 endscript
 
+
+defscript LinSave
+Message "LinSave"
+
+SWITCH "%CHANGE_TYPE "
+CASE "FALSE" DO  LinDataSave
+case "TRUE" DO LinOk
+
+ENDSWITCH
+
+
+endscript
+
 defscript LinSet
 Message "LinSet"
 
 SETVAR (FULLPATH[] "X%Point1 ", Value[] "$POS_ACT")
 
-Do LinSave
+;Do LinSave
 
 
 endscript
@@ -335,6 +352,8 @@ endscript
 defscript OnChangeLin
 Message "OnChangeLin"
 
+
+SHOWVAR (FULLPATH[] "TRUE", PARAM CHANGE_TYPE)
  ; SHOWVAR (FULLPATH[] "%ParamListFdat .TOOL_NO", PARAM TOOL_NO)
  ; SHOWVAR (FULLPATH[] "%ParamListFdat .BASE_NO", PARAM BASE_NO)
  ; SHOWVAR (FULLPATH[] "%ParamListLdat .VEL", PARAM LVEL)
@@ -347,6 +366,7 @@ endscript
 
 
 defscript GetPosAct
+Message "GetPosAct"
 SHOWVAR(FULLPATH[] "$POS_ACT", PARAM PosAct )
 SHOWVAR(FULLPATH[] "$POS_ACT.X", PARAM X )
 SHOWVAR(FULLPATH[] "$POS_ACT.Y", PARAM Y )
@@ -402,7 +422,7 @@ ENDSCRIPT
 
 defscript OnNewLin
 Message "OnNewLin"
-
+SHOWVAR (FULLPATH[] "FALSE", PARAM CHANGE_TYPE)
 SWITCH "%TOOL_NO "
 CASE "0" DO SetToolNo
 CASE ELSE DO SetToolNoElse
@@ -430,14 +450,16 @@ defscript LinONTOUCHUP
 Message "LinONTOUCHUP"
 
 SWITCH DIALOG "Point X%Point1  already exisys -overwrite? (Tool[%TOOL_NO ], Base[%BASE_NO ]) "
-Case "No"
-CASE "Yse"  Do OnAcceptLin
+Case "No"   DO END
+CASE "Yse"  Do OnNewLin
 ENDSWITCH
 
+DO LinSave
 endscript
 
 defscript OnOpenLin
 Message "OnOpenLin"
+
 
 SWITCH "ISCHANGE"
 CASE "TRUE" DO OnChangeLin
