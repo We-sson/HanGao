@@ -129,7 +129,7 @@ namespace Roboto_Socket_Library.Model
         /// 相机标定发送协议格式
         /// </summary>
         [Serializable]
-        [XmlType("Send")]
+        [XmlType("Robot_Send")]
         public class Vision_Ini_Data_Send
         {
 
@@ -146,7 +146,7 @@ namespace Roboto_Socket_Library.Model
         /// 标定查找接收协议格式
         /// </summary>
         [Serializable]
-        [XmlType("Receive")]
+        [XmlType("Robot_Receive")]
         public class Vision_Ini_Data_Receive
         {
 
@@ -230,8 +230,7 @@ namespace Roboto_Socket_Library.Model
         [Serializable]
         public class Initialization_Data
         {
-            public string Vision_Scope { set; get; } = string.Empty;
-
+            public int Vision_Scope { set; get; } = 0;
         }
 
         /// <summary>

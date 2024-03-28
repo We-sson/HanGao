@@ -1,9 +1,10 @@
-&ACCESS  RV
+&ACCESS RVO
+&REL 370
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
-&REL 369
 DEFDAT  GLODE_HANGAO PUBLIC
+
 
 
 GLOBAL BOOL EKI_Server_Ini=TRUE
@@ -19,6 +20,7 @@ GLOBAL ENUM Area_Enum L0,C45,L90,C135,L180,C225,L270,C315,N45,N135,N225,N315
 GLOBAL ENUM Pos_Type_Enum C_LIN_POS,C_CIR_POS,L_LIN_POS
 GLOBAL ENUM Work_Area_Enum A0,A90,A270
 GLOBAL ENUM Vision_Model_Enum Calibration,Find_Model
+GLOBAL ENUM Vision_Type_Enum Vision_Run,Vision_No,Vision_Text
 ;----------------------------------
 ;---DECL-STRUC-------------------------
 
@@ -263,6 +265,7 @@ DECL GLOBAL Surround_Welding_Type N2_Sink_Data={Sink_Size_Long 640.000,Sink_Size
 
 
 DECL GLOBAL INT Vision_Scope=20
+DECL GLOBAL Vision_Type_Enum Vision_Type=#Vision_Run
 ;GLOBAL CHAR $Socket_Connect[1024]
 ;DECL GLOBAL CHAR $SOCKET_MESS[1024]
 ;DECL GLOBAL MODEL_TYPE $N_1

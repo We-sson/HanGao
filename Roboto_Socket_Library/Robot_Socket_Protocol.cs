@@ -284,17 +284,17 @@ namespace Roboto_Socket_Library
         /// <returns></returns>
         private byte[] HandEye_Calibration_Send_Protocol(HandEye_Calibration_Send _Propertie)
         {
+            List<byte> _Send_Byte = new List<byte>();
 
             switch (Socket_Robot)
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                    var bt = Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_Propertie)); 
+                    _Send_Byte =new List<byte> ( Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_Propertie)));
 
-                    return bt;
+                    break;
                 case Socket_Robot_Protocols_Enum.ABB:
 
-                    List<byte> _Send_ABB_Byte = new List<byte>();
 
                     //装换数据
                     var st = BitConverter.GetBytes(_Propertie.IsStatus);
@@ -311,21 +311,21 @@ namespace Roboto_Socket_Library
 
                     //拼接
 
-                    _Send_ABB_Byte.AddRange(st);
-                    _Send_ABB_Byte.AddRange(mes_num);
-                    _Send_ABB_Byte.AddRange(mes);
-                    _Send_ABB_Byte.AddRange(xx);
-                    _Send_ABB_Byte.AddRange(yy);
-                    _Send_ABB_Byte.AddRange(zz);
-                    _Send_ABB_Byte.AddRange(Rxx);
-                    _Send_ABB_Byte.AddRange(Ryy);
-                    _Send_ABB_Byte.AddRange(Rzz);
+                    _Send_Byte.AddRange(st);
+                    _Send_Byte.AddRange(mes_num);
+                    _Send_Byte.AddRange(mes);
+                    _Send_Byte.AddRange(xx);
+                    _Send_Byte.AddRange(yy);
+                    _Send_Byte.AddRange(zz);
+                    _Send_Byte.AddRange(Rxx);
+                    _Send_Byte.AddRange(Ryy);
+                    _Send_Byte.AddRange(Rzz);
 
 
-                    var _num = BitConverter.GetBytes(_Send_ABB_Byte.Count);
+                    var _num = BitConverter.GetBytes(_Send_Byte.Count);
 
-                    _Send_ABB_Byte.InsertRange(0, _num);
-                    return _Send_ABB_Byte.ToArray();
+                    _Send_Byte.InsertRange(0, _num);
+                    return _Send_Byte.ToArray();
                 case Socket_Robot_Protocols_Enum.川崎:
 
 
@@ -338,7 +338,7 @@ namespace Roboto_Socket_Library
                     break;
 
                 default:
-                    throw new Exception("标定发送协议错误！");
+                    throw new Exception("发送协议错误！");
 
             }
 
@@ -349,7 +349,7 @@ namespace Roboto_Socket_Library
 
 
 
-            return Array.Empty<byte>();
+            return _Send_Byte.ToArray();
         }
 
 
@@ -363,18 +363,20 @@ namespace Roboto_Socket_Library
         private byte[] Vision_Creation_Model_Send_Procotol(Vision_Creation_Model_Send _Propertie)
         {
 
+            List<byte> _Send_Byte = new List<byte>();
+
+
             switch (Socket_Robot)
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                    var bt = Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Vision_Creation_Model_Send>(_Propertie));
+                    _Send_Byte=new List<byte> ( Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Vision_Creation_Model_Send>(_Propertie)));
 
 
-                    return bt; 
+                    break;
                 case Socket_Robot_Protocols_Enum.ABB:
 
 
-                    List<byte> _Send_ABB_Byte = new List<byte>();
 
                     //装换数据
                     var st = BitConverter.GetBytes(_Propertie.IsStatus);
@@ -391,21 +393,21 @@ namespace Roboto_Socket_Library
 
                     //拼接
 
-                    _Send_ABB_Byte.AddRange(st);
-                    _Send_ABB_Byte.AddRange(mes_num);
-                    _Send_ABB_Byte.AddRange(mes);
-                    _Send_ABB_Byte.AddRange(xx);
-                    _Send_ABB_Byte.AddRange(yy);
-                    _Send_ABB_Byte.AddRange(zz);
-                    _Send_ABB_Byte.AddRange(Rxx);
-                    _Send_ABB_Byte.AddRange(Ryy);
-                    _Send_ABB_Byte.AddRange(Rzz);
+                    _Send_Byte.AddRange(st);
+                    _Send_Byte.AddRange(mes_num);
+                    _Send_Byte.AddRange(mes);
+                    _Send_Byte.AddRange(xx);
+                    _Send_Byte.AddRange(yy);
+                    _Send_Byte.AddRange(zz);
+                    _Send_Byte.AddRange(Rxx);
+                    _Send_Byte.AddRange(Ryy);
+                    _Send_Byte.AddRange(Rzz);
 
 
-                    var _num = BitConverter.GetBytes(_Send_ABB_Byte.Count);
+                    var _num = BitConverter.GetBytes(_Send_Byte.Count);
 
-                    _Send_ABB_Byte.InsertRange(0, _num);
-                    return _Send_ABB_Byte.ToArray();
+                    _Send_Byte.InsertRange(0, _num);
+                    return _Send_Byte.ToArray();
                 case Socket_Robot_Protocols_Enum.川崎:
 
 
@@ -416,10 +418,13 @@ namespace Roboto_Socket_Library
 
 
                     break;
+                default:
+                    throw new Exception("发送协议错误！");
+
 
             }
 
-            return Array.Empty<byte>();
+            return _Send_Byte.ToArray();
         }
 
         /// <summary>
@@ -428,19 +433,19 @@ namespace Roboto_Socket_Library
         /// <returns></returns>
         private Vision_Creation_Model_Receive Vision_Creation_Model_Receive_Protocol()
         {
-
+            Vision_Creation_Model_Receive _Robot_Creation_Model_Rece = new Vision_Creation_Model_Receive();
             switch (Socket_Robot)
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                    Vision_Creation_Model_Receive _Kuka_Creation_Model_Rece = KUKA_Send_Receive_Xml.String_Xml<Vision_Creation_Model_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
+                    _Robot_Creation_Model_Rece = KUKA_Send_Receive_Xml.String_Xml<Vision_Creation_Model_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
 
 
 
-                    return _Kuka_Creation_Model_Rece;
+                    break;
                 case Socket_Robot_Protocols_Enum.ABB:
 
-                    Vision_Creation_Model_Receive _ABB_Creation_Model_Rece = new Vision_Creation_Model_Receive();
+                    //Vision_Creation_Model_Receive _ABB_Creation_Model_Rece = new Vision_Creation_Model_Receive();
 
 
                     //解析协议
@@ -484,24 +489,24 @@ namespace Roboto_Socket_Library
                     double oRy = BitConverter.ToSingle(Ryyy);
                     double oRz = BitConverter.ToSingle(Rzzz);
 
-                    _ABB_Creation_Model_Rece.Vision_Model = Vision_Model_Type;
-                  
-                    _ABB_Creation_Model_Rece.Robot_Type = (Robot_Type_Enum)_Robot_Type;
-                    _ABB_Creation_Model_Rece.Camera_Pos.X = Math.Round(cx, 4).ToString();
-                    _ABB_Creation_Model_Rece.Camera_Pos.Y = Math.Round(cy, 4).ToString();
-                    _ABB_Creation_Model_Rece.Camera_Pos.Z = Math.Round(cz, 4).ToString();
-                    _ABB_Creation_Model_Rece.Camera_Pos.Rx = Math.Round(cRx, 4).ToString();
-                    _ABB_Creation_Model_Rece.Camera_Pos.Ry = Math.Round(cRy, 4).ToString();
-                    _ABB_Creation_Model_Rece.Camera_Pos.Rz = Math.Round(cRz, 4).ToString();
-                    _ABB_Creation_Model_Rece.Origin_Pos.X = Math.Round(ox, 4).ToString();
-                    _ABB_Creation_Model_Rece.Origin_Pos.Y = Math.Round(oy, 4).ToString();
-                    _ABB_Creation_Model_Rece.Origin_Pos.Z = Math.Round(oz, 4).ToString();
-                    _ABB_Creation_Model_Rece.Origin_Pos.Rx = Math.Round(oRx, 4).ToString();
-                    _ABB_Creation_Model_Rece.Origin_Pos.Ry = Math.Round(oRy, 4).ToString();
-                    _ABB_Creation_Model_Rece.Origin_Pos.Rz = Math.Round(oRz, 4).ToString();
+                    _Robot_Creation_Model_Rece.Vision_Model = Vision_Model_Type;
+
+                    _Robot_Creation_Model_Rece.Robot_Type = (Robot_Type_Enum)_Robot_Type;
+                    _Robot_Creation_Model_Rece.Camera_Pos.X = Math.Round(cx, 4).ToString();
+                    _Robot_Creation_Model_Rece.Camera_Pos.Y = Math.Round(cy, 4).ToString();
+                    _Robot_Creation_Model_Rece.Camera_Pos.Z = Math.Round(cz, 4).ToString();
+                    _Robot_Creation_Model_Rece.Camera_Pos.Rx = Math.Round(cRx, 4).ToString();
+                    _Robot_Creation_Model_Rece.Camera_Pos.Ry = Math.Round(cRy, 4).ToString();
+                    _Robot_Creation_Model_Rece.Camera_Pos.Rz = Math.Round(cRz, 4).ToString();
+                    _Robot_Creation_Model_Rece.Origin_Pos.X = Math.Round(ox, 4).ToString();
+                    _Robot_Creation_Model_Rece.Origin_Pos.Y = Math.Round(oy, 4).ToString();
+                    _Robot_Creation_Model_Rece.Origin_Pos.Z = Math.Round(oz, 4).ToString();
+                    _Robot_Creation_Model_Rece.Origin_Pos.Rx = Math.Round(oRx, 4).ToString();
+                    _Robot_Creation_Model_Rece.Origin_Pos.Ry = Math.Round(oRy, 4).ToString();
+                    _Robot_Creation_Model_Rece.Origin_Pos.Rz = Math.Round(oRz, 4).ToString();
 
 
-                    return _ABB_Creation_Model_Rece;
+                    break;
                 case Socket_Robot_Protocols_Enum.川崎:
 
 
@@ -512,11 +517,12 @@ namespace Roboto_Socket_Library
 
 
                     break;
-
+                default:
+                    throw new Exception("发送协议错误！");
             }
 
 
-            return new Vision_Creation_Model_Receive();
+            return _Robot_Creation_Model_Rece;
 
         }
 
@@ -527,17 +533,18 @@ namespace Roboto_Socket_Library
         /// <returns></returns>
         private Vision_Ini_Data_Receive Vision_Ini_Receive_Protocol()
         {
-
+            Vision_Ini_Data_Receive _Ini_Data_Receive = new Vision_Ini_Data_Receive();
             switch (Socket_Robot)
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
+                     _Ini_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Vision_Ini_Data_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
 
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
 
-
+                  
 
                     break;
                 case Socket_Robot_Protocols_Enum.川崎:
@@ -549,12 +556,15 @@ namespace Roboto_Socket_Library
 
 
 
-                    break;
+            
+                default:
+                    throw new Exception("发送协议错误！");
+
 
             }
 
+            return _Ini_Data_Receive;
 
-            return new Vision_Ini_Data_Receive();
 
         }
 
@@ -564,11 +574,13 @@ namespace Roboto_Socket_Library
         private byte[]? Vision_Ini_Send_Procotol(Vision_Ini_Data_Send _Propertie)
         {
 
+            List< byte > _byte_List = new  List<byte>();
+
             switch (Socket_Robot)
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-
+                    _byte_List =new List<byte>( Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Vision_Ini_Data_Send>(_Propertie)));
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
@@ -586,16 +598,23 @@ namespace Roboto_Socket_Library
 
 
                     break;
+                default:
+
+                    throw new Exception("标定发送协议错误！");
+
 
             }
 
-            return Array.Empty<byte>();
+            return _byte_List.ToArray();
         }
 
 
 
         private byte[] Vision_Find_Send_Protocol(Vision_Find_Data_Send _Propertie)
         {
+
+            List<byte> _byte_List = new List<byte>();
+
             switch (Socket_Robot)
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
@@ -618,10 +637,12 @@ namespace Roboto_Socket_Library
 
 
                     break;
+                default:
 
+                    throw new Exception("标定发送协议错误！");
             }
 
-            return Array.Empty<byte>();
+            return _byte_List.ToArray();
         }
 
         /// <summary>
@@ -630,6 +651,8 @@ namespace Roboto_Socket_Library
         /// <returns></returns>
         private Vision_Find_Data_Receive Vision_Find_Receive_Protocol()
         {
+            Vision_Find_Data_Receive _Find_Data_Receive = new Vision_Find_Data_Receive();
+
 
             switch (Socket_Robot)
             {
@@ -653,11 +676,13 @@ namespace Roboto_Socket_Library
 
 
                     break;
+                default:
 
+                    throw new Exception("标定发送协议错误！");
             }
 
 
-            return new Vision_Find_Data_Receive();
+            return _Find_Data_Receive;
 
         }
 

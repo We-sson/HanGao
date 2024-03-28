@@ -13,6 +13,7 @@
 		 <ELEMENT Tag="Robot_Send/@IsStatus" Type="BOOL"  Set_Flag="2" /> 
        <ELEMENT Tag="Robot_Send/Message_Error" Type="STRING"/>
 		 <ELEMENT Tag="Robot_Send/Creation_Point" Type="FRAME"/>
+       <ELEMENT Tag="Robot_Send" Set_Flag="2"/>
 		</XML>
 	</RECEIVE>
 	<SEND>

@@ -187,7 +187,9 @@ namespace HanGao.ViewModel
                         Socket_Robot = Vision_Socket_Robot_Parameters.Socket_Robot_Model,
                         Vision_Ini_Data_Delegate = Vision_Ini_Data_Receive_Method,
                         Vision_Creation_Model_Data_Delegate = Vision_Creation_Model_Receive_Method,
+                        Vision_Find_Model_Delegate= Vision_Find_Data_Receive_Method,
                         Socket_ErrorInfo_delegate = Socket_Log_Show
+                         
                     });
                 }
 
@@ -198,6 +200,11 @@ namespace HanGao.ViewModel
         }
 
 
+        /// <summary>
+        /// 视觉开始匹配动作
+        /// </summary>
+        /// <param name="_Receive"></param>
+        /// <returns></returns>
         public Vision_Find_Data_Send Vision_Find_Data_Receive_Method(Vision_Find_Data_Receive _Receive)
         {
 
@@ -209,13 +216,32 @@ namespace HanGao.ViewModel
             return new Vision_Find_Data_Send();
         }
 
+
+        /// <summary>
+        /// 视觉初始化动作设置判断
+        /// </summary>
+        /// <param name="_Receive"></param>
+        /// <returns></returns>
         public Vision_Ini_Data_Send Vision_Ini_Data_Receive_Method(Vision_Ini_Data_Receive _Receive)
         {
+            Vision_Ini_Data_Send _Ini_Data_Send = new Vision_Ini_Data_Send();
+
+            if (Camera_Device_List.Select_Camera != null   && Camera_Device_List.Camera_Diver_Model== Image_Diver_Model_Enum.Online)
+            {
+                _Ini_Data_Send.IsStatus = 1;
+                _Ini_Data_Send.Message_Error = "Vision Ini Ready!";
+
+            }
+            else
+            {
+
+                _Ini_Data_Send.IsStatus = 0;
+                _Ini_Data_Send.Message_Error = "The camera device is not connected or the camera is not online! Check PC!";
+            }
 
 
 
-
-            return new Vision_Ini_Data_Send();
+            return _Ini_Data_Send;
         }
 
 
@@ -234,7 +260,7 @@ namespace HanGao.ViewModel
             {
 
 
-
+                ///设置相机坐标
                 Halcon_Shape_Mode.Model_Camera_Pos.X = double.Parse(_Receive.Camera_Pos.X);
                 Halcon_Shape_Mode.Model_Camera_Pos.Y = double.Parse(_Receive.Camera_Pos.Y);
                 Halcon_Shape_Mode.Model_Camera_Pos.Z = double.Parse(_Receive.Camera_Pos.Z);
@@ -244,7 +270,7 @@ namespace HanGao.ViewModel
 
                 Halcon_Shape_Mode.Model_Camera_Pos.Set_HPos_Type(_Receive.Robot_Type);
 
-
+                //设置平面坐标
                 Halcon_Shape_Mode.Model_Plane_Pos.X = double.Parse(_Receive.Origin_Pos.X);
                 Halcon_Shape_Mode.Model_Plane_Pos.Y = double.Parse(_Receive.Origin_Pos.Y);
                 Halcon_Shape_Mode.Model_Plane_Pos.Z = double.Parse(_Receive.Origin_Pos.Z);
@@ -253,18 +279,6 @@ namespace HanGao.ViewModel
                 Halcon_Shape_Mode.Model_Plane_Pos.Rz = double.Parse(_Receive.Origin_Pos.Rz);
                 Halcon_Shape_Mode.Model_Plane_Pos.Set_HPos_Type(_Receive.Robot_Type);
 
-
-
-
-                //Point_Model CamInTool = new Point_Model(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseInvert());
-                //Point_Model ToolInBase = new Point_Model(Halcon_Shape_Mode.Model_Camera_Pos.HPose);
-                //Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
-                ////生产相机标模型
-                //List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CameraInBase.HPose);
-                ////生产机器人坐标模型
-                //List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Model_Plane_Pos.HPose);
-
-                //_RobotTcp3D.AddRange(_Camera_3D);
 
                 if (Camera_Device_List.Select_Camera != null && Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera != null)
                 {
@@ -418,7 +432,7 @@ namespace HanGao.ViewModel
                         }
 
                         ////启动自动连接
-                        if (Vision_Auto_Cofig.Auto_Connect_Selected_Camera)
+                        if (Vision_Auto_Cofig.Auto_Connect_Selected_Camera && Camera_Device_List.Camera_Diver_Model== Image_Diver_Model_Enum.Online)
                         {
 
                             foreach (var _camera in MVS_Camera_Info_List)
