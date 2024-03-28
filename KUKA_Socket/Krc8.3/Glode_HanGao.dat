@@ -1,5 +1,5 @@
 &ACCESS RVO
-&REL 370
+&REL 371
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -50,7 +50,7 @@ DECL GLOBAL LSC_TOOL_TYP LTDEFAULT={LSR_MAX_PWR 500,LSR_MIN_PWR 50,LSR_Prg 1,SNS
 DECL GLOBAL Offset_POS FFDEFAULT={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
 DECL GLOBAL Offset_CIR FCDEFAULT={C_X 0.0,C_Y 0.0,C_Z 0.0,C_A 0.0,C_B 0.0,C_C 0.0}
 DECL GLOBAL E6POS PODEFAULT={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
-
+DECL GLOBAL E6POS XDEFAULT={X 0,Y 0,Z 0,A 0,B 0,C 0,S 2,T 2,E1 0,E2 0,E3 0,E4 0,E5 0,E6 0}
 
 DECL GLOBAL Surround_Welding_Type Camera_Calibration_Data={Sink_Size_Long 632.000,Sink_Size_Width 352.000,Sink_Size_R 10.0000,Sink_Size_Short_Side 23.0000,Sink_Size_Short_OnePos 36.0000,Sink_Size_Short_TwoPos 328.000,Sink_Size_Pots_Thick 0.0,Sink_Size_Panel_Thick 0.0,Sink_Model 952154,Sink_Size_Left_Distance 24.0000,Sink_Size_Down_Distance 24.0000,Sink_Type #LeftRight_One}
 

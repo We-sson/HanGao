@@ -242,248 +242,212 @@ ENDTP
 
 
 
-DEFTP Vision_Move={ SOt false,Soc true }
+DEFTP Vision_Move={ SOt false,Soc false }
 
-;DECL PARAM PosAct={VALUE {FREE: DEFAULT[] "X 0,Y 0,Z 0,A 0,B 0,C 0,S 0,T 0,E1 0,E2 0,E3 0,E4 0,E5 0,E6 0"}}
-DECL PARAM TOOL_NO={shortname[] "Tool", shortcut[] "", unit[] "", value { LIST : POS 1, _
-  ITEM[1] {ITEM:VALUE[] "0", disp[] "NULLFRAME"}, _
-  ITEM[2] {ITEM:VALUE[] "1", disp[] "TOOL_DATA[1]"}, _
-  ITEM[3] {ITEM:VALUE[] "2", disp[] "TOOL_DATA[2]"}, _
-  ITEM[4] {ITEM:VALUE[] "3", disp[] "TOOL_DATA[3]"}, _
-  ITEM[5] {ITEM:VALUE[] "4", disp[] "TOOL_DATA[4]"}, _
-  ITEM[6] {ITEM:VALUE[] "5", disp[] "TOOL_DATA[5]"}, _
-  ITEM[7] {ITEM:VALUE[] "6", disp[] "TOOL_DATA[6]"}, _
-  ITEM[8] {ITEM:VALUE[] "7", disp[] "TOOL_DATA[7]"}, _
-  ITEM[9] {ITEM:VALUE[] "8", disp[] "TOOL_DATA[8]"}, _
-  ITEM[10] {ITEM:VALUE[] "9", disp[] "TOOL_DATA[9]"}, _
-  ITEM[11] {ITEM:VALUE[] "10", disp[] "TOOL_DATA[10]"}, _
-  ITEM[12] {ITEM:VALUE[] "11", disp[] "TOOL_DATA[11]"}, _
-  ITEM[13] {ITEM:VALUE[] "12", disp[] "TOOL_DATA[12]"}, _
-  ITEM[14] {ITEM:VALUE[] "13", disp[] "TOOL_DATA[13]"}, _
-  ITEM[15] {ITEM:VALUE[] "14", disp[] "TOOL_DATA[14]"}, _
-  ITEM[16] {ITEM:VALUE[] "15", disp[] "TOOL_DATA[15]"}, _
-  ITEM[17] {ITEM:VALUE[] "16", disp[] "TOOL_DATA[16]"}, _
-  ITEM[18] {ITEM:VALUE[] "17", disp[] "TOOL_DATA[17]"}, _
-  ITEM[19] {ITEM:VALUE[] "18", disp[] "TOOL_DATA[18]"}, _
-  ITEM[20] {ITEM:VALUE[] "19", disp[] "TOOL_DATA[19]"}, _
-  ITEM[21] {ITEM:VALUE[] "20", disp[] "TOOL_DATA[20]"}, _
-  ITEM[22] {ITEM:VALUE[] "21", disp[] "TOOL_DATA[21]"}, _
-  ITEM[23] {ITEM:VALUE[] "22", disp[] "TOOL_DATA[22]"}, _
-  ITEM[24] {ITEM:VALUE[] "23", disp[] "TOOL_DATA[23]"}, _
-  ITEM[25] {ITEM:VALUE[] "24", disp[] "TOOL_DATA[24]"}, _
-  ITEM[26] {ITEM:VALUE[] "25", disp[] "TOOL_DATA[25]"}, _
-  ITEM[27] {ITEM:VALUE[] "26", disp[] "TOOL_DATA[26]"}, _
-  ITEM[28] {ITEM:VALUE[] "27", disp[] "TOOL_DATA[27]"}, _
-  ITEM[29] {ITEM:VALUE[] "28", disp[] "TOOL_DATA[28]"}, _
-  ITEM[30] {ITEM:VALUE[] "29", disp[] "TOOL_DATA[29]"}, _
-  ITEM[31] {ITEM:VALUE[] "30", disp[] "TOOL_DATA[30]"}, _
-  ITEM[32] {ITEM:VALUE[] "31", disp[] "TOOL_DATA[31]"}, _
-  ITEM[33] {ITEM:VALUE[] "32", disp[] "TOOL_DATA[32]"}}}
-  
-DECL PARAM BASE_NO={shortname[] "Base", shortcut[] "", unit[] "", value { LIST : POS 1, _
-  ITEM[1] {ITEM:VALUE[] "0", disp[] "NULLFRAME"}, _
-  ITEM[2] {ITEM:VALUE[] "1", disp[] "BASE_DATA[1]"}, _
-  ITEM[3] {ITEM:VALUE[] "2", disp[] "BASE_DATA[2]"}, _
-  ITEM[4] {ITEM:VALUE[] "3", disp[] "BASE_DATA[3]"}, _
-  ITEM[5] {ITEM:VALUE[] "4", disp[] "BASE_DATA[4]"}, _
-  ITEM[6] {ITEM:VALUE[] "5", disp[] "BASE_DATA[5]"}, _
-  ITEM[7] {ITEM:VALUE[] "6", disp[] "BASE_DATA[6]"}, _
-  ITEM[8] {ITEM:VALUE[] "7", disp[] "BASE_DATA[7]"}, _
-  ITEM[9] {ITEM:VALUE[] "8", disp[] "BASE_DATA[8]"}, _
-  ITEM[10] {ITEM:VALUE[] "9", disp[] "BASE_DATA[9]"}, _
-  ITEM[11] {ITEM:VALUE[] "10", disp[] "BASE_DATA[10]"}, _
-  ITEM[12] {ITEM:VALUE[] "11", disp[] "BASE_DATA[11]"}, _
-  ITEM[13] {ITEM:VALUE[] "12", disp[] "BASE_DATA[12]"}, _
-  ITEM[14] {ITEM:VALUE[] "13", disp[] "BASE_DATA[13]"}, _
-  ITEM[15] {ITEM:VALUE[] "14", disp[] "BASE_DATA[14]"}, _
-  ITEM[16] {ITEM:VALUE[] "15", disp[] "BASE_DATA[15]"}, _
-  ITEM[17] {ITEM:VALUE[] "16", disp[] "BASE_DATA[16]"}, _
-  ITEM[18] {ITEM:VALUE[] "17", disp[] "BASE_DATA[17]"}, _
-  ITEM[19] {ITEM:VALUE[] "18", disp[] "BASE_DATA[18]"}, _
-  ITEM[20] {ITEM:VALUE[] "19", disp[] "BASE_DATA[19]"}, _
-  ITEM[21] {ITEM:VALUE[] "20", disp[] "BASE_DATA[20]"}, _
-  ITEM[22] {ITEM:VALUE[] "21", disp[] "BASE_DATA[21]"}, _
-  ITEM[23] {ITEM:VALUE[] "22", disp[] "BASE_DATA[22]"}, _
-  ITEM[24] {ITEM:VALUE[] "23", disp[] "BASE_DATA[23]"}, _
-  ITEM[25] {ITEM:VALUE[] "24", disp[] "BASE_DATA[24]"}, _
-  ITEM[26] {ITEM:VALUE[] "25", disp[] "BASE_DATA[25]"}, _
-  ITEM[27] {ITEM:VALUE[] "26", disp[] "BASE_DATA[26]"}, _
-  ITEM[28] {ITEM:VALUE[] "27", disp[] "BASE_DATA[27]"}, _
-  ITEM[29] {ITEM:VALUE[] "28", disp[] "BASE_DATA[28]"}, _
-  ITEM[30] {ITEM:VALUE[] "29", disp[] "BASE_DATA[29]"}, _
-  ITEM[31] {ITEM:VALUE[] "30", disp[] "BASE_DATA[30]"}, _
-  ITEM[32] {ITEM:VALUE[] "31", disp[] "BASE_DATA[31]"}, _
-  ITEM[33] {ITEM:VALUE[] "32", disp[] "BASE_DATA[32]"}}}
-DECL PARAM PCONT1={shortname[] "", shortcut[] "", unit[] "", value { LIST : POS 1, _
-  ITEM[1] {ITEM:VALUE[] " ", disp[] ""}, _
-  ITEM[2] {ITEM:VALUE[] "C_DIS", disp[] "CONT"}}}
-  
-; DECL PARAM PCONT2={shortname[] "", shortcut[] "", unit[] "", value { LIST : POS 1, _
-  ; ITEM[1] {ITEM:VALUE[] " ", disp[] ""}, _
-  ; ITEM[2] {ITEM:VALUE[] "C_PTP", disp[] "CONT"}}}
+DECL PARAM PosAct={VALUE {FREE: DEFAULT[] "" }}
+
 
 DECL PARAM LCONT={shortname[] "", shortcut[] "", unit[] "", value { LIST : POS 1, _
   ITEM[1] {ITEM:VALUE[] " ", disp[] ""}, _
   ITEM[2] {ITEM:VALUE[] "C_DIS C_DIS", disp[] "CONT"}}}
 
-DECL PARAM PVEL={VALUE {NUMBER: AUTOLIMIT TRUE, min 1,max 100,Step 1,default 100},shortname[] "Vel=", UNIT[] " %", Shortcut[] "Vel" }
 DECL PARAM LVEL={VALUE {REAL: AUTOLIMIT TRUE, min 0.01,max 2.0,Step 0.1, default 2},shortname[] "Vel=", UNIT[] " m/s", Shortcut[] "Vel" }
-
+DECL PARAM X={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 9999.0,Step 0.1, default 0},shortname[] "X=", UNIT[] " mm", Shortcut[] "mm" }
+DECL PARAM Y={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 9999.0,Step 0.1, default 0},shortname[] "Y=", UNIT[] " mm", Shortcut[] "mm" }
+DECL PARAM Z={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 9999.0,Step 0.1, default 0},shortname[] "Z=", UNIT[] " mm", Shortcut[] "mm" }
+DECL PARAM A={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 360.0,Step 0.1, default 0},shortname[] "A=", UNIT[] "", Shortcut[] "" }
+DECL PARAM B={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 360.0,Step 0.1, default 0},shortname[] "B=", UNIT[] "", Shortcut[] "" }
+DECL PARAM C={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 360.0,Step 0.1, default 0},shortname[] "C=", UNIT[] "", Shortcut[] "" }
 Decl PARAM Point1={SHORTNAME[] "",VALUE {NAME: DEFAULT[] "P0"}}
-; Decl PARAM Point2={SHORTNAME[] "",VALUE {NAME: DEFAULT[] "P0"}}
-
-Decl PARAM PL_Pos1 = {SHORTNAME[] "Frames", VAR[] "FDAT", SHORTCUT[] "", UNIT[] "", Value {FREE: DEFAULT[] "_"}}
-
-; DECL PARAM TOOL_NO={shortname[] "Tool", shortcut[] "", unit[] "", value { LIST : POS 1, _
-  ; ITEM[1] {ITEM:VALUE[] "0", disp[] "NULLFRAME"}}}
-  
-; DECL PARAM BASE_NO={shortname[] "Base", shortcut[] "", unit[] "", value { LIST : POS 1, _
-  ; ITEM[1] {ITEM:VALUE[] "0", disp[] "NULLFRAME"}}}
-
-; DECL PARAM IPO_FRAME={shortname[] "External TCP", shortcut[] "", unit[] "", value { LIST : POS 1, _
-  ; ITEM[1] {ITEM:VALUE[] "#BASE", disp[] "False"}, _
-  ; ITEM[2] {ITEM:VALUE[] "#TCP", disp[] "True"}}}
-
-; DECL PARAM TQ_STATE={shortname[] "Collision detection", shortcut[] "", unit[] "", value { LIST : POS 1, _
-  ; ITEM[1] {ITEM:VALUE[] "FALSE", disp[] "False"}, _
-  ; ITEM[2] {ITEM:VALUE[] "TRUE", disp[] "True"}}}
-
-
-
-
-Decl PARAM ParamListPdat={SHORTNAME[] "",VALUE {NAME: DEFAULT[] "PDAT0"}}
-
-Decl PARAM PL_PDat = {SHORTNAME[] "Motion parameter", VAR[] "PDAT", SHORTCUT[] "", UNIT[] "" ,Value {FREE: DEFAULT[] "_"}}
+Decl PARAM ParamListLdat={SHORTNAME[] "LDAT:",VALUE {NAME: DEFAULT[] "LDAT0"}}
+Decl PARAM ParamListFdat={SHORTNAME[] "FDAT:",VALUE {NAME: DEFAULT[] "FDAT0"}}
 Decl PARAM ACC = {SHORTNAME[] "Acceleration", VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "%", SHORTCUT[] "Acc" }
-; Decl PARAM ACCCP = {SHORTNAME[] "CP acceleration", VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "%", SHORTCUT[] "Acc" }
-;Decl PARAM APO_DISTP2 = {SHORTNAME[] "Approximation distance", VALUE {NUMBER:MIN 0, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "%", SHORTCUT[] "Cont" }
-;Decl PARAM APO_DISTP1 = {SHORTNAME[] "Approximation distance", VALUE {NUMBER:MIN 0, MAX 1000, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "mm", SHORTCUT[] "Cont" }
-Decl PARAM APO_MODE = {Value {FREE: DEFAULT[] ""}}
 Decl PARAM APO_DISTP = {SHORTNAME[] "Approximation distance", VALUE {NUMBER:MIN 1, MAX 1000, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "mm", SHORTCUT[] "Cont" }
 
-
-
-
-Decl PARAM ParamListLdat={SHORTNAME[] "",VALUE {NAME: DEFAULT[] "CPDAT0"}}
-
-Decl PARAM PL_LDat = {SHORTNAME[] "Motion parameter", VAR[] "LDAT", SHORTCUT[] "", UNIT[] "" ,Value {FREE: DEFAULT[] "_"}}
+Decl PARAM PL_Pos1 = {SHORTNAME[] "Frames", VAR[] "FDAT", SHORTCUT[] "", UNIT[] "", Value {FREE: DEFAULT[] "_"}}
+Decl PARAM PL_PDat = {SHORTNAME[] "Motion parameter", VAR[] "PDAT", SHORTCUT[] "", UNIT[] "" ,Value {FREE: DEFAULT[] "_"}}
+Decl PARAM PL_FDAT = {SHORTNAME[] "Lin Parametet Settings", VAR[] "FDAT", SHORTCUT[] "F", UNIT[] "", Value {FREE: DEFAULT[] "_"}}
+Decl PARAM PL_LDat = {SHORTNAME[] "Lin Parameter", VAR[] "LDAT", SHORTCUT[] "L", UNIT[] "" ,Value {FREE: DEFAULT[] "_"}}
+Decl PARAM PL_EPOS = {SHORTNAME[] "Lin Parameter", VAR[] "E6POS", SHORTCUT[] "X", UNIT[] "" ,Value {FREE: DEFAULT[] "_"}}
+  
 Decl PARAM APO_DISTL = {SHORTNAME[] "Approximation distance", VALUE {NUMBER:MIN 0, MAX 1000, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "mm", SHORTCUT[] "Cont" }
 Decl PARAM APO_FACL = {SHORTNAME[] "", VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 50}, UNIT[] "", SHORTCUT[] "" }
-; DECL PARAM ORI_TYPL={shortname[] "Orientation control", shortcut[] "", unit[] "", value { LIST : POS 1, _
-  ; ITEM[1] {ITEM:VALUE[] "#VAR", disp[] "Standard"}, _
-  ; ITEM[2] {ITEM:VALUE[] "#JOINT", disp[] "Wrist PTP"}, _
-  ; ITEM[3] {ITEM:VALUE[] "#CONSTANT", disp[] "Constant Orientation"}}}
 
- ; DECL PLIST LDat[3] -> ParamListLdat
- ; LDat[1] = ACCCP
- ; LDat[2] = APO_DISTL
- ; LDat[3] = ORI_TYPL
-
-Decl PARAM TOOLVIS = {SHORTNAME[] "Tool[", VALUE {NUMBER: DEFAULT 0,MIN 0, MAX 32}, UNIT[] "]", SHORTCUT[] "Tool", VISIBLE FALSE }
-Decl PARAM BASEVIS = {SHORTNAME[] "Base[", VALUE {NUMBER: DEFAULT 0,MIN 0, MAX 32}, UNIT[] "]", SHORTCUT[] "Base", VISIBLE FALSE }
-DECL PARAM SYNCPARAM={VALUE {FREE: DEFAULT[] ""}}
-DECL PARAM SPLNAME={VALUE {FREE: DEFAULT[] ""}}
-; DECL PARAM TM_ID={VALUE {FREE: DEFAULT[] "0"}}
-DECL PARAM TQ_ST_OLD={VALUE {FREE: DEFAULT[] ""}}
-DECL PARAM TQ_VIS={VALUE {FREE: DEFAULT[] " "}, VISIBLE FALSE }
-DECL PARAM TQ_OFF={VALUE {FREE: DEFAULT[] " "}}
-DECL PARAM TQ_ON={VALUE {FREE: DEFAULT[] "CD"}}
+Decl PARAM TOOL_NO = {SHORTNAME[] "Tool:", VALUE {NUMBER: DEFAULT 0,MIN 0, MAX 32,STEP 1}, UNIT[] "No", SHORTCUT[] "", VISIBLE FALSE }
+Decl PARAM BASE_NO = {SHORTNAME[] "Base:", VALUE {NUMBER: DEFAULT 0,MIN 0, MAX 32,STEP 1}, UNIT[] "No", SHORTCUT[] "", VISIBLE FALSE }
 
 
-DECL PLIST PDat[2] -> ParamListLdat
-PDat[1] = ACC
-PDat[2] = APO_DISTL
+DECL PLIST LDat[2] -> ParamListLdat
+LDat[1] = ACC
+LDat[2] = APO_DISTL
 
-DECL PLIST Pos1[2] -> Point1
-Pos1[1] = TOOL_NO
-Pos1[2] = BASE_NO
+DECL PLIST FDat[2] -> ParamListFdat
+FDat[1] = TOOL_NO
+FDat[2] = BASE_NO
+
+
+DECL PLIST EPOS[6] -> Point1
+EPOS[1] = X
+EPOS[2] = A
+EPOS[3] = Y
+EPOS[4] = B
+EPOS[5] = Z
+EPOS[6] = C
+
+
 
 DECL FOLD FLIN[5]
 FLIN[1]="$BWDSTART=FALSE"
-FLIN[2]="LDAT_ACT=L%ParamListLdat"
-FLIN[3]="FDAT_ACT=F%Point1"
+FLIN[2]="LDAT_ACT=%ParamListLdat"
+FLIN[3]="FDAT_ACT=%ParamListFdat"
 FLIN[4]="BAS(#CP_PARAMS,%LVEL )"
 FLIN[5]="LIN X%Point1  %LCONT"
 
 
-; defscript scLastBasisLIN
-; REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL BASIS_SUGG_T LAST_BASIS={POINT1[] /"%Point1/",POINT2[] /"%Point1/",CP_PARAMS[] /"%ParamListLdat/",PTP_PARAMS[] /"%ParamListPdat/",CONT[] /"%LCONT  /",CP_VEL[] /"%LVEL/",PTP_VEL[] /"%PVEL/",SYNC_PARAMS[] /"%SYNCPARAM  /",SPL_NAME[] /"%SPLNAME  /"}" )
-; endscript
+defscript LinSave
+Message "LinSave"
 
-defscript scOnAcceptLin
+REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL E6POS X%Point1 =%PosAct " )
+REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT %ParamListFdat ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
+REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT %ParamListLdat ={VEL %LVEL ,ACC %ACC ,APO_DIST %APO_DISTL ,APO_FAC %APO_FACL ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
 
-Message " %PosAct "
-; Camera_LIn={FOLD[1] FLIN}
-; SETVAR (FULLPATH[] "$TMP", Value[] "%TOOL_NO ")
-; SHOWVAR (FULLPATH[] "$TMP", PARAM TOOLVIS)
-; SETVAR (FULLPATH[] "$TMP", Value[] "%BASE_NO ")
-; SHOWVAR (FULLPATH[] "$TMP", PARAM BASEVIS)
-; SETVAR (FULLPATH[] "$TMP", Value[] "%TQ_OFF ")
-; SHOWVAR (FULLPATH[] "$TMP", PARAM TQ_VIS)
- ; SHOWVAR(FULLPATH[] "%PosAct ", PARAM PosAct )
-; SWITCH "ISCHANGE"
-; CASE "FALSE" DO scLastBasisLIN
-; ENDSWITCH
+Message "X%Point1  Saved Current Position"
+
+endscript
+
+defscript LinSet
+Message "LinSet"
+
+SETVAR (FULLPATH[] "X%Point1 ", Value[] "$POS_ACT")
+
+Do LinSave
+
+
+endscript
+
+
+
+
+
+
+
+
+defscript OnChangeLin
+Message "OnChangeLin"
+
+ ; SHOWVAR (FULLPATH[] "%ParamListFdat .TOOL_NO", PARAM TOOL_NO)
+ ; SHOWVAR (FULLPATH[] "%ParamListFdat .BASE_NO", PARAM BASE_NO)
+ ; SHOWVAR (FULLPATH[] "%ParamListLdat .VEL", PARAM LVEL)
+ ; SHOWVAR (FULLPATH[] "%ParamListLdat .ACC", PARAM ACC)
+ ; SHOWVAR (FULLPATH[] "%ParamListLdat .APO_DIST", PARAM APO_DISTL)
+
+
+endscript
+
+
+
+defscript GetPosAct
 SHOWVAR(FULLPATH[] "$POS_ACT", PARAM PosAct )
-REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL E6POS X%Point1 =$POS_ACT " )
-REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT F%Point1 ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
-REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT L%ParamListLdat ={VEL %LVEL ,ACC %ACC ,APO_DIST %APO_DISTL ,APO_FAC %APO_FACL ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
+SHOWVAR(FULLPATH[] "$POS_ACT.X", PARAM X )
+SHOWVAR(FULLPATH[] "$POS_ACT.Y", PARAM Y )
+SHOWVAR(FULLPATH[] "$POS_ACT.Z", PARAM Z )
+SHOWVAR(FULLPATH[] "$POS_ACT.A", PARAM A )
+SHOWVAR(FULLPATH[] "$POS_ACT.B", PARAM B )
+SHOWVAR(FULLPATH[] "$POS_ACT.C", PARAM C )
+;Message "%PosAct "
+endscript
+
+
+DEFSCRIPT SetBaseNo
+Message "SetBaseNo"
+SETVAR(FULLPATH[] "$BASE", VALUE[] "{FRAME: X 0,Y 0,Z 0,A 0,B 0,C 0}" )
+SETVAR(FULLPATH[] "$ACT_BASE", VALUE[] "%BASE_NO " )
+Message "SetBaseNo"
+Do GetPosAct
+ENDSCRIPT
+
+DEFSCRIPT SetBaseNoElse
+Message "SetBaseNoElse"
+SETVAR(FULLPATH[] "$BASE", VALUE[] "BASE_DATA[%BASE_NO ]" )
+SETVAR(FULLPATH[] "$ACT_BASE", VALUE[] "%BASE_NO " )
+Message "SetBaseNoElse"
+Do GetPosAct
+ENDSCRIPT
+
+DEFSCRIPT SetToolNo
+Message "SetToolNo"
+SETVAR(FULLPATH[] "$TOOL", VALUE[] "{FRAME: X 0,Y 0,Z 0,A 0,B 0,C 0}" )
+SETVAR(FULLPATH[] "$ACT_TOOL", VALUE[] "%TOOL_NO " )
+Message "SetToolNo"
+SWITCH "%BASE_NO "
+CASE "0" DO SetBaseNo
+CASE ELSE DO SetBaseNoElse
+ENDSWITCH
+
+ENDSCRIPT
+
+
+
+DEFSCRIPT SetToolNoElse
+Message "SetToolNoElse"
+SETVAR(FULLPATH[] "$TOOL", VALUE[] "TOOL_DATA[%TOOL_NO ]" )
+SETVAR(FULLPATH[] "$ACT_TOOL", VALUE[] "%TOOL_NO " )
+Message "SetToolNoElse"
+SWITCH "%BASE_NO "
+CASE "0" DO SetBaseNo
+CASE ELSE DO SetBaseNoElse
+ENDSWITCH
+ENDSCRIPT
+
+
+defscript OnNewLin
+Message "OnNewLin"
+
+SWITCH "%TOOL_NO "
+CASE "0" DO SetToolNo
+CASE ELSE DO SetToolNoElse
+ENDSWITCH
+
+
+
 endscript
 
 
 
 
-
-
-
-
-
-defscript scOnChangeLin
-
-Message " %PosAct "
-; SHOWVAR(FULLPATH[] "X%Point1 ", PARAM PosAct )
-; SETVAR (FULLPATH[] "$TMP", Value[] "%PosAct ")
-SHOWVAR (FULLPATH[] "F%Point1 .TOOL_NO", PARAM TOOL_NO)
-SHOWVAR (FULLPATH[] "F%Point1 .BASE_NO", PARAM BASE_NO)
-; SHOWVAR (FULLPATH[] "F%Point1 .IPO_FRAME", PARAM IPO_FRAME)
-; SHOWVAR (FULLPATH[] "F%Point1 .TQ_STATE", PARAM TQ_STATE)
-; SHOWVAR (FULLPATH[] "F%Point1 .TQ_STATE", PARAM TQ_ST_OLD)
-SHOWVAR (FULLPATH[] "L%ParamListLdat .VEL", PARAM LVEL)
-; SHOWVAR (FULLPATH[] "L%ParamListLdat .ACC", PARAM ACCCP)
-SHOWVAR (FULLPATH[] "L%ParamListLdat .APO_DIST", PARAM APO_DISTL)
-; SHOWVAR (FULLPATH[] "L%ParamListLdat .ORI_TYP", PARAM ORI_TYPL)
-endscript
-
-defscript scOnNewLin
-
-Message " %PosAct"
-; SHOWVAR(FULLPATH[] "$X%Point1 ", PARAM PosAct )
-; SHOWVAR (FULLPATH[] "LAST_BASIS.POINT2[]", PARAM Point1)
-; SHOWVAR (FULLPATH[] "LAST_BASIS.PTP_PARAMS[]", PARAM ParamListPdat)
-; SHOWVAR (FULLPATH[] "LAST_BASIS.CONT[]", PARAM LCONT)
-; SHOWVAR (FULLPATH[] "LAST_BASIS.PTP_VEL[]", PARAM PVEL)
-; SHOWVAR (FULLPATH[] "LAST_BASIS.CP_PARAMS[]", PARAM ParamListLdat)
-; SHOWVAR (FULLPATH[] "LAST_BASIS.CP_VEL[]", PARAM LVEL)
-; SHOWVAR (FULLPATH[] "LAST_BASIS.SYNC_PARAMS[]", PARAM SYNCPARAM)
-; SHOWVAR (FULLPATH[] "LAST_BASIS.SPL_NAME[]", PARAM SPLNAME)
-; SHOWVAR (FULLPATH[] "$COUNTUP", PARAM Point1)
-; SHOWVAR (FULLPATH[] "$COUNTUP", PARAM ParamListLdat)
-; SHOWVAR (FULLPATH[] "LAST_TQM.TM_ID[]", PARAM TM_ID)
-; SHOWVAR (FULLPATH[] "%TM_ID .ID", PARAM TM_ID)
-endscript
-
-defscript scOnOpenLin
+defscript OnAcceptLin
+Message "OnAcceptLin"
 SWITCH "ISCHANGE"
-CASE "TRUE" DO scOnChangeLin
-CASE "FALSE" DO scOnNewLin
+CASE "TRUE" DO LinSet
+CASE "FALSE" DO LinSave
+ENDSWITCH
+
+
+endscript
+
+
+defscript LinONTOUCHUP
+Message "LinONTOUCHUP"
+
+SWITCH DIALOG "Point X%Point1  already exisys -overwrite? (Tool[%TOOL_NO ], Base[%BASE_NO ]) "
+Case "No"
+CASE "Yse"  Do OnAcceptLin
+ENDSWITCH
+
+endscript
+
+defscript OnOpenLin
+Message "OnOpenLin"
+
+SWITCH "ISCHANGE"
+CASE "TRUE" DO OnChangeLin
+CASE "FALSE" DO OnNewLin
 ENDSWITCH
 endscript
 
 
 
-;Decl InlineForm VPTP={FOLD[1] FPTP, PARAM[1] Point1, PARAM[2] PCONT, PARAM[3] PVEL, PARAM[4] ParamListPdat, PARAM[5] ToolVIS, PARAM[6] BaseVIS, PARAM[7] TQ_VIS, STYLE WYSIWYG, CMDSHOW "PTP", ONACCEPT scOnAcceptPtp, ONOPEN scOnOpenPtp, TPNAME[] "MKUKATPBASIS", TPVERSION[] "R 8.3.22" }
-Decl InlineForm Camera_LIn={FOLD[1] FLIN, PARAM[1] Point1, PARAM[2] LCONT, PARAM[3] LVEL, PARAM[4] ParamListLdat, CMDSHOW "LIN", ONACCEPT scOnAcceptLin, ONOPEN scOnOpenLin, TPNAME[] "MKUKATPBASIS", TPVERSION[] "R 8.3.22" }
-;Decl InlineForm VCIRC={FOLD[1] FCIRC, PARAM[1] Point1, PARAM[2] Point2, PARAM[3] LCONT, PARAM[4] LVEL, PARAM[5] ParamListLdat, PARAM[6] ToolVIS, PARAM[7] BaseVIS, PARAM[8] TQ_VIS, STYLE WYSIWYG, CMDSHOW "CIRC", ONACCEPT scOnAcceptCirc, ONOPEN scOnOpenCirc, TPNAME[] "MKUKATPBASIS", TPVERSION[] "R 8.3.22" }
+Decl InlineForm Camera_LIn={FOLD[1] FLIN, PARAM[1] Point1, PARAM[2] LCONT, PARAM[3] LVEL,PARAM[4] ParamListFdat ,PARAM[5] ParamListLdat, CMDSHOW "LIN", ONACCEPT OnAcceptLin, ONOPEN OnOpenLin, ONTOUCHUP LinONTOUCHUP,  TPNAME[] "MKUKATPBASIS", TPVERSION[] "R 8.3.22" }
 ENDTP
 
 
