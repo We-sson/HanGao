@@ -8093,7 +8093,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 85" />
                                                 <ColumnDefinition />
-                                                <ColumnDefinition Width=" 120" />
+                                                <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column=" 0"
@@ -8297,7 +8297,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 85" />
                                                 <ColumnDefinition />
-                                                <ColumnDefinition Width=" 120" />
+                                                <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column=" 0"
@@ -8488,7 +8488,94 @@
                                             CornerRadius=" 0 0 5 5" />
 
                                     <StackPanel Orientation="Vertical">
+                                        <Grid Height="35" Margin="8">
 
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" *" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="相机选择"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                            <TextBox Grid.Column=" 1"
+                                                     Text="{Binding Vision_Auto_Cofig.Auto_Camera_Selected_Name}"
+                                                     TextWrapping="Wrap"
+                                                     Margin="0,0,0,0"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                     FontSize="16"
+                                                     Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                     IsReadOnly="True" />
+
+
+                                            <ToggleButton Grid.Column=" 2"
+                                                          IsChecked="{Binding Vision_Auto_Cofig.Auto_Connect_Selected_Camera}"
+                                                          Margin="4,0,0,0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Stretch"
+                                                          BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                                          BorderThickness="2">
+                                                <ToggleButton.Style>
+                                                    <Style BasedOn="{StaticResource Window_ToggleButtonStyle}" TargetType="ToggleButton">
+                                                        <!--<Setter Property="IsChecked" Value="False" />-->
+                                                        <!--<Style.Triggers>
+                    <DataTrigger Binding="{Binding Vision_Socket_Robot_Parameters.Sever_IsRuning}" Value="true">
+                        <Setter Property="IsChecked" Value="True" />
+                    </DataTrigger>
+                </Style.Triggers>-->
+                                                    </Style>
+                                                </ToggleButton.Style>
+
+
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="自动"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="手动"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+                                                </Grid>
+
+                                                <!--<i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Server_End_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>-->
+
+
+
+
+                                            </ToggleButton>
+
+
+
+                                        </Grid>
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>

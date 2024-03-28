@@ -337,6 +337,9 @@ namespace Roboto_Socket_Library
 
                     break;
 
+                default:
+                    throw new Exception("标定发送协议错误！");
+
             }
 
 

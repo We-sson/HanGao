@@ -266,14 +266,14 @@ namespace HanGao.ViewModel
 
                 //_RobotTcp3D.AddRange(_Camera_3D);
 
-                if (Camera_Device_List.Select_Camera!=null && Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera!=null)
+                if (Camera_Device_List.Select_Camera != null && Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera != null)
                 {
 
-                List<HObjectModel3D> _RobotTcp3D = _3DModel.Gen_Robot_Camera_3DModel(
-                    Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose, 
-                    Halcon_Shape_Mode.Model_Camera_Pos.HPose, 
-                    Halcon_Shape_Mode.Model_Plane_Pos.HPose, 
-                    Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar);
+                    List<HObjectModel3D> _RobotTcp3D = _3DModel.Gen_Robot_Camera_3DModel(
+                        Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose,
+                        Halcon_Shape_Mode.Model_Camera_Pos.HPose,
+                        Halcon_Shape_Mode.Model_Plane_Pos.HPose,
+                        Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar);
 
 
                     //显示模型
@@ -281,12 +281,12 @@ namespace HanGao.ViewModel
                 }
                 else
                 {
-                    User_Log_Add("机器人和相机坐标参数不足，无法创建！" , Log_Show_Window_Enum.Home);
+                    User_Log_Add("机器人和相机坐标参数不足，无法创建！", Log_Show_Window_Enum.Home);
 
                 }
 
 
-  
+
 
                 HImage _Image = new HImage();
 
@@ -361,7 +361,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 初始化连接
         /// </summary>
-        public static void Initialization_Camera_Thread()
+        public void Initialization_Camera_Thread()
         {
             Task.Run(() =>
             {
@@ -413,6 +413,20 @@ namespace HanGao.ViewModel
                                 else
                                 {
                                     _Camera.Camer_Status = MV_CAM_Device_Status_Enum.Possess;
+                                }
+                            }
+                        }
+
+                        ////启动自动连接
+                        if (Vision_Auto_Cofig.Auto_Connect_Selected_Camera)
+                        {
+
+                            foreach (var _camera in MVS_Camera_Info_List)
+                            {
+                                if (_camera.Camera_Info.SerialNumber == Vision_Auto_Cofig.Auto_Camera_Selected_Name)
+                                {
+
+                                    Camera_Device_List.Select_Camera = _camera;
                                 }
                             }
                         }
@@ -567,13 +581,30 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
-                Vision_Auto_Cofig.Local_Network_IP_List = new List<string>(Vision_Socket_Robot_Parameters.Local_IP_UI);
-                Vision_Auto_Cofig.Local_Network_Robot_Model = Vision_Socket_Robot_Parameters.Socket_Robot_Model;
-                Vision_Auto_Cofig.Local_Network_Port = Vision_Socket_Robot_Parameters.Sever_Socket_Port;
-                Vision_Auto_Cofig.Local_Network_AUTO_Connect = Vision_Socket_Robot_Parameters.Sever_IsRuning;
+                try
+                {
+
+                    ////设置全局参数
+                    Vision_Auto_Cofig.Local_Network_IP_List = new List<string>(Vision_Socket_Robot_Parameters.Local_IP_UI);
+                    Vision_Auto_Cofig.Local_Network_Robot_Model = Vision_Socket_Robot_Parameters.Socket_Robot_Model;
+                    Vision_Auto_Cofig.Local_Network_Port = Vision_Socket_Robot_Parameters.Sever_Socket_Port;
+                    Vision_Auto_Cofig.Local_Network_AUTO_Connect = Vision_Socket_Robot_Parameters.Sever_IsRuning;
+                    Vision_Auto_Cofig.Auto_Camera_Selected_Name = Camera_Device_List.Select_Camera?.Camera_Info.SerialNumber;
+
+                    ///保存参数
+                    new Vision_Xml_Method().Save_Xml(Vision_Auto_Cofig);
+
+                    User_Log_Add("保存全局视觉参数成功！", Log_Show_Window_Enum.Home);
+
+                }
+                catch (Exception e)
+                {
+
+                    User_Log_Add("保存全局视觉参数失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                }
 
 
-               new  Vision_Xml_Method().Save_Xml(Vision_Auto_Cofig);
             });
         }
         /// <summary>
@@ -1322,7 +1353,7 @@ namespace HanGao.ViewModel
                     try
                     {
 
-                        Halcon_Window_Display.Features_Window.DisplayImage = Halcon_Shape_Mode.Set_ImageRectified(Select_Vision_Value.Find_Shape_Data,(HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+                        Halcon_Window_Display.Features_Window.DisplayImage = Halcon_Shape_Mode.Set_ImageRectified(Select_Vision_Value.Find_Shape_Data, (HImage)Halcon_Window_Display.Features_Window.DisplayImage);
 
                         User_Log_Add("图像校正成功！", Log_Show_Window_Enum.Home);
 
@@ -1363,7 +1394,7 @@ namespace HanGao.ViewModel
                         Find_Text_Models_UI_IsEnable = false;
 
                         ///查找模型
-                        Find_Features_Window_Result = Halcon_Shape_Mode.Find_Shape_Model_Results(Select_Vision_Value.Find_Shape_Data,(HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+                        Find_Features_Window_Result = Halcon_Shape_Mode.Find_Shape_Model_Results(Select_Vision_Value.Find_Shape_Data, (HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
 
 
@@ -1693,10 +1724,11 @@ namespace HanGao.ViewModel
         public void Initialization_Global_Config()
         {
 
-            Vision_Auto_Cofig =  new Vision_Xml_Method().Read_Xml_File<Vision_Auto_Config_Model>();
+            Vision_Auto_Cofig = new Vision_Xml_Method().Read_Xml_File<Vision_Auto_Config_Model>();
             Vision_Socket_Robot_Parameters.Socket_Robot_Model = Vision_Auto_Cofig.Local_Network_Robot_Model;
             Vision_Socket_Robot_Parameters.Sever_Socket_Port = Vision_Auto_Cofig.Local_Network_Port;
             Vision_Socket_Robot_Parameters.Sever_IsRuning = Vision_Auto_Cofig.Local_Network_AUTO_Connect;
+
         }
 
 
@@ -2469,7 +2501,7 @@ namespace HanGao.ViewModel
             {
                 if (Sm != null)
                 {
-                    
+
                     Vision_Xml_Models _Vision = (Vision_Xml_Models)Sm.SelectedValue;
                     if (int.Parse(_Vision.ID) != 0)
                     {

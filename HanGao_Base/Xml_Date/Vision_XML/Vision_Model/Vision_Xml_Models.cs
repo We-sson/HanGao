@@ -60,7 +60,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 
 
 
-
+    [AddINotifyPropertyChangedInterface]
     [Serializable]
     public class Vision_Auto_Config_Model
     {
@@ -76,6 +76,10 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 
         public List<string> Local_Network_IP_List { set; get; } = [];
 
+
+        public string Auto_Camera_Selected_Name { set; get; } 
+
+        public bool Auto_Connect_Selected_Camera { set; get; } = false;
         /// <summary>
         /// 上位机网络服务器端口
         /// </summary>
