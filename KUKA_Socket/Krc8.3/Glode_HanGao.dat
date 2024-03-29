@@ -1,5 +1,5 @@
 &ACCESS RVO
-&REL 371
+&REL 383
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -21,6 +21,7 @@ GLOBAL ENUM Pos_Type_Enum C_LIN_POS,C_CIR_POS,L_LIN_POS
 GLOBAL ENUM Work_Area_Enum A0,A90,A270
 GLOBAL ENUM Vision_Model_Enum Calibration,Find_Model
 GLOBAL ENUM Vision_Type_Enum Vision_Run,Vision_No,Vision_Text
+GLOBAL ENUM Vision_PATH_Enum X,Y,Z,XY,XZ,YZ
 ;----------------------------------
 ;---DECL-STRUC-------------------------
 
@@ -256,7 +257,16 @@ N315_Short_Craft[2,3]={Welding_Name[] "S14",Welding_Pos {X 361.560,Y 660.457,Z 0
 N315_Short_Craft[2,4]={Welding_Name[] "S4",Welding_Pos {X 361.722504,Y 669.947,Z -150.000,A 0.0,B 0.0,C 0.0},Welding_Power 80.0000,Welding_Speed 0.500000,Welding_Angle 0.0,Welding_CDIS 0,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 N315_Short_Craft[2,5]={Welding_Name[] "S12",Welding_Pos {X 28.9999981,Y 400.000,Z -3.00000,A 0.0,B 0.0,C -23.0000},Welding_Power 80.0000,Welding_Speed 0.500000,Welding_Angle 0.0,Welding_CDIS 0,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 
-
+DECL GLOBAL E6POS Vision_Result_POS[9]
+ Vision_Result_POS[1]={X 0,Y 0,Z 0.0,A 0.0,B 0.0,C 0.0}
+ Vision_Result_POS[2]={X 0,Y 0,Z 0.0,A 0.0,B 0.0,C 0.0}
+ Vision_Result_POS[3]={X 0,Y 0,Z 0.0,A 0.0,B 0.0,C 0.0}
+ Vision_Result_POS[4]={X 0,Y 0,Z 0.0,A 0.0,B 0.0,C 0.0}
+ Vision_Result_POS[5]={X 0,Y 0,Z 0.0,A 0.0,B 0.0,C 0.0}
+ Vision_Result_POS[6]={X 0,Y 0,Z 0.0,A 0.0,B 0.0,C 0.0}
+ Vision_Result_POS[7]={X 0,Y 0,Z 0.0,A 0.0,B 0.0,C 0.0}
+ Vision_Result_POS[8]={X 0,Y 0,Z 0.0,A 0.0,B 0.0,C 0.0}
+ Vision_Result_POS[9]={X 0,Y 0,Z 0.0,A 0.0,B 0.0,C 0.0}
 
 DECL GLOBAL Surround_Welding_Type N1_Sink_Data={Sink_Size_Long 640.000,Sink_Size_Width 355.000,Sink_Size_R 12.0000,Sink_Size_Short_Side 20.0000,Sink_Size_Short_OnePos 31.2000,Sink_Size_Short_TwoPos 332.700,Sink_Size_Pots_Thick 0.0,Sink_Size_Panel_Thick -1.50000,Sink_Model 902182,Sink_Size_Left_Distance 20.0000,Sink_Size_Down_Distance 20.0000,Sink_Type #LeftRight_One}
 DECL GLOBAL Surround_Welding_Type N2_Sink_Data={Sink_Size_Long 640.000,Sink_Size_Width 355.000,Sink_Size_R 12.0000,Sink_Size_Short_Side 20.0000,Sink_Size_Short_OnePos 31.2000,Sink_Size_Short_TwoPos 332.700,Sink_Size_Pots_Thick 0.0,Sink_Size_Panel_Thick -1.50000,Sink_Model 902182,Sink_Size_Left_Distance 20.0000,Sink_Size_Down_Distance 20.0000,Sink_Type #LeftRight_One}

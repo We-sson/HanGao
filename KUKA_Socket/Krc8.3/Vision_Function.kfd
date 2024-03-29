@@ -7,13 +7,23 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
 
 
 ;-----------------LIN_DECL------------------------
+Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1, MAX 9,STEP 1}, UNIT[] "", SHORTCUT[] "", VISIBLE FALSE }
 
   
   DECL PARAM Area_Calib_lIST = {SHORTNAME[] "Area:",, VALUE {LIST: _
-   ITEM[1] {ITEM: VALUE[] "1"   , DISP[] "45"},   _
-   ITEM[2] {ITEM: VALUE[] "2"  , DISP[] "135"},  _
-   ITEM[3] {ITEM: VALUE[] "3" , DISP[] "225"}, _
+   ITEM[1] {ITEM: VALUE[] "1"  , DISP[] "45"}, _
+   ITEM[2] {ITEM: VALUE[] "2"  , DISP[] "135"}, _
+   ITEM[3] {ITEM: VALUE[] "3"  , DISP[] "225"},  _
    ITEM[4] {ITEM: VALUE[] "4"  , DISP[] "315"}, _
+   POS 1}}
+   
+   DECL PARAM Vision_Offset_Direction = {SHORTNAME[] "Direction:",, VALUE {LIST: _
+   ITEM[1] {ITEM: VALUE[] "X"  , DISP[] "X"}, _
+   ITEM[2] {ITEM: VALUE[] "Y"  , DISP[] "Y"}, _
+   ITEM[3] {ITEM: VALUE[] "Z"  , DISP[] "Z"},  _
+   ITEM[4] {ITEM: VALUE[] "XY"  , DISP[] "XY"}, _
+   ITEM[5] {ITEM: VALUE[] "XZ"  , DISP[] "XZ"},  _
+   ITEM[6] {ITEM: VALUE[] "YZ"  , DISP[] "YZ"}, _
    POS 1}}
    
   DECL PARAM Calib_Model= {SHORTNAME[] "Model:" , VALUE {LIST: _
@@ -53,6 +63,9 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
   ITEM[9] {ITEM:VALUE[] "9",   disp[] "9"},}}
   
 
+  
+  
+  
  DECL PARAM Camera_NAME = {SHORTNAME[] "Camera_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
  DECL PARAM Calib_NAME = {SHORTNAME[] "Calib_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
  
@@ -134,6 +147,13 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
             Vision_Ini_FOLD[4]="EKRL_Vision_Int_Data(/"Xml_Ini_Data/")"
             Vision_Ini_FOLD[5]=""
            
+  DECL FOLD Vision_Path_Offset_FOLD[5]
+            Vision_Path_Offset_FOLD[1]=""
+            Vision_Path_Offset_FOLD[2]=""
+            Vision_Path_Offset_FOLD[3]=""
+            Vision_Path_Offset_FOLD[4]="Vision_Results_Offset(%Vision_Offset_Direction ,)"
+            Vision_Path_Offset_FOLD[5]=""
+           
 
   DECL FOLD HandEye_Calib_Ini_FOLD[5]
             HandEye_Calib_Ini_FOLD[1]=""
@@ -197,6 +217,10 @@ ENDSCRIPT
      
   ENDSCRIPT
 
+  DEFSCRIPT Vision_Ini_ONACCEPT
+      SETVAR(FULLPATH[] "Vision_Type", VALUE[] "%Vision_Model " )
+
+   ENDSCRIPT
 
 
   
@@ -233,8 +257,11 @@ ENDSCRIPT
     DECL  InlineForm Vision_Creation_Plan={ FOLD[1] Vision_Creat_Plan_FOLD,PARAM[1] Plan_Base_No}
  
     DECL  InlineForm Find_Model={ FOLD[1] Find_Model_FOLD ,PARAM[1] Work_Area,PARAM[2] Area_Calib_lIST}
-    DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
-    DECL  InlineForm Vision_Ini={FOLD[1] Vision_Ini_FOLD,PARAM[1] Vision_Model}
+    
+   DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
+    DECL  InlineForm Vision_Ini={FOLD[1] Vision_Ini_FOLD,PARAM[1] Vision_Model,ONACCEPT Vision_Ini_ONACCEPT}
+    
+    DECL  InlineForm Vision_Path_Offset={FOLD[1] Vision_Path_Offset_FOLD,PARAM[1] Vision_Offset_Direction,PARAM[2] Result_NO ONACCEPT Vision_Ini_ONACCEPT}
 
 
 ENDTP
@@ -248,7 +275,7 @@ DECL PARAM PosAct={VALUE {FREE: DEFAULT[] "" }}
 
 DECL PARAM CHANGE_TYPE ={VALUE {FREE: DEFAULT[] "" }}
 DECL PARAM LCONT={shortname[] "", shortcut[] "", unit[] "", value { LIST : POS 1, _
-  ITEM[1] {ITEM:VALUE[] " ", disp[] ""}, _
+  ITEM[1] {ITEM:VALUE[] " ", disp[] "_"}, _
   ITEM[2] {ITEM:VALUE[] "C_DIS C_DIS", disp[] "CONT"}}}
 
 DECL PARAM LVEL={VALUE {REAL: AUTOLIMIT TRUE, min 0.01,max 2.0,Step 0.1, default 2},shortname[] "Vel=", UNIT[] " m/s", Shortcut[] "Vel" }
@@ -275,6 +302,9 @@ Decl PARAM APO_FACL = {SHORTNAME[] "", VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUT
 
 Decl PARAM TOOL_NO = {SHORTNAME[] "Tool:", VALUE {NUMBER: DEFAULT 0,MIN 0, MAX 32,STEP 1}, UNIT[] "No", SHORTCUT[] "", VISIBLE FALSE }
 Decl PARAM BASE_NO = {SHORTNAME[] "Base:", VALUE {NUMBER: DEFAULT 0,MIN 0, MAX 32,STEP 1}, UNIT[] "No", SHORTCUT[] "", VISIBLE FALSE }
+Decl PARAM Find_ID = {SHORTNAME[] "Find ID=", VALUE {NUMBER: DEFAULT 0,MIN 0, MAX 99,STEP 1}, UNIT[] "", SHORTCUT[] "", VISIBLE FALSE }
+Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1, MAX 9,STEP 1}, UNIT[] "", SHORTCUT[] "", VISIBLE FALSE }
+
 
 
 DECL PLIST LDat[2] -> ParamListLdat
@@ -296,12 +326,16 @@ EPOS[6] = C
 
 
 
-DECL FOLD FLIN[5]
+DECL FOLD FLIN[8]
+FLIN[1]="IF Vision_Type==#Vision_Run THEN"
 FLIN[1]="$BWDSTART=FALSE"
 FLIN[2]="LDAT_ACT=%ParamListLdat"
 FLIN[3]="FDAT_ACT=%ParamListFdat"
 FLIN[4]="BAS(#CP_PARAMS,%LVEL )"
 FLIN[5]="LIN X%Point1  %LCONT"
+FLIN[6]="EKRL_Vision_Find(/"Xml_Vision_Model/",%Find_ID ,%Result_NO )"
+FLIN[7]="ENDIF"
+
 
 
 defscript LinOk
@@ -325,8 +359,7 @@ Message "LinSave"
 
 SWITCH "%CHANGE_TYPE "
 CASE "FALSE" DO  LinDataSave
-case "TRUE" DO LinOk
-
+CASE "TRUE" DO LinOk
 ENDSWITCH
 
 
@@ -469,7 +502,7 @@ endscript
 
 
 
-Decl InlineForm Camera_LIn={FOLD[1] FLIN, PARAM[1] Point1, PARAM[2] LCONT, PARAM[3] LVEL,PARAM[4] ParamListFdat ,PARAM[5] ParamListLdat, CMDSHOW "LIN", ONACCEPT OnAcceptLin, ONOPEN OnOpenLin, ONTOUCHUP LinONTOUCHUP,  TPNAME[] "MKUKATPBASIS", TPVERSION[] "R 8.3.22" }
+Decl InlineForm Camera_LIn={FOLD[1] FLIN, PARAM[1] Point1, PARAM[2] LCONT, PARAM[3] LVEL,PARAM[4] ParamListFdat ,PARAM[5] ParamListLdat,PARAM[6]  Find_ID,PARAM[7] Result_NO ,CMDSHOW "LIN", ONACCEPT OnAcceptLin, ONOPEN OnOpenLin, ONTOUCHUP LinONTOUCHUP,  TPNAME[] "MKUKATPBASIS", TPVERSION[] "R 8.3.22" }
 ENDTP
 
 

@@ -1,5 +1,5 @@
 &ACCESS RVO
-&REL 371
+&REL 383
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -8,7 +8,45 @@ DEF Glode_HanGao( )
 ;# DATE:2021-1-4
 
 
+
+
 END
+
+
+
+
+GLOBAL DEF Vision_Results_Offset(Vision_PATH:IN,Result_ID:IN,POS_Offset:OUT)
+DECL E6POS POS_Offset
+DECL Vision_PATH_Enum Vision_PATH
+DECL INT Result_ID
+
+
+SWITCH Vision_PATH
+CASE #X
+POS_Offset.X=POS_Offset.X+ Vision_Result_POS[Result_ID].X
+CASE #Y
+POS_Offset.Y=POS_Offset.Y+ Vision_Result_POS[Result_ID].Y
+CASE #Z
+POS_Offset.Z=POS_Offset.Z+ Vision_Result_POS[Result_ID].Z
+CASE #XY
+POS_Offset.X=POS_Offset.X+ Vision_Result_POS[Result_ID].X
+POS_Offset.Y=POS_Offset.Y+ Vision_Result_POS[Result_ID].Y
+CASE #XZ
+POS_Offset.X=POS_Offset.X+ Vision_Result_POS[Result_ID].X
+POS_Offset.Z=POS_Offset.Z+ Vision_Result_POS[Result_ID].Z
+CASE #YZ
+POS_Offset.Z=POS_Offset.Z+ Vision_Result_POS[Result_ID].Z
+POS_Offset.Y=POS_Offset.Y+ Vision_Result_POS[Result_ID].Y
+ENDSWITCH
+
+
+
+END
+
+
+
+
+
 
 GLOBAL DEF HanGao_Surr_Calculate(Surr_Path:IN , Sink_Area:IN ,POS_Type:IN , Lin_Pos:OUt , Cir_Middle_POS:OUT , Cir_END_POS:OUT , Offset_info:OUT  ,Offset_cir_info:out , Offset_No:IN , Work_Area:IN, Sink_Type:IN)
 ;------------DECL_VALUE--------------

@@ -162,20 +162,23 @@ namespace Roboto_Socket_Library.Model
         /// 标定查找接收协议格式
         /// </summary>
         [Serializable]
-        [XmlType("Receive")]
+        [XmlType("Robot_Receive")]
         public class Vision_Find_Data_Receive
         {
 
-            public Calibration_Model_Receive Calibration_Model { set; get; } = new Calibration_Model_Receive();
+            //public Calibration_Model_Receive Calibration_Model { set; get; } = new Calibration_Model_Receive();
 
-            public Find_Model_Receive Find_Model { set; get; } = new Find_Model_Receive();
-
-            public Calibration_Point_Models Vision_Point { set; get; } = new Calibration_Point_Models();
-
-            public Camera_Point_Models Camera_Point { set; get; } = new Camera_Point_Models();
+            //public Find_Model_Receive Find_Model { set; get; } = new Find_Model_Receive();
 
             [XmlAttribute]
-            public Vision_Model_Enum Model { set; get; }
+            public int Find_ID { set; get; } 
+
+            //public Calibration_Point_Models Vision_Point { set; get; } = new Calibration_Point_Models();
+
+            public Point_Models Camera_Pos { set; get; } = new Point_Models();
+
+            [XmlAttribute]
+            public Vision_Model_Enum Vision_Model { set; get; }
 
         }
 
@@ -183,7 +186,7 @@ namespace Roboto_Socket_Library.Model
         /// 相机标定发送协议格式
         /// </summary>
         [Serializable]
-        [XmlType("Send")]
+        [XmlType("Robot_Send")]
         public class Vision_Find_Data_Send
         {
 
@@ -191,9 +194,11 @@ namespace Roboto_Socket_Library.Model
             [XmlAttribute]
             public int IsStatus { set; get; }
 
+            public Point_Models Result_Pos { set; get; } = new Point_Models();
 
-            public Calibration_Point_Models Vision_Point { set; get; } = new Calibration_Point_Models();
+  
 
+       
 
 
         }

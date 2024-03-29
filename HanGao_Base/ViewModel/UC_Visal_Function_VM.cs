@@ -208,12 +208,23 @@ namespace HanGao.ViewModel
         public Vision_Find_Data_Send Vision_Find_Data_Receive_Method(Vision_Find_Data_Receive _Receive)
         {
 
+            Vision_Find_Data_Send _Find_Data_Send = new Vision_Find_Data_Send();
+
+            if (Camera_Device_List.Select_Camera!=null)
+            {
+
+
+
+            }
+            else
+            {
+
+            }
 
 
 
 
-
-            return new Vision_Find_Data_Send();
+            return _Find_Data_Send;
         }
 
 

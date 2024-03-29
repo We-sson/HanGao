@@ -130,7 +130,7 @@ namespace Roboto_Socket_Library
                     break;
                 case Vision_Model_Enum.Find_Model:
 
-                    return (T1)(Object)Vision_Find_Receive_Protocol;
+                    return (T1)(Object)Vision_Find_Receive_Protocol();
 
                 case Vision_Model_Enum.Vision_Ini_Data:
 
@@ -619,7 +619,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-
+                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Vision_Find_Data_Send>(_Propertie)));
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
@@ -659,6 +659,7 @@ namespace Roboto_Socket_Library
                 case Socket_Robot_Protocols_Enum.KUKA:
 
 
+                    _Find_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Vision_Find_Data_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
