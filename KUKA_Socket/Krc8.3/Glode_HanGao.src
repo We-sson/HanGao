@@ -1,25 +1,29 @@
-&ACCESS RVO
-&REL 383
+&ACCESS RVO1
+&REL 405
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Glode_HanGao( )
 
+
 ;# DATE:2021-1-4
-
-
-
 
 END
 
 
-
-
-GLOBAL DEF Vision_Results_Offset(Vision_PATH:IN,Result_ID:IN,POS_Offset:OUT)
+GLOBAL DEF Vision_Results_Pos(Vision_PATH:IN,Result_ID:IN,POS_Offset:OUT)
 DECL E6POS POS_Offset
 DECL Vision_PATH_Enum Vision_PATH
-DECL INT Result_ID
+DECL INT Result_ID,OPFFSET
+DECL CHAR POS_Sting[1024]
+DECL State_t _State
+OPFFSET=0
+SWRITE( POS_Sting[] , _State , OPFFSET , "%d%d%d" , POS_Offset.X,POS_Offset.Y,POS_Offset.Z ) 
 
+
+
+
+;IF POS_Offset<> $NULLFRAME THEN
 
 SWITCH Vision_PATH
 CASE #X
@@ -38,6 +42,26 @@ CASE #YZ
 POS_Offset.Z=POS_Offset.Z+ Vision_Result_POS[Result_ID].Z
 POS_Offset.Y=POS_Offset.Y+ Vision_Result_POS[Result_ID].Y
 ENDSWITCH
+
+
+;ENDIF
+
+END
+GLOBAL DEF Vision_Results_Offset(Vision_PATH:IN,Result_ID:IN,POS_Offset_1:OUT,POS_Offset_2:OUT,POS_Offset_3:OUT,POS_Offset_4:OUT)
+DECL E6POS POS_Offset_1 ,POS_Offset_2,POS_Offset_3,POS_Offset_4
+DECL Vision_PATH_Enum Vision_PATH
+DECL INT Result_ID
+
+IF Vision_Type ==#Vision_Run THEN
+
+
+
+Vision_Results_Pos(Vision_PATH,Result_ID,POS_Offset_1)
+Vision_Results_Pos(Vision_PATH,Result_ID,POS_Offset_2)
+Vision_Results_Pos(Vision_PATH,Result_ID,POS_Offset_3)
+Vision_Results_Pos(Vision_PATH,Result_ID,POS_Offset_4)
+ENDIF
+
 
 
 
@@ -1335,6 +1359,7 @@ DECL POS Lin_Curss
 DECL CHAR Meg_Str[1024]
 DECL BOOL User_Revise
 DECL State_t _State
+SWRITE( Meg_Str[] , _State , OPFFSET , "New_BASE[%d]=X:%7.3F,Y:%7.3F,Z:%7.3F,A:%7.3F,B:%7.3F,C:%7.3F" , G_BASE ,Lin_Curss.X,Lin_Curss.Y,Lin_Curss.Z,Lin_Curss.A,Lin_Curss.B,Lin_Curss.C) 
 
 
 
