@@ -24,6 +24,7 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
    ITEM[4] {ITEM: VALUE[] "XY"  , DISP[] "XY"}, _
    ITEM[5] {ITEM: VALUE[] "XZ"  , DISP[] "XZ"},  _
    ITEM[6] {ITEM: VALUE[] "YZ"  , DISP[] "YZ"}, _
+   ITEM[7] {ITEM: VALUE[] "XYZ"  , DISP[] "XYZ"}, _
    POS 1}}
    
   DECL PARAM Calib_Model= {SHORTNAME[] "Model:" , VALUE {LIST: _
@@ -161,7 +162,7 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
             Vision_Path_Offset_FOLD[1]=""
             Vision_Path_Offset_FOLD[2]=""
             Vision_Path_Offset_FOLD[3]=""
-            Vision_Path_Offset_FOLD[4]="Vision_Results_Offset(#%Vision_Offset_Direction ,%Result_NO ,%Offset_Pos_Name )"
+            Vision_Path_Offset_FOLD[4]="Vision_Results_Offset(#%Vision_Offset_Direction ,%Result_NO ,%Offset_Pos_1 ,%Offset_Pos_2 ,%Offset_Pos_3 ,%Offset_Pos_4 ,%Offset_Pos_5 ,%Offset_Pos_6 ,%Offset_Pos_7 ,%Offset_Pos_8 ,%Offset_Pos_9 )"
             Vision_Path_Offset_FOLD[5]=""
            
 
@@ -234,34 +235,7 @@ ENDSCRIPT
 
    
    
-     DEFSCRIPT Path_Offset_Name_Default
-   MESSAGE "Path_Offset_Name_Default"
-     ;showvar (fullpath[] " ", param offset_pos_1_name)
-     
-    ENDSCRIPT
-   
-   
-     DEFSCRIPT Path_Offset_Name_Set
-   MESSAGE "Path_Offset_Name_Set"
-        
-         ;SHOWVAR (FULLPATH[] "X%offset_pos_1 ", PARAM offset_pos_1_name)
-    ENDSCRIPT
-   
-  DEFSCRIPT Vision_Path_Offset_ONACCEPT
-  
 
-        Switch "%offset_pos_1 "
-      
-        case "_" DO Path_Offset_Name_Default
-
-        case else Do Path_Offset_Name_Set
-    
-       endswitch
-      
-      
-      
-      MESSAGE "Offset_Pos_1_Name"
-   ENDSCRIPT
   
 
 
@@ -301,7 +275,7 @@ ENDSCRIPT
    DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
     DECL  InlineForm Vision_Ini={FOLD[1] Vision_Ini_FOLD,PARAM[1] Vision_Model,ONACCEPT Vision_Ini_ONACCEPT}
     
-    DECL  InlineForm Vision_Path_Offset={FOLD[1] Vision_Path_Offset_FOLD,PARAM[1] Vision_Offset_Direction , PARAM[2] Result_NO,PARAM[3] Offset_Pos_1 , PARAM[4] Offset_Pos_2,PARAM[5] Offset_Pos_3,PARAM[6] Offset_Pos_4,ONACCEPT Vision_Path_Offset_ONACCEPT}
+    DECL  InlineForm Vision_Path_Offset={FOLD[1] Vision_Path_Offset_FOLD,PARAM[1] Vision_Offset_Direction , PARAM[2] Result_NO,PARAM[3] Offset_Pos_1 , PARAM[4] Offset_Pos_2,PARAM[5] Offset_Pos_3,PARAM[6] Offset_Pos_4,PARAM[7] Offset_Pos_5,PARAM[8] Offset_Pos_6,PARAM[9] Offset_Pos_7,PARAM[10] Offset_Pos_8,PARAM[11] Offset_Pos_9}
 
 
 ENDTP
@@ -329,7 +303,6 @@ Decl PARAM Point1={SHORTNAME[] "",VALUE {NAME: DEFAULT[] "P0"}}
 Decl PARAM ParamListLdat={SHORTNAME[] "LDAT:",VALUE {NAME: DEFAULT[] "LDAT0"}}
 Decl PARAM ParamListFdat={SHORTNAME[] "FDAT:",VALUE {NAME: DEFAULT[] "FDAT0"}}
 Decl PARAM ACC = {SHORTNAME[] "Acceleration", VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "%", SHORTCUT[] "Acc" }
-Decl PARAM APO_DISTP = {SHORTNAME[] "Approximation distance", VALUE {NUMBER:MIN 1, MAX 1000, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "mm", SHORTCUT[] "Cont" }
 
 Decl PARAM PL_Pos1 = {SHORTNAME[] "Frames", VAR[] "FDAT", SHORTCUT[] "", UNIT[] "", Value {FREE: DEFAULT[] "_"}}
 Decl PARAM PL_PDat = {SHORTNAME[] "Motion parameter", VAR[] "PDAT", SHORTCUT[] "", UNIT[] "" ,Value {FREE: DEFAULT[] "_"}}
@@ -337,7 +310,7 @@ Decl PARAM PL_FDAT = {SHORTNAME[] "Lin Parametet Settings", VAR[] "FDAT", SHORTC
 Decl PARAM PL_LDat = {SHORTNAME[] "Lin Parameter", VAR[] "LDAT", SHORTCUT[] "L", UNIT[] "" ,Value {FREE: DEFAULT[] "_"}}
 Decl PARAM PL_EPOS = {SHORTNAME[] "Lin Parameter", VAR[] "E6POS", SHORTCUT[] "X", UNIT[] "" ,Value {FREE: DEFAULT[] "_"}}
   
-Decl PARAM APO_DISTL = {SHORTNAME[] "Approximation distance", VALUE {NUMBER:MIN 0, MAX 1000, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "mm", SHORTCUT[] "Cont" }
+Decl PARAM APO_DIST = {SHORTNAME[] "Approximation distance", VALUE {NUMBER:MIN 0, MAX 1000, STEP 1, AUTOLIMIT TRUE, DEFAULT 100}, UNIT[] "mm", SHORTCUT[] "Cont" }
 Decl PARAM APO_FACL = {SHORTNAME[] "", VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 50}, UNIT[] "", SHORTCUT[] "" }
 
 Decl PARAM TOOL_NO = {SHORTNAME[] "Tool:", VALUE {NUMBER: DEFAULT 0,MIN 0, MAX 32,STEP 1}, UNIT[] "No", SHORTCUT[] "", VISIBLE FALSE }
@@ -387,7 +360,7 @@ defscript LinDataSave
 
 REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL E6POS X%Point1 =%PosAct " )
 REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL FDAT %ParamListFdat ={TOOL_NO %TOOL_NO ,BASE_NO %BASE_NO ,IPO_FRAME #BASE ,POINT2[] /" /",TQ_STATE FALSE }" )
-REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT %ParamListLdat ={VEL %LVEL ,ACC %ACC ,APO_DIST %APO_DISTL ,APO_FAC %APO_FACL ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
+REDECL(PATH[] "%MODULE ", DECLARATION[] "DECL LDAT %ParamListLdat ={VEL %LVEL ,ACC %ACC ,APO_DIST %APO_DIST ,APO_FAC %APO_FACL ,AXIS_VEL 100.0,AXIS_ACC 100.0,ORI_TYP #VAR ,CIRC_TYP #BASE,JERK_FAC 50.0,GEAR_JERK 50.0,EXAX_IGN 0}" )
 
 Message "X%Point1  Saved Current Position"
 
