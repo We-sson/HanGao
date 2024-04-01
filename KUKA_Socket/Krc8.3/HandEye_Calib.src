@@ -1,8 +1,8 @@
-&ACCESS RVP
-&REL 52
+&ACCESS RVO
+&REL 53
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\Program\HG
+&PARAM DISKPATH = KRC:\R1\Program\HK
 DEF HandEye_Calib( )
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
@@ -437,5 +437,28 @@ EKRL_HandEye_Point("Xml_HandEye_Calib" ,#Calibration_Progress)
 
 
 
+;ENDFOLD
+
+;FOLD Vision.HandEye_Calib_End Calib_Result_NAME :P22;%{PE}%MKUKATPUSER
+
+
+
+EKRL_HandEye_Point("Xml_HandEye_Calib" , #Calibration_End, XP22)
+
+
+
+;ENDFOLD
+Halt
+
+;FOLD LIN P22 Vel=0.1 m/s CPDAT21 Tool[1]:Tool1 Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P22; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT21; Kuka.VelocityPath=0.1; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT21
+FDAT_ACT = FP22
+BAS(#CP_PARAMS, 0.1)
+SET_CD_PARAMS (0)
+LIN XP22
 ;ENDFOLD
 END

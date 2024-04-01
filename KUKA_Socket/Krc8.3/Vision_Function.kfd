@@ -70,18 +70,28 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
  DECL PARAM Calib_NAME = {SHORTNAME[] "Calib_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
  
  DECL PARAM Calib_Result_NAME = {SHORTNAME[] "Calib_Result_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
+ ;DECL PARAM Offset_Pos = {SHORTNAME[] "Offset_Pos:", UNIT[] "" , VALUE {FREE: DEFAULT[] "P1"}}
  
+ DECL PARAM Offset_Pos_1={SHORTNAME[] "Offset_Pos:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Offset_Pos_2={VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Offset_Pos_3={VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Offset_Pos_4={VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Offset_Pos_5={VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Offset_Pos_6={VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Offset_Pos_7={VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Offset_Pos_8={VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Offset_Pos_9={VALUE {FREE: DEFAULT[] " " }}
  
-  DECL PARAM Xml_Name= {SHORTNAME[] "Xml_Name: " , VALUE {LIST: _
+ DECL PARAM Xml_Name= {SHORTNAME[] "Xml_Name: " , VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "Xml_Calibration"   , DISP[] "Xml_Calibration"},   _
    ITEM[2] {ITEM: VALUE[] "Xml_Find_Model"   , DISP[] "Xml_Find_Model"},  _
    POS 1}}
   
 
 
-  Decl PARAM Find_ID =  {SHORTNAME[] "ID:" ,  VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 1}, UNIT[] "", SHORTCUT[] "" }
+ Decl PARAM Find_ID =  {SHORTNAME[] "ID:" ,  VALUE {NUMBER:MIN 1, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 1}, UNIT[] "", SHORTCUT[] "" }
 
-  Decl PARAM Plan_Base_No =  {SHORTNAME[] "Base:" ,  VALUE {NUMBER:MIN 1, MAX 32, STEP 1, AUTOLIMIT TRUE, DEFAULT 1}, UNIT[] "", SHORTCUT[] "" }
+ Decl PARAM Plan_Base_No =  {SHORTNAME[] "Base:" ,  VALUE {NUMBER:MIN 1, MAX 32, STEP 1, AUTOLIMIT TRUE, DEFAULT 1}, UNIT[] "", SHORTCUT[] "" }
 
   
   Decl PARAM HandEye_ID =  {SHORTNAME[] "ID:" ,  VALUE {NUMBER:MIN 0, MAX 999, STEP 1, AUTOLIMIT TRUE, DEFAULT 0}, UNIT[] "", SHORTCUT[] "" }
@@ -151,7 +161,7 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
             Vision_Path_Offset_FOLD[1]=""
             Vision_Path_Offset_FOLD[2]=""
             Vision_Path_Offset_FOLD[3]=""
-            Vision_Path_Offset_FOLD[4]="Vision_Results_Offset(%Vision_Offset_Direction ,)"
+            Vision_Path_Offset_FOLD[4]="Vision_Results_Offset(#%Vision_Offset_Direction ,%Result_NO ,%Offset_Pos_Name )"
             Vision_Path_Offset_FOLD[5]=""
            
 
@@ -222,10 +232,40 @@ ENDSCRIPT
 
    ENDSCRIPT
 
+   
+   
+     DEFSCRIPT Path_Offset_Name_Default
+   MESSAGE "Path_Offset_Name_Default"
+     ;showvar (fullpath[] " ", param offset_pos_1_name)
+     
+    ENDSCRIPT
+   
+   
+     DEFSCRIPT Path_Offset_Name_Set
+   MESSAGE "Path_Offset_Name_Set"
+        
+         ;SHOWVAR (FULLPATH[] "X%offset_pos_1 ", PARAM offset_pos_1_name)
+    ENDSCRIPT
+   
+  DEFSCRIPT Vision_Path_Offset_ONACCEPT
+  
 
+        Switch "%offset_pos_1 "
+      
+        case "_" DO Path_Offset_Name_Default
+
+        case else Do Path_Offset_Name_Set
+    
+       endswitch
+      
+      
+      
+      MESSAGE "Offset_Pos_1_Name"
+   ENDSCRIPT
   
 
 
+  
 
 
    
@@ -261,7 +301,7 @@ ENDSCRIPT
    DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
     DECL  InlineForm Vision_Ini={FOLD[1] Vision_Ini_FOLD,PARAM[1] Vision_Model,ONACCEPT Vision_Ini_ONACCEPT}
     
-    DECL  InlineForm Vision_Path_Offset={FOLD[1] Vision_Path_Offset_FOLD,PARAM[1] Vision_Offset_Direction,PARAM[2] Result_NO ONACCEPT Vision_Ini_ONACCEPT}
+    DECL  InlineForm Vision_Path_Offset={FOLD[1] Vision_Path_Offset_FOLD,PARAM[1] Vision_Offset_Direction , PARAM[2] Result_NO,PARAM[3] Offset_Pos_1 , PARAM[4] Offset_Pos_2,PARAM[5] Offset_Pos_3,PARAM[6] Offset_Pos_4,ONACCEPT Vision_Path_Offset_ONACCEPT}
 
 
 ENDTP

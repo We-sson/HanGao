@@ -1,8 +1,8 @@
-&ACCESS RVP
-&REL 52
+&ACCESS RVO
+&REL 53
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\Program\HG
+&PARAM DISKPATH = KRC:\R1\Program\HK
 DEFDAT  HANDEYE_CALIB
 ;FOLD EXTERNAL DECLARATIONS;%{PE}%MKUKATPBASIS,%CEXT,%VCOMMON,%P
 ;FOLD BASISTECH EXT;%{PE}%MKUKATPBASIS,%CEXT,%VEXT,%P
@@ -17,7 +17,7 @@ DECL INT SUCCESS
 DECL E6POS XP1={X 698.143677,Y 1396.42664,Z 514.903625,A -130.465927,B -1.15797222,C -178.404785,S 2,T 35,E1 0.0,E2 0.0,E3 0.0,E4 0.0,E5 0.0,E6 0.0}
 DECL FDAT FP1={TOOL_NO 1,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
 DECL PDAT PPDAT1={VEL 20.0000,ACC 100.000,APO_DIST 500.000,APO_MODE #CDIS,GEAR_JERK 100.000,EXAX_IGN 0}
-DECL MODULEPARAM_T LAST_TP_PARAMS={PARAMS[] "Kuka.PointName=P21; Kuka.FrameData.base_no=0; Kuka.FrameData.tool_no=1; Kuka.FrameData.ipo_frame=#BASE; Kuka.isglobalpoint=False; Kuka.MoveDataPtpName=PDAT2; Kuka.MovementDataPdat.apo_mode=#CDIS; Kuka.MovementDataPdat.apo_dist=500; Kuka.MovementData.vel=0.1; Kuka.MovementData.acc=100; Kuka.MovementData.exax_ign=0; Kuka.VelocityPtp=20; Kuka.BlendingEnabled=False; Kuka.CurrentCDSetIndex=0; Kuka.MoveDataName=CPDAT20; Kuka.MovementData.apo_fac=50; Kuka.MovementData.apo_dist=500; Kuka.MovementData.axis_acc=100; Kuka.MovementData.axis_vel=100; Kuka.MovementData.circ_typ=#BASE; Kuka.MovementData.jerk_fac=50; Kuka.MovementData.ori_typ=#VAR; Kuka.VelocityPath=0.1; Kuka.FrameData.point2=                        "}
+DECL MODULEPARAM_T LAST_TP_PARAMS={PARAMS[] "Kuka.PointName=P22; Kuka.FrameData.base_no=0; Kuka.FrameData.tool_no=1; Kuka.FrameData.ipo_frame=#BASE; Kuka.isglobalpoint=False; Kuka.MoveDataPtpName=PDAT2; Kuka.MovementDataPdat.apo_mode=#CDIS; Kuka.MovementDataPdat.apo_dist=500; Kuka.MovementData.vel=0.1; Kuka.MovementData.acc=100; Kuka.MovementData.exax_ign=0; Kuka.VelocityPtp=20; Kuka.BlendingEnabled=False; Kuka.CurrentCDSetIndex=0; Kuka.MoveDataName=CPDAT21; Kuka.MovementData.apo_fac=50; Kuka.MovementData.apo_dist=500; Kuka.MovementData.axis_acc=100; Kuka.MovementData.axis_vel=100; Kuka.MovementData.circ_typ=#BASE; Kuka.MovementData.jerk_fac=50; Kuka.MovementData.ori_typ=#VAR; Kuka.VelocityPath=0.1; Kuka.FrameData.point2=; Kuka.MovementData.gear_jerk=100"}
 DECL E6POS XP2={X 698.143555,Y 1396.42664,Z 338.484192,A -130.465927,B -1.15797555,C -178.404785,S 2,T 35,E1 0.0,E2 0.0,E3 0.0,E4 0.0,E5 0.0,E6 0.0}
 DECL FDAT FP2={TOOL_NO 1,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
 DECL LDAT LCPDAT1={VEL 0.100000,ACC 100.000,APO_DIST 500.000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
@@ -79,4 +79,7 @@ DECL LDAT LCPDAT19={VEL 0.100000,ACC 100.000,APO_DIST 500.000,APO_FAC 50.0000,AX
 DECL E6POS XP21={X 751.048218,Y 1468.49500,Z 328.112610,A -177.980560,B 10.7096500,C 171.671402,S 2,T 35,E1 0.0,E2 0.0,E3 0.0,E4 0.0,E5 0.0,E6 0.0}
 DECL FDAT FP21={TOOL_NO 1,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
 DECL LDAT LCPDAT20={VEL 0.100000,ACC 100.000,APO_DIST 500.000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
+DECL E6POS XP22={X 1815.00,Y 50.0000,Z 1734.00,A 135.109222,B 82.9334259,C 139.890778,S 2,T 2,E1 0.0,E2 0.0,E3 0.0,E4 0.0,E5 0.0,E6 0.0}
+DECL FDAT FP22={TOOL_NO 1,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL LDAT LCPDAT21={VEL 0.100000,ACC 100.000,APO_DIST 500.000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
 ENDDAT
