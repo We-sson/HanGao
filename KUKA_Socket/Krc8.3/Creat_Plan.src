@@ -1,0 +1,49 @@
+&ACCESS RVP
+&REL 16
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
+DEF Creat_Plan( )
+;FOLD INI;%{PE}
+  ;FOLD BASISTECH INI
+    GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+    INTERRUPT ON 3 
+    BAS (#INITMOV,0 )
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+
+  ;ENDFOLD (USER INI)
+;ENDFOLD (INI)
+
+
+;FOLD PTP P01 Vel=10 % PDAT1 Tool[0] Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P01; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT1; Kuka.VelocityPtp=10; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT1
+FDAT_ACT = FP01
+BAS(#PTP_PARAMS, 10.0)
+SET_CD_PARAMS (0)
+PTP XP01
+;ENDFOLD
+;FOLD Vision.Vision_Creation_Plan Base: 5 ;%{PE}
+
+
+EKRL_Creation_Plan("Xml_Vision_Creation_Plan" , 5)
+
+
+;ENDFOLD
+;FOLD LIN P02 Vel=0.1 m/s CPDAT01 Tool[1]:DHTOOL Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P02; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT01; Kuka.VelocityPath=0.1; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT01
+FDAT_ACT = FP02
+BAS(#CP_PARAMS, 0.1)
+SET_CD_PARAMS (0)
+LIN XP02
+;ENDFOLD
+END

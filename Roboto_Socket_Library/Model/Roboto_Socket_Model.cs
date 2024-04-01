@@ -329,7 +329,7 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 手眼标定通讯端口
             /// </summary>
-            public int Sever_Socket_Port { set; get; } = 5000;
+            public int Sever_Socket_Port { set; get; } = 5400;
 
             /// <summary>
             /// 通讯设备图像来源设置

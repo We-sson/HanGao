@@ -271,24 +271,27 @@ namespace HanGao.ViewModel
             {
 
 
-                ///设置相机坐标
-                Halcon_Shape_Mode.Model_Camera_Pos.X = double.Parse(_Receive.Camera_Pos.X);
-                Halcon_Shape_Mode.Model_Camera_Pos.Y = double.Parse(_Receive.Camera_Pos.Y);
-                Halcon_Shape_Mode.Model_Camera_Pos.Z = double.Parse(_Receive.Camera_Pos.Z);
-                Halcon_Shape_Mode.Model_Camera_Pos.Rx = double.Parse(_Receive.Camera_Pos.Rx);
-                Halcon_Shape_Mode.Model_Camera_Pos.Ry = double.Parse(_Receive.Camera_Pos.Ry);
-                Halcon_Shape_Mode.Model_Camera_Pos.Rz = double.Parse(_Receive.Camera_Pos.Rz);
 
-                Halcon_Shape_Mode.Model_Camera_Pos.Set_HPos_Type(_Receive.Robot_Type);
+                Halcon_Shape_Mode.Model_Camera_Pos = new Point_Model(double.Parse(_Receive.Camera_Pos.X), double.Parse(_Receive.Camera_Pos.Y), double.Parse(_Receive.Camera_Pos.Z), double.Parse(_Receive.Camera_Pos.Rx), double.Parse(_Receive.Camera_Pos.Ry), double.Parse(_Receive.Camera_Pos.Rz), _Receive.Robot_Type);
+
+                ///设置相机坐标
+                //Halcon_Shape_Mode.Model_Camera_Pos.X = double.Parse(_Receive.Camera_Pos.X);
+                //Halcon_Shape_Mode.Model_Camera_Pos.Y = double.Parse(_Receive.Camera_Pos.Y);
+                //Halcon_Shape_Mode.Model_Camera_Pos.Z = double.Parse(_Receive.Camera_Pos.Z);
+                //Halcon_Shape_Mode.Model_Camera_Pos.Rx = double.Parse(_Receive.Camera_Pos.Rx);
+                //Halcon_Shape_Mode.Model_Camera_Pos.Ry = double.Parse(_Receive.Camera_Pos.Ry);
+                //Halcon_Shape_Mode.Model_Camera_Pos.Rz = double.Parse(_Receive.Camera_Pos.Rz);
+                //Halcon_Shape_Mode.Model_Camera_Pos.Set_HPos_Type(_Receive.Robot_Type);
 
                 //设置平面坐标
-                Halcon_Shape_Mode.Model_Plane_Pos.X = double.Parse(_Receive.Origin_Pos.X);
-                Halcon_Shape_Mode.Model_Plane_Pos.Y = double.Parse(_Receive.Origin_Pos.Y);
-                Halcon_Shape_Mode.Model_Plane_Pos.Z = double.Parse(_Receive.Origin_Pos.Z);
-                Halcon_Shape_Mode.Model_Plane_Pos.Rx = double.Parse(_Receive.Origin_Pos.Rx);
-                Halcon_Shape_Mode.Model_Plane_Pos.Ry = double.Parse(_Receive.Origin_Pos.Ry);
-                Halcon_Shape_Mode.Model_Plane_Pos.Rz = double.Parse(_Receive.Origin_Pos.Rz);
-                Halcon_Shape_Mode.Model_Plane_Pos.Set_HPos_Type(_Receive.Robot_Type);
+                //Halcon_Shape_Mode.Model_Plane_Pos.X = double.Parse(_Receive.Origin_Pos.X);
+                //Halcon_Shape_Mode.Model_Plane_Pos.Y = double.Parse(_Receive.Origin_Pos.Y);
+                //Halcon_Shape_Mode.Model_Plane_Pos.Z = double.Parse(_Receive.Origin_Pos.Z);
+                //Halcon_Shape_Mode.Model_Plane_Pos.Rx = double.Parse(_Receive.Origin_Pos.Rx);
+                //Halcon_Shape_Mode.Model_Plane_Pos.Ry = double.Parse(_Receive.Origin_Pos.Ry);
+                //Halcon_Shape_Mode.Model_Plane_Pos.Rz = double.Parse(_Receive.Origin_Pos.Rz);
+                //Halcon_Shape_Mode.Model_Plane_Pos.Set_HPos_Type(_Receive.Robot_Type);
+                Halcon_Shape_Mode.Model_Plane_Pos = new Point_Model(double.Parse(_Receive.Origin_Pos.X), double.Parse(_Receive.Origin_Pos.Y), double.Parse(_Receive.Origin_Pos.Z), double.Parse(_Receive.Origin_Pos.Rx), double.Parse(_Receive.Origin_Pos.Ry), double.Parse(_Receive.Origin_Pos.Rz), _Receive.Robot_Type);
 
 
                 if (Camera_Device_List.Select_Camera != null && Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera != null)

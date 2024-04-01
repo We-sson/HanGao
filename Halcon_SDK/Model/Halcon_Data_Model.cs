@@ -123,8 +123,13 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 匹配结果点
             /// </summary>
-            public Point_Model Results_Pos { set; get; } = new Point_Model();
+            public Point_Model Results_Camera_Pos { set; get; } = new Point_Model();
             //public HImage Image_Rectified { set; get; } = new HImage();
+
+            public Point_Model Results_Image_Pos { set; get; } = new Point_Model();
+
+            public Point_Model Results_Robot_Pos { set; get; } = new Point_Model();
+
 
             /// <summary>
             /// 模型实例的行坐标 =Y
@@ -191,7 +196,9 @@ namespace Halcon_SDK_DLL.Model
             {
                 List<string> _DataList = new List<string>();
 
-                Text_Arr_UI.Add(Results_Pos.ToString());
+                Text_Arr_UI.Add(Results_Camera_Pos.ToString());
+
+                Text_Arr_UI.Add(Results_Robot_Pos.ToString());
 
                 for (int i = 0; i < Results_HXLD_List.Count; i++)
                 {
@@ -1337,9 +1344,46 @@ namespace Halcon_SDK_DLL.Model
 
         }
 
+
+        public Point_Model(double _X,double _Y,double _Z,double _Rx,double _Ry,double _Rz, Robot_Type_Enum Robot_Type)
+        {
+            switch (Robot_Type)
+            {
+                case Robot_Type_Enum.KUKA:
+                    //设置机器人当前位置
+
+                    X = _X;
+                    Y = _Y;
+                    Z = _Z;
+                    Rx = _Rz;
+                    Ry = _Ry;
+                    Rz = _Rx;
+                    HType = Halcon_Pose_Type_Enum.abg;
+
+                    break;
+                case Robot_Type_Enum.ABB:
+                    //_Robot_Pos = new Point_Model() { X = double.Parse(_S.ACT_Point.X), Y = double.Parse(_S.ACT_Point.Y), Z = double.Parse(_S.ACT_Point.Z), Rx = double.Parse(_S.ACT_Point.Rx), Ry = double.Parse(_S.ACT_Point.Ry), Rz = double.Parse(_S.ACT_Point.Rz), HType = Halcon_Pose_Type_Enum.abg };
+                    X = _X;
+                    Y = _Y;
+                    Z = _Z;
+                    Rx = _Rx;
+                    Ry = _Ry;
+                    Rz = _Rz;
+                    HType = Halcon_Pose_Type_Enum.abg;
+                    break;
+                case Robot_Type_Enum.川崎:
+                    break;
+                case Robot_Type_Enum.通用:
+                    break;
+
+            }
+        }
+
+
+
         public override string ToString()
         {
-            return $"图像坐标 X: {X:F4}, Y: {Y:F4}, Z: {Z:F4}, Rx: {Rx:F4}, Ry: {Ry:F4}, Rz: {Rz:F4}, 类型: {HType}";
+            return $"坐标 X: {X:F4}, Y: {Y:F4}, Z: {Z:F4}, Rx: {Rx:F4}, Ry: {Ry:F4}, Rz: {Rz:F4}, 类型: {HType}";
         }
 
         public Point_Model(Point_Model _Point)

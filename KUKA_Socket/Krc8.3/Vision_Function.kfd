@@ -192,7 +192,7 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
   DECL FOLD HandEye_Calib_ADD_Point_FOLD[5]
             HandEye_Calib_ADD_Point_FOLD[1]=""
             HandEye_Calib_ADD_Point_FOLD[2]=""
-            HandEye_Calib_ADD_Point_FOLD[3]="EKRL_HandEye_Point(/"Xml_HandEye_Calib/" ,#Calibration_Progress)"
+            HandEye_Calib_ADD_Point_FOLD[3]="EKRL_HandEye_Point(/"Xml_HandEye_Calib/" ,#Calibration_Progress )"
             HandEye_Calib_ADD_Point_FOLD[4]=""
             HandEye_Calib_ADD_Point_FOLD[5]=""               
              
@@ -322,7 +322,7 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
 
 DECL PLIST LDat[2] -> ParamListLdat
 LDat[1] = ACC
-LDat[2] = APO_DISTL
+LDat[2] = APO_DIST
 
 DECL PLIST FDat[2] -> ParamListFdat
 FDat[1] = TOOL_NO
@@ -340,14 +340,14 @@ EPOS[6] = C
 
 
 DECL FOLD FLIN[8]
-FLIN[1]="IF Vision_Type==#Vision_Run THEN"
+FLIN[1]=";IF Vision_Type==#Vision_Run THEN"
 FLIN[1]="$BWDSTART=FALSE"
 FLIN[2]="LDAT_ACT=%ParamListLdat"
 FLIN[3]="FDAT_ACT=%ParamListFdat"
 FLIN[4]="BAS(#CP_PARAMS,%LVEL )"
 FLIN[5]="LIN X%Point1  %LCONT"
 FLIN[6]="EKRL_Vision_Find(/"Xml_Vision_Model/",%Find_ID ,%Result_NO )"
-FLIN[7]="ENDIF"
+FLIN[7]=";ENDIF"
 
 
 
@@ -520,4 +520,4 @@ ENDTP
 
 
 
-;checksum 32912306616 
+;checksum 87708123152 

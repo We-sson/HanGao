@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 307
+&ACCESS RVO2
+&REL 309
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -26,7 +26,6 @@ EKRL_CONNECT()
 
 
 
-
 ;Bytes[]="hellow"
 ;halt
 
@@ -41,14 +40,16 @@ DECL INT Plan_Base_No
 DECL  BOOL IsStatus
 DECL INT HandEye_ID,OPFFSET
 DECL State_t _State
-DECL Frame Creation_Point
-Creation_Point={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-
+DECL Frame Creation_Point,Camera_Pos
+Creation_Point=$NULLFRAME
+Camera_Pos=$NULLFRAME
 
 Message_Error[]=" "
 IsStatus=false
 OPFFSET=0
 
+
+Camera_Pos=$POS_ACT
 
 
 
@@ -146,6 +147,8 @@ case #Calibration_Start
 case #Calibration_Progress
 ;-----
 case #Calibration_End
+
+
 HandEye_Result_Pos.X=Result_Pos.X
 HandEye_Result_Pos.Y=Result_Pos.Y
 HandEye_Result_Pos.Z=Result_Pos.Z
@@ -221,7 +224,14 @@ DECL Frame LastPos1
 Message_Error[]=" "
 IsStatus=false
 LastPos1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-Vision_Result_POS[Result_NO]={X 0,Y 0,Z 0.0,A 0.0,B 0.0,C 0.0}
+
+IF Vision_Type==#Vision_NO THEN 
+return 
+ENDIF
+
+
+
+
 
 EKRL_Connect(EKRL_NAME[])
 
@@ -242,7 +252,7 @@ IF IsStatus THEN
 
 RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_POS" ,LastPos1)
 
-
+Vision_Result_POS[Result_NO]=$NULLFRAME
  Vision_Result_POS[Result_NO]=LastPos1
 
          

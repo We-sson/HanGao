@@ -438,6 +438,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
+
                     _Robot_Creation_Model_Rece = KUKA_Send_Receive_Xml.String_Xml<Vision_Creation_Model_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
 
 

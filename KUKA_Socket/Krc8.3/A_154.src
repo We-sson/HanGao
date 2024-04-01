@@ -1,8 +1,8 @@
 &ACCESS RVP
-&REL 107
+&REL 102
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\Program\HK
+&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF A_154( )
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
@@ -17,145 +17,20 @@ DEF A_154( )
 ;ENDFOLD (INI)
 
  
-;FOLD PTP P1 Vel=100 % PDAT1 Tool[1] Base[0];%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P1; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT1; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
-;ENDFOLD
-$BWDSTART = FALSE
-PDAT_ACT = PPDAT1
-FDAT_ACT = FP1
-BAS(#PTP_PARAMS, 100.0)
-SET_CD_PARAMS (0)
-PTP XP1
-;ENDFOLD
 
 
 
-
-
-;FOLD Vision.HandEye_Calib_Ini Model:START;%{PE}%MKUKATPUSER
-
-
-EKRL_HandEye_Point("Xml_HandEye_Calib",-1,#Calibration_Start)
-
-
-
-
+;FOLD Vision_Move.Camera_LIn P1, , Vel= 0.1 m/s, FDAT: FDAT4, LDAT: LDAT4, Find ID= 0, Result NO= 1 ;%{PE}
+;IF Vision_Type==#Vision_Run THEN
+$BWDSTART=FALSE
+LDAT_ACT=LDAT4
+FDAT_ACT=FDAT4
+BAS(#CP_PARAMS,0.1)
+LIN XP1 
+EKRL_Vision_Find("Xml_Vision_Model",0,1)
+;ENDIF
 ;ENDFOLD
 
-;FOLD PTP P3 Vel=100 % PDAT3 Tool[1]:Tool1 Base[0];%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT3; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
-;ENDFOLD
-$BWDSTART = FALSE
-PDAT_ACT = PPDAT3
-FDAT_ACT = FP3
-BAS(#PTP_PARAMS, 100.0)
-SET_CD_PARAMS (0)
-PTP XP3
-;ENDFOLD
-;FOLD Vision.HandEye_Calib_Point ID:0;%{PE}%MKUKATPUSER
-
-
-
-EKRL_HandEye_Point("Xml_HandEye_Calib" ,0)
-
-
-
-;ENDFOLD
-halt
-
-;FOLD PTP P4 Vel=100 % PDAT4 Tool[1]:Tool1 Base[0];%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT4; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
-;ENDFOLD
-$BWDSTART = FALSE
-PDAT_ACT = PPDAT4
-FDAT_ACT = FP4
-BAS(#PTP_PARAMS, 100.0)
-SET_CD_PARAMS (0)
-PTP XP4
-;ENDFOLD
-;FOLD Vision.HandEye_Calib_Point ID:1;%{PE}%MKUKATPUSER
-
-
-
-EKRL_HandEye_Point("Xml_HandEye_Calib" ,1)
-
-
-
-;ENDFOLD
-halt
-
-
-;FOLD PTP P5 Vel=100 % PDAT5 Tool[1]:Tool1 Base[0];%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P5; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT5; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
-;ENDFOLD
-$BWDSTART = FALSE
-PDAT_ACT = PPDAT5
-FDAT_ACT = FP5
-BAS(#PTP_PARAMS, 100.0)
-SET_CD_PARAMS (0)
-PTP XP5
-;ENDFOLD
-;FOLD Vision.HandEye_Calib_Point ID:2;%{PE}%MKUKATPUSER
-
-
-
-EKRL_HandEye_Point("Xml_HandEye_Calib" ,2)
-
-
-
-;ENDFOLD
-halt
-
-
-;FOLD PTP P6 Vel=100 % PDAT6 Tool[1]:Tool1 Base[0];%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P6; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT6; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
-;ENDFOLD
-$BWDSTART = FALSE
-PDAT_ACT = PPDAT6
-FDAT_ACT = FP6
-BAS(#PTP_PARAMS, 100.0)
-SET_CD_PARAMS (0)
-PTP XP6
-;ENDFOLD
-;FOLD Vision.Find_Model Work: 1, Area: 45 ;%{PE}
-
-
-EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
-
-
-;ENDFOLD
-halt
-;FOLD Vision.Camera_Offset Camera_NAME : P2, Area: 45, Work: 1 ;%{PE}
- HanGao_Camera_Offset(#Calibration ,1,1,XP2)
-
-
-
-
-;ENDFOLD
-;FOLD PTP P2 Vel=100 % PDAT2 Tool[1]:Tool1 Base[0];%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P2; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT2; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
-;ENDFOLD
-$BWDSTART = FALSE
-PDAT_ACT = PPDAT2
-FDAT_ACT = FP2
-BAS(#PTP_PARAMS, 100.0)
-SET_CD_PARAMS (0)
-PTP XP2
-;ENDFOLD
-halt
-;FOLD Vision.Find_Model Work: 1, Area: 45 ;%{PE}
-
-
-EKRL_Find_Model_Send("Xml_Vision_Model",1,1)
-
-
-;ENDFOLD
 
 
 
