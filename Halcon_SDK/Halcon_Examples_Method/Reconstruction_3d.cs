@@ -12,7 +12,10 @@ public class Reconstruction_3d
 
 
 
-    public  List<HObjectModel3D> Gen_Robot_Camera_3DModel(HPose HandEye_ToolinCamera,HPose Model_Camera_Pos,HPose Model_Plane_Pos, HCamPar Select_Camera_Par)
+
+
+
+    public  List<HObjectModel3D> Gen_Robot_Camera_3DModel(HPose HandEye_ToolinCamera,HPose Tool_In_Base,HPose Plan_In_Base, HCamPar Select_Camera_Par)
     {
         List<HObjectModel3D> _Robot_Camera_3dModel = new List<HObjectModel3D>();
 
@@ -22,17 +25,20 @@ public class Reconstruction_3d
 
 
         Point_Model CamInTool = new Point_Model(HandEye_ToolinCamera.PoseInvert());
-        Point_Model ToolInBase = new Point_Model(Model_Camera_Pos);
+        Point_Model ToolInBase = new Point_Model(Tool_In_Base);
         Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
         //生产相机标模型
         List<HObjectModel3D> _Camera_3D = Gen_Camera_object_model_3d(Select_Camera_Par, CameraInBase.HPose);
         _Robot_Camera_3dModel.AddRange(_Camera_3D);
         //生产机器人坐标模型
-        List<HObjectModel3D> _RobotTcp3D = GenRobot_Tcp_Base_Model(Model_Plane_Pos);
+        List<HObjectModel3D> _RobotTcp3D = GenRobot_Tcp_Base_Model(Tool_In_Base);
 
-        _Robot_Camera_3dModel.AddRange(_RobotTcp3D);
+            List<HObjectModel3D> _Plan3D = GenRobot_Tcp_Base_Model(Plan_In_Base);
 
-        return _Robot_Camera_3dModel;
+            _Robot_Camera_3dModel.AddRange(_RobotTcp3D);
+            _Robot_Camera_3dModel.AddRange(_Plan3D);
+
+            return _Robot_Camera_3dModel;
 
         }
         catch (Exception e)

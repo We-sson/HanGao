@@ -196,9 +196,11 @@ namespace Halcon_SDK_DLL.Model
             {
                 List<string> _DataList = new List<string>();
 
-                Text_Arr_UI.Add(Results_ModelInCam_Pos.ToString());
+                Text_Arr_UI.Add("匹配模型到机器人坐标："+Results_ModelInBase_Pos.ToString());
+                Text_Arr_UI.Add("匹配模型到相机坐标：" + Results_ModelInCam_Pos.ToString());
+                Text_Arr_UI.Add("匹配像素坐标结果：" + Results_Image_Pos.ToString());
+                Text_Arr_UI.Add("详情各特征结果：" );
 
-                Text_Arr_UI.Add(Results_ModelInBase_Pos.ToString());
 
                 for (int i = 0; i < Results_HXLD_List.Count; i++)
                 {
@@ -1899,6 +1901,8 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public ObservableCollection<Point3D> Drawing_Data { set; get; } = new ObservableCollection<Point3D>();
 
+
+
         /// <summary>
         /// 集合对象
         /// </summary>
@@ -2043,7 +2047,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 匹配模型平面位置
         /// </summary>
-        public Point_Model Shape_Model_Plane_Pos { set; get; } = new Point_Model();
+        public Point_Model Shape_PlaneInCamera_Pos { set; get; } = new Point_Model();
 
 
         /// <summary>
@@ -2267,10 +2271,10 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("图像原点")]
         Origin_Imag,
-        [Description("采集原点")]
-        Origin_Camera,
-        [Description("模型原点")]
-        Origin_Model
+        [Description("当前位置")]
+        Tool_In_Base,
+        [Description("模型平面")]
+        Plan_In_Camera
 
 
 
@@ -2287,6 +2291,8 @@ namespace Halcon_SDK_DLL.Model
 
         [Description("圆弧")]
         Draw_Cir,
+        [Description("原点")]
+        Draw_Origin,
 
         [Description("...")]
         Draw_None
@@ -2311,7 +2317,8 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum Sink_Basin_R_Welding
     {
-
+        [Description("0：模型原点位置")]
+         模型原点位置,
         [Description("1：R角中线轮廓")]
         R角中线轮廓,
         [Description("2：盆胆左侧线")]
@@ -2323,6 +2330,8 @@ namespace Halcon_SDK_DLL.Model
 
     public enum Sink_Board_R_Welding
     {
+        [Description("0：模型原点位置")]
+        模型原点位置,
         [Description("1：面板横直线轮廓")]
         面板横直线轮廓,
         [Description("2：面板圆弧轮廓")]

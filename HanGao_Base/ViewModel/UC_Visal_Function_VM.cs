@@ -187,9 +187,9 @@ namespace HanGao.ViewModel
                         Socket_Robot = Vision_Socket_Robot_Parameters.Socket_Robot_Model,
                         Vision_Ini_Data_Delegate = Vision_Ini_Data_Receive_Method,
                         Vision_Creation_Model_Data_Delegate = Vision_Creation_Model_Receive_Method,
-                        Vision_Find_Model_Delegate= Vision_Find_Data_Receive_Method,
+                        Vision_Find_Model_Delegate = Vision_Find_Data_Receive_Method,
                         Socket_ErrorInfo_delegate = Socket_Log_Show
-                         
+
                     });
                 }
 
@@ -210,7 +210,7 @@ namespace HanGao.ViewModel
 
             Vision_Find_Data_Send _Find_Data_Send = new Vision_Find_Data_Send();
 
-            if (Camera_Device_List.Select_Camera!=null)
+            if (Camera_Device_List.Select_Camera != null)
             {
 
 
@@ -237,7 +237,7 @@ namespace HanGao.ViewModel
         {
             Vision_Ini_Data_Send _Ini_Data_Send = new Vision_Ini_Data_Send();
 
-            if (Camera_Device_List.Select_Camera != null   && Camera_Device_List.Camera_Diver_Model== Image_Diver_Model_Enum.Online)
+            if (Camera_Device_List.Select_Camera != null && Camera_Device_List.Camera_Diver_Model == Image_Diver_Model_Enum.Online)
             {
                 _Ini_Data_Send.IsStatus = 1;
                 _Ini_Data_Send.Message_Error = "Vision Ini Ready!";
@@ -272,35 +272,33 @@ namespace HanGao.ViewModel
 
 
 
-                Halcon_Shape_Mode.Model_Camera_Pos = new Point_Model(double.Parse(_Receive.Camera_Pos.X), double.Parse(_Receive.Camera_Pos.Y), double.Parse(_Receive.Camera_Pos.Z), double.Parse(_Receive.Camera_Pos.Rx), double.Parse(_Receive.Camera_Pos.Ry), double.Parse(_Receive.Camera_Pos.Rz), _Receive.Robot_Type);
-
-                ///设置相机坐标
-                //Halcon_Shape_Mode.Model_Camera_Pos.X = double.Parse(_Receive.Camera_Pos.X);
-                //Halcon_Shape_Mode.Model_Camera_Pos.Y = double.Parse(_Receive.Camera_Pos.Y);
-                //Halcon_Shape_Mode.Model_Camera_Pos.Z = double.Parse(_Receive.Camera_Pos.Z);
-                //Halcon_Shape_Mode.Model_Camera_Pos.Rx = double.Parse(_Receive.Camera_Pos.Rx);
-                //Halcon_Shape_Mode.Model_Camera_Pos.Ry = double.Parse(_Receive.Camera_Pos.Ry);
-                //Halcon_Shape_Mode.Model_Camera_Pos.Rz = double.Parse(_Receive.Camera_Pos.Rz);
-                //Halcon_Shape_Mode.Model_Camera_Pos.Set_HPos_Type(_Receive.Robot_Type);
-
-                //设置平面坐标
-                //Halcon_Shape_Mode.Model_Plane_Pos.X = double.Parse(_Receive.Origin_Pos.X);
-                //Halcon_Shape_Mode.Model_Plane_Pos.Y = double.Parse(_Receive.Origin_Pos.Y);
-                //Halcon_Shape_Mode.Model_Plane_Pos.Z = double.Parse(_Receive.Origin_Pos.Z);
-                //Halcon_Shape_Mode.Model_Plane_Pos.Rx = double.Parse(_Receive.Origin_Pos.Rx);
-                //Halcon_Shape_Mode.Model_Plane_Pos.Ry = double.Parse(_Receive.Origin_Pos.Ry);
-                //Halcon_Shape_Mode.Model_Plane_Pos.Rz = double.Parse(_Receive.Origin_Pos.Rz);
-                //Halcon_Shape_Mode.Model_Plane_Pos.Set_HPos_Type(_Receive.Robot_Type);
-                Halcon_Shape_Mode.Model_Plane_Pos = new Point_Model(double.Parse(_Receive.Origin_Pos.X), double.Parse(_Receive.Origin_Pos.Y), double.Parse(_Receive.Origin_Pos.Z), double.Parse(_Receive.Origin_Pos.Rx), double.Parse(_Receive.Origin_Pos.Ry), double.Parse(_Receive.Origin_Pos.Rz), _Receive.Robot_Type);
-
-
                 if (Camera_Device_List.Select_Camera != null && Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera != null)
                 {
 
+                    Halcon_Shape_Mode.Tool_In_BasePos = new Point_Model(double.Parse(_Receive.Camera_Pos.X), double.Parse(_Receive.Camera_Pos.Y), double.Parse(_Receive.Camera_Pos.Z), double.Parse(_Receive.Camera_Pos.Rx), double.Parse(_Receive.Camera_Pos.Ry), double.Parse(_Receive.Camera_Pos.Rz), _Receive.Robot_Type);
+
+
+
+                    Point_Model BaseInToolPose = new Point_Model(Halcon_Shape_Mode.Tool_In_BasePos.HPose.PoseInvert());
+                    Point_Model BaseInCamPose = new Point_Model(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
+
+                    Point_Model CamInBasePose = new Point_Model(BaseInCamPose.HPose.PoseInvert());
+
+
+                    Point_Model PlaneInBasePose = new Point_Model() { X = double.Parse(_Receive.Origin_Pos.X), Y = double.Parse(_Receive.Origin_Pos.Y), Z = double.Parse(_Receive.Origin_Pos.Z), Rx = double.Parse(_Receive.Origin_Pos.Rz), Ry = double.Parse(_Receive.Origin_Pos.Ry), Rz = double.Parse(_Receive.Origin_Pos.Rx), HType = Halcon_Pose_Type_Enum.abg };
+
+                    //Point_Model PlaneInBasePose = new Point_Model(double.Parse(_Receive.Origin_Pos.X), double.Parse(_Receive.Origin_Pos.Y), double.Parse(_Receive.Origin_Pos.Z), double.Parse(_Receive.Origin_Pos.Rx), double.Parse(_Receive.Origin_Pos.Ry), double.Parse(_Receive.Origin_Pos.Rz), _Receive.Robot_Type);
+
+                    Halcon_Shape_Mode.Plane_In_CameraPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(PlaneInBasePose.HPose));
+
+
+
+
+
                     List<HObjectModel3D> _RobotTcp3D = _3DModel.Gen_Robot_Camera_3DModel(
                         Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose,
-                        Halcon_Shape_Mode.Model_Camera_Pos.HPose,
-                        Halcon_Shape_Mode.Model_Plane_Pos.HPose,
+                        Halcon_Shape_Mode.Tool_In_BasePos.HPose,
+                        PlaneInBasePose.HPose,
                         Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar);
 
 
@@ -446,7 +444,7 @@ namespace HanGao.ViewModel
                         }
 
                         ////启动自动连接
-                        if (Vision_Auto_Cofig.Auto_Connect_Selected_Camera && Camera_Device_List.Camera_Diver_Model== Image_Diver_Model_Enum.Online)
+                        if (Vision_Auto_Cofig.Auto_Connect_Selected_Camera && Camera_Device_List.Camera_Diver_Model == Image_Diver_Model_Enum.Online)
                         {
 
                             foreach (var _camera in MVS_Camera_Info_List)
@@ -941,7 +939,7 @@ namespace HanGao.ViewModel
                     if (Halcon_Shape_Mode.Selected_Shape_Model != null)
                     {
 
-                        Halcon_Shape_Mode.Model_Plane_Pos = new Point_Model(Halcon_Shape_Mode.Selected_Shape_Model.Shape_Model_Plane_Pos);
+                        Halcon_Shape_Mode.Plane_In_CameraPose = new Point_Model(Halcon_Shape_Mode.Selected_Shape_Model.Shape_PlaneInCamera_Pos);
                     }
 
                 }
@@ -1068,15 +1066,20 @@ namespace HanGao.ViewModel
 
                         //生成可视化三维模型
 
-                        Point_Model CamInTool = new Point_Model(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseInvert());
-                        Point_Model ToolInBase = new Point_Model(Halcon_Shape_Mode.Model_Camera_Pos.HPose);
-                        Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
+                        Point_Model BaseInToolPose = new Point_Model(Halcon_Shape_Mode.Tool_In_BasePos.HPose.PoseInvert());
+                        Point_Model BaseInCamPose = new Point_Model(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
+                        //Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(Plane_In_CameraPose.HPose));
+
+
+                        //计算平面位置在基坐标
+                        Point_Model CamInBasePose = new Point_Model(BaseInCamPose.HPose.PoseInvert());
+                        Point_Model PlanInBase = new Point_Model(CamInBasePose.HPose.PoseCompose(Halcon_Shape_Mode.Plane_In_CameraPose.HPose));
                         //生产相机标模型
-                        List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CameraInBase.HPose);
+                        List<HObjectModel3D> _Camera_3D = _3DModel.Gen_Camera_object_model_3d(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, CamInBasePose.HPose);
                         //生产机器人坐标模型
-                        List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Model_Plane_Pos.HPose);
+                        List<HObjectModel3D> _RobotTcp3D = _3DModel.GenRobot_Tcp_Base_Model(Halcon_Shape_Mode.Tool_In_BasePos.HPose);
                         //生产模型平面模型
-                        HObjectModel3D _Plane3D = _3DModel.Gen_ground_plane_object_model_3d(_Camera_3D, Halcon_Shape_Mode.Model_Plane_Pos.HPose);
+                        HObjectModel3D _Plane3D = _3DModel.Gen_ground_plane_object_model_3d(_Camera_3D, PlanInBase.HPose);
 
 
                         _Camera_3D.AddRange(_RobotTcp3D);
@@ -1432,6 +1435,10 @@ namespace HanGao.ViewModel
                             Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: Find_Features_Window_Result.HXLD_Results_All);
 
                         });
+
+                        User_Log_Add("匹配模型成功！", Log_Show_Window_Enum.Home);
+
+
 
                     }
                     catch (Exception e)
@@ -2265,7 +2272,7 @@ namespace HanGao.ViewModel
         }
 
         /// <summary>
-        /// 清除特征点
+        /// 设置原点xld模型方法
         /// </summary>
         public ICommand Set_XLD_Origin_Comm
         {
@@ -2279,7 +2286,28 @@ namespace HanGao.ViewModel
                 try
                 {
 
+
+                    HXLDCont _Origin_XLD = new HXLDCont();
+                    _Origin_XLD.GenCrossContourXld(new HTuple(Halcon_Shape_Mode.Chick_Position.X), new HTuple(Halcon_Shape_Mode.Chick_Position.Y), 100, 0.78);
+
+                    //设置模型特征参数
+                    Halcon_Shape_Mode.User_Drawing_Data.Craft_Type_Enum = Sink_Basin_R_Welding.模型原点位置;
+                    Halcon_Shape_Mode.User_Drawing_Data.Craft_XLd_Creation_Status = XLD_Contours_Creation_Status.Creation_OK;
+                    Halcon_Shape_Mode.User_Drawing_Data.Model_XLD = _Origin_XLD;
+                    Halcon_Shape_Mode.User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Origin;
+
+                    //添加到工艺列表中
+                    Halcon_Shape_Mode.Load_Crafe_XLD_ToList();
+
+                    //设置模型原点位置
                     Halcon_Shape_Mode.Model_2D_Origin = new Point_Model() { X = Halcon_Shape_Mode.Chick_Position.X, Y = Halcon_Shape_Mode.Chick_Position.Y };
+                    ///清空临时
+                    Halcon_Shape_Mode.User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
+
+
+                    //显示
+                    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Draw: Halcon_Shape_Mode.User_Drawing_Data.Drawing_XLD);
+                    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: Halcon_Shape_Mode.ALL_Models_XLD);
 
 
                     User_Log_Add($"设置工艺模型原点成功！", Log_Show_Window_Enum.Home);
@@ -2316,25 +2344,24 @@ namespace HanGao.ViewModel
 
                     _E.Tag.ThrowIfNull("请选择需要添加模型工艺!");
 
+                    Halcon_Shape_Mode.Drawing_Data_List[0].Craft_XLd_Creation_Status.Throw("请先设定模型原点位置！").IfEquals(XLD_Contours_Creation_Status.None);
 
+
+                    ///生成xld模型
                     _Cir = Halcon_SDK.Draw_Group_Cir(Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data.ToList());
 
+
+                    ///设置模型属性
                     Halcon_Shape_Mode.User_Drawing_Data.Craft_Type_Enum = (Enum)_E.Tag;
                     Halcon_Shape_Mode.User_Drawing_Data.Craft_XLd_Creation_Status = XLD_Contours_Creation_Status.Creation_OK;
                     Halcon_Shape_Mode.User_Drawing_Data.Model_XLD = _Cir;
                     Halcon_Shape_Mode.User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Cir;
 
 
+                    ///加载到创建模型集合中
                     Halcon_Shape_Mode.Load_Crafe_XLD_ToList();
 
-
-                    ////拟合直线
-                    ////显示UI
-                    //Halcon_Shape_Mode.User_Drawing_Data.User_XLD = _Cir;
-                    //Halcon_Shape_Mode.User_Drawing_Data.Drawing_Type = Drawing_Type_Enme.Draw_Cir;
-                    ////添加显示集合
-                    //Halcon_Shape_Mode.Drawing_Data_List.Add(Halcon_Shape_Mode.User_Drawing_Data);
-                    //情况之前的数据
+                    ///清空临时
                     Halcon_Shape_Mode.User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
 
 
@@ -2376,6 +2403,9 @@ namespace HanGao.ViewModel
                     HXLDCont _Lin = new HXLDCont();
 
                     _E.Tag.ThrowIfNull("请选择需要添加模型工艺!");
+                    Halcon_Shape_Mode.Drawing_Data_List[0].Craft_XLd_Creation_Status.Throw("请先设定模型原点位置！").IfEquals(XLD_Contours_Creation_Status.None);
+
+
 
                     _Lin = Halcon_SDK.Draw_Group_Lin(Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data.ToList());
 

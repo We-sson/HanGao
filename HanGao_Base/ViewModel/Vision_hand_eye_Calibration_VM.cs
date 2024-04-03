@@ -1753,12 +1753,13 @@ namespace HanGao.ViewModel
                 Task.Run(() =>
                 {
 
+                    try
+                    {
 
+                        ///单帧模式
+                        //HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
 
-                    ///单帧模式
-                    //HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
-
-                    if (HandEye_Camera_Parameters.Halcon_Find_Calib_Model)
+                        if (HandEye_Camera_Parameters.Halcon_Find_Calib_Model)
                     {
 
 
@@ -1778,9 +1779,9 @@ namespace HanGao.ViewModel
                     {
 
 
-
-                        ///查找标定板结果
-                        HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
+                            Camera_Parameter_Val.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_SINGLE;
+                            ///查找标定板结果
+                            HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
 
 
                         ///加载图像到标定列表
@@ -1792,8 +1793,7 @@ namespace HanGao.ViewModel
 
 
 
-                    try
-                    {
+               
 
                     }
                     catch (Exception _e)
@@ -1831,7 +1831,7 @@ namespace HanGao.ViewModel
                         {
 
                             HandEye_Camera_Parameters.Halcon_Find_Calib_Model = true;
-
+                            Camera_Parameter_Val.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
                             HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
                         }
                         catch (Exception _e)
@@ -2067,7 +2067,7 @@ namespace HanGao.ViewModel
                     }
 
 
-
+                    
                     //根据选择得相机开始取流图像
                     _Select_Camera.StopGrabbing();
                     _Select_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val);
@@ -2129,6 +2129,7 @@ namespace HanGao.ViewModel
             {
 
                 throw new Exception(_e.Message);
+                //User_Log_Add( "识别标定板失败！原因："+_e.Message, Log_Show_Window_Enum.Calibration);
 
             }
 
