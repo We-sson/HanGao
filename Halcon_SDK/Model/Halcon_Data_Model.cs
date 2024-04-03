@@ -123,12 +123,12 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 匹配结果点
             /// </summary>
-            public Point_Model Results_Camera_Pos { set; get; } = new Point_Model();
+            public Point_Model Results_ModelInCam_Pos { set; get; } = new Point_Model();
             //public HImage Image_Rectified { set; get; } = new HImage();
 
             public Point_Model Results_Image_Pos { set; get; } = new Point_Model();
 
-            public Point_Model Results_Robot_Pos { set; get; } = new Point_Model();
+            public Point_Model Results_ModelInBase_Pos { set; get; } = new Point_Model();
 
 
             /// <summary>
@@ -196,9 +196,9 @@ namespace Halcon_SDK_DLL.Model
             {
                 List<string> _DataList = new List<string>();
 
-                Text_Arr_UI.Add(Results_Camera_Pos.ToString());
+                Text_Arr_UI.Add(Results_ModelInCam_Pos.ToString());
 
-                Text_Arr_UI.Add(Results_Robot_Pos.ToString());
+                Text_Arr_UI.Add(Results_ModelInBase_Pos.ToString());
 
                 for (int i = 0; i < Results_HXLD_List.Count; i++)
                 {

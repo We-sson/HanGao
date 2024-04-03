@@ -204,6 +204,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         ///查找成功添加数据
                         if (_score > 0)
                         {
+                            //(col = x, row = y)
                             _Results.Find_Score.Add(_score);
                             _Results.Find_Column.Add(_column);
                             _Results.Find_Row.Add(_row);
@@ -258,6 +259,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                                 if (_Results.Find_Score[i] > 0)
                                 {
+                                    //(col = x, row = y)
 
                                     ///偏移原点模型文件到匹配位置
                                     _results_HomMat2D.VectorAngleToRigid(0, 0, 0, _Results.Find_Row[i], _Results.Find_Column[i], _Results.Find_Angle[i]);
@@ -278,13 +280,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             ///全部特征识别成功后计算结果位置，非全部识别输出坐标0
                             if (_Results.Find_Score.Where((_) => _ != 0).ToList().Count != 0)
                             {
-
+                                //(col = x, row = y)
                                 ///转换相机坐标，必须参数输入，否则输出图像像素坐标
                                 if (_camera_Param != null && Model_Camera_Pos != new Point_Model() && Model_Plane_Pos != new Point_Model() && _Model.Shape_Image_Rectified_Ratio != 0 && _toolinCamera != null)
                                 {
-                                    Point_Model TOOL_TCP = new Point_Model() { X = -205.753, Y = 12.378, Z = 310.01, HType = Halcon_Pose_Type_Enum.abg };
+                                    //Point_Model TOOL_TCP = new Point_Model() { X = -205.753, Y = 12.378, Z = 310.01, HType = Halcon_Pose_Type_Enum.abg };
 
-                                    Point_Model ToolInBace = new Point_Model(Model_Camera_Pos.HPose.PoseCompose(TOOL_TCP.HPose));
+                                    //Point_Model ToolInBace = new Point_Model(Model_Camera_Pos.HPose.PoseCompose(TOOL_TCP.HPose));
                                     //*Col = x, Row = y.
                                     //转换平面在相机的坐标,创建平面Z方向远离相机
                                     Point_Model BaseInToolPose = new Point_Model(Model_Camera_Pos.HPose.PoseInvert());
@@ -301,7 +303,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                                     ///计算出结果位置
-                                    _Results.Results_Camera_Pos = new Point_Model() { X = _qx * 1000, Y = _qy * 1000, Z = _qz * 1000, Rx = 0, Ry = 0, Rz = 0, HType = Model_Plane_Pos.HType };
+                                    _Results.Results_ModelInCam_Pos = new Point_Model() { X = _qx * 1000, Y = _qy * 1000, Z = _qz * 1000, Rx = 0, Ry = 0, Rz = 0, HType = Model_Plane_Pos.HType };
                                     _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
 
                                     // pose_invert(ToolInBasePose, BaseInToolPose)
@@ -312,9 +314,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                               
 
                                     Point_Model CamInBasePose = new Point_Model(BaseInCamPose.HPose.PoseInvert());
-                                    Point_Model ModelInBasePose = new Point_Model(CamInBasePose.HPose.PoseCompose(_Results.Results_Camera_Pos.HPose));
+                                    Point_Model ModelInBasePose = new Point_Model(CamInBasePose.HPose.PoseCompose(_Results.Results_ModelInCam_Pos.HPose));
                                     ///计算出模型在bace坐标下
-                                    _Results.Results_Robot_Pos = new Point_Model(ModelInBasePose.HPose.PoseCompose(TOOL_TCP.HPose));
+                                    _Results.Results_ModelInBase_Pos = new Point_Model(ModelInBasePose);
 
                                 }
                                 else
@@ -328,7 +330,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             else
                             {
                                 //识别成功保存结果
-                                _Results.Results_Camera_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
+                                _Results.Results_ModelInCam_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
                                 
                             }
 
