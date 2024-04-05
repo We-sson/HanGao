@@ -1376,6 +1376,13 @@ namespace Halcon_SDK_DLL.Model
                 case Robot_Type_Enum.川崎:
                     break;
                 case Robot_Type_Enum.通用:
+                    X = _X;
+                    Y = _Y;
+                    Z = _Z;
+                    Rx = _Rx;
+                    Ry = _Ry;
+                    Rz = _Rz;
+                    HType = Halcon_Pose_Type_Enum.gba;
                     break;
 
             }

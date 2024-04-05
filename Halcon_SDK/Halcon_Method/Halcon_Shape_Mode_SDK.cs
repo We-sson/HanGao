@@ -46,7 +46,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 全部模型三维原点
         /// </summary>
-        public Point_Model Plane_In_CameraPose { set; get; } = new Point_Model() { };
+        public Point_Model Plane_In_BasePose { set; get; } = new Point_Model() { };
 
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             {
                                 //(col = x, row = y)
                                 ///转换相机坐标，必须参数输入，否则输出图像像素坐标
-                                if (_camera_Param != null && Tool_In_BasePos != new Point_Model() && Plane_In_CameraPose != new Point_Model() && _Model.Shape_Image_Rectified_Ratio != 0 && _toolinCamera != null)
+                                if (_camera_Param != null && Tool_In_BasePos != new Point_Model() && Plane_In_BasePose != new Point_Model() && _Model.Shape_Image_Rectified_Ratio != 0 && _toolinCamera != null)
                                 {
                                     //Point_Model TOOL_TCP = new Point_Model() { X = -205.753, Y = 12.378, Z = 310.01, HType = Halcon_Pose_Type_Enum.abg };
 
@@ -761,7 +761,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Shape_XLD_Handle_List = _Shape_XLD_Handle_List,
                 Shape_Image_Rectified = Image_Rectified,
                 Shape_Model = Create_Shape_ModelXld.Shape_Based_Model,
-                Shape_PlaneInCamera_Pos = Plane_In_CameraPose,
+                Shape_PlaneInCamera_Pos = Plane_In_BasePose,
                 Shape_Image_Rectified_Ratio = Image_Rectified_Ratio,
 
             }, _Model_Location);
@@ -975,14 +975,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
             //check data
             Tool_In_BasePos.Throw("创建模型的相机位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model());
-            Plane_In_CameraPose.Throw("创建模型三维位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model());
+            Plane_In_BasePose.Throw("创建模型三维位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model());
             _Image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized()); ;
 
 
             //转换平面在相机的坐标,创建平面Z方向远离相机
-            //Point_Model BaseInToolPose = new Point_Model(Tool_In_BasePos.HPose.PoseInvert());
-            //Point_Model BaseInCamPose = new Point_Model(HandEye_ToolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
-            //Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(Plane_In_CameraPose.HPose));
+            Point_Model BaseInToolPose = new Point_Model(Tool_In_BasePos.HPose.PoseInvert());
+            Point_Model BaseInCamPose = new Point_Model(HandEye_ToolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
+            Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(Plane_In_BasePose.HPose));
 
 
 
@@ -1006,7 +1006,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             HXLDCont _ContCircleWorldPlane = new HXLDCont();
 
-            _ContCircleWorldPlane = _ContCircle.ContourToWorldPlaneXld(_Camera_Paramteters.HCamPar, Plane_In_CameraPose.HPose, "m");
+            _ContCircleWorldPlane = _ContCircle.ContourToWorldPlaneXld(_Camera_Paramteters.HCamPar, PlaneInCamPose.HPose, "m");
 
             _ContCircleWorldPlane.FitEllipseContourXld("fitzgibbon", -1, 0, 0, 200, 3, 2, out _, out _, out _, out _, out HTuple _Radius2, out _, out _, out _);
 
@@ -1024,10 +1024,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
             RegionBorder.GetRegionPoints(out HTuple _BorderRows, out HTuple _BorderColumns);
 
             //根据相机平面坐标，生产最小位置
-            _Camera_Paramteters.HCamPar.ImagePointsToWorldPlane(Plane_In_CameraPose.HPose, _BorderRows, _BorderColumns, "m", out HTuple _BorderX, out HTuple _BorderY);
+            _Camera_Paramteters.HCamPar.ImagePointsToWorldPlane(PlaneInCamPose.HPose, _BorderRows, _BorderColumns, "m", out HTuple _BorderX, out HTuple _BorderY);
 
             //设置查找平面原点
-            Point_Model PlaneInCamOriginPose = new Point_Model(Plane_In_CameraPose.HPose.SetOriginPose(_BorderX.TupleMin(), _BorderY.TupleMin(), 0));
+            Point_Model PlaneInCamOriginPose = new Point_Model(PlaneInCamPose.HPose.SetOriginPose(_BorderX.TupleMin(), _BorderY.TupleMin(), 0));
 
             //比例缩放下最大图像尺寸
             int _WidthRect = ((_BorderX.TupleMax() - _BorderX.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
