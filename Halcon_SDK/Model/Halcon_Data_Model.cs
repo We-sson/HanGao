@@ -1347,7 +1347,7 @@ namespace Halcon_SDK_DLL.Model
         }
 
 
-        public Point_Model(double _X,double _Y,double _Z,double _Rx,double _Ry,double _Rz, Robot_Type_Enum Robot_Type)
+        public Point_Model(double _X=0,double _Y=0,double _Z = 0,double _Rx = 0,double _Ry = 0,double _Rz = 0, Robot_Type_Enum Robot_Type= Robot_Type_Enum.通用)
         {
             switch (Robot_Type)
             {
@@ -2056,6 +2056,10 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public Point_Model Shape_PlaneInBase_Pos { set; get; } = new Point_Model();
 
+        /// <summary>
+        /// 图像原点位置
+        /// </summary>
+        public Point_Model Shape_Model_2D_Origin { set; get; }=new Point_Model();
 
         /// <summary>
         /// 模型ID号

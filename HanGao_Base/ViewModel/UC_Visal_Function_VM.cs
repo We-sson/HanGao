@@ -1819,6 +1819,12 @@ namespace HanGao.ViewModel
                         //Task.Run(() =>
                         //{
                         ///连续采集
+                        ///
+
+
+
+
+
                         Select_Vision_Value.Camera_Parameter_Data.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
                         //设置GEGI网络包大小
                         Camera_Device_List.Select_Camera.Set_Camera_GEGI_GevSCPSPacketSize();
@@ -2299,7 +2305,7 @@ namespace HanGao.ViewModel
                     //添加到工艺列表中
                     Halcon_Shape_Mode.Load_Crafe_XLD_ToList();
 
-                    //设置模型原点位置
+                    //设置模型原点位置,,,X=col,Y=row
                     Halcon_Shape_Mode.Model_2D_Origin = new Point_Model() { X = Halcon_Shape_Mode.Chick_Position.X, Y = Halcon_Shape_Mode.Chick_Position.Y };
                     ///清空临时
                     Halcon_Shape_Mode.User_Drawing_Data = new Vision_Create_Model_Drawing_Model();
