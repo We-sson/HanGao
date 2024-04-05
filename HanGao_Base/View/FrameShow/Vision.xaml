@@ -3865,7 +3865,7 @@
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.X}" />
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
-                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_CameraPose.X}" />
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.X}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -3916,7 +3916,7 @@
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.Y}" />
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
-                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_CameraPose.Y}" />
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.Y}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -3982,7 +3982,7 @@
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.Z}" />
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
-                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_CameraPose.Z}" />
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.Z}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -4045,7 +4045,7 @@
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.Rx}" />
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
-                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_CameraPose.Rx}" />
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.Rx}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -4109,7 +4109,7 @@
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.Ry}" />
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
-                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_CameraPose.Ry}" />
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.Ry}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -4173,7 +4173,7 @@
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.Rz}" />
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
-                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_CameraPose.Rz}" />
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.Rz}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -4237,7 +4237,7 @@
                                                                 <Setter Property="SelectedValue" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.HType}" />
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
-                                                                <Setter Property="SelectedValue" Value="{Binding Halcon_Shape_Mode.Plane_In_CameraPose.HType}" />
+                                                                <Setter Property="SelectedValue" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.HType}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>

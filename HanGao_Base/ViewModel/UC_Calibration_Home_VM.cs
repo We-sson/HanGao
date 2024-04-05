@@ -146,20 +146,20 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 初始化窗口控件
         /// </summary>
-        public ICommand Initialization_Camera_Window_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
+        //public ICommand Initialization_Camera_Window_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
 
-                HSmartWindowControlWPF Window_UserContol = Sm.Source as HSmartWindowControlWPF;
-
-
-                //弃用
-                //HWindows_Initialization(Window_UserContol);
+        //        HSmartWindowControlWPF Window_UserContol = Sm.Source as HSmartWindowControlWPF;
 
 
-            });
-        }
+        //        //弃用
+        //        //HWindows_Initialization(Window_UserContol);
+
+
+        //    });
+        //}
 
 
         /// <summary>

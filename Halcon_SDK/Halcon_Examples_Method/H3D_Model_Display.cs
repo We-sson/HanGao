@@ -1,12 +1,8 @@
 ﻿using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using PropertyChanged;
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
@@ -167,7 +163,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
-        private HPose _hv_PoseIn=new HPose (0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
+        private HPose _hv_PoseIn = new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
         /// <summary>
         /// 当前可视化显示位置
         /// </summary>
@@ -1226,11 +1222,15 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         {
 
 
-      
 
-                Thread thread = new Thread(() =>
-                {
-                   
+
+            //Thread thread = new Thread(() =>
+            //{
+
+
+            Task.Run(() =>
+            {
+
 
 
                 try
@@ -1255,8 +1255,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_Scene3D.DisplayScene3d(hv_WindowHandleBuffer, hv_CameraIndex);
                         ho_ImageDump = hv_WindowHandleBuffer.DumpWindowImage();
                         hv_WindowHandle.DispColor(ho_ImageDump);
-                        //限制刷新帧率缓解处理时间 每秒24帧
-                        HOperatorSet.WaitSeconds(0.04);
+                        //限制刷新帧率缓解处理时间 每秒24帧,减少CPU负荷
+                        HOperatorSet.WaitSeconds(0.01);
 
 
 
@@ -1285,12 +1285,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_WindowHandleBuffer.Dispose();
                     hv_Scene3D.Dispose();
                 }
+            });
+            //});
+            //thread.Name = "3DModel_Window";
+            //thread.IsBackground = true;
+            //thread.Start();
 
-                });
-                thread.Name = "3DModel_Window";
-                thread.IsBackground = true;
-                thread.Start();
-     
         }
 
 
@@ -1342,13 +1342,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         public void Set_Scene3D_Instance_Param(HScene3D _Scene3D, Halcon_Scene3D_Instance_Model _Param)
         {
 
-            object? _Par_Val = new object() ;
+            object? _Par_Val = new object();
 
             //遍历三维模型属性设置
             foreach (PropertyInfo? _Val in _Param.GetType().GetProperties())
             {
 
-                _Par_Val = new object ();
+                _Par_Val = new object();
                 switch (_Val.PropertyType)
                 {
                     case Type _T when _T == typeof(double):
@@ -1405,12 +1405,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <param name="_Param"></param>
         public void Set_Scene3D_Param(HScene3D _Scene3D, Halcon_Scene3D_Param_Model _Param)
         {
-            object _Par_Val = new object() ;
+            object _Par_Val = new object();
 
             ///遍历属性参数设置
             foreach (PropertyInfo? _Val in _Param.GetType().GetProperties())
             {
-                _Par_Val = new object ();
+                _Par_Val = new object();
                 switch (_Val.PropertyType)
                 {
                     case Type _T when _T == typeof(double):
@@ -1430,7 +1430,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     default:
 
 
-                        _Par_Val = _Val.GetValue(_Param)?.ToString()?.ToLower()?? string.Empty;
+                        _Par_Val = _Val.GetValue(_Param)?.ToString()?.ToLower() ?? string.Empty;
 
 
 
