@@ -1014,7 +1014,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             HRegion RegionGrid = new HRegion();
 
             //创建图像布局平均点
-            RegionGrid.GenGridRegion(20, 20, "points", _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Height);
+            RegionGrid.GenGridRegion(5, 5, "points", _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Height);
 
             //获得区域点
             RegionGrid.GetRegionPoints(out HTuple _Rows, out HTuple _Colums);
