@@ -1197,7 +1197,7 @@ namespace HanGao.ViewModel
 
                                 break;
                             case Image_Diver_Model_Enum.Local:
-                                Camera_Device_List.Select_Camera = new MVS_Camera_Info_Model() { Camera_Info = new Get_Camera_Info_Model() { SerialNumber = "Local_Camera" } };
+                                Camera_Device_List.Select_Camera = new MVS_Camera_Info_Model() { Camera_Info = new Get_Camera_Info_Model() { SerialNumber = "Local_Camera_0" } };
                                 Camera_Device_List.Select_Camera.Get_HCamPar_File();
 
                                 User_Log_Add("切换本地相机模式！", Log_Show_Window_Enum.Home);

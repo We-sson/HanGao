@@ -229,10 +229,16 @@
     <None Update="Calibration_File\HandEyeToolinCam_Local_Camera.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Calibration_File\HandEyeToolinCam_Local_Camera_0.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Calibration_File\L29657599.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Calibration_File\Local_Camera.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\Local_Camera_0.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="FodyWeavers.xsd">
