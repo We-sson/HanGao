@@ -938,7 +938,7 @@ namespace HanGao.ViewModel
                     if (Halcon_Shape_Mode.Selected_Shape_Model != null)
                     {
 
-                        Halcon_Shape_Mode.Plane_In_BasePose = new Point_Model(Halcon_Shape_Mode.Selected_Shape_Model.Shape_PlaneInCamera_Pos);
+                        Halcon_Shape_Mode.Plane_In_BasePose = new Point_Model(Halcon_Shape_Mode.Selected_Shape_Model.Shape_PlaneInBase_Pos);
                     }
 
                 }

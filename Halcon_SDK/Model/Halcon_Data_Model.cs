@@ -2054,7 +2054,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 匹配模型平面位置
         /// </summary>
-        public Point_Model Shape_PlaneInCamera_Pos { set; get; } = new Point_Model();
+        public Point_Model Shape_PlaneInBase_Pos { set; get; } = new Point_Model();
 
 
         /// <summary>

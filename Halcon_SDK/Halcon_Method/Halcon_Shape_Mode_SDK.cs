@@ -1,5 +1,6 @@
 ﻿using Halcon_SDK_DLL.Model;
 using HalconDotNet;
+using OneOf.Types;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -282,28 +283,31 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             {
                                 //(col = x, row = y)
                                 ///转换相机坐标，必须参数输入，否则输出图像像素坐标
-                                if (_camera_Param != null && Tool_In_BasePos != new Point_Model() && Plane_In_BasePose != new Point_Model() && _Model.Shape_Image_Rectified_Ratio != 0 && _toolinCamera != null)
+                                if (_camera_Param != null && Tool_In_BasePos != new Point_Model() && _Model.Shape_PlaneInBase_Pos != new Point_Model() && _Model.Shape_Image_Rectified_Ratio != 0 && _toolinCamera != null)
                                 {
                                     //Point_Model TOOL_TCP = new Point_Model() { X = -205.753, Y = 12.378, Z = 310.01, HType = Halcon_Pose_Type_Enum.abg };
 
                                     //Point_Model ToolInBace = new Point_Model(Model_Camera_Pos.HPose.PoseCompose(TOOL_TCP.HPose));
                                     //*Col = x, Row = y.
                                     //转换平面在相机的坐标,创建平面Z方向远离相机
-
-                                    //Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(Model_Plane_Pos.HPose));
+                                    Point_Model BaseInToolPose = new Point_Model(Tool_In_BasePos.HPose.PoseInvert());
+                                    Point_Model BaseInCamPose = new Point_Model(_toolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
+                                    Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(_Model.Shape_PlaneInBase_Pos.HPose));
 
 
 
                                     //按匹配平面位置计算位置
-                                    HHomMat3D _Model_Plane_Pos_Mat3D = _Model.Shape_PlaneInCamera_Pos.HPose.PoseToHomMat3d();
+                                    HHomMat3D _Model_Plane_Pos_Mat3D = PlaneInCamPose.HPose.PoseToHomMat3d();
 
                                     ///转换位置点在相机坐标下的位置
                                     double _qx = _Model_Plane_Pos_Mat3D.AffineTransPoint3d(_Results.Find_Column[0] * _Model.Shape_Image_Rectified_Ratio, _Results.Find_Row[0] * _Model.Shape_Image_Rectified_Ratio, 0, out double _qy, out double _qz);
 
 
                                     ///计算出结果位置
-                                    _Results.Results_ModelInCam_Pos = new Point_Model() { X = _qx * 1000, Y = _qy * 1000, Z = _qz * 1000, Rx = 0, Ry = 0, Rz = 0, HType = _Model.Shape_PlaneInCamera_Pos.HType };
+                                    _Results.Results_ModelInCam_Pos = new Point_Model() { X = _qx * 1000, Y = _qy * 1000, Z = _qz * 1000, Rx = 0, Ry = 0, Rz = 0, HType =  Halcon_Pose_Type_Enum.abg };
                                     _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
+
+
 
                                     // pose_invert(ToolInBasePose, BaseInToolPose)
                                     //pose_compose(ToolInCamPose, BaseInToolPose, BaseInCamPose)
@@ -761,7 +765,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Shape_XLD_Handle_List = _Shape_XLD_Handle_List,
                 Shape_Image_Rectified = Image_Rectified,
                 Shape_Model = Create_Shape_ModelXld.Shape_Based_Model,
-                Shape_PlaneInCamera_Pos = Plane_In_BasePose,
+                Shape_PlaneInBase_Pos = Plane_In_BasePose,
                 Shape_Image_Rectified_Ratio = Image_Rectified_Ratio,
 
             }, _Model_Location);
@@ -799,7 +803,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _Shape_Mode_File_Model.Shape_Area = Enum.Parse<ShapeModel_Name_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Area)));
                 _Shape_Mode_File_Model.Shape_Image_Rectified = new HImage(_ModelHDict.GetDictObject(nameof(_Shape_Mode_File_Model.Shape_Image_Rectified)));
                 _Shape_Mode_File_Model.Creation_Date = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Creation_Date));
-                _Shape_Mode_File_Model.Shape_PlaneInCamera_Pos = new Point_Model(new HPose(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_PlaneInCamera_Pos))));
+                _Shape_Mode_File_Model.Shape_PlaneInBase_Pos = new Point_Model(new HPose(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_PlaneInBase_Pos))));
                 _Shape_Mode_File_Model.Shape_Image_Rectified_Ratio = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Image_Rectified_Ratio));
                 //读取模型集合
                 HTuple _HShape_Handle_List = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Handle_List));
@@ -853,7 +857,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model), _Shape_File.Shape_Model.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Area), _Shape_File.Shape_Area.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Craft), _Shape_File.Shape_Craft.ToString());
-            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_PlaneInCamera_Pos), _Shape_File.Shape_PlaneInCamera_Pos.HPose);
+            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_PlaneInBase_Pos), _Shape_File.Shape_PlaneInBase_Pos.HPose);
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Creation_Date), DateTime.Now.ToString("F"));
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Image_Rectified_Ratio), _Shape_File.Shape_Image_Rectified_Ratio);
 
@@ -976,7 +980,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //check data
             Tool_In_BasePos.Throw("创建模型的相机位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model());
             Plane_In_BasePose.Throw("创建模型三维位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model());
-            _Image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized()); ;
+            _Image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized()); 
 
 
             //转换平面在相机的坐标,创建平面Z方向远离相机
