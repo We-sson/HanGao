@@ -1,6 +1,5 @@
 ﻿using Halcon_SDK_DLL.Model;
 using HalconDotNet;
-using OneOf.Types;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -123,14 +122,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
             HDeformableModel _DeformableModel = new HDeformableModel();
             //HNCCModel _NccModel = new HNCCModel();
             Find_Shape_Results_Model _Results = new Find_Shape_Results_Model();
-
             HHomMat2D _HomMat3D = new HHomMat2D();
 
 
             _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized());
 
 
-
+            //提取模型库中的文件
             Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID);
 
             _Model.ThrowIfNull(Find_Shape_Model.FInd_ID + "号模型，无法在模型库中找到！");
@@ -187,7 +185,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         HRegion _Ncc_Region = new HRegion();
                         HXLDCont _Ncc_Xld = new HXLDCont();
 
-
+                        //查找模型
                         _ncc.FindNccModel(
                         _image,
                         Find_Shape_Model.AngleStart,
@@ -283,7 +281,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             {
                                 //(col = x, row = y)
                                 ///转换相机坐标，必须参数输入，否则输出图像像素坐标
-                                if (_camera_Param != null && Tool_In_BasePos != new Point_Model() && _Model.Shape_PlaneInBase_Pos != new Point_Model() && _Model.Shape_Image_Rectified_Ratio != 0 && _toolinCamera != null)
+                                if (_camera_Param != null && Tool_In_BasePos.HPose != new Point_Model().HPose && _Model.Shape_PlaneInBase_Pos.HPose != new Point_Model().HPose && _Model.Shape_Image_Rectified_Ratio != 0 && _toolinCamera != null)
                                 {
                                     //Point_Model TOOL_TCP = new Point_Model() { X = -205.753, Y = 12.378, Z = 310.01, HType = Halcon_Pose_Type_Enum.abg };
 
@@ -302,9 +300,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     ///转换位置点在相机坐标下的位置,ncc特殊，需要手工减去，图像原点位置 x=col,y=row
                                     //double _qx = _Model_Plane_Pos_Mat3D.AffineTransPoint3d((_Results.Find_Row[0] - _Model.Shape_Model_2D_Origin.Y) * _Model.Shape_Image_Rectified_Ratio, 0, 0, out double _qy, out double _qz);
 
-                                    var _X = ((_Results.Find_Column[0] - _Model.Shape_Model_2D_Origin.Y ) * _Model.Shape_Image_Rectified_Ratio) * 1000;
-                                    var _Y = ((_Results.Find_Row[0]- _Model.Shape_Model_2D_Origin.X) * _Model.Shape_Image_Rectified_Ratio) * 1000;
+                                    ///计算模型在平面上的偏移值
+                                    var _X = ((_Results.Find_Column[0] - _Model.Shape_Model_2D_Origin.Y) * _Model.Shape_Image_Rectified_Ratio) * 1000;
+                                    var _Y = ((_Results.Find_Row[0] - _Model.Shape_Model_2D_Origin.X) * _Model.Shape_Image_Rectified_Ratio) * 1000;
 
+                                    ///生产模型在平面的位置
                                     Point_Model _ModelInPlanPose = new Point_Model()
                                     {
                                         X = _X,
@@ -312,7 +312,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                         Rz = _Results.Find_Angle[0],
                                         HType = _Model.Shape_PlaneInBase_Pos.HType
                                     };
-
+                                    ///计算出模型到相机的位置
                                     _Results.Results_ModelInCam_Pos = new Point_Model(PlaneInCamPose.HPose.PoseCompose(_ModelInPlanPose.HPose));
 
                                     ///计算出结果位置
@@ -331,10 +331,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     //Point_Model BaseInCamPose = new Point_Model(_toolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
                                     //Point_Model CamInBasePose = new Point_Model(BaseInCamPose.HPose.PoseInvert());
 
+
+                                    ///计算出模型在Base坐标下位置
                                     Point_Model CamInToolPose = new Point_Model(_toolinCamera.HPose.PoseInvert());
-
                                     Point_Model CamInBasePose = new Point_Model(Tool_In_BasePos.HPose.PoseCompose(CamInToolPose.HPose));
-
                                     Point_Model ModelInBasePose = new Point_Model(CamInBasePose.HPose.PoseCompose(_Results.Results_ModelInCam_Pos.HPose));
                                     ///计算出模型在bace坐标下
                                     _Results.Results_ModelInBase_Pos = new Point_Model(ModelInBasePose);
@@ -351,7 +351,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             else
                             {
                                 //识别成功保存结果
-                                _Results.Results_ModelInCam_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
+                                _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
 
                             }
 
@@ -723,16 +723,19 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 List<FileInfo> _Model_Location = Get_ShapeModel_Path();
                 foreach (var _path in _Model_Location)
                 {
-                    _ShapeModel.Add(Get_Shape_HDict(_path));
+              
+
+                        _ShapeModel.Add(Get_Shape_HDict(_path));
+
                 }
                 //排序赋值
                 Application.Current.Dispatcher.BeginInvoke(() =>
-{
+                        {
 
-    Shape_Mode_File_Model_List = new ObservableCollection<Shape_Mode_File_Model>(_ShapeModel.OrderBy(o => o.ID).ToList());
+                            Shape_Mode_File_Model_List = new ObservableCollection<Shape_Mode_File_Model>(_ShapeModel.OrderBy(o => o.ID).ToList());
 
 
-});
+                        });
 
 
                 return _ShapeModel;

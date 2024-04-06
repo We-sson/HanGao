@@ -885,6 +885,41 @@ namespace MVS_SDK_Base.Model
 
 
 
+            public void Start_ImageCallback_delegate(MVS_Camera_Parameter_Model _Parameter, cbOutputExdelegate _Func)
+            {
+
+                //相机未连接会连接再操作
+                if (Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
+                {
+                Connect_Camera();
+                }
+
+                //清楚取流后设置相机采集参数
+                StopGrabbing();
+                Set_Camrea_Parameters_List(_Parameter);
+
+                //设置GEGI网络包大小
+                Set_Camera_GEGI_GevSCPSPacketSize();
+                //创建抓图回调函数
+                RegisterImageCallBackEx(_Func);
+                //开始取流
+                StartGrabbing();
+
+
+
+            }
+
+
+            public void Stop_ImageCallback_delegate()
+            {
+                //开始取流流
+                StopGrabbing();
+                //清楚回调函数
+                RegisterImageCallBackEx(null);
+
+
+            }
+
 
             /// <summary>
             /// 相机开始取流方法

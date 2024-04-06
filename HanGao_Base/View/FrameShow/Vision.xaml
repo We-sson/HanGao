@@ -22,6 +22,15 @@
              d:DesignWidth="1440"
              DataContext="{Binding UC_Visal_Function_VM, Source={StaticResource Locator}}"
              mc:Ignorable="d">
+
+    <i:Interaction.Triggers>
+
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction Command="{Binding CameraDive_List_Exit_Comm}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
 
         <Enum_Converter:Halcon_StringConverter x:Key="Halcon_StringConverter" />
@@ -1513,7 +1522,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
-                                     IsChecked="False"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
