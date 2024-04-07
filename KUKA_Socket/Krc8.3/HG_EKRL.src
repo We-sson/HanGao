@@ -225,7 +225,7 @@ Message_Error[]=" "
 IsStatus=false
 LastPos1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 
-IF Vision_Type==#Vision_NO THEN 
+IF Vision_Type<>#Vision_Run THEN 
 return 
 ENDIF
 
@@ -253,7 +253,7 @@ IF IsStatus THEN
 RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_POS" ,LastPos1)
 
 Vision_Result_POS[Result_NO]=$NULLFRAME
- Vision_Result_POS[Result_NO]=LastPos1
+Vision_Result_POS[Result_NO]=LastPos1
 
          
 

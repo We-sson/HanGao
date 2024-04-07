@@ -340,14 +340,14 @@ EPOS[6] = C
 
 
 DECL FOLD FLIN[8]
-FLIN[1]=";IF Vision_Type==#Vision_Run THEN"
-FLIN[1]="$BWDSTART=FALSE"
-FLIN[2]="LDAT_ACT=%ParamListLdat"
-FLIN[3]="FDAT_ACT=%ParamListFdat"
-FLIN[4]="BAS(#CP_PARAMS,%LVEL )"
-FLIN[5]="LIN X%Point1  %LCONT"
-FLIN[6]="EKRL_Vision_Find(/"Xml_Vision_Model/",%Find_ID ,%Result_NO )"
-FLIN[7]=";ENDIF"
+FLIN[1]=""
+FLIN[2]="$BWDSTART=FALSE "
+FLIN[3]="LDAT_ACT=%ParamListLdat "
+FLIN[4]="FDAT_ACT=%ParamListFdat "
+FLIN[5]="BAS(#CP_PARAMS,%LVEL )"
+FLIN[6]="LIN X%Point1  %LCONT "
+FLIN[7]="EKRL_Vision_Find(/"Xml_Vision_Model/",%Find_ID ,%Result_NO )"
+FLIN[8]=""
 
 
 

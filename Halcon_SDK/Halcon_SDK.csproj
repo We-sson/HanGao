@@ -66,6 +66,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Update="Calibration_File\00C58184337.dat">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="Calibration_File\CalTabFile\27_31_0.0015_calplate.cpd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -80,6 +83,12 @@
     </None>
     <None Update="Calibration_File\CalTabFile\caltab_30mm.descr">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\Camera_0.dat">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Calibration_File\DA0289981.dat">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Calibration_File\HandEyeToolinCam_Local_Camera.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

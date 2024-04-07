@@ -1108,7 +1108,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_XLD"></param>
         /// <param name="_DrawColor"></param>
         /// <param name="_Show"></param>
-        public void Display_HObject(Window_Show_Name_Enum _Show, HObject? _HImage = null, HObject? _Region = null, HObject? _XLD = null, HObject? _Draw = null, string? _DrawColor = null)
+        public void Display_HObject(Window_Show_Name_Enum _Show, HObject? _HImage = null, HObject? _Region = null, HObject? _XLD = null, HObject? _Draw = null, string? _DrawColor = null, bool  Image_AutoPart=false)
         {
             if (_DrawColor != null)
             {
@@ -1117,7 +1117,8 @@ namespace Halcon_SDK_DLL
 
             if (_HImage != null)
             {
-                SetWindowDisoplay(_HImage, Display_HObject_Type_Enum.Image, _Show);
+                SetWindowDisoplay(_HImage, Display_HObject_Type_Enum.Image, _Show, Image_AutoPart);
+
             }
             if (_Region != null)
             {
@@ -1211,7 +1212,7 @@ namespace Halcon_SDK_DLL
         /// 设置窗口显示对象
         /// </summary>
         /// <param name="_S"></param>
-        public void SetWindowDisoplay(HObject _Dispaly, Display_HObject_Type_Enum _Type, Window_Show_Name_Enum _Window)
+        public void SetWindowDisoplay(HObject _Dispaly, Display_HObject_Type_Enum _Type, Window_Show_Name_Enum _Window, bool Image_AutoPart = false)
         {
             HOperatorSet.SetSystem("flush_graphic", "false");
             Halcon_SDK _WindowDisplay = new Halcon_SDK();
@@ -1282,6 +1283,11 @@ namespace Halcon_SDK_DLL
                 case Display_HObject_Type_Enum.Image:
 
                     _WindowDisplay.DisplayImage = _Dispaly;
+                    //开始自动调整显示区域
+                    if (Image_AutoPart)
+                    {
+                        _WindowDisplay.Halcon_UserContol.SetFullImagePart();
+                    }
                     break;
 
                 case Display_HObject_Type_Enum.Region:

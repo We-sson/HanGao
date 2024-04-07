@@ -881,6 +881,7 @@
                                                        HorizontalContentAlignment="Center"
                                                        VerticalContentAlignment="Center"
                                                        HDisableAutoResize="True"
+                                                       HKeepAspectRatio="True"
                                                        SnapsToDevicePixels="True">
                             <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayImage}" />
                             <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"

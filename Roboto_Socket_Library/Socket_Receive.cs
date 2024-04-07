@@ -103,6 +103,11 @@ namespace Roboto_Socket_Library
         /// <param name="_Port"></param>
         public void Server_Strat(string _IP, string _Port)
         {
+
+
+            try
+            {
+
             //创建套接字
             IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(_IP), int.Parse(_Port));
 
@@ -118,6 +123,12 @@ namespace Roboto_Socket_Library
             Socket_Sever.BeginAccept(new AsyncCallback(ClienAppcet), Socket_Sever);
 
 
+            }
+            catch (Exception e)
+            {
+
+                Socket_ErrorInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，开启服务失败！原因："+e.Message);
+            }
 
 
         }

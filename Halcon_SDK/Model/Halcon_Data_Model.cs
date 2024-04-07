@@ -187,7 +187,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 显示结果界面
             /// </summary>
-            public HWindow DispWiindow { set; get; } = new HWindow();
+            public Window_Show_Name_Enum DispWindow { set; get; } = Window_Show_Name_Enum.Features_Window;
 
 
 
