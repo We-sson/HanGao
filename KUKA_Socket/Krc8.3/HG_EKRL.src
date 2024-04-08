@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 310
+&REL 312
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -194,7 +194,7 @@ Message_Wait("Wait Vision Int Data!",2)
 RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
 RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
 RET=EKI_GetINT(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Scope" ,Vision_Scope)
-
+RET=EKI_GetReal(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Max_Offset" ,Vision_Max_Offset)
 
 RET=EKI_Close(EKRL_NAME[])
 RET=EKI_Clear(EKRL_NAME[])
@@ -249,11 +249,10 @@ RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
 
 IF IsStatus THEN
 
+RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_POS" ,LastPos1)
 
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,LastPos1)
-
-Vision_Result_POS[Result_NO]=$NULLFRAME
-Vision_Result_POS[Result_NO]=LastPos1
+Vision_Result_POS=$NULLFRAME
+Vision_Result_POS=LastPos1
 
          
 

@@ -366,7 +366,12 @@ namespace HanGao.ViewModel
             if (Camera_Device_List.Select_Camera != null && Camera_Device_List.Camera_Diver_Model == Image_Diver_Model_Enum.Online)
             {
                 _Ini_Data_Send.IsStatus = 1;
+                _Ini_Data_Send.Initialization_Data.Vision_Scope = Vision_Auto_Cofig.Vision_Scope;
+                _Ini_Data_Send.Initialization_Data.Vision_Max_Offset = Vision_Auto_Cofig.Vision_Max_Offset;
                 _Ini_Data_Send.Message_Error = "Vision Ini Ready!";
+
+
+                User_Log_Add("自动模式：机器人通讯连接初始化完成！", Log_Show_Window_Enum.Home);
 
             }
             else
@@ -374,6 +379,8 @@ namespace HanGao.ViewModel
 
                 _Ini_Data_Send.IsStatus = 0;
                 _Ini_Data_Send.Message_Error = "The camera device is not connected or the camera is not online! Check PC!";
+
+                User_Log_Add("自动模式：机器人通讯连接初始化失败！原因：相机未连接", Log_Show_Window_Enum.Home);
 
             }
 

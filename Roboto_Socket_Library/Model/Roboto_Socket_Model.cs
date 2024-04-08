@@ -236,6 +236,8 @@ namespace Roboto_Socket_Library.Model
         public class Initialization_Data
         {
             public int Vision_Scope { set; get; } = 0;
+
+            public double Vision_Max_Offset { set; get; } = 5;
         }
 
         /// <summary>

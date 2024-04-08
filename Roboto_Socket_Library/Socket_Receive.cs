@@ -224,7 +224,7 @@ namespace Roboto_Socket_Library
                     return;
                 }
 
-                Socket_ErrorInfo_delegate?.Invoke("第" + ConnectNumber + "连接进来了");
+                Socket_ErrorInfo_delegate?.Invoke($"{ServerSocket.LocalEndPoint}:连接进来了");
 
                 Console.WriteLine("第" + ConnectNumber + "连接进来了");
 
@@ -268,7 +268,7 @@ namespace Roboto_Socket_Library
 
                     if (length == 0)
                     {
-                        Socket_ErrorInfo_delegate?.Invoke("设备IP: " + clientipe.Address.ToString() + " 断开连接! ");
+                        Socket_ErrorInfo_delegate?.Invoke($"{clientipe}: 断开连接! ");
                         return;
                     }
 

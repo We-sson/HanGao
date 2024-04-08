@@ -105,7 +105,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         /// <summary>
         /// 查找模型位置允许误差范围
         /// </summary>
-        public double Find_Allow_Error { set; get; } = 5.0;
+        public double Vision_Max_Offset { set; get; } = 5.0;
 
         /// <summary>
         /// 视觉检查有效区域范围值,,超过会偏移相机位置

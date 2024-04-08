@@ -73,7 +73,7 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
  DECL PARAM Calib_Result_NAME = {SHORTNAME[] "Calib_Result_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
  ;DECL PARAM Offset_Pos = {SHORTNAME[] "Offset_Pos:", UNIT[] "" , VALUE {FREE: DEFAULT[] "P1"}}
  
- DECL PARAM Offset_Pos_1={SHORTNAME[] "Offset_Pos:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Offset_Pos_1={SHORTNAME[] "Offset Name:",VALUE {FREE: DEFAULT[] " " }}
  DECL PARAM Offset_Pos_2={VALUE {FREE: DEFAULT[] " " }}
  DECL PARAM Offset_Pos_3={VALUE {FREE: DEFAULT[] " " }}
  DECL PARAM Offset_Pos_4={VALUE {FREE: DEFAULT[] " " }}
@@ -161,8 +161,8 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
   DECL FOLD Vision_Path_Offset_FOLD[5]
             Vision_Path_Offset_FOLD[1]=""
             Vision_Path_Offset_FOLD[2]=""
-            Vision_Path_Offset_FOLD[3]=""
-            Vision_Path_Offset_FOLD[4]="Vision_Results_Offset(#%Vision_Offset_Direction ,%Result_NO ,%Offset_Pos_1 ,%Offset_Pos_2 ,%Offset_Pos_3 ,%Offset_Pos_4 ,%Offset_Pos_5 ,%Offset_Pos_6 ,%Offset_Pos_7 ,%Offset_Pos_8 ,%Offset_Pos_9 )"
+            Vision_Path_Offset_FOLD[3]="EKRL_Vision_Find(/"Xml_Vision_Model/",%Find_ID )"
+            Vision_Path_Offset_FOLD[4]="Vision_Results_Offset(#%Vision_Offset_Direction ,%Offset_Pos_1 ,%Offset_Pos_2 ,%Offset_Pos_3 ,%Offset_Pos_4 ,%Offset_Pos_5 ,%Offset_Pos_6 ,%Offset_Pos_7 ,%Offset_Pos_8 ,%Offset_Pos_9 )"
             Vision_Path_Offset_FOLD[5]=""
            
 
@@ -275,7 +275,7 @@ ENDSCRIPT
    DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
     DECL  InlineForm Vision_Ini={FOLD[1] Vision_Ini_FOLD,PARAM[1] Vision_Model,ONACCEPT Vision_Ini_ONACCEPT}
     
-    DECL  InlineForm Vision_Path_Offset={FOLD[1] Vision_Path_Offset_FOLD,PARAM[1] Vision_Offset_Direction , PARAM[2] Result_NO,PARAM[3] Offset_Pos_1 , PARAM[4] Offset_Pos_2,PARAM[5] Offset_Pos_3,PARAM[6] Offset_Pos_4,PARAM[7] Offset_Pos_5,PARAM[8] Offset_Pos_6,PARAM[9] Offset_Pos_7,PARAM[10] Offset_Pos_8,PARAM[11] Offset_Pos_9}
+    DECL  InlineForm Vision_Path_Offset={FOLD[1] Vision_Path_Offset_FOLD,PARAM[1]  Find_ID, PARAM[2] Vision_Offset_Direction ,PARAM[3] Offset_Pos_1 , PARAM[4] Offset_Pos_2,PARAM[5] Offset_Pos_3,PARAM[6] Offset_Pos_4,PARAM[7] Offset_Pos_5,PARAM[8] Offset_Pos_6,PARAM[9] Offset_Pos_7,PARAM[10] Offset_Pos_8}
 
 
 ENDTP

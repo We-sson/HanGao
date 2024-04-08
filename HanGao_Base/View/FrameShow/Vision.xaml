@@ -8724,7 +8724,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Find_Allow_Error" Grid.Column=" 1"
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Vision_Max_Offset" Grid.Column=" 1"
                                                     Margin="5"
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
@@ -8734,10 +8734,10 @@
                                                     Minimum=" 1"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Vision_Auto_Cofig.Find_Allow_Error}" />
+                                                    Value="{Binding Vision_Auto_Cofig.Vision_Max_Offset}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding ElementName=Find_Allow_Error, Path=Value}"
+                                                     Text="{Binding ElementName=Vision_Max_Offset, Path=Value, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
