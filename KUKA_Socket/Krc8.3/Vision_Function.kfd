@@ -292,6 +292,14 @@ DECL PARAM LCONT={shortname[] "", shortcut[] "", unit[] "", value { LIST : POS 1
   ITEM[1] {ITEM:VALUE[] " ", disp[] "_"}, _
   ITEM[2] {ITEM:VALUE[] "C_DIS C_DIS", disp[] "CONT"}}}
 
+DECL PARAM Find_Disp= {SHORTNAME[] "Disp:" , VALUE {LIST: _
+   ITEM[1] {ITEM: VALUE[] "#Area_1", DISP[] "Area 1"},   _
+   ITEM[2] {ITEM: VALUE[] "#Area_2", DISP[] "Area 2"},   _
+   ITEM[3] {ITEM: VALUE[] "#Area_3", DISP[] "Area 3"},   _
+   ITEM[4] {ITEM: VALUE[] "#Area_4", DISP[] "Area 4"},   _
+   POS 1}}
+  
+  
 DECL PARAM LVEL={VALUE {REAL: AUTOLIMIT TRUE, min 0.01,max 2.0,Step 0.1, default 2},shortname[] "Vel=", UNIT[] " m/s", Shortcut[] "Vel" }
 DECL PARAM X={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 9999.0,Step 0.1, default 0},shortname[] "X=", UNIT[] " mm", Shortcut[] "mm" }
 DECL PARAM Y={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 9999.0,Step 0.1, default 0},shortname[] "Y=", UNIT[] " mm", Shortcut[] "mm" }
@@ -350,6 +358,16 @@ FLIN[7]="EKRL_Vision_Find(/"Xml_Vision_Model/",%Find_ID ,%Result_NO )"
 FLIN[8]=""
 
 
+
+DECL FOLD Camera_Pos_FOLD[8]
+Camera_Pos_FOLD[1]=""
+Camera_Pos_FOLD[2]=""
+Camera_Pos_FOLD[3]=""
+Camera_Pos_FOLD[4]=""
+Camera_Pos_FOLD[5]=""
+Camera_Pos_FOLD[6]=""
+Camera_Pos_FOLD[7]="EKRL_Vision_Find(/"Xml_Vision_Model/",%Find_ID ,%Result_NO )"
+Camera_Pos_FOLD[8]=""
 
 defscript LinOk
 Message "LinOk"
@@ -516,6 +534,10 @@ endscript
 
 
 Decl InlineForm Camera_LIn={FOLD[1] FLIN, PARAM[1] Point1, PARAM[2] LCONT, PARAM[3] LVEL,PARAM[4] ParamListFdat ,PARAM[5] ParamListLdat,PARAM[6]  Find_ID,PARAM[7] Result_NO ,CMDSHOW "LIN", ONACCEPT OnAcceptLin, ONOPEN OnOpenLin, ONTOUCHUP LinONTOUCHUP,  TPNAME[] "MKUKATPBASIS", TPVERSION[] "R 8.3.22" }
+
+Decl InlineForm Camera_Pos={FOLD[1] Camera_Pos_FOLD, PARAM[1]  Find_ID,PARAM[2] Result_NO   }
+
+
 ENDTP
 
 

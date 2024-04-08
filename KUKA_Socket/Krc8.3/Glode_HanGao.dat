@@ -1,8 +1,8 @@
-&ACCESS RVO1
-&REL 423
+&ACCESS  RV
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
+&REL 423
 DEFDAT  GLODE_HANGAO PUBLIC
 
 
@@ -258,7 +258,7 @@ N315_Short_Craft[2,4]={Welding_Name[] "S4",Welding_Pos {X 361.722504,Y 669.947,Z
 N315_Short_Craft[2,5]={Welding_Name[] "S12",Welding_Pos {X 28.9999981,Y 400.000,Z -3.00000,A 0.0,B 0.0,C -23.0000},Welding_Power 80.0000,Welding_Speed 0.500000,Welding_Angle 0.0,Welding_CDIS 0,Welding_ACC 100,Welding_Offset {X 0.0,Y 0.0,Z 0.0}}
 
 DECL GLOBAL E6POS Vision_Result_POS[9]
-Vision_Result_POS[1]={X 0.0,Y 10.0000,Z 0.0,A 0.0,B 0.0,C 0.0}
+Vision_Result_POS[1]={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
 Vision_Result_POS[2]={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
 Vision_Result_POS[3]={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
 Vision_Result_POS[4]={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}

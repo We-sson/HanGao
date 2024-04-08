@@ -271,15 +271,16 @@ namespace HanGao.ViewModel
 
             try
             {
+                ///进行图像预处理
+                Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Find_Preprocessing_Process_List;
+                _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(_Image);
 
-            _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(_Image);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image);
+                });
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image);
-            });
-
-            User_Log_Add("自动模式：图像预处理成功！", Log_Show_Window_Enum.Home);
+                User_Log_Add("自动模式：图像预处理成功！", Log_Show_Window_Enum.Home);
             }
             catch (Exception e)
             {
@@ -311,12 +312,28 @@ namespace HanGao.ViewModel
                     Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: _Find_Result.HXLD_Results_All);
 
                 });
+   
+                ///匹配成功处理
+                if (_Find_Result.Find_Shape_Results_State == Find_Shape_Results_State_Enum.Match_Success)
+                {
+
+                    _Find_Data_Send.IsStatus = 1;
+                    _Find_Data_Send.Message_Error = $" Matching Template OK !";
+                    _Find_Data_Send.Result_Pos = new Point_Models() { X = _Find_Result.Results_ModelInBase_Pos.X.ToString(), Y = _Find_Result.Results_ModelInBase_Pos.Y.ToString(), Z = _Find_Result.Results_ModelInBase_Pos.Z.ToString() };
+                    User_Log_Add($"自动模式：匹配模型成功！模型在Base坐标：X:{_Find_Result.Results_ModelInBase_Pos.X}，Y：{_Find_Result.Results_ModelInBase_Pos.Y}，Z：{_Find_Result.Results_ModelInBase_Pos.Z}", Log_Show_Window_Enum.Home);
 
 
-                _Find_Data_Send.IsStatus = 1;
-                _Find_Data_Send.Message_Error = $" Matching Template OK !";
-                _Find_Data_Send.Result_Pos = new Point_Models() { X = _Find_Result.Results_ModelInBase_Pos.X.ToString(), Y = _Find_Result.Results_ModelInBase_Pos.Y.ToString(), Z = _Find_Result.Results_ModelInBase_Pos.Z.ToString() };
-                User_Log_Add($"自动模式：匹配模型成功！模型在Base坐标：X:{_Find_Result.Results_ModelInBase_Pos.X}，Y：{_Find_Result.Results_ModelInBase_Pos.Y}，Z：{_Find_Result.Results_ModelInBase_Pos.Z}", Log_Show_Window_Enum.Home);
+                }
+                else
+                {
+
+                    _Find_Data_Send.IsStatus = 0;
+                    _Find_Data_Send.Message_Error = $" Matching Template Failed ! Please Check PC";
+                    User_Log_Add($"自动模式：匹配模型失败！请检查各匹配参数", Log_Show_Window_Enum.Home);
+
+                }
+
+
 
 
             }
@@ -329,12 +346,7 @@ namespace HanGao.ViewModel
 
             }
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                //显示XLD结果
-                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: _Find_Result.HXLD_Results_All);
-
-            });
+      
 
 
 
@@ -1246,6 +1258,7 @@ namespace HanGao.ViewModel
                         //}
 
 
+                        User_Log_Add($"创建{Halcon_Shape_Mode.Create_Shape_ModelXld.Create_ID}号模型成功！", Log_Show_Window_Enum.Home);
 
 
                     }

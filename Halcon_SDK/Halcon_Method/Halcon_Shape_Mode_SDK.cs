@@ -338,6 +338,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     Point_Model ModelInBasePose = new Point_Model(CamInBasePose.HPose.PoseCompose(_Results.Results_ModelInCam_Pos.HPose));
                                     ///计算出模型在bace坐标下
                                     _Results.Results_ModelInBase_Pos = new Point_Model(ModelInBasePose);
+                                    _Results.Find_Shape_Results_State = Find_Shape_Results_State_Enum.Match_Success;
+
 
                                 }
                                 else
@@ -345,6 +347,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                                     //计算条件未全，出图像像素坐标
                                     _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
+                                    _Results.Find_Shape_Results_State = Find_Shape_Results_State_Enum.Match_Failed;
 
                                 }
                             }
@@ -352,6 +355,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             {
                                 //识别成功保存结果
                                 _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
+                                _Results.Find_Shape_Results_State = Find_Shape_Results_State_Enum.Match_Failed;
 
                             }
 

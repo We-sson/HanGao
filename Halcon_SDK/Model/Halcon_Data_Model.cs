@@ -154,7 +154,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 查找耗时
             /// </summary>
-            public List<double> Find_Time { set; get; } =new List<double>();
+            public List<double> Find_Time { set; get; } = new List<double>();
 
 
 
@@ -190,16 +190,20 @@ namespace Halcon_SDK_DLL.Model
             public Window_Show_Name_Enum DispWindow { set; get; } = Window_Show_Name_Enum.Features_Window;
 
 
+            /// <summary>
+            /// 模型匹配状态
+            /// </summary>
+            public Find_Shape_Results_State_Enum Find_Shape_Results_State { set; get; } = Find_Shape_Results_State_Enum.Match_None;
 
 
             public List<string> Set_Results_Data_List()
             {
                 List<string> _DataList = new List<string>();
 
-                Text_Arr_UI.Add("匹配模型到机器人坐标："+Results_ModelInBase_Pos.ToString());
+                Text_Arr_UI.Add("匹配模型到机器人坐标：" + Results_ModelInBase_Pos.ToString());
                 Text_Arr_UI.Add("匹配模型到相机坐标：" + Results_ModelInCam_Pos.ToString());
                 Text_Arr_UI.Add("匹配像素坐标结果：" + Results_Image_Pos.ToString());
-                Text_Arr_UI.Add("详情各特征结果：" );
+                Text_Arr_UI.Add("详情各特征结果：");
 
 
                 for (int i = 0; i < Results_HXLD_List.Count; i++)
@@ -279,7 +283,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 角度的步长（分辨率）。默认值： “自动”建议值：“自动”, 0.0175, 0.0349, 0.0524, 0.0698, 0.0873
             /// </summary>
-            public double   AngleStep { set; get; } = 0.01;
+            public double AngleStep { set; get; } = 0.01;
 
             /// <summary>
             /// 阵列在行方向上的最小比例。默认值：1.0,建议值：0.5、0.6、0.7、0.8、0.9、1.0
@@ -374,8 +378,8 @@ namespace Halcon_SDK_DLL.Model
                 FInd_ID = _.FInd_ID;
                 AngleStart = _.AngleStart;
                 AngleExtent = _.AngleExtent;
-                ScaleRMin=_.ScaleRMin;
-                ScaleRMax=_.ScaleRMax;
+                ScaleRMin = _.ScaleRMin;
+                ScaleRMax = _.ScaleRMax;
                 ScaleCMax = _.ScaleCMax;
                 ScaleCMin = _.ScaleCMin;
                 MinScore = _.MinScore;
@@ -453,7 +457,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 匹配中使用的金字塔级别数（如果|，则使用的最低金字塔级别numLevels|= 2）。默认值：0
             /// </summary>
-            public int  NumLevels { set; get; } = 5;
+            public int NumLevels { set; get; } = 5;
 
             /// <summary>
             /// 搜索启发式的“贪婪”（0：安全但慢;1：快但可能会错过匹配）。默认值：0.9
@@ -1347,7 +1351,7 @@ namespace Halcon_SDK_DLL.Model
         }
 
 
-        public Point_Model(double _X=0,double _Y=0,double _Z = 0,double _Rx = 0,double _Ry = 0,double _Rz = 0, Robot_Type_Enum Robot_Type= Robot_Type_Enum.通用)
+        public Point_Model(double _X = 0, double _Y = 0, double _Z = 0, double _Rx = 0, double _Ry = 0, double _Rz = 0, Robot_Type_Enum Robot_Type = Robot_Type_Enum.通用)
         {
             switch (Robot_Type)
             {
@@ -1992,7 +1996,7 @@ namespace Halcon_SDK_DLL.Model
     }
 
     [AddINotifyPropertyChangedInterface]
-    public class Shape_Mode_File_Model:IDisposable
+    public class Shape_Mode_File_Model : IDisposable
     {
         public Shape_Mode_File_Model()
         {
@@ -2059,7 +2063,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 图像原点位置
         /// </summary>
-        public Point_Model Shape_Model_2D_Origin { set; get; }=new Point_Model();
+        public Point_Model Shape_Model_2D_Origin { set; get; } = new Point_Model();
 
         /// <summary>
         /// 模型ID号
@@ -2069,7 +2073,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 模型创建日期
         /// </summary>
-        public string Creation_Date { set; get; } =string.Empty;
+        public string Creation_Date { set; get; } = string.Empty;
 
 
 
@@ -2329,7 +2333,7 @@ namespace Halcon_SDK_DLL.Model
     public enum Sink_Basin_R_Welding
     {
         [Description("0：模型原点位置")]
-         模型原点位置,
+        模型原点位置,
         [Description("1：R角中线轮廓")]
         R角中线轮廓,
         [Description("2：盆胆左侧线")]
@@ -2602,6 +2606,20 @@ namespace Halcon_SDK_DLL.Model
         shape_Model_PlanePos
     }
 
+
+    public enum Find_Shape_Results_State_Enum
+    {
+        [Description("模型等待匹配")]
+        Match_None,
+        [Description("模型匹配成功")]
+        Match_Success,
+        [Description("模型匹配中...")]
+        Matching,
+        [Description("模型匹配失败")]
+        Match_Failed,
+        [Description("模型匹配错误异常")]
+        Match_Erroe
+    }
 
 
     /// <summary>
