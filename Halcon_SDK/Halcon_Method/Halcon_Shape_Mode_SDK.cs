@@ -31,7 +31,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 全部工艺模型合并
         /// </summary>
-        public HXLDCont ALL_Models_XLD { set; get; } = new HXLDCont();
+        public HXLDCont ALL_Models_XLD { set; get; } = new ();
 
         /// <summary>
         /// 模型ID
@@ -118,11 +118,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
             //初始化匹配类型
-            HShapeModel _ShapeModel = new HShapeModel();
-            HDeformableModel _DeformableModel = new HDeformableModel();
+            HShapeModel _ShapeModel = new ();
+            HDeformableModel _DeformableModel = new ();
             //HNCCModel _NccModel = new HNCCModel();
-            Find_Shape_Results_Model _Results = new Find_Shape_Results_Model();
-            HHomMat2D _HomMat3D = new HHomMat2D();
+            Find_Shape_Results_Model _Results = new ();
+            HHomMat2D _HomMat3D = new ();
 
 
             _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized());
@@ -171,9 +171,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     HTuple _column = new ();
                     HTuple _angle = new ();
                     HTuple _score = new ();
-                    HHomMat2D _HomMat2D = new HHomMat2D();
-                    List<HNCCModel> _NccModel = new List<HNCCModel>();
-                    HXLDCont _Origin_XLD = new HXLDCont();
+                    HHomMat2D _HomMat2D = new ();
+                    List<HNCCModel> _NccModel = new ();
+                    HXLDCont _Origin_XLD = new ();
                     _Origin_XLD.GenCrossContourXld(new HTuple(0), new HTuple(0), 100, 0.78);
 
                     ///查找匹配模型文件里模型
@@ -181,9 +181,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     {
                         //计时
                         DateTime _Run = DateTime.Now;
-                        HNCCModel _ncc = new HNCCModel(_Model.Shape_Handle_List[i].H);
-                        HRegion _Ncc_Region = new HRegion();
-                        HXLDCont _Ncc_Xld = new HXLDCont();
+                        HNCCModel _ncc = new (_Model.Shape_Handle_List[i].H);
+                        HRegion _Ncc_Region = new ();
+                        HXLDCont _Ncc_Xld = new ();
                         _ncc.SetNccModelParam("timeout", Find_Shape_Model.Time_Out);
                         //查找模型
                         _ncc.FindNccModel(
@@ -207,7 +207,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             _Results.Find_Score.Add(_score);
                             _Results.Find_Column.Add(_column);
                             _Results.Find_Row.Add(_row);
-                            _Results.Find_Angle.Add(_angle);
+                            _Results.Find_Angle.Add(_angle.TupleDeg());
                             ///查看细节部分
                             _Ncc_Region = _ncc.GetNccModelRegion();
                             _Ncc_Xld = _Ncc_Region.GenContourRegionXld("border_holes");
@@ -288,9 +288,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     //Point_Model ToolInBace = new Point_Model(Model_Camera_Pos.HPose.PoseCompose(TOOL_TCP.HPose));
                                     //*Col = x, Row = y.
                                     //转换平面在相机的坐标,创建平面Z方向远离相机
-                                    Point_Model BaseInToolPose = new Point_Model(Tool_In_BasePos.HPose.PoseInvert());
-                                    Point_Model BaseInCamPose = new Point_Model(_toolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
-                                    Point_Model PlaneInCamPose = new Point_Model(BaseInCamPose.HPose.PoseCompose(_Model.Shape_PlaneInBase_Pos.HPose));
+                                    Point_Model BaseInToolPose = new (Tool_In_BasePos.HPose.PoseInvert());
+                                    Point_Model BaseInCamPose = new (_toolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
+                                    Point_Model PlaneInCamPose = new (BaseInCamPose.HPose.PoseCompose(_Model.Shape_PlaneInBase_Pos.HPose));
 
 
 
@@ -305,7 +305,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     var _Y = ((_Results.Find_Row[0] - _Model.Shape_Model_2D_Origin.X) * _Model.Shape_Image_Rectified_Ratio) * 1000;
 
                                     ///生产模型在平面的位置
-                                    Point_Model _ModelInPlanPose = new Point_Model()
+                                    Point_Model _ModelInPlanPose = new ()
                                     {
                                         X = _X,
                                         Y = _Y,
@@ -313,7 +313,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                         HType = _Model.Shape_PlaneInBase_Pos.HType
                                     };
                                     ///计算出模型到相机的位置
-                                    _Results.Results_ModelInCam_Pos = new Point_Model(PlaneInCamPose.HPose.PoseCompose(_ModelInPlanPose.HPose));
+                                    _Results.Results_ModelInCam_Pos = new (PlaneInCamPose.HPose.PoseCompose(_ModelInPlanPose.HPose));
 
                                     ///计算出结果位置
                                     //_Results.Results_ModelInCam_Pos = new Point_Model() { X = _qx * 1000, Y = _qy * 1000, Z = _qz * 1000, Rx = 0, Ry = 0, Rz = 0, HType =  Halcon_Pose_Type_Enum.abg };
@@ -333,11 +333,22 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                                     ///计算出模型在Base坐标下位置
-                                    Point_Model CamInToolPose = new Point_Model(_toolinCamera.HPose.PoseInvert());
-                                    Point_Model CamInBasePose = new Point_Model(Tool_In_BasePos.HPose.PoseCompose(CamInToolPose.HPose));
-                                    Point_Model ModelInBasePose = new Point_Model(CamInBasePose.HPose.PoseCompose(_Results.Results_ModelInCam_Pos.HPose));
+                                    Point_Model CamInToolPose = new (_toolinCamera.HPose.PoseInvert());
+                                    Point_Model CamInBasePose = new (Tool_In_BasePos.HPose.PoseCompose(CamInToolPose.HPose));
+                                    Point_Model ModelInBasePose = new (CamInBasePose.HPose.PoseCompose(_Results.Results_ModelInCam_Pos.HPose));
                                     ///计算出模型在bace坐标下
-                                    _Results.Results_ModelInBase_Pos = new Point_Model(ModelInBasePose);
+                                    ///
+                                 //   Point_Model PathTcpInBase = new () { X = 46.89, Y = -780.67, Z = 222.34 };
+                                 //   Point_Model BaseInCamPos = new(CamInBasePose.HPose.PoseInvert());
+                                 //   HHomMat3D BaseInCamPos_HomMat3D= BaseInCamPos.HPose.PoseToHomMat3d();
+                                 //double _PB_x=   BaseInCamPos_HomMat3D.AffineTransPoint3d(PathTcpInBase.X, PathTcpInBase.Y, PathTcpInBase.Z, out double _PB_y, out double _PB_z);
+
+                                 //   _camera_Param.HCamPar.Project3dPoint(_PB_x, _PB_y, _PB_z, out HTuple _Cam_row,  out HTuple _Cam_col);
+
+
+
+
+                                    _Results.Results_ModelInBase_Pos = new (ModelInBasePose);
                                     _Results.Find_Shape_Results_State = Find_Shape_Results_State_Enum.Match_Success;
 
 
