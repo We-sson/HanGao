@@ -270,9 +270,9 @@ ENDSCRIPT
  
     DECL  InlineForm Vision_Creation_Plan={ FOLD[1] Vision_Creat_Plan_FOLD,PARAM[1] Plan_Base_No}
  
-    DECL  InlineForm Find_Model={ FOLD[1] Find_Model_FOLD ,PARAM[1] Work_Area,PARAM[2] Area_Calib_lIST}
+   ; DECL  InlineForm Find_Model={ FOLD[1] Find_Model_FOLD ,PARAM[1] Work_Area,PARAM[2] Area_Calib_lIST}
     
-   DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
+   ;DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
     DECL  InlineForm Vision_Ini={FOLD[1] Vision_Ini_FOLD,PARAM[1] Vision_Model,ONACCEPT Vision_Ini_ONACCEPT}
     
     DECL  InlineForm Vision_Path_Offset={FOLD[1] Vision_Path_Offset_FOLD,PARAM[1]  Find_ID, PARAM[2] Vision_Offset_Direction ,PARAM[3] Offset_Pos_1 , PARAM[4] Offset_Pos_2,PARAM[5] Offset_Pos_3,PARAM[6] Offset_Pos_4,PARAM[7] Offset_Pos_5,PARAM[8] Offset_Pos_6,PARAM[9] Offset_Pos_7,PARAM[10] Offset_Pos_8}
