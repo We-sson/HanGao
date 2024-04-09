@@ -232,6 +232,8 @@ namespace HanGao.ViewModel
             }
 
 
+            for (int i = 0; i < Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Run_Number; i++)
+            {
 
 
             //对应采集相机图像
@@ -292,10 +294,6 @@ namespace HanGao.ViewModel
             }
 
 
-
-
-
-
             try
             {
 
@@ -322,7 +320,7 @@ namespace HanGao.ViewModel
                     _Find_Data_Send.Result_Pos = new Point_Models() { X = _Find_Result.Results_ModelInBase_Pos.X.ToString(), Y = _Find_Result.Results_ModelInBase_Pos.Y.ToString(), Z = _Find_Result.Results_ModelInBase_Pos.Z.ToString() };
                     User_Log_Add($"自动模式：匹配模型成功！模型在Base坐标：X:{_Find_Result.Results_ModelInBase_Pos.X}，Y：{_Find_Result.Results_ModelInBase_Pos.Y}，Z：{_Find_Result.Results_ModelInBase_Pos.Z}", Log_Show_Window_Enum.Home);
 
-
+                        break;
                 }
                 else
                 {
@@ -346,6 +344,7 @@ namespace HanGao.ViewModel
 
             }
 
+            }
       
 
 

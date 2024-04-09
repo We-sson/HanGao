@@ -472,6 +472,12 @@ namespace Halcon_SDK_DLL.Model
 
             public bool NCC_SubPixel { set; get; } = true;
 
+
+
+            /// <summary>
+            /// 匹配查找世界限制超时
+            /// </summary>
+            public int Time_Out { set; get; } = 5000;
             /// <summary>
             /// 最大容许角度畸变 可以限制,作为默认值已设置3.14159/2，为 0，则根本不允许失真。
             /// </summary>

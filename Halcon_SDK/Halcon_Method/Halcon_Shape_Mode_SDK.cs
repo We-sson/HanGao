@@ -184,7 +184,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         HNCCModel _ncc = new HNCCModel(_Model.Shape_Handle_List[i].H);
                         HRegion _Ncc_Region = new HRegion();
                         HXLDCont _Ncc_Xld = new HXLDCont();
-
+                        _ncc.SetNccModelParam("timeout", Find_Shape_Model.Time_Out);
                         //查找模型
                         _ncc.FindNccModel(
                         _image,
