@@ -78,9 +78,9 @@ namespace HanGao.ViewModelLocator
         }
 
 
-        public MainWindow MainWindow => Ioc.Default.GetService<MainWindow>();
-        public User_Control_Log_ViewModel User_Log => Ioc.Default.GetService<User_Control_Log_ViewModel>();
-        public FrameShow FrameShow => Ioc.Default.GetService<FrameShow>();
+        public static  MainWindow MainWindow => Ioc.Default.GetService<MainWindow>();
+        public static User_Control_Log_ViewModel User_Log => Ioc.Default.GetService<User_Control_Log_ViewModel>();
+        public static FrameShow FrameShow => Ioc.Default.GetService<FrameShow>();
         public List_Show List_Show => Ioc.Default.GetService<List_Show>();
         public User_Control_Working_VM User_Control_Working_VM => Ioc.Default.GetService<User_Control_Working_VM>();
         public User_Control_Common User_Control_Common => Ioc.Default.GetService<User_Control_Common>();

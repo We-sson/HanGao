@@ -56,9 +56,9 @@ namespace Halcon_SDK_DLL.WPF_Converter
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             int enumValue = 0;
-            if (parameter is Type)
+            if (parameter is Type type)
             {
-                enumValue = (int)Enum.Parse((Type)parameter, value.ToString()!);
+                enumValue = (int)Enum.Parse(type, value.ToString()!);
             }
             return enumValue;
         }

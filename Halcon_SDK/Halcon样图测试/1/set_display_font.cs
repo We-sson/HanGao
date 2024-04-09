@@ -26,10 +26,10 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_OS = new HTuple(), hv_Fonts = new HTuple();
-    HTuple hv_Style = new HTuple(), hv_Exception = new HTuple();
-    HTuple hv_AvailableFonts = new HTuple(), hv_Fdx = new HTuple();
-    HTuple hv_Indices = new HTuple();
+    HTuple hv_OS = new (), hv_Fonts = new ();
+    HTuple hv_Style = new (), hv_Exception = new ();
+    HTuple hv_AvailableFonts = new (), hv_Fdx = new ();
+    HTuple hv_Indices = new ();
     HTuple   hv_Font_COPY_INP_TMP = new HTuple(hv_Font);
     HTuple   hv_Size_COPY_INP_TMP = new HTuple(hv_Size);
 
@@ -45,7 +45,7 @@ public partial class HDevelopExport
     //
     hv_OS.Dispose();
     HOperatorSet.GetSystem("operating_system", out hv_OS);
-    if ((int)((new HTuple(hv_Size_COPY_INP_TMP.TupleEqual(new HTuple()))).TupleOr(
+    if ((int)((new HTuple(hv_Size_COPY_INP_TMP.TupleEqual(new ()))).TupleOr(
         new HTuple(hv_Size_COPY_INP_TMP.TupleEqual(-1)))) != 0)
     {
       hv_Size_COPY_INP_TMP.Dispose();
@@ -54,7 +54,7 @@ public partial class HDevelopExport
     if ((int)(new HTuple(((hv_OS.TupleSubstr(0,2))).TupleEqual("Win"))) != 0)
     {
       //Restore previous behavior
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -67,7 +67,7 @@ public partial class HDevelopExport
     }
     else
     {
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -81,7 +81,7 @@ public partial class HDevelopExport
     if ((int)(new HTuple(hv_Font_COPY_INP_TMP.TupleEqual("Courier"))) != 0)
     {
       hv_Fonts.Dispose();
-      hv_Fonts = new HTuple();
+      hv_Fonts = new ();
       hv_Fonts[0] = "Courier";
       hv_Fonts[1] = "Courier 10 Pitch";
       hv_Fonts[2] = "Courier New";
@@ -91,7 +91,7 @@ public partial class HDevelopExport
     else if ((int)(new HTuple(hv_Font_COPY_INP_TMP.TupleEqual("mono"))) != 0)
     {
       hv_Fonts.Dispose();
-      hv_Fonts = new HTuple();
+      hv_Fonts = new ();
       hv_Fonts[0] = "Consolas";
       hv_Fonts[1] = "Menlo";
       hv_Fonts[2] = "Courier";
@@ -102,7 +102,7 @@ public partial class HDevelopExport
     else if ((int)(new HTuple(hv_Font_COPY_INP_TMP.TupleEqual("sans"))) != 0)
     {
       hv_Fonts.Dispose();
-      hv_Fonts = new HTuple();
+      hv_Fonts = new ();
       hv_Fonts[0] = "Luxi Sans";
       hv_Fonts[1] = "DejaVu Sans";
       hv_Fonts[2] = "FreeSans";
@@ -112,7 +112,7 @@ public partial class HDevelopExport
     else if ((int)(new HTuple(hv_Font_COPY_INP_TMP.TupleEqual("serif"))) != 0)
     {
       hv_Fonts.Dispose();
-      hv_Fonts = new HTuple();
+      hv_Fonts = new ();
       hv_Fonts[0] = "Times New Roman";
       hv_Fonts[1] = "Luxi Serif";
       hv_Fonts[2] = "DejaVu Serif";
@@ -129,7 +129,7 @@ public partial class HDevelopExport
     hv_Style = "";
     if ((int)(new HTuple(hv_Bold.TupleEqual("true"))) != 0)
     {
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -143,11 +143,11 @@ public partial class HDevelopExport
     {
       hv_Exception.Dispose();
       hv_Exception = "Wrong value of control parameter Bold";
-      throw new HalconException(hv_Exception);
+      throw new Exception(hv_Exception);
     }
     if ((int)(new HTuple(hv_Slant.TupleEqual("true"))) != 0)
     {
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -161,7 +161,7 @@ public partial class HDevelopExport
     {
       hv_Exception.Dispose();
       hv_Exception = "Wrong value of control parameter Slant";
-      throw new HalconException(hv_Exception);
+      throw new Exception(hv_Exception);
     }
     if ((int)(new HTuple(hv_Style.TupleEqual(""))) != 0)
     {
@@ -175,7 +175,7 @@ public partial class HDevelopExport
     for (hv_Fdx=0; (int)hv_Fdx<=(int)((new HTuple(hv_Fonts.TupleLength()))-1); hv_Fdx = (int)hv_Fdx + 1)
     {
       hv_Indices.Dispose();
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       hv_Indices = hv_AvailableFonts.TupleFind(
           hv_Fonts.TupleSelect(hv_Fdx));
@@ -185,7 +185,7 @@ public partial class HDevelopExport
         if ((int)(new HTuple(((hv_Indices.TupleSelect(0))).TupleGreaterEqual(0))) != 0)
         {
           hv_Font_COPY_INP_TMP.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
           hv_Font_COPY_INP_TMP = hv_Fonts.TupleSelect(
               hv_Fdx);
@@ -196,9 +196,9 @@ public partial class HDevelopExport
     }
     if ((int)(new HTuple(hv_Font_COPY_INP_TMP.TupleEqual(""))) != 0)
     {
-      throw new HalconException("Wrong value of control parameter Font");
+      throw new Exception("Wrong value of control parameter Font");
     }
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     {
     HTuple 

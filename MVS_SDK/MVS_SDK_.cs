@@ -54,8 +54,8 @@ namespace MVS_SDK
         {
             //初始化
             int nRet;
-            List<CCameraInfo> _CCamera_List = new List<CCameraInfo>();
-            List<CGigECameraInfo> CGCamera_List = new List<CGigECameraInfo>();
+            List<CCameraInfo> _CCamera_List = new ();
+            List<CGigECameraInfo> CGCamera_List = new ();
             //List<CGigECameraInfo> _CGigECamera_List = new List<CGigECameraInfo> ();
 
             //获得设备枚举

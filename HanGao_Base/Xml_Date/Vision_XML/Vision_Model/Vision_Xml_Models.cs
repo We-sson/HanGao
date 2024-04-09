@@ -51,7 +51,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         /// <summary>
         /// 相机设置参数列表
         /// </summary>
-        public ObservableCollection<Vision_Xml_Models> Vision_List { set; get; } = new ObservableCollection<Vision_Xml_Models>() { };
+        public ObservableCollection<Vision_Xml_Models> Vision_List { set; get; } = [];
 
 
     }

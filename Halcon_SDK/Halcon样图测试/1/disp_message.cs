@@ -26,7 +26,7 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_GenParamName = new HTuple(), hv_GenParamValue = new HTuple();
+    HTuple hv_GenParamName = new (), hv_GenParamValue = new ();
     HTuple   hv_Color_COPY_INP_TMP = new HTuple(hv_Color);
     HTuple   hv_Column_COPY_INP_TMP = new HTuple(hv_Column);
     HTuple   hv_CoordSystem_COPY_INP_TMP = new HTuple(hv_CoordSystem);
@@ -88,8 +88,8 @@ public partial class HDevelopExport
     //
     //
     //Convert the parameters for disp_text.
-    if ((int)((new HTuple(hv_Row_COPY_INP_TMP.TupleEqual(new HTuple()))).TupleOr(
-        new HTuple(hv_Column_COPY_INP_TMP.TupleEqual(new HTuple())))) != 0)
+    if ((int)((new HTuple(hv_Row_COPY_INP_TMP.TupleEqual(new ()))).TupleOr(
+        new HTuple(hv_Column_COPY_INP_TMP.TupleEqual(new ())))) != 0)
     {
 
       hv_Color_COPY_INP_TMP.Dispose();
@@ -114,15 +114,15 @@ public partial class HDevelopExport
     //
     //Convert the parameter Box to generic parameters.
     hv_GenParamName.Dispose();
-    hv_GenParamName = new HTuple();
+    hv_GenParamName = new ();
     hv_GenParamValue.Dispose();
-    hv_GenParamValue = new HTuple();
+    hv_GenParamValue = new ();
     if ((int)(new HTuple((new HTuple(hv_Box.TupleLength())).TupleGreater(0))) != 0)
     {
       if ((int)(new HTuple(((hv_Box.TupleSelect(0))).TupleEqual("false"))) != 0)
       {
         //Display no box
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -132,7 +132,7 @@ public partial class HDevelopExport
         hv_GenParamName = ExpTmpLocalVar_GenParamName;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -146,7 +146,7 @@ public partial class HDevelopExport
       else if ((int)(new HTuple(((hv_Box.TupleSelect(0))).TupleNotEqual("true"))) != 0)
       {
         //Set a color other than the default.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -156,7 +156,7 @@ public partial class HDevelopExport
         hv_GenParamName = ExpTmpLocalVar_GenParamName;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -173,7 +173,7 @@ public partial class HDevelopExport
       if ((int)(new HTuple(((hv_Box.TupleSelect(1))).TupleEqual("false"))) != 0)
       {
         //Display no shadow.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -183,7 +183,7 @@ public partial class HDevelopExport
         hv_GenParamName = ExpTmpLocalVar_GenParamName;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -197,7 +197,7 @@ public partial class HDevelopExport
       else if ((int)(new HTuple(((hv_Box.TupleSelect(1))).TupleNotEqual("true"))) != 0)
       {
         //Set a shadow color other than the default.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -207,7 +207,7 @@ public partial class HDevelopExport
         hv_GenParamName = ExpTmpLocalVar_GenParamName;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -230,7 +230,7 @@ public partial class HDevelopExport
     {
       //disp_text does not accept an empty string for Color.
       hv_Color_COPY_INP_TMP.Dispose();
-      hv_Color_COPY_INP_TMP = new HTuple();
+      hv_Color_COPY_INP_TMP = new ();
     }
     //
     HOperatorSet.DispText(hv_WindowHandle, hv_String, hv_CoordSystem_COPY_INP_TMP, 

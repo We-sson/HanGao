@@ -27,28 +27,28 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_LensePose = new HTuple(), hv_CylinderLength = new HTuple();
-    HTuple hv_ObjectModel3DLense = new HTuple(), hv_ObjectModel3DInit = new HTuple();
-    HTuple hv_CamParams = new HTuple(), hv_Type = new HTuple();
-    HTuple hv_Tilt = new HTuple(), hv_Rot = new HTuple(), hv_HomMat3DIdentity = new HTuple();
-    HTuple hv_HomMat3DRotate = new HTuple(), hv_SensorToLenseRotation = new HTuple();
-    HTuple hv_ObjectModel3DInitTilted = new HTuple(), hv_BoundingBox = new HTuple();
-    HTuple hv_PX = new HTuple(), hv_PY = new HTuple(), hv_QZ = new HTuple();
-    HTuple hv_PoseBack = new HTuple(), hv_ObjectModel3DInitTiltedBack = new HTuple();
-    HTuple hv_CamPose = new HTuple(), hv_OM3DSensor = new HTuple();
-    HTuple hv_OM3DLense = new HTuple();
+    HTuple hv_LensePose = new (), hv_CylinderLength = new ();
+    HTuple hv_ObjectModel3DLense = new (), hv_ObjectModel3DInit = new ();
+    HTuple hv_CamParams = new (), hv_Type = new ();
+    HTuple hv_Tilt = new (), hv_Rot = new (), hv_HomMat3DIdentity = new ();
+    HTuple hv_HomMat3DRotate = new (), hv_SensorToLenseRotation = new ();
+    HTuple hv_ObjectModel3DInitTilted = new (), hv_BoundingBox = new ();
+    HTuple hv_PX = new (), hv_PY = new (), hv_QZ = new ();
+    HTuple hv_PoseBack = new (), hv_ObjectModel3DInitTiltedBack = new ();
+    HTuple hv_CamPose = new (), hv_OM3DSensor = new ();
+    HTuple hv_OM3DLense = new ();
     // Initialize local and output iconic variables 
-    hv_OM3DCam = new HTuple();
+    hv_OM3DCam = new ();
     //
     //Generate a cylinder (lens) and move it behind the origin in direction z.
     hv_LensePose.Dispose();
     HOperatorSet.CreatePose(0.0, 0.0, 0.0, 0, 0, 0, "Rp+T", "gba", "point", out hv_LensePose);
     hv_CylinderLength.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CylinderLength = hv_CameraSize/4.0;
     }
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_ObjectModel3DLense.Dispose();
     HOperatorSet.GenCylinderObjectModel3d(hv_LensePose, hv_CameraSize/2.0, (-hv_CylinderLength)/2.0, 
@@ -56,7 +56,7 @@ public partial class HDevelopExport
     }
     //
     //Generate a box (sensor housing) and tilt it, if necessary.
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_ObjectModel3DInit.Dispose();
     HOperatorSet.GenBoxObjectModel3d(hv_LensePose, 1.0*hv_CameraSize, 1.0*hv_CameraSize, 
@@ -85,7 +85,7 @@ public partial class HDevelopExport
     }
     hv_HomMat3DIdentity.Dispose();
     HOperatorSet.HomMat3dIdentity(out hv_HomMat3DIdentity);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_HomMat3DRotate.Dispose();
     HOperatorSet.HomMat3dRotate(hv_HomMat3DIdentity, hv_Tilt.TupleRad(), ((((((hv_Rot.TupleRad()
@@ -102,13 +102,13 @@ public partial class HDevelopExport
     hv_BoundingBox.Dispose();
     HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3DInitTilted, "bounding_box1", 
         out hv_BoundingBox);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_PX.Dispose();hv_PY.Dispose();hv_QZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3DRotate, 0.0, 0.0, 0.5*hv_CameraSize, 
         out hv_PX, out hv_PY, out hv_QZ);
     }
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_PoseBack.Dispose();
     HOperatorSet.CreatePose(-hv_PX, -hv_PY, (-(hv_BoundingBox.TupleSelect(5)))-(hv_CylinderLength/2.0), 
@@ -127,9 +127,9 @@ public partial class HDevelopExport
     hv_OM3DLense.Dispose();
     HOperatorSet.RigidTransObjectModel3d(hv_ObjectModel3DLense, hv_CamPose, out hv_OM3DLense);
     hv_OM3DCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
-    hv_OM3DCam = new HTuple();
+    hv_OM3DCam = new ();
     hv_OM3DCam = hv_OM3DCam.TupleConcat(hv_OM3DSensor, hv_OM3DLense);
     }
     //
@@ -176,24 +176,24 @@ public partial class HDevelopExport
 
         // Local control variables 
 
-        HTuple hv_NumCameras = new HTuple(), hv_AutoConeLength = new HTuple();
-        HTuple hv_AllCameras = new HTuple(), hv_CurrentCamera = new HTuple();
-        HTuple hv_ConcatZ = new HTuple(), hv_OtherCameras = new HTuple();
-        HTuple hv_Index = new HTuple(), hv_CamParam0 = new HTuple();
-        HTuple hv_Pose0 = new HTuple(), hv_CamParam1 = new HTuple();
-        HTuple hv_Pose1 = new HTuple(), hv_PoseInvert = new HTuple();
-        HTuple hv_RelPose = new HTuple(), hv_CX0 = new HTuple();
-        HTuple hv_CY0 = new HTuple(), hv_CX1 = new HTuple(), hv_CY1 = new HTuple();
-        HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_Z = new HTuple();
-        HTuple hv_Dist = new HTuple(), hv_Exception = new HTuple();
-        HTuple hv_CameraType = new HTuple(), hv_ObjectModel3DConeTmp = new HTuple();
-        HTuple hv_ObjectModel3DCameraTmp = new HTuple();
+        HTuple hv_NumCameras = new (), hv_AutoConeLength = new ();
+        HTuple hv_AllCameras = new (), hv_CurrentCamera = new ();
+        HTuple hv_ConcatZ = new (), hv_OtherCameras = new ();
+        HTuple hv_Index = new (), hv_CamParam0 = new ();
+        HTuple hv_Pose0 = new (), hv_CamParam1 = new ();
+        HTuple hv_Pose1 = new (), hv_PoseInvert = new ();
+        HTuple hv_RelPose = new (), hv_CX0 = new ();
+        HTuple hv_CY0 = new (), hv_CX1 = new (), hv_CY1 = new ();
+        HTuple hv_X = new (), hv_Y = new (), hv_Z = new ();
+        HTuple hv_Dist = new (), hv_Exception = new ();
+        HTuple hv_CameraType = new (), hv_ObjectModel3DConeTmp = new ();
+        HTuple hv_ObjectModel3DCameraTmp = new ();
         HTuple   hv_CameraSize_COPY_INP_TMP = new HTuple(hv_CameraSize);
         HTuple   hv_ConeLength_COPY_INP_TMP = new HTuple(hv_ConeLength);
 
         // Initialize local and output iconic variables 
-        hv_ObjectModel3DCamera = new HTuple();
-        hv_ObjectModel3DCone = new HTuple();
+        hv_ObjectModel3DCamera = new ();
+        hv_ObjectModel3DCone = new ();
     hv_NumCameras.Dispose();
     HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, "general", "num_cameras", 
         out hv_NumCameras);
@@ -201,44 +201,44 @@ public partial class HDevelopExport
     //Consistency check:
     if ((int)(new HTuple(hv_NumCameras.TupleLess(1))) != 0)
     {
-      throw new HalconException("No camera set.");
+      throw new Exception("No camera set.");
     }
     if ((int)(hv_CameraSize_COPY_INP_TMP.TupleIsNumber()) != 0)
     {
       if ((int)(new HTuple(hv_CameraSize_COPY_INP_TMP.TupleLessEqual(0.0))) != 0)
       {
-        throw new HalconException("Invalid value for CameraSize. CameraSize must be positive or 'auto'.");
+        throw new Exception("Invalid value for CameraSize. CameraSize must be positive or 'auto'.");
       }
     }
     else if ((int)(new HTuple(hv_CameraSize_COPY_INP_TMP.TupleNotEqual("auto"))) != 0)
     {
-      throw new HalconException("Invalid value for CameraSize. CameraSize must be positive or 'auto'.");
+      throw new Exception("Invalid value for CameraSize. CameraSize must be positive or 'auto'.");
     }
     if ((int)(hv_ConeLength_COPY_INP_TMP.TupleIsNumber()) != 0)
     {
       if ((int)(new HTuple(hv_ConeLength_COPY_INP_TMP.TupleLessEqual(0.0))) != 0)
       {
-        throw new HalconException("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
+        throw new Exception("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
       }
     }
     else if ((int)(new HTuple(hv_ConeLength_COPY_INP_TMP.TupleNotEqual("auto"))) != 0)
     {
-      throw new HalconException("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
+      throw new Exception("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
     }
     //
     hv_AutoConeLength.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_AutoConeLength = new HTuple(hv_ConeLength_COPY_INP_TMP.TupleEqual(
         "auto"));
     }
     //
     hv_ObjectModel3DCamera.Dispose();
-    hv_ObjectModel3DCamera = new HTuple();
+    hv_ObjectModel3DCamera = new ();
     hv_ObjectModel3DCone.Dispose();
-    hv_ObjectModel3DCone = new HTuple();
+    hv_ObjectModel3DCone = new ();
     hv_AllCameras.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_AllCameras = HTuple.TupleGenSequence(
         0,hv_NumCameras-1,1);
@@ -248,16 +248,16 @@ public partial class HDevelopExport
     for (hv_CurrentCamera=0; hv_CurrentCamera.Continue(end_val26, step_val26); hv_CurrentCamera = hv_CurrentCamera.TupleAdd(step_val26))
     {
       hv_ConcatZ.Dispose();
-      hv_ConcatZ = new HTuple();
+      hv_ConcatZ = new ();
       if ((int)(hv_AutoConeLength) != 0)
       {
         if ((int)(new HTuple(hv_NumCameras.TupleLess(2))) != 0)
         {
-          throw new HalconException("You need at least two cameras for ConeLength == auto.");
+          throw new Exception("You need at least two cameras for ConeLength == auto.");
         }
         //Intersect the line of sight of each camera with all other cameras.
         hv_OtherCameras.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         hv_OtherCameras = hv_AllCameras.TupleRemove(
             hv_AllCameras.TupleFind(hv_CurrentCamera));
@@ -271,13 +271,13 @@ public partial class HDevelopExport
           hv_Pose0.Dispose();
           HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CurrentCamera, 
               "pose", out hv_Pose0);
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
           hv_CamParam1.Dispose();
           HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_OtherCameras.TupleSelect(
               hv_Index), "params", out hv_CamParam1);
           }
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
           hv_Pose1.Dispose();
           HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_OtherCameras.TupleSelect(
@@ -303,12 +303,12 @@ public partial class HDevelopExport
                 hv_CY0, hv_CX0, hv_CY1, hv_CX1, out hv_X, out hv_Y, out hv_Z, out hv_Dist);
           }
           // catch (Exception) 
-          catch (HalconException HDevExpDefaultException1)
+          catch (Exception )
           {
-            HDevExpDefaultException1.ToHTuple(out hv_Exception);
-            throw new HalconException("Estimating a value for ConeLength automatically was not possible. Please use a number instead.");
+            //HDevExpDefaultException1.ToHTuple(out hv_Exception);
+            throw new Exception("Estimating a value for ConeLength automatically was not possible. Please use a number instead.");
           }
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
           {
           HTuple 
@@ -321,7 +321,7 @@ public partial class HDevelopExport
         }
         //Use the Z value of the determined coordinates as basis for the ConeLength.
         hv_ConeLength_COPY_INP_TMP.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         hv_ConeLength_COPY_INP_TMP = (hv_ConcatZ.TupleMax()
             )*1.05;
@@ -345,7 +345,7 @@ public partial class HDevelopExport
         gen_cone_perspective_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera, 
             hv_ConeLength_COPY_INP_TMP, out hv_ObjectModel3DConeTmp);
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -362,7 +362,7 @@ public partial class HDevelopExport
         //In auto mode, the camera size for all cameras
         //is defined by the first camera's cone length.
         hv_CameraSize_COPY_INP_TMP.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         hv_CameraSize_COPY_INP_TMP = hv_ConeLength_COPY_INP_TMP*0.1;
         }
@@ -370,7 +370,7 @@ public partial class HDevelopExport
       hv_ObjectModel3DCameraTmp.Dispose();
       gen_camera_object_model_3d(hv_CameraSetupModelID, hv_CurrentCamera, hv_CameraSize_COPY_INP_TMP, 
           out hv_ObjectModel3DCameraTmp);
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -425,19 +425,19 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_CamPose = new HTuple(), hv_HomMat3D = new HTuple();
-    HTuple hv_CamParam = new HTuple(), hv_Width = new HTuple();
-    HTuple hv_Height = new HTuple(), hv_PX = new HTuple();
-    HTuple hv_PY = new HTuple(), hv_PZ = new HTuple(), hv_QX = new HTuple();
-    HTuple hv_QY = new HTuple(), hv_QZ = new HTuple(), hv_CBX = new HTuple();
-    HTuple hv_CBY = new HTuple(), hv_CBZ = new HTuple(), hv_CEXCam = new HTuple();
-    HTuple hv_CEYCam = new HTuple(), hv_CEZCam = new HTuple();
-    HTuple hv_CEX = new HTuple(), hv_CEY = new HTuple(), hv_CEZ = new HTuple();
-    HTuple hv_Index = new HTuple(), hv_Faces = new HTuple();
+    HTuple hv_CamPose = new (), hv_HomMat3D = new ();
+    HTuple hv_CamParam = new (), hv_Width = new ();
+    HTuple hv_Height = new (), hv_PX = new ();
+    HTuple hv_PY = new (), hv_PZ = new (), hv_QX = new ();
+    HTuple hv_QY = new (), hv_QZ = new (), hv_CBX = new ();
+    HTuple hv_CBY = new (), hv_CBZ = new (), hv_CEXCam = new ();
+    HTuple hv_CEYCam = new (), hv_CEZCam = new ();
+    HTuple hv_CEX = new (), hv_CEY = new (), hv_CEZ = new ();
+    HTuple hv_Index = new (), hv_Faces = new ();
 
     HTupleVector hvec_Points = new HTupleVector(1);
     // Initialize local and output iconic variables 
-    hv_ObjectModel3D = new HTuple();
+    hv_ObjectModel3D = new ();
     hv_CamPose.Dispose();
     HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CameraIndex, "pose", 
         out hv_CamPose);
@@ -455,7 +455,7 @@ public partial class HDevelopExport
     //Get the lines of sight of the four corner points of the image.
     //Scale them to the given length and transform into world coordinates.
     hvec_Points.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points = dh.Take((
         dh.Add(new HTupleVector(1)).Insert(0,dh.Add(new HTupleVector(new HTuple())))));
@@ -467,36 +467,36 @@ public partial class HDevelopExport
     hv_CBX.Dispose();hv_CBY.Dispose();hv_CBZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX, 
         out hv_CBY, out hv_CBZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[0] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
         hv_CBY))).TupleConcat(hv_CBZ)));
     }
     hv_CEXCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEXCam = hv_PX+(((hv_QX-hv_PX)/(hv_QZ-hv_PZ))*hv_ConeLength);
     }
     hv_CEYCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEYCam = hv_PY+(((hv_QY-hv_PY)/(hv_QZ-hv_PZ))*hv_ConeLength);
     }
     hv_CEZCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEZCam = hv_PZ+hv_ConeLength;
     }
     hv_CEX.Dispose();hv_CEY.Dispose();hv_CEZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_CEXCam, hv_CEYCam, hv_CEZCam, 
         out hv_CEX, out hv_CEY, out hv_CEZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[1] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
         hv_CEY))).TupleConcat(hv_CEZ)));
     }
     //Second corner.
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_PX.Dispose();hv_PY.Dispose();hv_PZ.Dispose();hv_QX.Dispose();hv_QY.Dispose();hv_QZ.Dispose();
     HOperatorSet.GetLineOfSight(hv_Height-1, 0, hv_CamParam, out hv_PX, out hv_PY, 
@@ -505,36 +505,36 @@ public partial class HDevelopExport
     hv_CBX.Dispose();hv_CBY.Dispose();hv_CBZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX, 
         out hv_CBY, out hv_CBZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[2] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
         hv_CBY))).TupleConcat(hv_CBZ)));
     }
     hv_CEXCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEXCam = hv_PX+(((hv_QX-hv_PX)/(hv_QZ-hv_PZ))*hv_ConeLength);
     }
     hv_CEYCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEYCam = hv_PY+(((hv_QY-hv_PY)/(hv_QZ-hv_PZ))*hv_ConeLength);
     }
     hv_CEZCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEZCam = hv_PZ+hv_ConeLength;
     }
     hv_CEX.Dispose();hv_CEY.Dispose();hv_CEZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_CEXCam, hv_CEYCam, hv_CEZCam, 
         out hv_CEX, out hv_CEY, out hv_CEZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[3] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
         hv_CEY))).TupleConcat(hv_CEZ)));
     }
     //Third corner.
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_PX.Dispose();hv_PY.Dispose();hv_PZ.Dispose();hv_QX.Dispose();hv_QY.Dispose();hv_QZ.Dispose();
     HOperatorSet.GetLineOfSight(hv_Height-1, hv_Width-1, hv_CamParam, out hv_PX, 
@@ -543,36 +543,36 @@ public partial class HDevelopExport
     hv_CBX.Dispose();hv_CBY.Dispose();hv_CBZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX, 
         out hv_CBY, out hv_CBZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[4] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
         hv_CBY))).TupleConcat(hv_CBZ)));
     }
     hv_CEXCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEXCam = hv_PX+(((hv_QX-hv_PX)/(hv_QZ-hv_PZ))*hv_ConeLength);
     }
     hv_CEYCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEYCam = hv_PY+(((hv_QY-hv_PY)/(hv_QZ-hv_PZ))*hv_ConeLength);
     }
     hv_CEZCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEZCam = hv_PZ+hv_ConeLength;
     }
     hv_CEX.Dispose();hv_CEY.Dispose();hv_CEZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_CEXCam, hv_CEYCam, hv_CEZCam, 
         out hv_CEX, out hv_CEY, out hv_CEZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[5] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
         hv_CEY))).TupleConcat(hv_CEZ)));
     }
     //Fourth corner.
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_PX.Dispose();hv_PY.Dispose();hv_PZ.Dispose();hv_QX.Dispose();hv_QY.Dispose();hv_QZ.Dispose();
     HOperatorSet.GetLineOfSight(0, hv_Width-1, hv_CamParam, out hv_PX, out hv_PY, 
@@ -581,30 +581,30 @@ public partial class HDevelopExport
     hv_CBX.Dispose();hv_CBY.Dispose();hv_CBZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX, 
         out hv_CBY, out hv_CBZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[6] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
         hv_CBY))).TupleConcat(hv_CBZ)));
     }
     hv_CEXCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEXCam = hv_PX+(((hv_QX-hv_PX)/(hv_QZ-hv_PZ))*hv_ConeLength);
     }
     hv_CEYCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEYCam = hv_PY+(((hv_QY-hv_PY)/(hv_QZ-hv_PZ))*hv_ConeLength);
     }
     hv_CEZCam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_CEZCam = hv_PZ+hv_ConeLength;
     }
     hv_CEX.Dispose();hv_CEY.Dispose();hv_CEZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_CEXCam, hv_CEYCam, hv_CEZCam, 
         out hv_CEX, out hv_CEY, out hv_CEZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[7] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
         hv_CEY))).TupleConcat(hv_CEZ)));
@@ -612,14 +612,14 @@ public partial class HDevelopExport
     //
     //Sort the points by coordinate direction.
     hv_PX.Dispose();
-    hv_PX = new HTuple();
+    hv_PX = new ();
     hv_PY.Dispose();
-    hv_PY = new HTuple();
+    hv_PY = new ();
     hv_PZ.Dispose();
-    hv_PZ = new HTuple();
+    hv_PZ = new ();
     for (hv_Index=0; (int)hv_Index<=7; hv_Index = (int)hv_Index + 1)
     {
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -629,7 +629,7 @@ public partial class HDevelopExport
       hv_PX = ExpTmpLocalVar_PX;
       }
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -639,7 +639,7 @@ public partial class HDevelopExport
       hv_PY = ExpTmpLocalVar_PY;
       }
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -655,8 +655,8 @@ public partial class HDevelopExport
     //
     //Set the sides of the cone.
     hv_Faces.Dispose();
-    hv_Faces = new HTuple();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    hv_Faces = new ();
+    using (HDevDisposeHelper dh = new ())
     {
     {
     HTuple 
@@ -667,7 +667,7 @@ public partial class HDevelopExport
     hv_Faces = ExpTmpLocalVar_Faces;
     }
     }
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     {
     HTuple 
@@ -678,7 +678,7 @@ public partial class HDevelopExport
     hv_Faces = ExpTmpLocalVar_Faces;
     }
     }
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     {
     HTuple 
@@ -689,7 +689,7 @@ public partial class HDevelopExport
     hv_Faces = ExpTmpLocalVar_Faces;
     }
     }
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     {
     HTuple 
@@ -700,7 +700,7 @@ public partial class HDevelopExport
     hv_Faces = ExpTmpLocalVar_Faces;
     }
     }
-    HOperatorSet.SetObjectModel3dAttribMod(hv_ObjectModel3D, "polygons", new HTuple(), 
+    HOperatorSet.SetObjectModel3dAttribMod(hv_ObjectModel3D, "polygons", new (), 
         hv_Faces);
 
     hv_CamPose.Dispose();
@@ -742,18 +742,18 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_CamPose = new HTuple(), hv_HomMat3D = new HTuple();
-    HTuple hv_CamParam = new HTuple(), hv_Width = new HTuple();
-    HTuple hv_Height = new HTuple(), hv_PX = new HTuple();
-    HTuple hv_PY = new HTuple(), hv_PZ = new HTuple(), hv_QX = new HTuple();
-    HTuple hv_QY = new HTuple(), hv_QZ = new HTuple(), hv_CBX = new HTuple();
-    HTuple hv_CBY = new HTuple(), hv_CBZ = new HTuple(), hv_CEZCam = new HTuple();
-    HTuple hv_CEX = new HTuple(), hv_CEY = new HTuple(), hv_CEZ = new HTuple();
-    HTuple hv_Index = new HTuple(), hv_Faces = new HTuple();
+    HTuple hv_CamPose = new (), hv_HomMat3D = new ();
+    HTuple hv_CamParam = new (), hv_Width = new ();
+    HTuple hv_Height = new (), hv_PX = new ();
+    HTuple hv_PY = new (), hv_PZ = new (), hv_QX = new ();
+    HTuple hv_QY = new (), hv_QZ = new (), hv_CBX = new ();
+    HTuple hv_CBY = new (), hv_CBZ = new (), hv_CEZCam = new ();
+    HTuple hv_CEX = new (), hv_CEY = new (), hv_CEZ = new ();
+    HTuple hv_Index = new (), hv_Faces = new ();
 
     HTupleVector hvec_Points = new HTupleVector(1);
     // Initialize local and output iconic variables 
-    hv_ObjectModel3D = new HTuple();
+    hv_ObjectModel3D = new ();
     hv_CamPose.Dispose();
     HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CameraIndex, "pose", 
         out hv_CamPose);
@@ -771,7 +771,7 @@ public partial class HDevelopExport
     //Get the lines of sight of the four corner points of the image.
     //Scale them to the given length and transform into world coordinates.
     hvec_Points.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points = dh.Take((
         dh.Add(new HTupleVector(1)).Insert(0,dh.Add(new HTupleVector(new HTuple())))));
@@ -783,7 +783,7 @@ public partial class HDevelopExport
     hv_CBX.Dispose();hv_CBY.Dispose();hv_CBZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX, 
         out hv_CBY, out hv_CBZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[0] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
         hv_CBY))).TupleConcat(hv_CBZ)));
@@ -793,13 +793,13 @@ public partial class HDevelopExport
     hv_CEX.Dispose();hv_CEY.Dispose();hv_CEZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_QX, hv_QY, hv_CEZCam, out hv_CEX, 
         out hv_CEY, out hv_CEZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[1] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
         hv_CEY))).TupleConcat(hv_CEZ)));
     }
     //Second corner.
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_PX.Dispose();hv_PY.Dispose();hv_PZ.Dispose();hv_QX.Dispose();hv_QY.Dispose();hv_QZ.Dispose();
     HOperatorSet.GetLineOfSight(hv_Height-1, 0, hv_CamParam, out hv_PX, out hv_PY, 
@@ -808,7 +808,7 @@ public partial class HDevelopExport
     hv_CBX.Dispose();hv_CBY.Dispose();hv_CBZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX, 
         out hv_CBY, out hv_CBZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[2] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
         hv_CBY))).TupleConcat(hv_CBZ)));
@@ -818,13 +818,13 @@ public partial class HDevelopExport
     hv_CEX.Dispose();hv_CEY.Dispose();hv_CEZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_QX, hv_QY, hv_CEZCam, out hv_CEX, 
         out hv_CEY, out hv_CEZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[3] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
         hv_CEY))).TupleConcat(hv_CEZ)));
     }
     //Third corner.
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_PX.Dispose();hv_PY.Dispose();hv_PZ.Dispose();hv_QX.Dispose();hv_QY.Dispose();hv_QZ.Dispose();
     HOperatorSet.GetLineOfSight(hv_Height-1, hv_Width-1, hv_CamParam, out hv_PX, 
@@ -833,7 +833,7 @@ public partial class HDevelopExport
     hv_CBX.Dispose();hv_CBY.Dispose();hv_CBZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX, 
         out hv_CBY, out hv_CBZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[4] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
         hv_CBY))).TupleConcat(hv_CBZ)));
@@ -843,13 +843,13 @@ public partial class HDevelopExport
     hv_CEX.Dispose();hv_CEY.Dispose();hv_CEZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_QX, hv_QY, hv_CEZCam, out hv_CEX, 
         out hv_CEY, out hv_CEZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[5] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
         hv_CEY))).TupleConcat(hv_CEZ)));
     }
     //Fourth corner.
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hv_PX.Dispose();hv_PY.Dispose();hv_PZ.Dispose();hv_QX.Dispose();hv_QY.Dispose();hv_QZ.Dispose();
     HOperatorSet.GetLineOfSight(0, hv_Width-1, hv_CamParam, out hv_PX, out hv_PY, 
@@ -858,7 +858,7 @@ public partial class HDevelopExport
     hv_CBX.Dispose();hv_CBY.Dispose();hv_CBZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX, 
         out hv_CBY, out hv_CBZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[6] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
         hv_CBY))).TupleConcat(hv_CBZ)));
@@ -868,7 +868,7 @@ public partial class HDevelopExport
     hv_CEX.Dispose();hv_CEY.Dispose();hv_CEZ.Dispose();
     HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_QX, hv_QY, hv_CEZCam, out hv_CEX, 
         out hv_CEY, out hv_CEZ);
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     hvec_Points[7] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
         hv_CEY))).TupleConcat(hv_CEZ)));
@@ -876,14 +876,14 @@ public partial class HDevelopExport
     //
     //Sort the points by coordinate direction.
     hv_PX.Dispose();
-    hv_PX = new HTuple();
+    hv_PX = new ();
     hv_PY.Dispose();
-    hv_PY = new HTuple();
+    hv_PY = new ();
     hv_PZ.Dispose();
-    hv_PZ = new HTuple();
+    hv_PZ = new ();
     for (hv_Index=0; (int)hv_Index<=7; hv_Index = (int)hv_Index + 1)
     {
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -893,7 +893,7 @@ public partial class HDevelopExport
       hv_PX = ExpTmpLocalVar_PX;
       }
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -903,7 +903,7 @@ public partial class HDevelopExport
       hv_PY = ExpTmpLocalVar_PY;
       }
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       {
       HTuple 
@@ -919,8 +919,8 @@ public partial class HDevelopExport
     //
     //Set the sides of the cone.
     hv_Faces.Dispose();
-    hv_Faces = new HTuple();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    hv_Faces = new ();
+    using (HDevDisposeHelper dh = new ())
     {
     {
     HTuple 
@@ -931,7 +931,7 @@ public partial class HDevelopExport
     hv_Faces = ExpTmpLocalVar_Faces;
     }
     }
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     {
     HTuple 
@@ -942,7 +942,7 @@ public partial class HDevelopExport
     hv_Faces = ExpTmpLocalVar_Faces;
     }
     }
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     {
     HTuple 
@@ -953,7 +953,7 @@ public partial class HDevelopExport
     hv_Faces = ExpTmpLocalVar_Faces;
     }
     }
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
     {
     HTuple 
@@ -964,7 +964,7 @@ public partial class HDevelopExport
     hv_Faces = ExpTmpLocalVar_Faces;
     }
     }
-    HOperatorSet.SetObjectModel3dAttribMod(hv_ObjectModel3D, "polygons", new HTuple(), 
+    HOperatorSet.SetObjectModel3dAttribMod(hv_ObjectModel3D, "polygons", new (), 
         hv_Faces);
 
     hv_CamPose.Dispose();

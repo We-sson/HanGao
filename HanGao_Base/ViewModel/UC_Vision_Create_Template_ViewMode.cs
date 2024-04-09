@@ -53,10 +53,10 @@ namespace HanGao.ViewModel
 
             //    DateTime _Run = DateTime.Now;
             //    Console.WriteLine("开始:");
-            //    HTuple _Mat2D = new HTuple();
+            //    HTuple _Mat2D = new ();
             //    //List<HTuple> _ModelXld = new List<HTuple>();
             //    //List<HObject> _Model_objects = new List<HObject>();
-            //    //HTuple _ModelID = new HTuple();
+            //    //HTuple _ModelID = new ();
             //    HImage _Image = new HImage();
             //    Pos_List_Model _Point_List = new Pos_List_Model();
             //    HWindow _Window = new HWindow();

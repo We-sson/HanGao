@@ -86,7 +86,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 相机标定图像列表
         /// </summary>
-        public ObservableCollection<Calibration_Image_List_Model> Camera_Calibration_Image_List { get; set; } = new ObservableCollection<Calibration_Image_List_Model>();
+        public ObservableCollection<Calibration_Image_List_Model> Camera_Calibration_Image_List { get; set; } = [];
 
 
         /// <summary>
@@ -592,7 +592,7 @@ namespace HanGao.ViewModel
 
 
                             ///查找标定板结果
-                            HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
+                            HandEye_Find_Calibration();
 
 
 
@@ -647,7 +647,7 @@ namespace HanGao.ViewModel
 
 
                             ///查找标定板结果
-                            HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
+                            HandEye_Find_Calibration();
 
 
                         }
@@ -684,7 +684,7 @@ namespace HanGao.ViewModel
 
 
                 //选择需要保存的位置
-                VistaFolderBrowserDialog FolderDialog = new VistaFolderBrowserDialog
+                VistaFolderBrowserDialog FolderDialog = new ()
                 {
                     Description = "选择" + _camerEnum + "图像文件存放位置",
                     UseDescriptionForTitle = true, // This applies to the Vista style dialog only, not the old dialog.
@@ -714,7 +714,7 @@ namespace HanGao.ViewModel
 
 
 
-                                Calibration_Image_Camera_Model _Sectle = new Calibration_Image_Camera_Model();
+                                Calibration_Image_Camera_Model _Sectle = new ();
                                 //获得需要保存的设备
                                 switch (_camerEnum)
                                 {
@@ -735,7 +735,7 @@ namespace HanGao.ViewModel
                                 //检查列表是否有图像
                                 if (_Sectle.Calibration_Image != null)
                                 {
-                                    HImage _Imgea = new HImage(_Sectle.Calibration_Image);
+                                    HImage _Imgea = new (_Sectle.Calibration_Image);
                                     //保存图像
                                     _Imgea.WriteImage("tiff", 0, File_Log + "\\" + _camerEnum + "_" + i);
                                 }
@@ -794,7 +794,7 @@ namespace HanGao.ViewModel
 
 
 
-                    VistaOpenFileDialog _OpenFile = new VistaOpenFileDialog()
+                    VistaOpenFileDialog _OpenFile = new ()
                     {
                         Title = "选择" + _camerEnum.ToString() + "图像",
                         Filter = "图片文件|*.jpg;*.gif;*.bmp;*.png;*.tif;*.tiff;*.gif;*.bmp;*.jpg;*.jpeg;*.jp2;*.png;*.pcx;*.pgm;*.ppm;*.pbm;*.xwd;*.ima;*.hobj;",
@@ -819,7 +819,7 @@ namespace HanGao.ViewModel
                                 //Calibration_Image_Camera_Model _Image = new Calibration_Image_Camera_Model();
 
 
-                                HImage _HImage = new HImage();
+                                HImage _HImage = new ();
                                 //读取文件图像
                                 _HImage.ReadImage(_OpenFile.FileNames[i]);
 
@@ -1034,9 +1034,9 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 DataGrid E = Sm.Source as DataGrid;
-                HObjectModel3D _Calib_3D = new HObjectModel3D();
+                HObjectModel3D _Calib_3D = new ();
 
-                List<HObjectModel3D> _Camera_Model = new List<HObjectModel3D>();
+                List<HObjectModel3D> _Camera_Model = [];
 
                 try
                 {
@@ -1055,7 +1055,7 @@ namespace HanGao.ViewModel
 
                         if (_Selected != null)
                         {
-                            HObject _HImage = new HObject();
+                            HObject _HImage = new ();
                             //判断属性书否未空对应相机列表属性
 
                             if (_Selected.Camera_0?.Calibration_Image != null)
@@ -1387,7 +1387,7 @@ namespace HanGao.ViewModel
 
 
             //单个图像
-            Calibration_Image_Camera_Model _Calib_Model = new Calibration_Image_Camera_Model()
+            Calibration_Image_Camera_Model _Calib_Model = new ()
             {
                 Calibration_Image = _Image,
                 Calibration_XLD = _CalibXLD,
@@ -1398,7 +1398,7 @@ namespace HanGao.ViewModel
             };
 
             //标定列表集合模型
-            Calibration_Image_List_Model _Calib_Iamge = new Calibration_Image_List_Model()
+            Calibration_Image_List_Model _Calib_Iamge = new ()
             {
                 Camera_No = _Camera_Enum,
                 Image_No = Camera_Calibration_Image_List.Count
@@ -1426,7 +1426,7 @@ namespace HanGao.ViewModel
         public void Camera_Calibration_ImageList_Data(Camera_Connect_Control_Type_Enum _Selected_Type)
         {
 
-            Calibration_Camera_Data_Results_Model _Selected_Results = new Calibration_Camera_Data_Results_Model();
+            Calibration_Camera_Data_Results_Model _Selected_Results = new ();
 
             //对应标定钱检测可标定状态
             switch (_Selected_Type)
@@ -1544,7 +1544,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 手眼标定检查方法
         /// </summary>
-        public void HandEye_Find_Calibration(HandEye_Calibration_Model_Enum _HandEyeModel)
+        public void HandEye_Find_Calibration()
         {
 
 
@@ -1552,7 +1552,7 @@ namespace HanGao.ViewModel
 
 
             //FindCalibObject_Results _Results = new FindCalibObject_Results();
-            MVS_Camera_Info_Model _Select_Camera = new MVS_Camera_Info_Model();
+            MVS_Camera_Info_Model _Select_Camera = new ();
             try
             {
 
@@ -1619,7 +1619,7 @@ namespace HanGao.ViewModel
                     do
                     {
 
-                        HImage _Image = new HImage();
+                        HImage _Image = new ();
 
                         MVS_Image_Mode _MVS_Image = _Select_Camera.MVS_GetOneFrameTimeout();
 

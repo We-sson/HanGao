@@ -684,7 +684,7 @@ namespace MVS_SDK_Base.Model
             {
 
 
-                MVS_Camera_Parameter_Model _Camera_Parameter_Model = new MVS_Camera_Parameter_Model();
+                MVS_Camera_Parameter_Model _Camera_Parameter_Model = new ();
 
 
                 foreach (PropertyInfo _Type in _Camera_Parameter_Model.GetType().GetProperties())
@@ -778,7 +778,7 @@ namespace MVS_SDK_Base.Model
 
                 try
                 {
-                    HImage _HImage = new HImage();
+                    HImage _HImage = new ();
 
                     if (Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
                     {
@@ -840,7 +840,7 @@ namespace MVS_SDK_Base.Model
 
 
 
-                    CIntValue stParam = new CIntValue();
+                    CIntValue stParam = new ();
 
                     Camera.ClearImageBuffer();
 
@@ -853,7 +853,7 @@ namespace MVS_SDK_Base.Model
 
 
                     //创建帧图像信息
-                    MVS_Image_Mode Frame_Image = new MVS_Image_Mode
+                    MVS_Image_Mode Frame_Image = new ()
                     {
 
                         pData_Buffer = new byte[stParam.CurValue]
@@ -1077,7 +1077,7 @@ namespace MVS_SDK_Base.Model
                 {
                     case Type _T when _T.BaseType == typeof(Enum):
 
-                        CEnumValue _EnumValue = new CEnumValue();
+                        CEnumValue _EnumValue = new ();
 
                         //设置相机参数
                         _Parameters_Type = Get_Camera_Val(_Val_Type, _Camera.GetEnumValue(_name, ref _EnumValue));
@@ -1085,12 +1085,12 @@ namespace MVS_SDK_Base.Model
 
 
 
-                        _Value = _EnumValue.CurValue;
+                        //_Value = _EnumValue.CurValue;
                         _Value = Enum.Parse(_T, _EnumValue.CurValue.ToString());
                         break;
                     case Type _T when _T == typeof(Int32):
 
-                        CIntValue _IntValue = new CIntValue();
+                        CIntValue _IntValue = new ();
 
 
                         //设置相机参数
@@ -1107,7 +1107,7 @@ namespace MVS_SDK_Base.Model
                         break;
                     case Type _T when _T == typeof(double):
                         //设置相机参数
-                        CFloatValue _DoubleValue = new CFloatValue();
+                        CFloatValue _DoubleValue = new ();
 
 
 
@@ -1120,7 +1120,7 @@ namespace MVS_SDK_Base.Model
                     case Type _T when _T == typeof(string):
                         //设置相机参数
 
-                        CStringValue _StringValue = new CStringValue();
+                        CStringValue _StringValue = new ();
 
                         _Parameters_Type = Get_Camera_Val(_Val_Type, _Camera.GetStringValue(_name, ref _StringValue));
 
@@ -1325,7 +1325,7 @@ namespace MVS_SDK_Base.Model
                     Open_Camera();
 
 
-                    MVS_Camera_Parameter_Model _Parameter = new MVS_Camera_Parameter_Model();
+                    MVS_Camera_Parameter_Model _Parameter = new ();
 
 
                     //获得相机属性
@@ -1471,7 +1471,7 @@ namespace MVS_SDK_Base.Model
 
             public bool FreeImageBuffer()
             {
-                CFrameout _Frame = new CFrameout();
+                CFrameout _Frame = new ();
                 Camera.FreeImageBuffer(ref _Frame);
 
                 return true;
@@ -1484,7 +1484,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             /// <param name="_Ipaddress"></param>
             /// <returns></returns>
-            private string IP_intTOString(uint _Ipaddress)
+            private static  string IP_intTOString(uint _Ipaddress)
             {
 
                 string _IPString = ((_Ipaddress & 0xFF000000) >> 24).ToString() + "." + ((_Ipaddress & 0x00FF0000) >> 16).ToString() + "." + ((_Ipaddress & 0x0000FF00) >> 8).ToString() + "." + ((_Ipaddress & 0x000000FF)).ToString();
@@ -1515,7 +1515,7 @@ namespace MVS_SDK_Base.Model
                     ///检查标定文件夹
                     if (!Directory.Exists(_Calib_File))
                     {
-                        DirectoryInfo directoryInfo = new DirectoryInfo(_Calib_File);
+                        DirectoryInfo directoryInfo = new (_Calib_File);
                         directoryInfo.Create();
                     }
 
@@ -1529,7 +1529,7 @@ namespace MVS_SDK_Base.Model
                     {
 
 
-                        HCamPar _CamP = new HCamPar();
+                        HCamPar _CamP = new ();
                         _CamP.ReadCamPar(_File);
 
                         Camera_Calibration.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_CamP);
@@ -1545,7 +1545,7 @@ namespace MVS_SDK_Base.Model
                     ///加载手眼文件
                     if (File.Exists(_HandEye_File))
                     {
-                        HPose _HandEyeP = new HPose();
+                        HPose _HandEyeP = new ();
                         _HandEyeP.ReadPose(_HandEye_File);
 
                         Camera_Calibration.HandEye_ToolinCamera = new Point_Model(_HandEyeP);
@@ -1601,13 +1601,13 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 图像信息(仅包含图像基本信息，不含图像缓存)
             /// </summary>
-            public CFrameoutEx FrameEx_Info = new CFrameoutEx();
+            public CFrameoutEx FrameEx_Info = new ();
 
 
             /// <summary>
             /// 图像信息(仅包含图像基本信息，不含图像缓存)
             /// </summary>
-            public CFrameout Frame_Info = new CFrameout();
+            public CFrameout Frame_Info = new ();
 
 
             /// <summary>

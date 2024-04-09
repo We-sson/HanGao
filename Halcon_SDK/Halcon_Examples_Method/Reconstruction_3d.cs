@@ -17,16 +17,16 @@ public class Reconstruction_3d
 
     public  List<HObjectModel3D> Gen_Robot_Camera_3DModel(HPose HandEye_ToolinCamera,HPose Tool_In_Base,HPose Plan_In_Base, HCamPar Select_Camera_Par)
     {
-        List<HObjectModel3D> _Robot_Camera_3dModel = new List<HObjectModel3D>();
+        List<HObjectModel3D> _Robot_Camera_3dModel = new ();
 
 
         try
         {
 
 
-        Point_Model CamInTool = new Point_Model(HandEye_ToolinCamera.PoseInvert());
-        Point_Model ToolInBase = new Point_Model(Tool_In_Base);
-        Point_Model CameraInBase = new Point_Model(ToolInBase.HPose.PoseCompose(CamInTool.HPose));
+        Point_Model CamInTool = new (HandEye_ToolinCamera.PoseInvert());
+        Point_Model ToolInBase = new (Tool_In_Base);
+        Point_Model CameraInBase = new (ToolInBase.HPose.PoseCompose(CamInTool.HPose));
         //生产相机标模型
         List<HObjectModel3D> _Camera_3D = Gen_Camera_object_model_3d(Select_Camera_Par, CameraInBase.HPose);
         _Robot_Camera_3dModel.AddRange(_Camera_3D);
@@ -71,35 +71,35 @@ public class Reconstruction_3d
 
         // Local control variables 
 
-        HTuple hv_CylinderLength = new HTuple();
-        //HTuple hv_ObjectModel3DInit = new HTuple();
-        HTuple hv_CamParams = new HTuple(), hv_Type = new HTuple();
-        HTuple hv_Tilt = new HTuple(), hv_Rot = new HTuple();
-        //HTuple hv_HomMat3DRotate = new HTuple();
-        HTuple hv_BoundingBox = new HTuple();
-        HTuple hv_PX = new HTuple(), hv_PY = new HTuple(), hv_QZ = new HTuple();
-        //HTuple  hv_ObjectModel3DInitTiltedBack = new HTuple();
-        //HTuple  hv_OM3DSensor = new HTuple();
-        //HTuple hv_OM3DLense = new HTuple();
+        HTuple hv_CylinderLength = new ();
+        //HTuple hv_ObjectModel3DInit = new ();
+        HTuple hv_CamParams = new (), hv_Type = new ();
+        HTuple hv_Tilt = new (), hv_Rot = new ();
+        //HTuple hv_HomMat3DRotate = new ();
+        HTuple hv_BoundingBox = new ();
+        HTuple hv_PX = new (), hv_PY = new (), hv_QZ = new ();
+        //HTuple  hv_ObjectModel3DInitTiltedBack = new ();
+        //HTuple  hv_OM3DSensor = new ();
+        //HTuple hv_OM3DLense = new ();
         // Initialize local and output iconic variables 
-        //hv_OM3DCam = new HTuple();
+        //hv_OM3DCam = new ();
         //
         //Generate a cylinder (lens) and move it behind the origin in direction z.
-        HPose hv_LensePose = new HPose();
-        HPose hv_PoseBack = new HPose();
-        HTuple hv_CamPose = new HTuple();
-        HObjectModel3D hv_ObjectModel3DLense = new HObjectModel3D();
-        HObjectModel3D hv_ObjectModel3DInit = new HObjectModel3D();
-        HObjectModel3D hv_ObjectModel3DInitTilted = new HObjectModel3D();
-        HObjectModel3D hv_ObjectModel3DInitTiltedBack = new HObjectModel3D();
-        HObjectModel3D hv_OM3DSensor = new HObjectModel3D();
-        HObjectModel3D hv_OM3DCam = new HObjectModel3D();
-        HObjectModel3D hv_OM3DLense = new HObjectModel3D();
-        HObjectModel3D _hv_OME3D = new HObjectModel3D();
+        HPose hv_LensePose = new ();
+        HPose hv_PoseBack = new ();
+        HTuple hv_CamPose = new ();
+        HObjectModel3D hv_ObjectModel3DLense = new ();
+        HObjectModel3D hv_ObjectModel3DInit = new ();
+        HObjectModel3D hv_ObjectModel3DInitTilted = new ();
+        HObjectModel3D hv_ObjectModel3DInitTiltedBack = new ();
+        HObjectModel3D hv_OM3DSensor = new ();
+        HObjectModel3D hv_OM3DCam = new ();
+        HObjectModel3D hv_OM3DLense = new ();
+        HObjectModel3D _hv_OME3D = new ();
 
-        HHomMat3D hv_HomMat3DIdentity = new HHomMat3D();
-        HHomMat3D hv_HomMat3DRotate = new HHomMat3D();
-        HPose hv_SensorToLenseRotation = new HPose();
+        HHomMat3D hv_HomMat3DIdentity = new ();
+        HHomMat3D hv_HomMat3DRotate = new ();
+        HPose hv_SensorToLenseRotation = new ();
 
         try
         {
@@ -200,7 +200,7 @@ public class Reconstruction_3d
 
 
         }
-        catch (HalconException)
+        catch (Exception)
         {
 
             return new List<HObjectModel3D>();
@@ -243,25 +243,25 @@ public class Reconstruction_3d
 
         // Local iconic variables 
 
-        List<HObjectModel3D> hv_ObjectModel3D_Results = new List<HObjectModel3D>();
-        List<HObjectModel3D> hv_ObjectModel3DCamera = new List<HObjectModel3D>();
-        HObjectModel3D hv_ObjectModel3DCone = new HObjectModel3D();
+        List<HObjectModel3D> hv_ObjectModel3D_Results = new();
+        List<HObjectModel3D> hv_ObjectModel3DCamera = new();
+        HObjectModel3D hv_ObjectModel3DCone = new ();
 
         // Local control variables 
 
-        HTuple hv_NumCameras = new HTuple(), hv_AutoConeLength = new HTuple();
-        HTuple hv_AllCameras = new HTuple();
-        HTuple hv_ConcatZ = new HTuple(), hv_OtherCameras = new HTuple();
-        HTuple hv_Index = new HTuple(), hv_CamParam0 = new HTuple();
-        HTuple hv_Pose0 = new HTuple(), hv_CamParam1 = new HTuple();
-        HTuple hv_Pose1 = new HTuple(), hv_PoseInvert = new HTuple();
-        HTuple hv_RelPose = new HTuple(), hv_CX0 = new HTuple();
-        HTuple hv_CY0 = new HTuple(), hv_CX1 = new HTuple(), hv_CY1 = new HTuple();
-        HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_Z = new HTuple();
-        HTuple hv_Dist = new HTuple(), hv_Exception = new HTuple();
-        HTuple hv_CameraType = new HTuple();
-        //HTuple hv_ObjectModel3DConeTmp = new HTuple();
-        //HTuple hv_ObjectModel3DCameraTmp = new HTuple();
+        HTuple hv_NumCameras = new (), hv_AutoConeLength = new ();
+        HTuple hv_AllCameras = new ();
+        HTuple hv_ConcatZ = new (), hv_OtherCameras = new ();
+        HTuple hv_Index = new (), hv_CamParam0 = new ();
+        HTuple hv_Pose0 = new (), hv_CamParam1 = new ();
+        HTuple hv_Pose1 = new (), hv_PoseInvert = new ();
+        HTuple hv_RelPose = new (), hv_CX0 = new ();
+        HTuple hv_CY0 = new (), hv_CX1 = new (), hv_CY1 = new ();
+        HTuple hv_X = new (), hv_Y = new (), hv_Z = new ();
+        HTuple hv_Dist = new (), hv_Exception = new ();
+        HTuple hv_CameraType = new ();
+        //HTuple hv_ObjectModel3DConeTmp = new ();
+        //HTuple hv_ObjectModel3DCameraTmp = new ();
         //HTuple hv_CameraSize_COPY_INP_TMP = new HTuple(hv_CameraSize);
         //HTuple hv_ConeLength_COPY_INP_TMP = new HTuple(hv_ConeLength);
 
@@ -276,29 +276,29 @@ public class Reconstruction_3d
         //Consistency check:
         if ((int)hv_NumCameras.TupleLess(1) != 0)
         {
-            throw new HalconException("No camera set.");
+            throw new Exception("No camera set.");
         }
         if ((int)(hv_CameraSize.TupleIsNumber()) != 0)
         {
             if ((int)(new HTuple(hv_CameraSize.TupleLessEqual(0.0))) != 0)
             {
-                throw new HalconException("Invalid value for CameraSize. CameraSize must be positive or 'auto'.");
+                throw new Exception("Invalid value for CameraSize. CameraSize must be positive or 'auto'.");
             }
         }
         else if ((int)(new HTuple(hv_CameraSize.TupleNotEqual("auto"))) != 0)
         {
-            throw new HalconException("Invalid value for CameraSize. CameraSize must be positive or 'auto'.");
+            throw new Exception("Invalid value for CameraSize. CameraSize must be positive or 'auto'.");
         }
         if ((int)(hv_ConeLength.TupleIsNumber()) != 0)
         {
             if ((int)(new HTuple(hv_ConeLength.TupleLessEqual(0.0))) != 0)
             {
-                throw new HalconException("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
+                throw new Exception("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
             }
         }
         else if ((int)(new HTuple(hv_ConeLength.TupleNotEqual("auto"))) != 0)
         {
-            throw new HalconException("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
+            throw new Exception("Invalid value for ConeLength. ConeLength must be positive or 'auto'.");
         }
         //
 
@@ -307,9 +307,9 @@ public class Reconstruction_3d
 
         //
         //hv_ObjectModel3DCamera.Dispose();
-        //hv_ObjectModel3DCamera = new HTuple();
+        //hv_ObjectModel3DCamera = new ();
         //hv_ObjectModel3DCone.Dispose();
-        //hv_ObjectModel3DCone = new HTuple();
+        //hv_ObjectModel3DCone = new ();
         hv_AllCameras.Dispose();
 
         hv_AllCameras = HTuple.TupleGenSequence(0, hv_NumCameras - 1, 1);
@@ -326,16 +326,16 @@ public class Reconstruction_3d
 
 
             hv_ConcatZ.Dispose();
-            hv_ConcatZ = new HTuple();
+            hv_ConcatZ = new ();
             if ((int)(hv_AutoConeLength) != 0)
             {
                 if ((int)(new HTuple(hv_NumCameras.TupleLess(2))) != 0)
                 {
-                    throw new HalconException("You need at least two cameras for ConeLength == auto.");
+                    throw new Exception("You need at least two cameras for ConeLength == auto.");
                 }
                 //Intersect the line of sight of each camera with all other cameras.
                 hv_OtherCameras.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hv_OtherCameras = hv_AllCameras.TupleRemove(
                         hv_AllCameras.TupleFind(hv_CurrentCamera));
@@ -349,13 +349,13 @@ public class Reconstruction_3d
                     hv_Pose0.Dispose();
                     HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CurrentCamera,
                         "pose", out hv_Pose0);
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_CamParam1.Dispose();
                         HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_OtherCameras.TupleSelect(
                             hv_Index), "params", out hv_CamParam1);
                     }
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_Pose1.Dispose();
                         HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_OtherCameras.TupleSelect(
@@ -381,12 +381,12 @@ public class Reconstruction_3d
                             hv_CY0, hv_CX0, hv_CY1, hv_CX1, out hv_X, out hv_Y, out hv_Z, out hv_Dist);
                     }
                     // catch (Exception) 
-                    catch (HalconException HDevExpDefaultException1)
+                    catch (Exception )
                     {
-                        HDevExpDefaultException1.ToHTuple(out hv_Exception);
-                        throw new HalconException("Estimating a value for ConeLength automatically was not possible. Please use a number instead.");
+                        //HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                        throw new Exception("Estimating a value for ConeLength automatically was not possible. Please use a number instead.");
                     }
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         {
                             HTuple
@@ -399,7 +399,7 @@ public class Reconstruction_3d
                 }
                 //Use the Z value of the determined coordinates as basis for the ConeLength.
                 //hv_ConeLength_COPY_INP_TMP.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hv_ConeLength = (hv_ConcatZ.TupleMax()
                         ) * 1.05;
@@ -451,7 +451,7 @@ public class Reconstruction_3d
                 //In auto mode, the camera size for all cameras
                 //is defined by the first camera's cone length.
                 hv_CameraSize.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hv_CameraSize = hv_ConeLength * 0.1;
                 }
@@ -464,7 +464,7 @@ public class Reconstruction_3d
 
             hv_ObjectModel3D_Results.AddRange(hv_ObjectModel3DCamera);
 
-            //using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            //using (HDevDisposeHelper dh = new ())
             //{
             //    {
             //        HTuple
@@ -519,14 +519,14 @@ public class Reconstruction_3d
 
         HPose hv_CamPose = new HPose();
         HHomMat3D hv_HomMat3D = new HHomMat3D();
-        HTuple hv_CamParam = new HTuple(), hv_Width = new HTuple();
-        HTuple hv_Height = new HTuple(), hv_PX = new HTuple();
-        HTuple hv_PY = new HTuple(), hv_PZ = new HTuple(), hv_QX = new HTuple();
-        HTuple hv_QY = new HTuple(), hv_QZ = new HTuple(), hv_CBX = new HTuple();
-        HTuple hv_CBY = new HTuple(), hv_CBZ = new HTuple(), hv_CEXCam = new HTuple();
-        HTuple hv_CEYCam = new HTuple(), hv_CEZCam = new HTuple();
-        HTuple hv_CEX = new HTuple(), hv_CEY = new HTuple(), hv_CEZ = new HTuple();
-        HTuple hv_Index = new HTuple(), hv_Faces = new HTuple();
+        HTuple hv_CamParam = new (), hv_Width = new ();
+        HTuple hv_Height = new (), hv_PX = new ();
+        HTuple hv_PY = new (), hv_PZ = new (), hv_QX = new ();
+        HTuple hv_QY = new (), hv_QZ = new (), hv_CBX = new ();
+        HTuple hv_CBY = new (), hv_CBZ = new (), hv_CEXCam = new ();
+        HTuple hv_CEYCam = new (), hv_CEZCam = new ();
+        HTuple hv_CEX = new (), hv_CEY = new (), hv_CEZ = new ();
+        HTuple hv_Index = new (), hv_Faces = new ();
 
         HTupleVector hvec_Points = new HTupleVector(1);
         // Initialize local and output iconic variables 
@@ -553,7 +553,7 @@ public class Reconstruction_3d
         //Get the lines of sight of the four corner points of the image.
         //Scale them to the given length and transform into world coordinates.
         hvec_Points.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points = dh.Take((
                 dh.Add(new HTupleVector(1)).Insert(0, dh.Add(new HTupleVector(new HTuple())))));
@@ -565,36 +565,36 @@ public class Reconstruction_3d
         hv_CBX.Dispose(); hv_CBY.Dispose(); hv_CBZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX,
             out hv_CBY, out hv_CBZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[0] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
                 hv_CBY))).TupleConcat(hv_CBZ)));
         }
         hv_CEXCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEXCam = hv_PX + (((hv_QX - hv_PX) / (hv_QZ - hv_PZ)) * hv_ConeLength);
         }
         hv_CEYCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEYCam = hv_PY + (((hv_QY - hv_PY) / (hv_QZ - hv_PZ)) * hv_ConeLength);
         }
         hv_CEZCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEZCam = hv_PZ + hv_ConeLength;
         }
         hv_CEX.Dispose(); hv_CEY.Dispose(); hv_CEZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_CEXCam, hv_CEYCam, hv_CEZCam,
             out hv_CEX, out hv_CEY, out hv_CEZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[1] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
                 hv_CEY))).TupleConcat(hv_CEZ)));
         }
         //Second corner.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_PX.Dispose(); hv_PY.Dispose(); hv_PZ.Dispose(); hv_QX.Dispose(); hv_QY.Dispose(); hv_QZ.Dispose();
             HOperatorSet.GetLineOfSight(hv_Height - 1, 0, hv_CamParam, out hv_PX, out hv_PY,
@@ -603,36 +603,36 @@ public class Reconstruction_3d
         hv_CBX.Dispose(); hv_CBY.Dispose(); hv_CBZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX,
             out hv_CBY, out hv_CBZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[2] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
                 hv_CBY))).TupleConcat(hv_CBZ)));
         }
         hv_CEXCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEXCam = hv_PX + (((hv_QX - hv_PX) / (hv_QZ - hv_PZ)) * hv_ConeLength);
         }
         hv_CEYCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEYCam = hv_PY + (((hv_QY - hv_PY) / (hv_QZ - hv_PZ)) * hv_ConeLength);
         }
         hv_CEZCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEZCam = hv_PZ + hv_ConeLength;
         }
         hv_CEX.Dispose(); hv_CEY.Dispose(); hv_CEZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_CEXCam, hv_CEYCam, hv_CEZCam,
             out hv_CEX, out hv_CEY, out hv_CEZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[3] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
                 hv_CEY))).TupleConcat(hv_CEZ)));
         }
         //Third corner.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_PX.Dispose(); hv_PY.Dispose(); hv_PZ.Dispose(); hv_QX.Dispose(); hv_QY.Dispose(); hv_QZ.Dispose();
             HOperatorSet.GetLineOfSight(hv_Height - 1, hv_Width - 1, hv_CamParam, out hv_PX,
@@ -641,36 +641,36 @@ public class Reconstruction_3d
         hv_CBX.Dispose(); hv_CBY.Dispose(); hv_CBZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX,
             out hv_CBY, out hv_CBZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[4] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
                 hv_CBY))).TupleConcat(hv_CBZ)));
         }
         hv_CEXCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEXCam = hv_PX + (((hv_QX - hv_PX) / (hv_QZ - hv_PZ)) * hv_ConeLength);
         }
         hv_CEYCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEYCam = hv_PY + (((hv_QY - hv_PY) / (hv_QZ - hv_PZ)) * hv_ConeLength);
         }
         hv_CEZCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEZCam = hv_PZ + hv_ConeLength;
         }
         hv_CEX.Dispose(); hv_CEY.Dispose(); hv_CEZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_CEXCam, hv_CEYCam, hv_CEZCam,
             out hv_CEX, out hv_CEY, out hv_CEZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[5] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
                 hv_CEY))).TupleConcat(hv_CEZ)));
         }
         //Fourth corner.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_PX.Dispose(); hv_PY.Dispose(); hv_PZ.Dispose(); hv_QX.Dispose(); hv_QY.Dispose(); hv_QZ.Dispose();
             HOperatorSet.GetLineOfSight(0, hv_Width - 1, hv_CamParam, out hv_PX, out hv_PY,
@@ -679,30 +679,30 @@ public class Reconstruction_3d
         hv_CBX.Dispose(); hv_CBY.Dispose(); hv_CBZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX,
             out hv_CBY, out hv_CBZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[6] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
                 hv_CBY))).TupleConcat(hv_CBZ)));
         }
         hv_CEXCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEXCam = hv_PX + (((hv_QX - hv_PX) / (hv_QZ - hv_PZ)) * hv_ConeLength);
         }
         hv_CEYCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEYCam = hv_PY + (((hv_QY - hv_PY) / (hv_QZ - hv_PZ)) * hv_ConeLength);
         }
         hv_CEZCam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_CEZCam = hv_PZ + hv_ConeLength;
         }
         hv_CEX.Dispose(); hv_CEY.Dispose(); hv_CEZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_CEXCam, hv_CEYCam, hv_CEZCam,
             out hv_CEX, out hv_CEY, out hv_CEZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[7] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
                 hv_CEY))).TupleConcat(hv_CEZ)));
@@ -710,14 +710,14 @@ public class Reconstruction_3d
         //
         //Sort the points by coordinate direction.
         hv_PX.Dispose();
-        hv_PX = new HTuple();
+        hv_PX = new ();
         hv_PY.Dispose();
-        hv_PY = new HTuple();
+        hv_PY = new ();
         hv_PZ.Dispose();
-        hv_PZ = new HTuple();
+        hv_PZ = new ();
         for (hv_Index = 0; (int)hv_Index <= 7; hv_Index = (int)hv_Index + 1)
         {
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 {
                     HTuple
@@ -727,7 +727,7 @@ public class Reconstruction_3d
                     hv_PX = ExpTmpLocalVar_PX;
                 }
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 {
                     HTuple
@@ -737,7 +737,7 @@ public class Reconstruction_3d
                     hv_PY = ExpTmpLocalVar_PY;
                 }
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 {
                     HTuple
@@ -754,8 +754,8 @@ public class Reconstruction_3d
         //
         //Set the sides of the cone.
         hv_Faces.Dispose();
-        hv_Faces = new HTuple();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        hv_Faces = new ();
+        using (HDevDisposeHelper dh = new ())
         {
             {
                 HTuple
@@ -766,7 +766,7 @@ public class Reconstruction_3d
                 hv_Faces = ExpTmpLocalVar_Faces;
             }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             {
                 HTuple
@@ -777,7 +777,7 @@ public class Reconstruction_3d
                 hv_Faces = ExpTmpLocalVar_Faces;
             }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             {
                 HTuple
@@ -788,7 +788,7 @@ public class Reconstruction_3d
                 hv_Faces = ExpTmpLocalVar_Faces;
             }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             {
                 HTuple
@@ -799,7 +799,7 @@ public class Reconstruction_3d
                 hv_Faces = ExpTmpLocalVar_Faces;
             }
         }
-        HOperatorSet.SetObjectModel3dAttribMod(hv_ObjectModel3D, "polygons", new HTuple(),
+        HOperatorSet.SetObjectModel3dAttribMod(hv_ObjectModel3D, "polygons", new (),
             hv_Faces);
 
         //hv_CamPose.Dispose();
@@ -842,17 +842,17 @@ public class Reconstruction_3d
         // Local control variables 
         HPose hv_CamPose = new HPose();
         HHomMat3D hv_HomMat3D = new HHomMat3D();
-        HTuple hv_CamParam = new HTuple(), hv_Width = new HTuple();
-        HTuple hv_Height = new HTuple(), hv_PX = new HTuple();
-        HTuple hv_PY = new HTuple(), hv_PZ = new HTuple(), hv_QX = new HTuple();
-        HTuple hv_QY = new HTuple(), hv_QZ = new HTuple(), hv_CBX = new HTuple();
-        HTuple hv_CBY = new HTuple(), hv_CBZ = new HTuple(), hv_CEZCam = new HTuple();
-        HTuple hv_CEX = new HTuple(), hv_CEY = new HTuple(), hv_CEZ = new HTuple();
-        HTuple hv_Index = new HTuple(), hv_Faces = new HTuple();
+        HTuple hv_CamParam = new (), hv_Width = new ();
+        HTuple hv_Height = new (), hv_PX = new ();
+        HTuple hv_PY = new (), hv_PZ = new (), hv_QX = new ();
+        HTuple hv_QY = new (), hv_QZ = new (), hv_CBX = new ();
+        HTuple hv_CBY = new (), hv_CBZ = new (), hv_CEZCam = new ();
+        HTuple hv_CEX = new (), hv_CEY = new (), hv_CEZ = new ();
+        HTuple hv_Index = new (), hv_Faces = new ();
 
         HTupleVector hvec_Points = new HTupleVector(1);
         // Initialize local and output iconic variables 
-        //hv_ObjectModel3D = new HTuple();
+        //hv_ObjectModel3D = new ();
         //hv_CamPose.Dispose();
         //HOperatorSet.GetCameraSetupParam(hv_CameraSetupModelID, hv_CameraIndex, "pose",out hv_CamPose);
 
@@ -878,7 +878,7 @@ public class Reconstruction_3d
         //Get the lines of sight of the four corner points of the image.
         //Scale them to the given length and transform into world coordinates.
         hvec_Points.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points = dh.Take((
                 dh.Add(new HTupleVector(1)).Insert(0, dh.Add(new HTupleVector(new HTuple())))));
@@ -890,7 +890,7 @@ public class Reconstruction_3d
         hv_CBX.Dispose(); hv_CBY.Dispose(); hv_CBZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX,
             out hv_CBY, out hv_CBZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[0] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
                 hv_CBY))).TupleConcat(hv_CBZ)));
@@ -900,13 +900,13 @@ public class Reconstruction_3d
         hv_CEX.Dispose(); hv_CEY.Dispose(); hv_CEZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_QX, hv_QY, hv_CEZCam, out hv_CEX,
             out hv_CEY, out hv_CEZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[1] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
                 hv_CEY))).TupleConcat(hv_CEZ)));
         }
         //Second corner.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_PX.Dispose(); hv_PY.Dispose(); hv_PZ.Dispose(); hv_QX.Dispose(); hv_QY.Dispose(); hv_QZ.Dispose();
             HOperatorSet.GetLineOfSight(hv_Height - 1, 0, hv_CamParam, out hv_PX, out hv_PY,
@@ -915,7 +915,7 @@ public class Reconstruction_3d
         hv_CBX.Dispose(); hv_CBY.Dispose(); hv_CBZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX,
             out hv_CBY, out hv_CBZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[2] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
                 hv_CBY))).TupleConcat(hv_CBZ)));
@@ -925,13 +925,13 @@ public class Reconstruction_3d
         hv_CEX.Dispose(); hv_CEY.Dispose(); hv_CEZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_QX, hv_QY, hv_CEZCam, out hv_CEX,
             out hv_CEY, out hv_CEZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[3] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
                 hv_CEY))).TupleConcat(hv_CEZ)));
         }
         //Third corner.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_PX.Dispose(); hv_PY.Dispose(); hv_PZ.Dispose(); hv_QX.Dispose(); hv_QY.Dispose(); hv_QZ.Dispose();
             HOperatorSet.GetLineOfSight(hv_Height - 1, hv_Width - 1, hv_CamParam, out hv_PX,
@@ -940,7 +940,7 @@ public class Reconstruction_3d
         hv_CBX.Dispose(); hv_CBY.Dispose(); hv_CBZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX,
             out hv_CBY, out hv_CBZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[4] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
                 hv_CBY))).TupleConcat(hv_CBZ)));
@@ -950,13 +950,13 @@ public class Reconstruction_3d
         hv_CEX.Dispose(); hv_CEY.Dispose(); hv_CEZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_QX, hv_QY, hv_CEZCam, out hv_CEX,
             out hv_CEY, out hv_CEZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[5] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
                 hv_CEY))).TupleConcat(hv_CEZ)));
         }
         //Fourth corner.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hv_PX.Dispose(); hv_PY.Dispose(); hv_PZ.Dispose(); hv_QX.Dispose(); hv_QY.Dispose(); hv_QZ.Dispose();
             HOperatorSet.GetLineOfSight(0, hv_Width - 1, hv_CamParam, out hv_PX, out hv_PY,
@@ -965,7 +965,7 @@ public class Reconstruction_3d
         hv_CBX.Dispose(); hv_CBY.Dispose(); hv_CBZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_PX, hv_PY, hv_PZ, out hv_CBX,
             out hv_CBY, out hv_CBZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[6] = dh.Add(new HTupleVector(((hv_CBX.TupleConcat(
                 hv_CBY))).TupleConcat(hv_CBZ)));
@@ -975,7 +975,7 @@ public class Reconstruction_3d
         hv_CEX.Dispose(); hv_CEY.Dispose(); hv_CEZ.Dispose();
         HOperatorSet.AffineTransPoint3d(hv_HomMat3D, hv_QX, hv_QY, hv_CEZCam, out hv_CEX,
             out hv_CEY, out hv_CEZ);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             hvec_Points[7] = dh.Add(new HTupleVector(((hv_CEX.TupleConcat(
                 hv_CEY))).TupleConcat(hv_CEZ)));
@@ -983,14 +983,14 @@ public class Reconstruction_3d
         //
         //Sort the points by coordinate direction.
         hv_PX.Dispose();
-        hv_PX = new HTuple();
+        hv_PX = new ();
         hv_PY.Dispose();
-        hv_PY = new HTuple();
+        hv_PY = new ();
         hv_PZ.Dispose();
-        hv_PZ = new HTuple();
+        hv_PZ = new ();
         for (hv_Index = 0; (int)hv_Index <= 7; hv_Index = (int)hv_Index + 1)
         {
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 {
                     HTuple
@@ -1000,7 +1000,7 @@ public class Reconstruction_3d
                     hv_PX = ExpTmpLocalVar_PX;
                 }
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 {
                     HTuple
@@ -1010,7 +1010,7 @@ public class Reconstruction_3d
                     hv_PY = ExpTmpLocalVar_PY;
                 }
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 {
                     HTuple
@@ -1029,8 +1029,8 @@ public class Reconstruction_3d
         //
         //Set the sides of the cone.
         hv_Faces.Dispose();
-        hv_Faces = new HTuple();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        hv_Faces = new ();
+        using (HDevDisposeHelper dh = new ())
         {
             {
                 HTuple
@@ -1041,7 +1041,7 @@ public class Reconstruction_3d
                 hv_Faces = ExpTmpLocalVar_Faces;
             }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             {
                 HTuple
@@ -1052,7 +1052,7 @@ public class Reconstruction_3d
                 hv_Faces = ExpTmpLocalVar_Faces;
             }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             {
                 HTuple
@@ -1063,7 +1063,7 @@ public class Reconstruction_3d
                 hv_Faces = ExpTmpLocalVar_Faces;
             }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
             {
                 HTuple
@@ -1074,7 +1074,7 @@ public class Reconstruction_3d
                 hv_Faces = ExpTmpLocalVar_Faces;
             }
         }
-        HOperatorSet.SetObjectModel3dAttribMod(hv_ObjectModel3D, "polygons", new HTuple(),
+        HOperatorSet.SetObjectModel3dAttribMod(hv_ObjectModel3D, "polygons", new (),
             hv_Faces);
 
         //hv_CamPose.Dispose();
@@ -1117,14 +1117,14 @@ public class Reconstruction_3d
 
         // Local iconic variables 
         // Initialize local and output iconic variables 
-        hv_CameraParam = new HTuple();
+        hv_CameraParam = new ();
         //Generate a camera parameter tuple for an area scan camera
         //with distortions modeled by the polynomial model.
         //
         hv_CameraParam.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-            hv_CameraParam = new HTuple();
+            hv_CameraParam = new ();
             hv_CameraParam[0] = "area_scan_polynomial";
             hv_CameraParam = hv_CameraParam.TupleConcat(hv_Focus, hv_K1, hv_K2, hv_K3, hv_P1, hv_P2, hv_Sx, hv_Sy, hv_Cx, hv_Cy, hv_ImageWidth, hv_ImageHeight);
         }
@@ -1144,11 +1144,11 @@ public class Reconstruction_3d
 
         // Local control variables 
 
-        HTuple hv_CameraType = new HTuple(), hv_CameraParamNames = new HTuple();
-        HTuple hv_Index = new HTuple(), hv_ParamNameInd = new HTuple();
-        HTuple hv_I = new HTuple();
+        HTuple hv_CameraType = new (), hv_CameraParamNames = new ();
+        HTuple hv_Index = new (), hv_ParamNameInd = new ();
+        HTuple hv_I = new ();
         // Initialize local and output iconic variables 
-        hv_ParamValue = new HTuple();
+        hv_ParamValue = new ();
         //get_cam_par_data returns in ParamValue the value of the
         //parameter that is given in ParamName from the tuple of
         //camera parameters that is given in CameraParam.
@@ -1161,18 +1161,18 @@ public class Reconstruction_3d
         //Find the index of the requested camera data and return
         //the corresponding value.
         hv_ParamValue.Dispose();
-        hv_ParamValue = new HTuple();
+        hv_ParamValue = new ();
         for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_ParamName.TupleLength())) - 1); hv_Index = (int)hv_Index + 1)
         {
             hv_ParamNameInd.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_ParamNameInd = hv_ParamName.TupleSelect(
                     hv_Index);
             }
             if ((int)(new HTuple(hv_ParamNameInd.TupleEqual("camera_type"))) != 0)
             {
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -1185,14 +1185,14 @@ public class Reconstruction_3d
                 continue;
             }
             hv_I.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_I = hv_CameraParamNames.TupleFind(
                     hv_ParamNameInd);
             }
             if ((int)(new HTuple(hv_I.TupleNotEqual(-1))) != 0)
             {
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -1205,7 +1205,7 @@ public class Reconstruction_3d
             }
             else
             {
-                throw new HalconException("Unknown camera parameter " + hv_ParamNameInd);
+                throw new Exception("Unknown camera parameter " + hv_ParamNameInd);
             }
         }
 
@@ -1230,33 +1230,33 @@ public class Reconstruction_3d
 
         // Local control variables 
 
-        HTuple hv_CameraParamAreaScanDivision = new HTuple();
-        HTuple hv_CameraParamAreaScanPolynomial = new HTuple();
-        HTuple hv_CameraParamAreaScanTelecentricDivision = new HTuple();
-        HTuple hv_CameraParamAreaScanTelecentricPolynomial = new HTuple();
-        HTuple hv_CameraParamAreaScanTiltDivision = new HTuple();
-        HTuple hv_CameraParamAreaScanTiltPolynomial = new HTuple();
-        HTuple hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new HTuple();
-        HTuple hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new HTuple();
-        HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new HTuple();
-        HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new HTuple();
-        HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new HTuple();
-        HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new HTuple();
-        HTuple hv_CameraParamAreaScanHypercentricDivision = new HTuple();
-        HTuple hv_CameraParamAreaScanHypercentricPolynomial = new HTuple();
-        HTuple hv_CameraParamLinesScanDivision = new HTuple();
-        HTuple hv_CameraParamLinesScanPolynomial = new HTuple();
-        HTuple hv_CameraParamLinesScanTelecentricDivision = new HTuple();
-        HTuple hv_CameraParamLinesScanTelecentricPolynomial = new HTuple();
-        HTuple hv_CameraParamAreaScanTiltDivisionLegacy = new HTuple();
-        HTuple hv_CameraParamAreaScanTiltPolynomialLegacy = new HTuple();
-        HTuple hv_CameraParamAreaScanTelecentricDivisionLegacy = new HTuple();
-        HTuple hv_CameraParamAreaScanTelecentricPolynomialLegacy = new HTuple();
-        HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new HTuple();
-        HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new HTuple();
+        HTuple hv_CameraParamAreaScanDivision = new ();
+        HTuple hv_CameraParamAreaScanPolynomial = new ();
+        HTuple hv_CameraParamAreaScanTelecentricDivision = new ();
+        HTuple hv_CameraParamAreaScanTelecentricPolynomial = new ();
+        HTuple hv_CameraParamAreaScanTiltDivision = new ();
+        HTuple hv_CameraParamAreaScanTiltPolynomial = new ();
+        HTuple hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new ();
+        HTuple hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new ();
+        HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new ();
+        HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new ();
+        HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new ();
+        HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new ();
+        HTuple hv_CameraParamAreaScanHypercentricDivision = new ();
+        HTuple hv_CameraParamAreaScanHypercentricPolynomial = new ();
+        HTuple hv_CameraParamLinesScanDivision = new ();
+        HTuple hv_CameraParamLinesScanPolynomial = new ();
+        HTuple hv_CameraParamLinesScanTelecentricDivision = new ();
+        HTuple hv_CameraParamLinesScanTelecentricPolynomial = new ();
+        HTuple hv_CameraParamAreaScanTiltDivisionLegacy = new ();
+        HTuple hv_CameraParamAreaScanTiltPolynomialLegacy = new ();
+        HTuple hv_CameraParamAreaScanTelecentricDivisionLegacy = new ();
+        HTuple hv_CameraParamAreaScanTelecentricPolynomialLegacy = new ();
+        HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new ();
+        HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new ();
         // Initialize local and output iconic variables 
-        hv_CameraType = new HTuple();
-        hv_ParamNames = new HTuple();
+        hv_CameraType = new ();
+        hv_ParamNames = new ();
         //get_cam_par_names returns for each element in the camera
         //parameter tuple that is passed in CameraParam the name
         //of the respective camera parameter. The parameter names
@@ -1282,7 +1282,7 @@ public class Reconstruction_3d
         //  - 'line_scan_telecentric_polynomial'
         //
         hv_CameraParamAreaScanDivision.Dispose();
-        hv_CameraParamAreaScanDivision = new HTuple();
+        hv_CameraParamAreaScanDivision = new ();
         hv_CameraParamAreaScanDivision[0] = "focus";
         hv_CameraParamAreaScanDivision[1] = "kappa";
         hv_CameraParamAreaScanDivision[2] = "sx";
@@ -1292,7 +1292,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanDivision[6] = "image_width";
         hv_CameraParamAreaScanDivision[7] = "image_height";
         hv_CameraParamAreaScanPolynomial.Dispose();
-        hv_CameraParamAreaScanPolynomial = new HTuple();
+        hv_CameraParamAreaScanPolynomial = new ();
         hv_CameraParamAreaScanPolynomial[0] = "focus";
         hv_CameraParamAreaScanPolynomial[1] = "k1";
         hv_CameraParamAreaScanPolynomial[2] = "k2";
@@ -1306,7 +1306,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanPolynomial[10] = "image_width";
         hv_CameraParamAreaScanPolynomial[11] = "image_height";
         hv_CameraParamAreaScanTelecentricDivision.Dispose();
-        hv_CameraParamAreaScanTelecentricDivision = new HTuple();
+        hv_CameraParamAreaScanTelecentricDivision = new ();
         hv_CameraParamAreaScanTelecentricDivision[0] = "magnification";
         hv_CameraParamAreaScanTelecentricDivision[1] = "kappa";
         hv_CameraParamAreaScanTelecentricDivision[2] = "sx";
@@ -1316,7 +1316,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanTelecentricDivision[6] = "image_width";
         hv_CameraParamAreaScanTelecentricDivision[7] = "image_height";
         hv_CameraParamAreaScanTelecentricPolynomial.Dispose();
-        hv_CameraParamAreaScanTelecentricPolynomial = new HTuple();
+        hv_CameraParamAreaScanTelecentricPolynomial = new ();
         hv_CameraParamAreaScanTelecentricPolynomial[0] = "magnification";
         hv_CameraParamAreaScanTelecentricPolynomial[1] = "k1";
         hv_CameraParamAreaScanTelecentricPolynomial[2] = "k2";
@@ -1330,7 +1330,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanTelecentricPolynomial[10] = "image_width";
         hv_CameraParamAreaScanTelecentricPolynomial[11] = "image_height";
         hv_CameraParamAreaScanTiltDivision.Dispose();
-        hv_CameraParamAreaScanTiltDivision = new HTuple();
+        hv_CameraParamAreaScanTiltDivision = new ();
         hv_CameraParamAreaScanTiltDivision[0] = "focus";
         hv_CameraParamAreaScanTiltDivision[1] = "kappa";
         hv_CameraParamAreaScanTiltDivision[2] = "image_plane_dist";
@@ -1343,7 +1343,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanTiltDivision[9] = "image_width";
         hv_CameraParamAreaScanTiltDivision[10] = "image_height";
         hv_CameraParamAreaScanTiltPolynomial.Dispose();
-        hv_CameraParamAreaScanTiltPolynomial = new HTuple();
+        hv_CameraParamAreaScanTiltPolynomial = new ();
         hv_CameraParamAreaScanTiltPolynomial[0] = "focus";
         hv_CameraParamAreaScanTiltPolynomial[1] = "k1";
         hv_CameraParamAreaScanTiltPolynomial[2] = "k2";
@@ -1360,7 +1360,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanTiltPolynomial[13] = "image_width";
         hv_CameraParamAreaScanTiltPolynomial[14] = "image_height";
         hv_CameraParamAreaScanImageSideTelecentricTiltDivision.Dispose();
-        hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new HTuple();
+        hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new ();
         hv_CameraParamAreaScanImageSideTelecentricTiltDivision[0] = "focus";
         hv_CameraParamAreaScanImageSideTelecentricTiltDivision[1] = "kappa";
         hv_CameraParamAreaScanImageSideTelecentricTiltDivision[2] = "tilt";
@@ -1372,7 +1372,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanImageSideTelecentricTiltDivision[8] = "image_width";
         hv_CameraParamAreaScanImageSideTelecentricTiltDivision[9] = "image_height";
         hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial.Dispose();
-        hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new HTuple();
+        hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new ();
         hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[0] = "focus";
         hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[1] = "k1";
         hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[2] = "k2";
@@ -1388,7 +1388,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[12] = "image_width";
         hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[13] = "image_height";
         hv_CameraParamAreaScanBilateralTelecentricTiltDivision.Dispose();
-        hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new HTuple();
+        hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new ();
         hv_CameraParamAreaScanBilateralTelecentricTiltDivision[0] = "magnification";
         hv_CameraParamAreaScanBilateralTelecentricTiltDivision[1] = "kappa";
         hv_CameraParamAreaScanBilateralTelecentricTiltDivision[2] = "tilt";
@@ -1400,7 +1400,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanBilateralTelecentricTiltDivision[8] = "image_width";
         hv_CameraParamAreaScanBilateralTelecentricTiltDivision[9] = "image_height";
         hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial.Dispose();
-        hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new HTuple();
+        hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new ();
         hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[0] = "magnification";
         hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[1] = "k1";
         hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[2] = "k2";
@@ -1416,7 +1416,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[12] = "image_width";
         hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[13] = "image_height";
         hv_CameraParamAreaScanObjectSideTelecentricTiltDivision.Dispose();
-        hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new HTuple();
+        hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new ();
         hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[0] = "magnification";
         hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[1] = "kappa";
         hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[2] = "image_plane_dist";
@@ -1429,7 +1429,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[9] = "image_width";
         hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[10] = "image_height";
         hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial.Dispose();
-        hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new HTuple();
+        hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new ();
         hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[0] = "magnification";
         hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[1] = "k1";
         hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[2] = "k2";
@@ -1446,7 +1446,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[13] = "image_width";
         hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[14] = "image_height";
         hv_CameraParamAreaScanHypercentricDivision.Dispose();
-        hv_CameraParamAreaScanHypercentricDivision = new HTuple();
+        hv_CameraParamAreaScanHypercentricDivision = new ();
         hv_CameraParamAreaScanHypercentricDivision[0] = "focus";
         hv_CameraParamAreaScanHypercentricDivision[1] = "kappa";
         hv_CameraParamAreaScanHypercentricDivision[2] = "sx";
@@ -1456,7 +1456,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanHypercentricDivision[6] = "image_width";
         hv_CameraParamAreaScanHypercentricDivision[7] = "image_height";
         hv_CameraParamAreaScanHypercentricPolynomial.Dispose();
-        hv_CameraParamAreaScanHypercentricPolynomial = new HTuple();
+        hv_CameraParamAreaScanHypercentricPolynomial = new ();
         hv_CameraParamAreaScanHypercentricPolynomial[0] = "focus";
         hv_CameraParamAreaScanHypercentricPolynomial[1] = "k1";
         hv_CameraParamAreaScanHypercentricPolynomial[2] = "k2";
@@ -1470,7 +1470,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanHypercentricPolynomial[10] = "image_width";
         hv_CameraParamAreaScanHypercentricPolynomial[11] = "image_height";
         hv_CameraParamLinesScanDivision.Dispose();
-        hv_CameraParamLinesScanDivision = new HTuple();
+        hv_CameraParamLinesScanDivision = new ();
         hv_CameraParamLinesScanDivision[0] = "focus";
         hv_CameraParamLinesScanDivision[1] = "kappa";
         hv_CameraParamLinesScanDivision[2] = "sx";
@@ -1483,7 +1483,7 @@ public class Reconstruction_3d
         hv_CameraParamLinesScanDivision[9] = "vy";
         hv_CameraParamLinesScanDivision[10] = "vz";
         hv_CameraParamLinesScanPolynomial.Dispose();
-        hv_CameraParamLinesScanPolynomial = new HTuple();
+        hv_CameraParamLinesScanPolynomial = new ();
         hv_CameraParamLinesScanPolynomial[0] = "focus";
         hv_CameraParamLinesScanPolynomial[1] = "k1";
         hv_CameraParamLinesScanPolynomial[2] = "k2";
@@ -1500,7 +1500,7 @@ public class Reconstruction_3d
         hv_CameraParamLinesScanPolynomial[13] = "vy";
         hv_CameraParamLinesScanPolynomial[14] = "vz";
         hv_CameraParamLinesScanTelecentricDivision.Dispose();
-        hv_CameraParamLinesScanTelecentricDivision = new HTuple();
+        hv_CameraParamLinesScanTelecentricDivision = new ();
         hv_CameraParamLinesScanTelecentricDivision[0] = "magnification";
         hv_CameraParamLinesScanTelecentricDivision[1] = "kappa";
         hv_CameraParamLinesScanTelecentricDivision[2] = "sx";
@@ -1513,7 +1513,7 @@ public class Reconstruction_3d
         hv_CameraParamLinesScanTelecentricDivision[9] = "vy";
         hv_CameraParamLinesScanTelecentricDivision[10] = "vz";
         hv_CameraParamLinesScanTelecentricPolynomial.Dispose();
-        hv_CameraParamLinesScanTelecentricPolynomial = new HTuple();
+        hv_CameraParamLinesScanTelecentricPolynomial = new ();
         hv_CameraParamLinesScanTelecentricPolynomial[0] = "magnification";
         hv_CameraParamLinesScanTelecentricPolynomial[1] = "k1";
         hv_CameraParamLinesScanTelecentricPolynomial[2] = "k2";
@@ -1531,7 +1531,7 @@ public class Reconstruction_3d
         hv_CameraParamLinesScanTelecentricPolynomial[14] = "vz";
         //Legacy parameter names
         hv_CameraParamAreaScanTiltDivisionLegacy.Dispose();
-        hv_CameraParamAreaScanTiltDivisionLegacy = new HTuple();
+        hv_CameraParamAreaScanTiltDivisionLegacy = new ();
         hv_CameraParamAreaScanTiltDivisionLegacy[0] = "focus";
         hv_CameraParamAreaScanTiltDivisionLegacy[1] = "kappa";
         hv_CameraParamAreaScanTiltDivisionLegacy[2] = "tilt";
@@ -1543,7 +1543,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanTiltDivisionLegacy[8] = "image_width";
         hv_CameraParamAreaScanTiltDivisionLegacy[9] = "image_height";
         hv_CameraParamAreaScanTiltPolynomialLegacy.Dispose();
-        hv_CameraParamAreaScanTiltPolynomialLegacy = new HTuple();
+        hv_CameraParamAreaScanTiltPolynomialLegacy = new ();
         hv_CameraParamAreaScanTiltPolynomialLegacy[0] = "focus";
         hv_CameraParamAreaScanTiltPolynomialLegacy[1] = "k1";
         hv_CameraParamAreaScanTiltPolynomialLegacy[2] = "k2";
@@ -1559,7 +1559,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanTiltPolynomialLegacy[12] = "image_width";
         hv_CameraParamAreaScanTiltPolynomialLegacy[13] = "image_height";
         hv_CameraParamAreaScanTelecentricDivisionLegacy.Dispose();
-        hv_CameraParamAreaScanTelecentricDivisionLegacy = new HTuple();
+        hv_CameraParamAreaScanTelecentricDivisionLegacy = new ();
         hv_CameraParamAreaScanTelecentricDivisionLegacy[0] = "focus";
         hv_CameraParamAreaScanTelecentricDivisionLegacy[1] = "kappa";
         hv_CameraParamAreaScanTelecentricDivisionLegacy[2] = "sx";
@@ -1569,7 +1569,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanTelecentricDivisionLegacy[6] = "image_width";
         hv_CameraParamAreaScanTelecentricDivisionLegacy[7] = "image_height";
         hv_CameraParamAreaScanTelecentricPolynomialLegacy.Dispose();
-        hv_CameraParamAreaScanTelecentricPolynomialLegacy = new HTuple();
+        hv_CameraParamAreaScanTelecentricPolynomialLegacy = new ();
         hv_CameraParamAreaScanTelecentricPolynomialLegacy[0] = "focus";
         hv_CameraParamAreaScanTelecentricPolynomialLegacy[1] = "k1";
         hv_CameraParamAreaScanTelecentricPolynomialLegacy[2] = "k2";
@@ -1583,7 +1583,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanTelecentricPolynomialLegacy[10] = "image_width";
         hv_CameraParamAreaScanTelecentricPolynomialLegacy[11] = "image_height";
         hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy.Dispose();
-        hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new HTuple();
+        hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new ();
         hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[0] = "focus";
         hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[1] = "kappa";
         hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[2] = "tilt";
@@ -1595,7 +1595,7 @@ public class Reconstruction_3d
         hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[8] = "image_width";
         hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[9] = "image_height";
         hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy.Dispose();
-        hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new HTuple();
+        hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new ();
         hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[0] = "focus";
         hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[1] = "k1";
         hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[2] = "k2";
@@ -1617,7 +1617,7 @@ public class Reconstruction_3d
             if ((int)(((hv_CameraParam.TupleSelect(0))).TupleIsString()) != 0)
             {
                 hv_CameraType.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hv_CameraType = hv_CameraParam.TupleSelect(
                         0);
@@ -1625,9 +1625,9 @@ public class Reconstruction_3d
                 if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_division"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanDivision);
                     }
@@ -1635,9 +1635,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_polynomial"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanPolynomial);
                     }
@@ -1645,9 +1645,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_telecentric_division"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricDivision);
                     }
@@ -1655,9 +1655,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_telecentric_polynomial"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricPolynomial);
                     }
@@ -1665,9 +1665,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_division"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltDivision);
                     }
@@ -1675,9 +1675,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_polynomial"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltPolynomial);
                     }
@@ -1685,9 +1685,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_image_side_telecentric_division"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltDivision);
                     }
@@ -1695,9 +1695,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_image_side_telecentric_polynomial"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial);
                     }
@@ -1705,9 +1705,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_bilateral_telecentric_division"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltDivision);
                     }
@@ -1715,9 +1715,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_bilateral_telecentric_polynomial"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial);
                     }
@@ -1725,9 +1725,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_object_side_telecentric_division"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltDivision);
                     }
@@ -1735,9 +1735,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_object_side_telecentric_polynomial"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial);
                     }
@@ -1745,9 +1745,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_hypercentric_division"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricDivision);
                     }
@@ -1755,9 +1755,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_hypercentric_polynomial"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricPolynomial);
                     }
@@ -1766,9 +1766,9 @@ public class Reconstruction_3d
                     new HTuple(hv_CameraType.TupleEqual("line_scan")))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanDivision);
                     }
@@ -1776,9 +1776,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_polynomial"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanPolynomial);
                     }
@@ -1786,9 +1786,9 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_telecentric_division"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricDivision);
                     }
@@ -1796,16 +1796,16 @@ public class Reconstruction_3d
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_telecentric_polynomial"))) != 0)
                 {
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
-                        hv_ParamNames = new HTuple();
+                        hv_ParamNames = new ();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricPolynomial);
                     }
                 }
                 else
                 {
-                    throw new HalconException(("Unknown camera type '" + hv_CameraType) + "' passed in CameraParam.");
+                    throw new Exception(("Unknown camera type '" + hv_CameraType) + "' passed in CameraParam.");
                 }
 
                 hv_CameraParamAreaScanDivision.Dispose();
@@ -1934,7 +1934,7 @@ public class Reconstruction_3d
                     }
                     break;
                 default:
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
 
             }
         }
@@ -1942,7 +1942,7 @@ public class Reconstruction_3d
         {
             //Format of camera parameters since HALCON 13
             hv_CameraType.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_CameraType = hv_CameraParam.TupleSelect(
                     0);
@@ -1952,12 +1952,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     9))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanDivision);
                 }
@@ -1967,12 +1967,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     13))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanPolynomial);
                 }
@@ -1982,12 +1982,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     9))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricDivision);
                 }
@@ -1997,12 +1997,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     13))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricPolynomial);
                 }
@@ -2012,12 +2012,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     12))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltDivision);
                 }
@@ -2027,12 +2027,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     16))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltPolynomial);
                 }
@@ -2042,12 +2042,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     11))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltDivision);
                 }
@@ -2057,12 +2057,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     15))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial);
                 }
@@ -2072,12 +2072,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     11))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltDivision);
                 }
@@ -2087,12 +2087,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     15))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial);
                 }
@@ -2102,12 +2102,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     12))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltDivision);
                 }
@@ -2117,12 +2117,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     16))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial);
                 }
@@ -2132,12 +2132,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     9))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricDivision);
                 }
@@ -2147,12 +2147,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     13))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricPolynomial);
                 }
@@ -2163,12 +2163,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     12))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanDivision);
                 }
@@ -2178,12 +2178,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     16))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanPolynomial);
                 }
@@ -2193,12 +2193,12 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     12))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricDivision);
                 }
@@ -2208,19 +2208,19 @@ public class Reconstruction_3d
                 if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
                     16))) != 0)
                 {
-                    throw new HalconException("Wrong number of values in CameraParam.");
+                    throw new Exception("Wrong number of values in CameraParam.");
                 }
                 hv_ParamNames.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
-                    hv_ParamNames = new HTuple();
+                    hv_ParamNames = new ();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricPolynomial);
                 }
             }
             else
             {
-                throw new HalconException("Unknown camera type in CameraParam.");
+                throw new Exception("Unknown camera type in CameraParam.");
             }
         }
 
@@ -2281,7 +2281,7 @@ public class Reconstruction_3d
         HPose hv_TransXPose = new HPose();
         HPose hv_TransYPose = new HPose();
         HPose hv_TransZPose = new HPose();
-        HTuple hv_FactorVisBase = new HTuple();
+        HTuple hv_FactorVisBase = new ();
 
         // Initialize local and output iconic variables 
 
@@ -2294,11 +2294,11 @@ public class Reconstruction_3d
             //
             if ((int)(new HTuple(hv_ArrowThickness.TupleLessEqual(0))) != 0)
             {
-                throw new HalconException("ArrowThickness should be > 0");
+                throw new Exception("ArrowThickness should be > 0");
             }
             if ((int)(new HTuple(hv_ArrowLength.TupleLessEqual(0))) != 0)
             {
-                throw new HalconException("ArrowLength should be > 0");
+                throw new Exception("ArrowLength should be > 0");
             }
 
             //HOperatorSet.CreatePose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point", out hv_IdentityPose);
@@ -2361,7 +2361,7 @@ public class Reconstruction_3d
 
             return _3DResults;
         }
-        catch (HalconException _e)
+        catch (Exception _e)
         {
 
             throw new Exception("创建手眼模型失败！原因：" + _e.Message);
@@ -2393,7 +2393,7 @@ public class Reconstruction_3d
 
 
         // Local iconic variables 
-        //HTuple hv_OM3DArrow = new HTuple();
+        //HTuple hv_OM3DArrow = new ();
         HObjectModel3D hv_OM3DArrow = new HObjectModel3D();
         HObjectModel3D hv_OM3DArrowTmp = new HObjectModel3D();
         HObjectModel3D hv_OM3DConeTmp = new HObjectModel3D();
@@ -2402,18 +2402,18 @@ public class Reconstruction_3d
         HObjectModel3D hv_OM3DCylinderTmp = new HObjectModel3D();
         // Local control variables 
 
-        HTuple hv_DirectionVector = new HTuple(), hv_ArrowLength = new HTuple();
-        HTuple hv_ConeRadius = new HTuple(), hv_ConeLength = new HTuple();
-        HTuple hv_CylinderLength = new HTuple(), hv_pi = new HTuple();
-        HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_Z = new HTuple();
-        HTuple hv_Index = new HTuple();
-        HTuple hv_ZZero = new HTuple();
-        HTuple hv_ZTop = new HTuple();
+        HTuple hv_DirectionVector = new (), hv_ArrowLength = new ();
+        HTuple hv_ConeRadius = new (), hv_ConeLength = new ();
+        HTuple hv_CylinderLength = new (), hv_pi = new ();
+        HTuple hv_X = new (), hv_Y = new (), hv_Z = new ();
+        HTuple hv_Index = new ();
+        HTuple hv_ZZero = new ();
+        HTuple hv_ZTop = new ();
 
-        HTuple hv_Scale = new HTuple(), hv_OriginX = new HTuple();
-        HTuple hv_OriginY = new HTuple(), hv_OriginZ = new HTuple();
-        HTuple hv_TargetX = new HTuple(), hv_TargetY = new HTuple();
-        HTuple hv_TargetZ = new HTuple();
+        HTuple hv_Scale = new (), hv_OriginX = new ();
+        HTuple hv_OriginY = new (), hv_OriginZ = new ();
+        HTuple hv_TargetX = new (), hv_TargetY = new ();
+        HTuple hv_TargetZ = new ();
 
         HHomMat3D hv_HomMat3D = new HHomMat3D();
         // Initialize local and output iconic variables 
@@ -2424,13 +2424,13 @@ public class Reconstruction_3d
             //
             //Get parameters.
             hv_DirectionVector.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_DirectionVector = (hv_ArrowEnd.TupleSelectRange(
                     0, 2)) - (hv_ArrowStart.TupleSelectRange(0, 2));
             }
             hv_ArrowLength.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_ArrowLength = (((((hv_DirectionVector.TupleSelect(
                     0)) * (hv_DirectionVector.TupleSelect(0))) + ((hv_DirectionVector.TupleSelect(
@@ -2438,25 +2438,25 @@ public class Reconstruction_3d
                     2)) * (hv_DirectionVector.TupleSelect(2))))).TupleSqrt();
             }
             hv_ConeRadius.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_ConeRadius = 2.0 * hv_ArrowThickness;
             }
             hv_ConeLength.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_ConeLength = ((((2.0 * hv_ConeRadius)).TupleConcat(
                     hv_ArrowLength * 0.9))).TupleMin();
             }
             hv_CylinderLength.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_CylinderLength = hv_ArrowLength - hv_ConeLength;
             }
             //
             //Create cone.
             hv_pi.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_pi = (new HTuple(180)).TupleRad()
                     ;
@@ -2466,7 +2466,7 @@ public class Reconstruction_3d
             hv_Y.Dispose();
             hv_Y = 0;
             hv_Z.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_Z = hv_CylinderLength + hv_ConeLength;
             }
@@ -2474,7 +2474,7 @@ public class Reconstruction_3d
             HTuple step_val15 = 0.1;
             for (hv_Index = 0; hv_Index.Continue(end_val15, step_val15); hv_Index = hv_Index.TupleAdd(step_val15))
             {
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2484,7 +2484,7 @@ public class Reconstruction_3d
                         hv_X = ExpTmpLocalVar_X;
                     }
                 }
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2494,7 +2494,7 @@ public class Reconstruction_3d
                         hv_Y = ExpTmpLocalVar_Y;
                     }
                 }
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2515,14 +2515,14 @@ public class Reconstruction_3d
             //
             //Create cylinder.
             hv_X.Dispose();
-            hv_X = new HTuple();
+            hv_X = new ();
             hv_Y.Dispose();
-            hv_Y = new HTuple();
+            hv_Y = new ();
             HTuple end_val27 = 2 * hv_pi;
             HTuple step_val27 = 0.1;
             for (hv_Index = 0; hv_Index.Continue(end_val27, step_val27); hv_Index = hv_Index.TupleAdd(step_val27))
             {
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2532,7 +2532,7 @@ public class Reconstruction_3d
                         hv_X = ExpTmpLocalVar_X;
                     }
                 }
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2543,12 +2543,12 @@ public class Reconstruction_3d
                     }
                 }
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_ZZero.Dispose();
                 HOperatorSet.TupleGenConst(new HTuple(hv_Y.TupleLength()), 0, out hv_ZZero);
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_ZTop.Dispose();
                 HOperatorSet.TupleGenConst(new HTuple(hv_Y.TupleLength()), hv_CylinderLength,
@@ -2571,31 +2571,31 @@ public class Reconstruction_3d
             //HOperatorSet.ClearObjectModel3d(hv_OM3DCone);
             //HOperatorSet.ClearObjectModel3d(hv_OM3DCylinder);
             hv_Scale.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_Scale = hv_CylinderLength / hv_ArrowLength;
             }
             hv_OriginX.Dispose();
-            hv_OriginX = new HTuple();
+            hv_OriginX = new ();
             hv_OriginX[0] = 0;
             hv_OriginX[1] = 0;
             hv_OriginX[2] = 0;
             hv_OriginY.Dispose();
-            hv_OriginY = new HTuple();
+            hv_OriginY = new ();
             hv_OriginY[0] = 0;
             hv_OriginY[1] = 0;
             hv_OriginY[2] = 0;
             hv_OriginZ.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
-                hv_OriginZ = new HTuple();
+                hv_OriginZ = new ();
                 hv_OriginZ[0] = 0;
                 hv_OriginZ = hv_OriginZ.TupleConcat(hv_CylinderLength, hv_ArrowLength);
             }
             hv_TargetX.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
-                hv_TargetX = new HTuple();
+                hv_TargetX = new ();
                 hv_TargetX = hv_TargetX.TupleConcat(hv_ArrowStart.TupleSelect(
                     0));
                 hv_TargetX = hv_TargetX.TupleConcat((hv_ArrowStart.TupleSelect(
@@ -2604,9 +2604,9 @@ public class Reconstruction_3d
                     0));
             }
             hv_TargetY.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
-                hv_TargetY = new HTuple();
+                hv_TargetY = new ();
                 hv_TargetY = hv_TargetY.TupleConcat(hv_ArrowStart.TupleSelect(
                     1));
                 hv_TargetY = hv_TargetY.TupleConcat((hv_ArrowStart.TupleSelect(
@@ -2615,9 +2615,9 @@ public class Reconstruction_3d
                     1));
             }
             hv_TargetZ.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
-                hv_TargetZ = new HTuple();
+                hv_TargetZ = new ();
                 hv_TargetZ = hv_TargetZ.TupleConcat(hv_ArrowStart.TupleSelect(
                     2));
                 hv_TargetZ = hv_TargetZ.TupleConcat((hv_ArrowStart.TupleSelect(
@@ -2734,78 +2734,78 @@ public class Reconstruction_3d
 
         // Local control variables 
 
-        HTuple hv_Index = new HTuple();
+        HTuple hv_Index = new ();
 
         HTupleVector hvec_Points = new HTupleVector(1);
         // Initialize local and output iconic variables 
-        hv_PX = new HTuple();
-        hv_PY = new HTuple();
-        hv_PZ = new HTuple();
+        hv_PX = new ();
+        hv_PY = new ();
+        hv_PZ = new ();
         try
         {
             hvec_Points.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hvec_Points = dh.Take((
                     dh.Add(new HTupleVector(1)).Insert(0, dh.Add(new HTupleVector(new HTuple())))));
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hvec_Points[0] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
                     0))).TupleConcat(hv_BoundingBox.TupleSelect(1)))).TupleConcat(hv_BoundingBox.TupleSelect(
                     2))));
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hvec_Points[1] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
                     3))).TupleConcat(hv_BoundingBox.TupleSelect(1)))).TupleConcat(hv_BoundingBox.TupleSelect(
                     2))));
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hvec_Points[2] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
                     3))).TupleConcat(hv_BoundingBox.TupleSelect(4)))).TupleConcat(hv_BoundingBox.TupleSelect(
                     2))));
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hvec_Points[3] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
                     0))).TupleConcat(hv_BoundingBox.TupleSelect(4)))).TupleConcat(hv_BoundingBox.TupleSelect(
                     2))));
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hvec_Points[4] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
                     0))).TupleConcat(hv_BoundingBox.TupleSelect(1)))).TupleConcat(hv_BoundingBox.TupleSelect(
                     5))));
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hvec_Points[5] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
                     3))).TupleConcat(hv_BoundingBox.TupleSelect(1)))).TupleConcat(hv_BoundingBox.TupleSelect(
                     5))));
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hvec_Points[6] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
                     3))).TupleConcat(hv_BoundingBox.TupleSelect(4)))).TupleConcat(hv_BoundingBox.TupleSelect(
                     5))));
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hvec_Points[7] = dh.Add(new HTupleVector(((((hv_BoundingBox.TupleSelect(
                     0))).TupleConcat(hv_BoundingBox.TupleSelect(4)))).TupleConcat(hv_BoundingBox.TupleSelect(
                     5))));
             }
             hv_PX.Dispose();
-            hv_PX = new HTuple();
+            hv_PX = new ();
             hv_PY.Dispose();
-            hv_PY = new HTuple();
+            hv_PY = new ();
             hv_PZ.Dispose();
-            hv_PZ = new HTuple();
+            hv_PZ = new ();
             for (hv_Index = 0; (int)hv_Index <= 7; hv_Index = (int)hv_Index + 1)
             {
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2815,7 +2815,7 @@ public class Reconstruction_3d
                         hv_PX = ExpTmpLocalVar_PX;
                     }
                 }
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2825,7 +2825,7 @@ public class Reconstruction_3d
                         hv_PY = ExpTmpLocalVar_PY;
                     }
                 }
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2859,11 +2859,11 @@ public class Reconstruction_3d
     private void get_extent_by_axis(HObjectModel3D hv_OM3D, HTuple hv_XExtent, HTuple hv_YExtent,
         HTuple hv_ZExtent, out HTuple hv_XExtentOut, out HTuple hv_YExtentOut, out HTuple hv_ZExtentOut)
     {
-        HTuple hv_BB = new HTuple(), hv_Index = new HTuple();
+        HTuple hv_BB = new (), hv_Index = new ();
         // Initialize local and output iconic variables 
-        hv_XExtentOut = new HTuple();
-        hv_YExtentOut = new HTuple();
-        hv_ZExtentOut = new HTuple();
+        hv_XExtentOut = new ();
+        hv_YExtentOut = new ();
+        hv_ZExtentOut = new ();
         try
         {
             hv_XExtentOut = new HTuple(hv_XExtent);
@@ -2872,7 +2872,7 @@ public class Reconstruction_3d
             hv_BB = hv_OM3D.GetObjectModel3dParams("bounding_box1");
             for (hv_Index = 0; (int)hv_Index <= (int)(((new HTuple(hv_BB.TupleLength())) / 6) - 1); hv_Index = (int)hv_Index + 1)
             {
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2882,7 +2882,7 @@ public class Reconstruction_3d
                         hv_XExtentOut = ExpTmpLocalVar_XExtentOut;
                     }
                 }
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2892,7 +2892,7 @@ public class Reconstruction_3d
                         hv_YExtentOut = ExpTmpLocalVar_YExtentOut;
                     }
                 }
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -2925,23 +2925,23 @@ public class Reconstruction_3d
         HObjectModel3D hv_OM3DPlane = new HObjectModel3D();
         // Local control variables 
 
-        HTuple hv_XBase = new HTuple(), hv_YBase = new HTuple();
-        HTuple hv_ZBase = new HTuple(), hv_MinXt = new HTuple();
-        HTuple hv_MinYt = new HTuple(), hv_MinZt = new HTuple();
-        HTuple hv_MaxXt = new HTuple(), hv_MaxYt = new HTuple();
-        HTuple hv_MaxZt = new HTuple(), hv_Min = new HTuple();
-        HTuple hv_Max = new HTuple(), hv_MinT = new HTuple(), hv_MaxT = new HTuple();
-        HTuple hv_BoundingBox = new HTuple(), hv_PXBB = new HTuple();
-        HTuple hv_PYBB = new HTuple(), hv_PZBB = new HTuple();
+        HTuple hv_XBase = new (), hv_YBase = new ();
+        HTuple hv_ZBase = new (), hv_MinXt = new ();
+        HTuple hv_MinYt = new (), hv_MinZt = new ();
+        HTuple hv_MaxXt = new (), hv_MaxYt = new ();
+        HTuple hv_MaxZt = new (), hv_Min = new ();
+        HTuple hv_Max = new (), hv_MinT = new (), hv_MaxT = new ();
+        HTuple hv_BoundingBox = new (), hv_PXBB = new ();
+        HTuple hv_PYBB = new (), hv_PZBB = new ();
         HPose hv_BaseInPlanePose = new HPose();
         HHomMat3D hv_HomMat3D = new HHomMat3D();
-        HTuple hv_PX = new HTuple(), hv_PY = new HTuple(), hv_PZ = new HTuple();
-        HTuple hv_Qx = new HTuple(), hv_Qx1 = new HTuple(), hv_Qy = new HTuple();
-        HTuple hv_Qy1 = new HTuple(), hv_XPlane = new HTuple();
-        HTuple hv_YPlane = new HTuple(), hv_ZPlane = new HTuple();
+        HTuple hv_PX = new (), hv_PY = new (), hv_PZ = new ();
+        HTuple hv_Qx = new (), hv_Qx1 = new (), hv_Qy = new ();
+        HTuple hv_Qy1 = new (), hv_XPlane = new ();
+        HTuple hv_YPlane = new (), hv_ZPlane = new ();
         HHomMat3D hv_HomMat3D1 = new HHomMat3D();
-           HTuple hv_Qx2 = new HTuple();
-        HTuple hv_Qy2 = new HTuple(), hv_Qz = new HTuple(), hv_Faces = new HTuple();
+           HTuple hv_Qx2 = new ();
+        HTuple hv_Qy2 = new (), hv_Qz = new (), hv_Faces = new ();
         // Initialize local and output iconic variables 
 
         try
@@ -2950,9 +2950,9 @@ public class Reconstruction_3d
             //the plane on which objects are matched and grasped.
             //
 
-            hv_XBase = new HTuple();
-            hv_YBase = new HTuple();
-            hv_ZBase = new HTuple();
+            hv_XBase = new ();
+            hv_YBase = new ();
+            hv_ZBase = new ();
             //Extent of tool in base coordinates.
             {
 
@@ -3031,12 +3031,12 @@ public class Reconstruction_3d
             hv_OM3DPlane.GenObjectModel3dFromPoints(hv_Qx2, hv_Qy2, hv_Qz);
             //HOperatorSet.GenObjectModel3dFromPoints(hv_Qx2, hv_Qy2, hv_Qz, out hv_OM3DPlane);
         
-           // hv_Faces =new HTuple().TupleConcat(4).TupleConcat(0).TupleConcat(1).TupleConcat(2).TupleConcat(3);
+           // hv_Faces =new ().TupleConcat(4).TupleConcat(0).TupleConcat(1).TupleConcat(2).TupleConcat(3);
 
             hv_Faces = hv_Faces.TupleConcat( ((((new HTuple(4)).TupleConcat(0)).TupleConcat(1)).TupleConcat(2)).TupleConcat(3));
-           // hv_OM3DPlane.SetObjectModel3dAttribMod(new HTuple("polygons"), new HTuple(), hv_Faces);
+           // hv_OM3DPlane.SetObjectModel3dAttribMod(new HTuple("polygons"), new (), hv_Faces);
             //
-            HOperatorSet.SetObjectModel3dAttribMod(hv_OM3DPlane, "polygons", new HTuple(),
+            HOperatorSet.SetObjectModel3dAttribMod(hv_OM3DPlane, "polygons", new (),
     hv_Faces);
 
 
@@ -3109,50 +3109,50 @@ public class Reconstruction_3d
 
         // Local control variables 
 
-        HTuple hv_MinLargeRotationFraction = new HTuple();
-        HTuple hv_MinLargeAnglesFraction = new HTuple(), hv_StdDevFactor = new HTuple();
-        HTuple hv_Type = new HTuple(), hv_Exception = new HTuple();
-        HTuple hv_IsHandEyeScara = new HTuple(), hv_IsHandEyeArticulated = new HTuple();
-        HTuple hv_NumCameras = new HTuple(), hv_NumCalibObjs = new HTuple();
-        HTuple hv_I1 = new HTuple(), hv_PosesIdx = new HTuple();
-        HTuple hv_RefCalibDataID = new HTuple(), hv_UseTemporaryCopy = new HTuple();
-        HTuple hv_CamPoseCal = new HTuple(), hv_SerializedItemHandle = new HTuple();
-        HTuple hv_TmpCalibDataID = new HTuple(), hv_Error = new HTuple();
-        HTuple hv_Index = new HTuple(), hv_CamDualQuatCal = new HTuple();
-        HTuple hv_BasePoseTool = new HTuple(), hv_BaseDualQuatTool = new HTuple();
-        HTuple hv_NumCalibrationPoses = new HTuple(), hv_LX2s = new HTuple();
-        HTuple hv_LY2s = new HTuple(), hv_LZ2s = new HTuple();
-        HTuple hv_TranslationToleranceSquared = new HTuple(), hv_RotationToleranceSquared = new HTuple();
-        HTuple hv_Index1 = new HTuple(), hv_CamDualQuatCal1 = new HTuple();
-        HTuple hv_Cal1DualQuatCam = new HTuple(), hv_BaseDualQuatTool1 = new HTuple();
-        HTuple hv_Tool1DualQuatBase = new HTuple(), hv_Index2 = new HTuple();
-        HTuple hv_CamDualQuatCal2 = new HTuple(), hv_DualQuat1 = new HTuple();
-        HTuple hv_BaseDualQuatTool2 = new HTuple(), hv_DualQuat2 = new HTuple();
-        HTuple hv_LX1 = new HTuple(), hv_LY1 = new HTuple(), hv_LZ1 = new HTuple();
-        HTuple hv_MX1 = new HTuple(), hv_MY1 = new HTuple(), hv_MZ1 = new HTuple();
-        HTuple hv_Rot1 = new HTuple(), hv_Trans1 = new HTuple();
-        HTuple hv_LX2 = new HTuple(), hv_LY2 = new HTuple(), hv_LZ2 = new HTuple();
-        HTuple hv_MX2 = new HTuple(), hv_MY2 = new HTuple(), hv_MZ2 = new HTuple();
-        HTuple hv_Rot2 = new HTuple(), hv_Trans2 = new HTuple();
-        HTuple hv_MeanRot = new HTuple(), hv_MeanTrans = new HTuple();
-        HTuple hv_SinTheta2 = new HTuple(), hv_CosTheta2 = new HTuple();
-        HTuple hv_SinTheta2Squared = new HTuple(), hv_CosTheta2Squared = new HTuple();
-        HTuple hv_ErrorRot = new HTuple(), hv_StdDevQ0 = new HTuple();
-        HTuple hv_ToleranceDualQuat0 = new HTuple(), hv_ErrorDualQuat0 = new HTuple();
-        HTuple hv_StdDevQ4 = new HTuple(), hv_ToleranceDualQuat4 = new HTuple();
-        HTuple hv_ErrorDualQuat4 = new HTuple(), hv_Message = new HTuple();
-        HTuple hv_NumPairs = new HTuple(), hv_NumPairsMax = new HTuple();
-        HTuple hv_LargeRotationFraction = new HTuple(), hv_NumPairPairs = new HTuple();
-        HTuple hv_NumPairPairsMax = new HTuple(), hv_Angles = new HTuple();
-        HTuple hv_Idx = new HTuple(), hv_LXA = new HTuple(), hv_LYA = new HTuple();
-        HTuple hv_LZA = new HTuple(), hv_LXB = new HTuple(), hv_LYB = new HTuple();
-        HTuple hv_LZB = new HTuple(), hv_ScalarProduct = new HTuple();
-        HTuple hv_LargeAngles = new HTuple(), hv_LargeAnglesFraction = new HTuple();
+        HTuple hv_MinLargeRotationFraction = new ();
+        HTuple hv_MinLargeAnglesFraction = new (), hv_StdDevFactor = new ();
+        HTuple hv_Type = new (), hv_Exception = new ();
+        HTuple hv_IsHandEyeScara = new (), hv_IsHandEyeArticulated = new ();
+        HTuple hv_NumCameras = new (), hv_NumCalibObjs = new ();
+        HTuple hv_I1 = new (), hv_PosesIdx = new ();
+        HTuple hv_RefCalibDataID = new (), hv_UseTemporaryCopy = new ();
+        HTuple hv_CamPoseCal = new (), hv_SerializedItemHandle = new ();
+        HTuple hv_TmpCalibDataID = new (), hv_Error = new ();
+        HTuple hv_Index = new (), hv_CamDualQuatCal = new ();
+        HTuple hv_BasePoseTool = new (), hv_BaseDualQuatTool = new ();
+        HTuple hv_NumCalibrationPoses = new (), hv_LX2s = new ();
+        HTuple hv_LY2s = new (), hv_LZ2s = new ();
+        HTuple hv_TranslationToleranceSquared = new (), hv_RotationToleranceSquared = new ();
+        HTuple hv_Index1 = new (), hv_CamDualQuatCal1 = new ();
+        HTuple hv_Cal1DualQuatCam = new (), hv_BaseDualQuatTool1 = new ();
+        HTuple hv_Tool1DualQuatBase = new (), hv_Index2 = new ();
+        HTuple hv_CamDualQuatCal2 = new (), hv_DualQuat1 = new ();
+        HTuple hv_BaseDualQuatTool2 = new (), hv_DualQuat2 = new ();
+        HTuple hv_LX1 = new (), hv_LY1 = new (), hv_LZ1 = new ();
+        HTuple hv_MX1 = new (), hv_MY1 = new (), hv_MZ1 = new ();
+        HTuple hv_Rot1 = new (), hv_Trans1 = new ();
+        HTuple hv_LX2 = new (), hv_LY2 = new (), hv_LZ2 = new ();
+        HTuple hv_MX2 = new (), hv_MY2 = new (), hv_MZ2 = new ();
+        HTuple hv_Rot2 = new (), hv_Trans2 = new ();
+        HTuple hv_MeanRot = new (), hv_MeanTrans = new ();
+        HTuple hv_SinTheta2 = new (), hv_CosTheta2 = new ();
+        HTuple hv_SinTheta2Squared = new (), hv_CosTheta2Squared = new ();
+        HTuple hv_ErrorRot = new (), hv_StdDevQ0 = new ();
+        HTuple hv_ToleranceDualQuat0 = new (), hv_ErrorDualQuat0 = new ();
+        HTuple hv_StdDevQ4 = new (), hv_ToleranceDualQuat4 = new ();
+        HTuple hv_ErrorDualQuat4 = new (), hv_Message = new ();
+        HTuple hv_NumPairs = new (), hv_NumPairsMax = new ();
+        HTuple hv_LargeRotationFraction = new (), hv_NumPairPairs = new ();
+        HTuple hv_NumPairPairsMax = new (), hv_Angles = new ();
+        HTuple hv_Idx = new (), hv_LXA = new (), hv_LYA = new ();
+        HTuple hv_LZA = new (), hv_LXB = new (), hv_LYB = new ();
+        HTuple hv_LZB = new (), hv_ScalarProduct = new ();
+        HTuple hv_LargeAngles = new (), hv_LargeAnglesFraction = new ();
 
         HTupleVector hvec_CamDualQuatsCal = new HTupleVector(1);
         HTupleVector hvec_BaseDualQuatsTool = new HTupleVector(1);
         // Initialize local and output iconic variables 
-        hv_Warnings = new HTuple();
+        hv_Warnings = new ();
         try
         {
             //This procedure checks the hand-eye calibration input poses that are stored in
@@ -3281,17 +3281,17 @@ public class Reconstruction_3d
             if ((int)(new HTuple((new HTuple(hv_CalibDataID.TupleLength())).TupleNotEqual(
                 1))) != 0)
             {
-                throw new HalconException("Wrong number of values of control parameter: 1");
+                throw new Exception("Wrong number of values of control parameter: 1");
             }
             if ((int)(new HTuple((new HTuple(hv_RotationTolerance.TupleLength())).TupleNotEqual(
                 1))) != 0)
             {
-                throw new HalconException("Wrong number of values of control parameter: 2");
+                throw new Exception("Wrong number of values of control parameter: 2");
             }
             if ((int)(new HTuple((new HTuple(hv_TranslationTolerance.TupleLength())).TupleNotEqual(
                 1))) != 0)
             {
-                throw new HalconException("Wrong number of values of control parameter: 3");
+                throw new Exception("Wrong number of values of control parameter: 3");
             }
             try
             {
@@ -3299,31 +3299,31 @@ public class Reconstruction_3d
                 HOperatorSet.GetCalibData(hv_CalibDataID, "model", "general", "type", out hv_Type);
             }
             // catch (Exception) 
-            catch (HalconException HDevExpDefaultException1)
+            catch (Exception )
             {
-                HDevExpDefaultException1.ToHTuple(out hv_Exception);
-                throw new HalconException("Wrong value of control parameter: 1");
+                //HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                throw new Exception("Wrong value of control parameter: 1");
             }
             if ((int)(new HTuple(hv_RotationTolerance.TupleLess(0))) != 0)
             {
-                throw new HalconException("Wrong value of control parameter: 2");
+                throw new Exception("Wrong value of control parameter: 2");
             }
             if ((int)(new HTuple(hv_TranslationTolerance.TupleLess(0))) != 0)
             {
-                throw new HalconException("Wrong value of control parameter: 3");
+                throw new Exception("Wrong value of control parameter: 3");
             }
             //
             //Read out the calibration data model.
             //读出校准数据模型。
             hv_IsHandEyeScara.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_IsHandEyeScara = (new HTuple(hv_Type.TupleEqual(
                     "hand_eye_scara_stationary_cam"))).TupleOr(new HTuple(hv_Type.TupleEqual(
                     "hand_eye_scara_moving_cam")));
             }
             hv_IsHandEyeArticulated.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_IsHandEyeArticulated = (new HTuple(hv_Type.TupleEqual(
                     "hand_eye_stationary_cam"))).TupleOr(new HTuple(hv_Type.TupleEqual("hand_eye_moving_cam")));
@@ -3333,7 +3333,7 @@ public class Reconstruction_3d
             if ((int)((new HTuple(hv_IsHandEyeScara.TupleNot())).TupleAnd(hv_IsHandEyeArticulated.TupleNot()
                 )) != 0)
             {
-                throw new HalconException("check_hand_eye_calibration_input_poses only works for hand-eye calibrations");
+                throw new Exception("check_hand_eye_calibration_input_poses only works for hand-eye calibrations");
             }
             hv_NumCameras.Dispose();
             HOperatorSet.GetCalibData(hv_CalibDataID, "model", "general", "num_cameras",
@@ -3363,7 +3363,7 @@ public class Reconstruction_3d
                 //准确性。
                 try
                 {
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_CamPoseCal.Dispose();
                         HOperatorSet.GetCalibData(hv_CalibDataID, "calib_obj_pose", (new HTuple(0)).TupleConcat(
@@ -3371,9 +3371,9 @@ public class Reconstruction_3d
                     }
                 }
                 // catch (Exception) 
-                catch (HalconException HDevExpDefaultException1)
+                catch (Exception )
                 {
-                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    //HDevExpDefaultException1.ToHTuple(out hv_Exception);
                     if ((int)((new HTuple(hv_NumCameras.TupleNotEqual(0))).TupleAnd(new HTuple(hv_NumCalibObjs.TupleNotEqual(
                         0)))) != 0)
                     {
@@ -3408,7 +3408,7 @@ public class Reconstruction_3d
                     //a calibrated poses should always be available.
                     //对于带有摄像头和校准对象的关节机器人而言、
                     //应始终有一个校准姿势。
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_CamPoseCal.Dispose();
                         HOperatorSet.GetCalibData(hv_RefCalibDataID, "calib_obj_pose", (new HTuple(0)).TupleConcat(
@@ -3416,14 +3416,14 @@ public class Reconstruction_3d
                     }
                 }
                 // catch (Exception) 
-                catch (HalconException HDevExpDefaultException1)
+                catch (Exception)
                 {
-                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    //HDevExpDefaultException1.ToHTuple(out hv_Exception);
                     //For a SCARA robot or for an articulated robots with a general
                     //sensor and no calibration object, directly use the observed poses.
                     //对于 SCARA 机器人或带有普通传感器但没有校准对象的关节型机器人，可直接使用观察到的姿势。
                     //传感器且没有校准对象的关节型机器人，可直接使用观察到的姿势。
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_CamPoseCal.Dispose();
                         HOperatorSet.GetCalibDataObservPose(hv_RefCalibDataID, 0, 0, hv_PosesIdx.TupleSelect(
@@ -3434,13 +3434,13 @@ public class Reconstruction_3d
                 //Transform the calibration object poses to dual quaternions.
                 hv_CamDualQuatCal.Dispose();
                 HOperatorSet.PoseToDualQuat(hv_CamPoseCal, out hv_CamDualQuatCal);
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hvec_CamDualQuatsCal[hv_Index] = dh.Add(new HTupleVector(hv_CamDualQuatCal));
                 }
                 //Transform the robot tool pose to dual quaternions.
                 //将机器人工具姿势转换为双四元数。
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hv_BasePoseTool.Dispose();
                     HOperatorSet.GetCalibData(hv_RefCalibDataID, "tool", hv_PosesIdx.TupleSelect(
@@ -3448,13 +3448,13 @@ public class Reconstruction_3d
                 }
                 hv_BaseDualQuatTool.Dispose();
                 HOperatorSet.PoseToDualQuat(hv_BasePoseTool, out hv_BaseDualQuatTool);
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hvec_BaseDualQuatsTool[hv_Index] = dh.Add(new HTupleVector(hv_BaseDualQuatTool));
                 }
             }
             hv_NumCalibrationPoses.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_NumCalibrationPoses = new HTuple(hv_PosesIdx.TupleLength()
                     );
@@ -3491,20 +3491,20 @@ public class Reconstruction_3d
             //校准模型（SCARA 或关节式）是否正确。
             //用户。
             hv_Warnings.Dispose();
-            hv_Warnings = new HTuple();
+            hv_Warnings = new ();
             hv_LX2s.Dispose();
-            hv_LX2s = new HTuple();
+            hv_LX2s = new ();
             hv_LY2s.Dispose();
-            hv_LY2s = new HTuple();
+            hv_LY2s = new ();
             hv_LZ2s.Dispose();
-            hv_LZ2s = new HTuple();
+            hv_LZ2s = new ();
             hv_TranslationToleranceSquared.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_TranslationToleranceSquared = hv_TranslationTolerance * hv_TranslationTolerance;
             }
             hv_RotationToleranceSquared.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_RotationToleranceSquared = hv_RotationTolerance * hv_RotationTolerance;
             }
@@ -3513,14 +3513,14 @@ public class Reconstruction_3d
             for (hv_Index1 = 0; hv_Index1.Continue(end_val249, step_val249); hv_Index1 = hv_Index1.TupleAdd(step_val249))
             {
                 hv_CamDualQuatCal1.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hv_CamDualQuatCal1 = new HTuple(hvec_CamDualQuatsCal[hv_Index1].T);
                 }
                 hv_Cal1DualQuatCam.Dispose();
                 HOperatorSet.DualQuatConjugate(hv_CamDualQuatCal1, out hv_Cal1DualQuatCam);
                 hv_BaseDualQuatTool1.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hv_BaseDualQuatTool1 = new HTuple(hvec_BaseDualQuatsTool[hv_Index1].T);
                 }
@@ -3537,7 +3537,7 @@ public class Reconstruction_3d
                     //计算校准对象在
                     //摄像机坐标系中的运动。
                     hv_CamDualQuatCal2.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_CamDualQuatCal2 = new HTuple(hvec_CamDualQuatsCal[hv_Index2].T);
                     }
@@ -3549,7 +3549,7 @@ public class Reconstruction_3d
                     //... 计算工具在机器人底座 * 坐标系中的运动
                     //坐标系。
                     hv_BaseDualQuatTool2.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_BaseDualQuatTool2 = new HTuple(hvec_BaseDualQuatsTool[hv_Index2].T);
                     }
@@ -3576,7 +3576,7 @@ public class Reconstruction_3d
                     while ((int)(new HTuple(hv_Rot1.TupleGreater((new HTuple(180.0)).TupleRad()
                         ))) != 0)
                     {
-                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        using (HDevDisposeHelper dh = new ())
                         {
                             {
                                 HTuple
@@ -3590,7 +3590,7 @@ public class Reconstruction_3d
                     while ((int)(new HTuple(hv_Rot2.TupleGreater((new HTuple(180.0)).TupleRad()
                         ))) != 0)
                     {
-                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        using (HDevDisposeHelper dh = new ())
                         {
                             {
                                 HTuple
@@ -3602,7 +3602,7 @@ public class Reconstruction_3d
                         }
                     }
                     //
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         {
                             HTuple
@@ -3612,7 +3612,7 @@ public class Reconstruction_3d
                             hv_Rot1 = ExpTmpLocalVar_Rot1;
                         }
                     }
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         {
                             HTuple
@@ -3622,7 +3622,7 @@ public class Reconstruction_3d
                             hv_Trans1 = ExpTmpLocalVar_Trans1;
                         }
                     }
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         {
                             HTuple
@@ -3632,7 +3632,7 @@ public class Reconstruction_3d
                             hv_Rot2 = ExpTmpLocalVar_Rot2;
                         }
                     }
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         {
                             HTuple
@@ -3643,34 +3643,34 @@ public class Reconstruction_3d
                         }
                     }
                     hv_MeanRot.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_MeanRot = 0.5 * (hv_Rot1 + hv_Rot2);
                     }
                     hv_MeanTrans.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_MeanTrans = 0.5 * (hv_Trans1 + hv_Trans2);
                     }
                     hv_SinTheta2.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_SinTheta2 = ((0.5 * hv_MeanRot)).TupleSin()
                             ;
                     }
                     hv_CosTheta2.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_CosTheta2 = ((0.5 * hv_MeanRot)).TupleCos()
                             ;
                     }
                     hv_SinTheta2Squared.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_SinTheta2Squared = hv_SinTheta2 * hv_SinTheta2;
                     }
                     hv_CosTheta2Squared.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_CosTheta2Squared = hv_CosTheta2 * hv_CosTheta2;
                     }
@@ -3684,7 +3684,7 @@ public class Reconstruction_3d
                     //q[0] = cos(theta/2)
                     //这里，θ 是螺杆旋转角度。
                     hv_ErrorRot.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_ErrorRot = ((hv_Rot1 - hv_Rot2)).TupleFabs()
                             ;
@@ -3692,7 +3692,7 @@ public class Reconstruction_3d
                     while ((int)(new HTuple(hv_ErrorRot.TupleGreater((new HTuple(180.0)).TupleRad()
                         ))) != 0)
                     {
-                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        using (HDevDisposeHelper dh = new ())
                         {
                             {
                                 HTuple
@@ -3703,7 +3703,7 @@ public class Reconstruction_3d
                             }
                         }
                     }
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         {
                             HTuple
@@ -3718,19 +3718,19 @@ public class Reconstruction_3d
                     //计算实部标量部分的标准偏差
                     //应用误差传播定律。
                     hv_StdDevQ0.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_StdDevQ0 = (0.5 * hv_SinTheta2) * hv_RotationTolerance;
                     }
                     //Multiply the standard deviation by a factor to increase the certainty.
                     //将标准偏差乘以一个系数，以提高确定性。
                     hv_ToleranceDualQuat0.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_ToleranceDualQuat0 = hv_StdDevFactor * hv_StdDevQ0;
                     }
                     hv_ErrorDualQuat0.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_ErrorDualQuat0 = (((((hv_DualQuat2.TupleSelect(
                             0))).TupleFabs()) - (((hv_DualQuat1.TupleSelect(0))).TupleFabs()))).TupleFabs()
@@ -3752,7 +3752,7 @@ public class Reconstruction_3d
                     //计算对偶部分标量部分的标准偏差
                     //应用误差传播定律。
                     hv_StdDevQ4.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_StdDevQ4 = ((((0.25 * hv_SinTheta2Squared) * hv_TranslationToleranceSquared) + ((((0.0625 * hv_MeanTrans) * hv_MeanTrans) * hv_CosTheta2Squared) * hv_RotationToleranceSquared))).TupleSqrt()
                             ;
@@ -3760,12 +3760,12 @@ public class Reconstruction_3d
                     //Multiply the standard deviation by a factor to increase the certainty.
                     //将标准偏差乘以一个系数，以提高确定性。
                     hv_ToleranceDualQuat4.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_ToleranceDualQuat4 = hv_StdDevFactor * hv_StdDevQ4;
                     }
                     hv_ErrorDualQuat4.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_ErrorDualQuat4 = (((((hv_DualQuat2.TupleSelect(
                             4))).TupleFabs()) - (((hv_DualQuat1.TupleSelect(4))).TupleFabs()))).TupleFabs()
@@ -3779,13 +3779,13 @@ public class Reconstruction_3d
                         new HTuple(hv_ErrorDualQuat4.TupleGreater(hv_ToleranceDualQuat4)))) != 0)
                     {
                         hv_Message.Dispose();
-                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        using (HDevDisposeHelper dh = new ())
                         {
                             hv_Message = ((("Inconsistent pose pair (" + (((hv_PosesIdx.TupleSelect(
                                 hv_Index1))).TupleString("2d"))) + new HTuple(",")) + (((hv_PosesIdx.TupleSelect(
                                 hv_Index2))).TupleString("2d"))) + ")";
                         }
-                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        using (HDevDisposeHelper dh = new ())
                         {
                             {
                                 HTuple
@@ -3809,7 +3809,7 @@ public class Reconstruction_3d
                     //决定使用关节型机器人还是 SCARA 机器人。
                     if ((int)(new HTuple(hv_Rot2.TupleGreater(hv_StdDevFactor * hv_RotationTolerance))) != 0)
                     {
-                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        using (HDevDisposeHelper dh = new ())
                         {
                             {
                                 HTuple
@@ -3819,7 +3819,7 @@ public class Reconstruction_3d
                                 hv_LX2s = ExpTmpLocalVar_LX2s;
                             }
                         }
-                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        using (HDevDisposeHelper dh = new ())
                         {
                             {
                                 HTuple
@@ -3829,7 +3829,7 @@ public class Reconstruction_3d
                                 hv_LY2s = ExpTmpLocalVar_LY2s;
                             }
                         }
-                        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                        using (HDevDisposeHelper dh = new ())
                         {
                             {
                                 HTuple
@@ -3848,13 +3848,13 @@ public class Reconstruction_3d
             //在第二项测试中，我们将检查是否有足够的具有
             //有足够的校准姿势。
             hv_NumPairs.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_NumPairs = new HTuple(hv_LX2s.TupleLength()
                     );
             }
             hv_NumPairsMax.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_NumPairsMax = (hv_NumCalibrationPoses * (hv_NumCalibrationPoses - 1)) / 2;
             }
@@ -3862,7 +3862,7 @@ public class Reconstruction_3d
             {
                 hv_Message.Dispose();
                 hv_Message = "There are not enough rotated calibration poses available.";
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -3964,7 +3964,7 @@ public class Reconstruction_3d
                 return;
             }
             hv_LargeRotationFraction.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_LargeRotationFraction = (hv_NumPairs.TupleReal()
                     ) / hv_NumPairsMax;
@@ -3974,7 +3974,7 @@ public class Reconstruction_3d
             {
                 hv_Message.Dispose();
                 hv_Message = new HTuple("Only few rotated robot poses available, which might result in a reduced accuracy of the calibration results.");
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -3999,17 +3999,17 @@ public class Reconstruction_3d
             //使用机器人工具姿势，因为我们认为它们比
             //校准对象姿势。
             hv_NumPairPairs.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_NumPairPairs = (hv_NumPairs * (hv_NumPairs - 1)) / 2;
             }
             hv_NumPairPairsMax.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_NumPairPairsMax = (hv_NumPairsMax * (hv_NumPairsMax - 1)) / 2;
             }
             hv_Angles.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_Angles = HTuple.TupleGenConst(
                     hv_NumPairPairs, 0);
@@ -4021,19 +4021,19 @@ public class Reconstruction_3d
             for (hv_Index1 = 0; hv_Index1.Continue(end_val405, step_val405); hv_Index1 = hv_Index1.TupleAdd(step_val405))
             {
                 hv_LXA.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hv_LXA = hv_LX2s.TupleSelect(
                         hv_Index1);
                 }
                 hv_LYA.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hv_LYA = hv_LY2s.TupleSelect(
                         hv_Index1);
                 }
                 hv_LZA.Dispose();
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     hv_LZA = hv_LZ2s.TupleSelect(
                         hv_Index1);
@@ -4043,19 +4043,19 @@ public class Reconstruction_3d
                 for (hv_Index2 = hv_Index1 + 1; hv_Index2.Continue(end_val409, step_val409); hv_Index2 = hv_Index2.TupleAdd(step_val409))
                 {
                     hv_LXB.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_LXB = hv_LX2s.TupleSelect(
                             hv_Index2);
                     }
                     hv_LYB.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_LYB = hv_LY2s.TupleSelect(
                             hv_Index2);
                     }
                     hv_LZB.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_LZB = hv_LZ2s.TupleSelect(
                             hv_Index2);
@@ -4067,7 +4067,7 @@ public class Reconstruction_3d
                     //轴的余弦。为获得有效值，请将余弦值裁剪到
                     //区间 [-1,1]。
                     hv_ScalarProduct.Dispose();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         hv_ScalarProduct = ((((((((((hv_LXA * hv_LXB) + (hv_LYA * hv_LYB)) + (hv_LZA * hv_LZB))).TupleConcat(
                             1))).TupleMin())).TupleConcat(-1))).TupleMax();
@@ -4075,9 +4075,9 @@ public class Reconstruction_3d
                     //Compute the angle between the axes in the range [0,pi/2].
                     //计算 [0,pi/2] 范围内各坐标轴之间的夹角。
                     if (hv_Angles == null)
-                        hv_Angles = new HTuple();
+                        hv_Angles = new ();
                     hv_Angles[hv_Idx] = ((hv_ScalarProduct.TupleFabs())).TupleAcos();
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         {
                             HTuple
@@ -4091,7 +4091,7 @@ public class Reconstruction_3d
             //Large angles should significantly exceed the RotationTolerance.
             //大角度应大大超过旋转公差。
             hv_LargeAngles.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_LargeAngles = ((hv_Angles.TupleGreaterElem(
                     hv_StdDevFactor * hv_RotationTolerance))).TupleSum();
@@ -4103,7 +4103,7 @@ public class Reconstruction_3d
             //对应的螺旋轴之间有较大角度的运动对的分数。
             //轴之间存在较大角度的动作对的比例。
             hv_LargeAnglesFraction.Dispose();
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
                 hv_LargeAnglesFraction = (hv_LargeAngles.TupleReal()
                     ) / hv_NumPairPairsMax;
@@ -4117,7 +4117,7 @@ public class Reconstruction_3d
             {
                 hv_Message.Dispose();
                 hv_Message = new HTuple("The robot poses indicate that this might be an articulated robot, although a SCARA robot was selected in the calibration data model.");
-                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                using (HDevDisposeHelper dh = new ())
                 {
                     {
                         HTuple
@@ -4142,7 +4142,7 @@ public class Reconstruction_3d
                     //则可能是 SCARA 机械手。
                     hv_Message.Dispose();
                     hv_Message = new HTuple("The robot poses indicate that this might be a SCARA robot (no tilted robot poses available), although an articulated robot was selected in the calibration data model.");
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         {
                             HTuple
@@ -4163,7 +4163,7 @@ public class Reconstruction_3d
                     //不稳定。
                     hv_Message.Dispose();
                     hv_Message = "Not enough tilted robot poses available for an accurate calibration of an articulated robot.";
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         {
                             HTuple
@@ -4184,7 +4184,7 @@ public class Reconstruction_3d
                     //校准精度可能会很低。
                     hv_Message.Dispose();
                     hv_Message = new HTuple("Only few tilted robot poses available, which might result in a reduced accuracy of the calibration results.");
-                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    using (HDevDisposeHelper dh = new ())
                     {
                         {
                             HTuple
@@ -4525,21 +4525,21 @@ public class Reconstruction_3d
         // Local control variables 
         HPose hv_IdentityPose = new HPose();
 
-        HTuple hv_OM3DCameraOrigin = new HTuple(), hv_OM3DConeOrig = new HTuple();
+        HTuple hv_OM3DCameraOrigin = new (), hv_OM3DConeOrig = new ();
         HPose hv_CamInToolPose = new HPose();
         HPose hv_CamInBasePose = new HPose();
         // Initialize local and output iconic variables 
-        HTuple hv_OM3DCamera = new HTuple();
+        HTuple hv_OM3DCamera = new ();
         HPose hv_ToolInBasePose = new HPose();
-        HTuple hv_CamParam = new HTuple();
+        HTuple hv_CamParam = new ();
         HPose hv_ToolInCamPose = new HPose();
 
         List<HObjectModel3D> hv_OM3DTool = new List<HObjectModel3D>();
         List<HObjectModel3D> hv_Tool_Moving_Cam_Object_Model = new List<HObjectModel3D>();
-        HTuple hv_PX, hv_PY, hv_PZ = new HTuple();
+        HTuple hv_PX, hv_PY, hv_PZ = new ();
         HObjectModel3D hv_OM3DObjectOrig = new HObjectModel3D();
         HObjectModel3D hv_OM3DObject = new HObjectModel3D();
-        HTuple _CalObjInBasePose = new HTuple();
+        HTuple _CalObjInBasePose = new ();
         HCameraSetupModel hv_CameraSetupModel = new HCameraSetupModel();
         HCameraSetupModel hv_CameraSetupModelID = new HCameraSetupModel();
         try
@@ -4618,7 +4618,7 @@ public class Reconstruction_3d
             hv_CameraSetupModelID.CreateCameraSetupModel(1);
             //HOperatorSet.CreateCameraSetupModel(1, out hv_CameraSetupModelID);
             hv_CameraSetupModelID.SetCameraSetupCamParam(0, new HTuple(), new HCamPar(hv_CamParam), hv_IdentityPose);
-            //HOperatorSet.SetCameraSetupCamParam(hv_CameraSetupModelID, 0, new HTuple(),
+            //HOperatorSet.SetCameraSetupCamParam(hv_CameraSetupModelID, 0, new (),
             //    hv_CamParam, hv_IdentityPose);
             //hv_OM3DCameraOrigin.Dispose(); hv_OM3DConeOrig.Dispose();
 
@@ -4626,7 +4626,7 @@ public class Reconstruction_3d
 
             hv_CameraSetupModelID.ClearCameraSetupModel();
             //HOperatorSet.ClearCameraSetupModel(hv_CameraSetupModelID);
-            //using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            //using (HDevDisposeHelper dh = new ())
             //{
             //    {
             //        HTuple

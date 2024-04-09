@@ -151,7 +151,7 @@ namespace Halcon_SDK_DLL
                     }
 
                 }
-                catch (HalconException _e)
+                catch (Exception _e)
                 {
 
                     throw new Exception("手眼标定流程创建失败！" + " 原因：" + _e.Message);
@@ -467,17 +467,17 @@ namespace Halcon_SDK_DLL
 
                 }
 
-                HTuple _HandEyeVal = new HTuple();
-                HTuple _CamCalibError = new HTuple();
-                HTuple _CamParam = new HTuple();
-                HTuple _ToolInCamPose = new HTuple();
-                HTuple _CalObjInBasePose = new HTuple();
-                HTuple tool_in_cam_pose_deviations = new HTuple();
-                HTuple obj_in_base_pose_deviations = new HTuple();
-                HTuple camera_calib_error_corrected_tool = new HTuple();
-                HTuple hand_eye_calib_error_corrected_tool = new HTuple();
-                HTuple tool_translation_deviation = new HTuple();
-                HTuple tool_rotation_deviation = new HTuple();
+                HTuple _HandEyeVal = new ();
+                HTuple _CamCalibError = new ();
+                HTuple _CamParam = new ();
+                HTuple _ToolInCamPose = new ();
+                HTuple _CalObjInBasePose = new ();
+                HTuple tool_in_cam_pose_deviations = new ();
+                HTuple obj_in_base_pose_deviations = new ();
+                HTuple camera_calib_error_corrected_tool = new ();
+                HTuple hand_eye_calib_error_corrected_tool = new ();
+                HTuple tool_translation_deviation = new ();
+                HTuple tool_rotation_deviation = new ();
 
 
                 //标定手眼误差
@@ -741,7 +741,7 @@ namespace Halcon_SDK_DLL
             {
 
 
-                HTuple _CamerPar = new HTuple();
+                HTuple _CamerPar = new ();
 
                 try
                 {
@@ -794,7 +794,7 @@ namespace Halcon_SDK_DLL
         public static HTuple Get_Cailbration_Camera_Param(Halcon_Camera_Calibration_Parameters_Model _Param)
         {
 
-            HTuple _CameraParam = new HTuple();
+            HTuple _CameraParam = new ();
 
 
             try

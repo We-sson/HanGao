@@ -41,30 +41,30 @@ namespace Halcon_SDK_DLL.Model
             public Display3DModel_Model(List<HObjectModel3D> objectModel3D)
             {
                 _ObjectModel3D = objectModel3D;
-                //_CamParam = new HTuple();
-                //_PoseIn = new HTuple();
-                //_PoseOut = new HTuple();
-                //_GenParamName = new HTuple();
-                //_GenParamValue = new HTuple();
-                //_Title = new HTuple();
-                //_Label = new HTuple();
-                //_Information = new HTuple();
+                //_CamParam = new ();
+                //_PoseIn = new ();
+                //_PoseOut = new ();
+                //_GenParamName = new ();
+                //_GenParamValue = new ();
+                //_Title = new ();
+                //_Label = new ();
+                //_Information = new ();
             }
 
             public List<HObjectModel3D> _ObjectModel3D { set; get; } = new List<HObjectModel3D>();
-            //public HTuple _CamParam { set; get; } = new HTuple();
+            //public HTuple _CamParam { set; get; } = new ();
 
             /// <summary>
             /// 模型位置单位：M
             /// </summary>
             public HPose? _PoseIn { set; get; }
 
-            //public HTuple _PoseOut { set; get; } = new HTuple();
-            //public HTuple _GenParamName { set; get; } = new HTuple();
-            //public HTuple _GenParamValue { set; get; } = new HTuple();
-            //public HTuple _Title { set; get; } = new HTuple();
-            //public HTuple _Label { set; get; } = new HTuple();
-            //public HTuple _Information { set; get; } = new HTuple();
+            //public HTuple _PoseOut { set; get; } = new ();
+            //public HTuple _GenParamName { set; get; } = new ();
+            //public HTuple _GenParamValue { set; get; } = new ();
+            //public HTuple _Title { set; get; } = new ();
+            //public HTuple _Label { set; get; } = new ();
+            //public HTuple _Information { set; get; } = new ();
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace Halcon_SDK_DLL.Model
 
             public List<string> Set_Results_Data_List()
             {
-                List<string> _DataList = new List<string>();
+                List<string> _DataList = new();
 
                 Text_Arr_UI.Add("匹配模型到机器人坐标：" + Results_ModelInBase_Pos.ToString());
                 Text_Arr_UI.Add("匹配模型到相机坐标：" + Results_ModelInCam_Pos.ToString());
@@ -802,7 +802,7 @@ namespace Halcon_SDK_DLL.Model
 
             public HCamPar Get_HCamPar()
             {
-                HCamPar hCamPar = new HCamPar();
+                HCamPar hCamPar = new ();
 
                 switch (Camera_Calibration_Model)
                 {
@@ -845,7 +845,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 标定内参参数变量
             /// </summary>
-            private HCamPar _HCamPar = new HCamPar();
+            private HCamPar _HCamPar = new ();
 
             public HCamPar HCamPar
             {
@@ -975,10 +975,10 @@ namespace Halcon_SDK_DLL.Model
 
         public string _DrawColor { set; get; } = KnownColor.Blue.ToString();
 
-        public HTuple hv_Row = new HTuple();
-        public HTuple hv_Column = new HTuple();
-        public HTuple hv_I = new HTuple();
-        public HTuple hv_Pose = new HTuple();
+        public HTuple hv_Row = new ();
+        public HTuple hv_Column = new ();
+        public HTuple hv_I = new ();
+        public HTuple hv_Pose = new ();
 
         public void Dispose()
         {
@@ -1479,7 +1479,7 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-        private HPose _HPose = new HPose(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
+        private HPose _HPose = new (0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
 
         public HPose HPose
         {
@@ -1522,7 +1522,7 @@ namespace Halcon_SDK_DLL.Model
         /// <returns></returns>
         public Point_Model Get_HPos(Robot_Type_Enum _Robot)
         {
-            Point_Model _Pos = new Point_Model();
+            Point_Model _Pos = new();
 
             switch (_Robot)
             {
@@ -1552,7 +1552,7 @@ namespace Halcon_SDK_DLL.Model
                     break;
             }
 
-            //HTuple _Pos=new HTuple();
+            //HTuple _Pos=new ();
 
             return _Pos;
         }
@@ -1618,7 +1618,7 @@ namespace Halcon_SDK_DLL.Model
         /// 检查保存文件是否存在？
         /// </summary>
         /// <returns></returns>
-        private bool Checked_SaveFile(string _File, string _name)
+        private static bool Checked_SaveFile(string _File, string _name)
         {
             ////检查文件夹，创建
             if (!Directory.Exists(_File)) Directory.CreateDirectory(_File);
@@ -2037,7 +2037,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 选择的模型句柄
         /// </summary>
-        public HTuple Selected_Shape_Handle { set; get; } = new HTuple();
+        public HTuple Selected_Shape_Handle { set; get; } = new ();
 
 
         /// <summary>
@@ -2095,7 +2095,10 @@ namespace Halcon_SDK_DLL.Model
                 _Model.Dispose();
             }
             Shape_Image_Rectified.Dispose();
+         
+            GC.SuppressFinalize(this);
         }
+
     }
 
 

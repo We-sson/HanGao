@@ -37,10 +37,10 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_CameraType = new HTuple(), hv_Style = new HTuple();
-    HTuple hv_Unit = new HTuple(), hv_Message0 = new HTuple();
-    HTuple hv_Message1 = new HTuple(), hv_Message2 = new HTuple();
-    HTuple hv_Message3 = new HTuple(), hv_Index = new HTuple();
+    HTuple hv_CameraType = new (), hv_Style = new ();
+    HTuple hv_Unit = new (), hv_Message0 = new ();
+    HTuple hv_Message1 = new (), hv_Message2 = new ();
+    HTuple hv_Message3 = new (), hv_Index = new ();
     // Initialize local and output iconic variables 
     try
     {
@@ -52,7 +52,7 @@ public partial class HDevelopExport
       if ((int)(new HTuple((new HTuple(hv_WindowHandles.TupleLength())).TupleLess(
           4))) != 0)
       {
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         disp_message(hv_WindowHandles.TupleSelect(0), "Not enough opened windows!", 
             "window", 12, 12, "black", "true");
@@ -67,7 +67,7 @@ public partial class HDevelopExport
       {
         //'area_scan_polynomial' camera model
         hv_Style.Dispose();
-        hv_Style = new HTuple();
+        hv_Style = new ();
         hv_Style[0] = ".2e";
         hv_Style[1] = ".2e";
         hv_Style[2] = ".2e";
@@ -79,7 +79,7 @@ public partial class HDevelopExport
         hv_Style[8] = ".2f";
         hv_Style[9] = ".2f";
         hv_Unit.Dispose();
-        hv_Unit = new HTuple();
+        hv_Unit = new ();
         hv_Unit[0] = " m";
         hv_Unit[1] = "";
         hv_Unit[2] = "";
@@ -95,7 +95,7 @@ public partial class HDevelopExport
       {
         //'area_scan_division' camera model
         hv_Style.Dispose();
-        hv_Style = new HTuple();
+        hv_Style = new ();
         hv_Style[0] = ".2e";
         hv_Style[1] = ".2f";
         hv_Style[2] = ".1e";
@@ -103,7 +103,7 @@ public partial class HDevelopExport
         hv_Style[4] = ".2f";
         hv_Style[5] = ".2f";
         hv_Unit.Dispose();
-        hv_Unit = new HTuple();
+        hv_Unit = new ();
         hv_Unit[0] = " m";
         hv_Unit[1] = "";
         hv_Unit[2] = " m";
@@ -113,7 +113,7 @@ public partial class HDevelopExport
       }
       else
       {
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         disp_message(hv_WindowHandles.TupleSelect(0), "CamPar0 is not valid!", "window", 
             12, 12, "black", "true");
@@ -131,7 +131,7 @@ public partial class HDevelopExport
       hv_Message3 = "Parameters of Camera 3";
       for (hv_Index=1; (int)hv_Index<=(int)((new HTuple(hv_CamPar1.TupleLength()))-3); hv_Index = (int)hv_Index + 1)
       {
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -143,7 +143,7 @@ public partial class HDevelopExport
         hv_Message0 = ExpTmpLocalVar_Message0;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -155,7 +155,7 @@ public partial class HDevelopExport
         hv_Message1 = ExpTmpLocalVar_Message1;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -167,7 +167,7 @@ public partial class HDevelopExport
         hv_Message2 = ExpTmpLocalVar_Message2;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -180,22 +180,22 @@ public partial class HDevelopExport
         }
         }
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       disp_message(hv_WindowHandles.TupleSelect(0), hv_Message0, "window", 12, 12, 
           "black", "true");
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       disp_message(hv_WindowHandles.TupleSelect(1), hv_Message1, "window", 12, 12, 
           "black", "true");
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       disp_message(hv_WindowHandles.TupleSelect(2), hv_Message2, "window", 12, 12, 
           "black", "true");
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       disp_message(hv_WindowHandles.TupleSelect(3), hv_Message3, "window", 12, 12, 
           "black", "true");
@@ -239,10 +239,10 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_Style = new HTuple(), hv_Unit = new HTuple();
-    HTuple hv_Index = new HTuple(), hv_Message0 = new HTuple();
-    HTuple hv_Message1 = new HTuple(), hv_Message2 = new HTuple();
-    HTuple hv_Message3 = new HTuple();
+    HTuple hv_Style = new (), hv_Unit = new ();
+    HTuple hv_Index = new (), hv_Message0 = new ();
+    HTuple hv_Message1 = new (), hv_Message2 = new ();
+    HTuple hv_Message3 = new ();
     // Initialize local and output iconic variables 
     try
     {
@@ -254,7 +254,7 @@ public partial class HDevelopExport
       if ((int)(new HTuple((new HTuple(hv_WindowHandles.TupleLength())).TupleLess(
           4))) != 0)
       {
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         disp_message(hv_WindowHandles.TupleSelect(0), "Not enough opened windows!", 
             "window", 12, 12, "black", "true");
@@ -263,7 +263,7 @@ public partial class HDevelopExport
       //
       //Display the results now
       hv_Style.Dispose();
-      hv_Style = new HTuple();
+      hv_Style = new ();
       hv_Style[0] = ".2e";
       hv_Style[1] = ".2e";
       hv_Style[2] = ".2e";
@@ -271,7 +271,7 @@ public partial class HDevelopExport
       hv_Style[4] = ".2f";
       hv_Style[5] = ".2f";
       hv_Unit.Dispose();
-      hv_Unit = new HTuple();
+      hv_Unit = new ();
       hv_Unit[0] = " m";
       hv_Unit[1] = " m";
       hv_Unit[2] = " m";
@@ -300,7 +300,7 @@ public partial class HDevelopExport
       for (hv_Index=0; (int)hv_Index<=(int)((new HTuple(hv_CamPose0.TupleLength()
           ))-2); hv_Index = (int)hv_Index + 1)
       {
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -312,7 +312,7 @@ public partial class HDevelopExport
         hv_Message0 = ExpTmpLocalVar_Message0;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -324,7 +324,7 @@ public partial class HDevelopExport
         hv_Message1 = ExpTmpLocalVar_Message1;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -336,7 +336,7 @@ public partial class HDevelopExport
         hv_Message2 = ExpTmpLocalVar_Message2;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -349,22 +349,22 @@ public partial class HDevelopExport
         }
         }
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       disp_message(hv_WindowHandles.TupleSelect(0), hv_Message0, "window", 12, 12, 
           "black", "true");
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       disp_message(hv_WindowHandles.TupleSelect(1), hv_Message1, "window", 12, 12, 
           "black", "true");
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       disp_message(hv_WindowHandles.TupleSelect(2), hv_Message2, "window", 12, 12, 
           "black", "true");
       }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       disp_message(hv_WindowHandles.TupleSelect(3), hv_Message3, "window", 12, 12, 
           "black", "true");
@@ -402,7 +402,7 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_Index = new HTuple();
+    HTuple hv_Index = new ();
     // Initialize local and output iconic variables 
     try
     {
@@ -413,7 +413,7 @@ public partial class HDevelopExport
       for (hv_Index=0; (int)hv_Index<=(int)((new HTuple(hv_WindowHandles.TupleLength()
           ))-1); hv_Index = (int)hv_Index + 1)
       {
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         HOperatorSet.WriteString(hv_WindowHandles.TupleSelect(hv_Index), "");
         }
@@ -442,10 +442,10 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_WindowHandle3 = new HTuple(), hv_WindowHandle2 = new HTuple();
-    HTuple hv_WindowHandle1 = new HTuple(), hv_WindowHandle0 = new HTuple();
+    HTuple hv_WindowHandle3 = new (), hv_WindowHandle2 = new ();
+    HTuple hv_WindowHandle1 = new (), hv_WindowHandle0 = new ();
     // Initialize local and output iconic variables 
-    hv_WindowHandles = new HTuple();
+    hv_WindowHandles = new ();
     try
     {
       //This procedure opens four windows in order to display
@@ -520,9 +520,9 @@ public partial class HDevelopExport
       }
       set_display_font(hv_WindowHandle0, 14, "mono", "true", "false");
       hv_WindowHandles.Dispose();
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
-      hv_WindowHandles = new HTuple();
+      hv_WindowHandles = new ();
       hv_WindowHandles = hv_WindowHandles.TupleConcat(hv_WindowHandle0, hv_WindowHandle1, hv_WindowHandle2, hv_WindowHandle3);
       }
 
@@ -558,31 +558,31 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_ImgPath = new HTuple(), hv_ImgPrefix = new HTuple();
-    HTuple hv_FileName = new HTuple(), hv_Width = new HTuple();
-    HTuple hv_Height = new HTuple(), hv_Scale = new HTuple();
-    HTuple hv_CaltabDescr = new HTuple(), hv_CaltabThickness = new HTuple();
-    HTuple hv_NumCameras = new HTuple(), hv_NumCalibObjects = new HTuple();
-    HTuple hv_NumPoses = new HTuple(), hv_StartCamPar = new HTuple();
-    HTuple hv_CalibDataID = new HTuple(), hv_WindowHandles = new HTuple();
-    HTuple hv_NumIgnoredImg = new HTuple(), hv_PoseIndex = new HTuple();
-    HTuple hv_CameraIndex = new HTuple(), hv_Message = new HTuple();
-    HTuple hv_Color = new HTuple(), hv_ShowErrorMsg = new HTuple();
-    HTuple hv_Exception = new HTuple(), hv_Error = new HTuple();
-    HTuple hv_CameraSetupModelID = new HTuple(), hv_RefPoseIndex = new HTuple();
-    HTuple hv_RefCameraID = new HTuple(), hv_PoseCam0Indx0 = new HTuple();
-    HTuple hv_ReferencePose = new HTuple(), hv_FileExists = new HTuple();
-    HTuple hv_ParLabels = new HTuple(), hv_CamPar0 = new HTuple();
-    HTuple hv_CamPar1 = new HTuple(), hv_CamPar2 = new HTuple();
-    HTuple hv_CamPar3 = new HTuple(), hv_PoseLabels = new HTuple();
-    HTuple hv_CamPose0 = new HTuple(), hv_CamPose1 = new HTuple();
-    HTuple hv_CamPose2 = new HTuple(), hv_CamPose3 = new HTuple();
-    HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_Z = new HTuple();
-    HTuple hv_OM3DCaltab = new HTuple(), hv_OM3DsCaltab = new HTuple();
-    HTuple hv_i = new HTuple(), hv_CaltabPose = new HTuple();
-    HTuple hv_ObjectModel3DRigidTrans = new HTuple(), hv_CamSetupModel = new HTuple();
-    HTuple hv_ObjectModel3DCamera = new HTuple(), hv_ObjectModel3DCone = new HTuple();
-    HTuple hv_UnionObjectModel3D = new HTuple();
+    HTuple hv_ImgPath = new (), hv_ImgPrefix = new ();
+    HTuple hv_FileName = new (), hv_Width = new ();
+    HTuple hv_Height = new (), hv_Scale = new ();
+    HTuple hv_CaltabDescr = new (), hv_CaltabThickness = new ();
+    HTuple hv_NumCameras = new (), hv_NumCalibObjects = new ();
+    HTuple hv_NumPoses = new (), hv_StartCamPar = new ();
+    HTuple hv_CalibDataID = new (), hv_WindowHandles = new ();
+    HTuple hv_NumIgnoredImg = new (), hv_PoseIndex = new ();
+    HTuple hv_CameraIndex = new (), hv_Message = new ();
+    HTuple hv_Color = new (), hv_ShowErrorMsg = new ();
+    HTuple hv_Exception = new (), hv_Error = new ();
+    HTuple hv_CameraSetupModelID = new (), hv_RefPoseIndex = new ();
+    HTuple hv_RefCameraID = new (), hv_PoseCam0Indx0 = new ();
+    HTuple hv_ReferencePose = new (), hv_FileExists = new ();
+    HTuple hv_ParLabels = new (), hv_CamPar0 = new ();
+    HTuple hv_CamPar1 = new (), hv_CamPar2 = new ();
+    HTuple hv_CamPar3 = new (), hv_PoseLabels = new ();
+    HTuple hv_CamPose0 = new (), hv_CamPose1 = new ();
+    HTuple hv_CamPose2 = new (), hv_CamPose3 = new ();
+    HTuple hv_X = new (), hv_Y = new (), hv_Z = new ();
+    HTuple hv_OM3DCaltab = new (), hv_OM3DsCaltab = new ();
+    HTuple hv_i = new (), hv_CaltabPose = new ();
+    HTuple hv_ObjectModel3DRigidTrans = new (), hv_CamSetupModel = new ();
+    HTuple hv_ObjectModel3DCamera = new (), hv_ObjectModel3DCone = new ();
+    HTuple hv_UnionObjectModel3D = new ();
     // Initialize local and output iconic variables 
     HOperatorSet.GenEmptyObj(out ho_Image);
     HOperatorSet.GenEmptyObj(out ho_Caltab);
@@ -603,7 +603,7 @@ public partial class HDevelopExport
       hv_ImgPrefix.Dispose();
       hv_ImgPrefix = "multi_view_calib_";
       hv_FileName.Dispose();
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       hv_FileName = (hv_ImgPath+hv_ImgPrefix)+"cam_0_00";
       }
@@ -626,7 +626,7 @@ public partial class HDevelopExport
       hv_NumCalibObjects = 1;
       hv_NumPoses.Dispose();
       hv_NumPoses = 20;
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       hv_StartCamPar.Dispose();
       gen_cam_par_area_scan_polynomial(0.0085, 0.0, 0.0, 0.0, 0.0, 0.0, 6e-6, 6e-6, 
@@ -640,7 +640,7 @@ public partial class HDevelopExport
           out hv_CalibDataID);
       //Set used camera type
       //设置使用的摄像机类型
-      HOperatorSet.SetCalibDataCamParam(hv_CalibDataID, "all", new HTuple(), hv_StartCamPar);
+      HOperatorSet.SetCalibDataCamParam(hv_CalibDataID, "all", new (), hv_StartCamPar);
       //Set used calibration object
       //设置使用过的校准对象
       HOperatorSet.SetCalibDataCalibObject(hv_CalibDataID, 0, hv_CaltabDescr);
@@ -660,7 +660,7 @@ public partial class HDevelopExport
         for (hv_CameraIndex=0; hv_CameraIndex.Continue(end_val40, step_val40); hv_CameraIndex = hv_CameraIndex.TupleAdd(step_val40))
         {
           hv_FileName.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
           hv_FileName = ((((hv_ImgPath+hv_ImgPrefix)+"cam_")+hv_CameraIndex)+"_")+(hv_PoseIndex.TupleString(
               "02"));
@@ -676,14 +676,14 @@ public partial class HDevelopExport
             HOperatorSet.DispObj(ho_Image, HDevWindowStack.GetActive());
           }
           hv_Message.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_Message = new HTuple();
+          hv_Message = new ();
           hv_Message = hv_Message.TupleConcat("Camera "+hv_CameraIndex);
           hv_Message = hv_Message.TupleConcat("Pose # "+hv_PoseIndex);
           }
           hv_Color.Dispose();
-          hv_Color = new HTuple();
+          hv_Color = new ();
           hv_Color[0] = "black";
           hv_Color[1] = "black";
           //Extract observation data
@@ -696,7 +696,7 @@ public partial class HDevelopExport
             //Find the calibration table, extract the marks and store the
             //observation in the calibration data model
             HOperatorSet.FindCalibObject(ho_Image, hv_CalibDataID, hv_CameraIndex, 
-                0, hv_PoseIndex, new HTuple(), new HTuple());
+                0, hv_PoseIndex, new (), new ());
             //Read the caltab and the marks' contours found for visualization
             //读取校准表和找到的标记轮廓，以实现可视化
             ho_Caltab.Dispose();
@@ -715,9 +715,9 @@ public partial class HDevelopExport
             }
           }
           // catch (Exception) 
-          catch (HalconException HDevExpDefaultException1)
+          catch (Exception )
           {
-            HDevExpDefaultException1.ToHTuple(out hv_Exception);
+            //HDevExpDefaultException1.ToHTuple(out hv_Exception);
             //If the calibration table or marks were not identified,
             //process the next image. Some missing data is
             //not dramatic since the calibration is robust.
@@ -726,7 +726,7 @@ public partial class HDevelopExport
             //因为校准是稳健的。
             hv_ShowErrorMsg.Dispose();
             hv_ShowErrorMsg = 1;
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
             {
             HTuple 
@@ -739,7 +739,7 @@ public partial class HDevelopExport
             {
               //find_calib_object could not find the caltab
               //查找 calib 对象无法找到 caltab
-              using (HDevDisposeHelper dh = new HDevDisposeHelper())
+              using (HDevDisposeHelper dh = new ())
               {
               {
               HTuple 
@@ -749,7 +749,7 @@ public partial class HDevelopExport
               hv_Message = ExpTmpLocalVar_Message;
               }
               }
-              using (HDevDisposeHelper dh = new HDevDisposeHelper())
+              using (HDevDisposeHelper dh = new ())
               {
               {
               HTuple 
@@ -765,7 +765,7 @@ public partial class HDevelopExport
             {
               //find_calib_object could not extract the marks
               //查找 calib 对象无法提取标记
-              using (HDevDisposeHelper dh = new HDevDisposeHelper())
+              using (HDevDisposeHelper dh = new ())
               {
               {
               HTuple 
@@ -775,7 +775,7 @@ public partial class HDevelopExport
               hv_Message = ExpTmpLocalVar_Message;
               }
               }
-              using (HDevDisposeHelper dh = new HDevDisposeHelper())
+              using (HDevDisposeHelper dh = new ())
               {
               {
               HTuple 
@@ -789,7 +789,7 @@ public partial class HDevelopExport
             else
             {
               //Unknown error occurred
-              using (HDevDisposeHelper dh = new HDevDisposeHelper())
+              using (HDevDisposeHelper dh = new ())
               {
               {
               HTuple 
@@ -799,7 +799,7 @@ public partial class HDevelopExport
               hv_Message = ExpTmpLocalVar_Message;
               }
               }
-              using (HDevDisposeHelper dh = new HDevDisposeHelper())
+              using (HDevDisposeHelper dh = new ())
               {
               {
               HTuple 
@@ -810,7 +810,7 @@ public partial class HDevelopExport
               }
               }
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
             {
             HTuple 
@@ -820,7 +820,7 @@ public partial class HDevelopExport
             hv_Message = ExpTmpLocalVar_Message;
             }
             }
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
             {
             HTuple 
@@ -831,7 +831,7 @@ public partial class HDevelopExport
             }
             }
           }
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
           disp_message(hv_WindowHandles.TupleSelect(hv_CameraIndex), hv_Message, 
               "window", 12, 12, hv_Color, "true");
@@ -840,7 +840,7 @@ public partial class HDevelopExport
           {
             //Show error status
             enforce_visualization(hv_WindowHandles);
-            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            using (HDevDisposeHelper dh = new ())
             {
             disp_continue_message(hv_WindowHandles.TupleSelect(3), "black", "true");
             }
@@ -865,21 +865,21 @@ public partial class HDevelopExport
         hv_Message.Dispose();
         hv_Message = "Too few marks were provided!";
         if (hv_Message == null)
-          hv_Message = new HTuple();
+          hv_Message = new ();
         hv_Message[1] = "Please adapt the parameters for";
         if (hv_Message == null)
-          hv_Message = new HTuple();
+          hv_Message = new ();
         hv_Message[2] = "extraction of the marks or provide";
         if (hv_Message == null)
-          hv_Message = new HTuple();
+          hv_Message = new ();
         hv_Message[3] = "more images with better quality.";
         hv_Color.Dispose();
-        hv_Color = new HTuple();
+        hv_Color = new ();
         hv_Color[0] = "red";
         hv_Color[1] = "black";
         hv_Color[2] = "black";
         hv_Color[3] = "black";
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         disp_message(hv_WindowHandles.TupleSelect(0), hv_Message, "window", 12, 12, 
             hv_Color, "true");
@@ -960,7 +960,7 @@ public partial class HDevelopExport
       hv_RefCameraID.Dispose();
       HOperatorSet.GetCalibData(hv_CalibDataID, "model", "general", "reference_camera", 
           out hv_RefCameraID);
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       hv_PoseCam0Indx0.Dispose();
       HOperatorSet.GetCalibData(hv_CalibDataID, "calib_obj_pose", (new HTuple(0)).TupleConcat(
@@ -1014,7 +1014,7 @@ public partial class HDevelopExport
       //-> 首先，显示摄像机参数
       disp_camera_parameters_multi_view_4(hv_WindowHandles, hv_ParLabels, hv_CamPar0, 
           hv_CamPar1, hv_CamPar2, hv_CamPar3);
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       disp_continue_message(hv_WindowHandles.TupleSelect(3), "black", "true");
       }
@@ -1033,12 +1033,12 @@ public partial class HDevelopExport
       hv_OM3DCaltab.Dispose();
       HOperatorSet.GenObjectModel3dFromPoints(hv_X, hv_Y, hv_Z, out hv_OM3DCaltab);
       hv_OM3DsCaltab.Dispose();
-      hv_OM3DsCaltab = new HTuple();
+      hv_OM3DsCaltab = new ();
       HTuple end_val175 = hv_NumPoses-1;
       HTuple step_val175 = 1;
       for (hv_i=1; hv_i.Continue(end_val175, step_val175); hv_i = hv_i.TupleAdd(step_val175))
       {
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         hv_CaltabPose.Dispose();
         HOperatorSet.GetCalibData(hv_CalibDataID, "calib_obj_pose", (new HTuple(0)).TupleConcat(
@@ -1046,7 +1046,7 @@ public partial class HDevelopExport
         }
         hv_ObjectModel3DRigidTrans.Dispose();
         HOperatorSet.RigidTransObjectModel3d(hv_OM3DCaltab, hv_CaltabPose, out hv_ObjectModel3DRigidTrans);
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -1065,7 +1065,7 @@ public partial class HDevelopExport
           out hv_ObjectModel3DCone);
 
       //////
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       hv_UnionObjectModel3D.Dispose();
       HOperatorSet.UnionObjectModel3d(hv_ObjectModel3DCamera.TupleConcat(hv_ObjectModel3DCone), 

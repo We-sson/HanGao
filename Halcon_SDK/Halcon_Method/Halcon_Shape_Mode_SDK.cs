@@ -36,7 +36,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 模型ID
         /// </summary>
-        public HTuple Shape_ID = new HTuple();
+        public HTuple Shape_ID = new ();
 
         /// <summary>
         /// 一般形状模型匹配创建属性
@@ -167,10 +167,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 case Shape_Based_Model_Enum.Ncc_Model:
 
 
-                    HTuple _row = new HTuple();
-                    HTuple _column = new HTuple();
-                    HTuple _angle = new HTuple();
-                    HTuple _score = new HTuple();
+                    HTuple _row = new ();
+                    HTuple _column = new ();
+                    HTuple _angle = new ();
+                    HTuple _score = new ();
                     HHomMat2D _HomMat2D = new HHomMat2D();
                     List<HNCCModel> _NccModel = new List<HNCCModel>();
                     HXLDCont _Origin_XLD = new HXLDCont();
@@ -252,8 +252,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             {
 
 
-                                HXLDCont _Xld = new HXLDCont();
-                                HHomMat2D _results_HomMat2D = new HHomMat2D();
+                                HXLDCont _Xld = new ();
+                                HHomMat2D _results_HomMat2D = new ();
 
 
                                 if (_Results.Find_Score[i] > 0)
@@ -870,7 +870,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             HDict _ModelHDict = new HDict();
 
-            HTuple _Shape_Handle_List = new HTuple();
+            HTuple _Shape_Handle_List = new ();
             HDict _Shape_XLD_List = new HDict();
 
             ///参数设置到字典中
@@ -1147,16 +1147,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     (new HTuple(Create_Shape_ModelXld.AngleExtent)).TupleRad(),
                                     (new HTuple(Create_Shape_ModelXld.AngleStep)).TupleRad(),
                                     Create_Shape_ModelXld.ScaleRMin,
-                                    new HTuple(),
+                                    new (),
                                     Create_Shape_ModelXld.ScaleRStep,
                                     Create_Shape_ModelXld.ScaleCMin,
-                                    new HTuple(),
+                                    new (),
                                      Create_Shape_ModelXld.ScaleCStep,
                                      Create_Shape_ModelXld.Optimization.ToString(),
                                      Create_Shape_ModelXld.Metric.ToString(),
                                      Create_Shape_ModelXld.MinContrast,
-                                     new HTuple(),
-                                     new HTuple());
+                                     new (),
+                                     new ());
                         }
                         else
                         {
@@ -1171,16 +1171,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     (new HTuple(Create_Shape_ModelXld.AngleExtent)).TupleRad(),
                                     (new HTuple(Create_Shape_ModelXld.AngleStep)).TupleRad(),
                                     Create_Shape_ModelXld.ScaleRMin,
-                                    new HTuple(),
+                                    new (),
                                     Create_Shape_ModelXld.ScaleRStep,
                                     Create_Shape_ModelXld.ScaleCMin,
-                                    new HTuple(),
+                                    new (),
                                      Create_Shape_ModelXld.ScaleCStep,
                                      Create_Shape_ModelXld.Optimization.ToString(),
                                      Create_Shape_ModelXld.Metric.ToString(),
                                      Create_Shape_ModelXld.MinContrast,
-                                     new HTuple(),
-                                     new HTuple());
+                                     new (),
+                                     new ());
 
                         }
 
@@ -1204,15 +1204,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                 (new HTuple(Create_Shape_ModelXld.AngleExtent)).TupleRad(),
                                 (new HTuple(Create_Shape_ModelXld.AngleStep)).TupleRad(),
                                 Create_Shape_ModelXld.ScaleRMin,
-                                new HTuple(),
+                                new (),
                                 Create_Shape_ModelXld.ScaleRStep,
                                 Create_Shape_ModelXld.ScaleCMin,
-                                new HTuple(),
+                                new (),
                                 Create_Shape_ModelXld.ScaleCStep,
                                 Create_Shape_ModelXld.Optimization.ToString(),
                                 Create_Shape_ModelXld.Metric.ToString(),
                                 Create_Shape_ModelXld.MinContrast,
-                                new HTuple(), new HTuple());
+                                new (), new ());
 
 
                         _DeformableModel.SetDeformableModelOrigin(Model_2D_Origin.X, Model_2D_Origin.Y);
@@ -1286,13 +1286,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     case Shape_Based_Model_Enum.Ncc_Model:
 
 
-                        HRegion Polygon_Xld = new HRegion();
-                        HXLDPoly Select_Region = new HXLDPoly();
-                        HRegion Gen_Region = new HRegion();
-                        HRegion Dilation_Region = new HRegion();
-                        HTuple _Pos_Row = new HTuple();
-                        HTuple _Pos_Col = new HTuple();
-                        HDict _Data_Dict = new HDict();
+                        HRegion Polygon_Xld = new ();
+                        HXLDPoly Select_Region = new ();
+                        HRegion Gen_Region = new ();
+                        HRegion Dilation_Region = new ();
+                        HTuple _Pos_Row = new ();
+                        HTuple _Pos_Col = new ();
+                        HDict _Data_Dict = new ();
 
                         Polygon_Xld.GenEmptyObj();
 
@@ -1328,7 +1328,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         //区域合并
                         Dilation_Region = Dilation_Region.Union1();
 
-                        HImage ImageRegion = new HImage();
+                        HImage ImageRegion = new ();
                         ImageRegion.GenEmptyObj();
 
 
@@ -1352,7 +1352,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         _NccModel.SetNccModelOrigin(Model_2D_Origin.X - _row, Model_2D_Origin.Y - _col);
 
 
-                        HHomMat2D _Tran = new HHomMat2D();
+                        HHomMat2D _Tran = new ();
                         var bb = ALL_Models_XLD;
                         ///xld模型偏移
                         _Tran.VectorAngleToRigid(Model_2D_Origin.X, Model_2D_Origin.Y, 0, 0, 0, 0);
@@ -1397,7 +1397,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _Shape.Dispose();
             }
             GC.Collect();
-
+            GC.SuppressFinalize(this);
 
         }
     }

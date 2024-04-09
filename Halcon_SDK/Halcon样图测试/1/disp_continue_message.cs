@@ -25,8 +25,8 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_GenParamName = new HTuple(), hv_GenParamValue = new HTuple();
-    HTuple hv_ContinueMessage = new HTuple();
+    HTuple hv_GenParamName = new (), hv_GenParamValue = new ();
+    HTuple hv_ContinueMessage = new ();
     HTuple   hv_Color_COPY_INP_TMP = new HTuple(hv_Color);
 
     // Initialize local and output iconic variables 
@@ -42,15 +42,15 @@ public partial class HDevelopExport
     //
     //Convert the parameter Box to generic parameters.
     hv_GenParamName.Dispose();
-    hv_GenParamName = new HTuple();
+    hv_GenParamName = new ();
     hv_GenParamValue.Dispose();
-    hv_GenParamValue = new HTuple();
+    hv_GenParamValue = new ();
     if ((int)(new HTuple((new HTuple(hv_Box.TupleLength())).TupleGreater(0))) != 0)
     {
       if ((int)(new HTuple(((hv_Box.TupleSelect(0))).TupleEqual("false"))) != 0)
       {
         //Display no box
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -60,7 +60,7 @@ public partial class HDevelopExport
         hv_GenParamName = ExpTmpLocalVar_GenParamName;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -74,7 +74,7 @@ public partial class HDevelopExport
       else if ((int)(new HTuple(((hv_Box.TupleSelect(0))).TupleNotEqual("true"))) != 0)
       {
         //Set a color other than the default.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -84,7 +84,7 @@ public partial class HDevelopExport
         hv_GenParamName = ExpTmpLocalVar_GenParamName;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -101,7 +101,7 @@ public partial class HDevelopExport
       if ((int)(new HTuple(((hv_Box.TupleSelect(1))).TupleEqual("false"))) != 0)
       {
         //Display no shadow.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -111,7 +111,7 @@ public partial class HDevelopExport
         hv_GenParamName = ExpTmpLocalVar_GenParamName;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -125,7 +125,7 @@ public partial class HDevelopExport
       else if ((int)(new HTuple(((hv_Box.TupleSelect(1))).TupleNotEqual("true"))) != 0)
       {
         //Set a shadow color other than the default.
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -135,7 +135,7 @@ public partial class HDevelopExport
         hv_GenParamName = ExpTmpLocalVar_GenParamName;
         }
         }
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -152,7 +152,7 @@ public partial class HDevelopExport
     {
       //disp_text does not accept an empty string for Color.
       hv_Color_COPY_INP_TMP.Dispose();
-      hv_Color_COPY_INP_TMP = new HTuple();
+      hv_Color_COPY_INP_TMP = new ();
     }
     //
     //Display the message.

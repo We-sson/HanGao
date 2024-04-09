@@ -109,7 +109,7 @@ namespace Roboto_Socket_Library
             {
 
             //创建套接字
-            IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(_IP), int.Parse(_Port));
+            IPEndPoint ipe = new (IPAddress.Parse(_IP), int.Parse(_Port));
 
             Socket_Sever = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //设置通讯口可重用端口
@@ -232,11 +232,8 @@ namespace Roboto_Socket_Library
 
 
 
-            if (null != ServerSocket)
-            {
-                //通过递归来不停的接收客户端的连接
-                ServerSocket.BeginAccept(new AsyncCallback(ClienAppcet), ServerSocket);
-            }
+            //通过递归来不停的接收客户端的连接
+            ServerSocket?.BeginAccept(new AsyncCallback(ClienAppcet), ServerSocket);
 
         }
 
@@ -251,8 +248,8 @@ namespace Roboto_Socket_Library
         /// <param name="ar"></param>
         private void ReceiveMessage(IAsyncResult ar)
         {
-            Socket? client = ar!.AsyncState as Socket; //客户端对象
-            if (client != null)
+            //客户端对象
+            if (ar!.AsyncState is Socket client)
             {
                 IPEndPoint clientipe = (IPEndPoint)client.RemoteEndPoint!;
                 try
@@ -280,7 +277,7 @@ namespace Roboto_Socket_Library
 
 
                     //创建协议处理类型,处理协议头部解析类型
-                    Robot_Socket_Protocol _Socket_Protocol = new Robot_Socket_Protocol(Socket_Robot, _Reveice_Meg);
+                    Robot_Socket_Protocol _Socket_Protocol = new (Socket_Robot, _Reveice_Meg);
 
                     ///根据协议类型处理对应内容
                     switch (_Socket_Protocol.Vision_Model_Type)

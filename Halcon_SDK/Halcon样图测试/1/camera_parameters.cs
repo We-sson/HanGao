@@ -26,14 +26,14 @@ public partial class HDevelopExport
 
     // Local iconic variables 
     // Initialize local and output iconic variables 
-    hv_CameraParam = new HTuple();
+    hv_CameraParam = new ();
     //Generate a camera parameter tuple for an area scan camera
     //with distortions modeled by the polynomial model.
     //
     hv_CameraParam.Dispose();
-    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    using (HDevDisposeHelper dh = new ())
     {
-    hv_CameraParam = new HTuple();
+    hv_CameraParam = new ();
     hv_CameraParam[0] = "area_scan_polynomial";
     hv_CameraParam = hv_CameraParam.TupleConcat(hv_Focus, hv_K1, hv_K2, hv_K3, hv_P1, hv_P2, hv_Sx, hv_Sy, hv_Cx, hv_Cy, hv_ImageWidth, hv_ImageHeight);
     }
@@ -53,11 +53,11 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_CameraType = new HTuple(), hv_CameraParamNames = new HTuple();
-    HTuple hv_Index = new HTuple(), hv_ParamNameInd = new HTuple();
-    HTuple hv_I = new HTuple();
+    HTuple hv_CameraType = new (), hv_CameraParamNames = new ();
+    HTuple hv_Index = new (), hv_ParamNameInd = new ();
+    HTuple hv_I = new ();
     // Initialize local and output iconic variables 
-    hv_ParamValue = new HTuple();
+    hv_ParamValue = new ();
     //get_cam_par_data returns in ParamValue the value of the
     //parameter that is given in ParamName from the tuple of
     //camera parameters that is given in CameraParam.
@@ -70,18 +70,18 @@ public partial class HDevelopExport
     //Find the index of the requested camera data and return
     //the corresponding value.
     hv_ParamValue.Dispose();
-    hv_ParamValue = new HTuple();
+    hv_ParamValue = new ();
     for (hv_Index=0; (int)hv_Index<=(int)((new HTuple(hv_ParamName.TupleLength()))-1); hv_Index = (int)hv_Index + 1)
     {
       hv_ParamNameInd.Dispose();
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       hv_ParamNameInd = hv_ParamName.TupleSelect(
           hv_Index);
       }
       if ((int)(new HTuple(hv_ParamNameInd.TupleEqual("camera_type"))) != 0)
       {
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -94,14 +94,14 @@ public partial class HDevelopExport
         continue;
       }
       hv_I.Dispose();
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       hv_I = hv_CameraParamNames.TupleFind(
           hv_ParamNameInd);
       }
       if ((int)(new HTuple(hv_I.TupleNotEqual(-1))) != 0)
       {
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         {
         HTuple 
@@ -114,7 +114,7 @@ public partial class HDevelopExport
       }
       else
       {
-        throw new HalconException("Unknown camera parameter "+hv_ParamNameInd);
+        throw new Exception("Unknown camera parameter "+hv_ParamNameInd);
       }
     }
 
@@ -139,33 +139,33 @@ public partial class HDevelopExport
 
     // Local control variables 
 
-    HTuple hv_CameraParamAreaScanDivision = new HTuple();
-    HTuple hv_CameraParamAreaScanPolynomial = new HTuple();
-    HTuple hv_CameraParamAreaScanTelecentricDivision = new HTuple();
-    HTuple hv_CameraParamAreaScanTelecentricPolynomial = new HTuple();
-    HTuple hv_CameraParamAreaScanTiltDivision = new HTuple();
-    HTuple hv_CameraParamAreaScanTiltPolynomial = new HTuple();
-    HTuple hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new HTuple();
-    HTuple hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new HTuple();
-    HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new HTuple();
-    HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new HTuple();
-    HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new HTuple();
-    HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new HTuple();
-    HTuple hv_CameraParamAreaScanHypercentricDivision = new HTuple();
-    HTuple hv_CameraParamAreaScanHypercentricPolynomial = new HTuple();
-    HTuple hv_CameraParamLinesScanDivision = new HTuple();
-    HTuple hv_CameraParamLinesScanPolynomial = new HTuple();
-    HTuple hv_CameraParamLinesScanTelecentricDivision = new HTuple();
-    HTuple hv_CameraParamLinesScanTelecentricPolynomial = new HTuple();
-    HTuple hv_CameraParamAreaScanTiltDivisionLegacy = new HTuple();
-    HTuple hv_CameraParamAreaScanTiltPolynomialLegacy = new HTuple();
-    HTuple hv_CameraParamAreaScanTelecentricDivisionLegacy = new HTuple();
-    HTuple hv_CameraParamAreaScanTelecentricPolynomialLegacy = new HTuple();
-    HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new HTuple();
-    HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new HTuple();
+    HTuple hv_CameraParamAreaScanDivision = new ();
+    HTuple hv_CameraParamAreaScanPolynomial = new ();
+    HTuple hv_CameraParamAreaScanTelecentricDivision = new ();
+    HTuple hv_CameraParamAreaScanTelecentricPolynomial = new ();
+    HTuple hv_CameraParamAreaScanTiltDivision = new ();
+    HTuple hv_CameraParamAreaScanTiltPolynomial = new ();
+    HTuple hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new ();
+    HTuple hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new ();
+    HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new ();
+    HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new ();
+    HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new ();
+    HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new ();
+    HTuple hv_CameraParamAreaScanHypercentricDivision = new ();
+    HTuple hv_CameraParamAreaScanHypercentricPolynomial = new ();
+    HTuple hv_CameraParamLinesScanDivision = new ();
+    HTuple hv_CameraParamLinesScanPolynomial = new ();
+    HTuple hv_CameraParamLinesScanTelecentricDivision = new ();
+    HTuple hv_CameraParamLinesScanTelecentricPolynomial = new ();
+    HTuple hv_CameraParamAreaScanTiltDivisionLegacy = new ();
+    HTuple hv_CameraParamAreaScanTiltPolynomialLegacy = new ();
+    HTuple hv_CameraParamAreaScanTelecentricDivisionLegacy = new ();
+    HTuple hv_CameraParamAreaScanTelecentricPolynomialLegacy = new ();
+    HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new ();
+    HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new ();
     // Initialize local and output iconic variables 
-    hv_CameraType = new HTuple();
-    hv_ParamNames = new HTuple();
+    hv_CameraType = new ();
+    hv_ParamNames = new ();
     //get_cam_par_names returns for each element in the camera
     //parameter tuple that is passed in CameraParam the name
     //of the respective camera parameter. The parameter names
@@ -191,7 +191,7 @@ public partial class HDevelopExport
     //  - 'line_scan_telecentric_polynomial'
     //
     hv_CameraParamAreaScanDivision.Dispose();
-    hv_CameraParamAreaScanDivision = new HTuple();
+    hv_CameraParamAreaScanDivision = new ();
     hv_CameraParamAreaScanDivision[0] = "focus";
     hv_CameraParamAreaScanDivision[1] = "kappa";
     hv_CameraParamAreaScanDivision[2] = "sx";
@@ -201,7 +201,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanDivision[6] = "image_width";
     hv_CameraParamAreaScanDivision[7] = "image_height";
     hv_CameraParamAreaScanPolynomial.Dispose();
-    hv_CameraParamAreaScanPolynomial = new HTuple();
+    hv_CameraParamAreaScanPolynomial = new ();
     hv_CameraParamAreaScanPolynomial[0] = "focus";
     hv_CameraParamAreaScanPolynomial[1] = "k1";
     hv_CameraParamAreaScanPolynomial[2] = "k2";
@@ -215,7 +215,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanPolynomial[10] = "image_width";
     hv_CameraParamAreaScanPolynomial[11] = "image_height";
     hv_CameraParamAreaScanTelecentricDivision.Dispose();
-    hv_CameraParamAreaScanTelecentricDivision = new HTuple();
+    hv_CameraParamAreaScanTelecentricDivision = new ();
     hv_CameraParamAreaScanTelecentricDivision[0] = "magnification";
     hv_CameraParamAreaScanTelecentricDivision[1] = "kappa";
     hv_CameraParamAreaScanTelecentricDivision[2] = "sx";
@@ -225,7 +225,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanTelecentricDivision[6] = "image_width";
     hv_CameraParamAreaScanTelecentricDivision[7] = "image_height";
     hv_CameraParamAreaScanTelecentricPolynomial.Dispose();
-    hv_CameraParamAreaScanTelecentricPolynomial = new HTuple();
+    hv_CameraParamAreaScanTelecentricPolynomial = new ();
     hv_CameraParamAreaScanTelecentricPolynomial[0] = "magnification";
     hv_CameraParamAreaScanTelecentricPolynomial[1] = "k1";
     hv_CameraParamAreaScanTelecentricPolynomial[2] = "k2";
@@ -239,7 +239,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanTelecentricPolynomial[10] = "image_width";
     hv_CameraParamAreaScanTelecentricPolynomial[11] = "image_height";
     hv_CameraParamAreaScanTiltDivision.Dispose();
-    hv_CameraParamAreaScanTiltDivision = new HTuple();
+    hv_CameraParamAreaScanTiltDivision = new ();
     hv_CameraParamAreaScanTiltDivision[0] = "focus";
     hv_CameraParamAreaScanTiltDivision[1] = "kappa";
     hv_CameraParamAreaScanTiltDivision[2] = "image_plane_dist";
@@ -252,7 +252,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanTiltDivision[9] = "image_width";
     hv_CameraParamAreaScanTiltDivision[10] = "image_height";
     hv_CameraParamAreaScanTiltPolynomial.Dispose();
-    hv_CameraParamAreaScanTiltPolynomial = new HTuple();
+    hv_CameraParamAreaScanTiltPolynomial = new ();
     hv_CameraParamAreaScanTiltPolynomial[0] = "focus";
     hv_CameraParamAreaScanTiltPolynomial[1] = "k1";
     hv_CameraParamAreaScanTiltPolynomial[2] = "k2";
@@ -269,7 +269,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanTiltPolynomial[13] = "image_width";
     hv_CameraParamAreaScanTiltPolynomial[14] = "image_height";
     hv_CameraParamAreaScanImageSideTelecentricTiltDivision.Dispose();
-    hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new HTuple();
+    hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new ();
     hv_CameraParamAreaScanImageSideTelecentricTiltDivision[0] = "focus";
     hv_CameraParamAreaScanImageSideTelecentricTiltDivision[1] = "kappa";
     hv_CameraParamAreaScanImageSideTelecentricTiltDivision[2] = "tilt";
@@ -281,7 +281,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanImageSideTelecentricTiltDivision[8] = "image_width";
     hv_CameraParamAreaScanImageSideTelecentricTiltDivision[9] = "image_height";
     hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial.Dispose();
-    hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new HTuple();
+    hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new ();
     hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[0] = "focus";
     hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[1] = "k1";
     hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[2] = "k2";
@@ -297,7 +297,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[12] = "image_width";
     hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[13] = "image_height";
     hv_CameraParamAreaScanBilateralTelecentricTiltDivision.Dispose();
-    hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new HTuple();
+    hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new ();
     hv_CameraParamAreaScanBilateralTelecentricTiltDivision[0] = "magnification";
     hv_CameraParamAreaScanBilateralTelecentricTiltDivision[1] = "kappa";
     hv_CameraParamAreaScanBilateralTelecentricTiltDivision[2] = "tilt";
@@ -309,7 +309,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanBilateralTelecentricTiltDivision[8] = "image_width";
     hv_CameraParamAreaScanBilateralTelecentricTiltDivision[9] = "image_height";
     hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial.Dispose();
-    hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new HTuple();
+    hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new ();
     hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[0] = "magnification";
     hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[1] = "k1";
     hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[2] = "k2";
@@ -325,7 +325,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[12] = "image_width";
     hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[13] = "image_height";
     hv_CameraParamAreaScanObjectSideTelecentricTiltDivision.Dispose();
-    hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new HTuple();
+    hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new ();
     hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[0] = "magnification";
     hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[1] = "kappa";
     hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[2] = "image_plane_dist";
@@ -338,7 +338,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[9] = "image_width";
     hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[10] = "image_height";
     hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial.Dispose();
-    hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new HTuple();
+    hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new ();
     hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[0] = "magnification";
     hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[1] = "k1";
     hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[2] = "k2";
@@ -355,7 +355,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[13] = "image_width";
     hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[14] = "image_height";
     hv_CameraParamAreaScanHypercentricDivision.Dispose();
-    hv_CameraParamAreaScanHypercentricDivision = new HTuple();
+    hv_CameraParamAreaScanHypercentricDivision = new ();
     hv_CameraParamAreaScanHypercentricDivision[0] = "focus";
     hv_CameraParamAreaScanHypercentricDivision[1] = "kappa";
     hv_CameraParamAreaScanHypercentricDivision[2] = "sx";
@@ -365,7 +365,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanHypercentricDivision[6] = "image_width";
     hv_CameraParamAreaScanHypercentricDivision[7] = "image_height";
     hv_CameraParamAreaScanHypercentricPolynomial.Dispose();
-    hv_CameraParamAreaScanHypercentricPolynomial = new HTuple();
+    hv_CameraParamAreaScanHypercentricPolynomial = new ();
     hv_CameraParamAreaScanHypercentricPolynomial[0] = "focus";
     hv_CameraParamAreaScanHypercentricPolynomial[1] = "k1";
     hv_CameraParamAreaScanHypercentricPolynomial[2] = "k2";
@@ -379,7 +379,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanHypercentricPolynomial[10] = "image_width";
     hv_CameraParamAreaScanHypercentricPolynomial[11] = "image_height";
     hv_CameraParamLinesScanDivision.Dispose();
-    hv_CameraParamLinesScanDivision = new HTuple();
+    hv_CameraParamLinesScanDivision = new ();
     hv_CameraParamLinesScanDivision[0] = "focus";
     hv_CameraParamLinesScanDivision[1] = "kappa";
     hv_CameraParamLinesScanDivision[2] = "sx";
@@ -392,7 +392,7 @@ public partial class HDevelopExport
     hv_CameraParamLinesScanDivision[9] = "vy";
     hv_CameraParamLinesScanDivision[10] = "vz";
     hv_CameraParamLinesScanPolynomial.Dispose();
-    hv_CameraParamLinesScanPolynomial = new HTuple();
+    hv_CameraParamLinesScanPolynomial = new ();
     hv_CameraParamLinesScanPolynomial[0] = "focus";
     hv_CameraParamLinesScanPolynomial[1] = "k1";
     hv_CameraParamLinesScanPolynomial[2] = "k2";
@@ -409,7 +409,7 @@ public partial class HDevelopExport
     hv_CameraParamLinesScanPolynomial[13] = "vy";
     hv_CameraParamLinesScanPolynomial[14] = "vz";
     hv_CameraParamLinesScanTelecentricDivision.Dispose();
-    hv_CameraParamLinesScanTelecentricDivision = new HTuple();
+    hv_CameraParamLinesScanTelecentricDivision = new ();
     hv_CameraParamLinesScanTelecentricDivision[0] = "magnification";
     hv_CameraParamLinesScanTelecentricDivision[1] = "kappa";
     hv_CameraParamLinesScanTelecentricDivision[2] = "sx";
@@ -422,7 +422,7 @@ public partial class HDevelopExport
     hv_CameraParamLinesScanTelecentricDivision[9] = "vy";
     hv_CameraParamLinesScanTelecentricDivision[10] = "vz";
     hv_CameraParamLinesScanTelecentricPolynomial.Dispose();
-    hv_CameraParamLinesScanTelecentricPolynomial = new HTuple();
+    hv_CameraParamLinesScanTelecentricPolynomial = new ();
     hv_CameraParamLinesScanTelecentricPolynomial[0] = "magnification";
     hv_CameraParamLinesScanTelecentricPolynomial[1] = "k1";
     hv_CameraParamLinesScanTelecentricPolynomial[2] = "k2";
@@ -440,7 +440,7 @@ public partial class HDevelopExport
     hv_CameraParamLinesScanTelecentricPolynomial[14] = "vz";
     //Legacy parameter names
     hv_CameraParamAreaScanTiltDivisionLegacy.Dispose();
-    hv_CameraParamAreaScanTiltDivisionLegacy = new HTuple();
+    hv_CameraParamAreaScanTiltDivisionLegacy = new ();
     hv_CameraParamAreaScanTiltDivisionLegacy[0] = "focus";
     hv_CameraParamAreaScanTiltDivisionLegacy[1] = "kappa";
     hv_CameraParamAreaScanTiltDivisionLegacy[2] = "tilt";
@@ -452,7 +452,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanTiltDivisionLegacy[8] = "image_width";
     hv_CameraParamAreaScanTiltDivisionLegacy[9] = "image_height";
     hv_CameraParamAreaScanTiltPolynomialLegacy.Dispose();
-    hv_CameraParamAreaScanTiltPolynomialLegacy = new HTuple();
+    hv_CameraParamAreaScanTiltPolynomialLegacy = new ();
     hv_CameraParamAreaScanTiltPolynomialLegacy[0] = "focus";
     hv_CameraParamAreaScanTiltPolynomialLegacy[1] = "k1";
     hv_CameraParamAreaScanTiltPolynomialLegacy[2] = "k2";
@@ -468,7 +468,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanTiltPolynomialLegacy[12] = "image_width";
     hv_CameraParamAreaScanTiltPolynomialLegacy[13] = "image_height";
     hv_CameraParamAreaScanTelecentricDivisionLegacy.Dispose();
-    hv_CameraParamAreaScanTelecentricDivisionLegacy = new HTuple();
+    hv_CameraParamAreaScanTelecentricDivisionLegacy = new ();
     hv_CameraParamAreaScanTelecentricDivisionLegacy[0] = "focus";
     hv_CameraParamAreaScanTelecentricDivisionLegacy[1] = "kappa";
     hv_CameraParamAreaScanTelecentricDivisionLegacy[2] = "sx";
@@ -478,7 +478,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanTelecentricDivisionLegacy[6] = "image_width";
     hv_CameraParamAreaScanTelecentricDivisionLegacy[7] = "image_height";
     hv_CameraParamAreaScanTelecentricPolynomialLegacy.Dispose();
-    hv_CameraParamAreaScanTelecentricPolynomialLegacy = new HTuple();
+    hv_CameraParamAreaScanTelecentricPolynomialLegacy = new ();
     hv_CameraParamAreaScanTelecentricPolynomialLegacy[0] = "focus";
     hv_CameraParamAreaScanTelecentricPolynomialLegacy[1] = "k1";
     hv_CameraParamAreaScanTelecentricPolynomialLegacy[2] = "k2";
@@ -492,7 +492,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanTelecentricPolynomialLegacy[10] = "image_width";
     hv_CameraParamAreaScanTelecentricPolynomialLegacy[11] = "image_height";
     hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy.Dispose();
-    hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new HTuple();
+    hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new ();
     hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[0] = "focus";
     hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[1] = "kappa";
     hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[2] = "tilt";
@@ -504,7 +504,7 @@ public partial class HDevelopExport
     hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[8] = "image_width";
     hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[9] = "image_height";
     hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy.Dispose();
-    hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new HTuple();
+    hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new ();
     hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[0] = "focus";
     hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[1] = "k1";
     hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[2] = "k2";
@@ -526,7 +526,7 @@ public partial class HDevelopExport
       if ((int)(((hv_CameraParam.TupleSelect(0))).TupleIsString()) != 0)
       {
         hv_CameraType.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
         hv_CameraType = hv_CameraParam.TupleSelect(
             0);
@@ -534,9 +534,9 @@ public partial class HDevelopExport
         if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_division"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanDivision);
           }
@@ -544,9 +544,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_polynomial"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanPolynomial);
           }
@@ -554,9 +554,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_telecentric_division"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricDivision);
           }
@@ -564,9 +564,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_telecentric_polynomial"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricPolynomial);
           }
@@ -574,9 +574,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_division"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltDivision);
           }
@@ -584,9 +584,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_polynomial"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltPolynomial);
           }
@@ -594,9 +594,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_image_side_telecentric_division"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltDivision);
           }
@@ -604,9 +604,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_image_side_telecentric_polynomial"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial);
           }
@@ -614,9 +614,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_bilateral_telecentric_division"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltDivision);
           }
@@ -624,9 +624,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_bilateral_telecentric_polynomial"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial);
           }
@@ -634,9 +634,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_object_side_telecentric_division"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltDivision);
           }
@@ -644,9 +644,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_object_side_telecentric_polynomial"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial);
           }
@@ -654,9 +654,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_hypercentric_division"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricDivision);
           }
@@ -664,9 +664,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_hypercentric_polynomial"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricPolynomial);
           }
@@ -675,9 +675,9 @@ public partial class HDevelopExport
             new HTuple(hv_CameraType.TupleEqual("line_scan")))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanDivision);
           }
@@ -685,9 +685,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_polynomial"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanPolynomial);
           }
@@ -695,9 +695,9 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_telecentric_division"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricDivision);
           }
@@ -705,16 +705,16 @@ public partial class HDevelopExport
         else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_telecentric_polynomial"))) != 0)
         {
           hv_ParamNames.Dispose();
-          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          using (HDevDisposeHelper dh = new ())
           {
-          hv_ParamNames = new HTuple();
+          hv_ParamNames = new ();
           hv_ParamNames[0] = "camera_type";
           hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricPolynomial);
           }
         }
         else
         {
-          throw new HalconException(("Unknown camera type '"+hv_CameraType)+"' passed in CameraParam.");
+          throw new Exception(("Unknown camera type '"+hv_CameraType)+"' passed in CameraParam.");
         }
 
         hv_CameraParamAreaScanDivision.Dispose();
@@ -843,7 +843,7 @@ public partial class HDevelopExport
         }
         break;
       default:
-        throw new HalconException("Wrong number of values in CameraParam.");
+        throw new Exception("Wrong number of values in CameraParam.");
     
       }
     }
@@ -851,7 +851,7 @@ public partial class HDevelopExport
     {
       //Format of camera parameters since HALCON 13
       hv_CameraType.Dispose();
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      using (HDevDisposeHelper dh = new ())
       {
       hv_CameraType = hv_CameraParam.TupleSelect(
           0);
@@ -861,12 +861,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             9))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanDivision);
         }
@@ -876,12 +876,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             13))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanPolynomial);
         }
@@ -891,12 +891,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             9))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricDivision);
         }
@@ -906,12 +906,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             13))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricPolynomial);
         }
@@ -921,12 +921,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             12))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltDivision);
         }
@@ -936,12 +936,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             16))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltPolynomial);
         }
@@ -951,12 +951,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             11))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltDivision);
         }
@@ -966,12 +966,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             15))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial);
         }
@@ -981,12 +981,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             11))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltDivision);
         }
@@ -996,12 +996,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             15))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial);
         }
@@ -1011,12 +1011,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             12))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltDivision);
         }
@@ -1026,12 +1026,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             16))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial);
         }
@@ -1041,12 +1041,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             9))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricDivision);
         }
@@ -1056,12 +1056,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             13))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricPolynomial);
         }
@@ -1072,12 +1072,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             12))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanDivision);
         }
@@ -1087,12 +1087,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             16))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanPolynomial);
         }
@@ -1102,12 +1102,12 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             12))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricDivision);
         }
@@ -1117,19 +1117,19 @@ public partial class HDevelopExport
         if ((int)(new HTuple((new HTuple(hv_CameraParam.TupleLength())).TupleNotEqual(
             16))) != 0)
         {
-          throw new HalconException("Wrong number of values in CameraParam.");
+          throw new Exception("Wrong number of values in CameraParam.");
         }
         hv_ParamNames.Dispose();
-        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        using (HDevDisposeHelper dh = new ())
         {
-        hv_ParamNames = new HTuple();
+        hv_ParamNames = new ();
         hv_ParamNames[0] = "camera_type";
         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricPolynomial);
         }
       }
       else
       {
-        throw new HalconException("Unknown camera type in CameraParam.");
+        throw new Exception("Unknown camera type in CameraParam.");
       }
     }
 

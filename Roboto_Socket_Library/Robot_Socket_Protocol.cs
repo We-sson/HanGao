@@ -19,9 +19,9 @@ namespace Roboto_Socket_Library
             Vision_Model_Type = Socket_Get_Vision_Model();
         }
 
-        private KUKA_EKL_Socket_Protocols KUKA_Socket_Protocols { get; set; } = new KUKA_EKL_Socket_Protocols();
+        //private KUKA_EKL_Socket_Protocols KUKA_Socket_Protocols { get; set; } = new KUKA_EKL_Socket_Protocols();
 
-        private ABB_PC_Socket_Protocols ABB_Socket_Protocols { set; get; } = new ABB_PC_Socket_Protocols();
+        //private ABB_PC_Socket_Protocols ABB_Socket_Protocols { set; get; } = new ABB_PC_Socket_Protocols();
 
 
 
@@ -41,7 +41,7 @@ namespace Roboto_Socket_Library
         /// <summary>
         /// 接收数据原始byte
         /// </summary>
-        public List<byte> Receice_byte = new List<byte>();
+        public List<byte> Receice_byte = new();
 
         /// <summary>
         /// 解析头部数据是属于那个方法
@@ -67,7 +67,7 @@ namespace Roboto_Socket_Library
                     //装换接收总数字节
                     var INI = BitConverter.ToInt16(Receice_byte.Skip(0).Take(2).ToArray());
 
-                    if (INI != Receice_byte.Count() - 2)
+                    if (INI != Receice_byte.Count - 2)
                     {
                         throw new Exception("通讯协议存在丢包，请检查网络！");
                     }
@@ -224,7 +224,7 @@ namespace Roboto_Socket_Library
                 case Socket_Robot_Protocols_Enum.ABB:
 
 
-                    HandEye_Calibration_Receive _ABB_HandEye_Calib_Rece = new HandEye_Calibration_Receive();
+                    HandEye_Calibration_Receive _ABB_HandEye_Calib_Rece = new ();
 
                     int _Calib_Model = BitConverter.ToInt32(Receice_byte.Skip(5).Take(4).ToArray());
                     var xx = Receice_byte.Skip(9).Take(4).ToArray();
@@ -284,7 +284,7 @@ namespace Roboto_Socket_Library
         /// <returns></returns>
         private byte[] HandEye_Calibration_Send_Protocol(HandEye_Calibration_Send _Propertie)
         {
-            List<byte> _Send_Byte = new List<byte>();
+            List<byte> _Send_Byte = new ();
 
             switch (Socket_Robot)
             {
@@ -363,7 +363,7 @@ namespace Roboto_Socket_Library
         private byte[] Vision_Creation_Model_Send_Procotol(Vision_Creation_Model_Send _Propertie)
         {
 
-            List<byte> _Send_Byte = new List<byte>();
+            List<byte> _Send_Byte = new ();
 
 
             switch (Socket_Robot)
@@ -433,7 +433,7 @@ namespace Roboto_Socket_Library
         /// <returns></returns>
         private Vision_Creation_Model_Receive Vision_Creation_Model_Receive_Protocol()
         {
-            Vision_Creation_Model_Receive _Robot_Creation_Model_Rece = new Vision_Creation_Model_Receive();
+            Vision_Creation_Model_Receive _Robot_Creation_Model_Rece = new ();
             switch (Socket_Robot)
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
@@ -534,7 +534,7 @@ namespace Roboto_Socket_Library
         /// <returns></returns>
         private Vision_Ini_Data_Receive Vision_Ini_Receive_Protocol()
         {
-            Vision_Ini_Data_Receive _Ini_Data_Receive = new Vision_Ini_Data_Receive();
+            Vision_Ini_Data_Receive _Ini_Data_Receive = new ();
             switch (Socket_Robot)
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
@@ -575,7 +575,7 @@ namespace Roboto_Socket_Library
         private byte[]? Vision_Ini_Send_Procotol(Vision_Ini_Data_Send _Propertie)
         {
 
-            List< byte > _byte_List = new  List<byte>();
+            List< byte > _byte_List = new  ();
 
             switch (Socket_Robot)
             {
@@ -614,7 +614,7 @@ namespace Roboto_Socket_Library
         private byte[] Vision_Find_Send_Protocol(Vision_Find_Data_Send _Propertie)
         {
 
-            List<byte> _byte_List = new List<byte>();
+            List<byte> _byte_List = new ();
 
             switch (Socket_Robot)
             {
@@ -652,7 +652,7 @@ namespace Roboto_Socket_Library
         /// <returns></returns>
         private Vision_Find_Data_Receive Vision_Find_Receive_Protocol()
         {
-            Vision_Find_Data_Receive _Find_Data_Receive = new Vision_Find_Data_Receive();
+            Vision_Find_Data_Receive _Find_Data_Receive = new ();
 
 
             switch (Socket_Robot)
