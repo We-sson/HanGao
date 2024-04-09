@@ -8514,7 +8514,7 @@
 
 
                                             <TextBox Grid.Column=" 1"
-                                                     Text="{Binding Vision_Auto_Cofig.Auto_Camera_Selected_Name}"
+                                                     Text="{Binding Vision_Auto_Cofig.Vision_Global_Parameters.Auto_Camera_Selected_Name}"
                                                      TextWrapping="Wrap"
                                                      Margin="0,0,0,0"
                                                      HorizontalContentAlignment="Center"
@@ -8529,7 +8529,7 @@
 
 
                                             <ToggleButton Grid.Column=" 2"
-                                                          IsChecked="{Binding Vision_Auto_Cofig.Auto_Connect_Selected_Camera}"
+                                                          IsChecked="{Binding Vision_Auto_Cofig.Vision_Global_Parameters.Auto_Connect_Selected_Camera}"
                                                           Margin="4,0,0,0"
                                                           HorizontalContentAlignment="Stretch"
                                                           VerticalContentAlignment="Stretch"
@@ -8599,7 +8599,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Find_Run_Number" Grid.Column=" 1"
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Vision_Run_Number" Grid.Column=" 1"
                                                     Margin="5"
                                                     VerticalAlignment="Center"
                                                     HorizontalContentAlignment="Stretch"
@@ -8609,10 +8609,10 @@
                                                     Minimum=" 0"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Vision_Auto_Cofig.Find_Run_Number}" />
+                                                    Value="{Binding Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Run_Number}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding ElementName=Find_Run_Number, Path=Value}"
+                                                     Text="{Binding ElementName=Vision_Run_Number, Path=Value}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -8645,7 +8645,7 @@
                                                     Minimum=" 0"
                                                     SmallChange="1"
                                                     TickFrequency=" 1"
-                                                    Value="{Binding Vision_Auto_Cofig.Find_TimeOut_Millisecond}" />
+                                                    Value="{Binding Vision_Auto_Cofig.Vision_Global_Parameters.Find_TimeOut_Millisecond}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding ElementName=Find_TimeOut_Millisecond, Path=Value}"
@@ -8734,7 +8734,7 @@
                                                     Minimum=" 1"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Vision_Auto_Cofig.Vision_Max_Offset}" />
+                                                    Value="{Binding Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Max_Offset}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding ElementName=Vision_Max_Offset, Path=Value, StringFormat={}{0:F1}}"
@@ -8770,7 +8770,7 @@
                                                     Minimum=" 1"
                                                     SmallChange="0.1"
                                                     TickFrequency=" 0.1"
-                                                    Value="{Binding Vision_Auto_Cofig.Vision_Scope}" />
+                                                    Value="{Binding Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Scope}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding ElementName=Vision_Scope, Path=Value}"

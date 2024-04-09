@@ -56,46 +56,15 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 
     }
 
-
-
-
-
     [AddINotifyPropertyChangedInterface]
     [Serializable]
-    public class Vision_Auto_Config_Model
+    public class Vision_Global_Parameters_Model
     {
-
-        /// <summary>
-        /// 连接库卡协议外的端口
-        /// </summary>
-        public int Robot_SDK_IP_Port { set; get; } = 7000;
-
-        public string Robot_SDK_IP { set; get; } = "192.168.0.1";
-
-        public bool Robot_SDK_AUTO_Connect { set; get; } = true;
-
-        public List<string> Local_Network_IP_List { set; get; } = [];
-
-
-        public string Auto_Camera_Selected_Name { set; get; } 
-
-        public bool Auto_Connect_Selected_Camera { set; get; } = false;
-        /// <summary>
-        /// 上位机网络服务器端口
-        /// </summary>
-        public int Local_Network_Port { set; get; } = 5000;
-        public bool Local_Network_AUTO_Connect { set; get; } = true;
-
-        /// <summary>
-        /// 连接库卡协议外的ip
-        /// </summary>
-        public Socket_Robot_Protocols_Enum Local_Network_Robot_Model { set; get; } = Socket_Robot_Protocols_Enum.KUKA;
-
 
         /// <summary>
         /// 查找模型次数,最少1次
         /// </summary>
-        public int Find_Run_Number { set; get; } = 1;
+        public int Vision_Run_Number { set; get; } = 3;
 
         /// <summary>
         /// 查找模型超时毫秒,最少1000毫秒
@@ -112,6 +81,82 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         /// </summary>
         public int Vision_Scope { set; get; } = 20;
 
+        /// <summary>
+        /// 自动连接相机
+        /// </summary>
+        public string Auto_Camera_Selected_Name { set; get; }
+
+        /// <summary>
+        /// 开启自动连接相机
+        /// </summary>
+        public bool Auto_Connect_Selected_Camera { set; get; } = false;
+
+
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    [Serializable]
+    public class Local_Network_Config_Model
+    {
+
+
+        /// <summary>
+        /// 上位机网络服务器端口
+        /// </summary>
+        public int Local_Network_Port { set; get; } = 5000;
+        /// <summary>
+        /// 启动自动连接
+        /// </summary>
+        public bool Local_Network_Auto_Connect { set; get; } = true;
+
+        /// <summary>
+        /// 本地连接服务列表IP
+        /// </summary>
+        public List<string> Local_Network_IP_List { set; get; } = [];
+
+
+        /// <summary>
+        /// 连接库卡协议外的ip
+        /// </summary>
+        public Socket_Robot_Protocols_Enum Local_Network_Robot_Model { set; get; } = Socket_Robot_Protocols_Enum.KUKA;
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    [Serializable]
+    public class Robot_SDK_Config_Model
+    {
+        /// <summary>
+        /// 连接库卡协议外的端口
+        /// </summary>
+        public int Robot_SDK_IP_Port { set; get; } = 7000;
+
+        public string Robot_SDK_IP { set; get; } = "192.168.0.1";
+
+        public bool Robot_SDK_Auto_Connect { set; get; } = true;
+    }
+
+
+
+    [AddINotifyPropertyChangedInterface]
+    [Serializable]
+    public class Vision_Auto_Config_Model
+    {
+
+
+
+
+
+
+
+
+        public Robot_SDK_Config_Model Global_Robot_SDK_Config { set; get; } = new Robot_SDK_Config_Model();
+
+
+
+        public Vision_Global_Parameters_Model Vision_Global_Parameters { set; get; } = new Vision_Global_Parameters_Model();
+
+
+        public Local_Network_Config_Model Local_Network_Config { set; get; } = new Local_Network_Config_Model();
 
     }
 

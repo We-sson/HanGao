@@ -366,8 +366,8 @@ namespace HanGao.ViewModel
             if (Camera_Device_List.Select_Camera != null && Camera_Device_List.Camera_Diver_Model == Image_Diver_Model_Enum.Online)
             {
                 _Ini_Data_Send.IsStatus = 1;
-                _Ini_Data_Send.Initialization_Data.Vision_Scope = Vision_Auto_Cofig.Vision_Scope;
-                _Ini_Data_Send.Initialization_Data.Vision_Max_Offset = Vision_Auto_Cofig.Vision_Max_Offset;
+                _Ini_Data_Send.Initialization_Data.Vision_Scope = Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Scope;
+                _Ini_Data_Send.Initialization_Data.Vision_Max_Offset = Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Max_Offset;
                 _Ini_Data_Send.Message_Error = "Vision Ini Ready!";
 
 
@@ -428,7 +428,7 @@ namespace HanGao.ViewModel
 
 
 
-
+                    ///生成平面模型和TCP位置
                     List<HObjectModel3D> _RobotTcp3D = _3DModel.Gen_Robot_Camera_3DModel(
                         Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose,
                         Halcon_Shape_Mode.Tool_In_BasePos.HPose,
@@ -441,7 +441,11 @@ namespace HanGao.ViewModel
                 }
                 else
                 {
+
+                    _Send.IsStatus = 0;
+                    _Send.Message_Error = "Camera Calibration File missing!";
                     User_Log_Add("机器人和相机坐标参数不足，无法创建！", Log_Show_Window_Enum.Home);
+                    return _Send;
 
                 }
 
@@ -578,12 +582,12 @@ namespace HanGao.ViewModel
                         }
 
                         ////启动自动连接
-                        if (Vision_Auto_Cofig.Auto_Connect_Selected_Camera && Camera_Device_List.Camera_Diver_Model == Image_Diver_Model_Enum.Online)
+                        if (Vision_Auto_Cofig.Vision_Global_Parameters.Auto_Connect_Selected_Camera && Camera_Device_List.Camera_Diver_Model == Image_Diver_Model_Enum.Online)
                         {
 
                             foreach (var _camera in MVS_Camera_Info_List)
                             {
-                                if (_camera.Camera_Info.SerialNumber == Vision_Auto_Cofig.Auto_Camera_Selected_Name)
+                                if (_camera.Camera_Info.SerialNumber == Vision_Auto_Cofig.Vision_Global_Parameters.Auto_Camera_Selected_Name)
                                 {
 
                                     Camera_Device_List.Select_Camera = _camera;
@@ -774,11 +778,13 @@ namespace HanGao.ViewModel
                 {
 
                     ////设置全局参数
-                    Vision_Auto_Cofig.Local_Network_IP_List = new List<string>(Vision_Socket_Robot_Parameters.Local_IP_UI);
-                    Vision_Auto_Cofig.Local_Network_Robot_Model = Vision_Socket_Robot_Parameters.Socket_Robot_Model;
-                    Vision_Auto_Cofig.Local_Network_Port = Vision_Socket_Robot_Parameters.Sever_Socket_Port;
-                    Vision_Auto_Cofig.Local_Network_AUTO_Connect = Vision_Socket_Robot_Parameters.Sever_IsRuning;
-                    Vision_Auto_Cofig.Auto_Camera_Selected_Name = Camera_Device_List.Select_Camera?.Camera_Info.SerialNumber;
+                    Vision_Auto_Cofig.Local_Network_Config.Local_Network_IP_List = new List<string>(Vision_Socket_Robot_Parameters.Local_IP_UI);
+                    Vision_Auto_Cofig.Local_Network_Config.Local_Network_Robot_Model = Vision_Socket_Robot_Parameters.Socket_Robot_Model;
+                    Vision_Auto_Cofig.Local_Network_Config.Local_Network_Port = Vision_Socket_Robot_Parameters.Sever_Socket_Port;
+                    Vision_Auto_Cofig.Local_Network_Config.Local_Network_Auto_Connect = Vision_Socket_Robot_Parameters.Sever_IsRuning;
+                    Vision_Auto_Cofig.Vision_Global_Parameters.Auto_Camera_Selected_Name = Camera_Device_List.Select_Camera?.Camera_Info.SerialNumber;
+
+
 
                     ///保存参数
                     new Vision_Xml_Method().Save_Xml(Vision_Auto_Cofig);
@@ -1927,9 +1933,9 @@ namespace HanGao.ViewModel
         {
 
             Vision_Auto_Cofig = new Vision_Xml_Method().Read_Xml_File<Vision_Auto_Config_Model>();
-            Vision_Socket_Robot_Parameters.Socket_Robot_Model = Vision_Auto_Cofig.Local_Network_Robot_Model;
-            Vision_Socket_Robot_Parameters.Sever_Socket_Port = Vision_Auto_Cofig.Local_Network_Port;
-            Vision_Socket_Robot_Parameters.Sever_IsRuning = Vision_Auto_Cofig.Local_Network_AUTO_Connect;
+            Vision_Socket_Robot_Parameters.Socket_Robot_Model = Vision_Auto_Cofig.Local_Network_Config.Local_Network_Robot_Model;
+            Vision_Socket_Robot_Parameters.Sever_Socket_Port = Vision_Auto_Cofig.Local_Network_Config.Local_Network_Port;
+            Vision_Socket_Robot_Parameters.Sever_IsRuning = Vision_Auto_Cofig.Local_Network_Config.Local_Network_Auto_Connect;
 
         }
 

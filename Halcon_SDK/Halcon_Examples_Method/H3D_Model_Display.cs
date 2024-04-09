@@ -31,7 +31,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             _HWindow.Halcon_UserContol.MouseDown += Calibration_3D_Results_MouseDown;
             _HWindow.Halcon_UserContol.MouseUp += Calibration_3D_Results_MouseUp; ;
             _HWindow.Halcon_UserContol.SizeChanged += Calibration_3D_SizeChanged;
-
+            _HWindow.Halcon_UserContol.MouseDoubleClick += Calibration_3D_MouseDoubleClick;
 
 
             Scene3D_Param.PropertyChanged += (e, o) =>
@@ -143,7 +143,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _RobotBase3D });
 
 
+            ///居中 模型
+             Centred_model();
         }
+
+
 
         #region  公开属性
 
@@ -387,8 +391,20 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         #region  本地交互事件方法
 
 
+        /// <summary>
+        /// 双击鼠标居中模型
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Calibration_3D_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
 
+            if (e.ButtonState == MouseButtonState.Pressed && e.ChangedButton== MouseButton.Left)
+            {
 
+                Centred_model();
+            }
+        }
 
         /// <summary>
         /// 窗口尺寸修改更新属性
@@ -844,7 +860,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 HSmartWindowControlWPF _HWindow = (e.Source as HSmartWindowControlWPF)!;
 
-
+           
                 //缩放前获得图像中心位置
                 Event_Int((int)_HWindow.ActualWidth, (int)_HWindow.ActualHeight);
 
@@ -1050,7 +1066,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         }
 
         //首次初始化设置
-        public void Display_Ini()
+        private  void Display_Ini()
         {
 
             //HTuple hv_RowNotUsed;
@@ -1194,7 +1210,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 计算模型大小
         /// </summary>
-        public void Model_Auto_Math()
+        private  void Model_Auto_Math()
         {
             //计算对象合适大小
             hv_Center = get_object_models_center();
@@ -1208,6 +1224,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HOperatorSet.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseOut);
                 hv_PoseIn = determine_optimum_pose_distance(hv_ObjectModel3D.ToArray(), hv_CamParam, 0.9, hv_PoseIn);
                 //hv_PoseIn = new HPose(hv_PoseEstimated);
+            }
+            else
+            {
+                hv_PoseIn = new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), hv_PoseIn[3], hv_PoseIn[4], hv_PoseIn[5], "Rp+T", "gba", "point");
+                hv_PoseIn = determine_optimum_pose_distance(hv_ObjectModel3D.ToArray(), hv_CamParam, 0.9, hv_PoseIn);
             }
 
         }
@@ -1297,6 +1318,49 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         #endregion
 
         #region 公开处理方法
+
+        /// <summary>
+        /// 将模型居中到窗口中心
+        /// </summary>
+        public void Centred_model()
+        {
+
+            try
+            {
+                While_ResetEvent.Set();
+
+
+                //HSmartWindowControlWPF _HWindow = (e.Source as HSmartWindowControlWPF)!;
+
+                ////缩放前获得图像中心位置
+                Event_Int((int)_Window.Halcon_UserContol.ActualWidth, (int)_Window.Halcon_UserContol.ActualHeight);
+               
+                Model_Auto_Math();
+
+                //设置模型显示位置
+                for (int hv_i = 0; hv_i < hv_ObjectModel3D.Count; hv_i++)
+                {
+
+                    //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
+                    hv_Scene3D.SetScene3dInstancePose(hv_i, hv_PoseIn);
+                }
+
+            }
+            catch (Exception)
+            {
+
+
+            }
+            finally
+            {
+                HOperatorSet.WaitSeconds(0.05);
+                While_ResetEvent.Reset();
+            }
+
+
+
+
+        }
 
 
         /// <summary>
