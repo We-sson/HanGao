@@ -2,6 +2,7 @@
 using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using PropertyChanged;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -2461,7 +2462,7 @@ namespace Halcon_SDK_DLL
                         }
 
                         hv_Text = hv_Text.TupleConcat("夹角: " + Math.Round(_Angle.TupleDeg().D, 3));
-                        _Find_Shape_Results.Text_Arr_UI = new List<string>(hv_Text.SArr);
+                        _Find_Shape_Results.Text_Arr_UI = new ObservableCollection<string>(hv_Text.SArr);
                         //_Find_Shape_Results.DispWiindow = _Window;
 
                         //设置显示图像颜色
@@ -2478,7 +2479,7 @@ namespace Halcon_SDK_DLL
                     {
                         //查找失败处理
                         hv_Text = hv_Text.TupleConcat("识别用时 : " + _Find_Shape_Results.Find_Time + "毫秒，" + "图像分数 : 未知");
-                        _Find_Shape_Results.Text_Arr_UI = new List<string>(hv_Text.SArr);
+                        _Find_Shape_Results.Text_Arr_UI = new ObservableCollection<string>(hv_Text.SArr);
                         //_Find_Shape_Results.DispWiindow = _Window;
 
                         return new HPR_Status_Model<bool>(HVE_Result_Enum.查找模型匹配失败);

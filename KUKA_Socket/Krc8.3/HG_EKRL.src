@@ -249,7 +249,7 @@ RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
 
 IF IsStatus THEN
 
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_POS" ,LastPos1)
+RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,LastPos1)
 
 Vision_Result_POS=$NULLFRAME
 Vision_Result_POS=LastPos1

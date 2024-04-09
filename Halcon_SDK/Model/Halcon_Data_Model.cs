@@ -103,6 +103,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 形状匹配查找模型结果参数
         /// </summary>
+        [AddINotifyPropertyChangedInterface]
         public class Find_Shape_Results_Model
         {
 
@@ -182,7 +183,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 页面显示结过集合
             /// </summary>
-            public List<string> Text_Arr_UI { set; get; } = new List<string>() { };
+            public ObservableCollection<string> Text_Arr_UI { set; get; } = new ObservableCollection<string>() { };
 
             /// <summary>
             /// 显示结果界面
