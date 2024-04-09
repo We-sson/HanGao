@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 312
+&REL 313
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -23,6 +23,7 @@ DECL EKI_STATUS RET
 ;ENDFOLD (INI)
 ;------------
 EKRL_CONNECT()
+
 
 
 ;Bytes[]="hellow"

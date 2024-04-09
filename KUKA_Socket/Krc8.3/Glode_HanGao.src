@@ -1,11 +1,12 @@
-&ACCESS RVO
-&REL 438
+&ACCESS RVO1
+&REL 450
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
 
 
 END
@@ -39,37 +40,37 @@ CASE #INITIALIZED
 SWITCH Vision_PATH
 CASE #X
 
-Offset.X=POS_Offset.X-Result_POS.X
+Offset.X=Result_POS.X-POS_Offset.X
 
 CASE #Y
 
 
 
-Offset.Y=POS_Offset.Y-Result_POS.Y
+Offset.Y=Result_POS.Y-POS_Offset.Y
 
 CASE #Z
 
-Offset.Z=POS_Offset.Z-Result_POS.z
+Offset.Z=Result_POS.z-POS_Offset.Z
 
 
 CASE #XY
-Offset.X=POS_Offset.X-Result_POS.X
-Offset.Y=POS_Offset.Y-Result_POS.Y
+Offset.X=Result_POS.X-POS_Offset.X
+Offset.Y=Result_POS.Y-POS_Offset.Y
 
 CASE #XZ
-Offset.X=POS_Offset.X-Result_POS.X
-Offset.Z=POS_Offset.Z-Result_POS.z
+Offset.X=Result_POS.X-POS_Offset.X
+Offset.Z=Result_POS.z-POS_Offset.Z
 
 
 CASE #YZ
 
-Offset.Y=POS_Offset.Y-Result_POS.Y
-Offset.Z=POS_Offset.Z-Result_POS.z
+Offset.Y=Result_POS.Y-POS_Offset.Y
+Offset.Z=Result_POS.z-POS_Offset.Z
 
 CASE #XYZ
-Offset.X=POS_Offset.X-Result_POS.X
-Offset.Y=POS_Offset.Y-Result_POS.Y
-Offset.Z=POS_Offset.Z-Result_POS.z
+Offset.X=Result_POS.X-POS_Offset.X
+Offset.Y=Result_POS.Y-POS_Offset.Y
+Offset.Z=Result_POS.z-POS_Offset.Z
 
 ENDSWITCH
 
@@ -77,7 +78,8 @@ SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find Offset X:%7.3F,Y:%7.3F,Z
 
 if (ABS(Offset.X)<Vision_Max_Offset) AND (ABS(Offset.Y)<Vision_Max_Offset) AND (ABS(Offset.Z)<Vision_Max_Offset) THEN
 
-POS_Offset=POS_Offset:Offset
+;POS_Offset=POS_Offset:Offset
+POS_Offset=Offset:POS_Offset
 
 MSGNOTIFY(Message_Show[])
 ELSE
