@@ -20,49 +20,7 @@ namespace HanGao.ViewModel
     {
         public UC_Visal_Function_VM()
         {
-            //halcon实时图像显示操作
-            //Messenger.Register<HImage_Display_Model, string>(this, nameof(Meg_Value_Eunm.HWindow_Image_Show), (O, _Mvs_Image) =>
-            //{
-            //    //显示图像到对应窗口
-            //    HOperatorSet.DispObj(_Mvs_Image.Image, _Mvs_Image.Image_Show_Halcon);
-            //    //保存功能窗口图像
-            //    if (_Mvs_Image.Image_Show_Halcon == Halcon_Window_Display.Features_Window.HWindow)
-            //    {
-            //        Load_Image = _Mvs_Image.Image;
-            //    }
-            //});
-            //接收其他地方传送数据
-            //Messenger.Register<object, string>(this, nameof(Meg_Value_Eunm.UI_Find_Data_Number), (O, _S) =>
-            //{
-            //    //UI_Find_Data_Number = (int)_S;
-            //});
-            //操作结果显示UI
-            //Messenger.Register<Find_Shape_Results_Model, string>(this, nameof(Meg_Value_Eunm.Find_Shape_Out), (O, _Fout) =>
-            //{
-            //    //_Fout.DispWiindow.SetPart(0, 0, -2, -2);
-            //    switch (_Fout.DispWiindow)
-            //    {
-            //        case HWindow _T when _T == Halcon_Window_Display.Features_Window.HWindow:
-            //            Find_Features_Window_Result = _Fout;
-            //            break;
-
-            //        case HWindow _T when _T == Halcon_Window_Display.Results_Window_1.HWindow:
-            //            Find_Results1_Window_Result = _Fout;
-            //            break;
-
-            //        case HWindow _T when _T == Halcon_Window_Display.Results_Window_2.HWindow:
-            //            Find_Results2_Window_Result = _Fout;
-            //            break;
-
-            //        case HWindow _T when _T == Halcon_Window_Display.Results_Window_3.HWindow:
-            //            Find_Results3_Window_Result = _Fout;
-            //            break;
-
-            //        case HWindow _T when _T == Halcon_Window_Display.Results_Window_4.HWindow:
-            //            Find_Results4_Window_Result = _Fout;
-            //            break;
-            //    }
-            //});
+     
             //相机信息显示UI
             //Messenger.Register<MVS_Camera_Info_Model, string>(this, nameof(Meg_Value_Eunm.MVS_Camera_Info_Show), (O, _M) =>
             //{
@@ -76,12 +34,7 @@ namespace HanGao.ViewModel
             //    //Camera_FrameRate = Math.Round(_M.ResultingFrameRate, 3);
             //});
 
-            //算法设置错误信息委托显示
-            //HPR_Status_Model<dynamic>.HVS_ErrorInfo_delegate += (string _Error) =>
-            //{
-            //    User_Log_Add(_Error, Log_Show_Window_Enum.Home);
-            //};
-
+    
 
             ///必须首先初始化参数文件，再初始化其他功能
             Initialization_Global_Config();
@@ -188,8 +141,9 @@ namespace HanGao.ViewModel
                         Vision_Ini_Data_Delegate = Vision_Ini_Data_Receive_Method,
                         Vision_Creation_Model_Data_Delegate = Vision_Creation_Model_Receive_Method,
                         Vision_Find_Model_Delegate = Vision_Find_Data_Receive_Method,
-                        Socket_ErrorInfo_delegate = Socket_Log_Show
-
+                        Socket_ErrorInfo_delegate = Socket_Log_Show,
+                         Socket_Receive_Meg = Vision_Socked_Receive_information.Data_Converts_Str_Method,
+                        Socket_Send_Meg = Vision_Socked_Send_information.Data_Converts_Str_Method,
                     });
                 }
 
@@ -679,6 +633,18 @@ namespace HanGao.ViewModel
         /// 手眼机器人通讯参数
         /// </summary>
         public Socket_Robot_Parameters_Model Vision_Socket_Robot_Parameters { set; get; } = new Socket_Robot_Parameters_Model() { };
+
+        /// <summary>
+        /// 通信发送内容详细显示
+        /// </summary>
+        public Socket_Data_Converts Vision_Socked_Send_information { set; get; } = new Socket_Data_Converts();
+
+        /// <summary>
+        /// 通信接受内容详细显示
+        /// </summary>
+        public Socket_Data_Converts Vision_Socked_Receive_information { set; get; } = new Socket_Data_Converts();
+
+
 
 
 

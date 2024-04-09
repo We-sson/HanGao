@@ -139,11 +139,15 @@ namespace HanGao.ViewModel
         public MVS_Camera_Parameter_Model Camera_Parameter_Val { set; get; } = new MVS_Camera_Parameter_Model();
 
 
-
+        /// <summary>
+        /// 通信接受内容详细显示
+        /// </summary>
         public Socket_Data_Converts HanddEye_Socked_Receive_information { set; get; } = new Socket_Data_Converts();
 
 
-
+        /// <summary>
+        /// 通信发送内容详细显示
+        /// </summary>
         public Socket_Data_Converts HanddEye_Socked_Send_information { set; get; } = new Socket_Data_Converts();
 
 

@@ -124,7 +124,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
     public class ValueToObject_Converter : IValueConverter
     {
 
-
+    
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -136,7 +136,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
             return ConvertToType(value, targetType);
         }
 
-        private  object? ConvertToType(object value, Type targetType)
+        private static object? ConvertToType(object value, Type targetType)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
         {
             if (Boolean.Parse(value.ToString()!))
             {
-                var converter = TypeDescriptor.GetConverter(targetType);
+                TypeDescriptor.GetConverter(targetType);
                 return (Enum)Enum.Parse(targetType, parameter.ToString()!);
             }
             else
@@ -204,7 +204,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
     public class EnumDescriptionConverter : IValueConverter
     {
 
-        public string? GetEnumDescription(object enumObj)
+        public  static   string? GetEnumDescription(object enumObj)
         {
             try
             {
@@ -242,7 +242,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
         {
             //Enum _Enum = value as Enum;
             //Enum myEnum = (Enum)value;
-            string? description = new string(GetEnumDescription(value));
+            string? description = new(GetEnumDescription(value));
             return description;
         }
 

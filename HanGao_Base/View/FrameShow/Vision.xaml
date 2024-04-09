@@ -3,6 +3,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Charts="clr-namespace:HanGao.View.User_Control.Live_Chart"
+             xmlns:Converts_Enum="clr-namespace:Roboto_Socket_Library;assembly=Roboto_Socket_Library"
              xmlns:Enum_Converter="clr-namespace:Halcon_SDK_DLL.WPF_Converter;assembly=Halcon_SDK_DLL"
              xmlns:Halcon="http://schemas.mvtec.com/halcondotnet"
              xmlns:Halcon_Enum="clr-namespace:Halcon_SDK_DLL.Model;assembly=Halcon_SDK_DLL"
@@ -1523,7 +1524,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
-                                     IsChecked="True"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -1592,7 +1593,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Robot_Model" Grid.Row=" 3"
-                                     IsChecked="False"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -3189,152 +3190,6 @@
                                 </Grid>
                             </Expander>
 
-                            <Expander Style="{DynamicResource Vision_Fence_Expander_Style}"
-                                      Margin="0,0,0,10"
-                                      HorizontalContentAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      IsExpanded="True">
-                                <Expander.Header>
-                                    <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
-                                        <Border.Style>
-                                            <Style TargetType="{x:Type Border}">
-                                                <Setter Property="CornerRadius" Value="5" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}" Value="True">
-
-                                                        <Setter Property="CornerRadius" Value="5 5 0 0" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-
-                                        <StackPanel Margin="10"
-                                                    VerticalAlignment="Center"
-                                                    Orientation="Horizontal">
-                                            <Border Margin="0,0,10,0"
-                                                    Background="{DynamicResource 全局_按钮_灰颜色}"
-                                                    CornerRadius=" 15">
-                                                <Image Height=" 24"
-                                                       Margin="5"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       Source="/Resources/Control_九点标定_ioc.png" />
-                                            </Border>
-                                            <TextBlock Text="图像识别结果位置"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                        </StackPanel>
-
-
-                                    </Border>
-                                </Expander.Header>
-                                <Grid>
-                                    <Border Grid.RowSpan=" 2"
-                                            Background="{DynamicResource 全局_背景_白颜色}"
-                                            CornerRadius=" 0 0 5 5" />
-
-                                    <StackPanel>
-
-
-                                        <Border Height=" 2"
-                                                Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_黑颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
-
-                                    </StackPanel>
-                                </Grid>
-                            </Expander>
-
-
-                            <Expander Style="{DynamicResource Vision_Fence_Expander_Style}"
-                                      Margin="0,0,0,10"
-                                      HorizontalContentAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      IsExpanded="True">
-                                <Expander.Header>
-                                    <Border Margin="0" Background="{DynamicResource 全局_按钮_黑颜色}">
-                                        <Border.Style>
-                                            <Style TargetType="{x:Type Border}">
-                                                <Setter Property="CornerRadius" Value="5" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}" Value="True">
-
-                                                        <Setter Property="CornerRadius" Value="5 5 0 0" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-
-                                        <StackPanel Margin="10"
-                                                    VerticalAlignment="Center"
-                                                    Orientation="Horizontal">
-                                            <Border Margin="0,0,10,0"
-                                                    Background="{DynamicResource 全局_按钮_灰颜色}"
-                                                    CornerRadius=" 15">
-                                                <Image Height=" 24"
-                                                       Margin="5"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       Source="/Resources/Control_九点标定_ioc.png" />
-                                            </Border>
-                                            <TextBlock Text="机器人坐标"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                        </StackPanel>
-
-
-                                    </Border>
-                                </Expander.Header>
-                                <Grid>
-
-
-
-
-                                    <Border Grid.RowSpan=" 2"
-                                            Background="{DynamicResource 全局_背景_白颜色}"
-                                            CornerRadius=" 0 0 5 5" />
-
-                                    <StackPanel Orientation="Vertical">
-
-
-
-
-                                        <Grid Margin="8">
-                                            <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                    Height="40"
-                                                    Margin="0,0,0,0"
-                                                    Background="{DynamicResource 全局_按钮_绿颜色}">
-                                                <TextBlock Text="保存本地相机参数"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="16"
-                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
-                                            </Button>
-                                        </Grid>
-
-
-
-
-                                    </StackPanel>
-
-
-
-
-
-
-
-
-
-                                </Grid>
-                            </Expander>
 
 
 
@@ -8924,188 +8779,157 @@
                                     <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                                     <StackPanel Orientation="Vertical">
 
-                                        <Grid Height=" 35" Margin="8">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition />
-                                                <ColumnDefinition Width=" auto" />
-                                            </Grid.ColumnDefinitions>
 
-                                            <TextBlock Grid.Column=" 0"
-                                                       Text="通讯协议"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
-                                                      VerticalContentAlignment="Center"
-                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                      BorderThickness="2"
-                                                      FontSize="24"
-                                                      IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="1">
 
-                                                <ComboBoxItem>
 
-                                                    <TextBlock Text="库卡机器人"
-                                                               Width=" 150"
-                                                               TextWrapping="Wrap"
-                                                               Padding="6"
-                                                               HorizontalAlignment="Center"
+
+
+
+                                        <Grid Margin="8">
+
+                                            <StackPanel Orientation="Vertical">
+
+                                                <Grid Margin="0,0,0,8">
+
+                                                    <TextBlock Grid.Column=" 0"
+                                                               Text="发送通讯协议"
+                                                               HorizontalAlignment="Left"
                                                                VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="18"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                                    <TextBlock Text="川崎机器人"
-                                                               Width=" 150"
-                                                               TextWrapping="Wrap"
-                                                               Padding="6"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                            </ComboBox>
+                                                    <Border Grid.Column=" 1"
+                                                            Margin="0,0,0,0"
+                                                            HorizontalAlignment="Right"
+                                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                            BorderThickness="2.5"
+                                                            CornerRadius=" 6">
+                                                        <Grid Height=" 30">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition />
+
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
+                                                                         Content="ASCII"
+                                                                         IsChecked="{Binding Vision_Socked_Send_information.Socket_Data_Type, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.ASCII}, Converter={StaticResource Radio_CheckedToEnum}}"
+                                                                         Width="50"
+                                                                         FontSize=" 12"
+                                                                         GroupName="Socket_Send_Cover" />
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
+                                                                         Content="HEX"
+                                                                         IsChecked="{Binding Vision_Socked_Send_information.Socket_Data_Type, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.HEX}, Converter={StaticResource Radio_CheckedToEnum}}"
+                                                                         Width="50"
+                                                                         FontSize="12"
+                                                                         GroupName="Socket_Send_Cover" />
+
+                                                        </Grid>
+
+                                                    </Border>
+
+                                                </Grid>
+
+
+
+                                                <TextBox Grid.Column=" 2"
+                                                         Text="{Binding Vision_Socked_Send_information.Data_Converts_Str}"
+                                                         MinHeight=" 300"
+                                                         TextWrapping="Wrap"
+                                                         Background="Transparent"
+                                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                         BorderThickness="3"
+                                                         FontSize="16"
+                                                         IsReadOnly="True" />
+
+
+                                                <!--</ScrollViewer>-->
+
+
+                                            </StackPanel>
+
                                         </Grid>
 
-                                        <Grid Height=" 35" Margin="8">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
 
-                                            <TextBlock Grid.Column=" 0"
-                                                       Text="内容编码"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
-                                                      VerticalContentAlignment="Center"
-                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                      BorderThickness="2"
-                                                      FontSize="24"
-                                                      IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="1">
+                                        <Grid Margin="8">
 
-                                                <ComboBoxItem>
+                                            <StackPanel Orientation="Vertical">
 
-                                                    <TextBlock Text="ASCII"
-                                                               Width=" 150"
-                                                               TextWrapping="Wrap"
-                                                               Padding="6"
-                                                               HorizontalAlignment="Center"
+                                                <Grid Margin="0,0,0,8">
+
+                                                    <TextBlock Grid.Column=" 0"
+                                                               Text="接收通讯协议"
+                                                               HorizontalAlignment="Left"
                                                                VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="18"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                                    <TextBlock Text="HEX"
-                                                               Width=" 150"
-                                                               TextWrapping="Wrap"
-                                                               Padding="6"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                </ComboBoxItem>
-                                            </ComboBox>
+                                                    <Border Grid.Column=" 1"
+                                                            Margin="0,0,0,0"
+                                                            HorizontalAlignment="Right"
+                                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                            BorderThickness="2.5"
+                                                            CornerRadius=" 6">
+                                                        <Grid Height=" 30">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition />
+
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
+                                                                         Content="ASCII"
+                                                                         IsChecked="{Binding Vision_Socked_Receive_information.Socket_Data_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.ASCII}}"
+                                                                         Width="50"
+                                                                         FontSize=" 12"
+                                                                         GroupName="Socket_Rec_Cover" />
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
+                                                                         Content="HEX"
+                                                                         IsChecked="{Binding Vision_Socked_Receive_information.Socket_Data_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Converts_Enum:Socket_Data_Type_Enum.HEX}}"
+                                                                         Width="50"
+                                                                         FontSize="12"
+                                                                         GroupName="Socket_Rec_Cover" />
+
+                                                        </Grid>
+
+                                                    </Border>
+
+                                                </Grid>
+
+
+
+
+
+
+
+                                                <TextBox Grid.Column=" 2"
+                                                         Text="{Binding Vision_Socked_Receive_information.Data_Converts_Str, UpdateSourceTrigger=PropertyChanged}"
+                                                         MinHeight=" 300"
+                                                         TextWrapping="Wrap"
+                                                         Background="Transparent"
+                                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                         BorderThickness="3"
+                                                         FontSize="16"
+                                                         IsReadOnly="True" />
+
+
+                                                <!--</ScrollViewer>-->
+
+
+                                            </StackPanel>
+
                                         </Grid>
+
 
                                         <Border Height=" 2"
                                                 Margin="8,4,8,4"
                                                 Background="{DynamicResource 全局_按钮_黑颜色}"
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
-
-                                        <Grid Margin="8">
-
-                                            <StackPanel Orientation="Vertical">
-
-                                                <TextBlock Grid.Column=" 0"
-                                                           Text="上位机发送机器人通讯内容"
-                                                           Margin="0,0,0,8"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Top"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="18"
-                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                                <!--<ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}"
-                                              Width=" auto"
-                                              Background="Transparent"
-                                              CanContentScroll="False"
-                                              PanningMode="Both"
-                                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                              VirtualizingPanel.IsVirtualizing="True"
-                                              VirtualizingPanel.ScrollUnit="Pixel"
-                                              VirtualizingPanel.VirtualizationMode="Recycling">-->
-
-                                                <TextBox Grid.Column=" 2"
-                                                         Text=""
-                                                         MinHeight=" 300"
-                                                         TextWrapping="Wrap"
-                                                         Background="Transparent"
-                                                         BorderBrush="{DynamicResource 全局_按钮_绿颜色}"
-                                                         BorderThickness="2"
-                                                         FontSize="16" />
-
-                                                <!--</ScrollViewer>-->
-                                            </StackPanel>
-                                        </Grid>
-
-                                        <Grid Margin="8">
-
-                                            <StackPanel Orientation="Vertical">
-
-                                                <TextBlock Grid.Column=" 0"
-                                                           Text="上位机接收机器人通讯内容"
-                                                           Margin="0,0,0,8"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="18"
-                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                                <!--<ScrollViewer Background="Transparent"
-                                              CanContentScroll="False"
-                                              PanningMode="Both"
-                                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                              VirtualizingPanel.IsVirtualizing="True"
-                                              VirtualizingPanel.ScrollUnit="Pixel"
-                                              VirtualizingPanel.VirtualizationMode="Recycling">-->
-
-                                                <TextBox Grid.Column=" 2"
-                                                         Text=""
-                                                         MinHeight=" 300"
-                                                         TextWrapping="Wrap"
-                                                         Background="Transparent"
-                                                         BorderBrush="{DynamicResource 全局_按钮_绿颜色}"
-                                                         BorderThickness="2"
-                                                         FontSize="16" />
-
-                                                <!--</ScrollViewer>-->
-                                            </StackPanel>
-                                        </Grid>
 
                                         <Grid Height="35" Margin="8">
 
