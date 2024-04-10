@@ -2562,14 +2562,14 @@ namespace HanGao.ViewModel
 
                     ///根据原始点击控件
                     MenuItem _E = Sm.OriginalSource as MenuItem;
-                    HXLDCont _Lin = new HXLDCont();
+                    HXLDCont _Lin = new ();
 
                     _E.Tag.ThrowIfNull("请选择需要添加模型工艺!");
                     Halcon_Shape_Mode.Drawing_Data_List[0].Craft_XLd_Creation_Status.Throw("请先设定模型原点位置！").IfEquals(XLD_Contours_Creation_Status.None);
 
 
 
-                    _Lin = Halcon_SDK.Draw_Group_Lin(Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data.ToList());
+                    _Lin = Halcon_SDK.Draw_Group_Lin([.. Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data]);
 
                     Halcon_Shape_Mode.User_Drawing_Data.Craft_Type_Enum = (Enum)_E.Tag;
                     Halcon_Shape_Mode.User_Drawing_Data.Craft_XLd_Creation_Status = XLD_Contours_Creation_Status.Creation_OK;
@@ -2701,7 +2701,7 @@ namespace HanGao.ViewModel
                 int _ID_Number = Find_Data_List.Vision_List.Max(_Max => int.Parse(_Max.ID)) + 1;
                 if (Find_Data_List.Vision_List.Count <= 99)
                 {
-                    Find_Data_List.Vision_List.OrderByDescending(_De => _De.ID);
+                     Find_Data_List.Vision_List.OrderByDescending(_De => _De.ID);
                     Find_Data_List.Vision_List.Add(new Vision_Xml_Models() { ID = _ID_Number.ToString() });
                     User_Log_Add("参数" + _ID_Number + "号是参数已新建！", Log_Show_Window_Enum.Home);
                 }

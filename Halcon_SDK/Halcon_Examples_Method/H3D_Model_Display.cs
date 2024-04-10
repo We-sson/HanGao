@@ -1107,10 +1107,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                 //初始化相机参数
-                if (hv_CamParam == null)
-                {
-                    hv_CamParam = gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width / 2, hv_Height / 2, hv_Width, hv_Height);
-                }
+                hv_CamParam ??= gen_cam_par_area_scan_division(0.06, 0, 8.5e-6, 8.5e-6, hv_Width / 2, hv_Height / 2, hv_Width, hv_Height);
 
 
                 Model_Auto_Math();
@@ -1406,7 +1403,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         public void Set_Scene3D_Instance_Param(HScene3D _Scene3D, Halcon_Scene3D_Instance_Model _Param)
         {
 
-            object? _Par_Val = new object();
+            object? _Par_Val = new ();
 
             //遍历三维模型属性设置
             foreach (PropertyInfo? _Val in _Param.GetType().GetProperties())
@@ -1499,7 +1496,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local iconic variables 
 
-            HObject ho_Rectangle, ho_Image;
+            HObject ho_Rectangle = new();
+                HObject ho_Image=new ();
 
             // Local control variables 
 
@@ -1639,14 +1637,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     0.0))) != 0)
                 {
                     hv_BB.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_BB = new ();
-                        hv_BB = hv_BB.TupleConcat(-((new HTuple(HTuple.TupleRand(
-                            3) * 1e-20)).TupleAbs()));
-                        hv_BB = hv_BB.TupleConcat((new HTuple(HTuple.TupleRand(
-                            3) * 1e-20)).TupleAbs());
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_BB = new();
+                    hv_BB = hv_BB.TupleConcat(-((new HTuple(HTuple.TupleRand(
+                        3) * 1e-20)).TupleAbs()));
+                    hv_BB = hv_BB.TupleConcat((new HTuple(HTuple.TupleRand(
+                        3) * 1e-20)).TupleAbs());
                 }
                 //Calculate diameter over all objects to be visualized
                 hv_Seq.Dispose();
@@ -1691,15 +1687,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //to projection errors
                 if ((int)(new HTuple(((hv_Diameter.TupleMin())).TupleLess(1e-10))) != 0)
                 {
-                    using (HDevDisposeHelper dh = new ())
+                    using HDevDisposeHelper dh = new();
                     {
-                        {
-                            HTuple
-                              ExpTmpLocalVar_Diameter = hv_Diameter - (((((((hv_Diameter - 1e-10)).TupleSgn()
-                                ) - 1)).TupleSgn()) * 1e-10);
-                            hv_Diameter.Dispose();
-                            hv_Diameter = ExpTmpLocalVar_Diameter;
-                        }
+                        HTuple
+                          ExpTmpLocalVar_Diameter = hv_Diameter - (((((((hv_Diameter - 1e-10)).TupleSgn()
+                            ) - 1)).TupleSgn()) * 1e-10);
+                        hv_Diameter.Dispose();
+                        hv_Diameter = ExpTmpLocalVar_Diameter;
                     }
                 }
                 //Move all points in front of the camera
@@ -2010,11 +2004,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local iconic variables 
 
-            HObject ho_UpperLeft, ho_LowerRight, ho_Rectangle;
 
             // Local control variables 
 
-            HTuple hv_Red = new (), hv_Green = new ();
+            HTuple hv_Red = new(), hv_Green = new();
             HTuple hv_Blue = new (), hv_Row1Part = new ();
             HTuple hv_Column1Part = new (), hv_Row2Part = new ();
             HTuple hv_Column2Part = new (), hv_RowWin = new ();
@@ -2040,9 +2033,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HTuple hv_TextColor_COPY_INP_TMP = new (hv_TextColor);
 
             // Initialize local and output iconic variables 
-            HOperatorSet.GenEmptyObj(out ho_UpperLeft);
-            HOperatorSet.GenEmptyObj(out ho_LowerRight);
-            HOperatorSet.GenEmptyObj(out ho_Rectangle);
+            HOperatorSet.GenEmptyObj(out HObject ho_UpperLeft);
+            HOperatorSet.GenEmptyObj(out HObject ho_LowerRight);
+            HOperatorSet.GenEmptyObj(out HObject ho_Rectangle);
             //This procedure displays text in a graphics window.
             //
             //Input parameters:
@@ -2715,8 +2708,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local iconic variables 
 
-            HObject ho_RegionCenter, ho_DistanceImage;
-            HObject ho_Domain;
+            //HObject ho_RegionCenter=new(), ho_DistanceImage=new ();
+            //HObject ho_Domain=new();
 
             // Local control variables 
 
@@ -2727,9 +2720,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HTuple hv_IndicesG = new (), hv_Value = new ();
             HTuple hv_Pos = new ();
             // Initialize local and output iconic variables 
-            HOperatorSet.GenEmptyObj(out ho_RegionCenter);
-            HOperatorSet.GenEmptyObj(out ho_DistanceImage);
-            HOperatorSet.GenEmptyObj(out ho_Domain);
+            HOperatorSet.GenEmptyObj(out HObject ho_RegionCenter);
+            HOperatorSet.GenEmptyObj(out HObject ho_DistanceImage);
+            HOperatorSet.GenEmptyObj(out HObject ho_Domain);
             hv_TBCenter = new ();
             hv_TBSize = new ();
             //
@@ -2773,10 +2766,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             //
             //determine the depth of the object point that appears closest to the trackball
             //center
-            ho_RegionCenter.Dispose();
+            new HObject().Dispose();
             HOperatorSet.GenRegionPoints(out ho_RegionCenter, hv_TrackballCenterRow, hv_TrackballCenterCol);
             ho_DistanceImage.Dispose();
-            HOperatorSet.DistanceTransform(ho_RegionCenter, out ho_DistanceImage, "chamfer-3-4-unnormalized",
+            HOperatorSet.DistanceTransform(new HObject(), out ho_DistanceImage, "chamfer-3-4-unnormalized",
                 "false", hv_Width, hv_Height);
             ho_Domain.Dispose();
             HOperatorSet.GetDomain(ho_DistanceImage, out ho_Domain);
@@ -2806,14 +2799,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
                 //if the object is visible in the image
                 hv_TBCenter.Dispose();
-                using (HDevDisposeHelper dh = new ())
-                {
-                    hv_TBCenter = new ();
-                    hv_TBCenter[0] = 0;
-                    hv_TBCenter[1] = 0;
-                    hv_TBCenter = hv_TBCenter.TupleConcat(hv_Value.TupleSelect(
-                        hv_Pos.TupleSelect(0)));
-                }
+                using HDevDisposeHelper dh = new();
+                hv_TBCenter = new();
+                hv_TBCenter[0] = 0;
+                hv_TBCenter[1] = 0;
+                hv_TBCenter = hv_TBCenter.TupleConcat(hv_Value.TupleSelect(
+                    hv_Pos.TupleSelect(0)));
             }
             else
             {
@@ -2829,11 +2820,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             if ((int)(new HTuple(((hv_SelectedObject.TupleMax())).TupleNotEqual(0))) != 0)
             {
                 hv_TBSize.Dispose();
-                using (HDevDisposeHelper dh = new ())
-                {
-                    hv_TBSize = (0.5 + ((0.5 * (hv_SelectedObject.TupleSum()
-                        )) / hv_NumModels)) * hv_TrackballRadiusPixel;
-                }
+                using HDevDisposeHelper dh = new();
+                hv_TBSize = (0.5 + ((0.5 * (hv_SelectedObject.TupleSum()
+                    )) / hv_NumModels)) * hv_TrackballRadiusPixel;
             }
             else
             {
@@ -2842,7 +2831,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_TBSize.Dispose();
                 hv_TBSize = 0;
             }
-            ho_RegionCenter.Dispose();
+            new HObject().Dispose();
             ho_DistanceImage.Dispose();
             ho_Domain.Dispose();
 
@@ -2949,11 +2938,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_YP.Dispose();
                     hv_YP = new (hv_Y);
                     hv_ZP.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ZP = (((hv_TrackballSize * hv_TrackballSize) - (hv_R * hv_R))).TupleSqrt()
-                            ;
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ZP = (((hv_TrackballSize * hv_TrackballSize) - (hv_R * hv_R))).TupleSqrt()
+                        ;
                 }
                 else
                 {
@@ -2987,11 +2974,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_YP.Dispose();
                     hv_YP = new HTuple(hv_Y);
                     hv_ZP.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ZP = (((hv_TrackballSize * hv_TrackballSize) - (hv_R * hv_R))).TupleSqrt()
-                            ;
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ZP = (((hv_TrackballSize * hv_TrackballSize) - (hv_R * hv_R))).TupleSqrt() ;
                 }
                 else
                 {
@@ -3000,10 +2984,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_YP.Dispose();
                     hv_YP = new HTuple(hv_Y);
                     hv_ZP.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ZP = ((0.6 * hv_TrackballSize) * hv_TrackballSize) / hv_R;
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ZP = ((0.6 * hv_TrackballSize) * hv_TrackballSize) / hv_R;
                 }
             }
             hv_V.Dispose();
@@ -3119,14 +3101,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
             if ((int)(new HTuple(hv_Len.TupleGreater(0.0))) != 0)
             {
-                using (HDevDisposeHelper dh = new ())
+                using HDevDisposeHelper dh = new();
                 {
-                    {
-                        HTuple
-                          ExpTmpLocalVar_RotAxis = hv_RotAxis / hv_Len;
-                        hv_RotAxis.Dispose();
-                        hv_RotAxis = ExpTmpLocalVar_RotAxis;
-                    }
+                    HTuple
+                      ExpTmpLocalVar_RotAxis = hv_RotAxis / hv_Len;
+                    hv_RotAxis.Dispose();
+                    hv_RotAxis = ExpTmpLocalVar_RotAxis;
                 }
             }
             using (HDevDisposeHelper dh = new ())
@@ -3276,15 +3256,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
                 if ((int)(new HTuple(hv_ParamNameInd.TupleEqual("camera_type"))) != 0)
                 {
-                    using (HDevDisposeHelper dh = new ())
+                    using HDevDisposeHelper dh = new();
                     {
-                        {
-                            HTuple
-                              ExpTmpLocalVar_ParamValue = hv_ParamValue.TupleConcat(
-                                hv_CameraType);
-                            hv_ParamValue.Dispose();
-                            hv_ParamValue = ExpTmpLocalVar_ParamValue;
-                        }
+                        HTuple
+                          ExpTmpLocalVar_ParamValue = hv_ParamValue.TupleConcat(
+                            hv_CameraType);
+                        hv_ParamValue.Dispose();
+                        hv_ParamValue = ExpTmpLocalVar_ParamValue;
                     }
                     continue;
                 }
@@ -3296,15 +3274,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
                 if ((int)(new HTuple(hv_I.TupleNotEqual(-1))) != 0)
                 {
-                    using (HDevDisposeHelper dh = new ())
+                    using HDevDisposeHelper dh = new();
                     {
-                        {
-                            HTuple
-                              ExpTmpLocalVar_ParamValue = hv_ParamValue.TupleConcat(
-                                hv_CameraParam.TupleSelect(hv_I));
-                            hv_ParamValue.Dispose();
-                            hv_ParamValue = ExpTmpLocalVar_ParamValue;
-                        }
+                        HTuple
+                          ExpTmpLocalVar_ParamValue = hv_ParamValue.TupleConcat(
+                            hv_CameraParam.TupleSelect(hv_I));
+                        hv_ParamValue.Dispose();
+                        hv_ParamValue = ExpTmpLocalVar_ParamValue;
                     }
                 }
                 else
@@ -3735,183 +3711,147 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_division"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanDivision);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanDivision);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_polynomial"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanPolynomial);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanPolynomial);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_telecentric_division"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricDivision);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricDivision);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_telecentric_polynomial"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricPolynomial);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricPolynomial);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_division"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltDivision);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltDivision);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_polynomial"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltPolynomial);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltPolynomial);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_image_side_telecentric_division"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltDivision);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltDivision);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_image_side_telecentric_polynomial"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_bilateral_telecentric_division"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltDivision);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltDivision);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_bilateral_telecentric_polynomial"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_object_side_telecentric_division"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltDivision);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltDivision);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_object_side_telecentric_polynomial"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_hypercentric_division"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricDivision);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricDivision);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_hypercentric_polynomial"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricPolynomial);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricPolynomial);
                     }
                     else if ((int)((new HTuple(hv_CameraType.TupleEqual("line_scan_division"))).TupleOr(
                         new HTuple(hv_CameraType.TupleEqual("line_scan")))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanDivision);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanDivision);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_polynomial"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanPolynomial);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanPolynomial);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_telecentric_division"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricDivision);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricDivision);
                     }
                     else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_telecentric_polynomial"))) != 0)
                     {
                         hv_ParamNames.Dispose();
-                        using (HDevDisposeHelper dh = new ())
-                        {
-                            hv_ParamNames = new ();
-                            hv_ParamNames[0] = "camera_type";
-                            hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricPolynomial);
-                        }
+                        using HDevDisposeHelper dh = new();
+                        hv_ParamNames = new();
+                        hv_ParamNames[0] = "camera_type";
+                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricPolynomial);
                     }
                     else
                     {
@@ -4065,12 +4005,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanDivision);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanDivision);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_polynomial"))) != 0)
                 {
@@ -4080,12 +4018,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanPolynomial);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanPolynomial);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_telecentric_division"))) != 0)
                 {
@@ -4095,12 +4031,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricDivision);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricDivision);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_telecentric_polynomial"))) != 0)
                 {
@@ -4110,12 +4044,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricPolynomial);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricPolynomial);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_division"))) != 0)
                 {
@@ -4125,12 +4057,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltDivision);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltDivision);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_polynomial"))) != 0)
                 {
@@ -4140,12 +4070,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltPolynomial);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltPolynomial);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_image_side_telecentric_division"))) != 0)
                 {
@@ -4155,12 +4083,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltDivision);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltDivision);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_image_side_telecentric_polynomial"))) != 0)
                 {
@@ -4170,12 +4096,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_bilateral_telecentric_division"))) != 0)
                 {
@@ -4185,12 +4109,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltDivision);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltDivision);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_bilateral_telecentric_polynomial"))) != 0)
                 {
@@ -4200,12 +4122,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_object_side_telecentric_division"))) != 0)
                 {
@@ -4215,12 +4135,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltDivision);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltDivision);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_tilt_object_side_telecentric_polynomial"))) != 0)
                 {
@@ -4230,12 +4148,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_hypercentric_division"))) != 0)
                 {
@@ -4245,12 +4161,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricDivision);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricDivision);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_hypercentric_polynomial"))) != 0)
                 {
@@ -4260,12 +4174,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricPolynomial);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricPolynomial);
                 }
                 else if ((int)((new HTuple(hv_CameraType.TupleEqual("line_scan_division"))).TupleOr(
                     new HTuple(hv_CameraType.TupleEqual("line_scan")))) != 0)
@@ -4276,12 +4188,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanDivision);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanDivision);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_polynomial"))) != 0)
                 {
@@ -4291,12 +4201,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanPolynomial);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanPolynomial);
                 }
                 else if ((int)(new HTuple(hv_CameraType.TupleEqual("line_scan_telecentric_division"))) != 0)
                 {
@@ -4319,12 +4227,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         throw new Exception("Wrong number of values in CameraParam.");
                     }
                     hv_ParamNames.Dispose();
-                    using (HDevDisposeHelper dh = new ())
-                    {
-                        hv_ParamNames = new ();
-                        hv_ParamNames[0] = "camera_type";
-                        hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricPolynomial);
-                    }
+                    using HDevDisposeHelper dh = new();
+                    hv_ParamNames = new();
+                    hv_ParamNames[0] = "camera_type";
+                    hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricPolynomial);
                 }
                 else
                 {
@@ -4420,8 +4326,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
                 if ((int)(new HTuple(hv_I.TupleNotEqual(-1))) != 0)
                 {
-                    if (hv_CameraParamOut == null)
-                        hv_CameraParamOut = new ();
+                    hv_CameraParamOut ??= new ();
                     hv_CameraParamOut[hv_I] = hv_ParamValue.TupleSelect(hv_Index);
                 }
                 else
@@ -4473,10 +4378,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             // Local control variables 
 
             HTuple hv_GenParamName = new (), hv_GenParamValue = new ();
-            HTuple hv_Color_COPY_INP_TMP = new HTuple(hv_Color);
-            HTuple hv_Column_COPY_INP_TMP = new HTuple(hv_Column);
-            HTuple hv_CoordSystem_COPY_INP_TMP = new HTuple(hv_CoordSystem);
-            HTuple hv_Row_COPY_INP_TMP = new HTuple(hv_Row);
+            HTuple hv_Color_COPY_INP_TMP = new (hv_Color);
+            HTuple hv_Column_COPY_INP_TMP = new (hv_Column);
+            HTuple hv_CoordSystem_COPY_INP_TMP = new (hv_CoordSystem);
+            HTuple hv_Row_COPY_INP_TMP = new (hv_Row);
 
             // Initialize local and output iconic variables 
             //This procedure displays text in a graphics window.
