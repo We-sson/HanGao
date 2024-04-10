@@ -54,6 +54,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public Point_Model Tool_In_BasePos { set; get; } = new Point_Model() { };
 
+
+        public ObservableCollection<Point_Model> PathInBase_List { set; get; } = new ();
+
+
         /// <summary>
         /// 二维平面原点位置
         /// </summary>
@@ -305,15 +309,34 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     var _Y = ((_Results.Find_Row[0] - _Model.Shape_Model_2D_Origin.X) * _Model.Shape_Image_Rectified_Ratio) * 1000;
 
                                     ///生产模型在平面的位置
-                                    Point_Model _ModelInPlanPose = new ()
+                                    Point_Model _ResultInPlanPose = new ()
                                     {
                                         X = _X,
                                         Y = _Y,
                                         Rz = _Results.Find_Angle[0],
                                         HType = _Model.Shape_PlaneInBase_Pos.HType
                                     };
+
+                                    ///初始化结果坐标
+                                    _Results.Results_PathInBase_Pos = new();
+
+                                    ///把计算结果的用户坐标合并便宜结果
+                                    Point_Model _ResultInBase = new(_Model.Shape_PlaneInBase_Pos.HPose.PoseCompose(_ResultInPlanPose.HPose));
+
+                                    foreach (var PathInBase_Pos in PathInBase_List)
+                                    {
+                                        ///计算路径位置点在标定的用户坐标下
+                                        Point_Model PathInPlan=new Point_Model(_Model.Shape_PlaneInBase_Pos.HPose.PoseInvert().PoseCompose(PathInBase_Pos.HPose));
+
+                                        ///把位置点在结果用户坐标下转换回Base坐标下
+                                        _Results. Results_PathInBase_Pos.Add(new Point_Model ( PathInPlan.HPose.PoseCompose(_ResultInBase.HPose)));
+                                    }
+
+
+                                   
+
                                     ///计算出模型到相机的位置
-                                    _Results.Results_ModelInCam_Pos = new (PlaneInCamPose.HPose.PoseCompose(_ModelInPlanPose.HPose));
+                                    _Results.Results_ModelInCam_Pos = new (PlaneInCamPose.HPose.PoseCompose(_ResultInPlanPose.HPose));
 
                                     ///计算出结果位置
                                     //_Results.Results_ModelInCam_Pos = new Point_Model() { X = _qx * 1000, Y = _qy * 1000, Z = _qz * 1000, Rx = 0, Ry = 0, Rz = 0, HType =  Halcon_Pose_Type_Enum.abg };
@@ -332,7 +355,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     //Point_Model CamInBasePose = new Point_Model(BaseInCamPose.HPose.PoseInvert());
 
 
-                                    ///计算出模型在Base坐标下位置
+                                    ///计算出模型在Base原点位置坐标下位置
                                     Point_Model CamInToolPose = new (_toolinCamera.HPose.PoseInvert());
                                     Point_Model CamInBasePose = new (Tool_In_BasePos.HPose.PoseCompose(CamInToolPose.HPose));
                                     Point_Model ModelInBasePose = new (CamInBasePose.HPose.PoseCompose(_Results.Results_ModelInCam_Pos.HPose));

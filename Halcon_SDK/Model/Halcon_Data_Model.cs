@@ -129,7 +129,13 @@ namespace Halcon_SDK_DLL.Model
 
             public Point_Model Results_Image_Pos { set; get; } = new Point_Model();
 
+
+
+
             public Point_Model Results_ModelInBase_Pos { set; get; } = new Point_Model();
+
+
+            public List<Point_Model> Results_PathInBase_Pos { set; get; } = new();
 
 
             /// <summary>
@@ -201,7 +207,7 @@ namespace Halcon_SDK_DLL.Model
             {
                 List<string> _DataList = new();
 
-                Text_Arr_UI.Add("匹配模型到机器人坐标：" + Results_ModelInBase_Pos.ToString());
+                Text_Arr_UI.Add("匹配模型到用户坐标原点坐标：" + Results_ModelInBase_Pos.ToString());
                 Text_Arr_UI.Add("匹配模型到相机坐标：" + Results_ModelInCam_Pos.ToString());
                 Text_Arr_UI.Add("匹配像素坐标结果：" + Results_Image_Pos.ToString());
                 Text_Arr_UI.Add("详情各特征结果：");
@@ -215,7 +221,12 @@ namespace Halcon_SDK_DLL.Model
 
                 }
 
+                Text_Arr_UI.Add("----------------------------分割线--------------------------------");
 
+                for (int i = 0; i < Results_PathInBase_Pos.Count; i++)
+                {
+                    Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F4}mm,Y: {Results_PathInBase_Pos[i].Y:F4}mm, Rx: {Results_PathInBase_Pos[i].Rx:F4}度, Ry: {Results_PathInBase_Pos[i].Ry:F4}, Rz: {Results_PathInBase_Pos[i].Ry:F4}");
+                }
 
                 return _DataList;
             }

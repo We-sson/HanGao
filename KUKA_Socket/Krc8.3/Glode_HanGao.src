@@ -1,11 +1,12 @@
-&ACCESS RVO1
-&REL 450
+&ACCESS RVO
+&REL 453
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
 
 
 
@@ -74,7 +75,7 @@ Offset.Z=Result_POS.z-POS_Offset.Z
 
 ENDSWITCH
 
-SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find Offset X:%7.3F,Y:%7.3F,Z:%7.3F  Max:%7.3F" ,Offset.X,Offset.Y,Offset.Z, Vision_Max_Offset  ) 
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: X:%7.3F,Y:%7.3F,Z:%7.3F  Max:%7.3F" ,Offset.X,Offset.Y,Offset.Z, Vision_Max_Offset  ) 
 
 if (ABS(Offset.X)<Vision_Max_Offset) AND (ABS(Offset.Y)<Vision_Max_Offset) AND (ABS(Offset.Z)<Vision_Max_Offset) THEN
 

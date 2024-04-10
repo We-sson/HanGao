@@ -161,8 +161,8 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
   DECL FOLD Vision_Path_Offset_FOLD[5]
             Vision_Path_Offset_FOLD[1]=""
             Vision_Path_Offset_FOLD[2]=""
-            Vision_Path_Offset_FOLD[3]="EKRL_Vision_Find(/"Xml_Vision_Model/",%Find_ID )"
-            Vision_Path_Offset_FOLD[4]="Vision_Results_Offset(#%Vision_Offset_Direction ,%Offset_Pos_1 ,%Offset_Pos_2 ,%Offset_Pos_3 ,%Offset_Pos_4 ,%Offset_Pos_5 ,%Offset_Pos_6 ,%Offset_Pos_7 ,%Offset_Pos_8 ,%Offset_Pos_9 )"
+            Vision_Path_Offset_FOLD[3]="EKRL_Vision_Find(#%Vision_Offset_Direction ,%Find_ID ,%Offset_Pos_1 ,%Offset_Pos_2 ,%Offset_Pos_3 ,%Offset_Pos_4 ,%Offset_Pos_5 ,%Offset_Pos_6 ,%Offset_Pos_7 ,%Offset_Pos_8 ,%Offset_Pos_9 )"
+            Vision_Path_Offset_FOLD[4]=""
             Vision_Path_Offset_FOLD[5]=""
            
 
