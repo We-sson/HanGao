@@ -225,7 +225,7 @@ namespace Halcon_SDK_DLL.Model
 
                 for (int i = 0; i < Results_PathInBase_Pos.Count; i++)
                 {
-                    Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F4}mm,Y: {Results_PathInBase_Pos[i].Y:F4}mm, Rx: {Results_PathInBase_Pos[i].Rx:F4}度, Ry: {Results_PathInBase_Pos[i].Ry:F4}, Rz: {Results_PathInBase_Pos[i].Ry:F4}");
+                    Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F4}mm,Y: {Results_PathInBase_Pos[i].Y:F4}mm, Z: {Results_PathInBase_Pos[i].Z:F4}mm, Rx: {Results_PathInBase_Pos[i].Rx:F4}度, Ry: {Results_PathInBase_Pos[i].Ry:F4}, Rz: {Results_PathInBase_Pos[i].Ry:F4}");
                 }
 
                 return _DataList;

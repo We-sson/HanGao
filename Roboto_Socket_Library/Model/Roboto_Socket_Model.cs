@@ -238,25 +238,25 @@ namespace Roboto_Socket_Library.Model
 
             }
 
-            public void Set_Pos_List(List<Point_Model> _List)
+            public void Set_Pos_List(List<Point_Model> _List, Robot_Type_Enum Robot_Type)
             {
 
                 _List.Count.Throw("坐标返回数量错误！").IfNotEquals(8);
 
 
-                Pos_1 = new Point_Models() { X = _List[0].X.ToString(), Y = _List[0].Y.ToString(), Z = _List[0].Z.ToString(), Rx = _List[0].Rx.ToString(), Ry = _List[0].Ry.ToString(), Rz = _List[0].Rz.ToString() };
-                Pos_2 = new Point_Models() { X = _List[1].X.ToString(), Y = _List[1].Y.ToString(), Z = _List[1].Z.ToString(), Rx = _List[1].Rx.ToString(), Ry = _List[1].Ry.ToString(), Rz = _List[1].Rz.ToString() };
-                Pos_3 = new Point_Models() { X = _List[2].X.ToString(), Y = _List[2].Y.ToString(), Z = _List[2].Z.ToString(), Rx = _List[2].Rx.ToString(), Ry = _List[2].Ry.ToString(), Rz = _List[2].Rz.ToString() };
-                Pos_4 = new Point_Models() { X = _List[3].X.ToString(), Y = _List[3].Y.ToString(), Z = _List[3].Z.ToString(), Rx = _List[3].Rx.ToString(), Ry = _List[3].Ry.ToString(), Rz = _List[3].Rz.ToString() };
-                Pos_5 = new Point_Models() { X = _List[4].X.ToString(), Y = _List[4].Y.ToString(), Z = _List[4].Z.ToString(), Rx = _List[4].Rx.ToString(), Ry = _List[4].Ry.ToString(), Rz = _List[4].Rz.ToString() };
-                Pos_6 = new Point_Models() { X = _List[5].X.ToString(), Y = _List[5].Y.ToString(), Z = _List[5].Z.ToString(), Rx = _List[5].Rx.ToString(), Ry = _List[5].Ry.ToString(), Rz = _List[5].Rz.ToString() };
-                Pos_7 = new Point_Models() { X = _List[6].X.ToString(), Y = _List[6].Y.ToString(), Z = _List[6].Z.ToString(), Rx = _List[6].Rx.ToString(), Ry = _List[6].Ry.ToString(), Rz = _List[6].Rz.ToString() };
-                Pos_8 = new Point_Models() { X = _List[7].X.ToString(), Y = _List[7].Y.ToString(), Z = _List[7].Z.ToString(), Rx = _List[7].Rx.ToString(), Ry = _List[7].Ry.ToString(), Rz = _List[7].Rz.ToString() };
+                Pos_1 = new Point_Models(_List[0].X, _List[0].Y, _List[0].Z, _List[0].Rx, _List[0].Ry, _List[0].Rz, Robot_Type);
+                Pos_2 = new Point_Models(_List[1].X, _List[1].Y, _List[1].Z, _List[1].Rx, _List[1].Ry, _List[1].Rz, Robot_Type);
+                Pos_3 = new Point_Models(_List[2].X, _List[2].Y, _List[2].Z, _List[2].Rx, _List[2].Ry, _List[2].Rz, Robot_Type);
+                Pos_4 = new Point_Models(_List[3].X, _List[3].Y, _List[3].Z, _List[3].Rx, _List[3].Ry, _List[3].Rz, Robot_Type);
+                Pos_5 = new Point_Models(_List[4].X, _List[4].Y, _List[4].Z, _List[4].Rx, _List[4].Ry, _List[4].Rz, Robot_Type);
+                Pos_6 = new Point_Models(_List[5].X, _List[5].Y, _List[5].Z, _List[5].Rx, _List[5].Ry, _List[5].Rz, Robot_Type);
+                Pos_7 = new Point_Models(_List[6].X, _List[6].Y, _List[6].Z, _List[6].Rx, _List[6].Ry, _List[6].Rz, Robot_Type);
+                Pos_8 = new Point_Models(_List[7].X, _List[7].Y, _List[7].Z, _List[7].Rx, _List[7].Ry, _List[7].Rz, Robot_Type);
 
 
 
             }
-            
+
         }
 
 
@@ -322,6 +322,53 @@ namespace Roboto_Socket_Library.Model
         [Serializable]
         public class Point_Models
         {
+            public Point_Models()
+            {
+
+            }
+
+            public Point_Models(double _X = 0, double _Y = 0, double _Z = 0, double _Rx = 0, double _Ry = 0, double _Rz = 0, Robot_Type_Enum Robot_Type = Robot_Type_Enum.通用)
+            {
+                switch (Robot_Type)
+                {
+                    case Robot_Type_Enum.KUKA:
+                        //设置机器人当前位置
+
+                        X = _X.ToString();
+                        Y = _Y.ToString();
+                        Z = _Z.ToString();
+                        Rx = _Rz.ToString();
+                        Ry = _Ry.ToString();
+                        Rz = _Rx.ToString();
+
+
+                        break;
+                    case Robot_Type_Enum.ABB:
+                        //_Robot_Pos = new Point_Model() { X = double.Parse(_S.ACT_Point.X), Y = double.Parse(_S.ACT_Point.Y), Z = double.Parse(_S.ACT_Point.Z), Rx = double.Parse(_S.ACT_Point.Rx), Ry = double.Parse(_S.ACT_Point.Ry), Rz = double.Parse(_S.ACT_Point.Rz), HType = Halcon_Pose_Type_Enum.abg };
+                        X = _X.ToString();
+                        Y = _Y.ToString();
+                        Z = _Z.ToString();
+                        Rx = _Rx.ToString();
+                        Ry = _Ry.ToString();
+                        Rz = _Rz.ToString();
+
+                        break;
+                    case Robot_Type_Enum.川崎:
+                        break;
+                    case Robot_Type_Enum.通用:
+                        X = _X.ToString();
+                        Y = _Y.ToString();
+                        Z = _Z.ToString();
+                        Rx = _Rx.ToString();
+                        Ry = _Ry.ToString();
+                        Rz = _Rz.ToString();
+
+                        break;
+
+                }
+            }
+
+
 
             [XmlAttribute]
             public string X { set; get; } = "0";

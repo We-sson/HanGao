@@ -276,7 +276,7 @@ namespace HanGao.ViewModel
 
                         _Find_Data_Send.IsStatus = 1;
                         _Find_Data_Send.Message_Error = $" Matching Template OK !";
-                      _Find_Data_Send.Result_Pos.Set_Pos_List(_Find_Result.Results_PathInBase_Pos);
+                      _Find_Data_Send.Result_Pos.Set_Pos_List(_Find_Result.Results_PathInBase_Pos, _Receive.Robot_Type);
 
 
 

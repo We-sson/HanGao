@@ -211,7 +211,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             _Results.Find_Score.Add(_score);
                             _Results.Find_Column.Add(_column);
                             _Results.Find_Row.Add(_row);
-                            _Results.Find_Angle.Add(_angle.TupleDeg());
+                            _Results.Find_Angle.Add(_angle);
                             ///查看细节部分
                             _Ncc_Region = _ncc.GetNccModelRegion();
                             _Ncc_Xld = _Ncc_Region.GenContourRegionXld("border_holes");
@@ -313,23 +313,34 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     {
                                         X = _X,
                                         Y = _Y,
-                                        Rz = _Results.Find_Angle[0],
+                                        Rz = (180 / Math.PI) *  _Results.Find_Angle[0],
                                         HType = _Model.Shape_PlaneInBase_Pos.HType
                                     };
 
-                                    ///初始化结果坐标
-                                    _Results.Results_PathInBase_Pos = new();
 
                                     ///把计算结果的用户坐标合并便宜结果
                                     Point_Model _ResultInBase = new(_Model.Shape_PlaneInBase_Pos.HPose.PoseCompose(_ResultInPlanPose.HPose));
 
+                                    ///偏移原点位置
+                                    HHomMat3D _ResultInBase_HomMat3D = _Model.Shape_PlaneInBase_Pos.HPose.PoseToHomMat3d();
+                                    _ResultInBase_HomMat3D.HomMat3dRotate(_Results.Find_Angle[0], "z", 0, 0, 0);
+                                    _ResultInBase_HomMat3D.HomMat3dTranslate(_X, _Y, 0);
+                                    Point_Model _BaseInResult = new Point_Model(_ResultInBase_HomMat3D.HomMat3dToPose());
+                                    //Point_Model _ResultInBase1= new Point_Model(_BaseInResult.HPose.PoseInvert());
+
+
+                                   
+                                    ///初始化结果坐标
+                                    _Results.Results_PathInBase_Pos.Clear();
+
+                                    //计算实际坐标下位置
                                     foreach (var PathInBase_Pos in PathInBase_List)
                                     {
                                         ///计算路径位置点在标定的用户坐标下
-                                        Point_Model PathInPlan=new Point_Model(_Model.Shape_PlaneInBase_Pos.HPose.PoseInvert().PoseCompose(PathInBase_Pos.HPose));
+                                        Point_Model TcpInPlan=new Point_Model(_Model.Shape_PlaneInBase_Pos.HPose.PoseInvert().PoseCompose(PathInBase_Pos.HPose));
 
                                         ///把位置点在结果用户坐标下转换回Base坐标下
-                                        _Results. Results_PathInBase_Pos.Add(new Point_Model ( PathInPlan.HPose.PoseCompose(_ResultInBase.HPose)));
+                                          _Results. Results_PathInBase_Pos.Add(new Point_Model (_BaseInResult.HPose.PoseCompose(TcpInPlan.HPose)));
                                     }
 
 
@@ -340,7 +351,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                                     ///计算出结果位置
                                     //_Results.Results_ModelInCam_Pos = new Point_Model() { X = _qx * 1000, Y = _qy * 1000, Z = _qz * 1000, Rx = 0, Ry = 0, Rz = 0, HType =  Halcon_Pose_Type_Enum.abg };
-                                    _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
+                                    _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = (180 / Math.PI) * _Results.Find_Angle[0] };
 
 
 
@@ -380,7 +391,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                 {
 
                                     //计算条件未全，出图像像素坐标
-                                    _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
+                                    _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = (180 / Math.PI) * _Results.Find_Angle[0] };
                                     _Results.Find_Shape_Results_State = Find_Shape_Results_State_Enum.Match_Failed;
 
                                 }
@@ -388,7 +399,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             else
                             {
                                 //识别成功保存结果
-                                _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = _Results.Find_Angle[0] };
+                                _Results.Results_Image_Pos = new Point_Model() { X = _Results.Find_Column[0], Y = _Results.Find_Row[0], Z = 0, Rz = (180 / Math.PI) * _Results.Find_Angle[0] };
                                 _Results.Find_Shape_Results_State = Find_Shape_Results_State_Enum.Match_Failed;
 
                             }
