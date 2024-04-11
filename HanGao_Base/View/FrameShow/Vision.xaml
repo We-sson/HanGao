@@ -1593,7 +1593,7 @@
                             </CheckBox>
                         </RadioButton>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Robot_Model" Grid.Row=" 3"
-                                     IsChecked="True"
+                                     IsChecked="False"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -3630,31 +3630,35 @@
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
 
+
+
+
                                         <Grid Height="40" Margin="8">
 
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 80" />
+                                                <!--<ColumnDefinition Width=" 80" />-->
 
                                                 <ColumnDefinition Width=" *" />
 
 
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="原点类型"
+                                            <!--<TextBlock Text="原点类型"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />-->
 
 
 
                                             <Border Grid.Column=" 1"
                                                     Margin="0,0,0,0"
                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                    BorderThickness="2.5"
-                                                    CornerRadius=" 6">
+                                                    BorderThickness="2"
+                                                    CornerRadius=" 0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
                                                         <ColumnDefinition />
                                                         <ColumnDefinition />
                                                         <ColumnDefinition />
@@ -3665,32 +3669,90 @@
                                                                  Content="图像原点"
                                                                  IsChecked="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Imag}}"
                                                                  FontSize=" 14"
-                                                                 GroupName="Model_2D_Origin_Type"
-                                                                 Tag="Camera_0" />
+                                                                 GroupName="Model_2D_Origin_Type" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                  Content="当前位置"
                                                                  IsChecked="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}}"
                                                                  FontSize="14"
-                                                                 GroupName="Model_2D_Origin_Type"
-                                                                 Tag="Camera_0">
-
-                                                        <!--<i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="Checked">
-                                                                <i:InvokeCommandAction Command="{Binding}"
-                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                                       PassEventArgsToCommand="True" />
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>-->
-                                                    </RadioButton>
+                                                                 GroupName="Model_2D_Origin_Type" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
-                                                                 Content="相机平面"
-                                                                 IsChecked="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}}"
+                                                                 Content="标定平面"
+                                                                 IsChecked="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}}"
                                                                  FontSize=" 14"
-                                                                 GroupName="Model_2D_Origin_Type"
-                                                                 Tag="Camera_0" />
+                                                                 GroupName="Model_2D_Origin_Type" />
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 3"
+                                                                 Content="标定坐标"
+                                                                 IsChecked="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}}"
+                                                                 FontSize=" 14"
+                                                                 GroupName="Model_2D_Origin_Type" />
                                                 </Grid>
 
                                             </Border>
+
+
+
+
+                                        </Grid>
+                                        <Grid Height="35" Margin="8,4,8,4">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width=" *" />
+
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="标定位置"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="15"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <ComboBox x:Name="Calib_PathInBase_List" Grid.Column=" 1"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding Halcon_Shape_Mode.Calib_PathInBase_List}"
+                                                      SelectedItem="{Binding Halcon_Shape_Mode.Selected_Calib_PathInBase}">
+                                                <ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Origin_Imag}">
+                                                                <Setter Property="SelectedIndex" Value="-1" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
+                                                                <Setter Property="SelectedIndex" Value="-1" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
+                                                                <Setter Property="SelectedIndex" Value="-1" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>
+
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                                   Text="{Binding}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
 
 
 
@@ -3729,8 +3791,11 @@
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.X}" />
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.X}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Selected_Calib_PathInBase.X}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -3780,8 +3845,11 @@
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.Y}" />
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.Y}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Selected_Calib_PathInBase.Y}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -3807,7 +3875,10 @@
                                                         <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3846,8 +3917,11 @@
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.Z}" />
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.Z}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Selected_Calib_PathInBase.Z}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -3873,7 +3947,10 @@
                                                         <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -3909,8 +3986,11 @@
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.Rx}" />
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.Rx}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Selected_Calib_PathInBase.Rx}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -3936,10 +4016,12 @@
                                                         <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
@@ -3973,8 +4055,11 @@
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.Ry}" />
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.Ry}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Selected_Calib_PathInBase.Ry}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -4000,10 +4085,12 @@
                                                         <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
@@ -4037,8 +4124,11 @@
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.Rz}" />
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
                                                                 <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.Rz}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                                <Setter Property="Value" Value="{Binding Halcon_Shape_Mode.Selected_Calib_PathInBase.Rz}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -4066,10 +4156,12 @@
                                                         <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
-
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </Grid.Style>
@@ -4101,8 +4193,11 @@
                                                             <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Tool_In_Base}">
                                                                 <Setter Property="SelectedValue" Value="{Binding Halcon_Shape_Mode.Tool_In_BasePos.HType}" />
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Camera}">
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Plan_In_Base}">
                                                                 <Setter Property="SelectedValue" Value="{Binding Halcon_Shape_Mode.Plane_In_BasePose.HType}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Model_2D_Origin_Type}" Value="{x:Static Halcon_Enum:Model_2D_Origin_Type_Enum.Calin_PathInBase}">
+                                                                <Setter Property="SelectedValue" Value="{Binding Halcon_Shape_Mode.Selected_Calib_PathInBase.HType}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -5722,6 +5817,434 @@
 
 
                                         </Grid>
+
+
+                                        <Border Height=" 2"
+                                                Margin="8,4,8,4"
+                                                Background="{DynamicResource 全局_按钮_红颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
+
+                                        <Grid Height="35" Margin="8,4,8,4">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width=" *" />
+                                                <ColumnDefinition Width=" 75" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="标定位置"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Selected_Shape_Calibration_PathInBase" Grid.Column=" 1"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Shape_Calibration_PathInBase_List}"
+                                                      SelectedIndex="-1"
+                                                      SelectedValue="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase}">
+                                                <!--<i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>-->
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                                   Text="{Binding}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+
+                                            <Button Grid.Column=" 2"
+                                                    Width=" 70"
+                                                    Margin="0,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                    FontSize=" 26">
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase}" Value="{x:Null}">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+
+
+                                                <TextBlock Text="修改"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Button>
+
+
+
+
+                                        </Grid>
+
+
+
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 X"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_X" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="9999"
+                                                    Minimum="-9999"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase.X}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Calibration_X, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18"
+                                                     IsReadOnly="False" />
+                                        </Grid>
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 Y"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Y" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="9999"
+                                                    Minimum="-9999"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase.Y}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Calibration_Y, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 Z"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Z" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="9999"
+                                                    Minimum="-9999"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase.Z}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Calibration_Z, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 Rx"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Rx" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="360"
+                                                    Minimum="-360"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase.Rx}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Calibration_Rx, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 Ry"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Ry" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="360"
+                                                    Minimum="-360"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase.Ry}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Calibration_Ry, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="原点 Rz"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Calibration_Rz" Grid.Column=" 1"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    IsSnapToTickEnabled="True"
+                                                    Maximum="360"
+                                                    Minimum="-360"
+                                                    SmallChange="0.1"
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase.Rz}" />
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                     Text="{Binding Value, ElementName=Origin_Rz, StringFormat={}{0:F3}}"
+                                                     Width=" 100"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="18" />
+                                        </Grid>
+
+                                        <Grid Height=" 34" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="位置类型"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Halcon_Pose_Type_Enum}"
+                                                      SelectedItem="{Binding Halcon_Shape_Mode.Selected_Shape_Model.Selected_Shape_Calibration_PathInBase.HType}">
+
+
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </Grid>
+
                                     </StackPanel>
 
                                     <Border Background="{DynamicResource 全局_背景_白颜色}"

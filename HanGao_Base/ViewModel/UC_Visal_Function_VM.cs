@@ -167,6 +167,31 @@ namespace HanGao.ViewModel
 
             HImage _Image = new();
 
+            ///读取机器人当前工具到banse位置
+            Halcon_Shape_Mode.Tool_In_BasePos = new Point_Model(double.Parse(_Receive.Camera_Pos.X), double.Parse(_Receive.Camera_Pos.Y), double.Parse(_Receive.Camera_Pos.Z), double.Parse(_Receive.Camera_Pos.Rx), double.Parse(_Receive.Camera_Pos.Ry), double.Parse(_Receive.Camera_Pos.Rz), _Receive.Robot_Type);
+
+
+            //把标定模式下把位置点添加到创建模型列表
+            if (_Receive.Calibration==1)
+            {
+            foreach (var _Pos in _Receive.Path_Pos.Get_Pos_List())
+            {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                      
+                    Halcon_Shape_Mode.Calib_PathInBase_List.Add(new Point_Model(double.Parse(_Pos.X), double.Parse(_Pos.Y), double.Parse(_Pos.Z), double.Parse(_Pos.Rx), double.Parse(_Pos.Ry), double.Parse(_Pos.Rz), _Receive.Robot_Type));
+                    });
+           
+                }
+
+
+                _Find_Data_Send.IsStatus = 1;
+                _Find_Data_Send.Message_Error = "Read Calibrate Path Position OK！";
+                User_Log_Add("自动模式：已经提取当前标定路径位置成功！", Log_Show_Window_Enum.Home);
+
+               return _Find_Data_Send;
+            }
+
 
 
             //查找接受匹配参数号
@@ -202,7 +227,7 @@ namespace HanGao.ViewModel
                 {
 
                     _Find_Data_Send.IsStatus = 0;
-                    _Find_Data_Send.Message_Error = "Camera image not available！Please  Check Camera";
+                    _Find_Data_Send.Message_Error = "Camera image not available ！Please  Check Camera";
                     User_Log_Add("自动模式：相机无法采集！原因：" + e.Message, Log_Show_Window_Enum.Home);
                     return _Find_Data_Send;
                 }
@@ -252,10 +277,7 @@ namespace HanGao.ViewModel
                 {
 
 
-                    foreach (var _Pos in _Receive.Path_Pos.Get_Pos_List())
-                    {
-                        Halcon_Shape_Mode.PathInBase_List.Add(new Point_Model(double.Parse(_Pos.X), double.Parse(_Pos.Y), double.Parse(_Pos.Z), double.Parse(_Pos.Rx), double.Parse(_Pos.Ry), double.Parse(_Pos.Rz), _Receive.Robot_Type));
-                    }
+    
 
 
 
@@ -276,7 +298,7 @@ namespace HanGao.ViewModel
 
                         _Find_Data_Send.IsStatus = 1;
                         _Find_Data_Send.Message_Error = $" Matching Template OK !";
-                      _Find_Data_Send.Result_Pos.Set_Pos_List(_Find_Result.Results_PathInBase_Pos, _Receive.Robot_Type);
+                      _Find_Data_Send.Result_Pos.Set_Pos_List(_Find_Result.Results_PathInBase_Pos);
 
 
 
@@ -2250,6 +2272,37 @@ namespace HanGao.ViewModel
             //_Image.Dispose();
             //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "采集图像方法成功！" };
         }
+
+
+
+        public ICommand Selected_Calib_PathInBase_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((E) =>
+            {
+                ComboBox Sm = E.Source as ComboBox;
+
+                try
+                {
+
+                    if (Sm.SelectedIndex!=-1 && Sm.SelectedItem!=null)
+                    {
+
+                        Halcon_Shape_Mode.Model_2D_Origin_Type = Model_2D_Origin_Type_Enum.Calin_PathInBase;
+                        Halcon_Shape_Mode.Selected_Calib_PathInBase = null;
+                    }
+
+                    //MVS.Connect_Camera(Select_Camera);
+
+                }
+                catch (Exception )
+                {
+                    //User_Log_Add("相机连接失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+
+                //连接成功后关闭UI操作
+            });
+        }
+
 
         /// <summary>
         /// 连接相机命令

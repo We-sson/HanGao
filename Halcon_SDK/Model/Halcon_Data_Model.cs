@@ -225,7 +225,7 @@ namespace Halcon_SDK_DLL.Model
 
                 for (int i = 0; i < Results_PathInBase_Pos.Count; i++)
                 {
-                    Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F4}mm,Y: {Results_PathInBase_Pos[i].Y:F4}mm, Z: {Results_PathInBase_Pos[i].Z:F4}mm, Rx: {Results_PathInBase_Pos[i].Rx:F4}度, Ry: {Results_PathInBase_Pos[i].Ry:F4}, Rz: {Results_PathInBase_Pos[i].Ry:F4}");
+                    Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F4}mm,Y: {Results_PathInBase_Pos[i].Y:F4}mm, Rx: {Results_PathInBase_Pos[i].Rx:F4}度, Ry: {Results_PathInBase_Pos[i].Ry:F4}, Rz: {Results_PathInBase_Pos[i].Ry:F4}");
                 }
 
                 return _DataList;
@@ -2042,30 +2042,30 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 创建模型句柄集合
         /// </summary>
-        public List<HTuple> Shape_Handle_List { set; get; } = new List<HTuple>();
+        public List<HTuple> Shape_Handle_List { set; get; } = new ();
 
 
         /// <summary>
         /// 选择的模型句柄
         /// </summary>
-        public HTuple Selected_Shape_Handle { set; get; } = new ();
+        public HTuple? Selected_Shape_Handle { set; get; } 
 
 
         /// <summary>
         /// 创建模型xld句柄
         /// </summary>
-        public List<HXLDCont> Shape_XLD_Handle_List { set; get; } = new List<HXLDCont>();
+        public List<HXLDCont> Shape_XLD_Handle_List { set; get; } = new ();
 
         /// <summary>
         /// 选择XLD对象模型
         /// </summary>
-        public HXLDCont Selected_Shape_XLD_Handle { set; get; } = new HXLDCont();
+        public HXLDCont? Selected_Shape_XLD_Handle { set; get; } 
 
 
         /// <summary>
         /// 模型识别前图像校正图像
         /// </summary>
-        public HImage Shape_Image_Rectified { set; get; } = new HImage();
+        public HImage Shape_Image_Rectified { set; get; } = new ();
 
 
         /// <summary>
@@ -2076,12 +2076,24 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 匹配模型平面位置
         /// </summary>
-        public Point_Model Shape_PlaneInBase_Pos { set; get; } = new Point_Model();
+        public Point_Model Shape_PlaneInBase_Pos { set; get; } = new ();
 
         /// <summary>
         /// 图像原点位置
         /// </summary>
-        public Point_Model Shape_Model_2D_Origin { set; get; } = new Point_Model();
+        public Point_Model Shape_Model_2D_Origin { set; get; } = new ();
+
+        /// <summary>
+        /// 标定路径坐标列表
+        /// </summary>
+        public ObservableCollection<Point_Model> Shape_Calibration_PathInBase_List { set; get; } = new();
+
+
+
+        /// <summary>
+        /// 选择标定路径
+        /// </summary>
+        public Point_Model? Selected_Shape_Calibration_PathInBase { set; get; }
 
         /// <summary>
         /// 模型ID号
@@ -2310,7 +2322,9 @@ namespace Halcon_SDK_DLL.Model
         [Description("当前位置")]
         Tool_In_Base,
         [Description("模型平面")]
-        Plan_In_Camera
+        Plan_In_Base,
+        [Description("标定路径")]
+        Calin_PathInBase
 
 
 
