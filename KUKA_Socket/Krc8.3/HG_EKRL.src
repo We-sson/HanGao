@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 334
+&REL 337
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -23,6 +23,7 @@ DECL EKI_STATUS RET
 ;ENDFOLD (INI)
 ;------------
 EKRL_CONNECT()
+
 
 
 
@@ -255,6 +256,13 @@ RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Find_Model")
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
 RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/@Find_ID", FInd_ID)
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Camera_Pos", $POS_ACT)
+RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/@Calibration", FALSE)
+
+
+IF Vision_PATH==#Cailb THEN 
+
+
+RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/@Calibration", TRUE)
 IF VARSTATE("POS_Offset_1")==#INITIALIZED THEN
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_1", POS_Offset_1)
 ELSE
@@ -295,6 +303,21 @@ RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_8", POS_Offset_8)
 ELSE
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_8", $NULLFRAME)
 ENDIF
+ELSE
+
+RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_1", $NULLFRAME)
+RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_2", $NULLFRAME)
+RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_3", $NULLFRAME)
+RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_4", $NULLFRAME)
+RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_5", $NULLFRAME)
+RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_6", $NULLFRAME)
+RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_7", $NULLFRAME)
+RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_8", $NULLFRAME)
+ENDIF
+
+
+
+
 RET=EKI_Send(EKRL_NAME[],"Robot_Receive")
 
 
@@ -307,6 +330,10 @@ RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
 
 
 IF IsStatus THEN
+
+
+IF Vision_PATH<>#Cailb THEN 
+
 
 IF VARSTATE("POS_Offset_1")==#INITIALIZED THEN
 RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_1" ,Pos_1)
@@ -340,6 +367,11 @@ IF VARSTATE("POS_Offset_8")==#INITIALIZED THEN
 RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_8" ,Pos_8)
 Vision_Results_Pos(Vision_PATH,Pos_8,POS_Offset_8)
 ENDIF
+
+ENDIF
+
+
+
 MSGNOTIFY(Message_Error[])
 ELSE
 

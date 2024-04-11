@@ -24,7 +24,8 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
    ITEM[4] {ITEM: VALUE[] "XY"  , DISP[] "XY"}, _
    ITEM[5] {ITEM: VALUE[] "XZ"  , DISP[] "XZ"},  _
    ITEM[6] {ITEM: VALUE[] "YZ"  , DISP[] "YZ"}, _
-   ITEM[7] {ITEM: VALUE[] "XYZ"  , DISP[] "XYZ"}, _
+   ITEM[7] {ITEM: VALUE[] "XYZ"  , DISP[] "All"}, _
+   ITEM[8] {ITEM: VALUE[] "Cailb"  , DISP[] "Cailb"}, _
    POS 1}}
    
   DECL PARAM Calib_Model= {SHORTNAME[] "Model:" , VALUE {LIST: _
