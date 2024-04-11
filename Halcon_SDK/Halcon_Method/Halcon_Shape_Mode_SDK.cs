@@ -896,7 +896,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                 for (int i = 0; i < _Shape_Calibration_PathInBase_HDict.GetDictParam("keys", new HTuple()).Length; i++)
                 {
-                    _Shape_Mode_File_Model.Shape_Calibration_PathInBase_List.Add(new Point_Model(_Shape_Calibration_PathInBase_HDict.GetDictTuple(i)));
+                    _Shape_Mode_File_Model.Shape_Calibration_PathInBase_List.Add(new Point_Model(new HPose( _Shape_Calibration_PathInBase_HDict.GetDictTuple(i))));
 
                 }
 

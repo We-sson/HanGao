@@ -5419,7 +5419,17 @@
                                                 Margin="8,4,8,4"
                                                 Background="{DynamicResource 全局_按钮_红颜色}"
                                                 CornerRadius="1"
-                                                Opacity=" 0.5" />
+                                                Opacity=" 0.5">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Shape_Mode.Selected_Shape_Model}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
 
                                         <Grid Height="35" Margin="8,0,8,0">
 
