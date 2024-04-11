@@ -6816,7 +6816,7 @@
                                                                                                 Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}" />
 
                                                                                         <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                                                                 Text="{Binding ElementName=Median_Image_Radius, Path=Value, StringFormat={}{0:F1}}"
+                                                                                                 Text="{Binding ElementName=Median_Image_Radius, Path=Value, StringFormat={}{0:F0}}"
                                                                                                  HorizontalContentAlignment="Center"
                                                                                                  VerticalContentAlignment="Center"
                                                                                                  Background="Transparent"

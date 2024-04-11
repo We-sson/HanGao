@@ -4,7 +4,8 @@
       "commandName": "Project",
       "remoteDebugEnabled": false,
       "authenticationMode": "None",
-      "remoteDebugMachine": "BG021420"
+      "remoteDebugMachine": "BG021420",
+      "nativeDebugging": true
     }
   }
 }

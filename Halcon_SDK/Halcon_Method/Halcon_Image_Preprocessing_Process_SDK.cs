@@ -132,7 +132,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HImage Preprocessing_Process_Start(HImage _OldImage)
         {
 
-            Image = _OldImage;
+            Image = new  HImage( _OldImage);
 
             //计算总时间处理
             DateTime AllstartTime = DateTime.Now;
@@ -204,7 +204,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Image_Preprocessing_Process_Enum.ScaleImageMax => () => ScaleImageMax(),
                 Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
                 Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
-                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage(Enum.Parse<MedianImage_MaskType_Enum>(E_1!), Convert.ToInt32(V_1), Enum.Parse<MedianImage_Margin_Enum>(E_2!)),
+                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage(Enum.Parse<MedianImage_MaskType_Enum>(E_1!), int.Parse((string)V_1!), Enum.Parse<MedianImage_Margin_Enum>(E_2!)),
                 Image_Preprocessing_Process_Enum.Illuminate => () => Illuminate(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
                 Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
                 Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),

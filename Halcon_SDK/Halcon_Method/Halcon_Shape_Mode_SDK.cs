@@ -217,7 +217,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             _Results.Find_Score.Add(_score);
                             _Results.Find_Column.Add(_column);
                             _Results.Find_Row.Add(_row);
-                            _Results.Find_Angle.Add(_angle.TupleDeg());
+                            _Results.Find_Angle.Add(_angle);
                             ///查看细节部分
                             _Ncc_Region = _ncc.GetNccModelRegion();
                             _Ncc_Xld = _Ncc_Region.GenContourRegionXld("border_holes");
@@ -330,8 +330,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                                     ///偏移原点位置
                                     HHomMat3D _ResultInBase_HomMat3D = _Model.Shape_PlaneInBase_Pos.HPose.PoseToHomMat3d();
-                                    _ResultInBase_HomMat3D.HomMat3dRotate(_Results.Find_Angle[0], "z", 0, 0, 0);
-                                    _ResultInBase_HomMat3D.HomMat3dTranslate(_X, _Y, 0);
+                                    _ResultInBase_HomMat3D= _ResultInBase_HomMat3D.HomMat3dRotate(_Results.Find_Angle[0], "z", _Model.Shape_PlaneInBase_Pos.HPose[0], _Model.Shape_PlaneInBase_Pos.HPose[1], _Model.Shape_PlaneInBase_Pos.HPose[2]);
+                                    _ResultInBase_HomMat3D = _ResultInBase_HomMat3D.HomMat3dTranslate(_ResultInPlanPose.HPose[0], _ResultInPlanPose.HPose[1], new HTuple (0));
                                     Point_Model _BaseInResult = new Point_Model(_ResultInBase_HomMat3D.HomMat3dToPose());
                                     //Point_Model _ResultInBase1= new Point_Model(_BaseInResult.HPose.PoseInvert());
 
@@ -348,6 +348,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                                         ///把位置点在结果用户坐标下转换回Base坐标下
                                         _Results.Results_PathInBase_Pos.Add(new Point_Model(_BaseInResult.HPose.PoseCompose(TcpInPlan.HPose)));
+
+
                                     }
 
 
@@ -731,9 +733,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                     break;
                 case Shape_HObject_Type_Enum.Shape_XLD:
-
+                   
                     Selected_Shape_Model.Selected_Shape_XLD_Handle.ThrowIfNull("没有选择XLD模型对象！");
-                    if (Selected_Shape_Model.Selected_Shape_XLD_Handle.IsInitialized())
+                    if (!Selected_Shape_Model.Selected_Shape_XLD_Handle.IsInitialized())
                     {
                         throw new Exception(Selected_Shape_Model.ID + "号模型XLD变量不存在！");
                     }
@@ -745,12 +747,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                     //判断图像校正是否存在
-                    if (Selected_Shape_Model.Shape_Image_Rectified.IsInitialized())
+                    if (!Selected_Shape_Model.Shape_Image_Rectified.IsInitialized())
                     {
                         throw new Exception(Selected_Shape_Model.ID + "号模型校正图变量不存在！");
                     }
 
-                    _HObject = Selected_Shape_Model.Shape_Image_Rectified;
+                    _HObject =new HObject ( Selected_Shape_Model.Shape_Image_Rectified);
                     break;
 
             }
@@ -1051,13 +1053,22 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HImage Set_ImageRectified(Find_Shape_Based_ModelXld Find_Shape_Model, HImage _image)
         {
 
+
             HImage _ResultImage = new HImage();
             _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized());
-            Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID);
-            _Model.ThrowIfNull(Find_Shape_Model.FInd_ID + "号模型，无法在模型库中找到校正图像！");
+            //Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID).Shape_Image_Rectified;
+            //_Model.ThrowIfNull(Find_Shape_Model.FInd_ID + "号模型，无法在模型库中找到校正图像！");
+            try
+            {
 
             //进行图像校正后识别
-            _ResultImage = _image.MapImage(_Model.Shape_Image_Rectified);
+            _ResultImage = _image.MapImage(Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID)?.Shape_Image_Rectified);
+            }
+            catch (HalconException e)
+            {
+
+                throw new Exception("图像校正错误！原因："+e.Message);
+            }
 
             return _ResultImage;
         }
@@ -1102,7 +1113,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 HRegion RegionGrid = new HRegion();
 
                 //创建图像布局平均点
-                RegionGrid.GenGridRegion(5, 5, "points", _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Height);
+                RegionGrid.GenGridRegion(20, 20, "points", _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Height);
 
                 //获得区域点
                 RegionGrid.GetRegionPoints(out HTuple _Rows, out HTuple _Colums);
@@ -1142,13 +1153,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 int _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
 
                 //计算校正图像
-                Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
+                HImage _Image_Rectified = new HImage();
+                  _Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
-                _Image = _Image.MapImage(Image_Rectified);
+                Image_Rectified = _Image.MapImage(_Image_Rectified);
 
 
                 Image_Rectified_Ratio = double.Parse(_ScaleRectification.D.ToString());
-
+                Image_Rectified = new HImage(_Image_Rectified);
                 return _Image;
 
 

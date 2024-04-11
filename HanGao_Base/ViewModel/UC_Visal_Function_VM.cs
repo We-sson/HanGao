@@ -68,14 +68,14 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 保存读取图像属性
         /// </summary>
-        private static HObject _Load_Image = new();
+        private static HImage _Load_Image = new();
 
-        public static HObject Load_Image
+        public static HImage Load_Image
         {
             get { return _Load_Image; }
             set
             {
-                _Load_Image.Dispose();
+                //_Load_Image.Dispose();
                 _Load_Image = value;
             }
         }
@@ -435,9 +435,9 @@ namespace HanGao.ViewModel
 
 
 
-                HImage _Image = new();
+                //HImage _Image = new();
 
-                _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
 
 
@@ -2250,7 +2250,7 @@ namespace HanGao.ViewModel
             }
             //获得图像内存地址，随时调用
             Load_Image = _Image;
-
+            //GC.KeepAlive(_Image);
             Application.Current.Dispatcher.Invoke(() =>
             {
                 Halcon_Window_Display.Display_HObject(_HW, Load_Image, Image_AutoPart: true);

@@ -216,7 +216,7 @@ namespace Halcon_SDK_DLL.Model
                 for (int i = 0; i < Results_HXLD_List.Count; i++)
                 {
 
-                    Text_Arr_UI.Add($"匹配模型—{i}号 | 像素坐标 X: {Find_Column[i]:F4}mm,Y: {Find_Row[i]:F4}mm, Angle: {Find_Angle[i]:F4}度, 相似度：{Find_Score[i]:F4}, 匹配耗时：{Find_Time[i]:F4}秒");
+                    Text_Arr_UI.Add($"匹配模型—{i}号 | 像素坐标 X: {Find_Column[i]:F3}mm,Y: {Find_Row[i]:F3}mm, Angle: {(180 / Math.PI) * Find_Angle[i]:F4}度, 相似度：{Find_Score[i]:F3}, 匹配耗时：{Find_Time[i]:F3}秒");
 
 
                 }
@@ -225,7 +225,7 @@ namespace Halcon_SDK_DLL.Model
 
                 for (int i = 0; i < Results_PathInBase_Pos.Count; i++)
                 {
-                    Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F4}mm,Y: {Results_PathInBase_Pos[i].Y:F4}mm, Rx: {Results_PathInBase_Pos[i].Rx:F4}度, Ry: {Results_PathInBase_Pos[i].Ry:F4}, Rz: {Results_PathInBase_Pos[i].Ry:F4}");
+                    Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F3}mm,Y: {Results_PathInBase_Pos[i].Y:F3}mm, Z:  {Results_PathInBase_Pos[i].Z:F3}mm, Rx: {Results_PathInBase_Pos[i].Rx:F3}度, Ry: {Results_PathInBase_Pos[i].Ry:F3}, Rz: {Results_PathInBase_Pos[i].Ry:F3}");
                 }
 
                 return _DataList;

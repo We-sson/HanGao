@@ -54,11 +54,11 @@
     <OutputPath>bin\x64\Debug</OutputPath>
     <LangVersion>latestMajor</LangVersion>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
     <DebugType>none</DebugType>
     <LangVersion>latestMajor</LangVersion>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -371,7 +371,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebugType>embedded</DebugType>
     <NoWarn>1701;1702;CA1416;CA1822</NoWarn>
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>embedded</DebugType>
