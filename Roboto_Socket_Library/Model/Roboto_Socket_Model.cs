@@ -167,18 +167,28 @@ namespace Roboto_Socket_Library.Model
         public class Vision_Find_Data_Receive
         {
 
-            //public Calibration_Model_Receive Calibration_Model { set; get; } = new Calibration_Model_Receive();
 
-            //public Find_Model_Receive Find_Model { set; get; } = new Find_Model_Receive();
-
+            /// <summary>
+            /// 查找模型序号
+            /// </summary>
             [XmlAttribute]
             public int Find_ID { set; get; }
 
-            //public Calibration_Point_Models Vision_Point { set; get; } = new Calibration_Point_Models();
 
+
+            /// <summary>
+            /// 相机拍摄位置
+            /// </summary>
             public Point_Models Camera_Pos { set; get; } = new();
 
+            /// <summary>
+            /// 识别平面位置
+            /// </summary>
+            public Point_Models Plan_Pos { set; get; } = new();
 
+            /// <summary>
+            /// 路径位置集合
+            /// </summary>
             public Point_List_Model Path_Pos { set; get; } = new();
 
             /// <summary>
@@ -186,9 +196,15 @@ namespace Roboto_Socket_Library.Model
             /// </summary>
             [XmlAttribute]
             public Robot_Type_Enum Robot_Type { set; get; }
+            /// <summary>
+            /// 视觉模式
+            /// </summary>
             [XmlAttribute]
             public Vision_Model_Enum Vision_Model { set; get; }
 
+            /// <summary>
+            /// 标定模式
+            /// </summary>
             [XmlAttribute]
             public int  Calibration { set; get; } = 0;
 

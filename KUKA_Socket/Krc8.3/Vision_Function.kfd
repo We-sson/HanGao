@@ -9,24 +9,26 @@ DEFTP Vision={ SOt FALSE,Soc TRUE }
 ;-----------------LIN_DECL------------------------
 Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1, MAX 9,STEP 1}, UNIT[] "", SHORTCUT[] "", VISIBLE FALSE }
 
+Decl PARAM PL_Calib_Data = {SHORTNAME[] "Calibration Pos Data", VAR[] "Calibrate_Data", SHORTCUT[] "CD", UNIT[] "" ,Value {FREE: DEFAULT[] "Calib"}}
+
   
-  DECL PARAM Area_Calib_lIST = {SHORTNAME[] "Area:",, VALUE {LIST: _
+  DECL PARAM Area_Calib_lIST = {SHORTNAME[] "Area:", VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "1"  , DISP[] "45"}, _
    ITEM[2] {ITEM: VALUE[] "2"  , DISP[] "135"}, _
    ITEM[3] {ITEM: VALUE[] "3"  , DISP[] "225"},  _
    ITEM[4] {ITEM: VALUE[] "4"  , DISP[] "315"}, _
    POS 1}}
    
-   DECL PARAM Vision_Offset_Direction = {SHORTNAME[] "Direction:",, VALUE {LIST: _
+   DECL PARAM Vision_Offset_Direction = {SHORTNAME[] "Direction:" , VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "X"  , DISP[] "X"}, _
    ITEM[2] {ITEM: VALUE[] "Y"  , DISP[] "Y"}, _
    ITEM[3] {ITEM: VALUE[] "Z"  , DISP[] "Z"},  _
    ITEM[4] {ITEM: VALUE[] "XY"  , DISP[] "XY"}, _
    ITEM[5] {ITEM: VALUE[] "XZ"  , DISP[] "XZ"},  _
    ITEM[6] {ITEM: VALUE[] "YZ"  , DISP[] "YZ"}, _
-   ITEM[7] {ITEM: VALUE[] "XYZ"  , DISP[] "All"}, _
-   ITEM[8] {ITEM: VALUE[] "Cailb"  , DISP[] "Cailb"}, _
-   POS 1}}
+   ITEM[7] {ITEM: VALUE[] "XYZ"  , DISP[] "XYZ"}, _
+   ITEM[8] {ITEM: VALUE[] "XYZABC"  , DISP[] "All"}, _
+   POS 8}}
    
   DECL PARAM Calib_Model= {SHORTNAME[] "Model:" , VALUE {LIST: _
    ITEM[1] {ITEM: VALUE[] "#New", DISP[] "New"},   _
@@ -69,7 +71,8 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
   
   
  DECL PARAM Camera_NAME = {SHORTNAME[] "Camera_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
- DECL PARAM Calib_NAME = {SHORTNAME[] "Calib_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
+ 
+ DECL PARAM Calib_NAME = {SHORTNAME[] "Calib_Data:", UNIT[] "" , VALUE {NAME: DEFAULT[] "C1"}}
  
  DECL PARAM Calib_Result_NAME = {SHORTNAME[] "Calib_Result_NAME :", UNIT[] "" , VALUE {NAME: DEFAULT[] "P1"}}
  ;DECL PARAM Offset_Pos = {SHORTNAME[] "Offset_Pos:", UNIT[] "" , VALUE {FREE: DEFAULT[] "P1"}}
@@ -90,6 +93,17 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
    POS 1}}
   
 
+ DECL PARAM Calib_Pos_Name_1={SHORTNAME[] "Calib Pos Name:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Calib_Pos_Name_2={SHORTNAME[] "Calib Pos Name:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Calib_Pos_Name_3={SHORTNAME[] "Calib Pos Name:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Calib_Pos_Name_4={SHORTNAME[] "Calib Pos Name:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Calib_Pos_Name_5={SHORTNAME[] "Calib Pos Name:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Calib_Pos_Name_6={SHORTNAME[] "Calib Pos Name:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Calib_Pos_Name_7={SHORTNAME[] "Calib Pos Name:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Calib_Pos_Name_8={SHORTNAME[] "Calib Pos Name:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Calib_Pos_Name_9={SHORTNAME[] "Calib Pos Name:",VALUE {FREE: DEFAULT[] " " }}
+ DECL PARAM Calib_Pos_Name_10={SHORTNAME[] "Calib Pos Name:",VALUE {FREE: DEFAULT[] " " }}
+
 
  Decl PARAM Find_ID =  {SHORTNAME[] "ID:" ,  VALUE {NUMBER:MIN 0, MAX 100, STEP 1, AUTOLIMIT TRUE, DEFAULT 1}, UNIT[] "", SHORTCUT[] "" }
 
@@ -98,6 +112,20 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
   
   Decl PARAM HandEye_ID =  {SHORTNAME[] "ID:" ,  VALUE {NUMBER:MIN 0, MAX 999, STEP 1, AUTOLIMIT TRUE, DEFAULT 0}, UNIT[] "", SHORTCUT[] "" }
 
+    Decl PARAM Calibrate_State =  {SHORTNAME[] "Calibrate" ,  VALUE {BOOL: DEFAULT TRUE, TRUE[] "TRUE", FAlSE[] "FAlSE"}, UNIT[] "Calibrate:", SHORTCUT[] "" }
+
+  
+DECL PLIST Calib_Data[10] -> Calib_NAME
+Calib_Data[1] = Plan_Base_No
+Calib_Data[2] = Calib_Pos_Name_1
+Calib_Data[3] = Calib_Pos_Name_2
+Calib_Data[4] = Calib_Pos_Name_3
+Calib_Data[5] = Calib_Pos_Name_4
+Calib_Data[6] = Calib_Pos_Name_6
+Calib_Data[7] = Calib_Pos_Name_7
+Calib_Data[8] = Calib_Pos_Name_8
+Calib_Data[9] = Calib_Pos_Name_9
+Calib_Data[10] = Calib_Pos_Name_10
 
 
   DECL FOLD Data_Send_FOLD[5]
@@ -162,7 +190,7 @@ Decl PARAM Result_NO = {SHORTNAME[] "Result NO=", VALUE {NUMBER: DEFAULT 1,MIN 1
   DECL FOLD Vision_Path_Offset_FOLD[5]
             Vision_Path_Offset_FOLD[1]=""
             Vision_Path_Offset_FOLD[2]=""
-            Vision_Path_Offset_FOLD[3]="EKRL_Vision_Find(#%Vision_Offset_Direction ,%Find_ID ,%Offset_Pos_1 ,%Offset_Pos_2 ,%Offset_Pos_3 ,%Offset_Pos_4 ,%Offset_Pos_5 ,%Offset_Pos_6 ,%Offset_Pos_7 ,%Offset_Pos_8 ,%Offset_Pos_9 )"
+            Vision_Path_Offset_FOLD[3]="EKRL_Vision_Find(%Calibrate_State ,#%Vision_Offset_Direction ,%Find_ID ,%Plan_Base_No ,%Calib_Pos_Name_1 ,%Calib_Pos_Name_2 ,%Calib_Pos_Name_3 ,%Calib_Pos_Name_4 ,%Calib_Pos_Name_5 ,%Calib_Pos_Name_6 ,%Calib_Pos_Name_7 ,%Calib_Pos_Name_8 ,%Calib_Pos_Name_9 )"
             Vision_Path_Offset_FOLD[4]=""
             Vision_Path_Offset_FOLD[5]=""
            
@@ -276,7 +304,7 @@ ENDSCRIPT
    ;DECL  InlineForm Camera_Offset={FOLD[1] Camera_Offset_Fold,PARAM[1] Camera_Name,PARAM[2] Area_Calib_lIST,PARAM[3] Work_Area }
     DECL  InlineForm Vision_Ini={FOLD[1] Vision_Ini_FOLD,PARAM[1] Vision_Model,ONACCEPT Vision_Ini_ONACCEPT}
     
-    DECL  InlineForm Vision_Path_Offset={FOLD[1] Vision_Path_Offset_FOLD,PARAM[1]  Find_ID, PARAM[2] Vision_Offset_Direction ,PARAM[3] Offset_Pos_1 , PARAM[4] Offset_Pos_2,PARAM[5] Offset_Pos_3,PARAM[6] Offset_Pos_4,PARAM[7] Offset_Pos_5,PARAM[8] Offset_Pos_6,PARAM[9] Offset_Pos_7,PARAM[10] Offset_Pos_8}
+    DECL  InlineForm Vision_Path_Offset={FOLD[1] Vision_Path_Offset_FOLD,PARAM[1]  Find_ID, PARAM[2] Vision_Offset_Direction ,PARAM[3] Calibrate_State,PARAM[4] Calib_NAME}
 
 
 ENDTP

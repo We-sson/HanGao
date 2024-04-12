@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 337
+&ACCESS RVO
+&REL 339
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -215,12 +215,12 @@ ENDIF
 END
 
 
-GLOBAL DEF EKRL_Vision_Find(Vision_PATH:IN,FInd_ID:IN,POS_Offset_1 :OUT,POS_Offset_2:OUT,POS_Offset_3:OUT,POS_Offset_4:OUT,POS_Offset_5:OUT,POS_Offset_6:OUT,POS_Offset_7:OUT,POS_Offset_8:OUT,POS_Offset_9:OUT)
+GLOBAL DEF EKRL_Vision_Find(Calibration_STATE:IN,Vision_PATH:IN,FInd_ID:IN,Base_Data_No:IN,POS_Offset_1 :OUT,POS_Offset_2:OUT,POS_Offset_3:OUT,POS_Offset_4:OUT,POS_Offset_5:OUT,POS_Offset_6:OUT,POS_Offset_7:OUT,POS_Offset_8:OUT,POS_Offset_9:OUT)
 DECL CHAR Message_Error[1024],EKRL_NAME[1024]
 DECL EKI_STATUS RET
 DECL Vision_PATH_Enum Vision_PATH
-DECL  BOOL IsStatus
-DECL INT FInd_ID
+DECL  BOOL IsStatus,Calibration_STATE
+DECL INT FInd_ID,Base_Data_No
 DECL Frame Pos_1,Pos_2,Pos_3,Pos_4,Pos_5,Pos_6,Pos_7,Pos_8,Pos_9
 DECL E6POS POS_Offset_1 ,POS_Offset_2,POS_Offset_3,POS_Offset_4,POS_Offset_5,POS_Offset_6,POS_Offset_7,POS_Offset_8,POS_Offset_9
 DECL E6POS POS_Array[9]
@@ -250,19 +250,17 @@ ENDIF
 EKRL_Connect(EKRL_NAME[])
 
 
-
-
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Find_Model")
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
 RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/@Find_ID", FInd_ID)
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Camera_Pos", $POS_ACT)
-RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/@Calibration", FALSE)
+RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/@Calibration", Calibration_STATE)
 
 
-IF Vision_PATH==#Cailb THEN 
+IF Calibration_STATE==TRUE THEN 
 
+RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Plan_Pos", BASE_DATA[Base_Data_No])
 
-RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/@Calibration", TRUE)
 IF VARSTATE("POS_Offset_1")==#INITIALIZED THEN
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_1", POS_Offset_1)
 ELSE
@@ -304,7 +302,7 @@ ELSE
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_8", $NULLFRAME)
 ENDIF
 ELSE
-
+RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Plan_Pos", $NULLFRAME)
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_1", $NULLFRAME)
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_2", $NULLFRAME)
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_3", $NULLFRAME)
@@ -332,7 +330,7 @@ RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
 IF IsStatus THEN
 
 
-IF Vision_PATH<>#Cailb THEN 
+IF Calibration_STATE==FALSE THEN 
 
 
 IF VARSTATE("POS_Offset_1")==#INITIALIZED THEN
