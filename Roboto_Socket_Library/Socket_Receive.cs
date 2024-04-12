@@ -9,7 +9,7 @@ using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 namespace Roboto_Socket_Library
 {
 
-    public class Socket_Receive : IDisposable
+    public class Socket_Receive 
     {
 
         public Socket_Receive(string _IP, string _Port)
@@ -436,10 +436,10 @@ namespace Roboto_Socket_Library
 
 
 
-        public void Dispose()
-        {
-            GC.Collect();
-            GC.SuppressFinalize(this);
-        }
+        //public void Dispose()
+        //{
+        //    GC.Collect();
+        //    GC.SuppressFinalize(this);
+        //}
     }
 }

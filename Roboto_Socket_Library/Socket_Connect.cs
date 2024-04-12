@@ -12,7 +12,7 @@ using Throw;
 namespace Roboto_Socket_Library
 {
 
-    public class Socket_Connect : IDisposable
+    public class Socket_Connect 
     {
 
 
@@ -1064,11 +1064,11 @@ namespace Roboto_Socket_Library
                 
         }
 
-        public void Dispose()
-        {
-            GC.Collect();
-            GC.SuppressFinalize(this);
-        }
+        //public void Dispose()
+        //{
+        //    //GC.Collect();
+        //    //GC.SuppressFinalize(this);
+        //}
     }
 
 

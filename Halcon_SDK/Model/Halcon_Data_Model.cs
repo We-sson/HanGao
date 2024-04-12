@@ -1339,8 +1339,8 @@ namespace Halcon_SDK_DLL.Model
 
             Camera_1?.Dispose();
 
-            GC.Collect();
-            GC.SuppressFinalize(this);
+            //GC.Collect();
+            //GC.SuppressFinalize(this);
         }
     }
 
@@ -2008,8 +2008,8 @@ namespace Halcon_SDK_DLL.Model
             }
             Calibration_3D_Model.Clear();
 
-            GC.Collect();
-            GC.SuppressFinalize(this);
+            //GC.Collect();
+            //GC.SuppressFinalize(this);
         }
     }
 

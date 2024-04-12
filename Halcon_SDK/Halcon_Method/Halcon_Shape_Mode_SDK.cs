@@ -72,8 +72,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 图像校正变量
         /// </summary>
-        public HImage Image_Rectified { set; get; } = new HImage();
+        public static  HImage Image_Rectified { set; get; } = new HImage();
 
+        /// <summary>
+        /// 在手动步骤操作自动校正开关
+        /// </summary>
+        public bool Auto_Image_Rectified { set; get; } = true;
+
+        /// <summary>
+        /// 图像校正坐标转换系数
+        /// </summary>
         public double Image_Rectified_Ratio { set; get; } = 0;
 
         /// <summary>
@@ -1089,8 +1097,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HImage Get_ImageRectified(HImage _Image, Halcon_Camera_Calibration_Parameters_Model _Camera_Paramteters, Point_Model HandEye_ToolinCamera)
         {
             //check data
-            Tool_In_BasePos.Throw("创建模型的相机位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model());
-            Plane_In_BasePose.Throw("创建模型三维位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model());
+            Tool_In_BasePos.HPose.Throw("创建模型的相机位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model().HPose);
+            Plane_In_BasePose.HPose.Throw("创建模型三维位置未设定数据，请手动或者机器人通讯获取！").IfEquals(new Point_Model().HPose);
             _Image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized());
 
             try
@@ -1153,15 +1161,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 int _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
 
                 //计算校正图像
-                HImage _Image_Rectified = new HImage();
-                  _Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
+                //HImage _Image_Rectified = new HImage();
+                Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
-                Image_Rectified = _Image.MapImage(_Image_Rectified);
+                //_Image_Rectified = _Image.MapImage(Image_Rectified);
 
 
                 Image_Rectified_Ratio = double.Parse(_ScaleRectification.D.ToString());
-                Image_Rectified = new HImage(_Image_Rectified);
-                return _Image;
+                //Image_Rectified = new HImage(_Image_Rectified);
+                return Image_Rectified;
 
 
             }
@@ -1484,7 +1492,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _ShapeModel.Dispose();
                 _DeformableModel.Dispose();
                 _NccModel.Dispose();
-                GC.Collect();
+                //GC.Collect();
 
             }
         }
@@ -1498,8 +1506,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
             {
                 _Shape.Dispose();
             }
-            GC.Collect();
-            GC.SuppressFinalize(this);
+            //GC.Collect();
+            //GC.SuppressFinalize(this);
 
         }
     }

@@ -790,8 +790,8 @@ namespace Halcon_SDK_DLL
         public void Dispose()
         {
             //_Image.Dispose();
-            GC.Collect();
-            GC.SuppressFinalize(this);
+            //GC.Collect();
+            //GC.SuppressFinalize(this);
 
             HWindow?.Dispose();
             Halcon_UserContol?.Dispose();
@@ -990,9 +990,9 @@ namespace Halcon_SDK_DLL
 
                     Live_Window.HWindow.ClearWindow();
                     //Live_Window.DisplayImage = null;
-                    Live_Window.DisplayXLD = null;
+                    //Live_Window.DisplayXLD = null;
                     //Live_Window.DisplayRegion = null;
-                    Live_Window.Draw_XLD = null;
+                    //Live_Window.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.Features_Window:
@@ -1326,8 +1326,8 @@ namespace Halcon_SDK_DLL
         public void Dispose()
         {
             //_Image.Dispose();
-            GC.Collect();
-            GC.SuppressFinalize(this);
+            //GC.Collect();
+            //GC.SuppressFinalize(this);
 
 
 
@@ -1996,7 +1996,7 @@ namespace Halcon_SDK_DLL
                 _HFile.Dispose();
                 _Serialized.Dispose();
 
-                GC.Collect();
+                //GC.Collect();
                 //GC.SuppressFinalize(this);
                 //GC.WaitForPendingFinalizers();
                 //GC.Collect();
@@ -2239,7 +2239,7 @@ namespace Halcon_SDK_DLL
                 hv_score.Dispose();
                 hv_HomMat2D.Dispose();
 
-                GC.Collect();
+                //GC.Collect();
                 //GC.SuppressFinalize(this);
                 //GC.WaitForPendingFinalizers();
                 //GC.Collect();
@@ -2323,7 +2323,7 @@ namespace Halcon_SDK_DLL
                 Mat2D.Dispose();
                 Ncc_Results.Dispose();
 
-                GC.Collect();
+                //GC.Collect();
                 //GC.SuppressFinalize(this);
                 //GC.WaitForPendingFinalizers();
                 //GC.Collect();
@@ -2537,7 +2537,7 @@ namespace Halcon_SDK_DLL
                 _Line_4.Dispose();
                 _Cir_1.Dispose();
 
-                GC.Collect();
+                //GC.Collect();
                 //GC.SuppressFinalize(this);
                 //GC.WaitForPendingFinalizers();
                 //GC.Collect();
@@ -2670,10 +2670,10 @@ namespace Halcon_SDK_DLL
             _ModelIDS.Clear();
             Shape_ID.Dispose();
 
-            GC.Collect();
-            GC.SuppressFinalize(this);
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
+            //GC.Collect();
+            //GC.SuppressFinalize(this);
+            //GC.WaitForPendingFinalizers();
+            //GC.Collect();
         }
     }
 

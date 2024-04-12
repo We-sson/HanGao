@@ -4613,11 +4613,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             Thread.Sleep(50);
 
-            GC.Collect();
-            GC.SuppressFinalize(this);
+            //GC.Collect();
+            //GC.SuppressFinalize(this);
             ///退出渲染
             hv_Disply_Keep = true;
-            _Window.Dispose();
+            //_Window.Dispose();
 
 
 

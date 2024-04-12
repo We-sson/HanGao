@@ -187,7 +187,7 @@ namespace HanGao.ViewModel
 
                 //VTKModel.Dispose();
                 HDisplay_3D.Dispose();
-                Halcon_Window_Display.Dispose();
+                //Halcon_Window_Display.Dispose();
 
 
             });

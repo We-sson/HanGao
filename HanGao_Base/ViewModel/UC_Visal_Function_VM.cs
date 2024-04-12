@@ -218,7 +218,9 @@ namespace HanGao.ViewModel
                 //对应采集相机图像
                 try
                 {
-                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                   HImage _ResultImage = Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID)?.Shape_Image_Rectified;
+
+                    _Image = Get_Image(_ResultImage, Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                     User_Log_Add($"自动模式：{Camera_Device_List.Camera_Diver_Model}模式图像采集成功！", Log_Show_Window_Enum.Home);
 
@@ -232,22 +234,22 @@ namespace HanGao.ViewModel
                     return _Find_Data_Send;
                 }
 
-                try
-                {
+                //try
+                //{
 
-                    _Image = Halcon_Shape_Mode.Set_ImageRectified(Select_Vision_Value.Find_Shape_Data, (HImage)_Image);
+                //    _Image = Halcon_Shape_Mode.Set_ImageRectified(Select_Vision_Value.Find_Shape_Data, (HImage)_Image);
 
-                    User_Log_Add("图像校正成功！", Log_Show_Window_Enum.Home);
+                //    User_Log_Add("图像校正成功！", Log_Show_Window_Enum.Home);
 
-                }
-                catch (Exception e)
-                {
+                //}
+                //catch (Exception e)
+                //{
 
-                    _Find_Data_Send.IsStatus = 0;
-                    _Find_Data_Send.Message_Error = "Camera image not available！Please  Check Camera";
-                    User_Log_Add("自动模式：图像无法矫正！原因：" + e.Message, Log_Show_Window_Enum.Home);
-                    return _Find_Data_Send;
-                }
+                //    _Find_Data_Send.IsStatus = 0;
+                //    _Find_Data_Send.Message_Error = "Camera image not available！Please  Check Camera";
+                //    User_Log_Add("自动模式：图像无法矫正！原因：" + e.Message, Log_Show_Window_Enum.Home);
+                //    return _Find_Data_Send;
+                //}
 
 
                 try
@@ -437,7 +439,7 @@ namespace HanGao.ViewModel
 
                 //HImage _Image = new();
 
-                Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                Halcon_Window_Display.Features_Window.DisplayImage= Get_Image(Halcon_Shape_Mode_SDK.Image_Rectified,Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
 
 
@@ -1313,14 +1315,14 @@ namespace HanGao.ViewModel
 
                         Create_Image_Rectified_UI_IsEnable = true;
 
-                        _Image = Halcon_Shape_Mode.Get_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+                       Halcon_Shape_Mode.Get_ImageRectified((HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
-                        Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                //显示图像
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Image);
+                        //Application.Current.Dispatcher.Invoke(() =>
+                        //    {
+                        //        //显示图像
+                        //        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _HImage: _Image);
 
-                            });
+                        //    });
 
                         User_Log_Add("创建图像校准成功.", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
@@ -1854,33 +1856,33 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 模板图像获取方法
         /// </summary>
-        public ICommand Image_CollectionMethod_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
-                ComboBox E = Sm.Source as ComboBox;
+        //public ICommand Image_CollectionMethod_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
+        //        ComboBox E = Sm.Source as ComboBox;
 
-                try
-                {
+        //        try
+        //        {
 
-                    Task.Run(() =>
-                    {
+        //            Task.Run(() =>
+        //            {
 
-                        HImage _Image = new();
-                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+        //                HImage _Image = new();
+        //                _Image = Get_Image(,Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
-                        User_Log_Add("采集图像显示到特征窗口成功! ", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
-                    });
-                }
-                catch (Exception e)
-                {
-                    User_Log_Add("采集图像失败! 原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
-                }
+        //                User_Log_Add("采集图像显示到特征窗口成功! ", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+        //            });
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            User_Log_Add("采集图像失败! 原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+        //        }
 
-                //_Image.Dispose();
-                //await Task.Delay(100);
-            });
-        }
+        //        //_Image.Dispose();
+        //        //await Task.Delay(100);
+        //    });
+        //}
 
         /// <summary>
         /// 画画对象删除
@@ -2187,12 +2189,15 @@ namespace HanGao.ViewModel
 
                         Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
 
-                        _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                        Halcon_Window_Display.Features_Window.DisplayImage = Get_Image(Halcon_Shape_Mode_SDK.Image_Rectified, Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                         User_Log_Add("采集图像成功到窗口：" + Window_Show_Name_Enum.Features_Window, Log_Show_Window_Enum.Home);
                     }
                     catch (Exception _e)
                     {
+                        
+   
+                        
                         User_Log_Add("采集图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                     }
                 });
@@ -2207,67 +2212,96 @@ namespace HanGao.ViewModel
         /// <param name="_Window"></param>
         /// <param name="_path"></param>
         /// <returns></returns>
-        public HImage Get_Image(Image_Diver_Model_Enum _Get_Model, Window_Show_Name_Enum _HW, string _path = "")
+        public HImage Get_Image(HImage Image_Rectified, Image_Diver_Model_Enum _Get_Model, Window_Show_Name_Enum _HW, string _path = "")
         {
             //HObject _image = new HObject();
             //HOperatorSet.GenEmptyObj(out _Image);
-            HImage _Image = new();
+            Load_Image = new();
 
             //Halcon_SDK _Window = GetWindowHandle(_HW);
             //_Window.HWindow.ClearWindow();
 
-            switch (_Get_Model)
+            lock (Load_Image)
             {
-                case Image_Diver_Model_Enum.Online:
-
-                    Camera_Device_List.Select_Camera.ThrowIfNull("未选择相机设备，不能采集图像！");
-                    _Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout(Select_Vision_Value.Camera_Parameter_Data);
 
 
+                switch (_Get_Model)
+                {
+                    case Image_Diver_Model_Enum.Online:
 
-                    //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
+                        Camera_Device_List.Select_Camera.ThrowIfNull("未选择相机设备，不能采集图像！");
+                        Load_Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout(Select_Vision_Value.Camera_Parameter_Data);
 
-                    break;
 
-                case Image_Diver_Model_Enum.Local:
 
-                    if (File.Exists(_path))
+                        //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
+
+                        break;
+
+                    case Image_Diver_Model_Enum.Local:
+
+                        if (File.Exists(_path))
+                        {
+                            Load_Image.ReadImage(_path);
+
+                        }
+                        else
+                        {
+                            throw new Exception("读取的地址不是文件，请重新选择！");
+
+                        }
+
+                        //Halcon_SDK.HRead_Image(ref _Image, _path);
+
+                        //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
+
+                        break;
+                }
+
+
+                ///增加判断避免过快采集
+                if ( Load_Image.IsInitialized())
+                {
+
+
+                    ///有校正图像将校正
+                    if (Image_Rectified != null && Image_Rectified.IsInitialized() && Halcon_Shape_Mode.Auto_Image_Rectified)
                     {
-                        _Image.ReadImage(_path);
+
+
+                        Load_Image = Load_Image.MapImage(Image_Rectified);
 
                     }
-                    else
+
+
+                    //获得图像内存地址，随时调用
+                    //Load_Image = _Image;
+                    //GC.KeepAlive(_Image);
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        throw new Exception("读取的地址不是文件，请重新选择！");
+                        Halcon_Window_Display.Display_HObject(_HW, Load_Image, Image_AutoPart: true);
+                    });
 
+                    //显示图像
+                    //_Window.DisplayImage = _Image;
+                    //保存图像当当前目录下
+                    if (Global_Seting.IsVisual_image_saving)
+                    {
+                        Halcon_SDK.Save_Image(Load_Image);
+                        //{
+                        //}
                     }
+                }
+                else
+                {
+                    throw new Exception("采集速度过快属性未能初始化完成，请重试！");
 
-                    //Halcon_SDK.HRead_Image(ref _Image, _path);
+                }
 
-                    //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
-
-                    break;
             }
-            //获得图像内存地址，随时调用
-            Load_Image = _Image;
-            //GC.KeepAlive(_Image);
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                Halcon_Window_Display.Display_HObject(_HW, Load_Image, Image_AutoPart: true);
-            });
+            
 
-            //显示图像
-            //_Window.DisplayImage = _Image;
-            //保存图像当当前目录下
-            if (Global_Seting.IsVisual_image_saving)
-            {
-                Halcon_SDK.Save_Image(_Image);
-                //{
-                //}
-            }
-
-
-            return _Image;
+            return Load_Image;
             //使用完清楚内存
             //_Image.Dispose();
             //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "采集图像方法成功！" };

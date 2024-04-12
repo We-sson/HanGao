@@ -2898,6 +2898,7 @@
                                                 </ComboBox>
                                             </Grid>
 
+
                                             <Grid Height=" 35" Margin="0,5,0,5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=" 90" />
@@ -5151,10 +5152,11 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition />
+                                                <ColumnDefinition Width=" 80" />
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column=" 0"
-                                                       Text="校正系数"
+                                                       Text="自动校正"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -5162,12 +5164,54 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <TextBlock Grid.Column=" 1"
-                                                       Text="{Binding Halcon_Shape_Mode.Image_Rectified_Ratio}"
-                                                       HorizontalAlignment="Center"
+                                                       Text="{Binding Halcon_Shape_Mode.Image_Rectified_Ratio, StringFormat={}系数:{0:F12}}"
+                                                       HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 2"
+                                                          IsChecked="{Binding Halcon_Shape_Mode.Auto_Image_Rectified}"
+                                                          Margin="0,0,0,0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Stretch"
+                                                          BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                                          BorderThickness="2">
+
+
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="开"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="关"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+                                                </Grid>
+
+
+
+
+
+
+
+                                            </ToggleButton>
+
+
+
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
