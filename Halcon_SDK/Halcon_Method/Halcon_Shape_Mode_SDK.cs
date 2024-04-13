@@ -354,8 +354,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                         ///计算路径位置点在标定的用户坐标下
                                         Point_Model TcpInPlan = new Point_Model(_Model.Shape_PlaneInBase_Pos.HPose.PoseInvert().PoseCompose(PathInBase_Pos.HPose));
 
+
+                                        Point_Model PathInbase = new Point_Model(new Point_Model(_BaseInResult.HPose.PoseCompose(TcpInPlan.HPose)));
                                         ///把位置点在结果用户坐标下转换回Base坐标下
-                                        _Results.Results_PathInBase_Pos.Add(new Point_Model(_BaseInResult.HPose.PoseCompose(TcpInPlan.HPose)));
+                                        _Results.Results_PathInBase_Pos.Add(new Point_Model (PathInbase.X, PathInbase.Y , PathInbase.Z, PathInbase.Rx, PathInbase.Ry, PathInbase.Rz, Robot_Type_Enum.KUKA));
 
 
                                     }

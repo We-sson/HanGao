@@ -452,8 +452,10 @@ namespace HanGao.ViewModel
 
 
 
+                    //选择接受匹配参数号
+                    Select_Vision_Value = Find_Data_List.Vision_List.Where((_) => _.ID == _Receive.Find_ID.ToString()).FirstOrDefault();
 
-
+                    ///采集图像
                     HImage _Image = new();
                     _Image = Get_Image(Halcon_Shape_Mode_SDK.Image_Rectified, Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
@@ -472,8 +474,7 @@ namespace HanGao.ViewModel
                     });
 
 
-                    //查找接受匹配参数号
-                    Select_Vision_Value = Find_Data_List.Vision_List.Where((_) => _.ID == _Receive.Find_ID.ToString()).FirstOrDefault();
+        
                     if (Select_Vision_Value != null)
                     {
 
@@ -489,15 +490,20 @@ namespace HanGao.ViewModel
 
                                     Halcon_Shape_Mode.Reset_Calibration_Data_ShapeModel(Halcon_Shape_Mode.Selected_Shape_Model.ID);
 
+                                    User_Log_Add($"自动模式：已经覆盖现有匹配文件 {Select_Vision_Value.ID} 号！", Log_Show_Window_Enum.Home);
 
+                                }
+                                else
+                                {
+                                    User_Log_Add($"自动模式：取消覆盖现有匹配文件 {Select_Vision_Value.ID} 号！", Log_Show_Window_Enum.Home);
 
-                                };
+                                }
 
                             });
 
                             _Send.IsStatus = 1;
                             _Send.Message_Error = "Match serial number does not exist ! Please Create";
-                            User_Log_Add($"自动模式：已经覆盖现有匹配文件 {Select_Vision_Value.ID} 号！", Log_Show_Window_Enum.Home);
+                           
                             return _Send;
                         }
 
@@ -528,7 +534,7 @@ namespace HanGao.ViewModel
             catch (Exception e)
             {
 
-                User_Log_Add(" 自动模式：创建模型接收位置数据失败原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                User_Log_Add(" 自动模式：标定数据失败原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                 _Send.IsStatus = 0;
                 _Send.Message_Error = "Read Position data Error, Check PC!";
