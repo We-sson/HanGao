@@ -158,7 +158,7 @@ namespace HanGao.ViewModel
             Vision_Find_Data_Send _Send = new Vision_Find_Data_Send();
 
 
-            if (bool.Parse(_Receive.Calibration.ToString()))
+            if (Convert.ToBoolean(_Receive.Calibration))
             {
 
 
@@ -410,20 +410,22 @@ namespace HanGao.ViewModel
                 //标定平面坐标
                 Halcon_Shape_Mode.Plane_In_BasePose = new Point_Model(double.Parse(_Receive.Plan_Pos.X), double.Parse(_Receive.Plan_Pos.Y), double.Parse(_Receive.Plan_Pos.Z), double.Parse(_Receive.Plan_Pos.Rx), double.Parse(_Receive.Plan_Pos.Ry), double.Parse(_Receive.Plan_Pos.Rz), _Receive.Robot_Type);
 
-                ///标定路径坐标点
-                foreach (var _Pos in _Receive.Path_Pos.Get_Pos_List())
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
+                    ///清楚旧的数据
+                    Halcon_Shape_Mode.Calib_PathInBase_List.Clear();
+                    ///标定路径坐标点
+                    foreach (var _Pos in _Receive.Path_Pos.Get_Pos_List())
                     {
 
                         Halcon_Shape_Mode.Calib_PathInBase_List.Add(new Point_Model(double.Parse(_Pos.X), double.Parse(_Pos.Y), double.Parse(_Pos.Z), double.Parse(_Pos.Rx), double.Parse(_Pos.Ry), double.Parse(_Pos.Rz), _Receive.Robot_Type));
-                    });
 
-                }
+                    }
+
+                });
 
 
 
-                User_Log_Add("自动模式：已经提取标定路径位置、当前位置、标定平面位置成功！", Log_Show_Window_Enum.Home);
 
 
 
@@ -482,43 +484,26 @@ namespace HanGao.ViewModel
                             Application.Current.Dispatcher.Invoke(() =>
                             {
 
-                                if ((MessageBox.Show("模型文件：" + Select_Vision_Value.ID + "号是否覆盖旧标定数据？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK))
+                                if ((MessageBox.Show("自动模式：模型文件：" + Select_Vision_Value.ID + "号是否覆盖旧标定数据？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK))
                                 {
 
                                     Halcon_Shape_Mode.Reset_Calibration_Data_ShapeModel(Halcon_Shape_Mode.Selected_Shape_Model.ID);
+
 
 
                                 };
 
                             });
 
-                        }
-                        else
-                        {
-
-                            _Send.IsStatus = 0;
+                            _Send.IsStatus = 1;
                             _Send.Message_Error = "Match serial number does not exist ! Please Create";
-                            User_Log_Add($"自动模式：选择加载匹配参数号 {Select_Vision_Value.ID} 失败，请创建参数号。", Log_Show_Window_Enum.Home);
+                            User_Log_Add($"自动模式：已经覆盖现有匹配文件 {Select_Vision_Value.ID} 号！", Log_Show_Window_Enum.Home);
                             return _Send;
                         }
 
-                    }
-                    else
-                    {
-
-                        _Send.IsStatus = 0;
-                        _Send.Message_Error = "Match serial number does not exist ! Please Create";
-                        User_Log_Add($"自动模式：选择加载匹配参数号 {Select_Vision_Value.ID} 失败，请创建参数号。", Log_Show_Window_Enum.Home);
-                        return _Send;
 
                     }
 
-
-                    _Send.IsStatus = 1;
-                    _Send.Message_Error = "Read Calibration Position data OK!";
-                    User_Log_Add($"自动模式：选择加载匹配参数号 {Select_Vision_Value.ID} ", Log_Show_Window_Enum.Home);
-
-                    return _Send;
 
                 }
                 else
@@ -526,16 +511,24 @@ namespace HanGao.ViewModel
 
                     _Send.IsStatus = 0;
                     _Send.Message_Error = "Camera Calibration File missing!";
-                    User_Log_Add("相机未能连接，无法创建模型！", Log_Show_Window_Enum.Home);
+                    User_Log_Add("自动模式：相机未能连接，无法采集图像生产校正！", Log_Show_Window_Enum.Home);
                     return _Send;
 
                 }
+
+                _Send.IsStatus = 1;
+                _Send.Message_Error = "Read Calibration Pos Data OK!";
+                User_Log_Add("自动模式：已经提取标定路径位置、当前位置、标定平面位置成功！", Log_Show_Window_Enum.Home);
+                return _Send;
+
+
+
 
             }
             catch (Exception e)
             {
 
-                User_Log_Add("创建模型接收位置数据失败原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                User_Log_Add(" 自动模式：创建模型接收位置数据失败原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                 _Send.IsStatus = 0;
                 _Send.Message_Error = "Read Position data Error, Check PC!";

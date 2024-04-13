@@ -53,6 +53,13 @@
          <ELEMENT Tag="Robot_Receive/Camera_Pos/@A" Type="REAL"/>
          <ELEMENT Tag="Robot_Receive/Camera_Pos/@B" Type="REAL"/>
          <ELEMENT Tag="Robot_Receive/Camera_Pos/@C" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Plan_Pos/@X" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Plan_Pos/@Y" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Plan_Pos/@Z" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Plan_Pos/@A" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Plan_Pos/@B" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Plan_Pos/@C" Type="REAL"/>
+         
          <ELEMENT Tag="Robot_Receive/Path_Pos/Pos_1/@X" Type="REAL"/>
          <ELEMENT Tag="Robot_Receive/Path_Pos/Pos_1/@Y" Type="REAL"/>
          <ELEMENT Tag="Robot_Receive/Path_Pos/Pos_1/@Z" Type="REAL"/>

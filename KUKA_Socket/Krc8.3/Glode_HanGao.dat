@@ -1,8 +1,8 @@
-&ACCESS RVO
-&REL 456
+&ACCESS  RV
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
+&REL 457
 DEFDAT  GLODE_HANGAO PUBLIC
 
 
@@ -33,7 +33,7 @@ GLOBAL STRUC Offset_POS REAL X,REAL Y,REAL Z,REAL A,REAL B,REAL C
 GLOBAL STRUC Offset_CIR REAL C_X,REAL C_Y,REAL C_Z,REAL C_A,REAL C_B,REAL C_C
 GLOBAL STRUC Calculate_Lin_Const REAL A,REAL B,REAL C
 GLOBAL STRUC Calibration_Sink_TYP REAL Long,REAL Width
-GLOBAL STRUC Calibrate_Data BOOl Calibrate_State,int Plan_Base_No,CHAR Calib_Pos_Name_1[20],CHAR Calib_Pos_Name_2[20],CHAR Calib_Pos_Name_3[20],CHAR Calib_Pos_Name_4[20],CHAR Calib_Pos_Name_5[20],CHAR Calib_Pos_Name_6[20],CHAR Calib_Pos_Name_7[20],CHAR Calib_Pos_Name_8[20],CHAR Calib_Pos_Name_9[20],CHAR Calib_Pos_Name_10[20]
+GLOBAL STRUC Calibrate_Data BOOL Calibrate_State,INT Plan_Base_No,CHAR Calib_Pos_Name_1[20],CHAR Calib_Pos_Name_2[20],CHAR Calib_Pos_Name_3[20],CHAR Calib_Pos_Name_4[20],CHAR Calib_Pos_Name_5[20],CHAR Calib_Pos_Name_6[20],CHAR Calib_Pos_Name_7[20],CHAR Calib_Pos_Name_8[20],CHAR Calib_Pos_Name_9[20],CHAR Calib_Pos_Name_10[20]
 
 
 
@@ -51,7 +51,7 @@ DECL GLOBAL Surround_Welding_Type SW_DEFAULT={Sink_Size_Long 50.0000,Sink_Size_W
 DECL GLOBAL LSC_TOOL_TYP LTDEFAULT={LSR_MAX_PWR 500,LSR_MIN_PWR 50,LSR_Prg 1,SNSR_Prg 1.00000,SNSR_State 0,GAS_Pressure 1.00000,LSR_Dly 100,GAS_Pre_Flow 0,GAS_Post_Flow 0}
 DECL GLOBAL Offset_POS FFDEFAULT={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
 DECL GLOBAL Offset_CIR FCDEFAULT={C_X 0.0,C_Y 0.0,C_Z 0.0,C_A 0.0,C_B 0.0,C_C 0.0}
-DECL GLOBAL Calibrate_Data CDDEFAULT={Calibrate_State False,Plan_Base_No 5,Calib_Pos_Name_1[] " ",Calib_Pos_Name_2[] " ",Calib_Pos_Name_3[] " ",Calib_Pos_Name_4[] " ",Calib_Pos_Name_5[] " ",Calib_Pos_Name_6[] " ",Calib_Pos_Name_7[] " ",Calib_Pos_Name_8[] " ",Calib_Pos_Name_9[] " ",Calib_Pos_Name_10[] " "}
+DECL GLOBAL Calibrate_Data CDDEFAULT={Calibrate_State FALSE,Plan_Base_No 5,Calib_Pos_Name_1[] " ",Calib_Pos_Name_2[] " ",Calib_Pos_Name_3[] " ",Calib_Pos_Name_4[] " ",Calib_Pos_Name_5[] " ",Calib_Pos_Name_6[] " ",Calib_Pos_Name_7[] " ",Calib_Pos_Name_8[] " ",Calib_Pos_Name_9[] " ",Calib_Pos_Name_10[] " "}
 DECL GLOBAL E6POS PODEFAULT={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
 DECL GLOBAL E6POS XDEFAULT={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0,S 2,T 2,E1 0.0,E2 0.0,E3 0.0,E4 0.0,E5 0.0,E6 0.0}
 

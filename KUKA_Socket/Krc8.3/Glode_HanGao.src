@@ -1,5 +1,5 @@
 &ACCESS RVO
-&REL 456
+&REL 457
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -8,12 +8,11 @@ DEF Glode_HanGao( )
 ;# DATE:2021-1-4
 
 
-
 END
 
 
 GLOBAL DEF Vision_Results_Pos(Vision_PATH:IN,Result_Pos:IN,POS_Offset:OUT)
-DECL E6POS POS_Offset,Result_Pos,Offset
+DECL E6POS POS_Offset,Result_Pos,Offset,Error_Offset
 DECL Vision_PATH_Enum Vision_PATH
 DECL INT Result_ID,OPFFSET
 DECL CHAR POS_Sting[1024],Message_Show[1024]
@@ -22,8 +21,8 @@ DECL VAR_STATE VarT
 
 Message_Show[]=" "
 OPFFSET=0
-Offset={X 0.0,Y 0.0,Z 0.0,A 0.0,B 0.0,C 0.0}
-
+Offset=$NULLFRAME
+Error_Offset=$NULLFRAME
 
 IF Vision_Type ==#Vision_Run THEN
 
@@ -37,40 +36,53 @@ RETURN
 
 CASE #INITIALIZED
 
+Error_Offset=Inv_Pos(Result_Pos)
+Error_Offset=Inv_Pos(Error_Offset)
+
 SWITCH Vision_PATH
 CASE #X
 
-Offset.X=Result_POS.X-POS_Offset.X
+Offset.X=Error_Offset.X-POS_Offset.X
 
 CASE #Y
 
 
 
-Offset.Y=Result_POS.Y-POS_Offset.Y
+Offset.Y=Error_Offset.Y-POS_Offset.Y
 
 CASE #Z
 
-Offset.Z=Result_POS.z-POS_Offset.Z
+Offset.Z=Error_Offset.z-POS_Offset.Z
 
 
 CASE #XY
-Offset.X=Result_POS.X-POS_Offset.X
-Offset.Y=Result_POS.Y-POS_Offset.Y
+Offset.X=Error_Offset.X-POS_Offset.X
+Offset.Y=Error_Offset.Y-POS_Offset.Y
 
 CASE #XZ
-Offset.X=Result_POS.X-POS_Offset.X
-Offset.Z=Result_POS.z-POS_Offset.Z
+Offset.X=Error_Offset.X-POS_Offset.X
+Offset.Z=Error_Offset.z-POS_Offset.Z
 
 
 CASE #YZ
 
-Offset.Y=Result_POS.Y-POS_Offset.Y
-Offset.Z=Result_POS.z-POS_Offset.Z
+Offset.Y=Error_Offset.Y-POS_Offset.Y
+Offset.Z=Error_Offset.z-POS_Offset.Z
 
 CASE #XYZ
-Offset.X=Result_POS.X-POS_Offset.X
-Offset.Y=Result_POS.Y-POS_Offset.Y
-Offset.Z=Result_POS.z-POS_Offset.Z
+Offset.X=Error_Offset.X-POS_Offset.X
+Offset.Y=Error_Offset.Y-POS_Offset.Y
+Offset.Z=Error_Offset.z-POS_Offset.Z
+
+
+CASE #XYZABC
+
+Offset.X=Error_Offset.X-POS_Offset.X
+Offset.Y=Error_Offset.Y-POS_Offset.Y
+Offset.Z=Error_Offset.z-POS_Offset.Z
+Offset.A=Error_Offset.X-POS_Offset.A
+Offset.B=Error_Offset.Y-POS_Offset.B
+Offset.C=Error_Offset.z-POS_Offset.C
 
 ENDSWITCH
 

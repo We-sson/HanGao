@@ -112,7 +112,7 @@ Decl PARAM PL_Calib_Data = {SHORTNAME[] "Calibration Pos Data", VAR[] "Calibrate
   
   Decl PARAM HandEye_ID =  {SHORTNAME[] "ID:" ,  VALUE {NUMBER:MIN 0, MAX 999, STEP 1, AUTOLIMIT TRUE, DEFAULT 0}, UNIT[] "", SHORTCUT[] "" }
 
-    Decl PARAM Calibrate_State =  {SHORTNAME[] "Calibrate" ,  VALUE {BOOL: DEFAULT TRUE, TRUE[] "TRUE", FAlSE[] "FAlSE"}, UNIT[] "Calibrate:", SHORTCUT[] "" }
+    Decl PARAM Calibrate_State =  {SHORTNAME[] "Calibrate:" ,  VALUE {BOOL: DEFAULT TRUE, TRUE[] "TRUE", FAlSE[] "FAlSE"}, UNIT[] "", SHORTCUT[] "" }
 
   
 DECL PLIST Calib_Data[10] -> Calib_NAME
