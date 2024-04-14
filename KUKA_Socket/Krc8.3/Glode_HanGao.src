@@ -1,11 +1,12 @@
-&ACCESS RVO1
-&REL 468
+&ACCESS RVO3
+&REL 479
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
+
 
 
 END
@@ -36,65 +37,56 @@ RETURN
 
 CASE #INITIALIZED
 
-Result_Pos_Inv=Inv_Pos(Result_Pos)
-Error_Offset=Inv_Pos(Result_Pos_Inv)
+;Result_Pos_Inv=Inv_Pos(Result_Pos)
+
+Error_Offset=Inv_Pos(Result_Pos):Pos_Offset
+;Halt
+
+;Offset.X=Error_Offset.X-POS_Offset.X
+;Offset.Y=Error_Offset.Y-POS_Offset.Y
+;Offset.Z=Error_Offset.z-POS_Offset.Z
+;Offset.A=Error_Offset.A-POS_Offset.A
+;Offset.B=Error_Offset.B-POS_Offset.B
+;Offset.C=Error_Offset.C-POS_Offset.C
+
+
+
+
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: X:%7.3F,Y:%7.3F,Z:%7.3F,A:%7.3F,B:%7.3F,C:%7.3F Translation Max:%7.3F,Rotation Max:%7.3F" ,Error_Offset.X,Error_Offset.Y,Error_Offset.Z,Error_Offset.A,Error_Offset.B,Error_Offset.C, Vision_Trans_Max_Offset ,Vision_Rota_Max_Offset ) 
+
+if (ABS(Error_Offset.X)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Y)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Z)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.A)<Vision_Rota_Max_Offset) AND (ABS(Error_Offset.B)<Vision_Rota_Max_Offset) AND (ABS(Error_Offset.C)<Vision_Rota_Max_Offset)  THEN
 
 SWITCH Vision_PATH
 CASE #X
 
-Offset.X=Error_Offset.X-POS_Offset.X
-
 POS_Offset.X=Result_Pos.X
 CASE #Y
-
-
-
-Offset.Y=Error_Offset.Y-POS_Offset.Y
 
 POS_Offset.Y=Result_Pos.Y
 
 CASE #Z
 
-Offset.Z=Error_Offset.z-POS_Offset.Z
-
 POS_Offset.Z=Result_Pos.Z
 
 CASE #XY
-Offset.X=Error_Offset.X-POS_Offset.X
-Offset.Y=Error_Offset.Y-POS_Offset.Y
 
 POS_Offset.X=Result_Pos.X
 POS_Offset.Y=Result_Pos.Y
 
 CASE #XZ
-Offset.X=Error_Offset.X-POS_Offset.X
-Offset.Z=Error_Offset.z-POS_Offset.Z
 
 POS_Offset.Y=Result_Pos.Y
 POS_Offset.Z=Result_Pos.Z
 CASE #YZ
 
-Offset.Y=Error_Offset.Y-POS_Offset.Y
-Offset.Z=Error_Offset.z-POS_Offset.Z
-
 POS_Offset.Y=Result_Pos.Y
 POS_Offset.Z=Result_Pos.Z
 CASE #XYZ
-Offset.X=Error_Offset.X-POS_Offset.X
-Offset.Y=Error_Offset.Y-POS_Offset.Y
-Offset.Z=Error_Offset.z-POS_Offset.Z
 
 POS_Offset.X=Result_Pos.X
 POS_Offset.Y=Result_Pos.Y
 POS_Offset.Z=Result_Pos.Z
 CASE #XYZABC
-
-Offset.X=Error_Offset.X-POS_Offset.X
-Offset.Y=Error_Offset.Y-POS_Offset.Y
-Offset.Z=Error_Offset.z-POS_Offset.Z
-Offset.A=Error_Offset.A-POS_Offset.A
-Offset.B=Error_Offset.B-POS_Offset.B
-Offset.C=Error_Offset.C-POS_Offset.C
 
 POS_Offset.X=Result_Pos.X
 POS_Offset.Y=Result_Pos.Y
@@ -102,17 +94,12 @@ POS_Offset.Z=Result_Pos.Z
 POS_Offset.A=Result_Pos.A
 POS_Offset.B=Result_Pos.B
 POS_Offset.C=Result_Pos.C
+
 ENDSWITCH
 
-SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: X:%7.3F,Y:%7.3F,Z:%7.3F  Max:%7.3F" ,Offset.X,Offset.Y,Offset.Z, Vision_Max_Offset  ) 
-
-if (ABS(Offset.X)<Vision_Max_Offset) AND (ABS(Offset.Y)<Vision_Max_Offset) AND (ABS(Offset.Z)<Vision_Max_Offset) THEN
-
-;POS_Offset=POS_Offset:Offset
-;POS_Offset=Offset:POS_Offset
-
-;POS_Offset=Offset:POS_Offset
 MSGNOTIFY(Message_Show[])
+
+
 ELSE
 
 

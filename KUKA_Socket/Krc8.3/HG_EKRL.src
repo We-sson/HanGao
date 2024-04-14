@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 341
+&ACCESS RVO3
+&REL 343
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -23,6 +23,8 @@ DECL EKI_STATUS RET
 ;ENDFOLD (INI)
 ;------------
 EKRL_CONNECT()
+
+
 
 
 ;Bytes[]="hellow"
@@ -194,8 +196,8 @@ Message_Wait("Wait Vision Int Data!",2)
 RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
 RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
 RET=EKI_GetINT(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Scope" ,Vision_Scope)
-RET=EKI_GetReal(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Max_Offset" ,Vision_Max_Offset)
-
+RET=EKI_GetReal(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Translation_Max_Offset" ,Vision_Trans_Max_Offset)
+RET=EKI_GetReal(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Rotation_Max_Offset" ,Vision_Rota_Max_Offset)
 RET=EKI_Close(EKRL_NAME[])
 RET=EKI_Clear(EKRL_NAME[])
 
@@ -327,6 +329,7 @@ RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
 
 IF IsStatus THEN
 
+MSGNOTIFY(Message_Error[])
 
 IF Calibration_STATE==FALSE THEN 
 
@@ -364,11 +367,15 @@ RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_8" ,Pos_8)
 Vision_Results_Pos(Vision_PATH,Pos_8,POS_Offset_8)
 ENDIF
 
+ELSE
+;Hold Robot
+Halt
 ENDIF
 
 
 
-MSGNOTIFY(Message_Error[])
+
+
 ELSE
 
 MsgQuit(Message_Error[], "HanGao")

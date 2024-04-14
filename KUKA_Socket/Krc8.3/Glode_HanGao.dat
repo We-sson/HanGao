@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 468
+&ACCESS RVO3
+&REL 479
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -271,7 +271,8 @@ DECL GLOBAL Surround_Welding_Type N2_Sink_Data={Sink_Size_Long 640.000,Sink_Size
 
 
 DECL GLOBAL INT Vision_Scope=20
-DECL GLOBAL REAL Vision_Max_Offset=5.00000
+DECL GLOBAL REAL Vision_Trans_Max_Offset=20.0000
+DECL GLOBAL REAL Vision_Rota_Max_Offset=5.00000
 DECL GLOBAL Vision_Type_Enum Vision_Type=#Vision_Run
 ;GLOBAL CHAR $Socket_Connect[1024]
 ;DECL GLOBAL CHAR $SOCKET_MESS[1024]

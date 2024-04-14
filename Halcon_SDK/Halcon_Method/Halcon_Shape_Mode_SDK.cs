@@ -89,6 +89,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public Model_2D_Origin_Type_Enum Model_2D_Origin_Type { set; get; } = Model_2D_Origin_Type_Enum.Tool_In_Base;
 
+        /// <summary>
+        /// 机器人类型
+        /// </summary>
+        public Robot_Type_Enum Robot_Type { set; get; } = Robot_Type_Enum.通用;
+
 
         //private string Shape_Save_Path { set; get; } 
 
@@ -322,25 +327,26 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                     var _X = ((_Results.Find_Column[0] - _Model.Shape_Model_2D_Origin.Y) * _Model.Shape_Image_Rectified_Ratio) * 1000;
                                     var _Y = ((_Results.Find_Row[0] - _Model.Shape_Model_2D_Origin.X) * _Model.Shape_Image_Rectified_Ratio) * 1000;
 
-                                    ///生产模型在平面的位置
+                                    var RRz = -((180 / Math.PI) * _Results.Find_Angle[0]);
+                                    ///生产模型在平面的位置,
                                     Point_Model _ResultInPlanPose = new()
                                     {
                                         X = _X,
                                         Y = _Y,
-                                        Rz = (180 / Math.PI) * _Results.Find_Angle[0],
+                                        Rz = -((180 / Math.PI) * _Results.Find_Angle[0]),
                                         HType = _Model.Shape_PlaneInBase_Pos.HType
                                     };
 
 
 
                                     ///把计算结果的用户坐标合并便宜结果
-                                    Point_Model _ResultInBase = new(_Model.Shape_PlaneInBase_Pos.HPose.PoseCompose(_ResultInPlanPose.HPose));
+                                    Point_Model _BaseInResult = new(_Model.Shape_PlaneInBase_Pos.HPose.PoseCompose(_ResultInPlanPose.HPose));
 
                                     ///偏移原点位置
-                                    HHomMat3D _ResultInBase_HomMat3D = _Model.Shape_PlaneInBase_Pos.HPose.PoseToHomMat3d();
-                                    _ResultInBase_HomMat3D = _ResultInBase_HomMat3D.HomMat3dRotate(_Results.Find_Angle[0], "z", _Model.Shape_PlaneInBase_Pos.HPose[0], _Model.Shape_PlaneInBase_Pos.HPose[1], _Model.Shape_PlaneInBase_Pos.HPose[2]);
-                                    _ResultInBase_HomMat3D = _ResultInBase_HomMat3D.HomMat3dTranslate(_ResultInPlanPose.HPose[0], _ResultInPlanPose.HPose[1], new HTuple(0));
-                                    Point_Model _BaseInResult = new Point_Model(_ResultInBase_HomMat3D.HomMat3dToPose());
+                                    //HHomMat3D _ResultInBase_HomMat3D = _Model.Shape_PlaneInBase_Pos.HPose.PoseToHomMat3d();
+                                    //_ResultInBase_HomMat3D = _ResultInBase_HomMat3D.HomMat3dRotate(_Results.Find_Angle[0], "z", _Model.Shape_PlaneInBase_Pos.HPose[0], _Model.Shape_PlaneInBase_Pos.HPose[1], _Model.Shape_PlaneInBase_Pos.HPose[2]);
+                                    //_ResultInBase_HomMat3D = _ResultInBase_HomMat3D.HomMat3dTranslate(_ResultInPlanPose.HPose[0], _ResultInPlanPose.HPose[1], new HTuple(0));
+                                    //Point_Model _BaseInResult = new Point_Model(_ResultInBase_HomMat3D.HomMat3dToPose());
                                     //Point_Model _ResultInBase1= new Point_Model(_BaseInResult.HPose.PoseInvert());
 
 
@@ -357,7 +363,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                                         Point_Model PathInbase = new Point_Model(new Point_Model(_BaseInResult.HPose.PoseCompose(TcpInPlan.HPose)));
                                         ///把位置点在结果用户坐标下转换回Base坐标下
-                                        _Results.Results_PathInBase_Pos.Add(new Point_Model (PathInbase.X, PathInbase.Y , PathInbase.Z, PathInbase.Rx, PathInbase.Ry, PathInbase.Rz, Robot_Type_Enum.KUKA));
+                                        _Results.Results_PathInBase_Pos.Add(new Point_Model (PathInbase.X, PathInbase.Y , PathInbase.Z, PathInbase.Rx, PathInbase.Ry, PathInbase.Rz, _Model.Shape_Robot_Type));
 
 
                                     }
@@ -402,6 +408,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                                     _Results.Results_ModelInBase_Pos = new(ModelInBasePose);
+                                    _Results.Results_PlanOffset_Pos = new (_BaseInResult);
                                     _Results.Find_Shape_Results_State = Find_Shape_Results_State_Enum.Match_Success;
 
 
@@ -853,7 +860,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Shape_PlaneInBase_Pos = Plane_In_BasePose,
                 Shape_Image_Rectified_Ratio = Image_Rectified_Ratio,
                 Shape_Model_2D_Origin = Model_2D_Origin,
-                Shape_Calibration_PathInBase_List = Calib_PathInBase_List
+                Shape_Calibration_PathInBase_List = Calib_PathInBase_List,
+                Shape_Robot_Type= Robot_Type
 
             }, _Model_Location);
 
@@ -877,7 +885,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Shape_PlaneInBase_Pos = Plane_In_BasePose,
                 Shape_Image_Rectified_Ratio = Image_Rectified_Ratio,
                 Shape_Model_2D_Origin = Model_2D_Origin,
-                Shape_Calibration_PathInBase_List = Calib_PathInBase_List
+                Shape_Calibration_PathInBase_List = Calib_PathInBase_List,
+                Shape_Robot_Type = Robot_Type
+
 
             }, Set_ShapeModel_Path(_ID));
 

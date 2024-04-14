@@ -133,6 +133,8 @@ namespace Halcon_SDK_DLL.Model
 
 
             public Point_Model Results_ModelInBase_Pos { set; get; } = new Point_Model();
+            public Point_Model Results_PlanOffset_Pos { set; get; } = new Point_Model();
+
 
 
             public List<Point_Model> Results_PathInBase_Pos { set; get; } = new();
@@ -206,8 +208,9 @@ namespace Halcon_SDK_DLL.Model
             public List<string> Set_Results_Data_List()
             {
                 List<string> _DataList = new();
-
-                Text_Arr_UI.Add("匹配模型到用户坐标原点坐标：" + Results_ModelInBase_Pos.ToString());
+                
+                Text_Arr_UI.Add("匹配模型Base坐标偏移结果：" + Results_PlanOffset_Pos.ToString());
+                Text_Arr_UI.Add("匹配模型Base原点坐标：" + Results_ModelInBase_Pos.ToString());
                 Text_Arr_UI.Add("匹配模型到相机坐标：" + Results_ModelInCam_Pos.ToString());
                 Text_Arr_UI.Add("匹配像素坐标结果：" + Results_Image_Pos.ToString());
                 Text_Arr_UI.Add("详情各特征结果：");
@@ -225,7 +228,7 @@ namespace Halcon_SDK_DLL.Model
 
                 for (int i = 0; i < Results_PathInBase_Pos.Count; i++)
                 {
-                    Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F3}mm,Y: {Results_PathInBase_Pos[i].Y:F3}mm, Z:  {Results_PathInBase_Pos[i].Z:F3}mm, Rx: {Results_PathInBase_Pos[i].Rx:F3}度, Ry: {Results_PathInBase_Pos[i].Ry:F3}, Rz: {Results_PathInBase_Pos[i].Ry:F3}");
+                    Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F3}mm,Y: {Results_PathInBase_Pos[i].Y:F3}mm, Z:  {Results_PathInBase_Pos[i].Z:F3}mm, Rx: {Results_PathInBase_Pos[i].Rx:F3}度, Ry: {Results_PathInBase_Pos[i].Ry:F3}, Rz: {Results_PathInBase_Pos[i].Rz:F3}");
                 }
 
                 return _DataList;
@@ -2048,6 +2051,12 @@ namespace Halcon_SDK_DLL.Model
         public Match_Model_Craft_Type_Enum Shape_Craft { set; get; }
 
         /// <summary>
+        /// 路径点应用于机器人姿态
+        /// </summary>
+        public Robot_Type_Enum Shape_Robot_Type { set; get; }
+
+
+        /// <summary>
         /// 创建模型句柄集合
         /// </summary>
         public List<HTuple> Shape_Handle_List { set; get; } = new ();
@@ -2812,13 +2821,15 @@ namespace Halcon_SDK_DLL.Model
 
     public enum Robot_Type_Enum
     {
-        [Description("KUKA -->(Z-Y-X)")]
+        [Description("KUKA -->(Z-Y''-X'')")]
         KUKA,
 
-        [Description("ABB -->(Z-Y-X)")]
+        [Description("ABB -->(Z-Y'-X'')")]
         ABB,
-
+        [Description("川崎 -->(X-Y'-Z'')")]
         川崎,
+        [Description("通用 -->(X-Y'-Z'')")]
+
         通用
     }
 

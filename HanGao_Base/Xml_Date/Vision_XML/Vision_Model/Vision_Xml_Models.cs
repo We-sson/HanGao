@@ -72,10 +72,17 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public int Find_TimeOut_Millisecond { set; get; } = 3000;
 
         /// <summary>
-        /// 查找模型位置允许误差范围
+        /// 查找模型位置平移允许最大误差范围
         /// </summary>
-        public double Vision_Max_Offset { set; get; } = 5.0;
+        public double Vision_Translation_Max_Offset { set; get; } = 20.0;
 
+        /// <summary>
+        /// 查找模型位置旋转允许最大误差范围
+        /// </summary>
+        public double Vision_Rotation_Max_Offset { set; get; } = 5.0;
+
+
+        
         /// <summary>
         /// 视觉检查有效区域范围值,,超过会偏移相机位置
         /// </summary>

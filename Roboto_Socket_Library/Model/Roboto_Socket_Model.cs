@@ -289,7 +289,11 @@ namespace Roboto_Socket_Library.Model
         {
             public int Vision_Scope { set; get; } = 0;
 
-            public double Vision_Max_Offset { set; get; } = 5;
+            public double Vision_Translation_Max_Offset { set; get; } = 20;
+
+            public double Vision_Rotation_Max_Offset { set; get; } = 5;
+
+
         }
 
         /// <summary>

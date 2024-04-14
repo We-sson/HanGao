@@ -364,9 +364,9 @@ namespace HanGao.ViewModel
             {
                 _Ini_Data_Send.IsStatus = 1;
                 _Ini_Data_Send.Initialization_Data.Vision_Scope = Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Scope;
-                _Ini_Data_Send.Initialization_Data.Vision_Max_Offset = Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Max_Offset;
-                _Ini_Data_Send.Message_Error = "Vision Ini Ready!";
-
+                _Ini_Data_Send.Initialization_Data.Vision_Translation_Max_Offset = Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Translation_Max_Offset;
+                _Ini_Data_Send.Initialization_Data.Vision_Rotation_Max_Offset = Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Rotation_Max_Offset;
+                _Ini_Data_Send.Message_Error = $"Vision Ini Ready OK ! Data:Translation_Max={Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Translation_Max_Offset:F3}mm, Rotation_Max={Vision_Auto_Cofig.Vision_Global_Parameters.Vision_Rotation_Max_Offset:F3}°";
 
                 User_Log_Add("自动模式：机器人通讯连接初始化完成！", Log_Show_Window_Enum.Home);
 
@@ -424,6 +424,11 @@ namespace HanGao.ViewModel
                         Halcon_Shape_Mode.Calib_PathInBase_List.Add(new Point_Model(double.Parse(_Pos.X), double.Parse(_Pos.Y), double.Parse(_Pos.Z), double.Parse(_Pos.Rx), double.Parse(_Pos.Ry), double.Parse(_Pos.Rz), _Receive.Robot_Type));
 
                     }
+
+                    ///设置接受得机器人类型，后续姿态转换有用
+                    Halcon_Shape_Mode.Robot_Type = _Receive.Robot_Type;
+
+
 
                 });
 
@@ -831,11 +836,15 @@ namespace HanGao.ViewModel
             {
                 Button _Contol = Sm.Source as Button;
 
+                //断开选择中相机
+                Camera_Device_List.Select_Camera?.Stop_ImageCallback_delegate();
+                Camera_Device_List.Select_Camera.Close_Camera();
+
                 ///程序正常退出关闭所有相机连接
                 foreach (var _Camer in MVS_Camera_Info_List)
                 {
-
-                    _Camer.StopGrabbing();
+            
+                    _Camer.Stop_ImageCallback_delegate();
                     _Camer.Close_Camera();
 
 

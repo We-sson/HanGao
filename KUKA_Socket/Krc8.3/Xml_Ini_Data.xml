@@ -1,8 +1,8 @@
 <ETHERNETKRL>
 	<CONFIGURATION>
 		<EXTERNAL>
-			<IP>192.168.0.1</IP>
-			<PORT>5400</PORT>
+			<IP>192.168.0.50</IP>
+			<PORT>5000</PORT>
 		</EXTERNAL>
       <INTERNAL>
 			<ALIVE Set_Flag="1"/>
@@ -13,7 +13,8 @@
          <ELEMENT Tag="Robot_Send/@IsStatus" Type="BOOL" /> 
          <ELEMENT Tag="Robot_Send/Message_Error" Type="STRING"/>
          <ELEMENT Tag="Robot_Send/Initialization_Data/Vision_Scope" Type="INT"/>
-          <ELEMENT Tag="Robot_Send/Initialization_Data/Vision_Max_Offset" Type="REAL"/>
+          <ELEMENT Tag="Robot_Send/Initialization_Data/Vision_Translation_Max_Offset" Type="REAL"/>
+          <ELEMENT Tag="Robot_Send/Initialization_Data/Vision_Rotation_Max_Offset" Type="REAL"/>
          <ELEMENT Tag="Robot_Send" Set_Flag="2"/>
 			<!-- <ELEMENT Tag="Sensor/Message" Type="STRING"/> -->
 			<!-- <ELEMENT Tag="Sensor/Positions/Current/@X" Type="REAL"/> -->
