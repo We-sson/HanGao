@@ -295,6 +295,9 @@ namespace HanGao.ViewModel
                     ///查找模型
                     _Find_Result = Halcon_Shape_Mode.Find_Shape_Model_Results(Select_Vision_Value.Find_Shape_Data, _Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
+
+
+
                     Find_Features_Window_Result = _Find_Result;
                     Application.Current.Dispatcher.Invoke(() =>
                     {
