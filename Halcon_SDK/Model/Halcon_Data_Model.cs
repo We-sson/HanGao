@@ -1411,6 +1411,14 @@ namespace Halcon_SDK_DLL.Model
         }
 
 
+        /// <summary>
+        /// 转换对应机器人旋转姿态
+        /// </summary>
+        /// <param name="_type"></param>
+        public void Convert_Pose(Robot_Type_Enum _type)
+        {
+            HPose = new Point_Model(X, Y, Z, Rx, Ry, Rz, _type).HPose;
+        }
 
         public override string ToString()
         {
