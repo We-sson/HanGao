@@ -1524,7 +1524,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Camera_Settings" Grid.Row=" 0"
-                                     IsChecked="False"
+                                     IsChecked="True"
                                      Margin="4"
                                      HorizontalContentAlignment="Stretch"
                                      VerticalContentAlignment="Stretch"
@@ -5152,7 +5152,7 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_Name" Grid.Column=" 1"
+                                            <!--<ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_Name" Grid.Column=" 1"
                                                       VerticalContentAlignment="Center"
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
@@ -5170,7 +5170,17 @@
                                                                    TextTrimming="CharacterEllipsis" />
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
-                                            </ComboBox>
+                                            </ComboBox>-->
+
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="ShapeModel_Name" Grid.Column=" 1"
+                                                     Text="{Binding Halcon_Shape_Mode.Create_Shape_ModelXld.ShapeModel_Name}"
+                                                     HorizontalContentAlignment="Center"
+                                                     VerticalContentAlignment="Center"
+                                                     Background="Transparent"
+                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                     BorderThickness="2"
+                                                     FontSize="16"
+                                                     IsReadOnly="False" />
                                         </Grid>
 
 

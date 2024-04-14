@@ -989,15 +989,15 @@ namespace Halcon_SDK_DLL
                 case Window_Show_Name_Enum.Live_Window:
 
                     Live_Window.HWindow.ClearWindow();
-                    //Live_Window.DisplayImage = null;
-                    //Live_Window.DisplayXLD = null;
-                    //Live_Window.DisplayRegion = null;
-                    //Live_Window.Draw_XLD = null;
+                    Live_Window.DisplayImage = null;
+                    Live_Window.DisplayXLD = null;
+                    Live_Window.DisplayRegion = null;
+                    Live_Window.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.Features_Window:
                     Features_Window.HWindow.ClearWindow();
-                    //Features_Window.DisplayImage = null;
+                    Features_Window.DisplayImage = null;
                     Features_Window.DisplayXLD = null;
                     Features_Window.DisplayRegion = null;
                     Features_Window.Draw_XLD = null;
@@ -1006,101 +1006,101 @@ namespace Halcon_SDK_DLL
 
                 case Window_Show_Name_Enum.Results_Window_1:
                     Results_Window_1.HWindow.ClearWindow();
-                    //Results_Window_1.DisplayImage = new HObject();
-                    Results_Window_1.DisplayXLD = new HObject();
-                    Results_Window_1.DisplayRegion = new HObject();
-                    Results_Window_1.Draw_XLD = new HObject();
+                    Results_Window_1.DisplayImage = null;
+                    Results_Window_1.DisplayXLD = null;
+                    Results_Window_1.DisplayRegion = null;
+                    Results_Window_1.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_2:
                     Results_Window_2.HWindow.ClearWindow();
-                    //Results_Window_2.DisplayImage = new HObject();
-                    Results_Window_2.DisplayXLD = new HObject();
-                    Results_Window_2.DisplayRegion = new HObject();
-                    Results_Window_2.Draw_XLD = new HObject();
+                    Results_Window_2.DisplayImage = null;
+                    Results_Window_2.DisplayXLD = null;
+                    Results_Window_2.DisplayRegion = null;
+                    Results_Window_2.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_3:
                     Results_Window_3.HWindow.ClearWindow();
-                    //Results_Window_3.DisplayImage = new HObject();
-                    Results_Window_3.DisplayXLD = new HObject();
-                    Results_Window_3.DisplayRegion = new HObject();
-                    Results_Window_3.Draw_XLD = new HObject();
+                    Results_Window_3.DisplayImage = null;
+                    Results_Window_3.DisplayXLD = null;
+                    Results_Window_3.DisplayRegion = null;
+                    Results_Window_3.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_4:
 
                     Results_Window_4.HWindow.ClearWindow();
-                    //Results_Window_4.DisplayImage = new HObject();
-                    Results_Window_4.DisplayXLD = new HObject();
-                    Results_Window_4.DisplayRegion = new HObject();
-                    Results_Window_4.Draw_XLD = new HObject();
+                    Results_Window_4.DisplayImage = null;
+                    Results_Window_4.DisplayXLD = null;
+                    Results_Window_4.DisplayRegion = null;
+                    Results_Window_4.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.Calibration_Window_1:
                     Calibration_Window_1.HWindow.ClearWindow();
-                    //Calibration_Window_1.DisplayImage = new HObject();
-                    Calibration_Window_1.DisplayXLD = new HObject();
-                    Calibration_Window_1.DisplayRegion = new HObject();
-                    Calibration_Window_1.Draw_XLD = new HObject();
+                    Calibration_Window_1.DisplayImage = null;
+                    Calibration_Window_1.DisplayXLD = null;
+                    Calibration_Window_1.DisplayRegion = null;
+                    Calibration_Window_1.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.Calibration_Window_2:
 
                     Calibration_Window_2.HWindow.ClearWindow();
-                    //Calibration_Window_2.DisplayImage = new HObject();
-                    Calibration_Window_2.DisplayXLD = new HObject();
-                    Calibration_Window_2.DisplayRegion = new HObject();
-                    Calibration_Window_2.Draw_XLD = new HObject();
+                    Calibration_Window_2.DisplayImage = null;
+                    Calibration_Window_2.DisplayXLD = null;
+                    Calibration_Window_2.DisplayRegion = null;
+                    Calibration_Window_2.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.Calibration_3D_Results:
 
                     Calibration_3D_Results.HWindow.ClearWindow();
-                    //Calibration_3D_Results.DisplayImage = new HObject();
-                    Calibration_3D_Results.DisplayXLD = new HObject();
-                    Calibration_3D_Results.DisplayRegion = new HObject();
-                    Calibration_3D_Results.Draw_XLD = new HObject();
+                    Calibration_3D_Results.DisplayImage = null;
+                    Calibration_3D_Results.DisplayXLD = null;
+                    Calibration_3D_Results.DisplayRegion = null;
+                    Calibration_3D_Results.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Window_1:
                     HandEye_Window_1.HWindow.ClearWindow();
-                    HandEye_Window_1.DisplayImage = new HObject();
-                    HandEye_Window_1.DisplayXLD = new HObject();
-                    HandEye_Window_1.DisplayRegion = new HObject();
-                    HandEye_Window_1.Draw_XLD = new HObject();
+                    HandEye_Window_1.DisplayImage = null;
+                    HandEye_Window_1.DisplayXLD = null;
+                    HandEye_Window_1.DisplayRegion = null;
+                    HandEye_Window_1.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Window_2:
                     HandEye_Window_2.HWindow.ClearWindow();
-                    //HandEye_Window_2.DisplayImage = new HObject();
-                    HandEye_Window_2.DisplayXLD = new HObject();
-                    HandEye_Window_2.DisplayRegion = new HObject();
-                    HandEye_Window_2.Draw_XLD = new HObject();
+                    HandEye_Window_2.DisplayImage = null;
+                    HandEye_Window_2.DisplayXLD = null;
+                    HandEye_Window_2.DisplayRegion = null;
+                    HandEye_Window_2.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Results_Window_1:
                     HandEye_Results_Window_1.HWindow.ClearWindow();
-                    //HandEye_Results_Window_1.DisplayImage = new HObject();
-                    HandEye_Results_Window_1.DisplayXLD = new HObject();
-                    HandEye_Results_Window_1.DisplayRegion = new HObject();
-                    HandEye_Results_Window_1.Draw_XLD = new HObject();
+                    HandEye_Results_Window_1.DisplayImage = null;
+                    HandEye_Results_Window_1.DisplayXLD = null;
+                    HandEye_Results_Window_1.DisplayRegion = null;
+                    HandEye_Results_Window_1.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Results_Window_2:
                     HandEye_Results_Window_2.HWindow.ClearWindow();
-                    //HandEye_Results_Window_2.DisplayImage = new HObject();
-                    HandEye_Results_Window_2.DisplayXLD = new HObject();
-                    HandEye_Results_Window_2.DisplayRegion = new HObject();
-                    HandEye_Results_Window_2.Draw_XLD = new HObject();
+                    HandEye_Results_Window_2.DisplayImage = null;
+                    HandEye_Results_Window_2.DisplayXLD = null;
+                    HandEye_Results_Window_2.DisplayRegion = null;
+                    HandEye_Results_Window_2.Draw_XLD = null;
                     break;
 
                 case Window_Show_Name_Enum.HandEye_3D_Results:
                     HandEye_3D_Results.HWindow.ClearWindow();
-                    //HandEye_3D_Results.DisplayImage = new HObject();
-                    HandEye_3D_Results.DisplayXLD = new HObject();
-                    HandEye_3D_Results.DisplayRegion = new HObject();
-                    HandEye_3D_Results.Draw_XLD = new HObject();
+                    HandEye_3D_Results.DisplayImage = null;
+                    HandEye_3D_Results.DisplayXLD = null;
+                    HandEye_3D_Results.DisplayRegion = null;
+                    HandEye_3D_Results.Draw_XLD = null;
                     break;
 
           
@@ -1117,6 +1117,10 @@ namespace Halcon_SDK_DLL
         /// <param name="_Show"></param>
         public void Display_HObject(Window_Show_Name_Enum _Show, HObject? _HImage = null, HObject? _Region = null, HObject? _XLD = null, HObject? _Draw = null, string? _DrawColor = null, bool  Image_AutoPart=false)
         {
+
+
+
+
             if (_DrawColor != null)
             {
                 SetHDrawColor(_DrawColor, DisplaySetDraw_Enum.fill, _Show);

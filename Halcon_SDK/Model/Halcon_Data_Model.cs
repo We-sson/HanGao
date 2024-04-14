@@ -273,7 +273,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// UI绑定查找模型区域名字
             /// </summary>
-            public ShapeModel_Name_Enum ShapeModel_Name { set; get; } = ShapeModel_Name_Enum.F_45;
+            public string ShapeModel_Name { set; get; } ="默认";
 
             /// <summary>
             /// 模型创建ID号
@@ -2042,7 +2042,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 创建模型类型所在区域
         /// </summary>
-        public ShapeModel_Name_Enum Shape_Area { set; get; }
+        public string Shape_Area { set; get; } = "";
 
 
         /// <summary>

@@ -228,6 +228,7 @@ namespace HanGao.ViewModel
 
                     Application.Current.Dispatcher.Invoke(() =>
                     {
+                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
                         Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image, Image_AutoPart: true);
                     });
 
@@ -478,11 +479,12 @@ namespace HanGao.ViewModel
                     //显示校正后图像
                     Application.Current.Dispatcher.Invoke(() =>
                     {
+                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
                         Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image, Image_AutoPart: true);
                     });
 
 
-        
+
                     if (Select_Vision_Value != null)
                     {
 
@@ -511,7 +513,7 @@ namespace HanGao.ViewModel
 
                             _Send.IsStatus = 1;
                             _Send.Message_Error = "Match serial number does not exist ! Please Create";
-                           
+
                             return _Send;
                         }
 
@@ -577,9 +579,9 @@ namespace HanGao.ViewModel
 
 
 
-
-
                 Halcon_Shape_Mode.Get_ShapeModel();
+
+
                 User_Log_Add("模型文件全部读取完成！", Log_Show_Window_Enum.Home);
 
             }
@@ -843,7 +845,7 @@ namespace HanGao.ViewModel
                 ///程序正常退出关闭所有相机连接
                 foreach (var _Camer in MVS_Camera_Info_List)
                 {
-            
+
                     _Camer.Stop_ImageCallback_delegate();
                     _Camer.Close_Camera();
 
@@ -2114,6 +2116,7 @@ namespace HanGao.ViewModel
                     else if ((bool)E.IsChecked == false)
                     {
                         Camera_Device_List.Select_Camera?.Stop_ImageCallback_delegate();
+                        Camera_Device_List.Select_Camera?.Close_Camera();
                         //Task.Run(() =>
                         //{
                         //Camera_Device_List.Select_Camera.StopGrabbing();
@@ -2128,7 +2131,7 @@ namespace HanGao.ViewModel
                 {
                     //Camera_Device_List.Select_Camera.StopGrabbing();
                     Camera_Device_List.Select_Camera?.Stop_ImageCallback_delegate();
-
+                    Camera_Device_List.Select_Camera?.Close_Camera();
                     E.IsChecked = false;
                     User_Log_Add("开启实时相机失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                 }
@@ -2279,11 +2282,16 @@ namespace HanGao.ViewModel
                     {
                         HImage _Image = new();
 
-                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+                        lock (this)
+                        {
 
-                        Halcon_Window_Display.Features_Window.DisplayImage = Get_Image(Halcon_Shape_Mode_SDK.Image_Rectified, Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
-                        User_Log_Add("采集图像成功到窗口：" + Window_Show_Name_Enum.Features_Window, Log_Show_Window_Enum.Home);
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+
+                            Halcon_Window_Display.Features_Window.DisplayImage = Get_Image(Halcon_Shape_Mode_SDK.Image_Rectified, Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+
+                            User_Log_Add("采集图像成功到窗口：" + Window_Show_Name_Enum.Features_Window, Log_Show_Window_Enum.Home);
+                        }
                     }
                     catch (Exception _e)
                     {
@@ -2313,7 +2321,7 @@ namespace HanGao.ViewModel
             //Halcon_SDK _Window = GetWindowHandle(_HW);
             //_Window.HWindow.ClearWindow();
 
-            lock (Load_Image)
+            lock (this)
             {
 
 
@@ -2325,6 +2333,9 @@ namespace HanGao.ViewModel
                         Load_Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout(Select_Vision_Value.Camera_Parameter_Data);
 
 
+                        //采集后断开相机,以免枪夺权限
+                        Camera_Device_List.Select_Camera.Stop_ImageCallback_delegate();
+                        //Camera_Device_List.Select_Camera.Close_Camera();
 
                         //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
 
@@ -2463,6 +2474,7 @@ namespace HanGao.ViewModel
                 {
                     //MVS.Connect_Camera(Select_Camera);
                     Camera_Device_List.Select_Camera.Close_Camera();
+
                 }
                 catch (Exception _e)
                 {

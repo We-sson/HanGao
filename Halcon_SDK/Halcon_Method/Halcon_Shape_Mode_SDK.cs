@@ -363,7 +363,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                                         Point_Model PathInbase = new Point_Model(new Point_Model(_BaseInResult.HPose.PoseCompose(TcpInPlan.HPose)));
                                         ///把位置点在结果用户坐标下转换回Base坐标下
-                                        _Results.Results_PathInBase_Pos.Add(new Point_Model (PathInbase.X, PathInbase.Y , PathInbase.Z, PathInbase.Rx, PathInbase.Ry, PathInbase.Rz, _Model.Shape_Robot_Type));
+                                        _Results.Results_PathInBase_Pos.Add(new Point_Model(PathInbase.X, PathInbase.Y, PathInbase.Z, PathInbase.Rx, PathInbase.Ry, PathInbase.Rz, _Model.Shape_Robot_Type));
 
 
                                     }
@@ -408,7 +408,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                                     _Results.Results_ModelInBase_Pos = new(ModelInBasePose);
-                                    _Results.Results_PlanOffset_Pos = new (_BaseInResult);
+                                    _Results.Results_PlanOffset_Pos = new(_BaseInResult);
                                     _Results.Find_Shape_Results_State = Find_Shape_Results_State_Enum.Match_Success;
 
 
@@ -800,9 +800,18 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 List<FileInfo> _Model_Location = Get_ShapeModel_Path();
                 foreach (var _path in _Model_Location)
                 {
+                    try
+                    {
+
+                        _ShapeModel.Add(Get_Shape_HDict(_path));
+
+                    }
+                    catch (Exception )
+                    {
+                        MessageBox.Show($"模型文件：{_path.Name}  文件读取错误，跳过该文件 !", "标定提示", MessageBoxButton.OK, MessageBoxImage.Error);
 
 
-                    _ShapeModel.Add(Get_Shape_HDict(_path));
+                    }
 
                 }
                 //排序赋值
@@ -861,7 +870,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Shape_Image_Rectified_Ratio = Image_Rectified_Ratio,
                 Shape_Model_2D_Origin = Model_2D_Origin,
                 Shape_Calibration_PathInBase_List = Calib_PathInBase_List,
-                Shape_Robot_Type= Robot_Type
+                Shape_Robot_Type = Robot_Type
 
             }, _Model_Location);
 
@@ -872,24 +881,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
             Selected_Shape_Model.ThrowIfNull("匹配模型未能正常选择！");
 
+            //对应标定参数修改
+            //Selected_Shape_Model.Shape_Area = Create_Shape_ModelXld.ShapeModel_Name;
+            Selected_Shape_Model.Shape_Image_Rectified = Image_Rectified;
+            Selected_Shape_Model.Shape_PlaneInBase_Pos = Plane_In_BasePose;
+            Selected_Shape_Model.Shape_Image_Rectified_Ratio = Image_Rectified_Ratio;
+            Selected_Shape_Model.Shape_Calibration_PathInBase_List = Calib_PathInBase_List;
+            Selected_Shape_Model.Shape_Robot_Type = Robot_Type;
 
-            Set_Shape_HDict(new Shape_Mode_File_Model()
-            {
-
-                Shape_Area = Create_Shape_ModelXld.ShapeModel_Name,
-                Shape_Craft = Match_Model_Craft_Type,
-                Shape_Handle_List = Selected_Shape_Model.Shape_Handle_List,
-                Shape_XLD_Handle_List = Selected_Shape_Model.Shape_XLD_Handle_List,
-                Shape_Image_Rectified = Image_Rectified,
-                Shape_Model = Create_Shape_ModelXld.Shape_Based_Model,
-                Shape_PlaneInBase_Pos = Plane_In_BasePose,
-                Shape_Image_Rectified_Ratio = Image_Rectified_Ratio,
-                Shape_Model_2D_Origin = Model_2D_Origin,
-                Shape_Calibration_PathInBase_List = Calib_PathInBase_List,
-                Shape_Robot_Type = Robot_Type
-
-
-            }, Set_ShapeModel_Path(_ID));
+            Set_Shape_HDict(Selected_Shape_Model, Set_ShapeModel_Path(_ID));
 
 
 
@@ -923,8 +923,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 //获取模型字典参数
                 _Shape_Mode_File_Model.Shape_Craft = Enum.Parse<Match_Model_Craft_Type_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Craft)));
                 _Shape_Mode_File_Model.Shape_Model = Enum.Parse<Shape_Based_Model_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Model)));
-                _Shape_Mode_File_Model.Shape_Area = Enum.Parse<ShapeModel_Name_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Area)));
+                _Shape_Mode_File_Model.Shape_Area = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Area));
                 _Shape_Mode_File_Model.Shape_Image_Rectified = new HImage(_ModelHDict.GetDictObject(nameof(_Shape_Mode_File_Model.Shape_Image_Rectified)));
+                _Shape_Mode_File_Model.Shape_Robot_Type = Enum.Parse<Robot_Type_Enum>(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Robot_Type)));
                 _Shape_Mode_File_Model.Creation_Date = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Creation_Date));
                 _Shape_Mode_File_Model.Shape_PlaneInBase_Pos = new Point_Model(new HPose(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_PlaneInBase_Pos))));
                 _Shape_Mode_File_Model.Shape_Model_2D_Origin = new Point_Model(new HPose(_ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Model_2D_Origin))));
@@ -993,6 +994,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model), _Shape_File.Shape_Model.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Area), _Shape_File.Shape_Area.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Craft), _Shape_File.Shape_Craft.ToString());
+            _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Robot_Type), _Shape_File.Shape_Robot_Type.ToString());
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_PlaneInBase_Pos), _Shape_File.Shape_PlaneInBase_Pos.HPose);
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Shape_Model_2D_Origin), _Shape_File.Shape_Model_2D_Origin.HPose);
             _ModelHDict.SetDictTuple(nameof(_Shape_File.Creation_Date), DateTime.Now.ToString("F"));
