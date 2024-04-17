@@ -1,5 +1,5 @@
-&ACCESS RVO3
-&REL 343
+&ACCESS RVO
+&REL 348
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -23,8 +23,6 @@ DECL EKI_STATUS RET
 ;ENDFOLD (INI)
 ;------------
 EKRL_CONNECT()
-
-
 
 
 ;Bytes[]="hellow"
@@ -239,7 +237,7 @@ Pos_8=$NULLFRAME
 Pos_9=$NULLFRAME
 
 
-IF Vision_Type<>#Vision_Run THEN 
+IF (Vision_Type<>#Vision_Run) AND (Vision_Type<>#Vision_Text) THEN 
 return 
 ENDIF
 
@@ -326,6 +324,8 @@ Message_Wait("Wait Vision Find Data!",2)
 RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
 RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
 
+IF Vision_Type<>#Vision_Text THEN 
+
 
 IF IsStatus THEN
 
@@ -380,6 +380,11 @@ ELSE
 
 MsgQuit(Message_Error[], "HanGao")
 
+
+ENDIF
+
+
+MSGNOTIFY("Vision Text Model !")
 
 ENDIF
 
