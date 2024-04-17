@@ -1047,7 +1047,7 @@ namespace MVS_SDK_Base.Model
 
                     //关闭相机
                     Camera.CloseDevice();
-                    Camera.DestroyHandle();
+                    //Camera.DestroyHandle();
                     Camer_Status = MV_CAM_Device_Status_Enum.Null;
 
                     //return new MPR_Status_Model(MVE_Result_Enum.关闭相机成功) { Result_Error_Info = _Select_Camera.Camera_Info.ModelName };

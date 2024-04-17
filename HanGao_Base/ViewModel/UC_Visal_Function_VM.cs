@@ -222,8 +222,9 @@ namespace HanGao.ViewModel
                     //自动模式下开启自动校正
                     Halcon_Shape_Mode.Auto_Image_Rectified = true;
                     //从模型库从提取出来
-                    Halcon_Shape_Mode_SDK.Image_Rectified = Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID)?.Shape_Image_Rectified;
-                    _Image = Get_Image(Halcon_Shape_Mode_SDK.Image_Rectified, Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                    HObject _re = new HImage(new HObject(Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID)?.Shape_Image_Rectified));
+                    Halcon_Shape_Mode_SDK.Image_Rectified = new  HImage(new HObject ( Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID)?.Shape_Image_Rectified));
+                    _Image = Get_Image( Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
 
                     Application.Current.Dispatcher.Invoke(() =>
@@ -463,17 +464,18 @@ namespace HanGao.ViewModel
 
                     //选择接受匹配参数号
                     Select_Vision_Value = Find_Data_List.Vision_List.Where((_) => _.ID == _Receive.Find_ID.ToString()).FirstOrDefault();
-
-                    ///采集图像
-                    HImage _Image = new();
-                    _Image = Get_Image(Halcon_Shape_Mode_SDK.Image_Rectified, Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                    if (Select_Vision_Value != null)
+                    {
+                        ///采集图像
+                        HImage _Image = new();
+                    _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                     ///生成校正图像
                     Halcon_Shape_Mode.Get_ImageRectified(_Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
 
                     Halcon_Shape_Mode.Auto_Image_Rectified = true;
-                    _Image = Get_Image(Halcon_Shape_Mode_SDK.Image_Rectified, Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                    _Image = Get_Image( Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
 
                     //显示校正后图像
@@ -485,8 +487,7 @@ namespace HanGao.ViewModel
 
 
 
-                    if (Select_Vision_Value != null)
-                    {
+                
 
                         Halcon_Shape_Mode.Selected_Shape_Model = Halcon_Shape_Mode.Shape_Mode_File_Model_List.Where((_) => _.ID == int.Parse(Select_Vision_Value.ID)).FirstOrDefault();
                         if (Halcon_Shape_Mode.Selected_Shape_Model != null)
@@ -2014,7 +2015,8 @@ namespace HanGao.ViewModel
 
 
             Find_Data_List = new Vision_Xml_Method().Read_Xml_File<Vision_Data>();
-
+            Select_Vision_Value=Find_Data_List.Vision_List.Where((_) => _.ID == "0").FirstOrDefault();
+            User_Log_Add("已经加载默认0号参数!", Log_Show_Window_Enum.Home);
 
         }
 
@@ -2288,7 +2290,7 @@ namespace HanGao.ViewModel
 
                             Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
 
-                            Halcon_Window_Display.Features_Window.DisplayImage = Get_Image(Halcon_Shape_Mode_SDK.Image_Rectified, Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                            Halcon_Window_Display.Features_Window.DisplayImage = Get_Image( Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                             User_Log_Add("采集图像成功到窗口：" + Window_Show_Name_Enum.Features_Window, Log_Show_Window_Enum.Home);
                         }
@@ -2312,11 +2314,11 @@ namespace HanGao.ViewModel
         /// <param name="_Window"></param>
         /// <param name="_path"></param>
         /// <returns></returns>
-        public HImage Get_Image(HImage Image_Rectified, Image_Diver_Model_Enum _Get_Model, Window_Show_Name_Enum _HW, string _path = "")
+        public HImage Get_Image(Image_Diver_Model_Enum _Get_Model, Window_Show_Name_Enum _HW, string _path = "")
         {
             //HObject _image = new HObject();
             //HOperatorSet.GenEmptyObj(out _Image);
-            Load_Image = new();
+          HImage  _Load_Image = new();
 
             //Halcon_SDK _Window = GetWindowHandle(_HW);
             //_Window.HWindow.ClearWindow();
@@ -2330,7 +2332,7 @@ namespace HanGao.ViewModel
                     case Image_Diver_Model_Enum.Online:
 
                         Camera_Device_List.Select_Camera.ThrowIfNull("未选择相机设备，不能采集图像！");
-                        Load_Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout(Select_Vision_Value.Camera_Parameter_Data);
+                        _Load_Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout(Select_Vision_Value.Camera_Parameter_Data);
 
 
                         //采集后断开相机,以免枪夺权限
@@ -2345,7 +2347,7 @@ namespace HanGao.ViewModel
 
                         if (File.Exists(_path))
                         {
-                            Load_Image.ReadImage(_path);
+                            _Load_Image.ReadImage(_path);
 
                         }
                         else
@@ -2364,19 +2366,20 @@ namespace HanGao.ViewModel
 
 
                 ///增加判断避免过快采集
-                if (Load_Image.IsInitialized())
+                if (_Load_Image.IsInitialized())
                 {
 
-
+                   HImage _HIm_Rec=new HImage ( Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID)?.Shape_Image_Rectified);
                     ///有校正图像将校正
-                    if (Image_Rectified != null && Image_Rectified.IsInitialized() && Halcon_Shape_Mode.Auto_Image_Rectified)
+                    if (_HIm_Rec != null && _HIm_Rec.IsInitialized() && Halcon_Shape_Mode.Auto_Image_Rectified)
                     {
 
-
-                        Load_Image = Load_Image.MapImage(Image_Rectified);
+                        HObject  _HI = new HObject();
+                        HOperatorSet.MapImage(_Load_Image, _HIm_Rec, out _HI);
+                        //_Load_Image = _Load_Image.MapImage(_HIm_Rec);
 
                     }
-
+                    Load_Image = new HImage(_Load_Image);
 
                     //获得图像内存地址，随时调用
                     //Load_Image = _Image;
@@ -2391,7 +2394,7 @@ namespace HanGao.ViewModel
                     //保存图像当当前目录下
                     if (Global_Seting.IsVisual_image_saving)
                     {
-                        Halcon_SDK.Save_Image(Load_Image);
+                        Halcon_SDK.Save_Image(_Load_Image);
                         //{
                         //}
                     }
@@ -2405,7 +2408,7 @@ namespace HanGao.ViewModel
             }
 
 
-            return Load_Image;
+            return _Load_Image;
             //使用完清楚内存
             //_Image.Dispose();
             //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "采集图像方法成功！" };
