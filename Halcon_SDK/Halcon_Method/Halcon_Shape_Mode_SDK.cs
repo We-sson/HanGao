@@ -79,7 +79,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public static  HImage Image_Rectified
         {
             get { return _Image_Rectified; }
-            set { _Image_Rectified?.Dispose(); _Image_Rectified = value.CopyObj(1,-1); }
+            set {
+                if (value != null && value.IsInitialized())
+                {
+               
+                    _Image_Rectified?.Dispose();
+                    _Image_Rectified = value.CopyObj(1, -1);
+                }
+            }
         }
 
 
@@ -1210,7 +1217,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 int _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
 
                 //计算校正图像
-                //HImage _Image_Rectified = new HImage();
+                 Image_Rectified = new HImage();
                 Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
                 //_Image_Rectified = _Image.MapImage(Image_Rectified);

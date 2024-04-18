@@ -75,9 +75,13 @@ namespace HanGao.ViewModel
             get { return _Load_Image; }
             set
             {
+                if (value!=null && !value.IsInitialized())
+                {
+
                 _Load_Image?.Dispose();
 
                 _Load_Image = value.CopyObj(1,-1);
+                }
             }
         }
 
