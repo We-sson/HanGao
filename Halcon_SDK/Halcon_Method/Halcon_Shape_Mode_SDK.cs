@@ -72,7 +72,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 图像校正变量
         /// </summary>
-        public static HImage Image_Rectified { set; get; } = new HImage();
+     
+
+        private static  HImage _Image_Rectified=new HImage ();
+
+        public static  HImage Image_Rectified
+        {
+            get { return _Image_Rectified; }
+            set { _Image_Rectified?.Dispose(); _Image_Rectified = value.CopyObj(1,-1); }
+        }
+
 
         /// <summary>
         /// 在手动步骤操作自动校正开关

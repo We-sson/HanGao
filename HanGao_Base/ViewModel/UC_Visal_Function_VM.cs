@@ -75,8 +75,9 @@ namespace HanGao.ViewModel
             get { return _Load_Image; }
             set
             {
-                //_Load_Image.Dispose();
-                _Load_Image = value;
+                _Load_Image?.Dispose();
+
+                _Load_Image = value.CopyObj(1,-1);
             }
         }
 
@@ -2368,20 +2369,22 @@ namespace HanGao.ViewModel
                 ///增加判断避免过快采集
                 if (_Load_Image.IsInitialized())
                 {
+                    Load_Image = new HImage(_Load_Image);
 
                     Halcon_Shape_Mode.Selected_Shape_Model = Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID);
 
-                   //HImage _HIm_Rec=new HImage ( Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID)?.Shape_Image_Rectified);
+                    Halcon_Shape_Mode_SDK.Image_Rectified = Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID)?.Shape_Image_Rectified;
                     ///有校正图像将校正
                     if (Halcon_Shape_Mode.Selected_Shape_Model != null && Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified.IsInitialized() && Halcon_Shape_Mode.Auto_Image_Rectified)
                     {
 
-                        HObject  _HI = new HObject();
-                        HOperatorSet.MapImage(_Load_Image, Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified, out _HI);
-                        //_Load_Image = _Load_Image.MapImage(_HIm_Rec);
+                        HImage  _HI = new HImage();
+
+                        _HI = new HImage(Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified);
+                        //HOperatorSet.MapImage(_Load_Image, _Rectified, out _HI);
+                        _Load_Image = _Load_Image.MapImage(_HI);
 
                     }
-                    Load_Image = new HImage(_Load_Image);
 
                     //获得图像内存地址，随时调用
                     //Load_Image = _Image;

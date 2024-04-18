@@ -5607,7 +5607,7 @@
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column=" 1"
-                                                       Text="位置："
+                                                       Text="备注："
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
