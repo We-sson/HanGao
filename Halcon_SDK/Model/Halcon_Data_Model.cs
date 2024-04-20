@@ -2025,7 +2025,7 @@ namespace Halcon_SDK_DLL.Model
     }
 
     [AddINotifyPropertyChangedInterface]
-    public class Shape_Mode_File_Model : IDisposable
+    public class Shape_Mode_File_Model 
     {
         public Shape_Mode_File_Model()
         {
@@ -2082,7 +2082,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 模型识别前图像校正图像
         /// </summary>
-        public HImage Shape_Image_Rectified { set; get; } = new ();
+        public  HImage Shape_Image_Rectified { set; get; } = new ();
 
 
         /// <summary>
@@ -2124,20 +2124,20 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-        public void Dispose()
-        {
-            foreach (var _Model in Shape_Handle_List)
-            {
-                _Model.Dispose();
-            }
-            foreach (var _Model in Shape_XLD_Handle_List)
-            {
-                _Model.Dispose();
-            }
-            Shape_Image_Rectified.Dispose();
+        //public void Dispose()
+        //{
+        //    foreach (var _Model in Shape_Handle_List)
+        //    {
+        //        _Model.Dispose();
+        //    }
+        //    foreach (var _Model in Shape_XLD_Handle_List)
+        //    {
+        //        _Model.Dispose();
+        //    }
+        //    Shape_Image_Rectified.Dispose();
          
-            GC.SuppressFinalize(this);
-        }
+        //    GC.SuppressFinalize(this);
+        //}
 
     }
 

@@ -11,7 +11,7 @@ using Point = System.Windows.Point;
 namespace Halcon_SDK_DLL.Halcon_Method
 {
     [AddINotifyPropertyChangedInterface]
-    public class Halcon_Shape_Mode_SDK : IDisposable
+    public class Halcon_Shape_Mode_SDK 
     {
         public Halcon_Shape_Mode_SDK()
         {
@@ -80,12 +80,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
             get { return _Image_Rectified; }
             set {
-                if (value != null && value.IsInitialized())
-                {
+                _Image_Rectified = value;
+                //if (value != null && value.IsInitialized())
+                //{
                
-                    _Image_Rectified?.Dispose();
-                    _Image_Rectified = value.CopyObj(1, -1);
-                }
+                //    //_Image_Rectified?.Dispose();
+                //    _Image_Rectified = value.CopyObj(1, -1);
+                //}
             }
         }
 
@@ -1555,16 +1556,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public void Dispose()
-        {
+        //public void Dispose()
+        //{
 
-            foreach (var _Shape in Shape_Mode_File_Model_List)
-            {
-                _Shape.Dispose();
-            }
-            //GC.Collect();
-            //GC.SuppressFinalize(this);
+        //    foreach (var _Shape in Shape_Mode_File_Model_List)
+        //    {
+        //        _Shape.Dispose();
+        //    }
+        //    //GC.Collect();
+        //    //GC.SuppressFinalize(this);
 
-        }
+        //}
     }
 }
