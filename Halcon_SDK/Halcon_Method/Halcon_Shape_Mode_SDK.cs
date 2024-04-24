@@ -11,7 +11,7 @@ using Point = System.Windows.Point;
 namespace Halcon_SDK_DLL.Halcon_Method
 {
     [AddINotifyPropertyChangedInterface]
-    public class Halcon_Shape_Mode_SDK 
+    public class Halcon_Shape_Mode_SDK
     {
         public Halcon_Shape_Mode_SDK()
         {
@@ -72,18 +72,19 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 图像校正变量
         /// </summary>
-     
 
-        private static  HImage _Image_Rectified=new HImage ();
 
-        public static  HImage Image_Rectified
+        private static HImage _Image_Rectified = new HImage();
+
+        public static HImage Image_Rectified
         {
             get { return _Image_Rectified; }
-            set {
+            set
+            {
                 _Image_Rectified = value;
                 //if (value != null && value.IsInitialized())
                 //{
-               
+
                 //    //_Image_Rectified?.Dispose();
                 //    _Image_Rectified = value.CopyObj(1, -1);
                 //}
@@ -823,7 +824,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         _ShapeModel.Add(Get_Shape_HDict(_path));
 
                     }
-                    catch (Exception )
+                    catch (Exception)
                     {
                         MessageBox.Show($"模型文件：{_path.Name}  文件读取错误，跳过该文件 !", "标定提示", MessageBoxButton.OK, MessageBoxImage.Error);
 
@@ -1218,7 +1219,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 int _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
 
                 //计算校正图像
-                 Image_Rectified = new HImage();
+                Image_Rectified = new HImage();
                 Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
                 //_Image_Rectified = _Image.MapImage(Image_Rectified);
@@ -1568,4 +1569,24 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         //}
     }
+
+
+    public class Map_Image_Fun
+    {
+        public Map_Image_Fun(HImage _Image,HImage _map)
+        {
+            Result_Image.GenEmptyObj();
+            Result_Image = _Image.MapImage(_map);
+
+        }
+
+  
+
+        public HImage Result_Image { set; get; } = new HImage();
+
+
+
+    }
+
+
 }

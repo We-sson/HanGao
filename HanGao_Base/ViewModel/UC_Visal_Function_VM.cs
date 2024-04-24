@@ -71,22 +71,22 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 保存读取图像属性
         /// </summary>
-        private static HImage _Load_Image = new();
+        public   HImage _Load_Image = new();
 
-        public static HImage Load_Image
-        {
-            get { return _Load_Image; }
-            set
-            {
-                if (value != null && !value.IsInitialized())
-                {
+        //public static HImage Load_Image
+        //{
+        //    get { return _Load_Image; }
+        //    set
+        //    {
+        //        if (value != null && !value.IsInitialized())
+        //        {
 
-                    _Load_Image?.Dispose();
+        //            _Load_Image?.Dispose();
 
-                    _Load_Image = value.CopyObj(1, -1);
-                }
-            }
-        }
+        //            _Load_Image = value.CopyObj(1, -1);
+        //        }
+        //    }
+        //}
 
         //public int UI_Find_Data_Number { set; get; } = 0;
 
@@ -2286,23 +2286,23 @@ namespace HanGao.ViewModel
             {
                 Button E = Sm.Source as Button;
 
-                Task.Run(() =>
-                {
+                //Task.Run(() =>
+                //{
                     try
                     {
                         HImage _Image = new();
 
-                        //lock (this)
-                        //{
+                    lock (this)
+                    {
 
 
                         //Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
 
-                        Halcon_Window_Display.Features_Window.DisplayImage = GetImage(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                        Halcon_Window_Display.Features_Window.DisplayImage = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
                         User_Log_Add("采集图像成功到窗口：" + Window_Show_Name_Enum.Features_Window, Log_Show_Window_Enum.Home);
-                        //}
                     }
+                }
                     catch (Exception _e)
                     {
 
@@ -2310,7 +2310,7 @@ namespace HanGao.ViewModel
 
                         User_Log_Add("采集图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                     }
-                });
+                //});
             });
         }
 
@@ -2334,14 +2334,14 @@ namespace HanGao.ViewModel
             {
                 HSystem.SetCheck("memory");
                 
-                HImage _Load_Image = new();
+                HImage _Image = new();
 
                 switch (_Get_Model)
                 {
                     case Image_Diver_Model_Enum.Online:
 
                         Camera_Device_List.Select_Camera.ThrowIfNull("未选择相机设备，不能采集图像！");
-                        _Load_Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout(Select_Vision_Value.Camera_Parameter_Data);
+                        _Image = Camera_Device_List.Select_Camera.GetOneFrameTimeout(Select_Vision_Value.Camera_Parameter_Data);
 
 
                         //采集后断开相机,以免枪夺权限
@@ -2356,7 +2356,7 @@ namespace HanGao.ViewModel
 
                         if (File.Exists(_path))
                         {
-                            _Load_Image.ReadImage(_path);
+                            _Image.ReadImage(_path);
 
                         }
                         else
@@ -2377,7 +2377,7 @@ namespace HanGao.ViewModel
                 ///增加判断避免过快采集
                 //if (_Load_Image.IsInitialized())
                 //{
-                Load_Image = new HImage(_Load_Image);
+                //Load_Image = new HImage(_Load_Image);
 
                 Halcon_Shape_Mode.Selected_Shape_Model = Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID);
 
@@ -2393,9 +2393,9 @@ namespace HanGao.ViewModel
                     try
                     {
 
-                        using (_HI = Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified.Clone())
-                        {
-
+                        //using (_HI = Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified.Clone())
+                        //{
+                        _HI = Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified.CopyImage();
                             //_HI.GenRadialDistortionMap(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, "bilinear");
 
 
@@ -2404,13 +2404,17 @@ namespace HanGao.ViewModel
                              var cc= HSystem.GetSystem("temporary_mem_reservoir_block_sizes");
                              var dd= HSystem.GetSystem("alloctmp_max_used");
                              var ee= HSystem.GetSystem("memory_allocators_supported");
-                            
 
-                            _Load_Image = _Load_Image.MapImage(_HI);
+                        _Load_Image.Dispose();
+                        _Load_Image = null;
+                        Map_Image_Fun _Map = new Map_Image_Fun(_Image, _HI);
+                        _Load_Image = _Map.Result_Image;
+
+                            //_Load_Image = _Load_Image.MapImage(_HI);
 
 
 
-                        }
+                        //}
                     }
                     catch (AccessViolationException e)
                     {
@@ -2445,10 +2449,10 @@ namespace HanGao.ViewModel
 
                 //}
 
+            return _Load_Image;
             }
 
 
-            return _Load_Image;
             //使用完清楚内存
             //_Image.Dispose();
             //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "采集图像方法成功！" };
@@ -2584,7 +2588,7 @@ namespace HanGao.ViewModel
                     {
                         //获得点击图像位置
                         Halcon_Shape_Mode.Chick_Position = new Point(_E.Row, _E.Column);
-                        Halcon_Shape_Mode.Get_Pos_Gray(new HImage(Load_Image));
+                        Halcon_Shape_Mode.Get_Pos_Gray(new HImage(_Load_Image));
                         //HOperatorSet.GetGrayval(Load_Image, _E.Row, _E.Column, out HTuple _Gray);
                         //Mouse_Pos_Gray = (int)_Gray.D;
                     }
