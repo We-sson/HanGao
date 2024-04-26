@@ -53,7 +53,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         //public HObject? DisplayImage { set; get; }
 
-        public   HObject? DisplayImage { set; get; }
+        public HObject? DisplayImage { set; get; } = new HObject();
 
 
 

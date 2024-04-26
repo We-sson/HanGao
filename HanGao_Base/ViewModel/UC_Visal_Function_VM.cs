@@ -2286,15 +2286,15 @@ namespace HanGao.ViewModel
             {
                 Button E = Sm.Source as Button;
 
-                //Task.Run(() =>
-                //{
+                Task.Run(() =>
+                {
                     try
                     {
-                        HImage _Image = new();
 
                     lock (this)
                     {
 
+                        HImage _Image = new();
 
                         //Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
 
@@ -2310,7 +2310,7 @@ namespace HanGao.ViewModel
 
                         User_Log_Add("采集图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                     }
-                //});
+                });
             });
         }
 
