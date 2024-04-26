@@ -2084,6 +2084,17 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public  HImage Shape_Image_Rectified { set; get; } = new ();
 
+        /// <summary>
+        ///  校正图像尺寸
+        /// </summary>
+        public int Shape_Image_Rectified_Witch { set; get; } = 0;
+
+
+        /// <summary>
+        ///  校正图像尺寸
+        /// </summary>
+        public int Shape_Image_Rectified_Heigth { set; get; } = 0;
+
 
         /// <summary>
         /// 模型图像校正后世界坐标转换系数

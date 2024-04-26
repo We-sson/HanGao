@@ -596,6 +596,7 @@ namespace HanGao.ViewModel
             }
             catch (Exception e)
             {
+
                 User_Log_Add("模型文件读取错误 ! 原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
             }
             finally
