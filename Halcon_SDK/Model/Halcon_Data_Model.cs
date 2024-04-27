@@ -2087,7 +2087,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         ///  校正图像尺寸
         /// </summary>
-        public int Shape_Image_Rectified_Witch { set; get; } = 0;
+        public int Shape_Image_Rectified_Width { set; get; } = 0;
 
 
         /// <summary>

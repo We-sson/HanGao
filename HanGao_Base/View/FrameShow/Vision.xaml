@@ -5254,7 +5254,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition />
-
+                                                <ColumnDefinition Width=" 80" />
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column=" 0"
@@ -5273,12 +5273,51 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}">
                                                 <TextBlock.Text>
 
-                                                    <MultiBinding StringFormat="{}{0:F0}X{1:F0}">
+                                                    <MultiBinding StringFormat="{}尺寸: {0:F0}X{1:F0}">
                                                         <Binding Path="Halcon_Shape_Mode.Image_Rectified_Height" />
-                                                        <Binding Path="Halcon_Shape_Mode.Image_Rectified_Witch" />
+                                                        <Binding Path="Halcon_Shape_Mode.Image_Rectified_Width" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 2"
+                                                          IsChecked="{Binding Halcon_Shape_Mode.Compulsory_Image_Rectified}"
+                                                          Margin="0,0,0,0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Stretch"
+                                                          BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                                          BorderThickness="2">
+
+
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="开"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="关"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+                                                </Grid>
+
+
+
+
+
+
+
+                                            </ToggleButton>
 
 
                                         </Grid>
@@ -5776,17 +5815,24 @@
                                             </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition Width="90" />
-                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width=" auto" />
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column=" 1"
-                                                       Text="图像校正："
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                       FontFamily="{DynamicResource   全局_文字_数字字体}"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}">
+                                                <TextBlock.Text>
+
+                                                    <MultiBinding StringFormat="{}校正尺寸: {0:F0} X {1:F0}">
+                                                        <Binding Path="Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified_Heigth" />
+                                                        <Binding Path="Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified_Width" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
 
                                             <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                                     Width=" 70"
