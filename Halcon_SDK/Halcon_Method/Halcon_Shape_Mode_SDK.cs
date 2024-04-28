@@ -101,7 +101,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 强制执行图像校正
         /// </summary>
-        public bool Compulsory_Image_Rectified { set; get; } = false;
+        //public bool Compulsory_Image_Rectified { set; get; } = false;
 
 
         /// <summary>
@@ -112,13 +112,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 图像校正尺寸
         /// </summary>
-        public int Image_Rectified_Width { set; get; }= 0;
+        public int Image_Rectified_Width { set; get; } = 0;
 
         /// <summary>
         /// 图像校正尺寸
         /// </summary>
-        public int Image_Rectified_Height { set; get; }= 0;
-        
+        public int Image_Rectified_Height { set; get; } = 0;
+
 
         /// <summary>
         /// 模型原地设置类型
@@ -171,32 +171,71 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
-        public HImage Shape_Match_Map(HImage _image)
+        public HImage Shape_Match_Map(HImage _image, bool _Auto_Image_Rectified, bool _Compulsory_Image_Rectified = false)
         {
             HImage Res_Image = new HImage();
+            HImage Map_Image = new HImage();
 
+
+            /// <summary>
+            /// 如果Auto_Image_Rectified属性为false，则直接返回_image
+            /// </summary>
+            if (!_Auto_Image_Rectified)
+            {
+                return _image;
+            }
             _image.GetImageSize(out HTuple _witch, out HTuple _height);
             Selected_Shape_Model.ThrowIfNull("请选择需要校正的模型号！");
 
-                //检查校正图像是否存在
+            //检查校正图像是否存在
             if (Selected_Shape_Model.Shape_Image_Rectified.IsInitialized())
             {
-                    //检查图像是否符合校正尺寸
-                    _image.GetImageSize(out HTuple _w, out HTuple _h);
-                    if ((_w!= Selected_Shape_Model.Shape_Image_Rectified_Width || _h!= Selected_Shape_Model.Shape_Image_Rectified_Heigth) && Compulsory_Image_Rectified)
+                //检查图像是否符合校正尺寸
+                _image.GetImageSize(out HTuple _w, out HTuple _h);
+
+
+                if (_Compulsory_Image_Rectified)
+                {
+
+                    if (_w != Selected_Shape_Model.Shape_Image_Rectified_Width || _h != Selected_Shape_Model.Shape_Image_Rectified_Heigth)
+                    {
+                        _image = _image.ZoomImageSize(Selected_Shape_Model.Shape_Image_Rectified_Width, Selected_Shape_Model.Shape_Image_Rectified_Heigth, "bilinear");
+                    }
+                    //拷贝Map图进行校正
+                    Map_Image = Selected_Shape_Model.Shape_Image_Rectified.CopyImage();
+                    Res_Image = _image.MapImage(Map_Image);
+                    Map_Image.Dispose();
+                    _image.Dispose();
+
+                }
+                else
+                {
+
+                    if (_w == Selected_Shape_Model.Shape_Image_Rectified_Width || _h == Selected_Shape_Model.Shape_Image_Rectified_Heigth)
                     {
 
-                        _image= _image.ZoomImageSize(Selected_Shape_Model.Shape_Image_Rectified_Width, Selected_Shape_Model.Shape_Image_Rectified_Heigth, "bilinear");
+                        //拷贝Map图进行校正
+                        Map_Image = Selected_Shape_Model.Shape_Image_Rectified.CopyImage();
+                        Res_Image = _image.MapImage(Map_Image);
+                        Map_Image.Dispose();
+                        _image.Dispose();
 
 
                     }
+
                     else
                     {
                         throw new Exception($"图像尺寸：{_w} X {_h} 校正的图像与模型文件中的尺寸：{Selected_Shape_Model.Shape_Image_Rectified_Width} X {Selected_Shape_Model.Shape_Image_Rectified_Heigth} 不匹配，可以强行缩放图像尺寸校正！");
 
+
                     }
 
-                    Res_Image = _image.MapImage(Selected_Shape_Model.Shape_Image_Rectified);
+                }
+
+
+
+
+
 
             }
             else
@@ -947,7 +986,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Shape_Model = Create_Shape_ModelXld.Shape_Based_Model,
                 Shape_PlaneInBase_Pos = Plane_In_BasePose,
                 Shape_Image_Rectified_Ratio = Image_Rectified_Ratio,
-                Shape_Image_Rectified_Heigth=Image_Rectified_Height,
+                Shape_Image_Rectified_Heigth = Image_Rectified_Height,
                 Shape_Image_Rectified_Width = Image_Rectified_Width,
                 Shape_Model_2D_Origin = Model_2D_Origin,
                 Shape_Calibration_PathInBase_List = Calib_PathInBase_List,
@@ -969,7 +1008,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             Selected_Shape_Model.Shape_Image_Rectified_Ratio = Image_Rectified_Ratio;
             Selected_Shape_Model.Shape_Calibration_PathInBase_List = Calib_PathInBase_List;
             Selected_Shape_Model.Shape_Robot_Type = Robot_Type;
-            Selected_Shape_Model. Shape_Image_Rectified_Heigth = Image_Rectified_Height;
+            Selected_Shape_Model.Shape_Image_Rectified_Heigth = Image_Rectified_Height;
             Selected_Shape_Model.Shape_Image_Rectified_Width = Image_Rectified_Width;
             Set_Shape_HDict(Selected_Shape_Model, Set_ShapeModel_Path(_ID));
 
@@ -987,10 +1026,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         private Shape_Mode_File_Model Get_Shape_HDict(FileInfo _Shape_File)
         {
 
-            HDict _ModelHDict = new HDict();
-            Shape_Mode_File_Model _Shape_Mode_File_Model = new Shape_Mode_File_Model();
-
-
+            HDict _ModelHDict = new();
+            Shape_Mode_File_Model _Shape_Mode_File_Model = new();
+            HTuple _HShape_Handle_List = new();
+            HDict _Shape_Calibration_PathInBase_HDict = new();
+            HTuple _HShape_XLD_Handle_List = new();
+            HDict _XLDHDict = new();
             try
             {
 
@@ -1016,7 +1057,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _Shape_Mode_File_Model.Shape_Image_Rectified_Heigth = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Image_Rectified_Heigth));
 
                 //读取模型集合
-                HTuple _HShape_Handle_List = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Handle_List));
+                _HShape_Handle_List = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Handle_List));
                 //添加到变量中
                 for (int i = 0; i < _HShape_Handle_List.Length; i++)
                 {
@@ -1026,7 +1067,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                 //获得标定位置点
                 HTuple _Shape_Calibration_PathInBase = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_Calibration_PathInBase_List));
-                HDict _Shape_Calibration_PathInBase_HDict = new HDict(_Shape_Calibration_PathInBase.H);
+                _Shape_Calibration_PathInBase_HDict = new HDict(_Shape_Calibration_PathInBase.H);
 
                 for (int i = 0; i < _Shape_Calibration_PathInBase_HDict.GetDictParam("keys", new HTuple()).Length; i++)
                 {
@@ -1036,10 +1077,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                 //获得模型xld集合
-                HTuple _HShape_XLD_Handle_List = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_XLD_Handle_List));
+                _HShape_XLD_Handle_List = _ModelHDict.GetDictTuple(nameof(_Shape_Mode_File_Model.Shape_XLD_Handle_List));
 
                 //创建模型字典
-                HDict _XLDHDict = new HDict(_HShape_XLD_Handle_List.H);
+                _XLDHDict = new HDict(_HShape_XLD_Handle_List.H);
 
                 //添加到变量里面
                 for (int i = 0; i < _XLDHDict.GetDictParam("keys", new HTuple()).Length; i++)
@@ -1061,8 +1102,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 {
                     item.Dispose();
                 }
+                _Shape_Calibration_PathInBase_HDict.Dispose();
+                _HShape_Handle_List.Dispose();
+                _HShape_XLD_Handle_List.Dispose();
+                _XLDHDict.Dispose();
                 _ModelHDict.Dispose();
-
                 throw new Exception("读取模型文件: " + _Shape_File.Name + "失败！原因：" + e.Message);
 
             }
@@ -1299,6 +1343,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 int _HeightRect = ((_BorderY.TupleMax() - _BorderY.TupleMin()) / _ScaleRectification + 0.5).TupleInt();
 
                 //计算校正图像
+                Image_Rectified.Dispose();
                 Image_Rectified = new HImage();
                 Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
@@ -1657,7 +1702,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
     public class Map_Image_Fun
     {
-        public Map_Image_Fun(HImage _Image,HImage _map)
+        public Map_Image_Fun(HImage _Image, HImage _map)
         {
             Result_Image.Dispose();
             Result_Image.GenEmptyObj();
@@ -1668,7 +1713,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             _Image.Dispose();
         }
 
-  
+
 
         public HImage Result_Image { set; get; } = new HImage();
 

@@ -52,6 +52,7 @@
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -5188,11 +5189,11 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition />
-                                                <ColumnDefinition Width=" 80" />
+
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column=" 0"
-                                                       Text="自动校正"
+                                                       Text="校正系数"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -5200,13 +5201,13 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <TextBlock Grid.Column=" 1"
-                                                       Text="{Binding Halcon_Shape_Mode.Image_Rectified_Ratio, StringFormat={}系数:{0:F12}}"
-                                                       HorizontalAlignment="Left"
+                                                       Text="{Binding Halcon_Shape_Mode.Image_Rectified_Ratio, StringFormat={}{0:F12}}"
+                                                       HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 2"
+                                            <!--<ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 2"
                                                           IsChecked="{Binding Halcon_Shape_Mode.Auto_Image_Rectified}"
                                                           Margin="0,0,0,0"
                                                           HorizontalContentAlignment="Stretch"
@@ -5244,7 +5245,7 @@
 
 
 
-                                            </ToggleButton>
+                                            </ToggleButton>-->
 
 
 
@@ -5254,7 +5255,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition />
-                                                <ColumnDefinition Width=" 80" />
+
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column=" 0"
@@ -5273,51 +5274,12 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}">
                                                 <TextBlock.Text>
 
-                                                    <MultiBinding StringFormat="{}尺寸: {0:F0}X{1:F0}">
+                                                    <MultiBinding StringFormat="{}{0:F0} X {1:F0}">
                                                         <Binding Path="Halcon_Shape_Mode.Image_Rectified_Height" />
                                                         <Binding Path="Halcon_Shape_Mode.Image_Rectified_Width" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
-                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 2"
-                                                          IsChecked="{Binding Halcon_Shape_Mode.Compulsory_Image_Rectified}"
-                                                          Margin="0,0,0,0"
-                                                          HorizontalContentAlignment="Stretch"
-                                                          VerticalContentAlignment="Stretch"
-                                                          BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                                          BorderThickness="2">
-
-
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Label Grid.Column=" 0"
-                                                           Content="开"
-                                                           Padding="0,0,0,0"
-                                                           HorizontalAlignment="Center"
-                                                           HorizontalContentAlignment="Center"
-                                                           VerticalContentAlignment="Center"
-                                                           FontSize=" 16" />
-
-                                                    <Label Grid.Column=" 1"
-                                                           Content="关"
-                                                           Padding="0,0,0,0"
-                                                           HorizontalAlignment="Center"
-                                                           HorizontalContentAlignment="Center"
-                                                           VerticalContentAlignment="Center"
-                                                           FontSize=" 16" />
-                                                </Grid>
-
-
-
-
-
-
-
-                                            </ToggleButton>
 
 
                                         </Grid>
@@ -5822,7 +5784,7 @@
                                             <TextBlock Grid.Column=" 1"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource   全局_文字_数字字体}"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize="14"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}">
                                                 <TextBlock.Text>
@@ -8395,6 +8357,10 @@
                                         </Grid>
 
 
+
+
+
+
                                         <Grid Height="35" Margin="8">
 
                                             <Grid.ColumnDefinitions>
@@ -8441,6 +8407,142 @@
                                             </TextBox>
                                         </Grid>
 
+
+                                        <Grid Height="35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 100" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="自动校正"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 2"
+                                                          IsChecked="{Binding Select_Vision_Value.Find_Shape_Data.Auto_Image_Rectified}"
+                                                          Margin="0,0,0,0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Stretch"
+                                                          BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                                          BorderThickness="2">
+
+
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="开"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="关"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+                                                </Grid>
+
+
+
+
+
+
+
+                                            </ToggleButton>
+
+
+
+                                        </Grid>
+
+
+
+
+                                        <Grid Height=" 35" Margin="8">
+
+
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 85" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 100" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="强制校正"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 2"
+                                                          IsChecked="{Binding Select_Vision_Value.Find_Shape_Data.Compulsory_Image_Rectified}"
+                                                          Margin="0,0,0,0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Stretch"
+                                                          BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                                                          BorderThickness="2">
+
+
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="开"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="关"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontSize=" 16" />
+                                                </Grid>
+
+
+
+                                                <!--<i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding Server_End_Comm}"
+                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>-->
+
+
+
+
+                                            </ToggleButton>
+
+
+
+
+                                        </Grid>
 
                                         <Grid Height="35" Margin="8">
 

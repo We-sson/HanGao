@@ -406,7 +406,10 @@ namespace Halcon_SDK_DLL.Model
                 NCC_SubPixel = _.NCC_SubPixel;
                 Angle_change_restriction = _.Angle_change_restriction;
                 Aniso_scale_change_restriction = _.Aniso_scale_change_restriction;
-
+                Compulsory_Image_Rectified = _.Compulsory_Image_Rectified;
+                Time_Out = _.Time_Out;
+                Auto_Image_Rectified = _.Auto_Image_Rectified;
+                 
             }
 
             /// <summary>
@@ -484,9 +487,22 @@ namespace Halcon_SDK_DLL.Model
             /// </summary>
             public Subpixel_Values_Enum SubPixel { set; get; } = Subpixel_Values_Enum.least_squares;
 
+
+
+            /// <summary>
+            /// NCC匹配是否亚精度
+            /// </summary>
             public bool NCC_SubPixel { set; get; } = true;
 
+            /// <summary>
+            /// 是否强制校正图像
+            /// </summary>
+            public bool Compulsory_Image_Rectified { set; get; } = false;
 
+            /// <summary>
+            /// 图像自动校正
+            /// </summary>
+            public bool Auto_Image_Rectified { set; get; } = false ;
 
             /// <summary>
             /// 匹配查找世界限制超时
