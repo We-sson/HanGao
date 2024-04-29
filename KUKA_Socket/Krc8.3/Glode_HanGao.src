@@ -1,12 +1,11 @@
-&ACCESS RVO
-&REL 481
+&ACCESS RVO1
+&REL 502
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF Glode_HanGao( )
 
 ;# DATE:2021-1-4
-
 
 
 END
@@ -52,41 +51,109 @@ Error_Offset=Inv_Pos(Result_Pos):Pos_Offset
 
 
 
-SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: X:%7.3F,Y:%7.3F,Z:%7.3F,A:%7.3F,B:%7.3F,C:%7.3F Translation Max:%7.3F,Rotation Max:%7.3F" ,Error_Offset.X,Error_Offset.Y,Error_Offset.Z,Error_Offset.A,Error_Offset.B,Error_Offset.C, Vision_Trans_Max_Offset ,Vision_Rota_Max_Offset ) 
-
-if (ABS(Error_Offset.X)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Y)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Z)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.A)<Vision_Rota_Max_Offset) AND (ABS(Error_Offset.B)<Vision_Rota_Max_Offset) AND (ABS(Error_Offset.C)<Vision_Rota_Max_Offset)  THEN
 
 SWITCH Vision_PATH
 CASE #X
 
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: X:%7.3F Translation Max:%7.3F," ,Error_Offset.X, Vision_Trans_Max_Offset  ) 
+
+if (ABS(Error_Offset.X)<Vision_Trans_Max_Offset)  THEN
+
 POS_Offset.X=Result_Pos.X
+ELSE
+
+
+MsgQuit(Message_Show[], "HanGao")
+RETURN
+ENDIF
+
+
 CASE #Y
 
-POS_Offset.Y=Result_Pos.Y
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: Y:%7.3F Translation Max:%7.3F," ,Error_Offset.Y, Vision_Trans_Max_Offset  ) 
+if (ABS(Error_Offset.Y)<Vision_Trans_Max_Offset)  THEN
 
+POS_Offset.Y=Result_Pos.Y
+ELSE
+
+
+MsgQuit(Message_Show[], "HanGao")
+RETURN
+ENDIF
 CASE #Z
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: Z:%7.3F Translation Max:%7.3F," ,Error_Offset.Z, Vision_Trans_Max_Offset  ) 
+if (ABS(Error_Offset.Z)<Vision_Trans_Max_Offset)  THEN
 
 POS_Offset.Z=Result_Pos.Z
+ELSE
 
+
+MsgQuit(Message_Show[], "HanGao")
+RETURN
+ENDIF
 CASE #XY
 
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: X:%7.3F,Y:%7.3F Translation Max:%7.3F" ,Error_Offset.X,Error_Offset.Y ,Vision_Trans_Max_Offset  ) 
+
+if (ABS(Error_Offset.X)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Y)<Vision_Trans_Max_Offset)  THEN
+
 POS_Offset.X=Result_Pos.X
 POS_Offset.Y=Result_Pos.Y
+ELSE
 
+
+MsgQuit(Message_Show[], "HanGao")
+RETURN
+ENDIF
 CASE #XZ
 
-POS_Offset.Y=Result_Pos.Y
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: X:%7.3F,Z:%7.3F Translation Max:%7.3F" ,Error_Offset.X,Error_Offset.Z, Vision_Trans_Max_Offset  ) 
+
+if (ABS(Error_Offset.X)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Z)<Vision_Trans_Max_Offset)  THEN
+
+POS_Offset.X=Result_Pos.X
 POS_Offset.Z=Result_Pos.Z
+ELSE
+
+
+MsgQuit(Message_Show[], "HanGao")
+RETURN
+ENDIF
 CASE #YZ
+
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: Y:%7.3F,Z:%7.3F Translation Max:%7.3F" ,Error_Offset.Y,Error_Offset.Z, Vision_Trans_Max_Offset  ) 
+
+if (ABS(Error_Offset.Y)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Y)<Vision_Trans_Max_Offset)  THEN
 
 POS_Offset.Y=Result_Pos.Y
 POS_Offset.Z=Result_Pos.Z
+ELSE
+
+
+MsgQuit(Message_Show[], "HanGao")
+RETURN
+ENDIF
 CASE #XYZ
+
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: X:%7.3F,Y:%7.3F,Z:%7.3F Translation Max:%7.3F" ,Error_Offset.X,Error_Offset.Y,Error_Offset.Z, Vision_Trans_Max_Offset  ) 
+
+if (ABS(Error_Offset.X)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Y)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Z)<Vision_Trans_Max_Offset)   THEN
 
 POS_Offset.X=Result_Pos.X
 POS_Offset.Y=Result_Pos.Y
 POS_Offset.Z=Result_Pos.Z
+ELSE
+
+
+MsgQuit(Message_Show[], "HanGao")
+RETURN
+ENDIF
 CASE #XYZABC
+
+SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find  Offset: X:%7.3F,Y:%7.3F,Z:%7.3F,A:%7.3F,B:%7.3F,C:%7.3F Translation Max:%7.3F,Rotation Max:%7.3F" ,Error_Offset.X,Error_Offset.Y,Error_Offset.Z,Error_Offset.A,Error_Offset.B,Error_Offset.C, Vision_Trans_Max_Offset ,Vision_Rota_Max_Offset ) 
+
+
+if (ABS(Error_Offset.X)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Y)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.Z)<Vision_Trans_Max_Offset) AND (ABS(Error_Offset.A)<Vision_Rota_Max_Offset) AND (ABS(Error_Offset.B)<Vision_Rota_Max_Offset) AND (ABS(Error_Offset.C)<Vision_Rota_Max_Offset)  THEN
 
 POS_Offset.X=Result_Pos.X
 POS_Offset.Y=Result_Pos.Y
@@ -95,17 +162,18 @@ POS_Offset.A=Result_Pos.A
 POS_Offset.B=Result_Pos.B
 POS_Offset.C=Result_Pos.C
 
-ENDSWITCH
-
-MSGNOTIFY(Message_Show[])
-
-
 ELSE
-
 
 MsgQuit(Message_Show[], "HanGao")
 RETURN
 ENDIF
+ENDSWITCH
+
+
+
+MSGNOTIFY(Message_Show[])
+
+
 
 CASE #UNKNOWN
 

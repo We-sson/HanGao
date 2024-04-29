@@ -5276,8 +5276,8 @@
                                                 <TextBlock.Text>
 
                                                     <MultiBinding StringFormat="{}{0:F0} X {1:F0}">
-                                                        <Binding Path="Halcon_Shape_Mode.Image_Rectified_Height" />
                                                         <Binding Path="Halcon_Shape_Mode.Image_Rectified_Width" />
+                                                        <Binding Path="Halcon_Shape_Mode.Image_Rectified_Height" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>

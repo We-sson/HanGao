@@ -600,7 +600,22 @@ namespace HanGao.ViewModel
                     {
                         ///采集图像
                         HImage _Image = new();
+
+                        ///创建校正图像临时关闭自动校正
+                        bool _Auto_Rectified_Tpye = Select_Vision_Value.Find_Shape_Data.Auto_Image_Rectified;
+                        if (_Auto_Rectified_Tpye)
+                        {
+                            Select_Vision_Value.Find_Shape_Data.Auto_Image_Rectified = false;
+                        }
+
+                        //必须获得没有校正的图像
                         _Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Camera_Device_List.Image_Location_UI);
+
+
+                        if (_Auto_Rectified_Tpye)
+                        {
+                            Select_Vision_Value.Find_Shape_Data.Auto_Image_Rectified = true ;
+                        }
 
                         ///生成校正图像
                         Halcon_Shape_Mode.Get_ImageRectified(_Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
@@ -622,24 +637,24 @@ namespace HanGao.ViewModel
 
 
 
-                        Halcon_Shape_Mode.Selected_Shape_Model = Halcon_Shape_Mode.Shape_Mode_File_Model_List.Where((_) => _.ID == int.Parse(Select_Vision_Value.ID)).FirstOrDefault();
+                        Halcon_Shape_Mode.Selected_Shape_Model = Halcon_Shape_Mode.Shape_Mode_File_Model_List.Where((_) => _.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID).FirstOrDefault();
                         if (Halcon_Shape_Mode.Selected_Shape_Model != null)
                         {
 
                             Application.Current.Dispatcher.Invoke(() =>
                             {
 
-                                if ((MessageBox.Show("自动模式：模型文件：" + Select_Vision_Value.ID + "号是否覆盖旧标定数据？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK))
+                                if ((MessageBox.Show("自动模式：模型文件：" + Halcon_Shape_Mode.Selected_Shape_Model.ID + "号是否覆盖旧标定数据？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK))
                                 {
 
                                     Halcon_Shape_Mode.Reset_Calibration_Data_ShapeModel(Halcon_Shape_Mode.Selected_Shape_Model.ID);
 
-                                    User_Log_Add($"自动模式：已经覆盖现有匹配文件 {Select_Vision_Value.ID} 号！", Log_Show_Window_Enum.Home);
+                                    User_Log_Add($"自动模式：已经覆盖现有匹配文件 {Halcon_Shape_Mode.Selected_Shape_Model.ID} 号！", Log_Show_Window_Enum.Home);
 
                                 }
                                 else
                                 {
-                                    User_Log_Add($"自动模式：取消覆盖现有匹配文件 {Select_Vision_Value.ID} 号！", Log_Show_Window_Enum.Home);
+                                    User_Log_Add($"自动模式：取消覆盖现有匹配文件 {Halcon_Shape_Mode.Selected_Shape_Model.ID} 号！", Log_Show_Window_Enum.Home);
 
                                 }
 
@@ -708,15 +723,15 @@ namespace HanGao.ViewModel
 
                 Application.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    Halcon_Shape_Mode.Shape_Mode_File_Model_List.Clear();
+                    Halcon_Shape_Mode.Clear_ShapeModel_Lsit();
                 });
 
 
 
                 Halcon_Shape_Mode.Get_ShapeModel();
 
-
-                User_Log_Add("模型文件全部读取完成！", Log_Show_Window_Enum.Home);
+            
+                User_Log_Add($"已读取{Halcon_Shape_Mode.Shape_Mode_File_Model_List.Count}个模型文件完成！", Log_Show_Window_Enum.Home);
 
             }
             catch (Exception e)
@@ -728,6 +743,9 @@ namespace HanGao.ViewModel
             {
                 //UI界面释放操作
                 Read_Models_File_UI_IsEnable = false;
+                GC.Collect();
+                GC.WaitForFullGCApproach();
+                GC.WaitForFullGCComplete();
             }
 
         }

@@ -4,6 +4,7 @@ using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Media.Media3D;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 using Point = System.Windows.Point;
@@ -190,7 +191,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //检查校正图像是否存在
             if (Selected_Shape_Model.Shape_Image_Rectified.IsInitialized())
             {
-                    //检查图像是否符合校正尺寸
+                //检查图像是否符合校正尺寸
                 _image.GetImageSize(out HTuple _w, out HTuple _h);
 
 
@@ -206,7 +207,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     Res_Image = _image.MapImage(Map_Image);
                     Map_Image.Dispose();
                     _image.Dispose();
-               
+
                 }
                 else
                 {
@@ -899,6 +900,35 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
+        /// <summary>
+        /// 清楚模型集合中内存
+        /// </summary>
+        public void Clear_ShapeModel_Lsit()
+        {
+
+            foreach (var _List in Shape_Mode_File_Model_List)
+            {
+                _List.Shape_Image_Rectified.Dispose();
+                foreach (var item in _List.Shape_Handle_List)
+                {
+                    HNCCModel _ncc = new(item.H);
+                    _ncc.ClearNccModel();
+                    _ncc.ClearHandle();
+                    //HOperatorSet.ClearShapeModel(item);
+                    item.Dispose();
+                }
+                foreach (var item in _List.Shape_XLD_Handle_List)
+                {
+                    
+                    item.Dispose();
+                }
+
+            }
+            Shape_Mode_File_Model_List.Clear();
+            GC.Collect();
+            GC.WaitForFullGCComplete();
+            GC.WaitForFullGCApproach();
+        }
 
         /// <summary>
         /// 获得本地匹配模型文件对象
@@ -1096,10 +1126,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _Shape_Mode_File_Model.Shape_Image_Rectified.Dispose();
                 foreach (var item in _Shape_Mode_File_Model.Shape_Handle_List)
                 {
+                    HOperatorSet.ClearShapeModel(item);
                     item.Dispose();
                 }
                 foreach (var item in _Shape_Mode_File_Model.Shape_XLD_Handle_List)
                 {
+
                     item.Dispose();
                 }
                 _Shape_Calibration_PathInBase_HDict.Dispose();
@@ -1109,6 +1141,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _ModelHDict.Dispose();
                 throw new Exception("读取模型文件: " + _Shape_File.Name + "失败！原因：" + e.Message);
 
+            }
+            finally
+            {
+
+                //for (int i = 0; i < _HShape_Handle_List.Length; i++)
+                //{
+                //    _HShape_Handle_List.TupleSelect(i).Dispose();
+
+                //}
+                _HShape_Handle_List.Dispose();
+                _ModelHDict.Dispose();
             }
         }
 
