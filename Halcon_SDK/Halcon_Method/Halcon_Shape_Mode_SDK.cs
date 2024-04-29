@@ -74,7 +74,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
 
 
-        public HImage Image_Rectified { set; get; } = new HImage();
+        public static HImage Image_Rectified = new HImage();
 
         //public static HImage Image_Rectified
         //{
@@ -95,7 +95,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 在手动步骤操作自动校正开关
         /// </summary>
-        public bool Auto_Image_Rectified { set; get; } = true;
+        //public bool Auto_Image_Rectified { set; get; } = true;
 
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //检查校正图像是否存在
             if (Selected_Shape_Model.Shape_Image_Rectified.IsInitialized())
             {
-                //检查图像是否符合校正尺寸
+                    //检查图像是否符合校正尺寸
                 _image.GetImageSize(out HTuple _w, out HTuple _h);
 
 
@@ -206,7 +206,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     Res_Image = _image.MapImage(Map_Image);
                     Map_Image.Dispose();
                     _image.Dispose();
-
+               
                 }
                 else
                 {
@@ -1240,23 +1240,33 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public HImage Set_ImageRectified(Find_Shape_Based_ModelXld Find_Shape_Model, HImage _image)
+        public HImage Set_ImageRectified(HImage _image)
         {
 
 
             HImage _ResultImage = new HImage();
-            _image.ThrowIfNull("图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized());
+            HImage _MapImage = new HImage();
+            _image.ThrowIfNull("窗口图像未采集，不能识别！").Throw().IfFalse(_ => _.IsInitialized());
+            Image_Rectified.ThrowIfNull("未创建模型校正，不能校正！").Throw().IfFalse(_ => _.IsInitialized());
+
             //Shape_Mode_File_Model? _Model = Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID).Shape_Image_Rectified;
             //_Model.ThrowIfNull(Find_Shape_Model.FInd_ID + "号模型，无法在模型库中找到校正图像！");
             try
             {
 
+
+
+                _MapImage = Image_Rectified.CopyImage();
                 //进行图像校正后识别
-                _ResultImage = _image.MapImage(Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Find_Shape_Model.FInd_ID)?.Shape_Image_Rectified);
+                _ResultImage = _image.MapImage(_MapImage).CopyImage();
+                _image.Dispose();
+                _MapImage.Dispose();
+
             }
             catch (HalconException e)
             {
-
+                _image.Dispose();
+                _MapImage.Dispose();
                 throw new Exception("图像校正错误！原因：" + e.Message);
             }
 
@@ -1345,7 +1355,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 //计算校正图像
                 Image_Rectified.Dispose();
                 Image_Rectified = new HImage();
-                Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Width, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
+                Image_Rectified.GenEmptyObj();
+                Image_Rectified.GenImageToWorldPlaneMap(_Camera_Paramteters.HCamPar, PlaneInCamOriginPose.HPose, _Camera_Paramteters.Image_Width, _Camera_Paramteters.Image_Height, _WidthRect, _HeightRect, _ScaleRectification, "bilinear");
 
                 //_Image_Rectified = _Image.MapImage(Image_Rectified);
 

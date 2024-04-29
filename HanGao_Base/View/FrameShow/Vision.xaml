@@ -5188,8 +5188,8 @@
                                         <Grid Height="35" Margin="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition />
-
+                                                <ColumnDefinition Width=" *" />
+                                                <ColumnDefinition Width=" *" />
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Column=" 0"
@@ -5207,54 +5207,55 @@
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <!--<ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 2"
-                                                          IsChecked="{Binding Halcon_Shape_Mode.Auto_Image_Rectified}"
-                                                          Margin="0,0,0,0"
-                                                          HorizontalContentAlignment="Stretch"
-                                                          VerticalContentAlignment="Stretch"
-                                                          BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                                          BorderThickness="2">
+                                            <Button Grid.Column=" 2"
+                                                    Margin="8,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                                <Button.Resources>
+                                                    <TextBlock x:Key="Rectify_T1"
+                                                               Text="图像可校正"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="14"
+                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                    <TextBlock x:Key="Rectify_T2"
+                                                               Text="请创建校正图......"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="14"
+                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                </Button.Resources>
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="{x:Type Button}">
+                                                        <Setter Property="Content" Value="{StaticResource Rectify_T1}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Shape_Mode.Image_Rectified_Ratio}" Value="0">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                                <Setter Property="Content" Value="{StaticResource Rectify_T2}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Shape_Set_Image_Rectify_Comm}"
+                                                                               CommandParameter="{Binding EventArgsConverter, RelativeSource={RelativeSource Mode=Self}}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
 
 
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Label Grid.Column=" 0"
-                                                           Content="开"
-                                                           Padding="0,0,0,0"
-                                                           HorizontalAlignment="Center"
-                                                           HorizontalContentAlignment="Center"
-                                                           VerticalContentAlignment="Center"
-                                                           FontSize=" 16" />
-
-                                                    <Label Grid.Column=" 1"
-                                                           Content="关"
-                                                           Padding="0,0,0,0"
-                                                           HorizontalAlignment="Center"
-                                                           HorizontalContentAlignment="Center"
-                                                           VerticalContentAlignment="Center"
-                                                           FontSize=" 16" />
-                                                </Grid>
-
-
-
-
-
-
-
-                                            </ToggleButton>-->
-
-
+                                            </Button>
 
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
-                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" *" />
+
 
                                             </Grid.ColumnDefinitions>
 
@@ -5280,6 +5281,7 @@
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
+
 
 
                                         </Grid>
@@ -8628,7 +8630,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Set_Image_Rectified_Comm}" PassEventArgsToCommand="True" />
+                                                        <i:InvokeCommandAction Command="{Binding}" PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                             </Button>

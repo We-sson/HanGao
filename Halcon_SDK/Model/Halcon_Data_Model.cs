@@ -2098,7 +2098,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 模型识别前图像校正图像
         /// </summary>
-        public  HImage Shape_Image_Rectified { set; get; } = new ();
+        public  HImage Shape_Image_Rectified = new ();
 
         /// <summary>
         ///  校正图像尺寸
