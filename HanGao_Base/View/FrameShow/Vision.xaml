@@ -144,7 +144,7 @@
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Features_Window_Button" Grid.Column=" 2"
-                                         IsChecked="False"
+                                         IsChecked="True"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -167,7 +167,7 @@
                             </RadioButton>
 
                             <RadioButton Style="{DynamicResource Halcon_Window_RadioButton_Style}" x:Name="Features_3D_Window_Button" Grid.Column=" 3"
-                                         IsChecked="True"
+                                         IsChecked="False"
                                          Margin="5"
                                          HorizontalContentAlignment="Center"
                                          VerticalContentAlignment="Center"
@@ -427,7 +427,7 @@
                                               BorderThickness="0"
                                               ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
                                               ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                              ItemsSource="{Binding Find_Results1_Window_Result.Text_Arr_UI}"
+                                              ItemsSource="{Binding Halcon_Window_Display.Results_Window_1.Find_Result_Show_Window.Text_Arr_UI}"
                                               ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                         <ListView.Style>
                                             <Style TargetType="ListView">
@@ -449,7 +449,7 @@
                                         <Style TargetType="Border">
                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Results1_Window_Result.Find_Score}" Value="0">
+                                                <DataTrigger Binding="{Binding Halcon_Window_Display.Results_Window_1.Find_Result_Show_Window.Find_Score}" Value="0">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -474,7 +474,7 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Text" Value="结果 : PASS" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Find_Results1_Window_Result.Find_Score}" Value="0">
+                                                    <DataTrigger Binding="{Binding Halcon_Window_Display.Results_Window_1.Find_Result_Show_Window.Find_Score}" Value="0">
                                                         <Setter Property="Text" Value="结果 : NG" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -546,7 +546,7 @@
                                               BorderThickness="0"
                                               ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
                                               ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                              ItemsSource="{Binding Find_Results4_Window_Result.Text_Arr_UI}"
+                                              ItemsSource="{Binding Halcon_Window_Display.Results_Window_2.Find_Result_Show_Window.Text_Arr_UI}"
                                               ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                         <ListView.Style>
                                             <Style TargetType="ListView">
@@ -568,7 +568,7 @@
                                         <Style TargetType="Border">
                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Results4_Window_Result.Find_Score}" Value="0">
+                                                <DataTrigger Binding="{Binding Halcon_Window_Display.Results_Window_2.Find_Result_Show_Window.Find_Score}" Value="0">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -593,7 +593,7 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Text" Value="结果 : PASS" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Find_Results4_Window_Result.Find_Score}" Value="0">
+                                                    <DataTrigger Binding="{Binding Halcon_Window_Display.Results_Window_2.Find_Result_Show_Window.Find_Score}" Value="0">
                                                         <Setter Property="Text" Value="结果 : NG" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -663,7 +663,7 @@
                                               BorderThickness="0"
                                               ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
                                               ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                              ItemsSource="{Binding Find_Results3_Window_Result.Text_Arr_UI}"
+                                              ItemsSource="{Binding Halcon_Window_Display.Results_Window_4.Find_Result_Show_Window.Text_Arr_UI}"
                                               ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                         <ListView.Style>
                                             <Style TargetType="ListView">
@@ -686,7 +686,7 @@
                                         <Style TargetType="Border">
                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Results3_Window_Result.Find_Score}" Value="0">
+                                                <DataTrigger Binding="{Binding Halcon_Window_Display.Results_Window_4.Find_Result_Show_Window.Find_Score}" Value="0">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -711,7 +711,7 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Text" Value="结果 : PASS" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Find_Results3_Window_Result.Find_Score}" Value="0">
+                                                    <DataTrigger Binding="{Binding Halcon_Window_Display.Results_Window_4.Find_Result_Show_Window.Find_Score}" Value="0">
                                                         <Setter Property="Text" Value="结果 : NG" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -785,7 +785,7 @@
                                               BorderThickness="0"
                                               ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
                                               ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                              ItemsSource="{Binding Find_Results2_Window_Result.Text_Arr_UI}"
+                                              ItemsSource="{Binding Halcon_Window_Display.Results_Window_3.Find_Result_Show_Window.Text_Arr_UI}"
                                               ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                         <ListView.Style>
                                             <Style TargetType="ListView">
@@ -807,7 +807,7 @@
                                         <Style TargetType="Border">
                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Find_Results2_Window_Result.Find_Score}" Value="0">
+                                                <DataTrigger Binding="{Binding Halcon_Window_Display.Results_Window_3.Find_Result_Show_Window.Find_Score}" Value="0">
                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -832,7 +832,7 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Text" Value="结果 : PASS" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Find_Results2_Window_Result.Find_Score}" Value="0">
+                                                    <DataTrigger Binding="{Binding Halcon_Window_Display.Results_Window_3.Find_Result_Show_Window.Find_Score}" Value="0">
                                                         <Setter Property="Text" Value="结果 : NG" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -1054,7 +1054,7 @@
                                         <Setter Property="Height" Value="25" />
                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Find_Features_Window_Result.Find_Score}" Value="0">
+                                            <DataTrigger Binding="{Binding Halcon_Window_Display.Features_Window.Find_Result_Show_Window.Find_Score}" Value="0">
                                                 <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=G0}" Value="true">
@@ -1070,7 +1070,7 @@
                                           BorderThickness="0"
                                           ItemContainerStyle="{DynamicResource Vison_Data_ListBoxItemContainerStyle}"
                                           ItemTemplate="{DynamicResource Result_ListViewItemTemplate}"
-                                          ItemsSource="{Binding Find_Features_Window_Result.Text_Arr_UI}"
+                                          ItemsSource="{Binding Halcon_Window_Display.Features_Window.Find_Result_Show_Window.Text_Arr_UI}"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                     <ListView.Style>
                                         <Style TargetType="ListView">
@@ -5792,8 +5792,8 @@
                                                 <TextBlock.Text>
 
                                                     <MultiBinding StringFormat="{}校正尺寸: {0:F0} X {1:F0}">
-                                                        <Binding Path="Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified_Heigth" />
                                                         <Binding Path="Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified_Width" />
+                                                        <Binding Path="Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified_Heigth" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>

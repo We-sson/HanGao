@@ -227,13 +227,13 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 查找结果数据显示
         /// </summary>
-        public Find_Shape_Results_Model Find_Features_Window_Result { set; get; } = new Find_Shape_Results_Model();
+        //public Find_Shape_Results_Model Find_Features_Window_Result { set; get; } = new Find_Shape_Results_Model();
 
 
-        public Find_Shape_Results_Model Find_Results1_Window_Result { set; get; } = new Find_Shape_Results_Model();
-        public Find_Shape_Results_Model Find_Results2_Window_Result { set; get; } = new Find_Shape_Results_Model();
-        public Find_Shape_Results_Model Find_Results3_Window_Result { set; get; } = new Find_Shape_Results_Model();
-        public Find_Shape_Results_Model Find_Results4_Window_Result { set; get; } = new Find_Shape_Results_Model();
+        //public Find_Shape_Results_Model Find_Results1_Window_Result { set; get; } = new Find_Shape_Results_Model();
+        //public Find_Shape_Results_Model Find_Results2_Window_Result { set; get; } = new Find_Shape_Results_Model();
+        //public Find_Shape_Results_Model Find_Results3_Window_Result { set; get; } = new Find_Shape_Results_Model();
+        //public Find_Shape_Results_Model Find_Results4_Window_Result { set; get; } = new Find_Shape_Results_Model();
 
         /// <summary>
         /// 网络通讯日志显示
@@ -431,8 +431,8 @@ namespace HanGao.ViewModel
 
 
 
-
-                    Find_Features_Window_Result = _Find_Result;
+                    Halcon_Window_Display.Features_Window.Find_Result_Show_Window = _Find_Result;
+                    //Find_Features_Window_Result = _Find_Result;
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         //显示图像
@@ -446,7 +446,7 @@ namespace HanGao.ViewModel
 
                         _Find_Data_Send.IsStatus = 1;
                         _Find_Data_Send.Message_Error = $" Matching Template OK !";
-                        _Find_Data_Send.Result_Pos.Set_Pos_List(_Find_Result.Results_PathInBase_Pos);
+                        _Find_Data_Send.Result_Pos.Set_Pos_List(_Find_Result.Results_PathInBase_Pos.ToList());
 
 
 
@@ -1773,14 +1773,14 @@ namespace HanGao.ViewModel
                         Find_Text_Models_UI_IsEnable = false;
 
                         ///查找模型
-                        Find_Features_Window_Result = Halcon_Shape_Mode.Find_Shape_Model_Results(Select_Vision_Value.Find_Shape_Data, (HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
+                        Halcon_Window_Display.Features_Window.Find_Result_Show_Window = Halcon_Shape_Mode.Find_Shape_Model_Results(Select_Vision_Value.Find_Shape_Data, (HImage)Halcon_Window_Display.Features_Window.DisplayImage, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
 
 
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
                             //显示图像
-                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: Find_Features_Window_Result.HXLD_Results_All);
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: Halcon_Window_Display.Features_Window.Find_Result_Show_Window.HXLD_Results_All);
 
                         });
 

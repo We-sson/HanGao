@@ -47,6 +47,11 @@ namespace Halcon_SDK_DLL
         public DisplayDrawColor_Model SetDisplay { set; get; } = new DisplayDrawColor_Model();
 
 
+        /// <summary>
+        /// 查找结果显示结果
+        /// </summary>
+        public Find_Shape_Results_Model Find_Result_Show_Window { set; get; } = new Find_Shape_Results_Model();
+
 
         /// <summary>
         /// 绑定图像
@@ -1145,6 +1150,20 @@ namespace Halcon_SDK_DLL
                 SetWindowDisoplay(_Draw, Display_HObject_Type_Enum.Draw, _Show);
             }
         }
+
+
+        public int Display_Window_No { set; get; } = 0;
+
+        public void Result_Display_Window(Halcon_Window_Display_Model _result )
+        {
+
+            
+
+
+
+        }
+         
+
 
         /// <summary>
         /// 设置窗口显示颜色
@@ -2439,10 +2458,11 @@ namespace Halcon_SDK_DLL
                         hv_Text = hv_Text.TupleConcat("识别用时 : " + _Find_Shape_Results.Find_Time + "秒.");
 
                         //添加图像分析
-                        _Find_Shape_Results.Find_Score.ForEach((_S) =>
+                        foreach (var _Soc in _Find_Shape_Results.Find_Score)
                         {
-                            hv_Text = hv_Text.TupleConcat("图像分数 : " + Math.Round(_S, 3));
-                        });
+                            hv_Text = hv_Text.TupleConcat("图像分数 : " + Math.Round(_Soc, 3));
+
+                        }
 
                         //清空集合
                         _Find_Shape_Results.Robot_Pos.Clear();

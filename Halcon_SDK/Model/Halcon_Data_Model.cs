@@ -110,13 +110,13 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 匹配结果2d矩阵列表
             /// </summary>
-            public List<HHomMat2D> Results_HomMat2D_List { set; get; } = new List<HHomMat2D>();
+            public ObservableCollection<HHomMat2D> Results_HomMat2D_List { set; get; } = new ();
 
 
             /// <summary>
             /// 匹配结果xld显示列表
             /// </summary>
-            public List<HXLDCont> Results_HXLD_List { set; get; } = new List<HXLDCont>();
+            public ObservableCollection<HXLDCont> Results_HXLD_List { set; get; } = new ();
 
 
             public HObject HXLD_Results_All { set; get; } = new HObject();
@@ -137,33 +137,33 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-            public List<Point_Model> Results_PathInBase_Pos { set; get; } = new();
+            public ObservableCollection<Point_Model> Results_PathInBase_Pos { set; get; } = new();
 
 
             /// <summary>
             /// 模型实例的行坐标 =Y
             /// </summary>
-            public List<double> Find_Row { set; get; } = new List<double>();
+            public ObservableCollection<double> Find_Row { set; get; } = new ();
 
             /// <summary>
             /// 模型实例的列坐标 =X
             /// </summary>
-            public List<double> Find_Column { set; get; } = new List<double>();
+            public ObservableCollection<double> Find_Column { set; get; } = new ();
 
             /// <summary>
             /// 模型实例的旋转角度
             /// </summary>
-            public List<double> Find_Angle { set; get; } = new List<double>();
+            public ObservableCollection<double> Find_Angle { set; get; } = new ();
 
             /// <summary>
             /// 模型和找到的实例相似值
             /// </summary>
-            public List<double> Find_Score { set; get; } = new List<double>();
+            public ObservableCollection<double> Find_Score { set; get; } = new ();
 
             /// <summary>
             /// 查找耗时
             /// </summary>
-            public List<double> Find_Time { set; get; } = new List<double>();
+            public ObservableCollection<double> Find_Time { set; get; } = new ();
 
 
 
@@ -175,18 +175,18 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 存储结果点
             /// </summary>
-            public List<Point3D> Vision_Pos { set; get; } = new List<Point3D>();
+            public ObservableCollection<Point3D> Vision_Pos { set; get; } = new ();
 
             /// <summary>
             /// 存储结果点
             /// </summary>
-            public List<Point3D> Robot_Pos { set; get; } = new List<Point3D>();
+            public ObservableCollection<Point3D> Robot_Pos { set; get; } = new ();
 
             //public double Right_Angle { set; get; } = 0;
             /// <summary>
             /// 找到的模型实例的分数
             /// </summary>
-            public List<HTuple> HomMat2D { set; get; } = new List<HTuple>();
+            public ObservableCollection<HTuple> HomMat2D { set; get; } = new ();
 
             /// <summary>
             /// 页面显示结过集合
@@ -205,7 +205,7 @@ namespace Halcon_SDK_DLL.Model
             public Find_Shape_Results_State_Enum Find_Shape_Results_State { set; get; } = Find_Shape_Results_State_Enum.Match_None;
 
 
-            public List<string> Set_Results_Data_List()
+            public ObservableCollection<string> Set_Results_Data_List()
             {
                 List<string> _DataList = new();
                 
@@ -231,7 +231,7 @@ namespace Halcon_SDK_DLL.Model
                     Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F3}mm,Y: {Results_PathInBase_Pos[i].Y:F3}mm, Z:  {Results_PathInBase_Pos[i].Z:F3}mm, Rx: {Results_PathInBase_Pos[i].Rx:F3}度, Ry: {Results_PathInBase_Pos[i].Ry:F3}, Rz: {Results_PathInBase_Pos[i].Rz:F3}");
                 }
 
-                return _DataList;
+                return new ObservableCollection<string> (_DataList);
             }
 
 
