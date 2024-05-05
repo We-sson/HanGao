@@ -437,6 +437,7 @@ namespace HanGao.ViewModel
                     {
                         //显示图像
                         Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _XLD: _Find_Result.HXLD_Results_All);
+                        Halcon_Window_Display.Result_Display_Window(_Find_Result);
 
                     });
 

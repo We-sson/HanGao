@@ -5,7 +5,6 @@ using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
-using System.Windows;
 using System.Windows.Media.Media3D;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -18,7 +17,7 @@ namespace Halcon_SDK_DLL
         public Halcon_SDK()
         {
 
-            
+
         }
 
         /// <summary>
@@ -137,8 +136,8 @@ namespace Halcon_SDK_DLL
         /// <param name="_Path">保存地址</param>
         public static HPR_Status_Model<bool> Save_Mat2d_Method(HTuple _HomMat2D, string _Path)
         {
-            HTuple _HomMatID = new ();
-            HTuple _FileHandle = new ();
+            HTuple _HomMatID = new();
+            HTuple _FileHandle = new();
 
             try
             {
@@ -174,9 +173,9 @@ namespace Halcon_SDK_DLL
         /// <param name="_Path"></param>
         public static HPR_Status_Model<bool> Read_Mat2d_Method(ref HTuple _Mat2D, string Vision_Area, string Work_Area)
         {
-            HTuple _FileHandle = new ();
+            HTuple _FileHandle = new();
 
-            HTuple _HomMatID = new ();
+            HTuple _HomMatID = new();
 
             try
             {
@@ -215,13 +214,13 @@ namespace Halcon_SDK_DLL
         public static HPR_Status_Model<bool> Calibration_Results_Compute(ref Point3D _Results, List<Point3D> Calibration, List<Point3D> Robot, ref HTuple HomMat2D)
         {
             //初始化坐标属性
-            HTuple Calibration_RowLine = new ();
-            HTuple Calibration_ColLine = new ();
-            HTuple Robot_RowLine = new ();
-            HTuple Robot_ColLine = new ();
+            HTuple Calibration_RowLine = new();
+            HTuple Calibration_ColLine = new();
+            HTuple Robot_RowLine = new();
+            HTuple Robot_ColLine = new();
 
-            HTuple _Qx = new ();
-            HTuple _Qy = new ();
+            HTuple _Qx = new();
+            HTuple _Qy = new();
             List<double> _Error_List_X = new List<double>();
             List<double> _Error_List_Y = new List<double>();
 
@@ -618,8 +617,8 @@ namespace Halcon_SDK_DLL
         /// <returns></returns>
         public static HXLDCont Draw_Group_Cir(List<Point3D> _Point)
         {
-            HTuple _Row = new ();
-            HTuple _Col = new ();
+            HTuple _Row = new();
+            HTuple _Col = new();
             HXLDCont _Cir = new HXLDCont();
             HXLDCont Cir_Contour = new HXLDCont();
 
@@ -695,8 +694,8 @@ namespace Halcon_SDK_DLL
         /// <returns></returns>
         public static HXLDCont Draw_Group_Lin(List<Point3D> _Point)
         {
-            HTuple _Row = new ();
-            HTuple _Col = new ();
+            HTuple _Row = new();
+            HTuple _Col = new();
             HXLDCont _Lin = new HXLDCont();
             HXLDCont _Lin_Contour = new HXLDCont();
 
@@ -815,7 +814,7 @@ namespace Halcon_SDK_DLL
         public Halcon_SDK HandEye_Results_Window_2 { set; get; } = new Halcon_SDK();
         public Halcon_SDK HandEye_3D_Results { set; get; } = new Halcon_SDK();
 
-        public Halcon_SDK Features_3D_Results{ set; get; } = new Halcon_SDK();
+        public Halcon_SDK Features_3D_Results { set; get; } = new Halcon_SDK();
 
 
         /// <summary>
@@ -881,7 +880,7 @@ namespace Halcon_SDK_DLL
                 case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Live_Window):
                     //初始化halcon图像属性
                     Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    Live_Window. HWindow.SetWindowParam("background_color", "#334C66");
+                    Live_Window.HWindow.SetWindowParam("background_color", "#334C66");
                     break;
 
                 case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window):
@@ -918,10 +917,10 @@ namespace Halcon_SDK_DLL
                     Results_Window_4.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_3D_Results)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_3D_Results)):
                     //加载halcon图像属性
                     Calibration_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                  
+
 
 
                     //可视化显示
@@ -930,7 +929,7 @@ namespace Halcon_SDK_DLL
                 case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_3D_Results)):
                     //加载halcon图像属性
                     HandEye_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-               
+
 
                     HDisplay_3D = new H3D_Model_Display(HandEye_3D_Results);
 
@@ -977,7 +976,7 @@ namespace Halcon_SDK_DLL
                     HandEye_Results_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-          
+
             }
             //设置halcon窗体大小
             Window_UserContol.HalconWindow.SetWindowExtents(0, 0, (int)Window_UserContol.WindowSize.Width, (int)Window_UserContol.WindowSize.Height);
@@ -1006,7 +1005,7 @@ namespace Halcon_SDK_DLL
                     Features_Window.DisplayXLD = null;
                     Features_Window.DisplayRegion = null;
                     Features_Window.Draw_XLD = null;
-                
+
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_1:
@@ -1108,7 +1107,7 @@ namespace Halcon_SDK_DLL
                     HandEye_3D_Results.Draw_XLD = null;
                     break;
 
-          
+
             }
         }
 
@@ -1120,7 +1119,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_XLD"></param>
         /// <param name="_DrawColor"></param>
         /// <param name="_Show"></param>
-        public void Display_HObject(Window_Show_Name_Enum _Show, HObject? _HImage = null, HObject? _Region = null, HObject? _XLD = null, HObject? _Draw = null, string? _DrawColor = null, bool  Image_AutoPart=false)
+        public void Display_HObject(Window_Show_Name_Enum _Show, HObject? _HImage = null, HObject? _Region = null, HObject? _XLD = null, HObject? _Draw = null, string? _DrawColor = null, bool Image_AutoPart = false)
         {
 
 
@@ -1152,17 +1151,65 @@ namespace Halcon_SDK_DLL
         }
 
 
-        public int Display_Window_No { set; get; } = 0;
+        private int Display_Window_No { set; get; } = 0;
 
-        public void Result_Display_Window(Halcon_Window_Display_Model _result )
+
+
+
+        public void Result_Display_Window(Find_Shape_Results_Model _result)
         {
+            for (int i = 0; i < 3; i++)
+            {
 
-            
+                if (i == 0)
+                {
+
+                    HWindow_Clear(Window_Show_Name_Enum.Results_Window_1);
+                    HWindow_Clear(Window_Show_Name_Enum.Results_Window_2);
+                    HWindow_Clear(Window_Show_Name_Enum.Results_Window_3);
+                    HWindow_Clear(Window_Show_Name_Enum.Results_Window_4);
+
+                }
+
+                switch (i)
+                {
+
+                    case 0:
+                        Results_Window_1.Find_Result_Show_Window = _result;
+                        Display_HObject(Window_Show_Name_Enum.Results_Window_1, _XLD: _result.HXLD_Results_All);
+
+                        break;
+                    case 1:
+                        Results_Window_2.Find_Result_Show_Window = _result;
+                        Display_HObject(Window_Show_Name_Enum.Results_Window_2, _XLD: _result.HXLD_Results_All);
+
+                        break;
+                    case 2:
+                        Results_Window_3.Find_Result_Show_Window = _result;
+
+                        Display_HObject(Window_Show_Name_Enum.Results_Window_3, _XLD: _result.HXLD_Results_All);
+
+                        break;
+                    case 3:
+                        Results_Window_4.Find_Result_Show_Window = _result;
+                        Display_HObject(Window_Show_Name_Enum.Results_Window_4, _XLD: _result.HXLD_Results_All);
+                        Display_Window_No = 0;
+
+                        break;
+
+                }
+
+
+
+
+                Display_Window_No++;
+            }
+
 
 
 
         }
-         
+
 
 
         /// <summary>
@@ -1386,7 +1433,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 模型ID
         /// </summary>
-        public HTuple Shape_ID = new ();
+        public HTuple Shape_ID = new();
 
         /// <summary>
         /// 模型显示
@@ -1945,8 +1992,8 @@ namespace Halcon_SDK_DLL
         /// <returns></returns>
         public HPR_Status_Model<bool> ShapeModel_ReadFile(FileInfo _Path)
         {
-            HTuple _Serialized = new ();
-            HTuple _HFile = new ();
+            HTuple _Serialized = new();
+            HTuple _HFile = new();
             try
             {
                 DateTime _Run = DateTime.Now;
@@ -1982,7 +2029,7 @@ namespace Halcon_SDK_DLL
                     case "dxf":
 
                         //读取文件
-                        HOperatorSet.ReadContourXldDxf(out Shape_ModelContours, _Path.FullName, new (), new (), out _);
+                        HOperatorSet.ReadContourXldDxf(out Shape_ModelContours, _Path.FullName, new(), new(), out _);
 
                         break;
 
@@ -2039,11 +2086,11 @@ namespace Halcon_SDK_DLL
         public HPR_Status_Model<bool> Find_Deformable_Model(ref Find_Shape_Results_Model _Find_Out, HWindow _HWindow, Find_Shape_Based_ModelXld _Find_Property)
         {
             //HTuple HMat2D = new ();
-            HTuple hv_row = new ();
-            HTuple hv_column = new ();
-            HTuple hv_angle = new ();
-            HTuple hv_score = new ();
-            HTuple hv_HomMat2D = new ();
+            HTuple hv_row = new();
+            HTuple hv_column = new();
+            HTuple hv_angle = new();
+            HTuple hv_score = new();
+            HTuple hv_HomMat2D = new();
 
             try
             {
@@ -2280,7 +2327,7 @@ namespace Halcon_SDK_DLL
         {
             HObject _ContoursProjTrans = new HObject(Shape_ModelContours);
             HObject Ncc_Results = new HObject();
-            HTuple Mat2D = new ();
+            HTuple Mat2D = new();
 
             try
             {
@@ -2364,31 +2411,31 @@ namespace Halcon_SDK_DLL
         /// <returns></returns>
         public HPR_Status_Model<bool> Match_Model_XLD_Pos(ref Find_Shape_Results_Model _Find_Shape_Results, Shape_Based_Model_Enum Matching_Model, HWindow _Window, HTuple _Math2D)
         {
-            HTuple C_P_Row = new ();
-            HTuple C_P_Col = new ();
-            HTuple Row1 = new ();
-            HTuple Column1 = new ();
-            HTuple L_RP1 = new ();
-            HTuple L_CP1 = new ();
-            HTuple L_RP2 = new ();
-            HTuple L_CP2 = new ();
-            HTuple L_RP3 = new ();
-            HTuple L_CP3 = new ();
-            HTuple hv_Text = new ();
-            HTuple IsOverlapping = new ();
-            HTuple _Qx = new ();
-            HTuple _Qy = new ();
-            HTuple Row_1 = new ();
-            HTuple Row_2 = new ();
-            HTuple Row_3 = new ();
-            HTuple Row_4 = new ();
-            HTuple Row_5 = new ();
-            HTuple Col_1 = new ();
-            HTuple Col_2 = new ();
-            HTuple Col_3 = new ();
-            HTuple Col_4 = new ();
-            HTuple Col_5 = new ();
-            HTuple _Angle = new ();
+            HTuple C_P_Row = new();
+            HTuple C_P_Col = new();
+            HTuple Row1 = new();
+            HTuple Column1 = new();
+            HTuple L_RP1 = new();
+            HTuple L_CP1 = new();
+            HTuple L_RP2 = new();
+            HTuple L_CP2 = new();
+            HTuple L_RP3 = new();
+            HTuple L_CP3 = new();
+            HTuple hv_Text = new();
+            HTuple IsOverlapping = new();
+            HTuple _Qx = new();
+            HTuple _Qy = new();
+            HTuple Row_1 = new();
+            HTuple Row_2 = new();
+            HTuple Row_3 = new();
+            HTuple Row_4 = new();
+            HTuple Row_5 = new();
+            HTuple Col_1 = new();
+            HTuple Col_2 = new();
+            HTuple Col_3 = new();
+            HTuple Col_4 = new();
+            HTuple Col_5 = new();
+            HTuple _Angle = new();
 
             HObject _Cross = new HObject();
             HObject _Line_1 = new HObject();
@@ -2719,17 +2766,17 @@ namespace Halcon_SDK_DLL
 
             // Local control variables
 
-            HTuple hv_CameraType = new (), hv_IsTelecentric = new ();
-            HTuple hv_TransWorld2Cam = new (), hv_OrigCamX = new ();
-            HTuple hv_OrigCamY = new (), hv_OrigCamZ = new ();
-            HTuple hv_Row0 = new (), hv_Column0 = new ();
-            HTuple hv_X = new (), hv_Y = new (), hv_Z = new ();
-            HTuple hv_RowAxX = new (), hv_ColumnAxX = new ();
-            HTuple hv_RowAxY = new (), hv_ColumnAxY = new ();
-            HTuple hv_RowAxZ = new (), hv_ColumnAxZ = new ();
-            HTuple hv_Distance = new (), hv_HeadLength = new ();
-            HTuple hv_Red = new (), hv_Green = new ();
-            HTuple hv_Blue = new ();
+            HTuple hv_CameraType = new(), hv_IsTelecentric = new();
+            HTuple hv_TransWorld2Cam = new(), hv_OrigCamX = new();
+            HTuple hv_OrigCamY = new(), hv_OrigCamZ = new();
+            HTuple hv_Row0 = new(), hv_Column0 = new();
+            HTuple hv_X = new(), hv_Y = new(), hv_Z = new();
+            HTuple hv_RowAxX = new(), hv_ColumnAxX = new();
+            HTuple hv_RowAxY = new(), hv_ColumnAxY = new();
+            HTuple hv_RowAxZ = new(), hv_ColumnAxZ = new();
+            HTuple hv_Distance = new(), hv_HeadLength = new();
+            HTuple hv_Red = new(), hv_Green = new();
+            HTuple hv_Blue = new();
             // Initialize local and output iconic variables
             HOperatorSet.GenEmptyObj(out ho_Arrows);
             try
@@ -2904,11 +2951,11 @@ namespace Halcon_SDK_DLL
 
             // Local control variables
 
-            HTuple hv_Length = new (), hv_ZeroLengthIndices = new ();
-            HTuple hv_DR = new (), hv_DC = new (), hv_HalfHeadWidth = new ();
-            HTuple hv_RowP1 = new (), hv_ColP1 = new ();
-            HTuple hv_RowP2 = new (), hv_ColP2 = new ();
-            HTuple hv_Index = new ();
+            HTuple hv_Length = new(), hv_ZeroLengthIndices = new();
+            HTuple hv_DR = new(), hv_DC = new(), hv_HalfHeadWidth = new();
+            HTuple hv_RowP1 = new(), hv_ColP1 = new();
+            HTuple hv_RowP2 = new(), hv_ColP2 = new();
+            HTuple hv_Index = new();
             // Initialize local and output iconic variables
             HOperatorSet.GenEmptyObj(out ho_Arrow);
             HOperatorSet.GenEmptyObj(out ho_TempArrow);
@@ -2952,7 +2999,7 @@ namespace Halcon_SDK_DLL
                 if ((int)(new HTuple(hv_ZeroLengthIndices.TupleNotEqual(-1))) != 0)
                 {
                     if (hv_Length == null)
-                        hv_Length = new ();
+                        hv_Length = new();
                     hv_Length[hv_ZeroLengthIndices] = -1;
                 }
                 //
@@ -3057,11 +3104,11 @@ namespace Halcon_SDK_DLL
 
             // Local control variables
 
-            HTuple hv_CameraType = new (), hv_CameraParamNames = new ();
-            HTuple hv_Index = new (), hv_ParamNameInd = new ();
-            HTuple hv_I = new ();
+            HTuple hv_CameraType = new(), hv_CameraParamNames = new();
+            HTuple hv_Index = new(), hv_ParamNameInd = new();
+            HTuple hv_I = new();
             // Initialize local and output iconic variables
-            hv_ParamValue = new ();
+            hv_ParamValue = new();
             try
             {
                 //get_cam_par_data returns in ParamValue the value of the
@@ -3076,7 +3123,7 @@ namespace Halcon_SDK_DLL
                 //Find the index of the requested camera data and return
                 //the corresponding value.
                 hv_ParamValue.Dispose();
-                hv_ParamValue = new ();
+                hv_ParamValue = new();
                 for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_ParamName.TupleLength()
                     )) - 1); hv_Index = (int)hv_Index + 1)
                 {
@@ -3148,33 +3195,33 @@ namespace Halcon_SDK_DLL
 
             // Local control variables
 
-            HTuple hv_CameraParamAreaScanDivision = new ();
-            HTuple hv_CameraParamAreaScanPolynomial = new ();
-            HTuple hv_CameraParamAreaScanTelecentricDivision = new ();
-            HTuple hv_CameraParamAreaScanTelecentricPolynomial = new ();
-            HTuple hv_CameraParamAreaScanTiltDivision = new ();
-            HTuple hv_CameraParamAreaScanTiltPolynomial = new ();
-            HTuple hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new ();
-            HTuple hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new ();
-            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new ();
-            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new ();
-            HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new ();
-            HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new ();
-            HTuple hv_CameraParamAreaScanHypercentricDivision = new ();
-            HTuple hv_CameraParamAreaScanHypercentricPolynomial = new ();
-            HTuple hv_CameraParamLinesScanDivision = new ();
-            HTuple hv_CameraParamLinesScanPolynomial = new ();
-            HTuple hv_CameraParamLinesScanTelecentricDivision = new ();
-            HTuple hv_CameraParamLinesScanTelecentricPolynomial = new ();
-            HTuple hv_CameraParamAreaScanTiltDivisionLegacy = new ();
-            HTuple hv_CameraParamAreaScanTiltPolynomialLegacy = new ();
-            HTuple hv_CameraParamAreaScanTelecentricDivisionLegacy = new ();
-            HTuple hv_CameraParamAreaScanTelecentricPolynomialLegacy = new ();
-            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new ();
-            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new ();
+            HTuple hv_CameraParamAreaScanDivision = new();
+            HTuple hv_CameraParamAreaScanPolynomial = new();
+            HTuple hv_CameraParamAreaScanTelecentricDivision = new();
+            HTuple hv_CameraParamAreaScanTelecentricPolynomial = new();
+            HTuple hv_CameraParamAreaScanTiltDivision = new();
+            HTuple hv_CameraParamAreaScanTiltPolynomial = new();
+            HTuple hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new();
+            HTuple hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new();
+            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new();
+            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new();
+            HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new();
+            HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new();
+            HTuple hv_CameraParamAreaScanHypercentricDivision = new();
+            HTuple hv_CameraParamAreaScanHypercentricPolynomial = new();
+            HTuple hv_CameraParamLinesScanDivision = new();
+            HTuple hv_CameraParamLinesScanPolynomial = new();
+            HTuple hv_CameraParamLinesScanTelecentricDivision = new();
+            HTuple hv_CameraParamLinesScanTelecentricPolynomial = new();
+            HTuple hv_CameraParamAreaScanTiltDivisionLegacy = new();
+            HTuple hv_CameraParamAreaScanTiltPolynomialLegacy = new();
+            HTuple hv_CameraParamAreaScanTelecentricDivisionLegacy = new();
+            HTuple hv_CameraParamAreaScanTelecentricPolynomialLegacy = new();
+            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new();
+            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new();
             // Initialize local and output iconic variables
-            hv_CameraType = new ();
-            hv_ParamNames = new ();
+            hv_CameraType = new();
+            hv_ParamNames = new();
             try
             {
                 //get_cam_par_names returns for each element in the camera
@@ -3202,7 +3249,7 @@ namespace Halcon_SDK_DLL
                 //  - 'line_scan_telecentric_polynomial'
                 //
                 hv_CameraParamAreaScanDivision.Dispose();
-                hv_CameraParamAreaScanDivision = new ();
+                hv_CameraParamAreaScanDivision = new();
                 hv_CameraParamAreaScanDivision[0] = "focus";
                 hv_CameraParamAreaScanDivision[1] = "kappa";
                 hv_CameraParamAreaScanDivision[2] = "sx";
@@ -3212,7 +3259,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanDivision[6] = "image_width";
                 hv_CameraParamAreaScanDivision[7] = "image_height";
                 hv_CameraParamAreaScanPolynomial.Dispose();
-                hv_CameraParamAreaScanPolynomial = new ();
+                hv_CameraParamAreaScanPolynomial = new();
                 hv_CameraParamAreaScanPolynomial[0] = "focus";
                 hv_CameraParamAreaScanPolynomial[1] = "k1";
                 hv_CameraParamAreaScanPolynomial[2] = "k2";
@@ -3226,7 +3273,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanPolynomial[10] = "image_width";
                 hv_CameraParamAreaScanPolynomial[11] = "image_height";
                 hv_CameraParamAreaScanTelecentricDivision.Dispose();
-                hv_CameraParamAreaScanTelecentricDivision = new ();
+                hv_CameraParamAreaScanTelecentricDivision = new();
                 hv_CameraParamAreaScanTelecentricDivision[0] = "magnification";
                 hv_CameraParamAreaScanTelecentricDivision[1] = "kappa";
                 hv_CameraParamAreaScanTelecentricDivision[2] = "sx";
@@ -3236,7 +3283,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanTelecentricDivision[6] = "image_width";
                 hv_CameraParamAreaScanTelecentricDivision[7] = "image_height";
                 hv_CameraParamAreaScanTelecentricPolynomial.Dispose();
-                hv_CameraParamAreaScanTelecentricPolynomial = new ();
+                hv_CameraParamAreaScanTelecentricPolynomial = new();
                 hv_CameraParamAreaScanTelecentricPolynomial[0] = "magnification";
                 hv_CameraParamAreaScanTelecentricPolynomial[1] = "k1";
                 hv_CameraParamAreaScanTelecentricPolynomial[2] = "k2";
@@ -3250,7 +3297,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanTelecentricPolynomial[10] = "image_width";
                 hv_CameraParamAreaScanTelecentricPolynomial[11] = "image_height";
                 hv_CameraParamAreaScanTiltDivision.Dispose();
-                hv_CameraParamAreaScanTiltDivision = new ();
+                hv_CameraParamAreaScanTiltDivision = new();
                 hv_CameraParamAreaScanTiltDivision[0] = "focus";
                 hv_CameraParamAreaScanTiltDivision[1] = "kappa";
                 hv_CameraParamAreaScanTiltDivision[2] = "image_plane_dist";
@@ -3263,7 +3310,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanTiltDivision[9] = "image_width";
                 hv_CameraParamAreaScanTiltDivision[10] = "image_height";
                 hv_CameraParamAreaScanTiltPolynomial.Dispose();
-                hv_CameraParamAreaScanTiltPolynomial = new ();
+                hv_CameraParamAreaScanTiltPolynomial = new();
                 hv_CameraParamAreaScanTiltPolynomial[0] = "focus";
                 hv_CameraParamAreaScanTiltPolynomial[1] = "k1";
                 hv_CameraParamAreaScanTiltPolynomial[2] = "k2";
@@ -3280,7 +3327,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanTiltPolynomial[13] = "image_width";
                 hv_CameraParamAreaScanTiltPolynomial[14] = "image_height";
                 hv_CameraParamAreaScanImageSideTelecentricTiltDivision.Dispose();
-                hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new ();
+                hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new();
                 hv_CameraParamAreaScanImageSideTelecentricTiltDivision[0] = "focus";
                 hv_CameraParamAreaScanImageSideTelecentricTiltDivision[1] = "kappa";
                 hv_CameraParamAreaScanImageSideTelecentricTiltDivision[2] = "tilt";
@@ -3292,7 +3339,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanImageSideTelecentricTiltDivision[8] = "image_width";
                 hv_CameraParamAreaScanImageSideTelecentricTiltDivision[9] = "image_height";
                 hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial.Dispose();
-                hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new ();
+                hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new();
                 hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[0] = "focus";
                 hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[1] = "k1";
                 hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[2] = "k2";
@@ -3308,7 +3355,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[12] = "image_width";
                 hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[13] = "image_height";
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivision.Dispose();
-                hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new ();
+                hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new();
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivision[0] = "magnification";
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivision[1] = "kappa";
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivision[2] = "tilt";
@@ -3320,7 +3367,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivision[8] = "image_width";
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivision[9] = "image_height";
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial.Dispose();
-                hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new ();
+                hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new();
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[0] = "magnification";
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[1] = "k1";
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[2] = "k2";
@@ -3336,7 +3383,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[12] = "image_width";
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[13] = "image_height";
                 hv_CameraParamAreaScanObjectSideTelecentricTiltDivision.Dispose();
-                hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new ();
+                hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new();
                 hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[0] = "magnification";
                 hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[1] = "kappa";
                 hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[2] = "image_plane_dist";
@@ -3349,7 +3396,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[9] = "image_width";
                 hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[10] = "image_height";
                 hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial.Dispose();
-                hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new ();
+                hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new();
                 hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[0] = "magnification";
                 hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[1] = "k1";
                 hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[2] = "k2";
@@ -3366,7 +3413,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[13] = "image_width";
                 hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[14] = "image_height";
                 hv_CameraParamAreaScanHypercentricDivision.Dispose();
-                hv_CameraParamAreaScanHypercentricDivision = new ();
+                hv_CameraParamAreaScanHypercentricDivision = new();
                 hv_CameraParamAreaScanHypercentricDivision[0] = "focus";
                 hv_CameraParamAreaScanHypercentricDivision[1] = "kappa";
                 hv_CameraParamAreaScanHypercentricDivision[2] = "sx";
@@ -3376,7 +3423,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanHypercentricDivision[6] = "image_width";
                 hv_CameraParamAreaScanHypercentricDivision[7] = "image_height";
                 hv_CameraParamAreaScanHypercentricPolynomial.Dispose();
-                hv_CameraParamAreaScanHypercentricPolynomial = new ();
+                hv_CameraParamAreaScanHypercentricPolynomial = new();
                 hv_CameraParamAreaScanHypercentricPolynomial[0] = "focus";
                 hv_CameraParamAreaScanHypercentricPolynomial[1] = "k1";
                 hv_CameraParamAreaScanHypercentricPolynomial[2] = "k2";
@@ -3390,7 +3437,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanHypercentricPolynomial[10] = "image_width";
                 hv_CameraParamAreaScanHypercentricPolynomial[11] = "image_height";
                 hv_CameraParamLinesScanDivision.Dispose();
-                hv_CameraParamLinesScanDivision = new ();
+                hv_CameraParamLinesScanDivision = new();
                 hv_CameraParamLinesScanDivision[0] = "focus";
                 hv_CameraParamLinesScanDivision[1] = "kappa";
                 hv_CameraParamLinesScanDivision[2] = "sx";
@@ -3403,7 +3450,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamLinesScanDivision[9] = "vy";
                 hv_CameraParamLinesScanDivision[10] = "vz";
                 hv_CameraParamLinesScanPolynomial.Dispose();
-                hv_CameraParamLinesScanPolynomial = new ();
+                hv_CameraParamLinesScanPolynomial = new();
                 hv_CameraParamLinesScanPolynomial[0] = "focus";
                 hv_CameraParamLinesScanPolynomial[1] = "k1";
                 hv_CameraParamLinesScanPolynomial[2] = "k2";
@@ -3420,7 +3467,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamLinesScanPolynomial[13] = "vy";
                 hv_CameraParamLinesScanPolynomial[14] = "vz";
                 hv_CameraParamLinesScanTelecentricDivision.Dispose();
-                hv_CameraParamLinesScanTelecentricDivision = new ();
+                hv_CameraParamLinesScanTelecentricDivision = new();
                 hv_CameraParamLinesScanTelecentricDivision[0] = "magnification";
                 hv_CameraParamLinesScanTelecentricDivision[1] = "kappa";
                 hv_CameraParamLinesScanTelecentricDivision[2] = "sx";
@@ -3433,7 +3480,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamLinesScanTelecentricDivision[9] = "vy";
                 hv_CameraParamLinesScanTelecentricDivision[10] = "vz";
                 hv_CameraParamLinesScanTelecentricPolynomial.Dispose();
-                hv_CameraParamLinesScanTelecentricPolynomial = new ();
+                hv_CameraParamLinesScanTelecentricPolynomial = new();
                 hv_CameraParamLinesScanTelecentricPolynomial[0] = "magnification";
                 hv_CameraParamLinesScanTelecentricPolynomial[1] = "k1";
                 hv_CameraParamLinesScanTelecentricPolynomial[2] = "k2";
@@ -3451,7 +3498,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamLinesScanTelecentricPolynomial[14] = "vz";
                 //Legacy parameter names
                 hv_CameraParamAreaScanTiltDivisionLegacy.Dispose();
-                hv_CameraParamAreaScanTiltDivisionLegacy = new ();
+                hv_CameraParamAreaScanTiltDivisionLegacy = new();
                 hv_CameraParamAreaScanTiltDivisionLegacy[0] = "focus";
                 hv_CameraParamAreaScanTiltDivisionLegacy[1] = "kappa";
                 hv_CameraParamAreaScanTiltDivisionLegacy[2] = "tilt";
@@ -3463,7 +3510,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanTiltDivisionLegacy[8] = "image_width";
                 hv_CameraParamAreaScanTiltDivisionLegacy[9] = "image_height";
                 hv_CameraParamAreaScanTiltPolynomialLegacy.Dispose();
-                hv_CameraParamAreaScanTiltPolynomialLegacy = new ();
+                hv_CameraParamAreaScanTiltPolynomialLegacy = new();
                 hv_CameraParamAreaScanTiltPolynomialLegacy[0] = "focus";
                 hv_CameraParamAreaScanTiltPolynomialLegacy[1] = "k1";
                 hv_CameraParamAreaScanTiltPolynomialLegacy[2] = "k2";
@@ -3479,7 +3526,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanTiltPolynomialLegacy[12] = "image_width";
                 hv_CameraParamAreaScanTiltPolynomialLegacy[13] = "image_height";
                 hv_CameraParamAreaScanTelecentricDivisionLegacy.Dispose();
-                hv_CameraParamAreaScanTelecentricDivisionLegacy = new ();
+                hv_CameraParamAreaScanTelecentricDivisionLegacy = new();
                 hv_CameraParamAreaScanTelecentricDivisionLegacy[0] = "focus";
                 hv_CameraParamAreaScanTelecentricDivisionLegacy[1] = "kappa";
                 hv_CameraParamAreaScanTelecentricDivisionLegacy[2] = "sx";
@@ -3489,7 +3536,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanTelecentricDivisionLegacy[6] = "image_width";
                 hv_CameraParamAreaScanTelecentricDivisionLegacy[7] = "image_height";
                 hv_CameraParamAreaScanTelecentricPolynomialLegacy.Dispose();
-                hv_CameraParamAreaScanTelecentricPolynomialLegacy = new ();
+                hv_CameraParamAreaScanTelecentricPolynomialLegacy = new();
                 hv_CameraParamAreaScanTelecentricPolynomialLegacy[0] = "focus";
                 hv_CameraParamAreaScanTelecentricPolynomialLegacy[1] = "k1";
                 hv_CameraParamAreaScanTelecentricPolynomialLegacy[2] = "k2";
@@ -3503,7 +3550,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanTelecentricPolynomialLegacy[10] = "image_width";
                 hv_CameraParamAreaScanTelecentricPolynomialLegacy[11] = "image_height";
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy.Dispose();
-                hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new ();
+                hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new();
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[0] = "focus";
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[1] = "kappa";
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[2] = "tilt";
@@ -3515,7 +3562,7 @@ namespace Halcon_SDK_DLL
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[8] = "image_width";
                 hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[9] = "image_height";
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy.Dispose();
-                hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new ();
+                hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new();
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[0] = "focus";
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[1] = "k1";
                 hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[2] = "k2";
@@ -3546,7 +3593,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanDivision);
                         }
@@ -3554,7 +3601,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanPolynomial);
                         }
@@ -3562,7 +3609,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricDivision);
                         }
@@ -3570,7 +3617,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricPolynomial);
                         }
@@ -3578,7 +3625,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltDivision);
                         }
@@ -3586,7 +3633,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltPolynomial);
                         }
@@ -3594,7 +3641,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltDivision);
                         }
@@ -3602,7 +3649,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial);
                         }
@@ -3610,7 +3657,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltDivision);
                         }
@@ -3618,7 +3665,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial);
                         }
@@ -3626,7 +3673,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltDivision);
                         }
@@ -3634,7 +3681,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial);
                         }
@@ -3642,14 +3689,14 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricDivision);
                         }
                         else if ((int)(new HTuple(hv_CameraType.TupleEqual("area_scan_hypercentric_polynomial"))) != 0)
                         {
                             hv_ParamNames.Dispose();
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricPolynomial);
                         }
@@ -3658,7 +3705,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanDivision);
                         }
@@ -3666,7 +3713,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanPolynomial);
                         }
@@ -3674,7 +3721,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricDivision);
                         }
@@ -3682,7 +3729,7 @@ namespace Halcon_SDK_DLL
                         {
                             hv_ParamNames.Dispose();
 
-                            hv_ParamNames = new ();
+                            hv_ParamNames = new();
                             hv_ParamNames[0] = "camera_type";
                             hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricPolynomial);
                         }
@@ -3816,7 +3863,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanDivision);
                     }
@@ -3829,7 +3876,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanPolynomial);
                     }
@@ -3842,7 +3889,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricDivision);
                     }
@@ -3855,7 +3902,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTelecentricPolynomial);
                     }
@@ -3868,7 +3915,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltDivision);
                     }
@@ -3881,7 +3928,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanTiltPolynomial);
                     }
@@ -3894,7 +3941,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltDivision);
                     }
@@ -3907,7 +3954,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial);
                     }
@@ -3920,7 +3967,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltDivision);
                     }
@@ -3933,7 +3980,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial);
                     }
@@ -3946,7 +3993,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltDivision);
                     }
@@ -3959,7 +4006,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial);
                     }
@@ -3972,7 +4019,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricDivision);
                     }
@@ -3985,7 +4032,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamAreaScanHypercentricPolynomial);
                     }
@@ -3999,7 +4046,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanDivision);
                     }
@@ -4012,7 +4059,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanPolynomial);
                     }
@@ -4025,7 +4072,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricDivision);
                     }
@@ -4038,7 +4085,7 @@ namespace Halcon_SDK_DLL
                         }
                         hv_ParamNames.Dispose();
 
-                        hv_ParamNames = new ();
+                        hv_ParamNames = new();
                         hv_ParamNames[0] = "camera_type";
                         hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricPolynomial);
                     }
