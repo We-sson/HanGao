@@ -78,6 +78,12 @@ namespace Halcon_SDK_DLL
         /// </summary>
         public HObject? Draw_XLD { set; get; }
 
+
+        /// <summary>
+        /// 路径标定位置显示
+        /// </summary>
+        public HObject? Path_XLD { set; get; }
+
         /// <summary>
         /// 模型存储列表
         /// </summary>
@@ -1119,7 +1125,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_XLD"></param>
         /// <param name="_DrawColor"></param>
         /// <param name="_Show"></param>
-        public void Display_HObject(Window_Show_Name_Enum _Show, HObject? _HImage = null, HObject? _Region = null, HObject? _XLD = null, HObject? _Draw = null, string? _DrawColor = null, bool Image_AutoPart = false)
+        public void Display_HObject(Window_Show_Name_Enum _Show, HObject? _HImage = null, HObject? _Region = null, HObject? _XLD = null, HObject? _Draw = null, HObject? _Path = null, string? _DrawColor = null, bool Image_AutoPart = false)
         {
 
 
@@ -1148,6 +1154,12 @@ namespace Halcon_SDK_DLL
             {
                 SetWindowDisoplay(_Draw, Display_HObject_Type_Enum.Draw, _Show);
             }
+            if (_Path != null)
+            {
+                SetWindowDisoplay(_Path, Display_HObject_Type_Enum.XLD, _Show);
+
+            }
+
         }
 
 
@@ -1386,6 +1398,12 @@ namespace Halcon_SDK_DLL
 
                     _WindowDisplay.Draw_XLD = _Dispaly;
 
+
+                    break;
+
+                case Display_HObject_Type_Enum.Path:
+
+                    _WindowDisplay.Path_XLD = _Dispaly;
 
                     break;
             }

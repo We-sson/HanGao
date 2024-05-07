@@ -631,7 +631,7 @@ namespace HanGao.ViewModel
                         Application.Current.Dispatcher.Invoke(() =>
                         {
                             Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
-                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image.CopyImage(), Image_AutoPart: true);
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image , Image_AutoPart: true);
                         });
 
 

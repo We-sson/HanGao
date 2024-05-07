@@ -251,7 +251,19 @@ namespace Halcon_SDK_DLL.Halcon_Method
             return Res_Image;
         }
 
+        public List<HXLDCont> Get_Match_Path_XLD()
+        {
+            List<HXLDCont> _Result_XLD = new List<HXLDCont>();
 
+
+
+
+
+
+
+
+            return _Result_XLD;
+        }
 
 
 

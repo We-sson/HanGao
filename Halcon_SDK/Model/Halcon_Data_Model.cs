@@ -2671,7 +2671,8 @@ namespace Halcon_SDK_DLL.Model
         Region,
         XLD,
         SetDrawColor,
-        Draw
+        Draw,
+        Path
     }
 
     /// <summary>
