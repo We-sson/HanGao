@@ -6,16 +6,441 @@ using System;
 using System.Collections.Generic;
 
 public class Reconstruction_3d
-
-
 {
 
+    // Procedures 
+    // External procedures 
+    // Chapter: Graphics / Output
+    // Short Description: Display the axes of a 3d coordinate system 
+    public void Gen_3d_coord( HTuple hv_CamParam,
+        HTuple hv_Pose, HTuple hv_CoordAxesLength)
+    {
+
+        List<HXLDCont> Coord_XLD = new List<HXLDCont>();
+
+        // Local iconic variables 
+
+        HObject ho_Arrows;
+
+        // Local control variables 
+
+        HTuple hv_CameraType = new HTuple(), hv_IsTelecentric = new HTuple();
+        HTuple hv_TransWorld2Cam = new HTuple(), hv_OrigCamX = new HTuple();
+        HTuple hv_OrigCamY = new HTuple(), hv_OrigCamZ = new HTuple();
+        HTuple hv_Row0 = new HTuple(), hv_Column0 = new HTuple();
+        HTuple hv_X = new HTuple(), hv_Y = new HTuple(), hv_Z = new HTuple();
+        HTuple hv_RowAxX = new HTuple(), hv_ColumnAxX = new HTuple();
+        HTuple hv_RowAxY = new HTuple(), hv_ColumnAxY = new HTuple();
+        HTuple hv_RowAxZ = new HTuple(), hv_ColumnAxZ = new HTuple();
+        HTuple hv_Distance = new HTuple(), hv_HeadLength = new HTuple();
+        // Initialize local and output iconic variables 
+        HOperatorSet.GenEmptyObj(out ho_Arrows);
+        try
+        {
+            //This procedure displays a 3D coordinate system.
+            //It needs the procedure gen_arrow_contour_xld.
+            //
+            //Input parameters:
+            //WindowHandle: The window where the coordinate system shall be displayed
+            //CamParam: The camera parameters
+            //Pose: The pose to be displayed
+            //CoordAxesLength: The length of the coordinate axes in world coordinates
+            //该过程显示三维坐标系。
+            //需要使用存储过程 gen_arrow_contour_xld。
+            //
+            //输入参数：
+            //WindowHandle： 显示坐标系的窗口
+            //CamParam: 摄像机参数
+            //姿势 要显示的姿势
+            //CoordAxesLength: 坐标轴长度 以世界坐标为单位的坐标轴长度
+            //
+            //检查 Pose 是否为正确的姿势元组。
+            //Check, if Pose is a correct pose tuple.
+            if ((int)(new HTuple((new HTuple(hv_Pose.TupleLength())).TupleNotEqual(7))) != 0)
+            {
+                ho_Arrows.Dispose();
+
+                hv_CameraType.Dispose();
+                hv_IsTelecentric.Dispose();
+                hv_TransWorld2Cam.Dispose();
+                hv_OrigCamX.Dispose();
+                hv_OrigCamY.Dispose();
+                hv_OrigCamZ.Dispose();
+                hv_Row0.Dispose();
+                hv_Column0.Dispose();
+                hv_X.Dispose();
+                hv_Y.Dispose();
+                hv_Z.Dispose();
+                hv_RowAxX.Dispose();
+                hv_ColumnAxX.Dispose();
+                hv_RowAxY.Dispose();
+                hv_ColumnAxY.Dispose();
+                hv_RowAxZ.Dispose();
+                hv_ColumnAxZ.Dispose();
+                hv_Distance.Dispose();
+                hv_HeadLength.Dispose();
+
+                return;
+            }
+            hv_CameraType.Dispose();
+            get_cam_par_data(hv_CamParam, "camera_type", out hv_CameraType);
+            hv_IsTelecentric.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_IsTelecentric = new HTuple(((hv_CameraType.TupleStrstr(
+                    "telecentric"))).TupleNotEqual(-1));
+            }
+            if ((int)((new HTuple(((hv_Pose.TupleSelect(2))).TupleEqual(0.0))).TupleAnd(
+                hv_IsTelecentric.TupleNot())) != 0)
+            {
+                //For projective cameras:
+                //Poses with Z position zero cannot be projected
+                //(that would lead to a division by zero error).
+                //对于投影式摄像机：
+                //不能投射 Z 位置为零的姿势
+                //会导致除以零的错误）。
+                ho_Arrows.Dispose();
+
+                hv_CameraType.Dispose();
+                hv_IsTelecentric.Dispose();
+                hv_TransWorld2Cam.Dispose();
+                hv_OrigCamX.Dispose();
+                hv_OrigCamY.Dispose();
+                hv_OrigCamZ.Dispose();
+                hv_Row0.Dispose();
+                hv_Column0.Dispose();
+                hv_X.Dispose();
+                hv_Y.Dispose();
+                hv_Z.Dispose();
+                hv_RowAxX.Dispose();
+                hv_ColumnAxX.Dispose();
+                hv_RowAxY.Dispose();
+                hv_ColumnAxY.Dispose();
+                hv_RowAxZ.Dispose();
+                hv_ColumnAxZ.Dispose();
+                hv_Distance.Dispose();
+                hv_HeadLength.Dispose();
+
+                return;
+            }
+            //Convert pose to a transformation matrix..
+            //将姿势转换为变换矩阵。
+            hv_TransWorld2Cam.Dispose();
+            HOperatorSet.PoseToHomMat3d(hv_Pose, out hv_TransWorld2Cam);
+            //Project the world origin into the image.
+            //将世界原点投射到图像中。
+            hv_OrigCamX.Dispose(); hv_OrigCamY.Dispose(); hv_OrigCamZ.Dispose();
+            HOperatorSet.AffineTransPoint3d(hv_TransWorld2Cam, 0, 0, 0, out hv_OrigCamX,
+                out hv_OrigCamY, out hv_OrigCamZ);
+            hv_Row0.Dispose(); hv_Column0.Dispose();
+            HOperatorSet.Project3dPoint(hv_OrigCamX, hv_OrigCamY, hv_OrigCamZ, hv_CamParam,
+                out hv_Row0, out hv_Column0);
+            //Project the coordinate axes into the image.
+            //将坐标轴投射到图像中。
+            hv_X.Dispose(); hv_Y.Dispose(); hv_Z.Dispose();
+            HOperatorSet.AffineTransPoint3d(hv_TransWorld2Cam, hv_CoordAxesLength, 0, 0,
+                out hv_X, out hv_Y, out hv_Z);
+            hv_RowAxX.Dispose(); hv_ColumnAxX.Dispose();
+            HOperatorSet.Project3dPoint(hv_X, hv_Y, hv_Z, hv_CamParam, out hv_RowAxX, out hv_ColumnAxX);
+            hv_X.Dispose(); hv_Y.Dispose(); hv_Z.Dispose();
+            HOperatorSet.AffineTransPoint3d(hv_TransWorld2Cam, 0, hv_CoordAxesLength, 0,
+                out hv_X, out hv_Y, out hv_Z);
+            hv_RowAxY.Dispose(); hv_ColumnAxY.Dispose();
+            HOperatorSet.Project3dPoint(hv_X, hv_Y, hv_Z, hv_CamParam, out hv_RowAxY, out hv_ColumnAxY);
+            hv_X.Dispose(); hv_Y.Dispose(); hv_Z.Dispose();
+            HOperatorSet.AffineTransPoint3d(hv_TransWorld2Cam, 0, 0, hv_CoordAxesLength,
+                out hv_X, out hv_Y, out hv_Z);
+            hv_RowAxZ.Dispose(); hv_ColumnAxZ.Dispose();
+            HOperatorSet.Project3dPoint(hv_X, hv_Y, hv_Z, hv_CamParam, out hv_RowAxZ, out hv_ColumnAxZ);
+            //
+            //Generate an XLD contour for each axis.
+            //为每个轴生成 XLD 等值线。
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_Distance.Dispose();
+                HOperatorSet.DistancePp(((hv_Row0.TupleConcat(hv_Row0))).TupleConcat(hv_Row0),
+                    ((hv_Column0.TupleConcat(hv_Column0))).TupleConcat(hv_Column0), ((hv_RowAxX.TupleConcat(
+                    hv_RowAxY))).TupleConcat(hv_RowAxZ), ((hv_ColumnAxX.TupleConcat(hv_ColumnAxY))).TupleConcat(
+                    hv_ColumnAxZ), out hv_Distance);
+            }
+            hv_HeadLength.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_HeadLength = (((((((hv_Distance.TupleMax()
+                    ) / 12.0)).TupleConcat(5.0))).TupleMax())).TupleInt();
+            }
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                ho_Arrows.Dispose();
+                gen_arrow_contour_xld(out ho_Arrows, ((hv_Row0.TupleConcat(hv_Row0))).TupleConcat(
+                    hv_Row0), ((hv_Column0.TupleConcat(hv_Column0))).TupleConcat(hv_Column0),
+                    ((hv_RowAxX.TupleConcat(hv_RowAxY))).TupleConcat(hv_RowAxZ), ((hv_ColumnAxX.TupleConcat(
+                    hv_ColumnAxY))).TupleConcat(hv_ColumnAxZ), hv_HeadLength, hv_HeadLength);
+            }
+            //
+            if (HDevWindowStack.IsOpen())
+            {
+                HOperatorSet.DispObj(ho_Arrows, HDevWindowStack.GetActive());
+            }
+            if (HDevWindowStack.IsOpen())
+            {
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    HOperatorSet.DispText(HDevWindowStack.GetActive(), "X", "image", hv_RowAxX + 3,
+                        hv_ColumnAxX + 3, "red", "box", "false");
+                }
+            }
+            if (HDevWindowStack.IsOpen())
+            {
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    HOperatorSet.DispText(HDevWindowStack.GetActive(), "Y", "image", hv_RowAxY + 3,
+                        hv_ColumnAxY + 3, "green", "box", "false");
+                }
+            }
+            if (HDevWindowStack.IsOpen())
+            {
+                using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                {
+                    HOperatorSet.DispText(HDevWindowStack.GetActive(), "Z", "image", hv_RowAxZ + 3,
+                        hv_ColumnAxZ + 3, "blue", "box", "false");
+                }
+            }
+            ho_Arrows.Dispose();
+
+            hv_CameraType.Dispose();
+            hv_IsTelecentric.Dispose();
+            hv_TransWorld2Cam.Dispose();
+            hv_OrigCamX.Dispose();
+            hv_OrigCamY.Dispose();
+            hv_OrigCamZ.Dispose();
+            hv_Row0.Dispose();
+            hv_Column0.Dispose();
+            hv_X.Dispose();
+            hv_Y.Dispose();
+            hv_Z.Dispose();
+            hv_RowAxX.Dispose();
+            hv_ColumnAxX.Dispose();
+            hv_RowAxY.Dispose();
+            hv_ColumnAxY.Dispose();
+            hv_RowAxZ.Dispose();
+            hv_ColumnAxZ.Dispose();
+            hv_Distance.Dispose();
+            hv_HeadLength.Dispose();
+
+            return;
+        }
+        catch (HalconException HDevExpDefaultException)
+        {
+            ho_Arrows.Dispose();
+
+            hv_CameraType.Dispose();
+            hv_IsTelecentric.Dispose();
+            hv_TransWorld2Cam.Dispose();
+            hv_OrigCamX.Dispose();
+            hv_OrigCamY.Dispose();
+            hv_OrigCamZ.Dispose();
+            hv_Row0.Dispose();
+            hv_Column0.Dispose();
+            hv_X.Dispose();
+            hv_Y.Dispose();
+            hv_Z.Dispose();
+            hv_RowAxX.Dispose();
+            hv_ColumnAxX.Dispose();
+            hv_RowAxY.Dispose();
+            hv_ColumnAxY.Dispose();
+            hv_RowAxZ.Dispose();
+            hv_ColumnAxZ.Dispose();
+            hv_Distance.Dispose();
+            hv_HeadLength.Dispose();
+
+            throw HDevExpDefaultException;
+        }
+    }
+
+    // Chapter: XLD / Creation
+    // Short Description: Create an arrow shaped XLD contour. 
+    public void gen_arrow_contour_xld(out HObject ho_Arrow, HTuple hv_Row1, HTuple hv_Column1,
+        HTuple hv_Row2, HTuple hv_Column2, HTuple hv_HeadLength, HTuple hv_HeadWidth)
+    {
+
+
+
+        // Stack for temporary objects 
+        HObject[] OTemp = new HObject[20];
+
+        // Local iconic variables 
+
+        HObject ho_TempArrow = new HObject ();
+
+        // Local control variables 
+
+        HTuple hv_Length = new HTuple(), hv_ZeroLengthIndices = new HTuple();
+        HTuple hv_DR = new HTuple(), hv_DC = new HTuple(), hv_HalfHeadWidth = new HTuple();
+        HTuple hv_RowP1 = new HTuple(), hv_ColP1 = new HTuple();
+        HTuple hv_RowP2 = new HTuple(), hv_ColP2 = new HTuple();
+        HTuple hv_Index = new HTuple();
+        // Initialize local and output iconic variables 
+        HOperatorSet.GenEmptyObj(out ho_Arrow);
+        HOperatorSet.GenEmptyObj(out ho_TempArrow);
+        try
+        {
+            //This procedure generates arrow shaped XLD contours,
+            //pointing from (Row1, Column1) to (Row2, Column2).
+            //If starting and end point are identical, a contour consisting
+            //of a single point is returned.
+            //
+            //input parameters:
+            //Row1, Column1: Coordinates of the arrows' starting points
+            //Row2, Column2: Coordinates of the arrows' end points
+            //HeadLength, HeadWidth: Size of the arrow heads in pixels
+            //
+            //output parameter:
+            //Arrow: The resulting XLD contour
+            //
+            //The input tuples Row1, Column1, Row2, and Column2 have to be of
+            //the same length.
+            //HeadLength and HeadWidth either have to be of the same length as
+            //Row1, Column1, Row2, and Column2 or have to be a single element.
+            //If one of the above restrictions is violated, an error will occur.
+            //
+            //
+            //Initialization.
+            ho_Arrow.Dispose();
+            HOperatorSet.GenEmptyObj(out ho_Arrow);
+            //
+            //Calculate the arrow length
+            hv_Length.Dispose();
+            HOperatorSet.DistancePp(hv_Row1, hv_Column1, hv_Row2, hv_Column2, out hv_Length);
+            //
+            //Mark arrows with identical start and end point
+            //(set Length to -1 to avoid division-by-zero exception)
+            hv_ZeroLengthIndices.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_ZeroLengthIndices = hv_Length.TupleFind(
+                    0);
+            }
+            if ((int)(new HTuple(hv_ZeroLengthIndices.TupleNotEqual(-1))) != 0)
+            {
+                if (hv_Length == null)
+                    hv_Length = new HTuple();
+                hv_Length[hv_ZeroLengthIndices] = -1;
+            }
+            //
+            //Calculate auxiliary variables.
+            hv_DR.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_DR = (1.0 * (hv_Row2 - hv_Row1)) / hv_Length;
+            }
+            hv_DC.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_DC = (1.0 * (hv_Column2 - hv_Column1)) / hv_Length;
+            }
+            hv_HalfHeadWidth.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_HalfHeadWidth = hv_HeadWidth / 2.0;
+            }
+            //
+            //Calculate end points of the arrow head.
+            hv_RowP1.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_RowP1 = (hv_Row1 + ((hv_Length - hv_HeadLength) * hv_DR)) + (hv_HalfHeadWidth * hv_DC);
+            }
+            hv_ColP1.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_ColP1 = (hv_Column1 + ((hv_Length - hv_HeadLength) * hv_DC)) - (hv_HalfHeadWidth * hv_DR);
+            }
+            hv_RowP2.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_RowP2 = (hv_Row1 + ((hv_Length - hv_HeadLength) * hv_DR)) - (hv_HalfHeadWidth * hv_DC);
+            }
+            hv_ColP2.Dispose();
+            using (HDevDisposeHelper dh = new HDevDisposeHelper())
+            {
+                hv_ColP2 = (hv_Column1 + ((hv_Length - hv_HeadLength) * hv_DC)) + (hv_HalfHeadWidth * hv_DR);
+            }
+            //
+            //Finally create output XLD contour for each input point pair
+            for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_Length.TupleLength())) - 1); hv_Index = (int)hv_Index + 1)
+            {
+                if ((int)(new HTuple(((hv_Length.TupleSelect(hv_Index))).TupleEqual(-1))) != 0)
+                {
+                    //Create_ single points for arrows with identical start and end point
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        ho_TempArrow.Dispose();
+                        HOperatorSet.GenContourPolygonXld(out ho_TempArrow, hv_Row1.TupleSelect(
+                            hv_Index), hv_Column1.TupleSelect(hv_Index));
+                    }
+                }
+                else
+                {
+                    //Create arrow contour
+                    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+                    {
+                        ho_TempArrow.Dispose();
+                        HOperatorSet.GenContourPolygonXld(out ho_TempArrow, ((((((((((hv_Row1.TupleSelect(
+                            hv_Index))).TupleConcat(hv_Row2.TupleSelect(hv_Index)))).TupleConcat(
+                            hv_RowP1.TupleSelect(hv_Index)))).TupleConcat(hv_Row2.TupleSelect(hv_Index)))).TupleConcat(
+                            hv_RowP2.TupleSelect(hv_Index)))).TupleConcat(hv_Row2.TupleSelect(hv_Index)),
+                            ((((((((((hv_Column1.TupleSelect(hv_Index))).TupleConcat(hv_Column2.TupleSelect(
+                            hv_Index)))).TupleConcat(hv_ColP1.TupleSelect(hv_Index)))).TupleConcat(
+                            hv_Column2.TupleSelect(hv_Index)))).TupleConcat(hv_ColP2.TupleSelect(
+                            hv_Index)))).TupleConcat(hv_Column2.TupleSelect(hv_Index)));
+                    }
+                }
+                {
+                    HObject ExpTmpOutVar_0;
+                    HOperatorSet.ConcatObj(ho_Arrow, ho_TempArrow, out ExpTmpOutVar_0);
+                    ho_Arrow.Dispose();
+                    ho_Arrow = ExpTmpOutVar_0;
+                }
+            }
+            ho_TempArrow.Dispose();
+
+            hv_Length.Dispose();
+            hv_ZeroLengthIndices.Dispose();
+            hv_DR.Dispose();
+            hv_DC.Dispose();
+            hv_HalfHeadWidth.Dispose();
+            hv_RowP1.Dispose();
+            hv_ColP1.Dispose();
+            hv_RowP2.Dispose();
+            hv_ColP2.Dispose();
+            hv_Index.Dispose();
+
+            return;
+        }
+        catch (HalconException HDevExpDefaultException)
+        {
+            ho_TempArrow.Dispose();
+
+            hv_Length.Dispose();
+            hv_ZeroLengthIndices.Dispose();
+            hv_DR.Dispose();
+            hv_DC.Dispose();
+            hv_HalfHeadWidth.Dispose();
+            hv_RowP1.Dispose();
+            hv_ColP1.Dispose();
+            hv_RowP2.Dispose();
+            hv_ColP2.Dispose();
+            hv_Index.Dispose();
+
+            throw HDevExpDefaultException;
+        }
+    }
 
 
 
 
-
-    public  List<HObjectModel3D> Gen_Robot_Camera_3DModel(HPose HandEye_ToolinCamera,HPose Tool_In_Base,HPose Plan_In_Base, HCamPar Select_Camera_Par)
+    public List<HObjectModel3D> Gen_Robot_Camera_3DModel(HPose HandEye_ToolinCamera,HPose Tool_In_Base,HPose Plan_In_Base, HCamPar Select_Camera_Par)
     {
         List<HObjectModel3D> _Robot_Camera_3dModel = new ();
 

@@ -41,6 +41,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
     /// 视觉数据参数文件集合
     /// </summary>
     [Serializable]
+ 
     public class Vision_Data
     {
         /// <summary>

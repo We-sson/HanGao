@@ -568,8 +568,7 @@ namespace HanGao.ViewModel
                 });
 
 
-
-
+         
 
 
                 //Point_Model PlaneInBasePose = new Point_Model() { X = double.Parse(_Receive.Origin_Pos.X), Y = double.Parse(_Receive.Origin_Pos.Y), Z = double.Parse(_Receive.Origin_Pos.Z), Rx = double.Parse(_Receive.Origin_Pos.Rz), Ry = double.Parse(_Receive.Origin_Pos.Ry), Rz = double.Parse(_Receive.Origin_Pos.Rx), HType = Halcon_Pose_Type_Enum.abg };
@@ -633,6 +632,48 @@ namespace HanGao.ViewModel
                             Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
                             Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image , Image_AutoPart: true);
                         });
+
+
+
+
+                        //获得标定点在相机坐标下位置
+                        Point_Model BaseInToolPose = new(Halcon_Shape_Mode.Tool_In_BasePos.HPose.PoseInvert());
+                        Point_Model BaseInCamPose = new(Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera.HPose.PoseCompose(BaseInToolPose.HPose));
+                        HHomMat3D BaseInCamPose_Mat3D = BaseInCamPose.HPose.PoseToHomMat3d();
+                        ///创建校正后图像临时相机参数
+                        _Image.GetImageSize(out HTuple _with, out HTuple _height);
+                        Halcon_Camera_Calibration_Parameters_Model MapCamPar = new Halcon_Camera_Calibration_Parameters_Model()
+                        { Camera_Calibration_Model= Halocn_Camera_Calibration_Enum.area_scan_polynomial ,
+                        Sx= Halcon_Shape_Mode.Image_Rectified_Ratio,
+                        Sy= Halcon_Shape_Mode.Image_Rectified_Ratio,
+                        Image_Width= _with,
+                         Image_Height= _height,
+                        };
+                       
+                        ///处理标定位置集合
+                        foreach (var _Pos in Halcon_Shape_Mode.Calib_PathInBase_List)
+                        {
+
+                            double _x = BaseInCamPose_Mat3D.AffineTransPoint3d(_Pos.X, _Pos.Y, _Pos.Z, out double _y, out double _z);
+                            Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar.Project3dPoint(_x, _y, _z, out HTuple _row, out HTuple _col);
+
+
+                            ///判断是否校正图像
+                            if (Select_Vision_Value.Find_Shape_Data.Auto_Image_Rectified)
+                            {
+                                Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar.ImagePointsToWorldPlane(Halcon_Shape_Mode.Plane_In_BasePose.HPose, _row, _col, Halcon_Shape_Mode.Image_Rectified_Ratio, out HTuple _Px, out HTuple _Py);
+
+
+                            }
+                            else
+                            {
+
+
+                            }
+
+                        }
+
+
 
 
 

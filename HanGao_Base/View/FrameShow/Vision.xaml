@@ -895,10 +895,10 @@
                             <Halcon:HIconicDisplayObjectWPF HColor="red"
                                                             IconicObject="{Binding Halcon_Window_Display.Features_Window.Draw_XLD}"
                                                             LineWidth=" 1" />
-                            <Halcon:HIconicDisplayObjectWPF HColor="Blue"
-                                IconicObject="{Binding Halcon_Window_Display.Features_Window.Path_XLD}"
-                                LineWidth=" 2" />
-                            
+                            <Halcon:HIconicDisplayObjectWPF HColored=" 3"
+                                                            IconicObject="{Binding Halcon_Window_Display.Features_Window.Path_XLD}"
+                                                            LineWidth=" 2" />
+
                             <Halcon:HSmartWindowControlWPF.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem x:Name="Draw_Pos" Header="添加特征点">
