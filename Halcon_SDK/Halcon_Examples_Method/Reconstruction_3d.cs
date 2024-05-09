@@ -11,10 +11,10 @@ public class Reconstruction_3d
     // External procedures 
     // Chapter: Graphics / Output
     // Short Description: Display the axes of a 3d coordinate system 
-    public List<HXLDCont> Gen_3d_coord(HCamPar hv_CamParam, HPose hv_Pose, double hv_CoordAxesLength)
+    public HXLDCont Gen_3d_coord(HCamPar hv_CamParam, HPose hv_Pose, double hv_CoordAxesLength)
     {
 
-        List<HXLDCont> Coord_XLD = new List<HXLDCont>();
+        HXLDCont Coord_XLD = new HXLDCont();
 
         // Local iconic variables 
 
@@ -208,7 +208,7 @@ public class Reconstruction_3d
 
     // Chapter: XLD / Creation
     // Short Description: Create an arrow shaped XLD contour. 
-    public List<HXLDCont> gen_arrow_contour_xld(HTuple hv_Row1, HTuple hv_Column1,
+    private  HXLDCont gen_arrow_contour_xld(HTuple hv_Row1, HTuple hv_Column1,
         HTuple hv_Row2, HTuple hv_Column2, HTuple hv_HeadLength, HTuple hv_HeadWidth)
     {
 
@@ -220,7 +220,7 @@ public class Reconstruction_3d
         // Local iconic variables 
 
         HXLDCont ho_TempArrow = new HXLDCont();
-        List<HXLDCont> ho_Arrow = new List<HXLDCont>();
+       HXLDCont ho_Arrow = new HXLDCont();
         // Local control variables 
 
         HTuple hv_Length = new HTuple(), hv_ZeroLengthIndices = new HTuple();
@@ -334,7 +334,7 @@ public class Reconstruction_3d
 
                 }
 
-                ho_Arrow.Add(ho_TempArrow);
+                ho_Arrow= ho_Arrow.ConcatObj(  ho_TempArrow);
                     //HObject ExpTmpOutVar_0;
                     //HOperatorSet.ConcatObj(ho_Arrow, ho_TempArrow, out ExpTmpOutVar_0);
                     //ho_Arrow.Dispose();
