@@ -1016,35 +1016,35 @@ namespace Halcon_SDK_DLL
 
                 case Window_Show_Name_Enum.Results_Window_1:
                     Results_Window_1.HWindow.ClearWindow();
-                    Results_Window_1.DisplayImage = null;
-                    Results_Window_1.DisplayXLD = null;
-                    Results_Window_1.DisplayRegion = null;
-                    Results_Window_1.Draw_XLD = null;
+                    Results_Window_1.DisplayImage? .Dispose();
+                    Results_Window_1.DisplayXLD?.Dispose();
+                    Results_Window_1.DisplayRegion?.Dispose();
+                    Results_Window_1.Draw_XLD?.Dispose();
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_2:
                     Results_Window_2.HWindow.ClearWindow();
-                    Results_Window_2.DisplayImage = null;
-                    Results_Window_2.DisplayXLD = null;
-                    Results_Window_2.DisplayRegion = null;
-                    Results_Window_2.Draw_XLD = null;
+                    Results_Window_2.DisplayImage?.Dispose();
+                    Results_Window_2.DisplayXLD?.Dispose();
+                    Results_Window_2.DisplayRegion?.Dispose();
+                    Results_Window_2.Draw_XLD?.Dispose();
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_3:
                     Results_Window_3.HWindow.ClearWindow();
-                    Results_Window_3.DisplayImage = null;
-                    Results_Window_3.DisplayXLD = null;
-                    Results_Window_3.DisplayRegion = null;
-                    Results_Window_3.Draw_XLD = null;
+                    Results_Window_3.DisplayImage?.Dispose();
+                    Results_Window_3.DisplayXLD?.Dispose();
+                    Results_Window_3.DisplayRegion?.Dispose();
+                    Results_Window_3.Draw_XLD?.Dispose();
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_4:
 
                     Results_Window_4.HWindow.ClearWindow();
-                    Results_Window_4.DisplayImage = null;
-                    Results_Window_4.DisplayXLD = null;
-                    Results_Window_4.DisplayRegion = null;
-                    Results_Window_4.Draw_XLD = null;
+                    Results_Window_4.DisplayImage?.Dispose();
+                    Results_Window_4.DisplayXLD?.Dispose();
+                    Results_Window_4.DisplayRegion?.Dispose();
+                    Results_Window_4.Draw_XLD?.Dispose();
                     break;
 
                 case Window_Show_Name_Enum.Calibration_Window_1:
@@ -1168,54 +1168,56 @@ namespace Halcon_SDK_DLL
 
 
 
-        public void Result_Display_Window(Find_Shape_Results_Model _result)
+        public void Result_Display_Window(HImage _image, Find_Shape_Results_Model _result)
         {
-            for (int i = 0; i < 3; i++)
+
+
+            if (Display_Window_No == 0)
             {
 
-                if (i == 0)
-                {
+                HWindow_Clear(Window_Show_Name_Enum.Results_Window_1);
+                HWindow_Clear(Window_Show_Name_Enum.Results_Window_2);
+                HWindow_Clear(Window_Show_Name_Enum.Results_Window_3);
+                HWindow_Clear(Window_Show_Name_Enum.Results_Window_4);
 
-                    HWindow_Clear(Window_Show_Name_Enum.Results_Window_1);
-                    HWindow_Clear(Window_Show_Name_Enum.Results_Window_2);
-                    HWindow_Clear(Window_Show_Name_Enum.Results_Window_3);
-                    HWindow_Clear(Window_Show_Name_Enum.Results_Window_4);
-
-                }
-
-                switch (i)
-                {
-
-                    case 0:
-                        Results_Window_1.Find_Result_Show_Window = _result;
-                        Display_HObject(Window_Show_Name_Enum.Results_Window_1, _XLD: _result.HXLD_Results_All);
-
-                        break;
-                    case 1:
-                        Results_Window_2.Find_Result_Show_Window = _result;
-                        Display_HObject(Window_Show_Name_Enum.Results_Window_2, _XLD: _result.HXLD_Results_All);
-
-                        break;
-                    case 2:
-                        Results_Window_3.Find_Result_Show_Window = _result;
-
-                        Display_HObject(Window_Show_Name_Enum.Results_Window_3, _XLD: _result.HXLD_Results_All);
-
-                        break;
-                    case 3:
-                        Results_Window_4.Find_Result_Show_Window = _result;
-                        Display_HObject(Window_Show_Name_Enum.Results_Window_4, _XLD: _result.HXLD_Results_All);
-                        Display_Window_No = 0;
-
-                        break;
-
-                }
-
-
-
-
-                Display_Window_No++;
             }
+
+            switch (Display_Window_No)
+            {
+
+                case 0:
+                    Results_Window_1.Find_Result_Show_Window = _result;
+
+                    Display_HObject(Window_Show_Name_Enum.Results_Window_1, _HImage: _image, _XLD: _result.HXLD_Results_All);
+                    Display_Window_No++;
+
+                    break;
+                case 1:
+                    Results_Window_2.Find_Result_Show_Window = _result;
+                    Display_HObject(Window_Show_Name_Enum.Results_Window_2, _HImage: _image, _XLD: _result.HXLD_Results_All);
+                    Display_Window_No++;
+
+                    break;
+                case 2:
+                    Results_Window_3.Find_Result_Show_Window = _result;
+
+                    Display_HObject(Window_Show_Name_Enum.Results_Window_3, _HImage: _image, _XLD: _result.HXLD_Results_All);
+                    Display_Window_No++;
+
+                    break;
+                case 3:
+                    Results_Window_4.Find_Result_Show_Window = _result;
+                    Display_HObject(Window_Show_Name_Enum.Results_Window_4, _HImage: _image, _XLD: _result.HXLD_Results_All);
+                    Display_Window_No = 0;
+
+                    break;
+
+            }
+
+
+
+
+
 
 
 

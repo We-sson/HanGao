@@ -121,6 +121,7 @@ namespace Halcon_SDK_DLL.Model
 
             public HObject HXLD_Results_All { set; get; } = new HObject();
 
+
             /// <summary>
             /// 匹配结果点
             /// </summary>
@@ -380,6 +381,7 @@ namespace Halcon_SDK_DLL.Model
         /// 查找形状匹配模板总类型参数
         /// </summary>
         [Serializable]
+        [AddINotifyPropertyChangedInterface]
         public class Find_Shape_Based_ModelXld
         {
             public Find_Shape_Based_ModelXld()

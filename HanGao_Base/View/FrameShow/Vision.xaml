@@ -388,7 +388,7 @@
                                 <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Results_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                 HDraw="{Binding Halcon_Window_Display.Results_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                 IconicObject="{Binding Halcon_Window_Display.Results_Window_1.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Results_Window_1.DisplayXLD}" />
+                                <Halcon:HIconicDisplayObjectWPF HColor="red" IconicObject="{Binding Halcon_Window_Display.Results_Window_1.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -505,7 +505,7 @@
                                 <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Results_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                 HDraw="{Binding Halcon_Window_Display.Results_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                 IconicObject="{Binding Halcon_Window_Display.Results_Window_2.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Results_Window_2.DisplayXLD}" />
+                                <Halcon:HIconicDisplayObjectWPF HColor="red" IconicObject="{Binding Halcon_Window_Display.Results_Window_2.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -624,7 +624,7 @@
                                 <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Results_Window_4.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                 HDraw="{Binding Halcon_Window_Display.Results_Window_4.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                 IconicObject="{Binding Halcon_Window_Display.Results_Window_4.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Results_Window_4.DisplayXLD}" />
+                                <Halcon:HIconicDisplayObjectWPF HColor="red" IconicObject="{Binding Halcon_Window_Display.Results_Window_4.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -742,7 +742,7 @@
                                 <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Results_Window_3.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                 HDraw="{Binding Halcon_Window_Display.Results_Window_3.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                 IconicObject="{Binding Halcon_Window_Display.Results_Window_3.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Results_Window_3.DisplayXLD}" />
+                                <Halcon:HIconicDisplayObjectWPF HColor="red" IconicObject="{Binding Halcon_Window_Display.Results_Window_3.DisplayXLD}" />
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
@@ -2971,6 +2971,7 @@
                                                 </CheckBox>
 
                                                 <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
+                                                          IsChecked="{Binding Camera_Device_List.Select_Camera.Camera_Live}"
                                                           Width="90"
                                                           Height=" 38"
                                                           Margin="0,0,0,0"

@@ -622,7 +622,10 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             public Window_Show_Name_Enum Show_Window { set; get; } = Window_Show_Name_Enum.Features_Window;
 
-
+            /// <summary>
+            /// 相机是否实时模式
+            /// </summary>
+            public bool Camera_Live { set; get; } = false;
 
             /// <summary>
             /// 泛型类型委托声明
