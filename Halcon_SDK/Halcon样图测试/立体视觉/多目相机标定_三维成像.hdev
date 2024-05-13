@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="23.11.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* </c>
+<c>* This example shows how to calibrate a stereo setup of two</c>
+<c>* telecentric line scan cameras. Additionally, the calibration</c>
+<c>* results are used for a stereo reconstruction.</c>
+<c>* </c>
+<c>* 本示例演示了如何校准由两个</c>
+<c>* 远心线扫描相机。此外，校准</c>
+<c>* 结果用于立体重建。</c>
+<c>* Initialize visualization.</c>
+<l>dev_close_window ()</l>
+<l>dev_update_off ()</l>
+<c>* </c>
+<c></c>
+<l>I := 1</l>
+<l>read_image (ImageBack, 'C:/Users/zhiwei2.he/MVS/Data/L/1.tif')</l>
+<l>read_image (ImageFront, 'C:/Users/zhiwei2.he/MVS/Data/R/1.tif')</l>
+<l>get_image_size (ImageBack, WidthBack, HeightBack)</l>
+<l>get_image_size (ImageFront, WidthFront, HeightFront)</l>
+<c>* </c>
+<l>dev_open_window (0, 0, 600, 450, 'black', WindowHandle)</l>
+<l>set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>dev_disp_intro_text ()</l>
+<l>*stop ()</l>
+<l>dev_disp_calibration_text ()</l>
+<l>*stop ()</l>
+<l>dev_close_window ()</l>
+<c>* </c>
+<l>WindowSizeFactor1 := 6</l>
+<l>dev_open_window (0, 0, WidthBack / WindowSizeFactor1, HeightBack / WindowSizeFactor1, 'black', WindowHandle1)</l>
+<l>set_display_font (WindowHandle1, 14, 'mono', 'true', 'false')</l>
+<l>dev_open_window (0, WidthBack / WindowSizeFactor1 + 12, WidthFront / WindowSizeFactor1, HeightFront / WindowSizeFactor1, 'black', WindowHandle2)</l>
+<l>set_display_font (WindowHandle2, 14, 'mono', 'true', 'false')</l>
+<c>* </c>
+<l>Instructions[0] := 'Rotate: Left button'</l>
+<l>Instructions[1] := 'Zoom:   Shift + left button'</l>
+<l>Instructions[2] := 'Move:   Ctrl  + left button'</l>
+<c>* </c>
+<c>* 1. Calibrate the stereo setup.</c>
+<c>* </c>
+<c>* Set the initial values for the internal camera parameters.</c>
+<c>* 校准立体声设置。</c>
+<c>* </c>
+<c>* 设置摄像机内部参数的初始值。</c>
+<l>read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651471.dat', StartCamParamBack)</l>
+<l>read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651573.dat', StartCamParamFront)</l>
+<l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, WidthBack / 2, HeightBack/2, WidthBack, HeightBack, StartCamParamBack)</l>
+<l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, WidthFront / 2, HeightFront/2, WidthFront, HeightFront, StartCamParamFront)</l>
+<l>*gen_cam_par_line_scan_telecentric_division (0.228, 0, 7.0e-6, 7.0e-6, WidthBack / 2, 0, WidthBack, HeightBack, 0, 2.7e-5, 0, StartCamParamBack)</l>
+<l>*gen_cam_par_line_scan_telecentric_division (0.268, 0, 7.0e-6, 7.0e-6, WidthFront / 2, 0, WidthFront, HeightFront, 0, 2.7e-5, 0, StartCamParamFront)</l>
+<c>* </c>
+<c>* Create a calibration data model in which all calibration data</c>
+<c>* including the image coordinates of the calibration marks and</c>
+<c>* the observation poses of the calibration plate will be</c>
+<c>* accumulated.</c>
+<c>* 创建校准数据模型，其中包括所有校准数据</c>
+<c>* 包括校准标记的图像坐标和</c>
+<c>* 校准板的观测位置。</c>
+<c>* 积累。</c>
+<l>create_calib_data ('calibration_object', 2, 1, CalibDataID)</l>
+<l>set_calib_data_cam_param (CalibDataID, 1, [], StartCamParamBack)</l>
+<l>set_calib_data_cam_param (CalibDataID, 0, [], StartCamParamFront)</l>
+<l>CalibObjDescr := 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
+<l>set_calib_data_calib_object (CalibDataID, 0, CalibObjDescr)</l>
+<c>* As the two cameras are mounted rigidly and stationary and the</c>
+<c>* object is moved linearly in front of the cameras, only one</c>
+<c>* common motion vector needs to be determined.</c>
+<c>* 由于两台照相机固定不动，而物体在照相机前方线性移动。</c>
+<c>* 物体在摄像机前线性移动，因此只需确定一个</c>
+<c>* 需要确定一个共同的运动矢量。</c>
+<l>*set_calib_data (CalibDataID, 'model', 'general', 'common_motion_vector', 'true')</l>
+<l>set_calib_data (CalibDataID, 'model', 'general', 'optimization_method', 'stochastic')</l>
+<c>* </c>
+<c>* Start the loop over the calibration images.</c>
+<c>* 开始循环校准图像。</c>
+<l>NumImages := 16</l>
+<l>gen_empty_obj (ImagesBack)</l>
+<l>gen_empty_obj (ImagesFront)</l>
+<c>* 读取本地文件</c>
+<l>list_files ('C:/Users/zhiwei2.he/MVS/Data/L', ['files','follow_links'], ImagesBackFiles)</l>
+<l>tuple_regexp_select (ImagesBackFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesBackFiles)</l>
+<l>list_files ('C:/Users/zhiwei2.he/MVS/Data/R', ['files','follow_links'], ImagesFrontFiles)</l>
+<l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
+<c></c>
+<c></c>
+<l>for I := 0 to |ImagesBackFiles|-1 by 1</l>
+<c>    * Read the calibration images.</c>
+<c>     * 读取校准图像。</c>
+<l>    read_image (ImageBack, ImagesBackFiles[I])</l>
+<l>    read_image (ImageFront, ImagesFrontFiles[I])</l>
+<c>    * Find the calibration plate and store observations</c>
+<c>    * in the calibration data model.</c>
+<c>     * 找到校准板并将观测数据</c>
+<c>    * 在校准数据模型中。</c>
+<l>    find_calib_object (ImageBack, CalibDataID, 0, 0, I, 'sigma', 2)</l>
+<l>    find_calib_object (ImageFront, CalibDataID, 1, 0, I, 'sigma', 2)</l>
+<c>    * Visualize the extracted calibration marks.</c>
+<c>     * 可视化提取的校准标记。</c>
+<l>    get_calib_data_observ_contours (ContoursBack, CalibDataID, 'marks', 0, 0, I)</l>
+<l>    dev_set_window (WindowHandle1)</l>
+<l>    dev_display (ImageBack)</l>
+<l>    dev_display (ContoursBack)</l>
+<l>    dev_disp_text ('Camera 0 (Back): Calibration image ' + (I + 1) + ' of ' + NumImages, 'window', 'top', 'left', 'black', [], [])</l>
+<l>    get_calib_data_observ_contours (ContoursFront, CalibDataID, 'marks', 1, 0, I)</l>
+<l>    dev_set_window (WindowHandle2)</l>
+<l>    dev_display (ImageFront)</l>
+<l>    dev_display (ContoursFront)</l>
+<l>    get_calib_data_observ_pose (CalibDataID, 0, 0, I, Cam0_P_Obj)</l>
+<l>    dev_disp_text ('Camera 1 (Front): Calibration image ' + (I + 1) + ' of ' + NumImages, 'window', 'top', 'left', 'black', [], [])</l>
+<l>endfor</l>
+<c>* Perform the actual calibration.</c>
+<c>* 进行实际校准。</c>
+<l>calibrate_cameras (CalibDataID, Errors)</l>
+<l>stop()</l>
+<c>* Get the calibration results.</c>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params', CamParamBack)</l>
+<l>get_calib_data (CalibDataID, 'camera', 1, 'params', CamParamFront)</l>
+<l>dev_set_window (WindowHandle1)</l>
+<l>*dev_disp_calibration_results (CalibDataID)</l>
+<l>dev_set_window (WindowHandle2)</l>
+<l>dev_disp_text_calibration_error ()</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* 2. Check the calibration results with help of the residuals.</c>
+<c>* </c>
+<c>* Scaling factor for visualization of residuals.</c>
+<c>* 2. 借助残差检查校准结果。</c>
+<c>* </c>
+<c>* 可视化残差的缩放因子。</c>
+<l>ResScale := 50.0</l>
+<c>* Loop over some calibration images.</c>
+<c>* 循环播放一些校准图像。</c>
+<l>NumImagesToDisplay := 4</l>
+<l>for I := 0 to NumImagesToDisplay - 1 by 1</l>
+<c>    * Calculate and display residuals for camera 0 (Back).</c>
+<l>    dev_set_window (WindowHandle1)</l>
+<l>    read_image (ImageBack, ImagesBackFiles[I])</l>
+<l>    dev_display (ImageBack)</l>
+<l>    calculate_and_display_residuals (CalibDataID, 0, I, ResScale, ResRowBack, ResColBack)</l>
+<c>    * </c>
+<c>    * Calculate and display residuals for camera 1 (Front).</c>
+<l>    dev_set_window (WindowHandle2)</l>
+<l>    read_image (ImageFront, ImagesFrontFiles[I])</l>
+<l>    dev_display (ImageFront)</l>
+<l>    calculate_and_display_residuals (CalibDataID, 1, I, ResScale, ResRowFront, ResColFront)</l>
+<l>    dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>    *stop ()</l>
+<l>endfor</l>
+<c>* </c>
+<l>dev_open_window (0, 0, 600, 450, 'black', WindowHandle)</l>
+<l>set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>dev_disp_residuals ()</l>
+<l>stop ()</l>
+<l>dev_set_window (WindowHandle1)</l>
+<l>dev_close_window ()</l>
+<l>dev_set_window (WindowHandle2)</l>
+<l>dev_close_window ()</l>
+<c>* </c>
+<c>* 3. Perform a stereo reconstruction using the stereo model.</c>
+<c>* 使用立体模型进行立体重建。</c>
+<c>* </c>
+<l>dev_disp_reconstruction_text ()</l>
+<l>stop ()</l>
+<c></c>
+<c>* </c>
+<c>* Create the stereo model.</c>
+<c>* 创建立体模型。</c>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
+<l>write_camera_setup_model (CamSetupModel, 'C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Cam.csm')</l>
+<c></c>
+<l>stop()</l>
+<c></c>
+<l>read_camera_setup_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Cam.csm', CamSetupModel)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,1], 'pose', ReferencePose)</l>
+<l>set_camera_setup_param (CamSetupModel, 'general', 'coord_transf_pose', ReferencePose)</l>
+<l>create_stereo_model (CamSetupModel, 'surface_pairwise', [], [], StereoModelID)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
+<l>set_stereo_model_image_pairs (StereoModelID, 1, 0)</l>
+<c>* Set the stereo parameters.</c>
+<c>*设置重建盒子范围大小</c>
+<l>BoundingBox := [-0.2, -0.2, -0.2, 0.2, 0.2, 0.45]</l>
+<l>set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
+<c>*重建结果内存保持，调试下应用</c>
+<l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
+<l>set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular')</l>
+<c>*创建视差图像的方法</c>
+<l>*set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular_mg')</l>
+<c>*灰度值常数的权重</c>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_gray_constancy', 1)</l>
+<c>*梯度常数的权重</c>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_gradient_constancy', 50)</l>
+<c>*平滑度</c>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_smoothness', 10)</l>
+<c>*常规默认参数设置</c>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_default_parameters', 'fast_accurate')</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels', 2)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 20)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 20)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 0)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 0.8)</l>
+<c></c>
+<c></c>
+<c>*设置颜色显示范围</c>
+<l>set_stereo_model_param (StereoModelID, 'color', 'median')</l>
+<c>*指定用于表面立体重建的图像对</c>
+<l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
+<c>* </c>
+<c>* Visualize the setup.</c>
+<l>gen_bounding_box_object_model_3d (StereoModelID, ObjectModel3DBoundingBox)</l>
+<l>gen_camera_setup_object_model_3d (CamSetupModel, 'auto', 'auto', ObjectModel3DCamera, ObjectModel3DCone)</l>
+<l>visualize_object_model_3d (WindowHandle, [ObjectModel3DBoundingBox,ObjectModel3DCamera,ObjectModel3DCone], [], [0, 0, 0.5, 0,0, 0, 0], ['lut', 'color_0', 'alpha', 'disp_pose_0'], ['sqrt', 'green', 0.5, 'true'], 'Bounding box and cameras of the stereo setup', ['Bounding box', 'Cam 0 (Back)', '', 'Cam 1 (Front)', '', '', ''], Instructions, PoseOut)</l>
+<c>* </c>
+<l>WindowSizeFactor2 := 6</l>
+<l>stop()</l>
+<c>* </c>
+<c>* Start the loop over the scene images.</c>
+<c>* 在场景图像上开始循环。</c>
+<l>for I := 0 to 1 by 1</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_disp_text ('Reconstructing the 3D surface...', 'window', 'top', 'left', 'black', [], [])</l>
+<c>    * </c>
+<c>    * Read the scene images.</c>
+<c>    * 读取场景图像。</c>
+<l>    read_image (ImageBack,  ImagesBackFiles[I])</l>
+<l>    read_image (ImageFront,  ImagesFrontFiles[I])</l>
+<l>    concat_obj (ImageBack, ImageFront, Images)</l>
+<c>    * </c>
+<c>    * Perform the stereo reconstruction.</c>
+<c>    * 执行立体重建。</c>
+<l>    reconstruct_surface_stereo (Images, StereoModelID, ObjectModel3DScene)</l>
+<l>    get_stereo_model_object (FromImage, StereoModelID, [0, 1], 'from_image_rect')</l>
+<l>    get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
+<l>    get_stereo_model_object (DisparityImage, StereoModelID, [0, 1], 'disparity_image')</l>
+<c>    * </c>
+<c>    * Visualize the intermediate results.</c>
+<l>    dev_close_window ()</l>
+<l>    get_image_size (FromImage, WidthFrom, HeightFrom)</l>
+<l>    dev_open_window (0, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle1)</l>
+<l>    set_display_font (WindowHandle1, 14, 'mono', 'true', 'false')</l>
+<l>    dev_display (FromImage)</l>
+<l>    Text := 'Camera 0 (Back):'</l>
+<l>    Text[1] := 'Rectified image'</l>
+<l>    dev_disp_text (Text, 'window', 'top', 'left', 'black', [], [])</l>
+<l>    get_image_size (ToImage, WidthTo, HeightTo)</l>
+<c>    * </c>
+<l>    dev_open_window (0, WidthFrom / WindowSizeFactor2 + 12, WidthTo / WindowSizeFactor2, HeightTo / WindowSizeFactor2, 'black', WindowHandle2)</l>
+<l>    set_display_font (WindowHandle2, 14, 'mono', 'true', 'false')</l>
+<l>    dev_display (ToImage)</l>
+<l>    Text[0] := 'Camera 1 (Front):'</l>
+<l>    dev_disp_text (Text, 'window', 'top', 'left', 'black', [], [])</l>
+<c>    * </c>
+<l>    get_image_size (DisparityImage, Width, Height)</l>
+<l>    dev_open_window (HeightFrom / WindowSizeFactor2 + 60, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle3)</l>
+<l>    set_display_font (WindowHandle3, 14, 'mono', 'true', 'false')</l>
+<l>    dev_display (DisparityImage)</l>
+<l>    dev_disp_text ('Disparity image', 'window', 'top', 'left', 'black', [], [])</l>
+<l>    disp_continue_message (WindowHandle3, 'black', [])</l>
+<l>    stop ()</l>
+<c>    * </c>
+<c>    * Visualize the stereo reconstruction.</c>
+<l>    visualize_object_model_3d (WindowHandle3, ObjectModel3DScene, [], [], 'color_attrib', 'red', '3D reconstruction with projected gray values', [], Instructions, VisPose)</l>
+<l>    if (I == 0)</l>
+<l>        disp_continue_message (WindowHandle3, 'black', [])</l>
+<l>        stop ()</l>
+<l>        dev_close_window ()</l>
+<l>        dev_close_window ()</l>
+<l>        dev_close_window ()</l>
+<l>        dev_open_window (0, 0, 600, 450, 'black', WindowHandle)</l>
+<l>        set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>    else</l>
+<l>        dev_close_window ()</l>
+<l>        dev_close_window ()</l>
+<l>        dev_clear_window ()</l>
+<l>        dev_disp_text ('End of program', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>    endif</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="gen_contour_calib_marks">
+<interface>
+<oo>
+<par name="ProjMarkContours" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="X" base_type="ctrl" dimension="0"/>
+<par name="Y" base_type="ctrl" dimension="0"/>
+<par name="Z" base_type="ctrl" dimension="0"/>
+<par name="Radius" base_type="ctrl" dimension="0"/>
+<par name="CalibObjPose" base_type="ctrl" dimension="0"/>
+<par name="CameraParam" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* Create circle contours for the calibration marks.</c>
+<l>R := gen_tuple_const(|X|,Radius)</l>
+<l>gen_circle_contour_xld (ContCircle, Y, X, R, 0, 6.28318, 'positive', Radius / 20.0)</l>
+<l>count_obj (ContCircle, NumMarks)</l>
+<l>pose_to_hom_mat3d (CalibObjPose, HomMat3D)</l>
+<l>gen_empty_obj (ProjMarkContours)</l>
+<c>* Project the circle contours into the image with the current</c>
+<c>* calibrated pose of the calibration plate.</c>
+<l>for Index := 1 to NumMarks by 1</l>
+<l>    select_obj (ContCircle, Contour, Index)</l>
+<l>    get_contour_xld (Contour, Y, X)</l>
+<l>    affine_trans_point_3d (HomMat3D, X, Y, gen_tuple_const(|X|,0), XC, YC, ZC)</l>
+<l>    project_3d_point (XC, YC, ZC, CameraParam, Row, Column)</l>
+<l>    gen_contour_polygon_xld (ContourMark, Row, Column)</l>
+<l>    concat_obj (ProjMarkContours, ContourMark, ProjMarkContours)</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="gen_contour_calib_marks">
+<parameters>
+<parameter id="CalibObjPose"/>
+<parameter id="CameraParam"/>
+<parameter id="ProjMarkContours"/>
+<parameter id="Radius"/>
+<parameter id="X"/>
+<parameter id="Y"/>
+<parameter id="Z"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_intro_text">
+<interface/>
+<body>
+<l>Text := 'This example shows how to calibrate a stereo setup of two telecentric'</l>
+<l>Text[1] := 'line scan cameras. '</l>
+<l>Text[2] := 'Additionally, the calibration results are used for a stereo'</l>
+<l>Text[3] := 'reconstruction.'</l>
+<l>dev_clear_window ()</l>
+<l>dev_disp_text (Text, 'window', 12, 12, 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_intro_text">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="dev_disp_calibration_text">
+<interface/>
+<body>
+<l>Text := 'First, we calibrate the stereo setup.'</l>
+<l>Text[1] := ''</l>
+<l>Text[2] := 'In this case, the cameras were mounted firmly and the object was moved'</l>
+<l>Text[3] := 'on a linear drive below.'</l>
+<l>Text[4] := ''</l>
+<l>Text[5] := 'The cameras were aligned along-track:'</l>
+<l>Text[6] := 'one camera looking from the back to the front (camera 0, \'Back\'),'</l>
+<l>Text[7] := 'one camera looking from the front to the back (camera 1, \'Front\').'</l>
+<l>dev_clear_window ()</l>
+<l>dev_disp_text (Text, 'window', 12, 12, 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_calibration_text">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="dev_disp_calibration_results">
+<interface>
+<ic>
+<par name="CalibDataID" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* Get the calibration results</c>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_calib_error', Errors)</l>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params', CamParamBack)</l>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params_labels', CamParamLabelsBack)</l>
+<l>get_calib_data (CalibDataID, 'camera', 1, 'params', CamParamFront)</l>
+<l>get_calib_data (CalibDataID, 'camera', 1, 'params_labels', CamParamLabelsFront)</l>
+<l>get_calib_data (CalibDataID, 'camera', 1, 'pose', Back_P_Front)</l>
+<l>pose_invert (Back_P_Front, Front_P_Back)</l>
+<c>* </c>
+<l>Text := 'Calibration results:'</l>
+<l>Text[1] := ''</l>
+<l>Text[2] := 'Calibration error:'</l>
+<l>Text[3] := (Errors$'.2f') + ' px'</l>
+<l>Text[4] := ''</l>
+<l>Text[5] := 'Camera parameters:'</l>
+<l>dev_clear_window ()</l>
+<l>dev_disp_text (Text, 'window', 12, 12, 'white', 'box', 'false')</l>
+<c>* </c>
+<c>* Specify the format, scale, and unit of the elements of</c>
+<c>* the camera parameters.</c>
+<l>Format := ['', '10.5f', '7.2f', '7.2f', '7.2f', '7.2f', '7.2f', 'd', 'd', '7.2f', '7.2f', '7.2f']</l>
+<l>Scale := [1.0, 1.0, 1.0, 1e6, 1e6, 1.0, 1.0, 1.0, 1.0, 1e6, 1e6, 1e6]</l>
+<l>Unit := ['', '', '', ' um/px', ' um/px', ' px', ' px', ' px', ' px', ' um/px', ' um/px', ' um/px']</l>
+<c>* </c>
+<c>* Display camera parameters.</c>
+<c>* Camera 0:</c>
+<l>Text := 'Camera 0:'</l>
+<l>for Index := 1 to |CamParamBack| - 1 by 1</l>
+<l>    if (CamParamLabelsBack[Index] == 'image_width' or CamParamLabelsBack[Index] == 'image_height' or CamParamLabelsBack[Index] == 'p1' or CamParamLabelsBack[Index] == 'p2')</l>
+<l>        continue</l>
+<l>    endif</l>
+<l>    Text := [Text,CamParamLabelsBack[Index]$'-13' + ' = ' + (CamParamBack[Index] * Scale[Index])$Format[Index] + Unit[Index]]</l>
+<l>endfor</l>
+<l>dev_disp_text (Text, 'window', 120, 22, 'white', 'box', 'false')</l>
+<c>* Camera 1:</c>
+<l>Text := 'Camera 1:'</l>
+<l>for Index := 1 to |CamParamFront| - 1 by 1</l>
+<l>    if (CamParamLabelsFront[Index] == 'image_width' or CamParamLabelsFront[Index] == 'image_height' or CamParamLabelsFront[Index] == 'p1' or CamParamLabelsFront[Index] == 'p2')</l>
+<l>        continue</l>
+<l>    endif</l>
+<l>    Text := [Text,CamParamLabelsFront[Index]$'-13' + ' = ' + (CamParamFront[Index] * Scale[Index])$Format[Index] + Unit[Index]]</l>
+<l>endfor</l>
+<l>dev_disp_text (Text, 'window', 320, 22, 'white', 'box', 'false')</l>
+<c>* </c>
+<c>* Display relative pose.</c>
+<l>Format := ['8.4f', '8.4f', '8.4f', '8.4f', '8.4f', '8.4f']</l>
+<l>Unit := [' m', ' m', ' m', ' deg', ' deg', ' deg']</l>
+<l>Text := 'Pose of camera 1 relative to camera 0:'</l>
+<l>for Index := 0 to |Back_P_Front| - 2 by 1</l>
+<l>    Text := [Text,Back_P_Front[Index]$Format[Index] + Unit[Index]]</l>
+<l>endfor</l>
+<l>dev_disp_text (Text, 'window', 520, 12, 'white', 'box', 'false')</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_calibration_results">
+<parameters>
+<parameter id="CalibDataID"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_text_calibration_error">
+<interface/>
+<body>
+<l>Text := 'The resulting calibration error of over 0.5 px'</l>
+<l>Text[1] := 'is rather high.'</l>
+<l>Text[2] := ''</l>
+<l>Text[3] := 'To check if there are systematic variations'</l>
+<l>Text[4] := 'that might explain this, we have a look at'</l>
+<l>Text[5] := 'the residuals:'</l>
+<l>Text[6] := 'We compare the observed calibration mark'</l>
+<l>Text[7] := 'centers with the projected mark centers.'</l>
+<l>Text[8] := ''</l>
+<l>Text[9] := 'In the following, we will show the residuals'</l>
+<l>Text[10] := 'for a few of the calibration images.'</l>
+<l>dev_clear_window ()</l>
+<l>dev_disp_text (Text, 'window', 12, 12, 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_text_calibration_error">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="dev_disp_reconstruction_text">
+<interface/>
+<body>
+<l>Text := 'Now, we use the calibration results to reconstruct a 3D scene.'</l>
+<l>Text[1] := ''</l>
+<l>Text[2] := 'Here, we use a stereo model. This approach could be extended'</l>
+<l>Text[3] := 'to use more than two cameras.'</l>
+<l>Text[4] := 'Alternatively, when working with two cameras, it would also be '</l>
+<l>Text[5] := 'possible to use the operators gen_binocular_rectification_map,'</l>
+<l>Text[6] := 'map_image, binocular_disparity and disparity_to_xyz.'</l>
+<l>dev_clear_window ()</l>
+<l>dev_disp_text (Text, 'window', 12, 12, 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_reconstruction_text">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="calculate_and_display_residuals">
+<interface>
+<ic>
+<par name="CalibDataID" base_type="ctrl" dimension="0"/>
+<par name="CameraIdx" base_type="ctrl" dimension="0"/>
+<par name="I" base_type="ctrl" dimension="0"/>
+<par name="ResScale" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="ResRow" base_type="ctrl" dimension="0"/>
+<par name="ResCol" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* Get calibration information.</c>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'x', X)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'y', Y)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'z', Z)</l>
+<l>get_calib_data (CalibDataID, 'camera', CameraIdx, 'params', CamParam)</l>
+<l>get_calib_data (CalibDataID, 'camera', CameraIdx, 'pose', World_P_Cam)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,I], 'pose', World_P_Obj)</l>
+<l>pose_invert (World_P_Cam, Cam_P_World)</l>
+<l>pose_compose (Cam_P_World, World_P_Obj, Cam_P_Obj)</l>
+<c>* Radius of the calibration marks (according to description file).</c>
+<l>Radius := 0.000645161290322581</l>
+<c>* Calculate the projection of the calibration marks.</c>
+<l>gen_contour_calib_marks (ProjMarkContours, X, Y, Z, Radius, Cam_P_Obj, CamParam)</l>
+<l>dev_set_color ('green')</l>
+<l>dev_set_line_width (1)</l>
+<l>dev_display (ProjMarkContours)</l>
+<c>* Get the image coordinates of the observed calibration mark centers.</c>
+<l>get_calib_data_observ_points (CalibDataID, CameraIdx, 0, I, ObsRow, ObsCol, ObsIndex, Pose)</l>
+<c>* Calculate the image coordinates of the projected calibration mark</c>
+<c>* centers and select the visible marks.</c>
+<l>pose_to_hom_mat3d (Cam_P_Obj, Cam_H_Object)</l>
+<l>affine_trans_point_3d (Cam_H_Object, X, Y, Z, CX, CY, CZ)</l>
+<l>project_3d_point (CX, CY, CZ, CamParam, ProjRow, ProjCol)</l>
+<l>ProjRowSel := ProjRow[ObsIndex]</l>
+<l>ProjColumnSel := ProjCol[ObsIndex]</l>
+<c>* Calculate the residuals.</c>
+<l>ResRow := ProjRowSel - ObsRow</l>
+<l>ResCol := ProjColumnSel - ObsCol</l>
+<c>* Visualize the residuals.</c>
+<l>gen_empty_obj (ResContours)</l>
+<l>for IndexM := 0 to |ResRow| - 1 by 1</l>
+<l>    gen_contour_polygon_xld (ResContour, [ObsRow[IndexM],ObsRow[IndexM] + ResScale * ResRow[IndexM]], [ObsCol[IndexM],ObsCol[IndexM] + ResScale * ResCol[IndexM]])</l>
+<l>    concat_obj (ResContours, ResContour, ResContours)</l>
+<l>endfor</l>
+<l>dev_set_color ('red')</l>
+<l>dev_set_line_width (2)</l>
+<l>dev_display (ResContours)</l>
+<l>Text := 'Camera ' + CameraIdx + ':'</l>
+<l>Text[1] := 'Reprojection of calibration mark contours'</l>
+<l>Text[2] := 'and residuals in image ' + (I + 1)</l>
+<l>dev_disp_text (Text, 'window', 'top', 'left', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="calculate_and_display_residuals">
+<parameters>
+<parameter id="CalibDataID"/>
+<parameter id="CameraIdx"/>
+<parameter id="I"/>
+<parameter id="ResCol"/>
+<parameter id="ResRow"/>
+<parameter id="ResScale"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="dev_disp_residuals">
+<interface/>
+<body>
+<l>Text := 'In the images, we could see that the direction of the residuals'</l>
+<l>Text[1] := 'mainly corresponds to the direction of the movement vector.'</l>
+<l>Text[2] := 'Furthermore, in certain image parts, the residuals are slightly'</l>
+<l>Text[3] := 'bigger than in other image parts. This behavior seems to be periodic'</l>
+<l>Text[4] := 'with the turns of the used linear drive.'</l>
+<l>Text[5] := 'The same behavior can be observed for all calibration images.'</l>
+<l>Text[6] := 'All this suggests that the actual motion vector is not perfectly'</l>
+<l>Text[7] := 'constant due to mechanical limitations.'</l>
+<l>Text[8] := ''</l>
+<l>Text[9] := 'These systematic variations cause the rather high calibration error.'</l>
+<l>dev_clear_window ()</l>
+<l>dev_disp_text (Text, 'window', 12, 12, 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="dev_disp_residuals">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

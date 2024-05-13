@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="23.11.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* This example shows how to use a mixed camera setup with</c>
+<c>* two telecentric and one perspective cameras to perform a 3D reconstruction.</c>
+<c>* </c>
+<c>* In the first step, the mixed setup is calibrated. Then the operator</c>
+<c>* reconstruct_surface_stereo with the 'surface_fusion' method is applied</c>
+<c>* to create a 3D reconstruction of the given object.</c>
+<c>* </c>
+<c>* Display introduction.</c>
+<c>* 本示例展示了如何使用混合摄像机设置，包括</c>
+<c>* 两台远心相机和一台透视相机来执行三维重建。</c>
+<c>* </c>
+<c>* 第一步，校准混合设置。然后操作</c>
+<c>* 使用 "表面融合 "方法重建表面立体结构。</c>
+<c>* 创建给定物体的三维重建。</c>
+<c>* </c>
+<c>* 显示介绍。</c>
+<l>dev_close_window ()</l>
+<l>dev_update_off ()</l>
+<l>Instructions[0] := 'Rotate: Left button'</l>
+<l>Instructions[1] := 'Zoom:   Shift + left button'</l>
+<l>Instructions[2] := 'Move:   Ctrl  + left button'</l>
+<l>WindowWidth := 2202</l>
+<l>WindowHeight := 1668</l>
+<l>dev_open_window_fit_size (0, 0, WindowWidth, WindowHeight, 800, 600, WindowHandle)</l>
+<l>set_display_font (WindowHandle, 16, 'mono', 'true', 'false')</l>
+<l>Message := 'This example shows how to use a mixed camera setup with perspective and'</l>
+<l>Message[1] := 'telecentric cameras to perform a 3D reconstruction.'</l>
+<l>Message[2] := ' '</l>
+<l>Message[3] := 'First, the mixed setup is calibrated. In this example, a perspective'</l>
+<l>Message[4] := 'camera with a tilt lens and two telecentric cameras (one of them'</l>
+<l>Message[5] := 'has a tilt lens, too) are used.'</l>
+<l>Message[6] := ' '</l>
+<l>Message[7] := 'Then the operator reconstruct_surface_stereo is used to create a'</l>
+<l>Message[8] := '3D reconstruction of the object. In this example, the \'surface_fusion\' '</l>
+<l>Message[9] := 'method is used. '</l>
+<l>dev_disp_text (Message, 'window', 12, 12, 'white', 'box', 'false')</l>
+<l>dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>stop ()</l>
+<c>* </c>
+<c>* Initialize the initial camera parameters and the used calibration plate.</c>
+<l>*gen_cam_par_area_scan_tilt_polynomial (0.039, 0, 0, 0, 0, 0, 0.05, 15.0, 2.0, 8.99e-006, 8.99e-006, 550.5, 417, 1101, 834, StartCamParCamera0)</l>
+<l>*gen_cam_par_area_scan_tilt_bilateral_telecentric_polynomial (0.34, 0, 0, 0, 0, 0, 8, 0, 8.99e-006, 8.99e-006, 414, 352, 828, 704, StartCamParCamera1)</l>
+<l>*gen_cam_par_area_scan_telecentric_polynomial (0.34, 0.0, 0.0, 0.0, 0.0, 0.0, 8.99e-006, 8.99e-006, 365.5, 385.5, 731, 771, StartCamParCamera2)</l>
+<l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, 4024 / 2, 3036/2, 4024, 3036, StartCamParCamera0)</l>
+<l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, 4024 / 2, 3036/2, 4024, 3036, StartCamParCamera1)</l>
+<l>create_calib_data ('calibration_object', 2, 1, CalibDataID)</l>
+<l>set_calib_data_calib_object (CalibDataID, 0,  'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd')</l>
+<l>set_calib_data_cam_param (CalibDataID, 0, [], StartCamParCamera0)</l>
+<l>set_calib_data_cam_param (CalibDataID, 1, [], StartCamParCamera1)</l>
+<l>*set_calib_data_cam_param (CalibDataID, 2, [], StartCamParCamera2)</l>
+<l>*set_calib_data (CalibDataID, 'camera', 0, 'excluded_settings', 'sx')</l>
+<l>*set_calib_data (CalibDataID, 'camera', 1, 'excluded_settings', 'sx')</l>
+<c>* </c>
+<c>* Read the images of the calibration plates.</c>
+<l>list_files ('C:/Users/zhiwei2.he/MVS/Data/L', ['files','follow_links'], ImagesBackFiles)</l>
+<l>tuple_regexp_select (ImagesBackFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesBackFiles)</l>
+<l>list_files ('C:/Users/zhiwei2.he/MVS/Data/R', ['files','follow_links'], ImagesFrontFiles)</l>
+<l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
+<l>MessageCameras := 'Camera 0: Perspective camera'</l>
+<l>MessageCameras[1] := 'Camera 1: Telecentric camera'</l>
+<l>MessageCameras[2] := 'Camera 2: Telecentric camera'</l>
+<l>RowMessage := [20, 20, 320]</l>
+<l>ColumnMessage := [20, 450, 20]</l>
+<l>dev_clear_window ()</l>
+<l>for Index := 1 to |ImagesBackFiles| by 1</l>
+<l>    gen_empty_obj (CalibImages)</l>
+<c>   </c>
+<l>         read_image (Image_L, ImagesBackFiles[Index-1])</l>
+<l>         read_image (Image_R, ImagesFrontFiles[Index-1])</l>
+<l>         find_calib_object (Image_L, CalibDataID, 0, 0, Index, 'sigma', 1)</l>
+<l>         find_calib_object (Image_R, CalibDataID, 1, 0, Index, 'sigma', 1)</l>
+<l>        concat_obj (Image_L, Image_R, CalibImages)</l>
+<c>    </c>
+<l>    tile_images (CalibImages, TiledImage, 2, 'horizontal')</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_display (TiledImage)</l>
+<l>    dev_disp_text (MessageCameras, 'window', RowMessage, ColumnMessage, 'black', [], [])</l>
+<l>    wait_seconds (0.1)</l>
+<l>endfor</l>
+<c>* </c>
+<c>* Calibrate the mixed camera setup.</c>
+<l>calibrate_cameras (CalibDataID, Error)</l>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CameraSetupModelID)</l>
+<c>* </c>
+<c>* For the stereo reconstruction, some preparations must be made.</c>
+<c>* </c>
+<c>* As a first step, take the coordinate system of the first calibration plate as reference</c>
+<c>* coordinate system within the camera setup model.</c>
+<c>* This is not strictly necessary, but simplifies the determination of a fitting bounding box.</c>
+<l>ReferencePoseIndex := 1</l>
+<l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,ReferencePoseIndex], 'pose', ReferencePose)</l>
+<l>set_camera_setup_param (CameraSetupModelID, 'general', 'coord_transf_pose', ReferencePose)</l>
+<c>* </c>
+<c>* Create and initialize a multi-view stereo model using 'surface_fusion'.</c>
+<l>create_stereo_model (CameraSetupModelID, 'surface_pairwise', [], [], StereoModelID)</l>
+<c>* </c>
+<c>* Configure stereo model parameters.</c>
+<c>* </c>
+<c>* Set the bounding box for the setup.</c>
+<l>BoundingBox := [-0.3, -0.3, -0.1, 0.3, 0.3, 0.3]</l>
+<l>set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
+<c>* </c>
+<c>* Visualize the calibrated camera setup and the bounding box.</c>
+<l>Message := 'The calibration of the mixed camera setup'</l>
+<l>Message[1] := 'succeeded with an RMS error of ' + Error$'0.3f' + ' pixels.'</l>
+<l>create_pose (0.01, 0.05, 1.6, 270.0, 0.0, 257.0, 'Rp+T', 'gba', 'point', VisPose)</l>
+<l>gen_camera_setup_object_model_3d (CameraSetupModelID, 'auto', 'auto', ObjectModel3DCamera, ObjectModel3DCone)</l>
+<l>gen_bounding_box_object_model_3d (StereoModelID, ObjectModel3DBoundingBox)</l>
+<l>visualize_object_model_3d (WindowHandle, [ObjectModel3DBoundingBox,ObjectModel3DCamera,ObjectModel3DCone], [], VisPose, ['color_0', 'lut', 'alpha'], ['blue', 'sqrt', 0.4], Message, ['Bounding box', 'Camera 0', '', 'Camera 1', '',   '', ''], Instructions, VisPose)</l>
+<c>* </c>
+<c>* Display warning.</c>
+<l>Message := 'The following reconstruction may take a minute.'</l>
+<l>Message[1] := 'If you do not have the time now, you may want to'</l>
+<l>Message[2] := 'cancel the program now and come back later.'</l>
+<l>Message[3] := ''</l>
+<l>Message[4] := 'Else, press Run (F5) to continue.'</l>
+<l>dev_disp_text (Message, 'window', 12, 12, 'white', 'box_color', 'red')</l>
+<l>*stop ()</l>
+<c>* </c>
+<c>* Set the image pairs.</c>
+<l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
+<l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
+<c>* Interpolation aliasing by binocular image rectification.</c>
+<l>*set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
+<l>set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular')</l>
+<c>* </c>
+<c>* Set the coloring.</c>
+<l>set_stereo_model_param (StereoModelID, 'color', 'median')</l>
+<c></c>
+<c></c>
+<c></c>
+<l>//</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 0.5)</l>
+<c></c>
+<c>* </c>
+<c>* In this example, binocular_ms is used to compute the disparity image.</c>
+<l>set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular')</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_surface_smoothing', 20)</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_edge_smoothing', 130)</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_sub_disparity', 'true')</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_consistency_check', 'false')</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_default_parameters', 'fast_accurate')</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.8)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'none')</l>
+<c></c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
+<c>* Use a coarse-to-fine scheme.</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels', 3)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 30)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height', 30)</l>
+<c></c>
+<c>* </c>
+<c>* In addition, set some parameters for the fusion method.</c>
+<l>*set_stereo_model_param (StereoModelID, 'point_meshing', 'isosurface')</l>
+<l>*set_stereo_model_param (StereoModelID, 'resolution', 9e-5)</l>
+<l>*set_stereo_model_param (StereoModelID, 'surface_tolerance', 1.5e-3)</l>
+<l>*set_stereo_model_param (StereoModelID, 'smoothing', 3)</l>
+<c>* </c>
+<c>* Read the images and apply reconstruct_surface_stereo.</c>
+<l>*read_image (Images, '3d_machine_vision/multi_view/circuit_board_cam_' + [0:2])</l>
+<l> read_image (Image_L, 'C:/Users/zhiwei2.he/MVS/Data/Image_1.tif')</l>
+<l> read_image (Image_R, 'C:/Users/zhiwei2.he/MVS/Data/Image_2.tif')</l>
+<l> concat_obj (Image_L, Image_R, Images)</l>
+<l>tile_images (Images, TiledImage1, 2, 'horizontal')</l>
+<l>dev_clear_window ()</l>
+<l>dev_display (TiledImage1)</l>
+<l>Message := 'Reconstruct scene from 3 different views.'</l>
+<l>Message[1] := 'Please wait...'</l>
+<l>dev_disp_text (Message, 'window', 12, 12, 'black', [], [])</l>
+<c>* </c>
+<c>* Perform the reconstruction.</c>
+<l>reconstruct_surface_stereo (Images, StereoModelID, OM3DFusion)</l>
+<c>* </c>
+<c>* Visualize the reconstructed object model.</c>
+<l>create_pose (0.003, 0.0, 0.25, 316.0, 7.0, 195.0, 'Rp+T', 'gba', 'point', VisPose)</l>
+<l>Title := 'Reconstructed object model using \'surface_fusion\''</l>
+<l>*visualize_object_model_3d (WindowHandle, OM3DFusion, [], VisPose, [], [], Title, [], Instructions, VisPose)</l>
+<c></c>
+<l>get_stereo_model_object (FromImage, StereoModelID, [0, 1], 'from_image_rect')</l>
+<l>get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
+<c>* </c>
+<l>concat_obj (FromImage, ToImage, RectifiedImages)</l>
+<l>tile_images (RectifiedImages, TiledRectifiedImages, 2, 'horizontal')</l>
+<l>get_image_size (TiledRectifiedImages, Width, Height)</l>
+<l>gen_empty_obj (EpipolarLines)</l>
+<l>for Row := 210 to 4024 by 100</l>
+<l>    gen_contour_polygon_xld (Line, [Row,Row], [0,Width - 1])</l>
+<l>    concat_obj (EpipolarLines, Line, EpipolarLines)</l>
+<l>endfor</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
