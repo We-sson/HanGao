@@ -46,8 +46,8 @@
 <c>* 校准立体声设置。</c>
 <c>* </c>
 <c>* 设置摄像机内部参数的初始值。</c>
-<l>read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651471.dat', StartCamParamBack)</l>
-<l>read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651573.dat', StartCamParamFront)</l>
+<l>*read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651471.dat', StartCamParamBack)</l>
+<l>*read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651573.dat', StartCamParamFront)</l>
 <l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, WidthBack / 2, HeightBack/2, WidthBack, HeightBack, StartCamParamBack)</l>
 <l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, WidthFront / 2, HeightFront/2, WidthFront, HeightFront, StartCamParamFront)</l>
 <l>*gen_cam_par_line_scan_telecentric_division (0.228, 0, 7.0e-6, 7.0e-6, WidthBack / 2, 0, WidthBack, HeightBack, 0, 2.7e-5, 0, StartCamParamBack)</l>
@@ -169,23 +169,41 @@
 <c>* </c>
 <c>* Create the stereo model.</c>
 <c>* 创建立体模型。</c>
-<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
-<l>write_camera_setup_model (CamSetupModel, 'C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Cam.csm')</l>
+<l>write_calib_data (CalibDataID, 'C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd')</l>
 <c></c>
 <l>stop()</l>
+<l>dev_close_window ()</l>
+<l>*dev_open_window (0, 0, 600, 450, 'black', WindowHandle)</l>
+<l>list_files ('C:/Users/zhiwei2.he/MVS/Data/L', ['files','follow_links'], ImagesBackFiles)</l>
+<l>tuple_regexp_select (ImagesBackFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesBackFiles)</l>
+<l>list_files ('C:/Users/zhiwei2.he/MVS/Data/R', ['files','follow_links'], ImagesFrontFiles)</l>
+<l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
 <c></c>
-<l>read_camera_setup_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Cam.csm', CamSetupModel)</l>
+<c></c>
+<c></c>
+<l>read_calib_data ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd', CalibDataID)</l>
+<l>calibrate_cameras (CalibDataID, Errors)</l>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
+<c></c>
 <l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,1], 'pose', ReferencePose)</l>
 <l>set_camera_setup_param (CamSetupModel, 'general', 'coord_transf_pose', ReferencePose)</l>
 <l>create_stereo_model (CamSetupModel, 'surface_pairwise', [], [], StereoModelID)</l>
-<l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
+<c></c>
 <l>set_stereo_model_image_pairs (StereoModelID, 1, 0)</l>
 <c>* Set the stereo parameters.</c>
 <c>*设置重建盒子范围大小</c>
-<l>BoundingBox := [-0.2, -0.2, -0.2, 0.2, 0.2, 0.45]</l>
+<l>BoundingBox := [-0.2, -0.2, -0.05, 0.2, 0.2, 0.02]</l>
 <l>set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
 <c>*重建结果内存保持，调试下应用</c>
 <l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
+<c></c>
+<c>*整流图的子抽样因子</c>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1)</l>
+<c>*整流图的插值模式</c>
+<l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
+<c></c>
+<c></c>
+<c>*视差图像的方法</c>
 <l>set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular')</l>
 <c>*创建视差图像的方法</c>
 <l>*set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular_mg')</l>
@@ -197,37 +215,83 @@
 <l>*set_stereo_model_param (StereoModelID, 'binocular_mg_smoothness', 10)</l>
 <c>*常规默认参数设置</c>
 <l>*set_stereo_model_param (StereoModelID, 'binocular_mg_default_parameters', 'fast_accurate')</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels', 2)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 20)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 20)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 0)</l>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 0.8)</l>
+<c></c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 15)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height', 15)</l>
+<c>*纹理图像区域的方差阈值</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 10)</l>
+<c>*匹配阈值</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.01)</l>
+<c>*过滤器</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'none')</l>
+<c>*亚像素插值方法</c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
 <c></c>
 <c></c>
 <c>*设置颜色显示范围</c>
-<l>set_stereo_model_param (StereoModelID, 'color', 'median')</l>
+<l>set_stereo_model_param (StereoModelID, 'color', 'mean_weighted_distances')</l>
 <c>*指定用于表面立体重建的图像对</c>
 <l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
 <c>* </c>
 <c>* Visualize the setup.</c>
 <l>gen_bounding_box_object_model_3d (StereoModelID, ObjectModel3DBoundingBox)</l>
 <l>gen_camera_setup_object_model_3d (CamSetupModel, 'auto', 'auto', ObjectModel3DCamera, ObjectModel3DCone)</l>
-<l>visualize_object_model_3d (WindowHandle, [ObjectModel3DBoundingBox,ObjectModel3DCamera,ObjectModel3DCone], [], [0, 0, 0.5, 0,0, 0, 0], ['lut', 'color_0', 'alpha', 'disp_pose_0'], ['sqrt', 'green', 0.5, 'true'], 'Bounding box and cameras of the stereo setup', ['Bounding box', 'Cam 0 (Back)', '', 'Cam 1 (Front)', '', '', ''], Instructions, PoseOut)</l>
+<l>*visualize_object_model_3d (WindowHandle, [ObjectModel3DBoundingBox,ObjectModel3DCamera,ObjectModel3DCone], [], [0, 0, 0.5, 0,0, 0, 0], ['lut', 'color_0', 'alpha', 'disp_pose_0'], ['sqrt', 'green', 0.5, 'true'], 'Bounding box and cameras of the stereo setup', ['Bounding box', 'Cam 0 (Back)', '', 'Cam 1 (Front)', '', '', ''], [], PoseOut)</l>
 <c>* </c>
-<l>WindowSizeFactor2 := 6</l>
-<l>stop()</l>
+<l>WindowSizeFactor2 := 5</l>
+<l>WidthFrom:=4024</l>
+<l>WidthTo:=4024</l>
+<l>HeightFrom:=3036</l>
+<l>HeightTo:=3036</l>
+<l>*stop()</l>
+<c></c>
+<l>dev_open_window (0, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle1)</l>
+<l>dev_open_window (0, WidthFrom / WindowSizeFactor2 + 12, WidthTo / WindowSizeFactor2, HeightTo / WindowSizeFactor2, 'black', WindowHandle2)</l>
+<l>dev_open_window (HeightFrom / WindowSizeFactor2 + 60, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle3)</l>
+<c>    </c>
 <c>* </c>
 <c>* Start the loop over the scene images.</c>
 <c>* 在场景图像上开始循环。</c>
-<l>for I := 0 to 1 by 1</l>
-<l>    dev_clear_window ()</l>
-<l>    dev_disp_text ('Reconstructing the 3D surface...', 'window', 'top', 'left', 'black', [], [])</l>
+<l>for I := 0 to |ImagesBackFiles|-1 by 1</l>
+<c>  </c>
 <c>    * </c>
 <c>    * Read the scene images.</c>
 <c>    * 读取场景图像。</c>
-<l>    read_image (ImageBack,  ImagesBackFiles[I])</l>
-<l>    read_image (ImageFront,  ImagesFrontFiles[I])</l>
-<l>    concat_obj (ImageBack, ImageFront, Images)</l>
+<c></c>
+<c>    </c>
+<c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,1]" as_ord="1">    * Image Acquisition 01: Code generated by Image Acquisition 01</c>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,1]" as_ord="2">    open_framegrabber ('GigEVision2', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', '34bd202728d5_Hikrobot_MVCU12010GM', 0, -1, Camera_L)</l>
+<l>    open_framegrabber ('GigEVision2', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', '34bd2027286f_Hikrobot_MVCU12010GM', 0, -1, Camera_R)</l>
+<c>    </c>
+<l>    set_framegrabber_param (Camera_L, 'BlackLevel', 400)</l>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 40000.0)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gain', 5)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.5)</l>
+<l>    set_framegrabber_param (Camera_R, 'BlackLevel', 400)</l>
+<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 40000.0)</l>
+<l>    set_framegrabber_param (Camera_R, 'Gain', 5)</l>
+<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.5)</l>
+<l>    grab_image_start (Camera_L, -1)</l>
+<l>    grab_image_start (Camera_R, -1)</l>
+<c></c>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">    while (true)</l>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,3]" as_ord="1">    grab_image_async (ImageBack, Camera_L, -1)</l>
+<l>    grab_image_async (ImageFront, Camera_R, -1)</l>
+<c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,4]" as_ord="1">    * Image Acquisition 01: Do something</c>
+<c></c>
+<c>    </c>
+<c>    </c>
+<c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2]" as_ord="2"></c>
+<c>     </c>
+<c>     </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    *read_image (ImageBack,  ImagesBackFiles[21])</l>
+<l>   * read_image (ImageFront,  ImagesFrontFiles[21])</l>
+<l>    concat_obj (ImageFront, ImageBack, Images)</l>
 <c>    * </c>
 <c>    * Perform the stereo reconstruction.</c>
 <c>    * 执行立体重建。</c>
@@ -237,46 +301,36 @@
 <l>    get_stereo_model_object (DisparityImage, StereoModelID, [0, 1], 'disparity_image')</l>
 <c>    * </c>
 <c>    * Visualize the intermediate results.</c>
-<l>    dev_close_window ()</l>
+<c>  </c>
 <l>    get_image_size (FromImage, WidthFrom, HeightFrom)</l>
-<l>    dev_open_window (0, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle1)</l>
-<l>    set_display_font (WindowHandle1, 14, 'mono', 'true', 'false')</l>
+<l>    dev_set_window (WindowHandle1)</l>
+<l>    dev_clear_window ()</l>
 <l>    dev_display (FromImage)</l>
-<l>    Text := 'Camera 0 (Back):'</l>
-<l>    Text[1] := 'Rectified image'</l>
-<l>    dev_disp_text (Text, 'window', 'top', 'left', 'black', [], [])</l>
+<c></c>
 <l>    get_image_size (ToImage, WidthTo, HeightTo)</l>
-<c>    * </c>
-<l>    dev_open_window (0, WidthFrom / WindowSizeFactor2 + 12, WidthTo / WindowSizeFactor2, HeightTo / WindowSizeFactor2, 'black', WindowHandle2)</l>
-<l>    set_display_font (WindowHandle2, 14, 'mono', 'true', 'false')</l>
+<c>    </c>
+<l>    dev_set_window (WindowHandle2)</l>
+<l>    dev_clear_window ()</l>
 <l>    dev_display (ToImage)</l>
-<l>    Text[0] := 'Camera 1 (Front):'</l>
-<l>    dev_disp_text (Text, 'window', 'top', 'left', 'black', [], [])</l>
-<c>    * </c>
+<c></c>
 <l>    get_image_size (DisparityImage, Width, Height)</l>
-<l>    dev_open_window (HeightFrom / WindowSizeFactor2 + 60, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle3)</l>
-<l>    set_display_font (WindowHandle3, 14, 'mono', 'true', 'false')</l>
+<c>    </c>
+<l>    dev_set_window (WindowHandle3)</l>
+<l>    dev_clear_window ()</l>
 <l>    dev_display (DisparityImage)</l>
-<l>    dev_disp_text ('Disparity image', 'window', 'top', 'left', 'black', [], [])</l>
-<l>    disp_continue_message (WindowHandle3, 'black', [])</l>
-<l>    stop ()</l>
+<c>  </c>
+<l>    *stop ()</l>
 <c>    * </c>
 <c>    * Visualize the stereo reconstruction.</c>
-<l>    visualize_object_model_3d (WindowHandle3, ObjectModel3DScene, [], [], 'color_attrib', 'red', '3D reconstruction with projected gray values', [], Instructions, VisPose)</l>
-<l>    if (I == 0)</l>
-<l>        disp_continue_message (WindowHandle3, 'black', [])</l>
-<l>        stop ()</l>
-<l>        dev_close_window ()</l>
-<l>        dev_close_window ()</l>
-<l>        dev_close_window ()</l>
-<l>        dev_open_window (0, 0, 600, 450, 'black', WindowHandle)</l>
-<l>        set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
-<l>    else</l>
-<l>        dev_close_window ()</l>
-<l>        dev_close_window ()</l>
-<l>        dev_clear_window ()</l>
-<l>        dev_disp_text ('End of program', 'window', 'bottom', 'right', 'black', [], [])</l>
-<l>    endif</l>
+<l>    *visualize_object_model_3d (WindowHandle3, ObjectModel3DScene, [], [], [],[], '3D reconstruction with projected gray values', [], [], VisPose)</l>
+<c></c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    endwhile</l>
+<l>    close_framegrabber (Camera_L)</l>
+<l>    close_framegrabber (Camera_R)</l>
+<c>    </c>
 <l>endfor</l>
 </body>
 <docu id="main">
