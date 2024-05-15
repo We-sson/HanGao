@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="23.11.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* This example shows how high dynamic range images</c>
+<c>* can be created from multiple input images (acquired</c>
+<c>* with different exposure times) by manipulating the</c>
+<c>* image gradient.</c>
+<c>* </c>
+<c>* 本例展示了高动态范围图像</c>
+<c>* 可以从多个输入图像中创建高动态范围图像。</c>
+<c>* 用不同的曝光时间）创建高动态范围图像。</c>
+<c>* 图像梯度。</c>
+<l>dev_update_off ()</l>
+<l>ImageNames := 'hdr/' + ['bore_hole', 'halogen', 'engraved_surface', 'namibia']</l>
+<l>dev_close_window ()</l>
+<l>dev_open_window (0, 0, 640, 480, 'black', WindowHandle)</l>
+<l>set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<c>* </c>
+<c></c>
+<l>   open_framegrabber ('GigEVision2', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', '34bd202728d5_Hikrobot_MVCU12010GM', 0, -1, Camera_L)</l>
+<c>   *初始参数</c>
+<c>  </c>
+<l>   Image_ExposureTime:=5</l>
+<c>   </c>
+<l>   set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', Image_ExposureTime)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gain', 0)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.5)</l>
+<c></c>
+<l>    grab_image_start (Camera_L, -1) </l>
+<c></c>
+<c></c>
+<l>     grab_image_async (ImageBack, Camera_L, -1)</l>
+<l>     min_max_gray (ImageBack, ImageBack, 0, Old_Min, Old_Max, Range)</l>
+<c>     </c>
+<l>     for Image_ExposureTime := Image_ExposureTime to 100000 by 100</l>
+<c>             </c>
+<l>      if ( Old_Max&lt;250)</l>
+<l>        set_framegrabber_param (Camera_L, 'ExposureTime', Image_ExposureTime+50)</l>
+<l>      else</l>
+<l>          break</l>
+<l>     endif</l>
+<c>         </c>
+<c></c>
+<l>        grab_image (ImageBack, Camera_L)</l>
+<l>       min_max_gray (ImageBack, ImageBack, 0, Min, Max, Range)</l>
+<c>       </c>
+<l>              if ( Min!=Old_Min)</l>
+<l>        break</l>
+<l>     endif</l>
+<c>     </c>
+<l>     endfor</l>
+<c> </c>
+<l>     Image_ExposureTime:=500000</l>
+<c>     </c>
+<l>     set_framegrabber_param (Camera_L, 'ExposureTime', Image_ExposureTime)</l>
+<l>     grab_image (ImageBack, Camera_L)</l>
+<l>     min_max_gray (ImageBack, ImageBack, 0, Old_Min, Old_Max, Range)</l>
+<c>     </c>
+<c>     </c>
+<l>      for Image_ExposureTime := Image_ExposureTime to 0 by -2000</l>
+<c>             </c>
+<l>      if ( Old_Min&gt;5)</l>
+<l>        set_framegrabber_param (Camera_L, 'ExposureTime', Image_ExposureTime-500)</l>
+<l>      else</l>
+<l>          break</l>
+<l>     endif</l>
+<c>         </c>
+<c></c>
+<l>       grab_image (ImageBack, Camera_L)</l>
+<l>       min_max_gray (ImageBack, ImageBack, 30, Min, Max, Range)</l>
+<c>       </c>
+<l>     if ( Old_Min&lt;15)</l>
+<l>           break</l>
+<l>     endif</l>
+<c>     </c>
+<l>     endfor</l>
+<c>     </c>
+<c>     </c>
+<c></c>
+<c>     </c>
+<c>   </c>
+<l>stop()</l>
+<c></c>
+<l>for Index := 0 to |ImageNames| - 1 by 1</l>
+<l>    read_image (ImageDark, ImageNames[Index] + '_dark')</l>
+<l>    read_image (ImageBright, ImageNames[Index] + '_bright')</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_resize_window_fit_image (ImageDark, 0, 0, -1, -1)</l>
+<l>    dev_display (ImageDark)</l>
+<l>    disp_message (WindowHandle, 'Dark input image', 'window', 12, 12, 'black', 'true')</l>
+<l>    disp_continue_message (WindowHandle, 'black', 'true')</l>
+<l>    stop ()</l>
+<l>    dev_display (ImageBright)</l>
+<l>    disp_message (WindowHandle, 'Bright input image', 'window', 12, 12, 'black', 'true')</l>
+<l>    disp_continue_message (WindowHandle, 'black', 'true')</l>
+<l>    stop ()</l>
+<l>    count_channels (ImageDark, Channels)</l>
+<l>    if (Channels == 1)</l>
+<l>        create_hdr_image (ImageDark, ImageBright, HDRImage)</l>
+<l>    elseif (Channels == 3)</l>
+<l>        decompose3 (ImageDark, Red1, Green1, Blue1)</l>
+<l>        decompose3 (ImageBright, Red2, Green2, Blue2)</l>
+<l>        create_hdr_image (Red1, Red2, HDRRed)</l>
+<l>        create_hdr_image (Green1, Green2, HDRGreen)</l>
+<l>        create_hdr_image (Blue1, Blue2, HDRBlue)</l>
+<l>        compose3 (HDRRed, HDRGreen, HDRBlue, HDRImage)</l>
+<l>    endif</l>
+<l>    dev_display (HDRImage)</l>
+<l>    disp_message (WindowHandle, 'HDR image', 'window', 12, 12, 'black', 'true')</l>
+<l>    if (Index &lt; |ImageNames| - 1)</l>
+<l>        disp_continue_message (WindowHandle, 'black', 'true')</l>
+<l>        stop ()</l>
+<l>    endif</l>
+<c>    * For further processing convert to a 2 byte image</c>
+<c>    * (not used in this example)</c>
+<c>        * 为进一步处理，转换为 2 字节图像</c>
+<c>    * （本例中未使用）</c>
+<l>    min_max_gray (HDRImage, HDRImage, 0, Min, Max, Range)</l>
+<l>    scale_image_range (HDRImage, ImageScaled, [Min,0], [Max,255])</l>
+<l>    convert_image_type (ImageScaled, ImageConverted, 'uint2')</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="create_hdr_image">
+<interface>
+<io>
+<par name="Image1" base_type="iconic" dimension="0"/>
+<par name="Image2" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="HDR" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<c>* Calculate derivatives in x and y direction</c>
+<c>* 计算 x 和 y 方向的导数</c>
+<l>derivate_image (Image1, X1, Y1)</l>
+<l>derivate_image (Image2, X2, Y2)</l>
+<c>* Combine maximum absolute gradients</c>
+<c>* 合并最大绝对梯度</c>
+<l>max_abs_image (X1, X2, MaxX)</l>
+<l>max_abs_image (Y1, Y2, MaxY)</l>
+<c></c>
+<c>* Transform combined image back to spatial domain</c>
+<c>* 将组合图像转换回空间域</c>
+<l>real_to_vector_field (MaxY, MaxX, VectorField, 'vector_field_relative')</l>
+<l>reconstruct_height_field_from_gradient (VectorField, HDR, 'poisson', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="create_hdr_image">
+<parameters>
+<parameter id="HDR"/>
+<parameter id="Image1"/>
+<parameter id="Image2"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="derivate_image">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="DerivativeX" base_type="iconic" dimension="0"/>
+<par name="DerivativeY" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<c>* Calculate a simple derivate in x and y direction</c>
+<l>convert_image_type (Image, ImageConverted, 'real')</l>
+<l>convol_image (ImageConverted, DerivativeY, [3, 1, 1, -1, 0, 1], 'mirrored')</l>
+<l>convol_image (ImageConverted, DerivativeX, [1, 3, 1, -1, 0, 1], 'mirrored')</l>
+<l>return ()</l>
+</body>
+<docu id="derivate_image">
+<parameters>
+<parameter id="DerivativeX"/>
+<parameter id="DerivativeY"/>
+<parameter id="Image"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="max_abs_image">
+<interface>
+<io>
+<par name="Image1" base_type="iconic" dimension="0"/>
+<par name="Image2" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="MaxImage" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<c>* Combine two images by always choosing the</c>
+<c>* maximum absolute gray value of each pixel</c>
+<c>* for the output image.</c>
+<l>abs_image (Image1, ImageAbs1)</l>
+<l>abs_image (Image2, ImageAbs2)</l>
+<c>* </c>
+<l>dyn_threshold (ImageAbs1, ImageAbs2, Region1Greater, 0, 'light')</l>
+<l>reduce_domain (Image1, Region1Greater, Image1Reduced)</l>
+<l>paint_gray (Image1Reduced, Image2, MaxImage)</l>
+<l>return ()</l>
+</body>
+<docu id="max_abs_image">
+<parameters>
+<parameter id="Image1"/>
+<parameter id="Image2"/>
+<parameter id="MaxImage"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

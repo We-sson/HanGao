@@ -192,7 +192,7 @@
 <c></c>
 <c>* Set the stereo parameters.</c>
 <c>*设置重建盒子范围大小</c>
-<l>BoundingBox := [-0.2, -0.2, -0.05, 0.2, 0.2, 0.02]</l>
+<l>BoundingBox := [-0.2, -0.2, -0.1, 0.2, 0.2, 0.1]</l>
 <l>set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
 <c>*重建结果内存保持，调试下应用</c>
 <l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
@@ -203,38 +203,76 @@
 <l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
 <c></c>
 <c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
 <c>*视差图像的方法   'binocular_mg'</c>
-<l>set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular_mg')</l>
+<l>set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular')</l>
+<c>*视差图像的方法   'binocular_ms'</c>
+<c></c>
+<c></c>
+<c></c>
+<c>*表面平滑</c>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_surface_smoothing', 500)</l>
+<c></c>
+<c>*边缘平滑</c>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_edge_smoothing', 300)</l>
+<c></c>
+<c>*提高返回匹配项的稳健性</c>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_consistency_check', 'false')</l>
+<c></c>
+<c>*设置相似度度量的方法</c>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_similarity_measure', 'census_dense')</l>
+<c></c>
+<c></c>
+<c>*差异的子像素细化</c>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_sub_disparity', 'true')</l>
+<c></c>
+<c></c>
+<c>*重建的网格进行网格划分 表面点</c>
+<l>set_stereo_model_param (StereoModelID, 'point_meshing', 'none')</l>
+<c></c>
+<c></c>
+<c>*解器八叉树的深度</c>
+<l>set_stereo_model_param (StereoModelID, 'poisson_depth',3)</l>
+<c></c>
+<c>*求解泊松的块深度</c>
+<l>set_stereo_model_param (StereoModelID, 'poisson_solver_divide',3)</l>
+<c></c>
+<c>*单个八叉树中的最小点数</c>
+<l>set_stereo_model_param (StereoModelID, 'poisson_samples_per_node', 10)</l>
+<c></c>
 <c></c>
 <c>*灰度值常数的权重</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_gray_constancy', 1)</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_gray_constancy',2)</l>
 <c>*梯度常数的权重</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_gradient_constancy', 30)</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_gradient_constancy', 300)</l>
 <c>*平滑度项相对于数据项的权重</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_smoothness', 5)</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_smoothness',1)</l>
 <c>*对差异的初步猜测</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_initial_guess', 0)</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_initial_guess', 0)</l>
 <c>*线性系统的求解器</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_solver', 'full_multigrid')</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_solver', 'gauss_seidel')</l>
 <c></c>
 <c>*选择多网格求解器的递归类型</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_cycle_type', 'v')</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_cycle_type', 'w')</l>
 <c></c>
 <c>*设置预松弛步骤的迭代次数 多网格求解器</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_pre_relax', 1)</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_pre_relax', 1)</l>
 <c></c>
 <c>*设置松弛后步骤的迭代次数</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_post_relax', 1)</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_post_relax', 1)</l>
 <c></c>
 <c>*设置图像金字塔的最粗级别，其中从粗到细 进程开始</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_initial_level', -2)</l>
+<c>**set_stereo_model_param (StereoModelID, 'binocular_mg_initial_level', -1)</c>
 <c></c>
 <c>*设置每个定点迭代的迭代次数 金字塔级别</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_iterations',1)</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_iterations',1)</l>
 <c></c>
 <c></c>
 <c>*确定创建时图像缩放的系数 从粗到细处理的图像金字塔</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mg_pyramid_factor',0.6)</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_pyramid_factor',0.1)</l>
 <c></c>
 <c></c>
 <c></c>
@@ -247,24 +285,24 @@
 <c>*平滑度</c>
 <l>*set_stereo_model_param (StereoModelID, 'binocular_mg_smoothness', 10)</l>
 <c>*常规默认参数设置</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_default_parameters', 'fast_accurate')</l>
+<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_default_parameters', 'very_accurate')</l>
 <c></c>
 <c></c>
 <c></c>
 <c></c>
 <c>*binocular方法参数</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mask_width', 15)</l>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mask_height', 15)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',2)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 40)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height', 40)</l>
 <c>*纹理图像区域的方差阈值</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 10)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 0)</l>
 <c>*匹配阈值</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.01)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.4)</l>
 <c>*过滤器</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_filter', 'none')</l>
+<l> set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
 <c>*亚像素插值方法</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
 <c></c>
 <c></c>
 <c></c>
@@ -280,6 +318,9 @@
 <l>gen_camera_setup_object_model_3d (CamSetupModel, 'auto', 'auto', ObjectModel3DCamera, ObjectModel3DCone)</l>
 <l>*visualize_object_model_3d (WindowHandle, [ObjectModel3DBoundingBox,ObjectModel3DCamera,ObjectModel3DCone], [], [0, 0, 0.5, 0,0, 0, 0], ['lut', 'color_0', 'alpha', 'disp_pose_0'], ['sqrt', 'green', 0.5, 'true'], 'Bounding box and cameras of the stereo setup', ['Bounding box', 'Cam 0 (Back)', '', 'Cam 1 (Front)', '', '', ''], [], PoseOut)</l>
 <c>* </c>
+<c></c>
+<l>stop()</l>
+<c></c>
 <l>WindowSizeFactor2 := 5</l>
 <l>WidthFrom:=4024</l>
 <l>WidthTo:=4024</l>
