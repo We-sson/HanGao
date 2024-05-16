@@ -27,7 +27,7 @@
 <l>   set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
 <l>    set_framegrabber_param (Camera_L, 'ExposureTime', Image_ExposureTime)</l>
 <l>    set_framegrabber_param (Camera_L, 'Gain', 0)</l>
-<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.5)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.7)</l>
 <c></c>
 <l>    grab_image_start (Camera_L, -1) </l>
 <c></c>
@@ -47,13 +47,13 @@
 <l>        grab_image (ImageBack, Camera_L)</l>
 <l>       min_max_gray (ImageBack, ImageBack, 0, Min, Max, Range)</l>
 <c>       </c>
-<l>              if ( Min!=Old_Min)</l>
+<l>     if ( Min!=Old_Min)</l>
 <l>        break</l>
 <l>     endif</l>
 <c>     </c>
 <l>     endfor</l>
 <c> </c>
-<l>     Image_ExposureTime:=500000</l>
+<l>     Image_ExposureTime:=50000</l>
 <c>     </c>
 <l>     set_framegrabber_param (Camera_L, 'ExposureTime', Image_ExposureTime)</l>
 <l>     grab_image (ImageBack, Camera_L)</l>
@@ -85,8 +85,13 @@
 <l>stop()</l>
 <c></c>
 <l>for Index := 0 to |ImageNames| - 1 by 1</l>
-<l>    read_image (ImageDark, ImageNames[Index] + '_dark')</l>
-<l>    read_image (ImageBright, ImageNames[Index] + '_bright')</l>
+<c>    </c>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 50000)</l>
+<l>    grab_image (ImageDark, Camera_L)</l>
+<l>     set_framegrabber_param (Camera_L, 'ExposureTime', 500000)</l>
+<l>     grab_image (ImageBright, Camera_L)</l>
+<l>    *read_image (ImageDark, ImageNames[Index] + '_dark')</l>
+<l>    *read_image (ImageBright, ImageNames[Index] + '_bright')</l>
 <l>    dev_clear_window ()</l>
 <l>    dev_resize_window_fit_image (ImageDark, 0, 0, -1, -1)</l>
 <l>    dev_display (ImageDark)</l>
@@ -150,7 +155,7 @@
 <c>* Transform combined image back to spatial domain</c>
 <c>* 将组合图像转换回空间域</c>
 <l>real_to_vector_field (MaxY, MaxX, VectorField, 'vector_field_relative')</l>
-<l>reconstruct_height_field_from_gradient (VectorField, HDR, 'poisson', [], [])</l>
+<l>reconstruct_height_field_from_gradient (VectorField, HDR, 'rft_cyclic', [], [])</l>
 <l>return ()</l>
 </body>
 <docu id="create_hdr_image">

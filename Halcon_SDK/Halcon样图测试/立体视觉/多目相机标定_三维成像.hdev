@@ -358,13 +358,18 @@
 <l>    grab_image_start (Camera_R, -1)</l>
 <c></c>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">    while (true)</l>
-<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,3]" as_ord="1">    grab_image_async (ImageBack, Camera_L, -1)</l>
-<l>    grab_image_async (ImageFront, Camera_R, -1)</l>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,3]" as_ord="1">    *grab_image_async (ImageBack, Camera_L, -1)</l>
+<l>    *grab_image_async (ImageFront, Camera_R, -1)</l>
 <c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,4]" as_ord="1">    * Image Acquisition 01: Do something</c>
-<c></c>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 50000)</l>
+<l>    grab_image (ImageDark, Camera_L)</l>
+<l>     set_framegrabber_param (Camera_L, 'ExposureTime', 500000)</l>
+<l>     grab_image (ImageBright, Camera_L)</l>
 <c>    </c>
-<c>    </c>
-<c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,2]" as_ord="2"></c>
+<l>    create_hdr_image (ImageDark, ImageBright, HDRImage)</l>
+<l>    min_max_gray (HDRImage, HDRImage, 0, Min, Max, Range)</l>
+<l>    scale_image_range (HDRImage, ImageScaled, [Min,0], [Max,255])</l>
+<l>    convert_image_type (ImageScaled, ImageConverted, 'uint2')</l>
 <c>     </c>
 <c>     </c>
 <c>    </c>
@@ -696,6 +701,95 @@
 </body>
 <docu id="dev_disp_residuals">
 <parameters/>
+</docu>
+</procedure>
+<procedure name="max_abs_image">
+<interface>
+<io>
+<par name="Image1" base_type="iconic" dimension="0"/>
+<par name="Image2" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="MaxImage" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<c>* Combine two images by always choosing the</c>
+<c>* maximum absolute gray value of each pixel</c>
+<c>* for the output image.</c>
+<l>abs_image (Image1, ImageAbs1)</l>
+<l>abs_image (Image2, ImageAbs2)</l>
+<c></c>
+<l>dyn_threshold (ImageAbs1, ImageAbs2, Region1Greater, 0, 'light')</l>
+<l>reduce_domain (Image1, Region1Greater, Image1Reduced)</l>
+<l>paint_gray (Image1Reduced, Image2, MaxImage)</l>
+<l>return ()</l>
+</body>
+<docu id="max_abs_image">
+<parameters>
+<parameter id="Image1"/>
+<parameter id="Image2"/>
+<parameter id="MaxImage"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="derivate_image">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="DerivativeX" base_type="iconic" dimension="0"/>
+<par name="DerivativeY" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<c>* Calculate a simple derivate in x and y direction</c>
+<l>convert_image_type (Image, ImageConverted, 'real')</l>
+<l>convol_image (ImageConverted, DerivativeY, [3, 1, 1, -1, 0, 1], 'mirrored')</l>
+<l>convol_image (ImageConverted, DerivativeX, [1, 3, 1, -1, 0, 1], 'mirrored')</l>
+<l>return ()</l>
+</body>
+<docu id="derivate_image">
+<parameters>
+<parameter id="DerivativeX"/>
+<parameter id="DerivativeY"/>
+<parameter id="Image"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="create_hdr_image">
+<interface>
+<io>
+<par name="Image1" base_type="iconic" dimension="0"/>
+<par name="Image2" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="HDR" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<c>* Calculate derivatives in x and y direction</c>
+<c>* 计算 x 和 y 方向的导数</c>
+<l>derivate_image (Image1, X1, Y1)</l>
+<l>derivate_image (Image2, X2, Y2)</l>
+<c>* Combine maximum absolute gradients</c>
+<c>* 合并最大绝对梯度</c>
+<l>max_abs_image (X1, X2, MaxX)</l>
+<l>max_abs_image (Y1, Y2, MaxY)</l>
+<c></c>
+<c>* Transform combined image back to spatial domain</c>
+<c>* 将组合图像转换回空间域</c>
+<l>real_to_vector_field (MaxY, MaxX, VectorField, 'vector_field_relative')</l>
+<l>reconstruct_height_field_from_gradient (VectorField, HDR, 'rft_cyclic', [], [])</l>
+<l>return ()</l>
+</body>
+<docu id="create_hdr_image">
+<parameters>
+<parameter id="HDR"/>
+<parameter id="Image1"/>
+<parameter id="Image2"/>
+</parameters>
 </docu>
 </procedure>
 </hdevelop>
