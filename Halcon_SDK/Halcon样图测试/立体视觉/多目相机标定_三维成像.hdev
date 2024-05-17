@@ -193,12 +193,19 @@
 <c>* Set the stereo parameters.</c>
 <c>*设置重建盒子范围大小</c>
 <l>BoundingBox := [-0.2, -0.2, -0.1, 0.2, 0.2, 0.1]</l>
+<c></c>
+<c>*指定用于表面立体重建的图像对</c>
+<l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
+<c></c>
+<l>estimate_bounding_box_3d_reconstruction (StereoModelID, 0.1, BoundingBox)</l>
+<c></c>
+<l>BoundingBox[5] := BoundingBox[5] + 0.1</l>
 <l>set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
 <c>*重建结果内存保持，调试下应用</c>
 <l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
 <c></c>
 <c>*整流图的子抽样因子</c>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 4)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 2.5)</l>
 <c>*整流图的插值模式</c>
 <l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
 <c></c>
@@ -230,18 +237,7 @@
 <l>*set_stereo_model_param (StereoModelID, 'binocular_ms_sub_disparity', 'true')</l>
 <c></c>
 <c></c>
-<c>*重建的网格进行网格划分 表面点</c>
-<l>set_stereo_model_param (StereoModelID, 'point_meshing', 'none')</l>
 <c></c>
-<c></c>
-<c>*解器八叉树的深度</c>
-<l>set_stereo_model_param (StereoModelID, 'poisson_depth',3)</l>
-<c></c>
-<c>*求解泊松的块深度</c>
-<l>set_stereo_model_param (StereoModelID, 'poisson_solver_divide',3)</l>
-<c></c>
-<c>*单个八叉树中的最小点数</c>
-<l>set_stereo_model_param (StereoModelID, 'poisson_samples_per_node', 10)</l>
 <c></c>
 <c></c>
 <c>*灰度值常数的权重</c>
@@ -288,17 +284,44 @@
 <l>*set_stereo_model_param (StereoModelID, 'binocular_mg_default_parameters', 'very_accurate')</l>
 <c></c>
 <c></c>
+<c>*surface_fusion参数</c>
+<c>*分辨率</c>
+<l>*set_stereo_model_param (StereoModelID, 'resolution', 0.01)</l>
+<c>*值要大于分辨率，融合平面</c>
+<l>*set_stereo_model_param (StereoModelID, 'surface_tolerance',0.04)</l>
+<c>*高度范围融合</c>
+<l>*set_stereo_model_param (StereoModelID, 'min_thickness', 0.1)</l>
+<c>*平滑点云</c>
+<l>*set_stereo_model_param (StereoModelID, 'smoothing',0.01)</l>
+<c></c>
+<c>*重建的网格进行网格划分 表面点</c>
+<l>*set_stereo_model_param (StereoModelID, 'point_meshing', 'isosurface')</l>
+<c></c>
+<c></c>
+<c>*解器八叉树的深度</c>
+<l>*set_stereo_model_param (StereoModelID, 'poisson_depth',3)</l>
+<c></c>
+<c>*求解泊松的块深度</c>
+<l>*set_stereo_model_param (StereoModelID, 'poisson_solver_divide',3)</l>
+<c></c>
+<c>*单个八叉树中的最小点数</c>
+<l>*set_stereo_model_param (StereoModelID, 'poisson_samples_per_node', 10)</l>
+<c></c>
+<c></c>
+<c>*surface_pairwise方法</c>
+<c>*XYZ采集密度</c>
+<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',2)</l>
 <c></c>
 <c></c>
 <c>*binocular方法参数</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',2)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 40)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height', 40)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 15)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',15)</l>
 <c>*纹理图像区域的方差阈值</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 0)</l>
 <c>*匹配阈值</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.4)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.5)</l>
 <c>*过滤器</c>
 <l> set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
 <c>*亚像素插值方法</c>
@@ -309,14 +332,13 @@
 <c></c>
 <c></c>
 <c>*设置颜色显示范围</c>
-<l>set_stereo_model_param (StereoModelID, 'color', 'mean_weighted_distances')</l>
-<c>*指定用于表面立体重建的图像对</c>
-<l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
+<l>set_stereo_model_param (StereoModelID, 'color', 'median')</l>
+<c></c>
 <c>* </c>
 <c>* Visualize the setup.</c>
 <l>gen_bounding_box_object_model_3d (StereoModelID, ObjectModel3DBoundingBox)</l>
 <l>gen_camera_setup_object_model_3d (CamSetupModel, 'auto', 'auto', ObjectModel3DCamera, ObjectModel3DCone)</l>
-<l>*visualize_object_model_3d (WindowHandle, [ObjectModel3DBoundingBox,ObjectModel3DCamera,ObjectModel3DCone], [], [0, 0, 0.5, 0,0, 0, 0], ['lut', 'color_0', 'alpha', 'disp_pose_0'], ['sqrt', 'green', 0.5, 'true'], 'Bounding box and cameras of the stereo setup', ['Bounding box', 'Cam 0 (Back)', '', 'Cam 1 (Front)', '', '', ''], [], PoseOut)</l>
+<l>visualize_object_model_3d (WindowHandle3, [ObjectModel3DBoundingBox,ObjectModel3DCamera,ObjectModel3DCone], [], [0, 0, 0.5, 0,0, 0, 0], ['lut', 'color_0', 'alpha', 'disp_pose_0'], ['sqrt', 'green', 0.5, 'true'], 'Bounding box and cameras of the stereo setup', ['Bounding box', 'Cam 0 (Back)', '', 'Cam 1 (Front)', '', '', ''], [], PoseOut)</l>
 <c>* </c>
 <c></c>
 <l>stop()</l>
@@ -346,35 +368,45 @@
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,1]" as_ord="2">    open_framegrabber ('GigEVision2', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', '34bd202728d5_Hikrobot_MVCU12010GM', 0, -1, Camera_L)</l>
 <l>    open_framegrabber ('GigEVision2', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', '34bd2027286f_Hikrobot_MVCU12010GM', 0, -1, Camera_R)</l>
 <c>    </c>
-<l>    set_framegrabber_param (Camera_L, 'BlackLevel', 400)</l>
-<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 40000.0)</l>
-<l>    set_framegrabber_param (Camera_L, 'Gain', 5)</l>
-<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.5)</l>
-<l>    set_framegrabber_param (Camera_R, 'BlackLevel', 400)</l>
-<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 40000.0)</l>
-<l>    set_framegrabber_param (Camera_R, 'Gain', 5)</l>
-<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.5)</l>
+<l>    set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 300000.0)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gain', 19)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.6)</l>
+<l>    set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
+<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 300000.0)</l>
+<l>    set_framegrabber_param (Camera_R, 'Gain', 19)</l>
+<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.6)</l>
 <l>    grab_image_start (Camera_L, -1)</l>
 <l>    grab_image_start (Camera_R, -1)</l>
 <c></c>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">    while (true)</l>
-<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,3]" as_ord="1">    *grab_image_async (ImageBack, Camera_L, -1)</l>
-<l>    *grab_image_async (ImageFront, Camera_R, -1)</l>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,3]" as_ord="1">    grab_image_async (ImageBack, Camera_L, -1)</l>
+<l>    grab_image_async (ImageFront, Camera_R, -1)</l>
 <c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,4]" as_ord="1">    * Image Acquisition 01: Do something</c>
-<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 50000)</l>
-<l>    grab_image (ImageDark, Camera_L)</l>
-<l>     set_framegrabber_param (Camera_L, 'ExposureTime', 500000)</l>
-<l>     grab_image (ImageBright, Camera_L)</l>
+<l>    *ExposureTime_Dark:=2000</l>
+<l>    *ExposureTime_Bright:=80000</l>
+<l>    *set_framegrabber_param (Camera_L, 'ExposureTime', ExposureTime_Dark)</l>
+<l>   * set_framegrabber_param (Camera_R, 'ExposureTime', ExposureTime_Dark)</l>
+<l>   * grab_image (ImageDark_L, Camera_L)</l>
+<l>    *grab_image (ImageDark_R, Camera_R)</l>
 <c>    </c>
-<l>    create_hdr_image (ImageDark, ImageBright, HDRImage)</l>
-<l>    min_max_gray (HDRImage, HDRImage, 0, Min, Max, Range)</l>
-<l>    scale_image_range (HDRImage, ImageScaled, [Min,0], [Max,255])</l>
-<l>    convert_image_type (ImageScaled, ImageConverted, 'uint2')</l>
+<l>    * set_framegrabber_param (Camera_L, 'ExposureTime', ExposureTime_Bright)</l>
+<l>    * set_framegrabber_param (Camera_R, 'ExposureTime', ExposureTime_Bright)</l>
+<l>    * grab_image (ImageBright_L, Camera_L)</l>
+<l>    * grab_image (ImageBright_R, Camera_R)</l>
 <c>     </c>
+<l>    *create_hdr_image (ImageDark_L, ImageBright_L, HDRImage_L)</l>
+<l>   * create_hdr_image (ImageDark_R, ImageBright_R, HDRImage_R)</l>
+<l>   * min_max_gray (HDRImage_L, HDRImage_L, 0, Min, Max, Range)</l>
+<l>   * scale_image_range (HDRImage_L, ImageScaled, [Min,0], [Max,255])</l>
+<l>    *convert_image_type (ImageScaled, ImageBack, 'byte')</l>
 <c>     </c>
+<l>   * min_max_gray (HDRImage_R, HDRImage_R, 0, Min, Max, Range)</l>
+<l>   * scale_image_range (HDRImage_R, ImageScaled, [Min,0], [Max,255])</l>
+<l>   * convert_image_type (ImageScaled, ImageFront, 'byte')</l>
 <c>    </c>
-<c>    </c>
-<c>    </c>
+<l>    *median_image (ImageFront, ImageFront, 'square', 3, 'mirrored')</l>
+<l>    *median_image (ImageBack, ImageBack, 'square', 3, 'mirrored')</l>
 <l>    *read_image (ImageBack,  ImagesBackFiles[21])</l>
 <l>   * read_image (ImageFront,  ImagesFrontFiles[21])</l>
 <l>    concat_obj (ImageFront, ImageBack, Images)</l>
@@ -408,7 +440,7 @@
 <l>    *stop ()</l>
 <c>    * </c>
 <c>    * Visualize the stereo reconstruction.</c>
-<l>   * visualize_object_model_3d (WindowHandle3, ObjectModel3DScene, [], [], [],[], '3D reconstruction with projected gray values', [], [], VisPose)</l>
+<l>    *visualize_object_model_3d (WindowHandle3, ObjectModel3DScene, [], [], [],[], '3D reconstruction with projected gray values', [], [], VisPose)</l>
 <c></c>
 <c>    </c>
 <c>    </c>
@@ -781,7 +813,7 @@
 <c>* Transform combined image back to spatial domain</c>
 <c>* 将组合图像转换回空间域</c>
 <l>real_to_vector_field (MaxY, MaxX, VectorField, 'vector_field_relative')</l>
-<l>reconstruct_height_field_from_gradient (VectorField, HDR, 'rft_cyclic', [], [])</l>
+<l>reconstruct_height_field_from_gradient (VectorField, HDR, 'poisson', [], [])</l>
 <l>return ()</l>
 </body>
 <docu id="create_hdr_image">
