@@ -25,9 +25,9 @@
 <l>dev_open_window (0, 0, 600, 450, 'black', WindowHandle)</l>
 <l>set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
 <l>dev_disp_intro_text ()</l>
-<l>*stop ()</l>
+<l>* stop ()</l>
 <l>dev_disp_calibration_text ()</l>
-<l>*stop ()</l>
+<l>* stop ()</l>
 <l>dev_close_window ()</l>
 <c>* </c>
 <l>WindowSizeFactor1 := 6</l>
@@ -46,12 +46,12 @@
 <c>* 校准立体声设置。</c>
 <c>* </c>
 <c>* 设置摄像机内部参数的初始值。</c>
-<l>*read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651471.dat', StartCamParamBack)</l>
-<l>*read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651573.dat', StartCamParamFront)</l>
+<l>* read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651471.dat', StartCamParamBack)</l>
+<l>* read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651573.dat', StartCamParamFront)</l>
 <l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, WidthBack / 2, HeightBack/2, WidthBack, HeightBack, StartCamParamBack)</l>
 <l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, WidthFront / 2, HeightFront/2, WidthFront, HeightFront, StartCamParamFront)</l>
-<l>*gen_cam_par_line_scan_telecentric_division (0.228, 0, 7.0e-6, 7.0e-6, WidthBack / 2, 0, WidthBack, HeightBack, 0, 2.7e-5, 0, StartCamParamBack)</l>
-<l>*gen_cam_par_line_scan_telecentric_division (0.268, 0, 7.0e-6, 7.0e-6, WidthFront / 2, 0, WidthFront, HeightFront, 0, 2.7e-5, 0, StartCamParamFront)</l>
+<l>* gen_cam_par_line_scan_telecentric_division (0.228, 0, 7.0e-6, 7.0e-6, WidthBack / 2, 0, WidthBack, HeightBack, 0, 2.7e-5, 0, StartCamParamBack)</l>
+<l>* gen_cam_par_line_scan_telecentric_division (0.268, 0, 7.0e-6, 7.0e-6, WidthFront / 2, 0, WidthFront, HeightFront, 0, 2.7e-5, 0, StartCamParamFront)</l>
 <c>* </c>
 <c>* Create a calibration data model in which all calibration data</c>
 <c>* including the image coordinates of the calibration marks and</c>
@@ -72,7 +72,7 @@
 <c>* 由于两台照相机固定不动，而物体在照相机前方线性移动。</c>
 <c>* 物体在摄像机前线性移动，因此只需确定一个</c>
 <c>* 需要确定一个共同的运动矢量。</c>
-<l>*set_calib_data (CalibDataID, 'model', 'general', 'common_motion_vector', 'true')</l>
+<l>* set_calib_data (CalibDataID, 'model', 'general', 'common_motion_vector', 'true')</l>
 <l>set_calib_data (CalibDataID, 'model', 'general', 'optimization_method', 'stochastic')</l>
 <c>* </c>
 <c>* Start the loop over the calibration images.</c>
@@ -89,17 +89,17 @@
 <c></c>
 <l>for I := 0 to |ImagesBackFiles|-1 by 1</l>
 <c>    * Read the calibration images.</c>
-<c>     * 读取校准图像。</c>
+<c>    * 读取校准图像。</c>
 <l>    read_image (ImageBack, ImagesBackFiles[I])</l>
 <l>    read_image (ImageFront, ImagesFrontFiles[I])</l>
 <c>    * Find the calibration plate and store observations</c>
 <c>    * in the calibration data model.</c>
-<c>     * 找到校准板并将观测数据</c>
+<c>    * 找到校准板并将观测数据</c>
 <c>    * 在校准数据模型中。</c>
 <l>    find_calib_object (ImageBack, CalibDataID, 0, 0, I, 'sigma', 2)</l>
 <l>    find_calib_object (ImageFront, CalibDataID, 1, 0, I, 'sigma', 2)</l>
 <c>    * Visualize the extracted calibration marks.</c>
-<c>     * 可视化提取的校准标记。</c>
+<c>    * 可视化提取的校准标记。</c>
 <l>    get_calib_data_observ_contours (ContoursBack, CalibDataID, 'marks', 0, 0, I)</l>
 <l>    dev_set_window (WindowHandle1)</l>
 <l>    dev_display (ImageBack)</l>
@@ -120,7 +120,7 @@
 <l>get_calib_data (CalibDataID, 'camera', 0, 'params', CamParamBack)</l>
 <l>get_calib_data (CalibDataID, 'camera', 1, 'params', CamParamFront)</l>
 <l>dev_set_window (WindowHandle1)</l>
-<l>*dev_disp_calibration_results (CalibDataID)</l>
+<l>* dev_disp_calibration_results (CalibDataID)</l>
 <l>dev_set_window (WindowHandle2)</l>
 <l>dev_disp_text_calibration_error ()</l>
 <l>stop ()</l>
@@ -148,7 +148,7 @@
 <l>    dev_display (ImageFront)</l>
 <l>    calculate_and_display_residuals (CalibDataID, 1, I, ResScale, ResRowFront, ResColFront)</l>
 <l>    dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
-<l>    *stop ()</l>
+<l>*     stop ()</l>
 <l>endfor</l>
 <c>* </c>
 <l>dev_open_window (0, 0, 600, 450, 'black', WindowHandle)</l>
@@ -173,7 +173,7 @@
 <c></c>
 <l>stop()</l>
 <l>dev_close_window ()</l>
-<l>*dev_open_window (0, 0, 600, 450, 'black', WindowHandle)</l>
+<l>* dev_open_window (0, 0, 600, 450, 'black', WindowHandle)</l>
 <l>list_files ('C:/Users/zhiwei2.he/MVS/Data/L', ['files','follow_links'], ImagesBackFiles)</l>
 <l>tuple_regexp_select (ImagesBackFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesBackFiles)</l>
 <l>list_files ('C:/Users/zhiwei2.he/MVS/Data/R', ['files','follow_links'], ImagesFrontFiles)</l>
@@ -197,15 +197,15 @@
 <c>*指定用于表面立体重建的图像对</c>
 <l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
 <c></c>
-<l>estimate_bounding_box_3d_reconstruction (StereoModelID, 0.1, BoundingBox)</l>
+<l>estimate_bounding_box_3d_reconstruction (StereoModelID, 0.05, BoundingBox)</l>
 <c></c>
-<l>BoundingBox[5] := BoundingBox[5] + 0.1</l>
+<l>BoundingBox[5] := BoundingBox[5] + 0.01</l>
 <l>set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
 <c>*重建结果内存保持，调试下应用</c>
 <l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
 <c></c>
 <c>*整流图的子抽样因子</c>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 2.5)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 4)</l>
 <c>*整流图的插值模式</c>
 <l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
 <c></c>
@@ -221,109 +221,109 @@
 <c></c>
 <c></c>
 <c>*表面平滑</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_surface_smoothing', 500)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_ms_surface_smoothing', 500)</l>
 <c></c>
 <c>*边缘平滑</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_edge_smoothing', 300)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_ms_edge_smoothing', 300)</l>
 <c></c>
 <c>*提高返回匹配项的稳健性</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_consistency_check', 'false')</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_ms_consistency_check', 'false')</l>
 <c></c>
 <c>*设置相似度度量的方法</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_similarity_measure', 'census_dense')</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_ms_similarity_measure', 'census_dense')</l>
 <c></c>
 <c></c>
 <c>*差异的子像素细化</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_ms_sub_disparity', 'true')</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_ms_sub_disparity', 'true')</l>
 <c></c>
 <c></c>
 <c></c>
 <c></c>
 <c></c>
 <c>*灰度值常数的权重</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_gray_constancy',2)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_gray_constancy',2)</l>
 <c>*梯度常数的权重</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_gradient_constancy', 300)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_gradient_constancy', 300)</l>
 <c>*平滑度项相对于数据项的权重</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_smoothness',1)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_smoothness',1)</l>
 <c>*对差异的初步猜测</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_initial_guess', 0)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_initial_guess', 0)</l>
 <c>*线性系统的求解器</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_solver', 'gauss_seidel')</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_solver', 'gauss_seidel')</l>
 <c></c>
 <c>*选择多网格求解器的递归类型</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_cycle_type', 'w')</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_cycle_type', 'w')</l>
 <c></c>
 <c>*设置预松弛步骤的迭代次数 多网格求解器</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_pre_relax', 1)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_pre_relax', 1)</l>
 <c></c>
 <c>*设置松弛后步骤的迭代次数</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_post_relax', 1)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_post_relax', 1)</l>
 <c></c>
 <c>*设置图像金字塔的最粗级别，其中从粗到细 进程开始</c>
 <c>**set_stereo_model_param (StereoModelID, 'binocular_mg_initial_level', -1)</c>
 <c></c>
 <c>*设置每个定点迭代的迭代次数 金字塔级别</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_iterations',1)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_iterations',1)</l>
 <c></c>
 <c></c>
 <c>*确定创建时图像缩放的系数 从粗到细处理的图像金字塔</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_pyramid_factor',0.1)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_pyramid_factor',0.1)</l>
 <c></c>
 <c></c>
 <c></c>
 <c>*创建视差图像的方法</c>
-<l>*set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular_mg')</l>
+<l>* set_stereo_model_param (StereoModelID, 'disparity_method', 'binocular_mg')</l>
 <c>*灰度值常数的权重</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_gray_constancy', 1)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_gray_constancy', 1)</l>
 <c>*梯度常数的权重</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_gradient_constancy', 50)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_gradient_constancy', 50)</l>
 <c>*平滑度</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_smoothness', 10)</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_smoothness', 10)</l>
 <c>*常规默认参数设置</c>
-<l>*set_stereo_model_param (StereoModelID, 'binocular_mg_default_parameters', 'very_accurate')</l>
+<l>* set_stereo_model_param (StereoModelID, 'binocular_mg_default_parameters', 'very_accurate')</l>
 <c></c>
 <c></c>
 <c>*surface_fusion参数</c>
 <c>*分辨率</c>
-<l>*set_stereo_model_param (StereoModelID, 'resolution', 0.01)</l>
+<l>* set_stereo_model_param (StereoModelID, 'resolution', 0.01)</l>
 <c>*值要大于分辨率，融合平面</c>
-<l>*set_stereo_model_param (StereoModelID, 'surface_tolerance',0.04)</l>
+<l>* set_stereo_model_param (StereoModelID, 'surface_tolerance',0.04)</l>
 <c>*高度范围融合</c>
-<l>*set_stereo_model_param (StereoModelID, 'min_thickness', 0.1)</l>
+<l>* set_stereo_model_param (StereoModelID, 'min_thickness', 0.1)</l>
 <c>*平滑点云</c>
-<l>*set_stereo_model_param (StereoModelID, 'smoothing',0.01)</l>
+<l>* set_stereo_model_param (StereoModelID, 'smoothing',0.01)</l>
 <c></c>
 <c>*重建的网格进行网格划分 表面点</c>
-<l>*set_stereo_model_param (StereoModelID, 'point_meshing', 'isosurface')</l>
+<l>* set_stereo_model_param (StereoModelID, 'point_meshing', 'isosurface')</l>
 <c></c>
 <c></c>
 <c>*解器八叉树的深度</c>
-<l>*set_stereo_model_param (StereoModelID, 'poisson_depth',3)</l>
+<l>* set_stereo_model_param (StereoModelID, 'poisson_depth',3)</l>
 <c></c>
 <c>*求解泊松的块深度</c>
-<l>*set_stereo_model_param (StereoModelID, 'poisson_solver_divide',3)</l>
+<l>* set_stereo_model_param (StereoModelID, 'poisson_solver_divide',3)</l>
 <c></c>
 <c>*单个八叉树中的最小点数</c>
-<l>*set_stereo_model_param (StereoModelID, 'poisson_samples_per_node', 10)</l>
+<l>* set_stereo_model_param (StereoModelID, 'poisson_samples_per_node', 10)</l>
 <c></c>
 <c></c>
 <c>*surface_pairwise方法</c>
 <c>*XYZ采集密度</c>
-<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',2)</l>
+<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',4)</l>
 <c></c>
 <c></c>
 <c>*binocular方法参数</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',2)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 15)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',15)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 10)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',10)</l>
 <c>*纹理图像区域的方差阈值</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 0)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 5)</l>
 <c>*匹配阈值</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.5)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.25)</l>
 <c>*过滤器</c>
-<l> set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
 <c>*亚像素插值方法</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
 <c></c>
@@ -333,7 +333,8 @@
 <c></c>
 <c>*设置颜色显示范围</c>
 <l>set_stereo_model_param (StereoModelID, 'color', 'median')</l>
-<c></c>
+<c>*指定用于表面立体重建的图像对</c>
+<l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
 <c>* </c>
 <c>* Visualize the setup.</c>
 <l>gen_bounding_box_object_model_3d (StereoModelID, ObjectModel3DBoundingBox)</l>
@@ -348,21 +349,21 @@
 <l>WidthTo:=4024</l>
 <l>HeightFrom:=3036</l>
 <l>HeightTo:=3036</l>
-<l>*stop()</l>
+<l>* stop()</l>
 <c></c>
 <l>dev_open_window (0, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle1)</l>
 <l>dev_open_window (0, WidthFrom / WindowSizeFactor2 + 12, WidthTo / WindowSizeFactor2, HeightTo / WindowSizeFactor2, 'black', WindowHandle2)</l>
 <l>dev_open_window (HeightFrom / WindowSizeFactor2 + 60, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle3)</l>
-<c>    </c>
+<c></c>
 <c>* </c>
 <c>* Start the loop over the scene images.</c>
 <c>* 在场景图像上开始循环。</c>
 <l>for I := 0 to |ImagesBackFiles|-1 by 1</l>
-<c>  </c>
+<c>    </c>
 <c>    * </c>
 <c>    * Read the scene images.</c>
 <c>    * 读取场景图像。</c>
-<c></c>
+<c>    </c>
 <c>    </c>
 <c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,1]" as_ord="1">    * Image Acquisition 01: Code generated by Image Acquisition 01</c>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,1]" as_ord="2">    open_framegrabber ('GigEVision2', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', '34bd202728d5_Hikrobot_MVCU12010GM', 0, -1, Camera_L)</l>
@@ -378,73 +379,89 @@
 <l>    set_framegrabber_param (Camera_R, 'Gamma', 0.6)</l>
 <l>    grab_image_start (Camera_L, -1)</l>
 <l>    grab_image_start (Camera_R, -1)</l>
-<c></c>
+<c>    </c>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">    while (true)</l>
-<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,3]" as_ord="1">    grab_image_async (ImageBack, Camera_L, -1)</l>
-<l>    grab_image_async (ImageFront, Camera_R, -1)</l>
-<c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,4]" as_ord="1">    * Image Acquisition 01: Do something</c>
-<l>    *ExposureTime_Dark:=2000</l>
-<l>    *ExposureTime_Bright:=80000</l>
-<l>    *set_framegrabber_param (Camera_L, 'ExposureTime', ExposureTime_Dark)</l>
-<l>   * set_framegrabber_param (Camera_R, 'ExposureTime', ExposureTime_Dark)</l>
-<l>   * grab_image (ImageDark_L, Camera_L)</l>
-<l>    *grab_image (ImageDark_R, Camera_R)</l>
-<c>    </c>
-<l>    * set_framegrabber_param (Camera_L, 'ExposureTime', ExposureTime_Bright)</l>
-<l>    * set_framegrabber_param (Camera_R, 'ExposureTime', ExposureTime_Bright)</l>
-<l>    * grab_image (ImageBright_L, Camera_L)</l>
-<l>    * grab_image (ImageBright_R, Camera_R)</l>
-<c>     </c>
-<l>    *create_hdr_image (ImageDark_L, ImageBright_L, HDRImage_L)</l>
-<l>   * create_hdr_image (ImageDark_R, ImageBright_R, HDRImage_R)</l>
-<l>   * min_max_gray (HDRImage_L, HDRImage_L, 0, Min, Max, Range)</l>
-<l>   * scale_image_range (HDRImage_L, ImageScaled, [Min,0], [Max,255])</l>
-<l>    *convert_image_type (ImageScaled, ImageBack, 'byte')</l>
-<c>     </c>
-<l>   * min_max_gray (HDRImage_R, HDRImage_R, 0, Min, Max, Range)</l>
-<l>   * scale_image_range (HDRImage_R, ImageScaled, [Min,0], [Max,255])</l>
-<l>   * convert_image_type (ImageScaled, ImageFront, 'byte')</l>
-<c>    </c>
-<l>    *median_image (ImageFront, ImageFront, 'square', 3, 'mirrored')</l>
-<l>    *median_image (ImageBack, ImageBack, 'square', 3, 'mirrored')</l>
-<l>    *read_image (ImageBack,  ImagesBackFiles[21])</l>
-<l>   * read_image (ImageFront,  ImagesFrontFiles[21])</l>
-<l>    concat_obj (ImageFront, ImageBack, Images)</l>
-<c>    * </c>
-<c>    * Perform the stereo reconstruction.</c>
-<c>    * 执行立体重建。</c>
-<l>    reconstruct_surface_stereo (Images, StereoModelID, ObjectModel3DScene)</l>
-<l>    get_stereo_model_object (FromImage, StereoModelID, [0, 1], 'from_image_rect')</l>
-<l>    get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
-<l>    get_stereo_model_object (DisparityImage, StereoModelID, [0, 1], 'disparity_image')</l>
-<c>    * </c>
-<c>    * Visualize the intermediate results.</c>
-<c>  </c>
-<l>    get_image_size (FromImage, WidthFrom, HeightFrom)</l>
-<l>    dev_set_window (WindowHandle1)</l>
-<l>    dev_clear_window ()</l>
-<l>    dev_display (FromImage)</l>
-<c></c>
-<l>    get_image_size (ToImage, WidthTo, HeightTo)</l>
-<c>    </c>
-<l>    dev_set_window (WindowHandle2)</l>
-<l>    dev_clear_window ()</l>
-<l>    dev_display (ToImage)</l>
-<c></c>
-<l>    get_image_size (DisparityImage, Width, Height)</l>
-<c>    </c>
-<l>    dev_set_window (WindowHandle3)</l>
-<l>    dev_clear_window ()</l>
-<l>    dev_display (DisparityImage)</l>
-<c>  </c>
-<l>    *stop ()</l>
-<c>    * </c>
-<c>    * Visualize the stereo reconstruction.</c>
-<l>    *visualize_object_model_3d (WindowHandle3, ObjectModel3DScene, [], [], [],[], '3D reconstruction with projected gray values', [], [], VisPose)</l>
-<c></c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
+<c>        </c>
+<l>        Image_HDR:=1</l>
+<c>        </c>
+<l>        if (Image_HDR)</l>
+<c>            * Image Acquisition 01: Do something</c>
+<l>            ExposureTime_Dark:=1000</l>
+<l>            ExposureTime_Bright:=10000</l>
+<l>            set_framegrabber_param (Camera_L, 'ExposureTime', ExposureTime_Dark)</l>
+<l>            set_framegrabber_param (Camera_R, 'ExposureTime', ExposureTime_Dark)</l>
+<l>            par_start &lt;Thread_L&gt; :  grab_image (ImageDark_L, Camera_L)</l>
+<l>            par_start &lt;Thread_R&gt; :  grab_image (ImageDark_R, Camera_R)</l>
+<l>            par_join([Thread_L,Thread_R])</l>
+<l>            set_framegrabber_param (Camera_L, 'ExposureTime', ExposureTime_Bright)</l>
+<l>            set_framegrabber_param (Camera_R, 'ExposureTime', ExposureTime_Bright)</l>
+<l>            par_start &lt;Thread_L&gt; :  grab_image (ImageBright_L, Camera_L)</l>
+<l>            par_start &lt;Thread_R&gt; :  grab_image (ImageBright_R, Camera_R)</l>
+<l>            par_join([Thread_L,Thread_R])</l>
+<l>            par_start &lt;Thread_L&gt; : create_hdr_image (ImageDark_L, ImageBright_L, HDRImage_L)</l>
+<l>            par_start &lt;Thread_R&gt; :  create_hdr_image (ImageDark_R, ImageBright_R, HDRImage_R)</l>
+<l>            par_join([Thread_L,Thread_R])</l>
+<l>            min_max_gray (HDRImage_L, HDRImage_L, 0, Min, Max, Range)</l>
+<l>            scale_image_range (HDRImage_L, ImageScaled, [Min,0], [Max,255])</l>
+<l>            convert_image_type (ImageScaled, ImageBack, 'byte')</l>
+<c>            </c>
+<l>            min_max_gray (HDRImage_R, HDRImage_R, 0, Min, Max, Range)</l>
+<l>            scale_image_range (HDRImage_R, ImageScaled, [Min,0], [Max,255])</l>
+<l>            convert_image_type (ImageScaled, ImageFront, 'byte')</l>
+<l>        else</l>
+<c>            </c>
+<l>          par_start &lt;Thread_L&gt; :  grab_image (ImageBack, Camera_L)</l>
+<l>          par_start &lt;Thread_R&gt; :  grab_image (ImageFront, Camera_R)</l>
+<l>             par_join([Thread_L,Thread_R])</l>
+<l>        endif</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<l>*         median_image (ImageFront, ImageFront, 'square', 3, 'mirrored')</l>
+<l>*         median_image (ImageBack, ImageBack, 'square', 3, 'mirrored')</l>
+<l>*         read_image (ImageBack,  ImagesBackFiles[21])</l>
+<l>*         read_image (ImageFront,  ImagesFrontFiles[21])</l>
+<l>        concat_obj (ImageFront, ImageBack, Images)</l>
+<c>        * </c>
+<c>        * Perform the stereo reconstruction.</c>
+<c>        * 执行立体重建。</c>
+<l>        reconstruct_surface_stereo (Images, StereoModelID, ObjectModel3DScene)</l>
+<l>        get_stereo_model_object (FromImage, StereoModelID, [0, 1], 'from_image_rect')</l>
+<l>        get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
+<l>        get_stereo_model_object (DisparityImage, StereoModelID, [0, 1], 'disparity_image')</l>
+<c>        * </c>
+<c>        * Visualize the intermediate results.</c>
+<c>        </c>
+<l>        get_image_size (FromImage, WidthFrom, HeightFrom)</l>
+<l>        dev_set_window (WindowHandle1)</l>
+<l>        dev_clear_window ()</l>
+<l>        dev_display (FromImage)</l>
+<c>        </c>
+<l>        get_image_size (ToImage, WidthTo, HeightTo)</l>
+<c>        </c>
+<l>        dev_set_window (WindowHandle2)</l>
+<l>        dev_clear_window ()</l>
+<l>        dev_display (ToImage)</l>
+<c>        </c>
+<l>        get_image_size (DisparityImage, Width, Height)</l>
+<c>        </c>
+<l>        dev_set_window (WindowHandle3)</l>
+<l>        dev_clear_window ()</l>
+<l>        dev_display (DisparityImage)</l>
+<c>        </c>
+<l>*         stop ()</l>
+<c>        * </c>
+<c>        * Visualize the stereo reconstruction.</c>
+<l>*         visualize_object_model_3d (WindowHandle3, ObjectModel3DScene, [], [], [],[], '3D reconstruction with projected gray values', [], [], VisPose)</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
 <l>    endwhile</l>
 <l>    close_framegrabber (Camera_L)</l>
 <l>    close_framegrabber (Camera_R)</l>
@@ -813,7 +830,7 @@
 <c>* Transform combined image back to spatial domain</c>
 <c>* 将组合图像转换回空间域</c>
 <l>real_to_vector_field (MaxY, MaxX, VectorField, 'vector_field_relative')</l>
-<l>reconstruct_height_field_from_gradient (VectorField, HDR, 'poisson', [], [])</l>
+<l>reconstruct_height_field_from_gradient (VectorField, HDR, 'poisson', ['optimize_speed'], ['patient'])</l>
 <l>return ()</l>
 </body>
 <docu id="create_hdr_image">
