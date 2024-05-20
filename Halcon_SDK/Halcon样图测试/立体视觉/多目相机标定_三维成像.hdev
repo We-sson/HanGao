@@ -183,8 +183,11 @@
 <c></c>
 <l>read_calib_data ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd', CalibDataID)</l>
 <l>calibrate_cameras (CalibDataID, Errors)</l>
-<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
 <c></c>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'params', CamParamLeft)</l>
+<l>get_calib_data (CalibDataID, 'camera', 1, 'params', CamParamRight)</l>
+<c></c>
+<l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
 <l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,1], 'pose', ReferencePose)</l>
 <l>set_camera_setup_param (CamSetupModel, 'general', 'coord_transf_pose', ReferencePose)</l>
 <l>create_stereo_model (CamSetupModel, 'surface_pairwise', [], [], StereoModelID)</l>
@@ -205,7 +208,7 @@
 <l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
 <c></c>
 <c>*整流图的子抽样因子</c>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 4)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 5)</l>
 <c>*整流图的插值模式</c>
 <l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
 <c></c>
@@ -310,7 +313,7 @@
 <c></c>
 <c>*surface_pairwise方法</c>
 <c>*XYZ采集密度</c>
-<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',4)</l>
+<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',2)</l>
 <c></c>
 <c></c>
 <c>*binocular方法参数</c>
@@ -319,9 +322,9 @@
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 10)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',10)</l>
 <c>*纹理图像区域的方差阈值</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 5)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 0)</l>
 <c>*匹配阈值</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.25)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.35)</l>
 <c>*过滤器</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
 <c>*亚像素插值方法</c>
@@ -382,12 +385,12 @@
 <c>    </c>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">    while (true)</l>
 <c>        </c>
-<l>        Image_HDR:=1</l>
+<l>        Image_HDR:=0</l>
 <c>        </c>
 <l>        if (Image_HDR)</l>
 <c>            * Image Acquisition 01: Do something</c>
-<l>            ExposureTime_Dark:=1000</l>
-<l>            ExposureTime_Bright:=10000</l>
+<l>            ExposureTime_Dark:=5000</l>
+<l>            ExposureTime_Bright:=30000</l>
 <l>            set_framegrabber_param (Camera_L, 'ExposureTime', ExposureTime_Dark)</l>
 <l>            set_framegrabber_param (Camera_R, 'ExposureTime', ExposureTime_Dark)</l>
 <l>            par_start &lt;Thread_L&gt; :  grab_image (ImageDark_L, Camera_L)</l>
@@ -410,14 +413,14 @@
 <l>            convert_image_type (ImageScaled, ImageFront, 'byte')</l>
 <l>        else</l>
 <c>            </c>
-<l>          par_start &lt;Thread_L&gt; :  grab_image (ImageBack, Camera_L)</l>
-<l>          par_start &lt;Thread_R&gt; :  grab_image (ImageFront, Camera_R)</l>
-<l>             par_join([Thread_L,Thread_R])</l>
+<l>            par_start &lt;Thread_L&gt; :  grab_image (ImageBack, Camera_L)</l>
+<l>            par_start &lt;Thread_R&gt; :  grab_image (ImageFront, Camera_R)</l>
+<l>            par_join([Thread_L,Thread_R])</l>
 <l>        endif</l>
 <c>        </c>
 <c>        </c>
 <c>        </c>
-<c>        </c>
+<c> </c>
 <c>        </c>
 <c>        </c>
 <c>        </c>
@@ -454,6 +457,29 @@
 <l>        dev_clear_window ()</l>
 <l>        dev_display (DisparityImage)</l>
 <c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<l>        critical_points_sub_pix (ImageBack, 'gauss', 2, 3.6, RowMin, ColMin, RowMax, ColMax, RowPointLeft, ColumnPointLeft)</l>
+<l>        gen_cross_contour_xld (CrossLeft, RowPointLeft, ColumnPointLeft, 200, rad(45))</l>
+<l>        dev_set_window (WindowHandle1)</l>
+<l>        dev_display (CrossLeft)</l>
+<c>        * </c>
+<c>        * Right image</c>
+<l>        critical_points_sub_pix (ImageFront, 'gauss',2, 3.6, RowMin, ColMin, RowMax, ColMax, RowPointRight, ColumnPointRight)</l>
+<l>        gen_cross_contour_xld (CrossRight, RowPointRight, ColumnPointRight, 100, rad(45))</l>
+<l>        dev_set_window (WindowHandle2)</l>
+<l>        dev_display (CrossRight)</l>
+<c>        </c>
+<l>        intersect_lines_of_sight (CamParamLeft, CamParamRight, ReferencePose, RowPointLeft, ColumnPointLeft, RowPointRight, ColumnPointRight, X, Y, Z, Dist)</l>
+<c></c>
+<c>        </c>
+<l>          vector_to_pose (X, Y, Z, RowPointLeft, ColumnPointLeft, CamParamLeft, 'analytic', 'error', PoseModelPlane, Quality)</l>
+<c></c>
+<l>dev_set_window (WindowHandle1)</l>
+<l>dev_get_window (WindowHandle1)</l>
+<l>dev_disp_3d_coord_system (WindowHandle1, CamParamLeft, PoseModelPlane, 0.1)</l>
+<c></c>
 <l>*         stop ()</l>
 <c>        * </c>
 <c>        * Visualize the stereo reconstruction.</c>
