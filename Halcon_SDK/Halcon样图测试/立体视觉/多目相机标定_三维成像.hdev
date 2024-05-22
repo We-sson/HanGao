@@ -438,6 +438,9 @@
 <c>        * Perform the stereo reconstruction.</c>
 <c>        * 执行立体重建。</c>
 <l>        reconstruct_surface_stereo (Images, StereoModelID, ObjectModel3DScene)</l>
+<c>        </c>
+<l>        write_object_model_3d (ObjectModel3DScene, 'ply', 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/测试点云.dxf', [], [])</l>
+<c>        </c>
 <l>        get_stereo_model_object (FromImage, StereoModelID, [0, 1], 'from_image_rect')</l>
 <l>        get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
 <l>        get_stereo_model_object (DisparityImage, StereoModelID, [0, 1], 'disparity_image')</l>
@@ -461,9 +464,35 @@
 <l>        dev_clear_window ()</l>
 <l>        dev_display (DisparityImage)</l>
 <c>        </c>
+<c>        *获得点云总数</c>
+<l>        get_object_model_3d_params (ObjectModel3DScene, 'num_points', NumPoints)</l>
 <c>        </c>
-<l>        connection_object_model_3d (ObjectModel3DScene, 'distance_3d', 0.003, ObjectModel3DConnected)</l>
+<c>        *点云数据距离进行排序(可选)</c>
+<l>        NumNeighbors := 30</l>
+<l>        get_object_model_3d_params (ObjectModel3DScene, 'neighbor_distance '+NumNeighbors, DistanceDistribution)</l>
+<c>        </c>
+<c>        *选择集中距离占比</c>
+<l>        InlierRate := 70</l>
+<l>        Distance := sort(DistanceDistribution)[|DistanceDistribution| * InlierRate / 100]</l>
+<l>        select_points_object_model_3d (ObjectModel3DScene, 'num_neighbors_fast ' + Distance, 12, NumPoints, OM3DSampledMapping)</l>
+<c>        </c>
+<c>        </c>
+<c>        *取最小值删除无效数据0(可选)</c>
+<l>       * select_points_object_model_3d (OM3DSampledMapping, 'num_neighbors_fast 1e-6', 0, 1, OM3DSampledMapping)</l>
+<c>        </c>
+<c>         </c>
+<c>         </c>
+<l>         smooth_object_model_3d (OM3DSampledMapping, 'mls', [], [], OM3DSampledMapping)</l>
+<c>         </c>
+<l>         sample_object_model_3d (ObjectModel3DScene, 'furthest_point_compute_normals',1, [], [], OM3DSampledMapping)</l>
+<c>        </c>
+<l>         sample_object_model_3d (ObjectModel3DScene, 'accurate',0.0001, ['min_num_points'], [210], OM3DSampledMapping)</l>
 <c>       </c>
+<c>       </c>
+<c>       </c>
+<l>       * connection_object_model_3d (ObjectModel3DScene, 'distance_3d',0.006, ObjectModel3DConnected)</l>
+<c>       </c>
+<c>        </c>
 <c>        </c>
 <l>        critical_points_sub_pix (ToImage, 'facet', 2, 5, RowMin, ColMin, RowMax, ColMax, RowPointLeft, ColumnPointLeft)</l>
 <l>        gen_cross_contour_xld (CrossLeft, RowPointLeft, ColumnPointLeft, 200, rad(45))</l>
