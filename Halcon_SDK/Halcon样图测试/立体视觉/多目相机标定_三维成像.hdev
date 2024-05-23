@@ -439,7 +439,7 @@
 <c>        * 执行立体重建。</c>
 <l>        reconstruct_surface_stereo (Images, StereoModelID, ObjectModel3DScene)</l>
 <c>        </c>
-<l>        write_object_model_3d (ObjectModel3DScene, 'ply', 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/测试点云.dxf', [], [])</l>
+<l>*         write_object_model_3d (ObjectModel3DScene, 'ply', 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/测试点云.dxf', [], [])</l>
 <c>        </c>
 <l>        get_stereo_model_object (FromImage, StereoModelID, [0, 1], 'from_image_rect')</l>
 <l>        get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
@@ -478,41 +478,48 @@
 <c>        </c>
 <c>        </c>
 <c>        *取最小值删除无效数据0(可选)</c>
-<l>       * select_points_object_model_3d (OM3DSampledMapping, 'num_neighbors_fast 1e-6', 0, 1, OM3DSampledMapping)</l>
+<l>*         select_points_object_model_3d (OM3DSampledMapping, 'num_neighbors_fast 1e-6', 0, 1, OM3DSampledMapping)</l>
 <c>        </c>
-<c>         </c>
-<c>         </c>
-<l>         smooth_object_model_3d (OM3DSampledMapping, 'mls', [], [], OM3DSampledMapping)</l>
-<c>         </c>
-<l>         sample_object_model_3d (ObjectModel3DScene, 'furthest_point_compute_normals',1, [], [], OM3DSampledMapping)</l>
-<c>        </c>
-<l>         sample_object_model_3d (ObjectModel3DScene, 'accurate',0.0001, ['min_num_points'], [210], OM3DSampledMapping)</l>
-<c>       </c>
-<c>       </c>
-<c>       </c>
-<l>       * connection_object_model_3d (ObjectModel3DScene, 'distance_3d',0.006, ObjectModel3DConnected)</l>
-<c>       </c>
+<c>        *mls 平滑方法</c>
+<l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', [], [], ObjectModel3Dsmooth)</l>
 <c>        </c>
 <c>        </c>
-<l>        critical_points_sub_pix (ToImage, 'facet', 2, 5, RowMin, ColMin, RowMax, ColMax, RowPointLeft, ColumnPointLeft)</l>
-<l>        gen_cross_contour_xld (CrossLeft, RowPointLeft, ColumnPointLeft, 200, rad(45))</l>
-<l>        dev_set_window (WindowHandle1)</l>
-<l>        dev_display (CrossLeft)</l>
-<c>        * </c>
-<c>        * Right image</c>
-<l>        critical_points_sub_pix (FromImage, 'facet',2, 5, RowMin, ColMin, RowMax, ColMax, RowPointRight, ColumnPointRight)</l>
-<l>        gen_cross_contour_xld (CrossRight, RowPointRight, ColumnPointRight, 100, rad(45))</l>
-<l>        dev_set_window (WindowHandle2)</l>
-<l>        dev_display (CrossRight)</l>
+<l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_kNN', 100, ObjectModel3Dsmooth)</l>
 <c>        </c>
-<l>        intersect_lines_of_sight (CamParamLeft, CamParamRight, cLPcR, RowPointLeft, ColumnPointLeft, RowPointRight, ColumnPointRight, X, Y, Z, Dist)</l>
+<l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_order', 10, ObjectModel3Dsmooth)</l>
+<c>        </c>
+<l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_abs_sigma', 0.001, ObjectModel3Dsmooth)</l>
+<c>        </c>
+<l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_relative_sigma', 2, ObjectModel3Dsmooth) </l>
+<c>        </c>
+<c>        *xyz_mapping 用2D平滑方式修正法线</c>
+<l>        smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping', ['xyz_mapping_filter'], ['median'], ObjectModel3Dsmooth)</l>
 <c>        </c>
 <c>        </c>
-<l>        vector_to_pose (X, Y, Z, RowPointLeft, ColumnPointLeft, CamParamLeft, 'analytic', 'error', PoseModelPlane, Quality)</l>
+<l>        smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping_compute_normals', ['xyz_mapping_mask_width','xyz_mapping_mask_height'], [5,5], ObjectModel3Dsmooth)</l>
 <c>        </c>
-<l>        dev_set_window (WindowHandle1)</l>
-<l>        dev_get_window (WindowHandle1)</l>
-<l>        dev_disp_3d_coord_system (WindowHandle1, CamParamLeft, PoseModelPlane, 0.1)</l>
+<c>        </c>
+<c>        *根据点云距离集合分割出</c>
+<l>        connection_object_model_3d (ObjectModel3Dsmooth, 'distance_3d', 0.005, ObjectModel3DConnected)</l>
+<l>        select_object_model_3d (ObjectModel3DConnected, 'num_points', 'and', 800, 'max', ObjectModel3DDefect)</l>
+<c>        </c>
+<c>        </c>
+<l>        object_model_3d_to_xyz (X1, Y1, Z1, ObjectModel3Dsmooth, 'from_xyz_map', [], [])</l>
+<c>        </c>
+<c>        </c>
+<c>      </c>
+<c>        </c>
+<c>        </c>
+<l>        sample_object_model_3d (ObjectModel3DScene, 'furthest_point_compute_normals',1, [], [], OM3DSampledMapping)</l>
+<c>        </c>
+<l>        sample_object_model_3d (ObjectModel3DScene, 'accurate',0.0001, ['min_num_points'], [210], OM3DSampledMapping)</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<l>*         connection_object_model_3d (ObjectModel3DScene, 'distance_3d',0.006, ObjectModel3DConnected)</l>
+<c></c>
+<c>        </c>
+<c>  </c>
 <c>        </c>
 <l>*         stop ()</l>
 <c>        * </c>
