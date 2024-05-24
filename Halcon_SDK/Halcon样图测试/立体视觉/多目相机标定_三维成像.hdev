@@ -212,12 +212,12 @@
 <l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
 <c></c>
 <c>*整流图的子抽样因子</c>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 5)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1.5)</l>
 <c>*整流图的插值模式</c>
 <l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
 <c></c>
-<c></c>
-<c></c>
+<c>*整改图的整改方法</c>
+<l>set_stereo_model_param (StereoModelID, 'rectif_method', 'viewing_direction')</l>
 <c></c>
 <c></c>
 <c></c>
@@ -317,7 +317,7 @@
 <c></c>
 <c>*surface_pairwise方法</c>
 <c>*XYZ采集密度</c>
-<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',2)</l>
+<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',5)</l>
 <c></c>
 <c></c>
 <c>*binocular方法参数</c>
@@ -444,6 +444,9 @@
 <l>        get_stereo_model_object (FromImage, StereoModelID, [0, 1], 'from_image_rect')</l>
 <l>        get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
 <l>        get_stereo_model_object (DisparityImage, StereoModelID, [0, 1], 'disparity_image')</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
 <c>        * </c>
 <c>        * Visualize the intermediate results.</c>
 <c>        </c>
@@ -464,17 +467,19 @@
 <l>        dev_clear_window ()</l>
 <l>        dev_display (DisparityImage)</l>
 <c>        </c>
+<c>       </c>
+<c>        </c>
 <c>        *获得点云总数</c>
 <l>        get_object_model_3d_params (ObjectModel3DScene, 'num_points', NumPoints)</l>
 <c>        </c>
 <c>        *点云数据距离进行排序(可选)</c>
-<l>        NumNeighbors := 30</l>
+<l>        NumNeighbors := 40</l>
 <l>        get_object_model_3d_params (ObjectModel3DScene, 'neighbor_distance '+NumNeighbors, DistanceDistribution)</l>
 <c>        </c>
 <c>        *选择集中距离占比</c>
 <l>        InlierRate := 70</l>
 <l>        Distance := sort(DistanceDistribution)[|DistanceDistribution| * InlierRate / 100]</l>
-<l>        select_points_object_model_3d (ObjectModel3DScene, 'num_neighbors_fast ' + Distance, 12, NumPoints, OM3DSampledMapping)</l>
+<l>        select_points_object_model_3d (ObjectModel3DScene, 'num_neighbors_fast ' + Distance, 12, 'max', OM3DSampledMapping)</l>
 <c>        </c>
 <c>        </c>
 <c>        *取最小值删除无效数据0(可选)</c>
@@ -484,11 +489,11 @@
 <l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', [], [], ObjectModel3Dsmooth)</l>
 <c>        </c>
 <c>        </c>
-<l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_kNN', 100, ObjectModel3Dsmooth)</l>
+<l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_kNN', 50, ObjectModel3Dsmooth)</l>
 <c>        </c>
-<l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_order', 10, ObjectModel3Dsmooth)</l>
+<l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_order', 5, ObjectModel3Dsmooth)</l>
 <c>        </c>
-<l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_abs_sigma', 0.001, ObjectModel3Dsmooth)</l>
+<l>*         smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_abs_sigma', 0.001, ObjectModel3Dsmooth)</l>
 <c>        </c>
 <l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_relative_sigma', 2, ObjectModel3Dsmooth) </l>
 <c>        </c>
@@ -506,20 +511,27 @@
 <c>        </c>
 <l>        object_model_3d_to_xyz (X1, Y1, Z1, ObjectModel3Dsmooth, 'from_xyz_map', [], [])</l>
 <c>        </c>
+<c>        *缩放深度图到图像大小</c>
+<l>        get_image_size (FromImage, Width1, Height1)</l>
+<l>        zoom_image_size (Z1, ImageZoom, Width1, Height1, 'nearest_neighbor')</l>
+<l>        zoom_image_size (ImageFront, ImageFrontZoom, Width1, Height1, 'nearest_neighbor')</l>
 <c>        </c>
-<c>      </c>
 <c>        </c>
 <c>        </c>
-<l>        sample_object_model_3d (ObjectModel3DScene, 'furthest_point_compute_normals',1, [], [], OM3DSampledMapping)</l>
 <c>        </c>
-<l>        sample_object_model_3d (ObjectModel3DScene, 'accurate',0.0001, ['min_num_points'], [210], OM3DSampledMapping)</l>
+<l>        dev_set_window (WindowHandle3)</l>
+<l>        dev_clear_window ()</l>
+<l>        dev_display (ImageZoom)</l>
+<l>*         sample_object_model_3d (ObjectModel3DScene, 'furthest_point_compute_normals',1, [], [], OM3DSampledMapping)</l>
+<c>        </c>
+<l>*         sample_object_model_3d (ObjectModel3DScene, 'accurate',0.0001, ['min_num_points'], [210], OM3DSampledMapping)</l>
 <c>        </c>
 <c>        </c>
 <c>        </c>
 <l>*         connection_object_model_3d (ObjectModel3DScene, 'distance_3d',0.006, ObjectModel3DConnected)</l>
-<c></c>
 <c>        </c>
-<c>  </c>
+<c>        </c>
+<c>        </c>
 <c>        </c>
 <l>*         stop ()</l>
 <c>        * </c>
