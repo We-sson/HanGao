@@ -215,10 +215,10 @@
 <l>BoundingBox[5] := BoundingBox[5] + 0.01</l>
 <l>set_stereo_model_param (StereoModelID, 'bounding_box', BoundingBox)</l>
 <c>*重建结果内存保持，调试下应用</c>
-<l>set_stereo_model_param (StereoModelID, 'persistence', 0)</l>
+<l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
 <c></c>
 <c>*整流图的子抽样因子</c>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 2)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1)</l>
 <c>*整流图的插值模式</c>
 <l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
 <c></c>
@@ -323,18 +323,18 @@
 <c></c>
 <c>*surface_pairwise方法</c>
 <c>*XYZ采集密度</c>
-<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',2)</l>
+<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',6)</l>
 <c></c>
 <c></c>
 <c>*binocular方法参数</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',2)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 20)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',20)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 32)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',32)</l>
 <c>*纹理图像区域的方差阈值</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 0)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 100)</l>
 <c>*匹配阈值</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.35)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.45)</l>
 <c>*过滤器</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
 <c>*亚像素插值方法</c>
@@ -383,13 +383,13 @@
 <l>    open_framegrabber ('GigEVision2', 0, 0, 0, 0, 0, 0, 'progressive', -1, 'default', -1, 'false', 'default', '34bd2027286f_Hikrobot_MVCU12010GM', 0, -1, Camera_R)</l>
 <c>    </c>
 <l>    set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 8000.0)</l>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 3000.0)</l>
 <l>    set_framegrabber_param (Camera_L, 'Gain', 19)</l>
-<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.6)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.7)</l>
 <l>    set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 8000.0)</l>
+<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 3000.0)</l>
 <l>    set_framegrabber_param (Camera_R, 'Gain', 19)</l>
-<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.6)</l>
+<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.7)</l>
 <l>    grab_image_start (Camera_L, -1)</l>
 <l>    grab_image_start (Camera_R, -1)</l>
 <c>    </c>
@@ -399,8 +399,8 @@
 <c>        </c>
 <l>        if (Image_HDR)</l>
 <c>            * Image Acquisition 01: Do something</c>
-<l>            ExposureTime_Dark:=5000</l>
-<l>            ExposureTime_Bright:=30000</l>
+<l>            ExposureTime_Dark:=1000</l>
+<l>            ExposureTime_Bright:=8000</l>
 <l>            set_framegrabber_param (Camera_L, 'ExposureTime', ExposureTime_Dark)</l>
 <l>            set_framegrabber_param (Camera_R, 'ExposureTime', ExposureTime_Dark)</l>
 <l>            par_start &lt;Thread_L&gt; :  grab_image (ImageDark_L, Camera_L)</l>
@@ -423,8 +423,8 @@
 <l>            convert_image_type (ImageScaled, ImageFront, 'byte')</l>
 <l>        else</l>
 <c>            </c>
-<l>            par_start &lt;Thread_L&gt; :  grab_image (ImageBack, Camera_L)</l>
-<l>            par_start &lt;Thread_R&gt; :  grab_image (ImageFront, Camera_R)</l>
+<l>            par_start &lt;Thread_L&gt; :  grab_image (ImageFront, Camera_L)</l>
+<l>            par_start &lt;Thread_R&gt; :  grab_image (ImageBack, Camera_R)</l>
 <l>            par_join([Thread_L,Thread_R])</l>
 <l>        endif</l>
 <c>        </c>
@@ -476,20 +476,33 @@
 <c>       </c>
 <c>        </c>
 <c>        *获得点云总数</c>
-<l>        get_object_model_3d_params (ObjectModel3DScene, 'num_points', NumPoints)</l>
+<l>       * get_object_model_3d_params (ObjectModel3DScene, 'num_points', NumPoints)</l>
 <c>        </c>
 <c>        *点云数据距离进行排序(可选)</c>
-<l>        NumNeighbors := 150</l>
-<l>        get_object_model_3d_params (ObjectModel3DScene, 'neighbor_distance '+NumNeighbors, DistanceDistribution)</l>
+<l>       * NumNeighbors := 200</l>
+<l>       * get_object_model_3d_params (ObjectModel3DScene, 'neighbor_distance '+NumNeighbors, DistanceDistribution)</l>
 <c>        </c>
 <c>        *选择集中距离占比</c>
-<l>        InlierRate := 50</l>
-<l>        Distance := sort(DistanceDistribution)[|DistanceDistribution| * InlierRate / 100]</l>
-<l>        select_points_object_model_3d (ObjectModel3DScene, 'num_neighbors_fast ' + Distance, 12, 'max', OM3DSampledMapping)</l>
+<l>       * InlierRate := 20</l>
+<l>       * Distance := sort(DistanceDistribution)[|DistanceDistribution| * InlierRate / 100]</l>
+<l>       * select_points_object_model_3d (ObjectModel3DScene, 'num_neighbors_fast ' + Distance, 12, 'max', OM3DSampledMapping)</l>
 <c>        </c>
 <c>        </c>
 <c>        *取最小值删除无效数据0(可选)</c>
 <l>*         select_points_object_model_3d (OM3DSampledMapping, 'num_neighbors_fast 1e-6', 0, 1, OM3DSampledMapping)</l>
+<c>        </c>
+<c>        </c>
+<c>        *根据点云距离集合分割出</c>
+<l>        connection_object_model_3d (ObjectModel3DScene, 'distance_3d', 0.003, ObjectModel3DConnected)</l>
+<l>        select_object_model_3d (ObjectModel3DConnected, 'num_points', 'and', 200, 'max', ObjectModel3DDefect)</l>
+<c></c>
+<l>        union_object_model_3d (ObjectModel3DDefect, 'points_surface', OM3DSampledMapping)</l>
+<c>        </c>
+<c>        </c>
+<c>         *xyz_mapping 用2D平滑方式修正法线</c>
+<l>        smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping', ['xyz_mapping_filter'], ['median'], OM3DSampledMapping)</l>
+<c>        </c>
+<c>        </c>
 <c>        </c>
 <c>        *mls 平滑方法</c>
 <l>        *smooth_object_model_3d (OM3DSampledMapping, 'mls', [], [], ObjectModel3Dsmooth)</l>
@@ -497,31 +510,29 @@
 <c>        </c>
 <l>        smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_kNN', 50, ObjectModel3Dsmooth)</l>
 <c>        </c>
-<l>       * smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_order', 5, ObjectModel3Dsmooth)</l>
+<l>       * smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_order', 1, ObjectModel3Dsmooth)</l>
 <c>        </c>
-<l>*         smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_abs_sigma', 0.001, ObjectModel3Dsmooth)</l>
+<l>        *smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_abs_sigma', 0.1, ObjectModel3Dsmooth)</l>
 <c>        </c>
 <l>        *smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_relative_sigma', 2, ObjectModel3Dsmooth) </l>
 <c>        </c>
-<c>        *xyz_mapping 用2D平滑方式修正法线</c>
-<l>        smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping', ['xyz_mapping_filter'], ['median'], ObjectModel3Dsmooth)</l>
+<c></c>
 <c>        </c>
 <c>        </c>
-<l>        smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping_compute_normals', ['xyz_mapping_mask_width','xyz_mapping_mask_height'], [5,5], ObjectModel3Dsmooth)</l>
+<l>        *smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping_compute_normals', ['xyz_mapping_mask_width','xyz_mapping_mask_height'], [5,5], ObjectModel3Dsmooth)</l>
 <c>        </c>
 <c>        </c>
-<c>        *根据点云距离集合分割出</c>
-<l>        connection_object_model_3d (ObjectModel3Dsmooth, 'distance_3d', 0.005, ObjectModel3DConnected)</l>
-<l>        select_object_model_3d (ObjectModel3DConnected, 'num_points', 'and', 800, 'max', ObjectModel3DDefect)</l>
-<c>        </c>
-<c>        </c>
+<c>   </c>
 <c>        </c>
 <l>        pose_invert (CamSetupModel_Pos, Pos_CamInObj)</l>
+<c>        </c>
 <l>        object_model_3d_to_xyz (X1, Y1, Z1, ObjectModel3Dsmooth, 'cartesian', CamParamLeft, Pos_CamInObj)</l>
+<l>        object_model_3d_to_xyz (X2, Y2, Z2, ObjectModel3Dsmooth, 'from_xyz_map', [], [])</l>
 <c>        </c>
 <c>        *缩放深度图到图像大小</c>
-<l>        *get_image_size (FromImage, Width1, Height1)</l>
-<l>        *zoom_image_size (Z1, ImageZoom, Width1, Height1, 'nearest_neighbor')</l>
+<l>        *get_image_size (ImageFront, Width1, Height1)</l>
+<l>        *zoom_image_size (Z1, ImageZoom, Width1/2, Height1/2, 'constant')</l>
+<l>        *zoom_image_size (ImageFront, ImageFrontZoom, Width1/2, Height1/2, 'constant')</l>
 <l>        *zoom_image_size (ImageFront, ImageFrontZoom, Width1, Height1, 'nearest_neighbor')</l>
 <c>        </c>
 <c>        </c>
