@@ -436,8 +436,8 @@
 <l>*     median_image (ImageBack, ImageBack, 'square', 3, 'mirrored')</l>
 <l>*     read_image (ImageBack,  ImagesBackFiles[21])</l>
 <l>*     read_image (ImageFront,  ImagesFrontFiles[21])</l>
-<l>     emphasize (ImageFront, Front, 35, 35, 2)</l>
-<l>     emphasize (ImageBack, Back, 35, 35, 2)</l>
+<l>    emphasize (ImageFront, Front, 35, 35, 2)</l>
+<l>    emphasize (ImageBack, Back, 35, 35, 2)</l>
 <l>    concat_obj (Front, Back, Images)</l>
 <c>    * </c>
 <c>    * Perform the stereo reconstruction.</c>
@@ -490,7 +490,7 @@
 <c>    *取最小值删除无效数据0(可选)</c>
 <l>*     select_points_object_model_3d (OM3DSampledMapping, 'num_neighbors_fast 1e-6', 0, 1, OM3DSampledMapping)</l>
 <c>    </c>
-<c></c>
+<c>    </c>
 <c>    </c>
 <c>    </c>
 <c>    </c>
@@ -500,27 +500,65 @@
 <c>    </c>
 <l>    union_object_model_3d (ObjectModel3DDefect, 'points_surface', OM3DSampledSample)</l>
 <c>    </c>
-<c>  </c>
 <c>    </c>
-<l>       object_model_3d_to_xyz (X, Y, Z, OM3DSampledSample, 'from_xyz_map', [], [])</l>
 <c>    </c>
-<c>       </c>
-<l>       fill_up (X, X_Up)</l>
-<l>       fill_up (Y, Y_Up)</l>
-<l>       fill_up (Z, Z_Up)</l>
-<c>       </c>
+<l>    object_model_3d_to_xyz (X, Y, Z, OM3DSampledSample, 'from_xyz_map', [], [])</l>
 <c>    </c>
-<l>     MinNumPoints := 5</l>
-<l>     SampleDistance := 0.0001</l>
+<c>    *表面三角化</c>
+<l>*     triangulate_object_model_3d (OM3DSampledSample, 'greedy','greedy_hole_filling', 0.005, TriangulatedObjectModel3D, Information)</l>
+<c>    </c>
+<c>    *获得深度区域</c>
+<l>    get_domain (Z, Z_Reg)</l>
+<c>    *闭运算消除毛刺</c>
+<l>    closing_circle (Z_Reg, RegionClosing, 10)</l>
+<l>    closing_rectangle1 (Z_Reg, RegionClosing, 20, 20)</l>
+<c>    </c>
+<c>    *填充空洞</c>
+<l>    fill_up (RegionClosing, Z_Conves)</l>
+<c>    </c>
+<c>    *区域凸包</c>
+<l>*     shape_trans (Z, Z_Conves, 'convex')</l>
+<c>    </c>
+<c>    *区域相差</c>
+<l>    difference (Z_Conves, Z, Z_Region)</l>
+<c>    </c>
+<l>    full_domain (X, X_Full)</l>
+<l>    full_domain (Y, Y_Full)</l>
+<l>    full_domain (Z, Z_Full)</l>
+<c>    </c>
+<l>    change_domain (X_Full, Z_Conves, X_Domain)</l>
+<l>    change_domain (Y_Full, Z_Conves, Y_Domain)</l>
+<l>    change_domain (Z_Full, Z_Conves, Z_Domain)</l>
+<c>    </c>
+<c>    </c>
+<c>    *线性修复</c>
+<l>    harmonic_interpolation (X_Domain, Z_Region, X_Harmonic, 0.00001)</l>
+<l>    harmonic_interpolation (Y_Domain, Z_Region, Y_Harmonic, 0.00001)</l>
+<l>    harmonic_interpolation (Z_Domain, Z_Region, Z_Harmonic, 0.00001)</l>
+<c>    </c>
+<l>    inpainting_ct (X_Domain, Z_Region, X_Harmonic, 10, 35, 5, 5, 1)</l>
+<l>    inpainting_ct (Y_Domain, Z_Region, Y_Harmonic, 10, 35, 5, 5, 1)</l>
+<l>    inpainting_ct (Z_Domain, Z_Region, Z_Harmonic, 10, 35, 5, 5, 1)</l>
+<c>    </c>
+<l>*     inpainting_texture (Z_Domain, Z_Region, InpaintedImage, 9, 30, 1, 'none', 1)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    xyz_to_object_model_3d (X_Harmonic, Y_Harmonic, Z_Harmonic, ObjectModel3D)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    MinNumPoints := 5</l>
+<l>    SampleDistance := 0.0001</l>
 <l>    sample_object_model_3d (OM3DSampledSample, 'accurate', SampleDistance, 'min_num_points', MinNumPoints, OM3DSampledMapping)</l>
-<c>* </c>
+<c>    * </c>
 <c>    </c>
 <c>    </c>
 <c>    *xyz_mapping 用2D平滑方式修正法线</c>
 <l>    smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping', ['xyz_mapping_filter'], ['median'], OM3DSampledMapping)</l>
 <c>    </c>
 <c>    </c>
-<c>   </c>
+<c>    </c>
 <c>    </c>
 <c>    </c>
 <c>    *mls 平滑方法</c>
@@ -536,18 +574,18 @@
 <l>*     smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_relative_sigma', 2, ObjectModel3Dsmooth) </l>
 <c>    </c>
 <c>    </c>
-<c> </c>
 <c>    </c>
-<l>     MinNumPoints := 5</l>
-<l>     SampleDistance := 0.002</l>
-<l>     sample_object_model_3d (ObjectModel3Dsmooth, 'accurate', SampleDistance, 'min_num_points', MinNumPoints, SampleExact)</l>
+<c>    </c>
+<l>    MinNumPoints := 5</l>
+<l>    SampleDistance := 0.002</l>
+<l>    sample_object_model_3d (ObjectModel3Dsmooth, 'accurate', SampleDistance, 'min_num_points', MinNumPoints, SampleExact)</l>
 <c>    </c>
 <l>*     smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping_compute_normals', ['xyz_mapping_mask_width','xyz_mapping_mask_height'], [5,5], ObjectModel3Dsmooth)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
 <l>    pose_invert (CamSetupModel_Pos, Pos_CamInObj)</l>
-<c>   </c>
+<c>    </c>
 <l>    object_model_3d_to_xyz (X1, Y1, Z1, ObjectModel3Dsmooth, 'cartesian', CamParamLeft, Pos_CamInObj)</l>
 <l>*     object_model_3d_to_xyz (X2, Y2, Z2, ObjectModel3Dsmooth, 'from_xyz_map', [], [])</l>
 <c>    </c>
