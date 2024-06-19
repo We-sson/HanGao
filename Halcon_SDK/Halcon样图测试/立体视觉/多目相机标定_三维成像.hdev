@@ -299,46 +299,51 @@
 <c></c>
 <c>*surface_fusion参数</c>
 <c>*分辨率</c>
-<l>* set_stereo_model_param (StereoModelID, 'resolution', 0.01)</l>
+<l> *set_stereo_model_param (StereoModelID, 'resolution', 0.001)</l>
+<c> </c>
+<c> *高度范围融合</c>
+<l> *set_stereo_model_param (StereoModelID, 'min_thickness', 0.005)</l>
 <c>*值要大于分辨率，融合平面</c>
-<l>* set_stereo_model_param (StereoModelID, 'surface_tolerance',0.04)</l>
-<c>*高度范围融合</c>
-<l>* set_stereo_model_param (StereoModelID, 'min_thickness', 0.1)</l>
-<c>*平滑点云</c>
-<l>* set_stereo_model_param (StereoModelID, 'smoothing',0.01)</l>
+<l>* set_stereo_model_param (StereoModelID, 'surface_tolerance',0.001)</l>
 <c></c>
+<c>*平滑点云</c>
+<l>* set_stereo_model_param (StereoModelID, 'smoothing',1)</l>
+<c></c>
+<c> </c>
+<c> </c>
 <c>*重建的网格进行网格划分 表面点</c>
-<l>* set_stereo_model_param (StereoModelID, 'point_meshing', 'isosurface')</l>
+<l> set_stereo_model_param (StereoModelID, 'point_meshing', 'none')</l>
 <c></c>
 <c></c>
 <c>*解器八叉树的深度</c>
-<l>* set_stereo_model_param (StereoModelID, 'poisson_depth',3)</l>
+<l> set_stereo_model_param (StereoModelID, 'poisson_depth',9)</l>
 <c></c>
 <c>*求解泊松的块深度</c>
-<l>* set_stereo_model_param (StereoModelID, 'poisson_solver_divide',3)</l>
+<l> set_stereo_model_param (StereoModelID, 'poisson_solver_divide',3)</l>
 <c></c>
 <c>*单个八叉树中的最小点数</c>
-<l>* set_stereo_model_param (StereoModelID, 'poisson_samples_per_node', 10)</l>
+<l> set_stereo_model_param (StereoModelID, 'poisson_samples_per_node', 20)</l>
 <c></c>
 <c></c>
 <c>*surface_pairwise方法</c>
 <c>*XYZ采集密度</c>
-<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',1)</l>
+<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',3)</l>
 <c></c>
 <c></c>
 <c>*binocular方法参数</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',2)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 21)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',21)</l>
 <c>*纹理图像区域的方差阈值</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 300)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 100)</l>
 <c>*匹配阈值</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.45)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.35)</l>
 <c>*过滤器</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
 <c>*亚像素插值方法</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
+<c></c>
 <c></c>
 <c></c>
 <c></c>
@@ -366,7 +371,7 @@
 <c></c>
 <l>dev_open_window (0, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle1)</l>
 <l>dev_open_window (0, WidthFrom / WindowSizeFactor2 + 12, WidthTo / WindowSizeFactor2, HeightTo / WindowSizeFactor2, 'black', WindowHandle2)</l>
-<l>dev_open_window (HeightFrom / WindowSizeFactor2 + 60, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle3)</l>
+<l>dev_open_window (HeightFrom / WindowSizeFactor2 + 60, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'white', WindowHandle3)</l>
 <c></c>
 <c>* </c>
 <c></c>
@@ -436,8 +441,8 @@
 <l>*     median_image (ImageBack, ImageBack, 'square', 3, 'mirrored')</l>
 <l>*     read_image (ImageBack,  ImagesBackFiles[21])</l>
 <l>*     read_image (ImageFront,  ImagesFrontFiles[21])</l>
-<l>    emphasize (ImageFront, Front, 35, 35, 2)</l>
-<l>    emphasize (ImageBack, Back, 35, 35, 2)</l>
+<l>    emphasize (ImageFront, Front, 50, 50, 2)</l>
+<l>    emphasize (ImageBack, Back, 50, 50, 2)</l>
 <l>    concat_obj (Front, Back, Images)</l>
 <c>    * </c>
 <c>    * Perform the stereo reconstruction.</c>
@@ -495,67 +500,26 @@
 <c>    </c>
 <c>    </c>
 <c>    *根据点云距离集合分割出</c>
-<l>    connection_object_model_3d (ObjectModel3DScene, 'distance_3d', 0.001, ObjectModel3DConnected)</l>
+<l>    connection_object_model_3d (ObjectModel3DScene, 'distance_3d', 0.002, ObjectModel3DConnected)</l>
 <l>    select_object_model_3d (ObjectModel3DConnected, 'num_points', 'and', 800, 'max', ObjectModel3DDefect)</l>
 <c>    </c>
-<l>    union_object_model_3d (ObjectModel3DDefect, 'points_surface', OM3DSampledSample)</l>
+<l>    union_object_model_3d (ObjectModel3DDefect, 'points_surface', OM3DSampledMapping)</l>
 <c>    </c>
-<c>    </c>
-<c>    </c>
-<l>    object_model_3d_to_xyz (X, Y, Z, OM3DSampledSample, 'from_xyz_map', [], [])</l>
-<c>    </c>
-<c>    *表面三角化</c>
-<l>*     triangulate_object_model_3d (OM3DSampledSample, 'greedy','greedy_hole_filling', 0.005, TriangulatedObjectModel3D, Information)</l>
-<c>    </c>
-<c>    *获得深度区域</c>
-<l>    get_domain (Z, Z_Reg)</l>
-<c>    *闭运算消除毛刺</c>
-<l>    closing_circle (Z_Reg, RegionClosing, 10)</l>
-<l>    closing_rectangle1 (Z_Reg, RegionClosing, 20, 20)</l>
-<c>    </c>
-<c>    *填充空洞</c>
-<l>    fill_up (RegionClosing, Z_Conves)</l>
-<c>    </c>
-<c>    *区域凸包</c>
-<l>*     shape_trans (Z, Z_Conves, 'convex')</l>
-<c>    </c>
-<c>    *区域相差</c>
-<l>    difference (Z_Conves, Z, Z_Region)</l>
-<c>    </c>
-<l>    full_domain (X, X_Full)</l>
-<l>    full_domain (Y, Y_Full)</l>
-<l>    full_domain (Z, Z_Full)</l>
-<c>    </c>
-<l>    change_domain (X_Full, Z_Conves, X_Domain)</l>
-<l>    change_domain (Y_Full, Z_Conves, Y_Domain)</l>
-<l>    change_domain (Z_Full, Z_Conves, Z_Domain)</l>
-<c>    </c>
-<c>    </c>
-<c>    *线性修复</c>
-<l>    harmonic_interpolation (X_Domain, Z_Region, X_Harmonic, 0.00001)</l>
-<l>    harmonic_interpolation (Y_Domain, Z_Region, Y_Harmonic, 0.00001)</l>
-<l>    harmonic_interpolation (Z_Domain, Z_Region, Z_Harmonic, 0.00001)</l>
-<c>    </c>
-<l>    inpainting_ct (X_Domain, Z_Region, X_Harmonic, 10, 35, 5, 5, 1)</l>
-<l>    inpainting_ct (Y_Domain, Z_Region, Y_Harmonic, 10, 35, 5, 5, 1)</l>
-<l>    inpainting_ct (Z_Domain, Z_Region, Z_Harmonic, 10, 35, 5, 5, 1)</l>
-<c>    </c>
-<l>*     inpainting_texture (Z_Domain, Z_Region, InpaintedImage, 9, 30, 1, 'none', 1)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>    xyz_to_object_model_3d (X_Harmonic, Y_Harmonic, Z_Harmonic, ObjectModel3D)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>    MinNumPoints := 5</l>
-<l>    SampleDistance := 0.0001</l>
-<l>    sample_object_model_3d (OM3DSampledSample, 'accurate', SampleDistance, 'min_num_points', MinNumPoints, OM3DSampledMapping)</l>
+<c></c>
+<l>   * triangulate_object_model_3d (OM3DSampledMapping, 'xyz_mapping', [], [], TriangulatedDefault, Information0)</l>
+<l>    *triangulate_object_model_3d (OM3DSampledMapping, 'implicit', ['information','implicit_octree_depth','implicit_solver_depth','implicit_min_num_samples'], ['verbose',12,6,1], Surface3DDefault, Info)</l>
+<c>     </c>
+<c>     </c>
+<c>     </c>
+<c>    *重采样</c>
+<l>   * MinNumPoints := 10</l>
+<l>    *SampleDistance := 0.0001</l>
+<l>   * sample_object_model_3d (OM3DSampledMapping, 'accurate', SampleDistance, [], [], OM3DSampledMapping)</l>
 <c>    * </c>
 <c>    </c>
 <c>    </c>
 <c>    *xyz_mapping 用2D平滑方式修正法线</c>
-<l>    smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping', ['xyz_mapping_filter'], ['median'], OM3DSampledMapping)</l>
+<l>    *smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping', ['xyz_mapping_filter'], ['median'], OM3DSampledMapping)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
@@ -565,7 +529,7 @@
 <l>*     smooth_object_model_3d (OM3DSampledMapping, 'mls', [], [], ObjectModel3Dsmooth)</l>
 <c>    </c>
 <c>    </c>
-<l>    smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_kNN', 350, ObjectModel3Dsmooth)</l>
+<l>    smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_kNN', 150, ObjectModel3Dsmooth)</l>
 <c>    </c>
 <l>*     smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_order', 1, ObjectModel3Dsmooth)</l>
 <c>    </c>
@@ -575,18 +539,82 @@
 <c>    </c>
 <c>    </c>
 <c>    </c>
+<l>   * object_model_3d_to_xyz (X, Y, Z, ObjectModel3Dsmooth, 'from_xyz_map', [], [])</l>
 <c>    </c>
-<l>    MinNumPoints := 5</l>
-<l>    SampleDistance := 0.002</l>
-<l>    sample_object_model_3d (ObjectModel3Dsmooth, 'accurate', SampleDistance, 'min_num_points', MinNumPoints, SampleExact)</l>
+<c>    *表面三角化</c>
+<l>*     triangulate_object_model_3d (OM3DSampledSample, 'greedy','greedy_hole_filling', 0.005, TriangulatedObjectModel3D, Information)</l>
+<c>    </c>
+<c>    *获得深度区域</c>
+<l>   * get_domain (Z, Z_Reg)</l>
+<c>    *闭运算消除毛刺</c>
+<l>   * closing_circle (Z_Reg, RegionClosing, 10)</l>
+<l>   * closing_rectangle1 (Z_Reg, RegionClosing, 20, 20)</l>
+<c>    </c>
+<c>    *填充空洞</c>
+<l>   * fill_up (RegionClosing, Z_Conves)</l>
+<c>    </c>
+<c>    *区域凸包</c>
+<l>*     shape_trans (Z, Z_Conves, 'convex')</l>
+<c>    </c>
+<c>    *区域相差</c>
+<l>   * difference (Z_Conves, Z, Z_Region)</l>
+<c>    </c>
+<l>  *  full_domain (X, X_Full)</l>
+<l>  *  full_domain (Y, Y_Full)</l>
+<l>   * full_domain (Z, Z_Full)</l>
+<c>    </c>
+<l>  *  change_domain (X_Full, Z_Conves, X_Domain)</l>
+<l>  *  change_domain (Y_Full, Z_Conves, Y_Domain)</l>
+<l>  *  change_domain (Z_Full, Z_Conves, Z_Domain)</l>
+<c>    </c>
+<c>    </c>
+<c>    *线性修复</c>
+<l>   * harmonic_interpolation (X_Domain, Z_Region, X_interpolation, 0.00001)</l>
+<l>   * harmonic_interpolation (Y_Domain, Z_Region, Y_interpolation, 0.00001)</l>
+<l>  *  harmonic_interpolation (Z_Domain, Z_Region, Z_interpolation, 0.00001)</l>
+<c>    </c>
+<l>   * inpainting_ct (X_interpolation, Z_Region, X_Harmonic, 10, 25, 10, 0.1, 1)</l>
+<l>   * inpainting_ct (Y_interpolation, Z_Region, Y_Harmonic,20, 25, 1, 1, 1)</l>
+<l>  *  inpainting_ct (Z_interpolation, Z_Region, Z_Harmonic, 20, 25, 1, 1, 1)</l>
+<c>    </c>
+<c>    </c>
+<l>    *inpainting_ced (X_interpolation, Z_Region, X_Harmonic, 3, 1, 5, 300)</l>
+<l>  *  inpainting_ced (Y_interpolation, Z_Region, Y_Harmonic, 3, 1, 5, 300)</l>
+<l>  *  inpainting_ced (Z_interpolation, Z_Region, Z_Harmonic, 3, 1, 5, 300)</l>
+<c>    </c>
+<l>   * inpainting_mcf (X_interpolation, Z_Region, X_Harmonic, 10, 0.1, 100)</l>
+<l>  *  inpainting_mcf (Y_interpolation, Z_Region, Y_Harmonic,10, 0.5, 100)</l>
+<l>  *  inpainting_mcf (Z_interpolation, Z_Region, Z_Harmonic, 10, 0.5, 100)</l>
+<c>    </c>
+<l>   * inpainting_texture (X_interpolation, Z_Region, X_Harmonic,11, 40, 0, 'none', 0)</l>
+<l>   * inpainting_texture (Y_interpolation, Z_Region, Y_Harmonic, 9, 30, 1, 'none', 0.1)</l>
+<l>  *  inpainting_texture (Z_interpolation, Z_Region, Z_Harmonic, 9, 30, 1, 'none', 0.1)</l>
+<c>    </c>
+<l>  *  inpainting_aniso (X_Domain, Z_Region, X_Harmonic,'shock', 5, 5, 60, 1)</l>
+<l>  * inpainting_aniso (Y_Domain, Z_Region, Y_Harmonic,'shock', 5, 5, 60, 1)</l>
+<l>  *  inpainting_aniso (Z_Domain, Z_Region, Z_Harmonic,'shock', 5, 5, 60, 1)</l>
+<c>    </c>
+<c>    </c>
+<l>  *  xyz_to_object_model_3d (X_Harmonic, Y_Harmonic, Z_Harmonic, ObjectModel3D)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
 <c>    </c>
 <l>*     smooth_object_model_3d (OM3DSampledMapping, 'xyz_mapping_compute_normals', ['xyz_mapping_mask_width','xyz_mapping_mask_height'], [5,5], ObjectModel3Dsmooth)</l>
 <c>    </c>
-<c>    </c>
+<c>  </c>
+<c>     </c>
 <c>    </c>
 <l>    pose_invert (CamSetupModel_Pos, Pos_CamInObj)</l>
+<l>    sample_object_model_3d (ObjectModel3Dsmooth, 'accurate', 0.0005, [], [], OM3DSampledMapping)</l>
+<c>   </c>
+<l>      triangulate_object_model_3d (OM3DSampledMapping, 'greedy', [], [], TriangulatedObjectModel3D, Information)</l>
+<c>     </c>
 <c>    </c>
-<l>    object_model_3d_to_xyz (X1, Y1, Z1, ObjectModel3Dsmooth, 'cartesian', CamParamLeft, Pos_CamInObj)</l>
+<l>    object_model_3d_to_xyz (X1, Y1, Z1, OM3DSampledMapping, 'cartesian', CamParamLeft, Pos_CamInObj)</l>
 <l>*     object_model_3d_to_xyz (X2, Y2, Z2, ObjectModel3Dsmooth, 'from_xyz_map', [], [])</l>
 <c>    </c>
 <c>    *缩放深度图到图像大小</c>
@@ -596,7 +624,7 @@
 <l>*     zoom_image_size (ImageFront, ImageFrontZoom, Width1, Height1, 'nearest_neighbor')</l>
 <c>    </c>
 <c>    </c>
-<l>    dev_display (ImageFront)</l>
+<l>    dev_display (Front)</l>
 <l>    dev_display (Z1)</l>
 <c>    </c>
 <l>    dev_set_window (WindowHandle3)</l>
