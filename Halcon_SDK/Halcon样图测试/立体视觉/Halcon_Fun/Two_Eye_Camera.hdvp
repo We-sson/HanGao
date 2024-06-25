@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.05.0.0">
+<procedure name="Two_Eye_Camera">
+<interface>
+<oo>
+<par name="X" base_type="iconic" dimension="0"/>
+<par name="Y" base_type="iconic" dimension="0"/>
+<par name="Z" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="Camera_L" base_type="ctrl" dimension="0"/>
+<par name="Camera_R" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Model3D" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>return ()</l>
+</body>
+<docu id="Two_Eye_Camera">
+<parameters>
+<parameter id="Camera_L">
+<mixed_type>false</mixed_type>
+<sem_type>framegrabber</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="Camera_R">
+<mixed_type>false</mixed_type>
+<sem_type>framegrabber</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="Model3D">
+<mixed_type>false</mixed_type>
+<sem_type>object_model_3d</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+<parameter id="X">
+<sem_type>image</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="Y">
+<sem_type>image</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+<parameter id="Z">
+<sem_type>image</sem_type>
+<type_list>
+<item>real</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
