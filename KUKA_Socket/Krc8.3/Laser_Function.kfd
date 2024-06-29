@@ -91,15 +91,30 @@ endscript
 
 ;-----------------------------------------
 
-DECL PARAM LSPOW={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 100,Step 1,default 80},shortname[] "Power=", UNIT[] "%%", Shortcut[] "POW" }
-DECL PARAM LSSec={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 5,Step 0.1,default 0.2},shortname[] "Sec=", UNIT[] "sec", Shortcut[] "Sec" }
+DECL PARAM LSPOW={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 100,Step 1,default 80},shortname[] "Power=", UNIT[] "%%", Shortcut[] "%" }
+DECL PARAM LS_NO={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 7,Step 1,default 0},shortname[] "LS_NO=", UNIT[] " ", Shortcut[] "" }
+
+DECL PARAM LS_TIGG_PATH={VALUE {REAL: AUTOLIMIT TRUE, min -999,max 999,Step 1.0,default 0},shortname[] "Sec=", UNIT[] "mm_", Shortcut[] "mm" }
+DECL PARAM LS_TIGG_POW={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 100,Step 1,default 80},shortname[] "Power=", UNIT[] "%%", Shortcut[] "%" }
+DECL PARAM LS_TIGG_NO={VALUE {NUMBER: AUTOLIMIT TRUE, min 0,max 7,Step 1,default 0},shortname[] "LS_NO=", UNIT[] "", Shortcut[] "" }
+DECL PARAM LSSec={VALUE {REAL: AUTOLIMIT TRUE, min 0,max 5,Step 0.1,default 0.2},shortname[] "Sec=", UNIT[] " sec", Shortcut[] "Sec" }
+DECL PARAM LS_TIGG_START={shortname[] "", shortcut[] "", unit[] "", value { LIST : POS 1, _
+  ITEM[1] {ITEM:VALUE[] " " ,disp[] " "}, _
+  ITEM[2] {ITEM:VALUE[] "ONSTART" ,disp[] "ONSTART"}}}
 
 
 DECL FOLD FOLDLSON[4]
 FOLDLSON[1]=" "
 FOLDLSON[2]=" "
-FOLDLSON[3]="  LSON(%LSPOW ,%LSSec ) "
+FOLDLSON[3]="  LSON(%LSPOW ,%LSSec ,%LS_NO ) "
 FOLDLSON[4]=" "
+
+
+DECL FOLD FOLDLSTIGG[4]
+FOLDLSTIGG[1]=" "
+FOLDLSTIGG[2]=" TRIGGER WHEN PATH=%LS_TIGG_PATH  %LS_TIGG_START  DELAY=0 DO Set_LSPath(%LS_TIGG_NO )  PRIO=-1 "
+FOLDLSTIGG[3]=" TRIGGER WHEN PATH=%LS_TIGG_PATH  %LS_TIGG_START  DELAY=0 DO $ANOUT[1]=%LS_TIGG_POW /100.0 "
+FOLDLSTIGG[4]=" "
 
 DECL FOLD FOLDLSOFF[3]
 FOLDLSOFF[1]=" "
@@ -144,8 +159,11 @@ FOLDProgram[3]=" "
 ;Decl InlineForm LSREL={FOLD[1] FOLDLSON , PARAM[1] LSVEL, PARAM[2] LSREL_X, PARAM[3] LSREL_Y , PARAM[4] LSREL_Z , ONACCEPT OnAcc_LS}
 
 
-Decl InlineForm LSON={FOLD[1] FOLDLSON, PARAM[1] LSPOW ,PARAM[2] LSSec , ONACCEPT OnAcc_LS}
+Decl InlineForm LSON={FOLD[1] FOLDLSON, PARAM[1] LSPOW ,PARAM[2]  LS_NO,  PARAM[3] LSSec , ONACCEPT OnAcc_LS}
 Decl InlineForm LSOFF={FOLD[1] FOLDLSOFF , ONACCEPT OnAcc_LS}
+;Decl InlineForm LSTIGG={FOLD[1] FOLDLSTIGG,PARAM[1] LS_TIGG_START, PARAM[2] LS_TIGG_PATH ,PARAM[3]  LS_TIGG_POW ,PARAM[4]  LS_TIGG_NO, ONACCEPT OnAcc_LS}
+Decl InlineForm LSTIGG={FOLD[1] FOLDLSTIGG ,PARAM[1] LS_TIGG_START, PARAM[2] LS_TIGG_PATH ,PARAM[3]  LS_TIGG_POW ,PARAM[4]  LS_TIGG_NO, ONACCEPT OnAcc_LS}
+
 Decl InlineForm PName={FOLD[1] FOLDProgram , PARAM[1] Program_Name,  PARAM[2] Program_Run, ONACCEPT OnAcc_LS}
 Decl InlineForm IF_Then={FOLD[1] IF_Then_FOLD ,PARAM[1] IF_State, ONACCEPT OnAcc_LS}
 Decl InlineForm IF_End={FOLD[1] IF_End_FOLD , ONACCEPT OnAcc_LS}
@@ -153,4 +171,4 @@ Decl InlineForm IF_End={FOLD[1] IF_End_FOLD , ONACCEPT OnAcc_LS}
 ENDTP
 
 
-;checksum 51578275198 
+;checksum 41125165759 

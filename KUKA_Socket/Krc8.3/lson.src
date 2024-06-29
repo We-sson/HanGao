@@ -1,15 +1,28 @@
-&ACCESS RO
-&REL 23
-&USER  
+&ACCESS RVO1
+&REL 50
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-DEF LSON(Power:IN,Spot:IN)
+DEF LSON(Power:IN,Spot:IN,LS_NO:IN)
+
+
+
 decl REAL SPOT
 decl REAL Power
 decl REAL Start_Power
 decl REAL Weld_Power
+decl int LS_NO
+DECL VAR_STATE VarT
 Start_Power=0.3
 Weld_Power=$ANOUT[1]
+
+
+
+VarT=VARSTATE("LS_NO")
+if VarT==#DECLARED THEN
+Set_LSPath(0)
+ELSE
+Set_LSPath(LS_NO)
+endif
 
 
 
@@ -37,7 +50,7 @@ PULSE($OUT[5], TRUE,.5)
 
 WAIT SEC 0.2
 
-$ANOUT[1]=Power/100
+$ANOUT[1]=Power/100.0
 
 
 
@@ -59,3 +72,19 @@ $ANOUT[1]=Weld_Power
 endif
 
 END
+
+GLOBAL DEF Set_LSPath(LSPath_NO:IN)
+
+SIGNAL LSPath $OUT[9] to $OUT[11]
+
+DECL int LSPath_NO
+DECL VAR_STATE VarT
+VarT=VARSTATE("LSPath_NO")
+
+
+LSPath=LSPath_NO
+
+
+
+END
+
