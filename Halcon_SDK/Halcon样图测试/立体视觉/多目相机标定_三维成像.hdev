@@ -341,10 +341,6 @@
 <l>set_stereo_model_param (StereoModelID, 'binocular_sub_disparity', 'interpolation')</l>
 <c></c>
 <c></c>
-<c></c>
-<c></c>
-<c></c>
-<c></c>
 <c>*设置颜色显示范围</c>
 <l>set_stereo_model_param (StereoModelID, 'color', 'median')</l>
 <c>*指定用于表面立体重建的图像对</c>
@@ -357,6 +353,8 @@
 <l>gen_camera_setup_object_model_3d (CamSetupModel, 'auto', 'auto', ObjectModel3DCamera, ObjectModel3DCone)</l>
 <l>visualize_object_model_3d (WindowHandle3, [ObjectModel3DBoundingBox,ObjectModel3DCamera,ObjectModel3DCone], [], [0, 0, 0.5, 0,0, 0, 0], ['lut', 'color_0', 'alpha', 'disp_pose_0'], ['sqrt', 'green', 0.5, 'true'], 'Bounding box and cameras of the stereo setup', ['Bounding box', 'Cam 0 (Back)', '', 'Cam 1 (Front)', '', '', ''], [], PoseOut)</l>
 <c>* </c>
+<c></c>
+<c></c>
 <c></c>
 <l>count_seconds (T1)</l>
 <c></c>
@@ -372,10 +370,13 @@
 <l>dev_open_window (HeightFrom / WindowSizeFactor2 + 60, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'white', WindowHandle3)</l>
 <c></c>
 <c></c>
+<c></c>
 <c>* Read the scene images.</c>
 <c>* 读取场景图像。</c>
 <c></c>
+<l>close_framegrabber (Camera_L)</l>
 <c></c>
+<l>close_framegrabber (Camera_R)</l>
 <c>*海康SDK</c>
 <l>open_framegrabber ('MVision', 1, 1, 0, 0, 0, 0, 'progressive', 8, 'default', -1, 'false', 'auto', 'GEV:DA0651573 MV-CU120-10GM', 0, -1, Camera_L)</l>
 <l>open_framegrabber ('MVision', 1, 1, 0, 0, 0, 0, 'progressive', 8, 'default', -1, 'false', 'auto', 'GEV:DA0651471 MV-CU120-10GM', 0, -1, Camera_R)</l>
@@ -391,6 +392,9 @@
 <c></c>
 <l>while (1)</l>
 <c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
 <c></c>
 <l>Two_Eye_Camera (X, Y, Z, Image_2D, CamSetupModel, StereoModelID, Camera_L, Camera_R, Surface3DDefault, Info)</l>
 <l>compose3 (X, Y, Z, PXYZ_Image)</l>
@@ -404,7 +408,7 @@
 <c></c>
 <c>*点云拟合平面</c>
 <l>ParFitting := ['primitive_type', 'fitting_algorithm', 'output_xyz_mapping']</l>
-<l>ValFitting := ['cylinder', 'least_squares_tukey', 'true']</l>
+<l>ValFitting := ['plane', 'least_squares_tukey', 'true']</l>
 <l>fit_primitives_object_model_3d (ObjectModel3DDefect, ParFitting, ValFitting, ObjectModel3DOut)</l>
 <c></c>
 <l>get_object_model_3d_params (ObjectModel3DOut, 'primitive_parameter', parameter)</l>
@@ -426,23 +430,24 @@
 <c></c>
 <c></c>
 <c>*创建1米的平面</c>
-<l>gen_plane_object_model_3d (pose, [-1,-1,1,1], [-1,1,1,-1], ObjectModel_Plan)</l>
+<l>gen_plane_object_model_3d (Moments, [-2,-2,2,2], [-2,2,2,-2], ObjectModel_Plan)</l>
 <c>*创建面</c>
-<l>triangulate_object_model_3d (ObjectModel_Plan, 'greedy', [] , [], Surface3DDefault, _)</l>
+<l>triangulate_object_model_3d (ObjectModel_Plan, 'greedy', [] , [], Surface3DPlane, _)</l>
 <c></c>
 <c></c>
 <c>*计算整个平面深度图像</c>
 <l>get_camera_setup_param (CamSetupModel, 0, 'pose', CamSetupModel_Pos)</l>
 <l>pose_invert (CamSetupModel_Pos, Pos_CamInObj)</l>
 <l>get_camera_setup_param (CamSetupModel, 0, 'params', CamParamLeft)</l>
-<l>object_model_3d_to_xyz (X1, Y1, Z1, Surface3DDefault, 'cartesian_faces', CamParamLeft, Pos_CamInObj)</l>
+<l>object_model_3d_to_xyz (X1, Y1, Z1, Surface3DPlane, 'cartesian_faces', CamParamLeft, Pos_CamInObj)</l>
 <c></c>
 <l>compose3 (X1, Y1, Z1, Plane_Image)</l>
 <c></c>
-<l>visualize_object_model_3d (WindowHandle3, [ObjectModel3DDefect,ObjectModel3DOut,ObjectModel3DOut], \
-                           [], [], ['alpha_1'], [0.5], [], [], [], PoseOut)</l>
 <c></c>
 <c></c>
+<c></c>
+<l>visualize_object_model_3d (WindowHandle3, [ObjectModel3DDefect,ObjectModel3DOut,Surface3DDefault], \
+                           [], [], ['alpha_1','disp_pose'], [0.5,'true'], [], [], [], PoseOut)</l>
 <c></c>
 <c></c>
 <c></c>
@@ -462,6 +467,7 @@
 <c></c>
 <c></c>
 <l>close_framegrabber (Camera_L)</l>
+<c></c>
 <l>close_framegrabber (Camera_R)</l>
 <c></c>
 </body>
@@ -900,22 +906,24 @@
 <l>    scale_image_range (HDRImage_R, ImageScaled, [Min,0], [Max,255])</l>
 <l>    convert_image_type (ImageScaled, ImageFront, 'byte')</l>
 <l>else</l>
+<l>     par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
 <l>    par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
 <l>    par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'ExposureTime', 5000.0)</l>
 <l>    par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'Gain', 19)</l>
 <l>    par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'Gamma', 0.7)</l>
-<l>    par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
 <l>    par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'StrobeEnable', 0)</l>
-<l>*     par_start &lt;Thread_L&gt; :  grab_image_start (Camera_L, -1)</l>
+<c></c>
 <l>    par_start &lt;Thread_L&gt; :  grab_image (ImageFront, Camera_L)</l>
 <l>    *par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
 <l>   * par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
-<c>    </c>
+<c>     </c>
+<l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
 <l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
 <l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'ExposureTime', 10000.0)</l>
 <l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'Gain', 19)</l>
 <l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'Gamma', 0.7)</l>
-<l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
+<c>    </c>
+<c></c>
 <l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'StrobeEnable', 1)</l>
 <c>    </c>
 <c>    </c>
