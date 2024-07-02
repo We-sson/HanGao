@@ -411,6 +411,28 @@
 <l>ValFitting := ['plane', 'least_squares_tukey', 'true']</l>
 <l>fit_primitives_object_model_3d (ObjectModel3DDefect, ParFitting, ValFitting, ObjectModel3DOut)</l>
 <c></c>
+<c></c>
+<c></c>
+<c>*拷贝拟合外包平面模型</c>
+<l>copy_object_model_3d (ObjectModel3DOut, 'primitives_all', OM3DSphereOnly)</l>
+<l>triangulate_object_model_3d (OM3DSphereOnly, 'greedy', [] , [], OM3DSphereOnly_Plan, _)</l>
+<l>object_model_3d_to_xyz (X1, Y1, Z1, OM3DSphereOnly_Plan, 'cartesian_faces', CamParamLeft, Pos_CamInObj)</l>
+<l>compose3 (X1, Y1, Z1, primitives_Image)</l>
+<c></c>
+<c></c>
+<l>get_region_points (primitives_Image, Rows, Columns)</l>
+<c></c>
+<c></c>
+<l>gen_cross_contour_xld (Cross, [0,Rows[0],Rows[|Rows|-1],127], [0,Columns[0],Columns[|Columns|-1],2091], 60, 0.785398)</l>
+<c></c>
+<l>distance_pp (Rows[0], Columns[0], Rows[|Rows|-1], Columns[|Columns|-1], Distance)</l>
+<c></c>
+<c></c>
+<l>get_grayval (primitives_Image, [Rows[0],Rows[|Rows|-1]],[Columns[0],Columns[|Columns|-1]] , Grayval)</l>
+<c></c>
+<l>distance_point_line (Columns, Rows, Grayval, Columns, Rows, Grayval, Columns, Rows, Grayval, Distance1)</l>
+<c></c>
+<c></c>
 <l>get_object_model_3d_params (ObjectModel3DOut, 'primitive_parameter', parameter)</l>
 <l>get_object_model_3d_params (ObjectModel3DOut, 'primitive_parameter_pose', parameter_pose)</l>
 <l>get_object_model_3d_params (ObjectModel3DOut, 'primitive_pose', pose)</l>
@@ -430,7 +452,9 @@
 <c></c>
 <c></c>
 <c>*创建1米的平面</c>
-<l>gen_plane_object_model_3d (Moments, [-2,-2,2,2], [-2,2,2,-2], ObjectModel_Plan)</l>
+<l>gen_plane_object_model_3d (pose, [-2,-2,2,2], [-2,2,2,-2], ObjectModel_Plan)</l>
+<c></c>
+<l>gen_plane_object_model_3d (Moments, [-2,-2,2,2], [-2,2,2,-2], ObjectModel_Plan1)</l>
 <c>*创建面</c>
 <l>triangulate_object_model_3d (ObjectModel_Plan, 'greedy', [] , [], Surface3DPlane, _)</l>
 <c></c>
@@ -446,7 +470,7 @@
 <c></c>
 <c></c>
 <c></c>
-<l>visualize_object_model_3d (WindowHandle3, [ObjectModel3DDefect,ObjectModel3DOut,Surface3DDefault], \
+<l>visualize_object_model_3d (WindowHandle3, [ObjectModel_Plan,ObjectModel_Plan1,ObjectModel3DDefect,ObjectModel3DOut,Surface3DDefault], \
                            [], [], ['alpha_1','disp_pose'], [0.5,'true'], [], [], [], PoseOut)</l>
 <c></c>
 <c></c>
@@ -920,7 +944,7 @@
 <l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
 <l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
 <l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'ExposureTime', 10000.0)</l>
-<l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'Gain', 19)</l>
+<c> </c>
 <l>    par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'Gamma', 0.7)</l>
 <c>    </c>
 <c></c>
@@ -948,8 +972,8 @@
 <l>* median_image (ImageBack, ImageBack, 'square', 3, 'mirrored')</l>
 <l>* read_image (ImageBack,  ImagesBackFiles[21])</l>
 <l>* read_image (ImageFront,  ImagesFrontFiles[21])</l>
-<l>emphasize (ImageFront, Front, 80, 80, 5)</l>
-<l>emphasize (ImageBack, Back, 80, 80,5)</l>
+<l>emphasize (ImageFront, Front, 100, 100, 5)</l>
+<l>emphasize (ImageBack, Back, 100, 100,5)</l>
 <l>concat_obj (Front, Back, Images)</l>
 <c></c>
 <l>* wait_seconds(0.1)</l>
