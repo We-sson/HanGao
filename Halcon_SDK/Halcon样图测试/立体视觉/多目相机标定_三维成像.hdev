@@ -420,17 +420,21 @@
 <l>compose3 (X1, Y1, Z1, primitives_Image)</l>
 <c></c>
 <c></c>
-<l>get_region_points (primitives_Image, Rows, Columns)</l>
+<c>* 区域的两个边界点之间的最大距离</c>
+<l>diameter_region (primitives_Image, Row1, Column1, Row2, Column2, Diameter)</l>
+<c></c>
+<l>gen_cross_contour_xld (Cross, [Row1,Row2], [Column1,Column2], 60, 0.785398)</l>
+<l>disp_line (WindowHandle3, Row1, Column1, Row2, Column2)</l>
 <c></c>
 <c></c>
-<l>gen_cross_contour_xld (Cross, [0,Rows[0],Rows[|Rows|-1],127], [0,Columns[0],Columns[|Columns|-1],2091], 60, 0.785398)</l>
-<c></c>
-<l>distance_pp (Rows[0], Columns[0], Rows[|Rows|-1], Columns[|Columns|-1], Distance)</l>
 <c></c>
 <c></c>
-<l>get_grayval (primitives_Image, [Rows[0],Rows[|Rows|-1]],[Columns[0],Columns[|Columns|-1]] , Grayval)</l>
+<l>image_points_to_world_plane (CamParamLeft, pose, [Row1,Row2],  [Column1,Column2], 'm', Work_X, Work_Y)</l>
 <c></c>
-<l>distance_point_line (Columns, Rows, Grayval, Columns, Rows, Grayval, Columns, Rows, Grayval, Distance1)</l>
+<l>distance_pp (Work_Y[0], Work_X[0], Work_Y[1], Work_X[1], Distance)</l>
+<c></c>
+<l>Scale:=Distance/Diameter</l>
+<c></c>
 <c></c>
 <c></c>
 <l>get_object_model_3d_params (ObjectModel3DOut, 'primitive_parameter', parameter)</l>
@@ -438,7 +442,6 @@
 <l>get_object_model_3d_params (ObjectModel3DOut, 'primitive_pose', pose)</l>
 <l>get_object_model_3d_params (ObjectModel3DOut, 'primitive_parameter_extension', parameter_extension)</l>
 <c> </c>
-<c></c>
 <c></c>
 <c></c>
 <c>*得到平面坐标信息</c>
