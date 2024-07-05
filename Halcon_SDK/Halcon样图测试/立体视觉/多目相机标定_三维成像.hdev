@@ -77,7 +77,7 @@
 <c>* </c>
 <c>* Start the loop over the calibration images.</c>
 <c>* 开始循环校准图像。</c>
-<l>NumImages := 16</l>
+<c></c>
 <l>gen_empty_obj (ImagesBack)</l>
 <l>gen_empty_obj (ImagesFront)</l>
 <c>* 读取本地文件</c>
@@ -86,7 +86,7 @@
 <l>list_files ('C:/Users/zhiwei2.he/MVS/Data/R', ['files','follow_links'], ImagesFrontFiles)</l>
 <l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
 <c></c>
-<c></c>
+<l>NumImages := |ImagesBackFiles|</l>
 <l>for I := 0 to |ImagesBackFiles|-1 by 1</l>
 <c>    * Read the calibration images.</c>
 <c>    * 读取校准图像。</c>
@@ -96,8 +96,8 @@
 <c>    * in the calibration data model.</c>
 <c>    * 找到校准板并将观测数据</c>
 <c>    * 在校准数据模型中。</c>
-<l>    find_calib_object (ImageBack, CalibDataID, 0, 0, I, 'sigma', 2)</l>
-<l>    find_calib_object (ImageFront, CalibDataID, 1, 0, I, 'sigma', 2)</l>
+<l>    find_calib_object (ImageBack, CalibDataID, 0, 0, I, 'sigma', 1.2)</l>
+<l>    find_calib_object (ImageFront, CalibDataID, 1, 0, I, 'sigma', 1.2)</l>
 <c>    * Visualize the extracted calibration marks.</c>
 <c>    * 可视化提取的校准标记。</c>
 <l>    get_calib_data_observ_contours (ContoursBack, CalibDataID, 'marks', 0, 0, I)</l>
@@ -190,10 +190,10 @@
 <c></c>
 <c>*获得相机参数</c>
 <l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
-<l>get_camera_setup_param (CamSetupModel, 0, 'pose', Cam_Pos)</l>
+<l>*get_camera_setup_param (CamSetupModel, 0, 'pose', Cam_Pos)</l>
 <c></c>
 <c>*获得标定板位置屏幕</c>
-<l>get_calib_data (CalibDataID, 'calib_obj_pose', [0,1], 'pose', ReferencePose)</l>
+<l>*get_calib_data (CalibDataID, 'calib_obj_pose', [0,1], 'pose', ReferencePose)</l>
 <c></c>
 <c></c>
 <c></c>
@@ -209,7 +209,7 @@
 <c></c>
 <c>* Set the stereo parameters.</c>
 <c>*设置重建盒子范围大小</c>
-<l>BoundingBox := [-0.2, -0.2, 0.3, 0.2, 0.2, 0.32]</l>
+<l>BoundingBox := [-0.2, -0.2, 0.25, 0.2, 0.2, 0.32]</l>
 <c></c>
 <c>*指定用于表面立体重建的图像对</c>
 <l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
@@ -432,7 +432,10 @@
 <c>*得到平面坐标信息,对齐方向</c>
 <l>moments_object_model_3d (ObjectModel3DOut, 'principal_axes', Moments)</l>
 <c></c>
-<c></c>
+<c>*旋转X轴对齐Z朝下</c>
+<l>pose_to_hom_mat3d (ModelInPlanePos, HomMat3D)</l>
+<l>hom_mat3d_rotate_local (HomMat3D, rad(180),'x', HomMat3DRotate)</l>
+<l>hom_mat3d_to_pose (HomMat3DRotate, ModelInPlanePos)</l>
 <c></c>
 <c>*拷贝拟合外包平面模型</c>
 <l>copy_object_model_3d (ObjectModel3DOut, 'primitives_all', OM3DSphereOnly)</l>
@@ -468,7 +471,7 @@
 <c></c>
 <l>ParamName := ['color_0', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5', 'color_6', 'alpha_6','disp_pose']</l>
 <l>ParamValue := ['red', 'green', 'blue', 'red', 'green', 'blue', 'white', 0.5,'false']</l>
-<l>*visualize_object_model_3d (WindowHandle3, [OM3DBase,ObjectModel3DRigidTrans,ObjectModel3DOut,OM3DCameraOrigin], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
+<l>visualize_object_model_3d (WindowHandle3, [OM3DBase,ObjectModel3DRigidTrans,ObjectModel3DOut,OM3DCameraOrigin], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
 <c></c>
 <c></c>
 <c></c>
@@ -479,13 +482,31 @@
 <l>image_to_world_plane (Image_2D, ImageMapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, ScaleForEntireImage, 'nearest_neighbor')</l>
 <c></c>
 <c></c>
+<l>* create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
+<l>* set_calib_data_cam_param (CalibDataID, 0, [], CamParamLeft)</l>
+<l>* CalibObjDescr := 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
+<l>* set_calib_data_calib_object (CalibDataID, 0, CalibObjDescr)</l>
+<l>* find_calib_object (Image_2D, CalibDataID, 0, 0, I, 'sigma', 1.2)</l>
+<l>* get_calib_data_observ_points (CalibDataID, 0, 0, 4, Row, Column, Index, StartPose)</l>
+<l>* disp_caltab (WindowHandle3, CalibObjDescr, CamParamLeft, StartPose, 1)</l>
+<c></c>
+<l>* pose_invert (StartPose, StartPoseInvert)</l>
+<l>* pose_compose (StartPoseInvert, ModelInPlanePos, Error_Pos)</l>
+<l>* pose_compose (StartPoseInvert, Moments, Error_Pos1)</l>
+<c></c>
+<c></c>
 <c></c>
 <c>*创建1米的平面</c>
-<l>gen_plane_object_model_3d (ModelInPlanePos, [-2,-2,2,2], [-2,2,2,-2], ObjectModel_Plan)</l>
+<l>gen_plane_object_model_3d (ModelInPlanePos, [-5,-5,5,5], [-5,5,5,-5], ObjectModel_Plan)</l>
 <c></c>
-<l>gen_plane_object_model_3d (Moments,[-2,-2,2,2], [-2,2,2,-2], ObjectModel_Plan1)</l>
+<l>gen_plane_object_model_3d (Moments,[-5,-5,5,5], [-5,5,5,-5], ObjectModel_Plan1)</l>
 <c>*创建面</c>
-<l>triangulate_object_model_3d (ObjectModel_Plan, 'greedy', [] , [], Surface3DPlane, _)</l>
+<l>ParameterNames := ['information','greedy_kNN','greedy_radius_type','greedy_radius_value','greedy_neigh_orient_tol','greedy_neigh_orient_consistent','greedy_neigh_latitude_tol','greedy_neigh_vertical_tol','greedy_hole_filling','greedy_fix_flips','greedy_prefetch_neighbors','greedy_mesh_erosion','greedy_mesh_dilation']</l>
+<l>ParameterValues := ['verbose',25,'fixed',0.003,100,'false',100,0.1,100000,'true','true',1,5]</l>
+<c></c>
+<l>triangulate_object_model_3d (ObjectModel_Plan, 'greedy', ParameterNames , ParameterValues, Surface3DPlane, _)</l>
+<c></c>
+<l>visualize_object_model_3d (WindowHandle3, [OM3DBase,ObjectModel3DRigidTrans,ObjectModel3DOut,OM3DCameraOrigin,ObjectModel_Plan,ObjectModel_Plan1], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
 <c></c>
 <c></c>
 <c>*计算整个平面深度图像</c>
@@ -496,12 +517,19 @@
 <c></c>
 <c></c>
 <c></c>
+<c></c>
+<c></c>
 <l>dev_display (ImageMapped)</l>
 <l>*dev_display (Z)</l>
 <l>dev_get_window (WindowHandle3)</l>
-<l>disp_message (WindowHandle3,Info+'缩放系数：'+ScaleForEntireImage, 'window', 12, 12, 'black', 'true')</l>
 <c></c>
-<c></c>
+<l>get_mbutton (WindowHandle3, Row, Column, Button)</l>
+<l>get_mbutton (WindowHandle3, Row3, Column3, Button1)</l>
+<l>distance_pp (Row, Column, Row3, Column3, Distance)</l>
+<l>gen_cross_contour_xld (Cross, [Row,Row3], [Column,Column3], 60, 0.785398)</l>
+<l>disp_line (WindowHandle3, Row, Column, Row3, Column3)</l>
+<l>DD:=Distance*(ScaleForEntireImage+0.00000018)*1000</l>
+<l>disp_message (WindowHandle3,Info+'长度：'+DD+'mm', 'window', 12, 12, 'black', 'true')</l>
 <c></c>
 <c></c>
 <c></c>
