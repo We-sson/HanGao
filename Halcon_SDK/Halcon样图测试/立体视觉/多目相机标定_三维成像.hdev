@@ -183,6 +183,8 @@
 <l>list_files ('C:/Users/zhiwei2.he/MVS/Data/R', ['files','follow_links'], ImagesFrontFiles)</l>
 <l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
 <c></c>
+<l>read_deformable_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 03.dfm', ModelID)</l>
+<c></c>
 <c></c>
 <c>*已经标定开始运行</c>
 <l>read_calib_data ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd', CalibDataID)</l>
@@ -199,7 +201,6 @@
 <c></c>
 <c></c>
 <c></c>
-<c></c>
 <c>*设置参考平面</c>
 <l>*set_camera_setup_param (CamSetupModel, 'general', 'coord_transf_pose', ReferencePose)</l>
 <c></c>
@@ -209,7 +210,7 @@
 <c></c>
 <c>* Set the stereo parameters.</c>
 <c>*设置重建盒子范围大小</c>
-<l>BoundingBox := [-0.2, -0.2, 0.25, 0.2, 0.2, 0.32]</l>
+<l>BoundingBox := [-0.2, -0.2, 0.25, 0.2, 0.2, 0.33]</l>
 <c></c>
 <c>*指定用于表面立体重建的图像对</c>
 <l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
@@ -222,7 +223,7 @@
 <l>set_stereo_model_param (StereoModelID, 'persistence', 0)</l>
 <c></c>
 <c>*整流图的子抽样因子</c>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1.5)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1.3)</l>
 <c>*整流图的插值模式</c>
 <l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
 <c></c>
@@ -331,7 +332,7 @@
 <c></c>
 <c>*surface_pairwise方法</c>
 <c>*XYZ采集密度</c>
-<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',7)</l>
+<l>set_stereo_model_param (StereoModelID, 'sub_sampling_step',13)</l>
 <c></c>
 <c></c>
 <c>*binocular方法参数</c>
@@ -414,7 +415,8 @@
 <l>tuple_max (ObjectModel3DConnected_Num, Max)</l>
 <l>select_object_model_3d (ObjectModel3DConnected, 'num_points', 'and', Max, 'max', ObjectModel3DDefect)</l>
 <c></c>
-<c></c>
+<l>get_camera_setup_param (CamSetupModel, 0, 'params', CamParamLeft)</l>
+<l>get_camera_setup_param (CamSetupModel, 0, 'pose', CamSetupModel_Pos)</l>
 <l>object_model_3d_to_xyz (X1, Y1, Z1, ObjectModel3DDefect, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
 <l>compose3 (X1, Y1, Z1, primitives_Image)</l>
 <c></c>
@@ -516,16 +518,27 @@
 <l>    contour_to_world_plane_xld (ContCircle, ContCircleWorldPlane, CamParamLeft, ModelInPlanePos, 'm')</l>
 <l>    fit_ellipse_contour_xld (ContCircleWorldPlane, 'fitzgibbon', -1, 0, 0, 200, 3, 2, Row, Column, Phi, Radius1, Radius2, StartPhi, EndPhi, PointOrder)</l>
 <c>    </c>
-<l>    Scale1 := median(Radius1)+0.0000001</l>
-<l>    Scale2 := median(Radius2)+0.0000000</l>
-<l>    Scale3:=mean(Radius1)+0.00000001</l>
+<l>    Scale1:=median(Radius1)</l>
+<l>    Scale2:=median(Radius2)</l>
+<l>    Scale3:=mean(Radius1)</l>
 <l>    Scale4:=mean(Radius2)</l>
 <l>    Scale5:=(mean(Radius1)+mean(Radius2))/2</l>
 <l>    Scale6:=(median(Radius1)+median(Radius2))/2</l>
 <c>    </c>
 <c>*获得图像比例</c>
 <l>parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, ModelInPlanePos, WidthTo, HeightFrom, ScaleForEntireImage, PoseForEntireImage)</l>
-<l>image_to_world_plane (Image_2D, ImageMapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale1, 'nearest_neighbor')</l>
+<c></c>
+<l>ScaleForEntireImage:=ScaleForEntireImage-0.0000001</l>
+<c></c>
+<l>image_to_world_plane (Image_2D, ImageMapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, ScaleForEntireImage, 'bilinear')</l>
+<c></c>
+<l>image_to_world_plane (Image_2D, Scale1_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale1, 'bilinear')</l>
+<l>image_to_world_plane (Image_2D, Scale2_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale2, 'bilinear')</l>
+<l>image_to_world_plane (Image_2D, Scale3_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale3, 'bilinear')</l>
+<l>image_to_world_plane (Image_2D, Scale4_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale4, 'bilinear')</l>
+<l>image_to_world_plane (Image_2D, Scale5_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale5, 'bilinear')</l>
+<l>image_to_world_plane (Image_2D, Scale6_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale6, 'bilinear')</l>
+<c></c>
 <c></c>
 <c></c>
 <l>* create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
@@ -543,49 +556,93 @@
 <c></c>
 <c></c>
 <c>*创建1米的平面</c>
-<l>gen_plane_object_model_3d (ModelInPlanePos, [-5,-5,5,5], [-5,5,5,-5], ObjectModel_Plan)</l>
+<l>* gen_plane_object_model_3d (ModelInPlanePos, [-5,-5,5,5], [-5,5,5,-5], ObjectModel_Plan)</l>
 <c></c>
-<l>gen_plane_object_model_3d (Moments,[-5,-5,5,5], [-5,5,5,-5], ObjectModel_Plan1)</l>
+<l>* gen_plane_object_model_3d (Moments,[-5,-5,5,5], [-5,5,5,-5], ObjectModel_Plan1)</l>
 <c>*创建面</c>
-<l>ParameterNames := ['information','greedy_kNN','greedy_radius_type','greedy_radius_value','greedy_neigh_orient_tol','greedy_neigh_orient_consistent','greedy_neigh_latitude_tol','greedy_neigh_vertical_tol','greedy_hole_filling','greedy_fix_flips','greedy_prefetch_neighbors','greedy_mesh_erosion','greedy_mesh_dilation']</l>
-<l>ParameterValues := ['verbose',25,'fixed',0.003,100,'false',100,0.1,100000,'true','true',1,5]</l>
+<l>* ParameterNames := ['information','greedy_kNN','greedy_radius_type','greedy_radius_value','greedy_neigh_orient_tol','greedy_neigh_orient_consistent','greedy_neigh_latitude_tol','greedy_neigh_vertical_tol','greedy_hole_filling','greedy_fix_flips','greedy_prefetch_neighbors','greedy_mesh_erosion','greedy_mesh_dilation']</l>
+<l>* ParameterValues := ['verbose',25,'fixed',0.003,100,'false',100,0.1,100000,'true','true',1,5]</l>
 <c></c>
-<l>triangulate_object_model_3d (ObjectModel_Plan, 'greedy', ParameterNames , ParameterValues, Surface3DPlane, _)</l>
+<l>* triangulate_object_model_3d (ObjectModel_Plan, 'greedy', ParameterNames , ParameterValues, Surface3DPlane, _)</l>
 <c></c>
 <l>*visualize_object_model_3d (WindowHandle3, [OM3DBase,ObjectModel3DRigidTrans,ObjectModel3DOut,OM3DCameraOrigin,ObjectModel_Plan,ObjectModel_Plan1], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
 <c></c>
 <c></c>
 <c>*计算整个平面深度图像</c>
-<l>object_model_3d_to_xyz (X2, Y2, Z2, Surface3DPlane, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
+<l>* object_model_3d_to_xyz (X2, Y2, Z2, Surface3DPlane, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
 <c></c>
-<l>compose3 (X2, Y2, Z2, Plane_Image)</l>
-<c></c>
-<c></c>
+<l>* compose3 (X2, Y2, Z2, Plane_Image)</l>
 <c></c>
 <c></c>
+<c></c>
+<c></c>
+<c></c>
+<c as_id="matching" as_name="Matching 01" as_grp="[1,2]" as_ord="1">   * </c>
+<c as_id="matching" as_name="Matching 01" as_grp="[1,2]" as_ord="2">    * Matching 01: Get the model contour for transforming it later into the image</c>
+<l as_id="matching" as_name="Matching 01" as_grp="[1,2]" as_ord="3">    get_deformable_model_contours (ModelContours, ModelID, 1)</l>
+<c as_id="matching" as_name="Matching 01" as_grp="[1,5]" as_ord="1">   </c>
+<c></c>
+<c as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="2">    </c>
+<c></c>
+<l as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="3">    find_planar_uncalib_deformable_model (ImageMapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 7, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D0, Score)</l>
+<l>    find_planar_uncalib_deformable_model (Scale1_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 7, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D1, Score)</l>
+<l>    find_planar_uncalib_deformable_model (Scale2_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 7, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D2, Score)</l>
+<l>    find_planar_uncalib_deformable_model (Scale3_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 7, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D3, Score)</l>
+<l>    find_planar_uncalib_deformable_model (Scale4_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 7, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D4, Score)</l>
+<l>    find_planar_uncalib_deformable_model (Scale5_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 7, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D5, Score)</l>
+<l>    find_planar_uncalib_deformable_model (Scale6_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 7, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D6, Score)</l>
+<c>     </c>
+<l>     gen_empty_obj (ResultImage)</l>
+<l>    concat_obj (ImageMapped, Scale1_Mapped, ResultImage)</l>
+<l>     concat_obj (ResultImage, Scale2_Mapped, ResultImage)</l>
+<l>     concat_obj (ResultImage, Scale3_Mapped, ResultImage)</l>
+<l>     concat_obj (ResultImage, Scale4_Mapped, ResultImage)</l>
+<l>     concat_obj (ResultImage, Scale5_Mapped, ResultImage)</l>
+<l>     concat_obj (ResultImage, Scale6_Mapped, ResultImage)</l>
+<l>     ResultHomMat2D:=[]</l>
+<l>     ResultHomMat2D:=[ResultHomMat2D0,ResultHomMat2D1,ResultHomMat2D2,ResultHomMat2D3,ResultHomMat2D4,ResultHomMat2D5,ResultHomMat2D6]</l>
+<c>   </c>
+<l>    D:=[]</l>
+<l>    for Index := 0 to |ResultHomMat2D|/9-1 by 1</l>
+<c>        </c>
+<c>        </c>
+<l>    Result:=ResultHomMat2D[Index * 9:Index * 9+8]</l>
+<l>    select_obj (ResultImage, ImageMapped, Index+1)</l>
+<l>     dev_display (ImageMapped)</l>
+<l>    projective_trans_contour_xld (ModelContours, TransContours, Result)</l>
+<l>    gen_region_contour_xld (TransContours, Region, 'filled')</l>
+<l>    union1 (Region, RegionUnion)</l>
+<l>    fill_up (RegionUnion, RegionFillUp)</l>
+<l>    diameter_region (RegionFillUp, Row11, Column11, Row2, Column2, Distance)</l>
+<c>    </c>
+<l>    gen_cross_contour_xld (Cross, [Row11,Row2], [Column11,Column2], 60, 0.785398)</l>
+<l>    disp_line (WindowHandle3, Row11, Column11, Row2, Column2)</l>
+<c>   </c>
+<l>    D[Index]:=Distance</l>
+<c>    </c>
+<l>    endfor</l>
 <c></c>
 <c></c>
 <l>dev_display (ImageMapped)</l>
-<l>*dev_display (Z)</l>
 <l>dev_get_window (WindowHandle3)</l>
 <c></c>
-<l>get_mbutton (WindowHandle3, Row, Column, Button)</l>
-<l>get_mbutton (WindowHandle3, Row3, Column3, Button1)</l>
-<l>distance_pp (Row, Column, Row3, Column3, Distance)</l>
-<l>gen_cross_contour_xld (Cross, [Row,Row3], [Column,Column3], 60, 0.785398)</l>
-<l>disp_line (WindowHandle3, Row, Column, Row3, Column3)</l>
+<l>*  get_mbutton (WindowHandle3, Row, Column, Button)</l>
+<l>*  get_mbutton (WindowHandle3, Row3, Column3, Button1)</l>
+<l>*  distance_pp (Row, Column, Row3, Column3, Distance)</l>
+<l>*  gen_cross_contour_xld (Cross, [Row,Row3], [Column,Column3], 60, 0.785398)</l>
+<l>*  disp_line (WindowHandle3, Row, Column, Row3, Column3)</l>
+<l>*  Di:=Distance*(ScaleForEntireImage+0.000000)*1000</l>
+<c></c>
+<l>* SS:=100/Distance/1000</l>
 <c></c>
 <c></c>
-<l>SS:=100/Distance/1000</l>
-<c></c>
-<c></c>
-<l>D1:=Distance*(ScaleForEntireImage-0.0000000)*1000</l>
-<l>D2:=Distance*(Scale1)*1000</l>
-<l>D3:=Distance*(Scale2)*1000</l>
-<l>D4:=Distance*(Scale3)*1000</l>
-<l>D5:=Distance*(Scale4)*1000</l>
-<l>D6:=Distance*(Scale5)*1000</l>
-<l>D7:=Distance*(Scale6)*1000</l>
+<l>D1:=D[0]*(ScaleForEntireImage+0.000000)*1000</l>
+<l>D2:=D[1]*(Scale1+0.000000)*1000</l>
+<l>D3:=D[2]*(Scale2+0.000000)*1000</l>
+<l>D4:=D[3]*(Scale3+0.000000)*1000</l>
+<l>D5:=D[4]*(Scale4+0.000000)*1000</l>
+<l>D6:=D[5]*(Scale5)*1000</l>
+<l>D7:=D[6]*(Scale6)*1000</l>
 <l>Lens[0]:='长度：'+D1+'mm'</l>
 <l>Lens[1]:='X中位长度：'+D2+'mm'</l>
 <l>Lens[2]:='Y中位长度：'+D3+'mm'</l>
@@ -1166,7 +1223,7 @@
 <c></c>
 <c></c>
 <c>*根据点云距离集合分割出</c>
-<l>connection_object_model_3d (ObjectModel3DScene, 'distance_3d', 0.0005, ObjectModel3DConnected)</l>
+<l>connection_object_model_3d (ObjectModel3DScene, 'distance_3d', 0.001, ObjectModel3DConnected)</l>
 <l>select_object_model_3d (ObjectModel3DConnected, 'num_points', 'and', 500, 'max', ObjectModel3DDefect)</l>
 <c></c>
 <l>union_object_model_3d (ObjectModel3DDefect, 'points_surface', OM3DSampledMapping)</l>
