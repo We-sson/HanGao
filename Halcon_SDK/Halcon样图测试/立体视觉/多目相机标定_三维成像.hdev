@@ -183,8 +183,9 @@
 <l>list_files ('C:/Users/zhiwei2.he/MVS/Data/R', ['files','follow_links'], ImagesFrontFiles)</l>
 <l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
 <c></c>
-<l>read_deformable_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 04.dfm', ModelID)</l>
-<l>read_ncc_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.ncm', ModelID)</l>
+<l>read_deformable_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.dfm', ModelID_1)</l>
+<l>read_ncc_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 02.ncm', ModelID)</l>
+<c></c>
 <l>read_shape_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.shm', ModelID)</l>
 <c></c>
 <c>*已经标定开始运行</c>
@@ -193,6 +194,7 @@
 <c></c>
 <c>*获得相机参数</c>
 <l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
+<l> get_camera_setup_param (CamSetupModel, 0, 'params', CamParamLeft)</l>
 <l>* get_camera_setup_param (CamSetupModel, 0, 'pose', Cam_Pos)</l>
 <c></c>
 <c>*获得标定板位置屏幕</c>
@@ -224,7 +226,7 @@
 <l>set_stereo_model_param (StereoModelID, 'persistence', 0)</l>
 <c></c>
 <c>*整流图的子抽样因子</c>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1.2)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1)</l>
 <c>*整流图的插值模式</c>
 <l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
 <c></c>
@@ -338,7 +340,7 @@
 <c></c>
 <c>*binocular方法参数</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',2)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 60)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',60)</l>
 <c>*纹理图像区域的方差阈值</c>
@@ -407,6 +409,9 @@
 <c>    </c>
 <c>    </c>
 <l>    Two_Eye_Camera (X, Y, Z, Image_2D, CamSetupModel, StereoModelID, Camera_L, Camera_R, Surface3DDefault, Info)</l>
+<c>    </c>
+<c> </c>
+<c>    </c>
 <l>    get_image_size (Image_2D, Image_2D_Width, Image_2D_Height)</l>
 <l>    compose3 (X, Y, Z, PXYZ_Image)</l>
 <c>    </c>
@@ -434,6 +439,11 @@
 <c>    </c>
 <c>    *得到平面坐标信息,对齐方向</c>
 <l>    moments_object_model_3d (ObjectModel3DOut, 'principal_axes', Moments)</l>
+<l>    pose_to_hom_mat3d (Moments, HomMat3D)</l>
+<l>    hom_mat3d_rotate_local (HomMat3D, rad(180),'x', HomMat3DRotate)</l>
+<l>    hom_mat3d_to_pose (HomMat3DRotate, Moments)</l>
+<c>    </c>
+<c>    </c>
 <c>    </c>
 <c>    *旋转X轴对齐Z朝下</c>
 <l>    pose_to_hom_mat3d (ModelInPlanePos, HomMat3D)</l>
@@ -459,47 +469,86 @@
 <l>    visualize_object_model_3d (WindowHandle3, [ObjectModel3DDefect,OM3DSphereOnly], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
 <c>    </c>
 <c>    </c>
+<c>    *校正物体YZ平面</c>
 <c>    </c>
-<l>    get_region_contour (primitives_Image, Rows1, Columns1)</l>
-<l>    get_grayval (primitives_Image, Rows1, Columns1, Grayval)</l>
+<l>*     pose_invert (ModelInPlanePos, PoseInvert)</l>
+<l>*     rigid_trans_object_model_3d (OM3DSphereOnly_Plan, PoseInvert, ObjectModel3DRigidTrans1)</l>
+<l>*     smallest_bounding_box_object_model_3d (OM3DSphereOnly_Plan, 'oriented', Pose, Length1, Length2, Length3)</l>
+<l>*     dev_display(Image_2D)</l>
+<l>*     disp_3d_coord_system (WindowHandle3, CamParamLeft, Pose, 0.05)</l>
+<l>*     parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, Pose, Image_2D_Width, Image_2D_Height, Scale_vector, Pose_vector, WidthTo, HeightFrom)</l>
+<l>*     image_to_world_plane (Image_2D, Imagevector, CamParamLeft, Pose_vector, WidthTo, HeightFrom, Scale_vector, 'bilinear')</l>
 <c>    </c>
-<l>    XLd_Rows:=[]</l>
-<l>    XLd_Columns:=[]</l>
-<l>    XLd_no:=0</l>
-<l>     for Index := 0 to |Rows1|-1 by 50</l>
-<c>         </c>
-<l>         XLd_Rows[XLd_no]:=Rows1[Index]</l>
-<l>         XLd_Columns[XLd_no]:=Columns1[Index]</l>
-<l>      XLd_no:=XLd_no+1</l>
-<l>     endfor</l>
-<c>     </c>
-<c>     </c>
-<l>     gen_cross_contour_xld (Cross, XLd_Rows, XLd_Columns, 60, 0.785398)</l>
-<c>   </c>
-<l>     XLd_X:=[]</l>
-<l>     XLd_Y:=[]  </l>
-<l>     XLd_Z:=[]   </l>
-<c>     </c>
-<l>     for Index := 0 to |XLd_Rows|-1 by 1</l>
-<c>         </c>
-<c>         </c>
-<l>     get_grayval (primitives_Image, XLd_Rows[Index], XLd_Columns[Index], Grayval)</l>
-<l>     XLd_X[Index]:=Grayval[0]</l>
-<l>     XLd_Y[Index]:=Grayval[1]</l>
-<l>     XLd_Z[Index]:=Grayval[2]</l>
-<l>     endfor</l>
-<c>     </c>
-<c>     </c>
-<l>      vector_to_pose (XLd_X, XLd_Y, [], XLd_Rows, XLd_Columns, CamParamLeft, 'planar_analytic', 'error', FinalPose, Errors)</l>
-<c>      </c>
-<l>      disp_3d_coord_system (WindowHandle3, CamParamLeft, FinalPose, 0.05)</l>
-<c>     </c>
-<c>      </c>
-<l>        parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, FinalPose, Image_2D_Width, Image_2D_Height, Scale_vector, Pose_vector, WidthTo, HeightFrom)</l>
 <c>    </c>
-<l>    ScaleForEntireImage:=ScaleForEntireImage+0.00000000</l>
 <c>    </c>
-<l>    image_to_world_plane (Image_2D, Imagevector, CamParamLeft, Pose_vector, WidthTo, HeightFrom, Scale_vector, 'bilinear')</l>
+<c>    </c>
+<l>*     ParamName := ['color_0', 'color_1','alpha_1','disp_pose']</l>
+<l>*     ParamValue := ['red', 'green',0.5,'true']</l>
+<l>*     visualize_object_model_3d (WindowHandle3, [ObjectModel3DRigidTrans1,OM3DSphereOnly_Plan], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>*     diameter_region (primitives_Image, Row_diameter, Column_diameter, Row_diameter1, Column_diameter1, Distance)</l>
+<l>*     gen_region_line (RegionLines, Row_diameter, Column_diameter, Row_diameter1, Column_diameter1)</l>
+<l>*     get_region_points (RegionLines, Rows, Columns)</l>
+<c>    </c>
+<c>    </c>
+<l>*     get_region_contour (primitives_Image, Rows1, Columns1)</l>
+<l>*     get_grayval (primitives_Image, Rows1, Columns1, Grayval)</l>
+<l>*     Rows1:=[Rows1,Rows]</l>
+<l>*     Columns1:=[Columns1,Columns]</l>
+<l>*     XLd_Rows:=[]</l>
+<l>*     XLd_Columns:=[]</l>
+<l>*     XLd_no:=0</l>
+<l>*     for Index := 0 to |Rows1|-1 by 100</l>
+<c>        </c>
+<l>*         XLd_Rows[XLd_no]:=Rows1[Index]</l>
+<l>*         XLd_Columns[XLd_no]:=Columns1[Index]</l>
+<l>*         XLd_no:=XLd_no+1</l>
+<l>*     endfor</l>
+<c>    </c>
+<c>    </c>
+<l>*     gen_cross_contour_xld (Cross, XLd_Rows, XLd_Columns, 60, 0.785398)</l>
+<c>    </c>
+<l>*     XLd_X:=[]</l>
+<l>*     XLd_Y:=[]  </l>
+<l>*     XLd_Z:=[]   </l>
+<c>    </c>
+<c>    </c>
+<l>*     image_points_to_world_plane (CamParamLeft, ModelInPlanePos, XLd_Rows, XLd_Columns, 'm', X2, Y2)</l>
+<c>    </c>
+<l>*     vector_to_pose (X2, Y2, XLd_Z, XLd_Rows, XLd_Columns, CamParamLeft, 'planar_analytic', 'error', FinalPose, Errors)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>*     for Index := 0 to |XLd_Rows|-1 by 1</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<l>*         get_grayval (primitives_Image, XLd_Rows[Index], XLd_Columns[Index], Grayval)</l>
+<l>*         XLd_X[Index]:=Grayval[0]</l>
+<l>*         XLd_Y[Index]:=Grayval[1]</l>
+<l>*         XLd_Z[Index]:=Grayval[2]</l>
+<l>*     endfor</l>
+<c>    </c>
+<c>    </c>
+<l>*     vector_to_pose (XLd_X, XLd_Y, XLd_Z, XLd_Rows, XLd_Columns, CamParamLeft, 'planar_analytic', 'error', FinalPose, Errors)</l>
+<l>*     tuple_gen_const (|XLd_Rows|, 0, NUll_Columns)</l>
+<c>    </c>
+<l>*     vector_to_hom_mat3d ('rigid', XLd_X, XLd_Y, XLd_Z, XLd_Rows, XLd_Columns, NUll_Columns, HomMat3D1)</l>
+<c>    </c>
+<l>*     hom_mat3d_to_pose (HomMat3D1, Pose)</l>
+<c>    </c>
+<l>*     disp_3d_coord_system (WindowHandle3, CamParamLeft, ModelInPlanePos, 0.05)</l>
+<c>    </c>
+<c>    </c>
+<l>*     parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, FinalPose, Image_2D_Width, Image_2D_Height, Scale_vector, Pose_vector, WidthTo, HeightFrom)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>*     image_to_world_plane (Image_2D, Imagevector, CamParamLeft, Pose_vector, WidthTo, HeightFrom, Scale_vector, 'bilinear')</l>
 <c>    </c>
 <l>*     Image_X:=[]</l>
 <l>*     Image_Y:=[]</l>
@@ -540,7 +589,7 @@
 <c>    </c>
 <l>    ParamName := ['color_0', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5', 'color_6', 'alpha_6','disp_pose']</l>
 <l>    ParamValue := ['red', 'green', 'blue', 'red', 'green', 'blue', 'white', 0.5,'false']</l>
-<l>*     visualize_object_model_3d (WindowHandle3, [OM3DBase,ObjectModel3DRigidTrans,ObjectModel3DOut,OM3DCameraOrigin], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
+<l>    visualize_object_model_3d (WindowHandle3, [OM3DBase,ObjectModel3DRigidTrans,ObjectModel3DOut,OM3DCameraOrigin], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
@@ -570,7 +619,10 @@
 <l>*     image_to_world_plane (Image_2D, Scale5_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale5, 'bilinear')</l>
 <l>*     image_to_world_plane (Image_2D, Scale6_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale6, 'bilinear')</l>
 <c>    </c>
-<l>    *ALL_Scale:=[ScaleForEntireImage,Scale1,Scale2,Scale3,Scale4,Scale5,Scale6]</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>*     ALL_Scale:=[ScaleForEntireImage,Scale1,Scale2,Scale3,Scale4,Scale5,Scale6]</l>
 <c>    </c>
 <l>*     create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
 <l>*     set_calib_data_cam_param (CalibDataID, 0, [], CamParamLeft)</l>
@@ -614,34 +666,32 @@
 <c>    </c>
 <c>    </c>
 <c>    </c>
-<l>    create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
-<c></c>
-<l>set_calib_data_cam_param (CalibDataID, 0, [], CamParamLeft)</l>
-<l>CalibObjDescr := 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
-<l>set_calib_data_calib_object (CalibDataID, 0, CalibObjDescr)</l>
+<l>*     create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
 <c>    </c>
-<l>  find_calib_object (Image_2D, CalibDataID, 0, 0, 0, 'sigma', 1.2)</l>
-<c> </c>
-<l>get_calib_data_observ_pose (CalibDataID, 0, 0, 0, ObjInCameraPose)</l>
+<l>*     set_calib_data_cam_param (CalibDataID, 0, [], CamParamLeft)</l>
+<l>*     CalibObjDescr := 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
+<l>*     set_calib_data_calib_object (CalibDataID, 0, CalibObjDescr)</l>
 <c>    </c>
-<l>ObjInCameraPose[5]:=0</l>
-<l>    parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, ObjInCameraPose, Image_2D_Width, Image_2D_Height, ScaleForEntireImage1, PoseForEntireImage1, WidthTo, HeightFrom)</l>
+<l>*     find_calib_object (Image_2D, CalibDataID, 0, 0, 0, 'sigma', 1.2)</l>
 <c>    </c>
-<l>    ScaleForEntireImage1:=ScaleForEntireImage1-0.0000011</l>
+<l>*     get_calib_data_observ_pose (CalibDataID, 0, 0, 0, ObjInCameraPose)</l>
 <c>    </c>
-<l>    image_to_world_plane (Image_2D, ImageMapped1, CamParamLeft, PoseForEntireImage1, 4024, 3036, ScaleForEntireImage1, 'bilinear')</l>
-<c></c>
-<c></c>
-<l>     disp_3d_coord_system (WindowHandle3, CamParamLeft, ObjInCameraPose, 0.05)</l>
-<c></c>
-<l>     gray_opening_rect (ImageMapped, ImageOpening, 20, 20)</l>
-<l>     emphasize (ImageOpening, Imageemphasize, 50, 50, 2)</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="3">     find_ncc_model (ImageMapped, ModelID, rad(0), rad(360), 0.5, 1, 0, 'true', 0, Row, Column, Angle, Score)</l>
-<l>     dev_display(ImageMapped)</l>
+<l>*     ObjInCameraPose[5]:=0</l>
+<l>*     parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, ObjInCameraPose, Image_2D_Width, Image_2D_Height, ScaleForEntireImage1, PoseForEntireImage1, WidthTo, HeightFrom)</l>
+<c>    </c>
+<l>*     ScaleForEntireImage1:=ScaleForEntireImage1-0.0000011</l>
+<c>    </c>
+<l>*     image_to_world_plane (Image_2D, ImageMapped1, CamParamLeft, PoseForEntireImage1, 4024, 3036, ScaleForEntireImage1, 'bilinear')</l>
+<c>    </c>
+<c>    </c>
+<l>*     disp_3d_coord_system (WindowHandle3, CamParamLeft, ObjInCameraPose, 0.05)</l>
+<c>    </c>
+<l>    gray_opening_rect (ImageMapped, ImageOpening, 20, 20)</l>
+<l>    emphasize (ImageOpening, Imageemphasize, 50, 50, 2)</l>
+<l as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="3">    find_ncc_model (Imageemphasize, ModelID, rad(0), rad(360), 0.5, 1, 0, 'true', 0, Row, Column, Angle, Score)</l>
+<l>    dev_display(ImageMapped)</l>
 <l>    dev_display_ncc_matching_results (ModelID, 'red', Row, Column, Angle, 0)</l>
-<l>        find_ncc_model (ImageMapped1, ModelID, rad(0), rad(360), 0.5, 1, 0, 'true', 0, Row, Column, Angle, Score)</l>
-<l>     dev_display(ImageMapped1)</l>
-<l>    dev_display_ncc_matching_results (ModelID, 'red', Row, Column, Angle, 0)</l>
+<c></c>
 <c>    </c>
 <c>    </c>
 <c>    </c>
@@ -674,10 +724,10 @@
 <c>    </c>
 <c>    </c>
 <c>    </c>
-<c as_id="matching" as_name="Matching 01" as_grp="[0]" as_ord="1">    </c>
+<l>*    get_deformable_model_contours (ModelContours, ModelID_1, 1)</l>
 <c>    </c>
 <c>    </c>
-<l as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="3">*     find_planar_uncalib_deformable_model (Imageemphasize, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D0, Score)</l>
+<l>*     find_planar_uncalib_deformable_model (ImageMapped, ModelID_1, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.25, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D0, Score)</l>
 <l>*     find_planar_uncalib_deformable_model (Scale1_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D1, Score)</l>
 <l>*     find_planar_uncalib_deformable_model (Scale2_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D2, Score)</l>
 <l>*     find_planar_uncalib_deformable_model (Scale3_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D3, Score)</l>
@@ -696,7 +746,7 @@
 <l>*     Result:=ResultHomMat2D[Index * 9:Index * 9+8]</l>
 <l>*     select_obj (ResultImage, ImageMapped, Index+1)</l>
 <l>*     dev_display (ImageMapped)</l>
-<l>*     projective_trans_contour_xld (ModelContours, TransContours, Result)</l>
+<l>*     projective_trans_contour_xld (ModelContours, TransContours, ResultHomMat2D0)</l>
 <l>*     gen_region_contour_xld (TransContours, Region, 'filled')</l>
 <l>*     union1 (Region, RegionUnion)</l>
 <l>*     fill_up (RegionUnion, RegionFillUp)</l>
@@ -706,7 +756,8 @@
 <l>*     disp_line (WindowHandle3, Row11, Column11, Row2, Column2)</l>
 <c>    </c>
 <l>*     D[Index]:=Distance</l>
-<c>    </c>
+<l>*     DD:=Distance*ScaleForEntireImage*1000</l>
+<l>*     disp_message (WindowHandle3,DD+'mm', 'window', 12, 12, 'black', 'true')</l>
 <l>*     endfor</l>
 <c>    </c>
 <c>    </c>
@@ -740,6 +791,7 @@
 <l>*     disp_message (WindowHandle3,Info+Lens, 'window', 12, 12, 'black', 'true')</l>
 <c>    </c>
 <c>    </c>
+<l>stop()</l>
 <c>    </c>
 <l>endwhile</l>
 <c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[1,1]" as_ord="1">* Image Acquisition 01: Code generated by Image Acquisition 01</c>
@@ -1619,7 +1671,7 @@
 <l>ScaleY := (ExtentY / HeightMappedImage)</l>
 <l>ScaleForEntireImage := min([ScaleX,ScaleY])</l>
 <l>*ScaleForEntireImage:=(ScaleX+ScaleY)/2</l>
-<c></c>
+<l>ScaleForEntireImage:=0.0000364518</l>
 <l>WidthRect := int((MaxX- MinX) / ScaleForEntireImage) </l>
 <l>HeightRect := int((MaxY- MinY) / ScaleForEntireImage) </l>
 <c></c>
