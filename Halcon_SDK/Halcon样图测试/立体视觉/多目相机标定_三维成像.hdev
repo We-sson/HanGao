@@ -184,7 +184,7 @@
 <l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
 <c></c>
 <l>read_deformable_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.dfm', ModelID_1)</l>
-<l>read_ncc_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 02.ncm', ModelID)</l>
+<l>read_ncc_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.ncm', ModelID)</l>
 <c></c>
 <l>read_shape_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.shm', ModelID)</l>
 <c></c>
@@ -377,8 +377,8 @@
 <l>HeightTo:=3036</l>
 <l>* stop()</l>
 <c></c>
-<l>dev_open_window (0, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle1)</l>
-<l>dev_open_window (0, WidthFrom / WindowSizeFactor2 + 12, WidthTo / WindowSizeFactor2, HeightTo / WindowSizeFactor2, 'black', WindowHandle2)</l>
+<l>*dev_open_window (0, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle1)</l>
+<l>*dev_open_window (0, WidthFrom / WindowSizeFactor2 + 12, WidthTo / WindowSizeFactor2, HeightTo / WindowSizeFactor2, 'black', WindowHandle2)</l>
 <l>dev_open_window (HeightFrom / WindowSizeFactor2 + 60, 0, WidthFrom / WindowSizeFactor2, HeightFrom / WindowSizeFactor2, 'black', WindowHandle3)</l>
 <c></c>
 <c></c>
@@ -685,10 +685,11 @@
 <c>    </c>
 <c>    </c>
 <l>*     disp_3d_coord_system (WindowHandle3, CamParamLeft, ObjInCameraPose, 0.05)</l>
+<l>    emphasize (ImageMapped, Imageemphasize, 50, 50, 3)</l>
+<l>    gray_opening_rect (Imageemphasize, ImageOpening, 20, 20)</l>
 <c>    </c>
-<l>    gray_opening_rect (ImageMapped, ImageOpening, 20, 20)</l>
-<l>    emphasize (ImageOpening, Imageemphasize, 50, 50, 2)</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="3">    find_ncc_model (Imageemphasize, ModelID, rad(0), rad(360), 0.5, 1, 0, 'true', 0, Row, Column, Angle, Score)</l>
+<l>    median_image (ImageOpening, ImageMedian, 'square', 8, 'mirrored')</l>
+<l as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="3">    find_ncc_model (ImageMedian, ModelID, rad(0), rad(360), 0.5, 1, 0, 'true', 0, Row, Column, Angle, Score)</l>
 <l>    dev_display(ImageMapped)</l>
 <l>    dev_display_ncc_matching_results (ModelID, 'red', Row, Column, Angle, 0)</l>
 <c></c>
@@ -1295,7 +1296,7 @@
 <l>set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
 <l>set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
 <l>set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
-<l>set_framegrabber_param (Camera_L, 'ExposureTime', 50000.0)</l>
+<l>set_framegrabber_param (Camera_L, 'ExposureTime', 80000.0)</l>
 <l>set_framegrabber_param (Camera_L, 'Gain', 19)</l>
 <l>set_framegrabber_param (Camera_L, 'Gamma', 0.7)</l>
 <c></c>
