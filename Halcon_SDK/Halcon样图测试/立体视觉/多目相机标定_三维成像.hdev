@@ -226,7 +226,7 @@
 <l>set_stereo_model_param (StereoModelID, 'persistence', 0)</l>
 <c></c>
 <c>*整流图的子抽样因子</c>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1.2)</l>
 <c>*整流图的插值模式</c>
 <l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
 <c></c>
@@ -340,13 +340,13 @@
 <c></c>
 <c>*binocular方法参数</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',2)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 60)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',60)</l>
 <c>*纹理图像区域的方差阈值</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_texture_thresh', 50)</l>
 <c>*匹配阈值</c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.25)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.35)</l>
 <c>*过滤器</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_filter', 'left_right_check')</l>
 <c>*亚像素插值方法</c>
@@ -401,7 +401,7 @@
 <l>grab_image_start (Camera_L, 5)</l>
 <c></c>
 <c></c>
-<c></c>
+<l>ALL_Scale:=[]</l>
 <l>while (1)</l>
 <c>    </c>
 <c>    </c>
@@ -466,7 +466,7 @@
 <c>    </c>
 <l>    ParamName := ['color_0', 'color_1','disp_pose']</l>
 <l>    ParamValue := ['red', 'green','false']</l>
-<l>    visualize_object_model_3d (WindowHandle3, [ObjectModel3DDefect,OM3DSphereOnly], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
+<l>    *visualize_object_model_3d (WindowHandle3, [ObjectModel3DDefect,OM3DSphereOnly], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
 <c>    </c>
 <c>    </c>
 <c>    *校正物体YZ平面</c>
@@ -589,7 +589,7 @@
 <c>    </c>
 <l>    ParamName := ['color_0', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5', 'color_6', 'alpha_6','disp_pose']</l>
 <l>    ParamValue := ['red', 'green', 'blue', 'red', 'green', 'blue', 'white', 0.5,'false']</l>
-<l>    visualize_object_model_3d (WindowHandle3, [OM3DBase,ObjectModel3DRigidTrans,ObjectModel3DOut,OM3DCameraOrigin], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
+<l>    *visualize_object_model_3d (WindowHandle3, [OM3DBase,ObjectModel3DRigidTrans,ObjectModel3DOut,OM3DCameraOrigin], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
@@ -610,9 +610,11 @@
 <l>    parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, ModelInPlanePos, Image_2D_Width, Image_2D_Height, ScaleForEntireImage, PoseForEntireImage, WidthTo, HeightFrom)</l>
 <c>    </c>
 <l>    ScaleForEntireImage:=ScaleForEntireImage+0.00000000</l>
+<l>    ALL_Scale:=[ALL_Scale,ScaleForEntireImage]</l>
 <c>    </c>
-<l>    image_to_world_plane (Image_2D, ImageMapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, ScaleForEntireImage, 'bilinear')</l>
-<l>*     image_to_world_plane (Image_2D, Scale1_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale1, 'bilinear')</l>
+<c>    </c>
+<l>    image_to_world_plane (Image_2D, ImageMapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, ScaleForEntireImage, 'nearest_neighbor')</l>
+<l>     image_to_world_plane (Image_2D, Scale1_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale1, 'bilinear')</l>
 <l>*     image_to_world_plane (Image_2D, Scale2_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale2, 'bilinear')</l>
 <l>*     image_to_world_plane (Image_2D, Scale3_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale3, 'bilinear')</l>
 <l>*     image_to_world_plane (Image_2D, Scale4_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale4, 'bilinear')</l>
@@ -689,9 +691,9 @@
 <l>    gray_opening_rect (Imageemphasize, ImageOpening, 20, 20)</l>
 <c>    </c>
 <l>    median_image (ImageOpening, ImageMedian, 'square', 8, 'mirrored')</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="3">    find_ncc_model (ImageMedian, ModelID, rad(0), rad(360), 0.5, 1, 0, 'true', 0, Row, Column, Angle, Score)</l>
+<l as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="3">    *find_ncc_model (ImageMedian, ModelID, rad(0), rad(360), 0.5, 1, 0, 'true', 0, Row, Column, Angle, Score)</l>
 <l>    dev_display(ImageMapped)</l>
-<l>    dev_display_ncc_matching_results (ModelID, 'red', Row, Column, Angle, 0)</l>
+<l>    *dev_display_ncc_matching_results (ModelID, 'red', Row, Column, Angle, 0)</l>
 <c></c>
 <c>    </c>
 <c>    </c>
@@ -722,7 +724,7 @@
 <l>*     endfor</l>
 <c>    </c>
 <c>    </c>
-<c>    </c>
+<c>   </c>
 <c>    </c>
 <c>    </c>
 <l>*    get_deformable_model_contours (ModelContours, ModelID_1, 1)</l>
@@ -1672,7 +1674,7 @@
 <l>ScaleY := (ExtentY / HeightMappedImage)</l>
 <l>ScaleForEntireImage := min([ScaleX,ScaleY])</l>
 <l>*ScaleForEntireImage:=(ScaleX+ScaleY)/2</l>
-<l>ScaleForEntireImage:=0.0000364518</l>
+<l>*ScaleForEntireImage:=0.0000364518</l>
 <l>WidthRect := int((MaxX- MinX) / ScaleForEntireImage) </l>
 <l>HeightRect := int((MaxY- MinY) / ScaleForEntireImage) </l>
 <c></c>
