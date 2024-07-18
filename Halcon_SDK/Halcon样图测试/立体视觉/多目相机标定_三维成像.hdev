@@ -2003,8 +2003,9 @@
 <l>    All_ObjectModel3D:=ObjectModel3DDefect</l>
 <l>    copy_object_model_3d (ObjectModel3DDefect, 'all', All_ObjectModel3D_Offset)</l>
 <l>    moments_object_model_3d (ObjectModel3DDefect, 'principal_axes', Moments)</l>
-<l>    pose_to_hom_mat3d (Moments, HomMat3DStart)</l>
-<l>    HomMat3D_Global:=HomMat3DStart</l>
+<l>    *pose_to_hom_mat3d (Moments, HomMat3DStart)</l>
+<l>     hom_mat3d_identity (HomMat3DStart)</l>
+<l>    HomMat3D_Global:=[]</l>
 <l>    ImgNo:=ImgNo+1</l>
 <c>    </c>
 <c>    </c>
@@ -2029,8 +2030,9 @@
 <c>    </c>
 <c></c>
 <c>    *采集模型预配装</c>
+<c>    </c>
+<l>    register_object_model_3d_pair (ObjectModel3DDefect, Find_ObjectModel3D, 'icp', ['default_parameters'], ['accurate'], Pose, Score)</l>
 <l>    View_Model:=[ObjectModel3DDefect,Find_ObjectModel3D]</l>
-<l>    register_object_model_3d_pair (ObjectModel3DDefect, Find_ObjectModel3D, 'matching', ['default_parameters'], ['accurate'], Pose, Score)</l>
 <c>    * If registration failed, ignore this view</c>
 <l>    if (|Pose| == 0 or Score &lt; 0.8)</l>
 <l>        stop()</l>
@@ -2039,7 +2041,7 @@
 <l>    pose_to_hom_mat3d (Pose, HomMat3D)</l>
 <c>    *保存原模型</c>
 <l>    All_ObjectModel3D := [All_ObjectModel3D,ObjectModel3DDefect]</l>
-<l>    HomMat3D_Offsets := [HomMat3D_Offsets,HomMat3D]</l>
+<l>    HomMat3D_Offsets := [HomMat3D,HomMat3D_Offsets]</l>
 <c>    * Create 3D object model for visualization</c>
 <l>*     hom_mat3d_invert (HomMat3DStart, HomMat3DStart_Invert)</l>
 <l>     hom_mat3d_compose (HomMat3DStart, HomMat3D, HomMat3DCompose)</l>
@@ -2053,7 +2055,8 @@
 <c>    </c>
 <l>    All_ObjectModel3D_Offset := [ObjectModel3DAffineTrans,All_ObjectModel3D_Offset]</l>
 <c>    * Prepare next round</c>
-<l>    *Find_ObjectModel3D := ObjectModel3DDefect</l>
+<c>    </c>
+<l>    ObjectModel3DDefect:=Find_ObjectModel3D</l>
 <c>    </c>
 <c>    </c>
 <l>    wait_seconds (0.5)</l>
@@ -2071,9 +2074,13 @@
 <l>union_object_model_3d (All_ObjectModel3D_Offset, 'points_surface', ObjectModel3Dsmooth)</l>
 <c></c>
 <c></c>
-<l>* register_object_model_3d_global( All_ObjectModel3D_Offset ,HomMat3D_Offsets, 0,[], ['default_parameters'], ['accurate'], HomMat3DRefined, Score)</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>register_object_model_3d_global( All_ObjectModel3D ,HomMat3D_Global, 'previous',[], ['default_parameters'], ['accurate'], HomMat3DRefined, Score)</l>
 <c>* Apply results</c>
-<l>* affine_trans_object_model_3d (All_ObjectModel3D_Offset, HomMat3DRefined, GloballyRegisteredOM3s)</l>
+<l>affine_trans_object_model_3d (All_ObjectModel3D, HomMat3DRefined, GloballyRegisteredOM3s)</l>
 <c></c>
 <c></c>
 <l>* MinNumPoints := 2</l>
