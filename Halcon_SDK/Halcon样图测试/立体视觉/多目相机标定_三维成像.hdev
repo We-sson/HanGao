@@ -188,6 +188,27 @@
 <c></c>
 <l>read_shape_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.shm', ModelID)</l>
 <c></c>
+<c></c>
+<l>read_object_model_3d ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/三维测试零件.STEP', 'm', [], [], Def_ObjectModel3D, Status)</l>
+<c></c>
+<l>create_deformable_surface_model (Def_ObjectModel3D, 0.01, ['model_invert_normals','bending_max','stiffness'], [false,20,0.5], DeformableSurfaceModel)</l>
+<c></c>
+<c></c>
+<c>* 参考点必须位于物体表面。</c>
+<l>ReferencePointX := [-1.5, -8.571, -11.5, -11.5, -11.5] * 0.01</l>
+<l>ReferencePointY := [20, 0, 22.928, 49.155, 87.269] * 0.01</l>
+<l>ReferencePointZ := [2.0, 2.0, 2.0, 2.0, 2.0] * 0.01</l>
+<c></c>
+<c></c>
+<l>gen_object_model_3d_from_points (ReferencePointX, ReferencePointY, ReferencePointZ, ObjectModel3DReferencePoints)</l>
+<l>visualize_object_model_3d (WindowHandle3, [Def_ObjectModel3D,ObjectModel3DReferencePoints], [], [], ['color_1', 'point_size_1','disp_pose_0'], ['green', 10,'true'], [], [], [], PoseOut)</l>
+<c></c>
+<c></c>
+<c></c>
+<l>add_deformable_surface_model_reference_point (DeformableSurfaceModel, ReferencePointX, ReferencePointY, ReferencePointZ, ReferencePointIndex)</l>
+<c></c>
+<c></c>
+<c></c>
 <c>*已经标定开始运行</c>
 <l>read_calib_data ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd', CalibDataID)</l>
 <l>calibrate_cameras (CalibDataID, Errors)</l>
