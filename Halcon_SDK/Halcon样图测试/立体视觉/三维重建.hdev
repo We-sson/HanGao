@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.2" halcon_version="23.11.0.0">
+<hdevelop file_version="1.2" halcon_version="24.05.0.0">
 <procedure name="main">
 <interface/>
 <body>
@@ -72,8 +72,8 @@
 <c>   </c>
 <l>         read_image (Image_L, ImagesBackFiles[Index-1])</l>
 <l>         read_image (Image_R, ImagesFrontFiles[Index-1])</l>
-<l>         find_calib_object (Image_L, CalibDataID, 0, 0, Index, 'sigma', 1)</l>
-<l>         find_calib_object (Image_R, CalibDataID, 1, 0, Index, 'sigma', 1)</l>
+<l>         find_calib_object (Image_L, CalibDataID, 0, 0, Index, 'sigma', 2)</l>
+<l>         find_calib_object (Image_R, CalibDataID, 1, 0, Index, 'sigma', 2)</l>
 <l>        concat_obj (Image_L, Image_R, CalibImages)</l>
 <c>    </c>
 <l>    tile_images (CalibImages, TiledImage, 2, 'horizontal')</l>
@@ -134,7 +134,7 @@
 <c></c>
 <c></c>
 <c></c>
-<l>//</l>
+<c></c>
 <l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 0.5)</l>
 <c></c>
 <c>* </c>
@@ -163,8 +163,8 @@
 <c>* </c>
 <c>* Read the images and apply reconstruct_surface_stereo.</c>
 <l>*read_image (Images, '3d_machine_vision/multi_view/circuit_board_cam_' + [0:2])</l>
-<l> read_image (Image_L, 'C:/Users/zhiwei2.he/MVS/Data/Image_1.tif')</l>
-<l> read_image (Image_R, 'C:/Users/zhiwei2.he/MVS/Data/Image_2.tif')</l>
+<l> read_image (Image_L, 'C:/Users/zhiwei2.he/MVS/Data/L/1.tif')</l>
+<l> read_image (Image_R, 'C:/Users/zhiwei2.he/MVS/Data/R/1.tif')</l>
 <l> concat_obj (Image_L, Image_R, Images)</l>
 <l>tile_images (Images, TiledImage1, 2, 'horizontal')</l>
 <l>dev_clear_window ()</l>
@@ -188,7 +188,7 @@
 <l>tile_images (RectifiedImages, TiledRectifiedImages, 2, 'horizontal')</l>
 <l>get_image_size (TiledRectifiedImages, Width, Height)</l>
 <l>gen_empty_obj (EpipolarLines)</l>
-<l>for Row := 210 to 4024 by 100</l>
+<l>for Row := 210 to 4024 by 500</l>
 <l>    gen_contour_polygon_xld (Line, [Row,Row], [0,Width - 1])</l>
 <l>    concat_obj (EpipolarLines, Line, EpipolarLines)</l>
 <l>endfor</l>
