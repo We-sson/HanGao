@@ -191,9 +191,9 @@
 <c></c>
 <l>read_object_model_3d ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/三维测试零件.STEP', 'm', [], [], Def_ObjectModel3D, Status)</l>
 <c></c>
-<l>create_deformable_surface_model (Def_ObjectModel3D, 0.02, ['model_invert_normals','bending_max','stiffness','scale_min','scale_max'], [true,0,0.8,0.98,1.2], DeformableSurfaceModel)</l>
-<c>  </c>
-<l>create_surface_model (Def_ObjectModel3D, 0.02, ['model_invert_normals','train_3d_edges', 'train_view_based'], ['true','true', 'true'], SurfaceModel)</l>
+<l>create_deformable_surface_model (Def_ObjectModel3D, 0.01, ['model_invert_normals','bending_max','stiffness','scale_min','scale_max'], [true,50,0.5,0.98,1.2], DeformableSurfaceModel)</l>
+<c></c>
+<l>create_surface_model (Def_ObjectModel3D, 0.02, ['model_invert_normals','train_3d_edges', 'train_view_based','train_self_similar_poses'], ['true','true', 'true','true'], SurfaceModel)</l>
 <c></c>
 <c>* 参考点必须位于物体表面。</c>
 <l>ReferencePointX := [-1.5, -8.571, -11.5, -11.5, -11.5] * 0.001</l>
@@ -205,7 +205,7 @@
 <l>add_deformable_surface_model_reference_point (DeformableSurfaceModel, ReferencePointX, ReferencePointY, ReferencePointZ, ReferencePointIndex)</l>
 <c></c>
 <c></c>
-<l>*visualize_object_model_3d (WindowHandle3, [Def_ObjectModel3D,ObjectModel3DReferencePoints], [], [], ['color_1', 'point_size_1','disp_pose_0'], ['green', 10,'true'], [], [], [], PoseOut)</l>
+<l>* visualize_object_model_3d (WindowHandle3, [Def_ObjectModel3D,ObjectModel3DReferencePoints], [], [], ['color_1', 'point_size_1','disp_pose_0'], ['green', 10,'true'], [], [], [], PoseOut)</l>
 <c></c>
 <c></c>
 <c></c>
@@ -219,6 +219,7 @@
 <l>get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
 <l>get_camera_setup_param (CamSetupModel, 0, 'params', CamParamLeft)</l>
 <l>* get_camera_setup_param (CamSetupModel, 0, 'pose', Cam_Pos)</l>
+<l>get_camera_setup_param (CamSetupModel, 0, 'pose', CamSetupModel_Pos)</l>
 <c></c>
 <c>*获得标定板位置屏幕</c>
 <l>* get_calib_data (CalibDataID, 'calib_obj_pose', [0,1], 'pose', ReferencePose)</l>
@@ -371,7 +372,7 @@
 <l>* set_stereo_model_param (StereoModelID, 'surface_tolerance', 0.002)</l>
 <l>* set_stereo_model_param (StereoModelID, 'min_thickness', 0.01)</l>
 <c></c>
-<l>*  set_stereo_model_param (StereoModelID, 'smoothing', 0.01)</l>
+<l>* set_stereo_model_param (StereoModelID, 'smoothing', 0.01)</l>
 <c></c>
 <c>*binocular方法参数</c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_method', 'ncc')</l>
@@ -450,14 +451,17 @@
 <c>    </c>
 <l>*     Two_Eye_Camera (X, Y, Z, Image_2D, CamSetupModel, StereoModelID, Camera_R, Camera_L, Surface3DDefault, Info)</l>
 <l>*     Register_3DModel(X, Y, Z, Image_2D, CamSetupModel, StereoModelID, Camera_L, Camera_R,WindowHandle3, Surface3DDefault, Info)</l>
-<c></c>
-<c>  </c>
+<c>    </c>
+<c>    </c>
 <l>    compose3 (X, Y, Z, PXYZ_Image)</l>
 <c>    </c>
-<c></c>
 <c>    </c>
-<l>        visualize_object_model_3d (WindowHandle3, Surface3DDefault, [], [], 'color_attrib', 'red', [], [], [], VisPose)</l>
 <c>    </c>
+<l>    visualize_object_model_3d (WindowHandle3, Surface3DDefault, [], [], 'color_attrib', 'red', [], [], [], VisPose)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    max_diameter_object_model_3d (Surface3DDefault, Diameter)</l>
 <c>    *选择出最大区域得图像</c>
 <l>    connection_object_model_3d (Surface3DDefault, 'distance_3d',0.001, ObjectModel3DConnected)</l>
 <l>    get_object_model_3d_params (ObjectModel3DConnected, 'num_points', ObjectModel3DConnected_Num)</l>
@@ -504,60 +508,101 @@
 <l>*     object_model_3d_to_xyz (X1, Y1, Z1, OM3DSphereOnly_Plan, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
 <l>*     compose3 (X1, Y1, Z1, primitives_Image)</l>
 <c>    </c>
-<c></c>
+<c>    </c>
 <l>*     gen_box_object_model_3d ([0, 0, 0, 0, 0, 0, 0], 0.103, 0.082, 0.05, OM3DBox)</l>
-<l>* triangulate_object_model_3d (OM3DBox, 'greedy', [], [], OM3DModel, Information)</l>
-<c>* </c>
-<c>* Prepare a model for edge-supported surface-based matching.</c>
-<l>* FileName := 'box_edge_supported.sfm'</l>
-<l>* file_exists (FileName, FileExists)</l>
-<l>* if (not FileExists)</l>
+<l>*     triangulate_object_model_3d (OM3DBox, 'greedy', [], [], OM3DModel, Information)</l>
+<c>    * </c>
+<c>    * Prepare a model for edge-supported surface-based matching.</c>
+<l>*     FileName := 'box_edge_supported.sfm'</l>
+<l>*     file_exists (FileName, FileExists)</l>
+<l>*     if (not FileExists)</l>
 <l>*     dev_disp_text ('Creating new surface model. This might take some minutes...', 'window', 'top', 'left', 'black', [], [])</l>
 <l>*     create_surface_model (Def_ObjectModel3D, 0.02, ['train_3d_edges', 'train_view_based'], ['true', 'true'], SurfaceModel)</l>
 <l>*     write_surface_model (SurfaceModel, FileName)</l>
-<l>* else</l>
+<l>*     else</l>
 <l>*     dev_disp_text ('Reading pre-created surface model...', 'window', 'top', 'left', 'black', [], [])</l>
 <l>*     read_surface_model (FileName, SurfaceModel)</l>
-<l>* endif</l>
-<c>* </c>
-<l>* read_image (ImageXYZ, 'boxes/cardboard_boxes_xyz_01')</l>
-<l>* decompose3 (ImageXYZ, XScene, YScene, ZScene)</l>
-<l>* xyz_to_object_model_3d (XScene, YScene, ZScene, OM3DScene)</l>
-<l>* dev_clear_window ()</l>
-<l>* dev_display (ZScene)</l>
-<c>* </c>
-<l>* dev_disp_text ('Searching for model in the scene...', 'window', 'top', 'left', 'black', [], [])</l>
-<c>* </c>
-<c>* Call find_surface_model once, set ReturnResultHandle to 'true'.</c>
-<l>find_surface_model (SurfaceModel, Surface3DDefault, 0.05, 0.2, 0, 'true', [], [], Poses, Scores, ResultHandle)</l>
-<c>* </c>
-<l>* dev_clear_window ()</l>
-<l>* dev_display (ZScene)</l>
-<l>* dev_disp_text ('find_surface_model has completed. Next, the debug procedure will be started,\nwhich allows inspection and debugging of the parameters.', 'window', 'top', 'left', 'black', [], [])</l>
-<l>* dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
-<l>* stop ()</l>
-<c>* </c>
-<c>* Finally, call the debug procedure to inspect model and scene.</c>
-<l>debug_find_surface_model (SurfaceModel, Def_ObjectModel3D, Surface3DDefault, ResultHandle, CreateNames, CreateValues, FindNames, FindValues)</l>
+<l>*     endif</l>
+<c>    * </c>
+<l>*     read_image (ImageXYZ, 'boxes/cardboard_boxes_xyz_01')</l>
+<l>*     decompose3 (ImageXYZ, XScene, YScene, ZScene)</l>
+<l>*     xyz_to_object_model_3d (XScene, YScene, ZScene, OM3DScene)</l>
+<l>*     dev_clear_window ()</l>
+<l>*     dev_display (ZScene)</l>
+<c>    * </c>
+<l>*     dev_disp_text ('Searching for model in the scene...', 'window', 'top', 'left', 'black', [], [])</l>
+<c>    * </c>
+<c>    * Call find_surface_model once, set ReturnResultHandle to 'true'.</c>
+<c></c>
+<c>    </c>
+<l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.04, 0.5, 0.3, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel'], [2,1,'mls',0.001], Poses, Scores, ResultHandle)</l>
+<l>    refine_surface_model_pose (SurfaceModel, Surface3DDefault, Poses, 0, 'true', [], [], Pose, Score1, SurfaceMatchingResultID)</l>
+<c>        </c>
+<c>     </c>
+<l>     ObjectModel3DResult := []</l>
+<l>    for Index2 := 0 to |Scores| - 1 by 1</l>
+<l>        if (Scores[Index2] &lt; 0.11)</l>
+<l>            continue</l>
+<l>        endif</l>
+<l>        CPose := Pose[Index2 * 7:Index2 * 7 + 6]</l>
+<c>        * </c>
+<c>        </c>
+<c>        </c>
+<c>      </c>
+<l>        rigid_trans_object_model_3d (Def_ObjectModel3D, CPose, ObjectModel3DRigidTrans)</l>
+<c>        </c>
+<c>            </c>
+<c>      </c>
+<l>        ObjectModel3DResult := [ObjectModel3DResult,ObjectModel3DRigidTrans]</l>
+<l>    endfor</l>
+<c>    </c>
+<l>*     rigid_trans_object_model_3d (Def_ObjectModel3D, Poses, ObjectModel3DRigidTrans)</l>
+<c>    </c>
+<c>    </c>
+<l>    get_surface_matching_result (ResultHandle, 'sampled_scene', [], sampled_scene)</l>
+<l>    get_surface_matching_result (ResultHandle, 'key_points', [], key_points)</l>
+<l>    get_surface_matching_result (ResultHandle, 'sampled_3d_edges', [], sampled_3d_edges)</l>
+<l>    get_surface_matching_result (ResultHandle, 'all_scores', [0], all_scores)</l>
+<c>    </c>
+<c>    </c>
+<l>      object_model_3d_to_xyz (Re_X, Re_Y, Re_Z, ObjectModel3DResult, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
+<c>    </c>
+<c> </c>
+<c>      </c>
+<c>    </c>
+<l>    visualize_object_model_3d (WindowHandle3, [Surface3DDefault,sampled_scene,key_points,sampled_3d_edges,ObjectModel3DResult], [], [], ['alpha', 'color_0','color_1'],  [0.55, 'blue','red'], [], [], [], PoseOut)</l>
+<c>    </c>
+<c>    * </c>
+<l>*     dev_clear_window ()</l>
+<l>*     dev_display (ZScene)</l>
+<l>*     dev_disp_text ('find_surface_model has completed. Next, the debug procedure will be started,\nwhich allows inspection and debugging of the parameters.', 'window', 'top', 'left', 'black', [], [])</l>
+<l>*     dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
+<l>*     stop ()</l>
+<c>    * </c>
+<c>    * Finally, call the debug procedure to inspect model and scene.</c>
+<l>    debug_find_surface_model (SurfaceModel, Def_ObjectModel3D, Surface3DDefault, ResultHandle, CreateNames, CreateValues, FindNames, FindValues)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
-<c>  </c>
+<c>    </c>
 <c>    </c>
 <c>    </c>
 <l>    find_deformable_surface_model (DeformableSurfaceModel, ObjectModel3DDefect, 0.04, 0, ['pose_ref_num_steps'], [80], Score, DeformableSurfaceMatchingResult)</l>
 <l>    get_deformable_surface_matching_result (DeformableSurfaceMatchingResult, 'deformed_model', 0, ResultValue)</l>
 <c>    </c>
-<l>    object_model_3d_to_xyz (X_Re, Y_Re, Z_Re, ResultValue, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
+<l>     object_model_3d_to_xyz (X_Re, Y_Re, Z_Re, ResultValue, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
 <c>    </c>
 <c>    </c>
-<l>    compose3 (X_Re, Y_Re, Z_Re, Re_Image)</l>
+<c>     </c>
+<c>     </c>
+<c>     </c>
+<l>    compose3 (Re_X, Re_Y, Re_Z, Re_Image)</l>
 <l>    dev_display (Image_2D)</l>
 <l>    dev_display (Re_Image)</l>
 <c>    </c>
 <c>    </c>
-<l>    View:=[Surface3DDefault,ResultValue]</l>
-<l>*     visualize_object_model_3d (WindowHandle3, [Surface3DDefault,ResultValue], [], [], ['alpha_1', 'color_0'],  [0.55, 'blue'], [], [], [], PoseOut)</l>
+<l>     View:=[Surface3DDefault,ResultValue]</l>
+<l>     visualize_object_model_3d (WindowHandle3, [Surface3DDefault,ResultValue], [], [], ['alpha_1', 'color_0'],  [0.55, 'blue'], [], [], [], PoseOut)</l>
 <c>    </c>
 <l>    ParamName := ['color_0', 'color_1','disp_pose']</l>
 <l>    ParamValue := ['red', 'green','false']</l>
@@ -2485,7 +2530,7 @@
 <c>        </c>
 <l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
 <l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'ExposureTime', 5000.0)</l>
+<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'ExposureTime', 8000.0)</l>
 <l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'Gain', 19)</l>
 <l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
 <l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'StrobeEnable', 0)</l>
@@ -2497,7 +2542,7 @@
 <c>        </c>
 <l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
 <l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'ExposureTime', 8000.0)</l>
+<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'ExposureTime', 10000.0)</l>
 <l>        par_start &lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'Gain', 19)</l>
 <l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
 <l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'StrobeEnable', 1)</l>
@@ -2549,27 +2594,6 @@
 <c></c>
 <c></c>
 <c></c>
-<c></c>
-<c></c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 60)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',60)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.3)</l>
-<c></c>
-<l>reconstruct_surface_stereo (Images_1, StereoModelID, ObjectModel3DScene_2)</l>
-<c></c>
-<c></c>
-<c></c>
-<l>get_stereo_model_object (ToImage_1, StereoModelID, [0, 1], 'to_image_rect')</l>
-<l>get_stereo_model_object (FromImage_1, StereoModelID, [0, 1], 'from_image_rect')</l>
-<l>get_stereo_model_object (DisparityImage_1, StereoModelID, [0, 1], 'disparity_image')</l>
-<l>get_stereo_model_object (scoreImage_1, StereoModelID, [0, 1], 'score_image')</l>
-<c></c>
-<c></c>
-<c></c>
-<c></c>
-<l>* wait_seconds(0.1)</l>
-<c>* </c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 30)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',30)</l>
@@ -2580,6 +2604,26 @@
 <l>get_stereo_model_object (DisparityImage, StereoModelID, [0, 1], 'disparity_image')</l>
 <l>get_stereo_model_object (scoreImage, StereoModelID, [0, 1], 'score_image')</l>
 <c></c>
+<c></c>
+<l>* wait_seconds(0.1)</l>
+<c></c>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 60)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',60)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.3)</l>
+<l>reconstruct_surface_stereo (Images_1, StereoModelID, ObjectModel3DScene_2)</l>
+<l>get_stereo_model_object (ToImage_1, StereoModelID, [0, 1], 'to_image_rect')</l>
+<l>get_stereo_model_object (FromImage_1, StereoModelID, [0, 1], 'from_image_rect')</l>
+<l>get_stereo_model_object (DisparityImage_1, StereoModelID, [0, 1], 'disparity_image')</l>
+<l>get_stereo_model_object (scoreImage_1, StereoModelID, [0, 1], 'score_image')</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c>* </c>
+<c></c>
+<c></c>
 <l>* par_join([Surface,GetImage])</l>
 <c></c>
 <l>wait_seconds(0.0)</l>
@@ -2587,7 +2631,7 @@
 <l>View_Unio:=[ObjectModel3DScene_2,ObjectModel3DScene_1]</l>
 <c></c>
 <c></c>
-<c></c>
+<l>Image_2D:=Front</l>
 <c></c>
 <c>* Perform the stereo reconstruction.</c>
 <c>* 执行立体重建。</c>
@@ -2811,7 +2855,7 @@
 <c></c>
 <c></c>
 <l>ParameterNames := ['information','greedy_kNN','greedy_radius_type','greedy_radius_value','greedy_neigh_orient_tol','greedy_neigh_orient_consistent','greedy_neigh_latitude_tol','greedy_neigh_vertical_tol','greedy_hole_filling','greedy_fix_flips','greedy_prefetch_neighbors','greedy_mesh_erosion','greedy_mesh_dilation']</l>
-<l>ParameterValues := ['verbose',35,'fixed',0.0025,200,'false',100,0.1,10000000,'true','true',4,0]</l>
+<l>ParameterValues := ['verbose',35,'fixed',0.0025,200,'false',100,0.1,1000000000,'true','true',4,0]</l>
 <c></c>
 <c>*三角化预生产，减少计算时间</c>
 <l>prepare_object_model_3d (ObjectModel3Dsmooth, 'segmentation', 'true', ['max_area_holes'], [10000])</l>
