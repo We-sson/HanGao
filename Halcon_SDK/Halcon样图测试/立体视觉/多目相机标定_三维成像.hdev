@@ -191,9 +191,12 @@
 <c></c>
 <l>read_object_model_3d ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/三维测试零件.STEP', 'm', [], [], Def_ObjectModel3D, Status)</l>
 <c></c>
-<l>create_deformable_surface_model (Def_ObjectModel3D, 0.01, ['model_invert_normals','bending_max','stiffness','scale_min','scale_max'], [true,50,0.5,0.98,1.2], DeformableSurfaceModel)</l>
+<l>surface_normals_object_model_3d (Def_ObjectModel3D, 'mls', [], [], Def_ObjectModel3D)</l>
 <c></c>
-<l>create_surface_model (Def_ObjectModel3D, 0.02, ['model_invert_normals','train_3d_edges', 'train_view_based','train_self_similar_poses'], ['true','true', 'true','true'], SurfaceModel)</l>
+<c></c>
+<l>create_deformable_surface_model (Def_ObjectModel3D, 0.01, ['model_invert_normals','bending_max','stiffness','scale_min','scale_max'], [true,0,1,0.98,1.2], DeformableSurfaceModel)</l>
+<c></c>
+<l>create_surface_model (Def_ObjectModel3D, 0.02, ['model_invert_normals','train_3d_edges', 'train_view_based','train_self_similar_poses'], ['true','false', 'true','true'], SurfaceModel)</l>
 <c></c>
 <c>* 参考点必须位于物体表面。</c>
 <l>ReferencePointX := [-1.5, -8.571, -11.5, -11.5, -11.5] * 0.001</l>
@@ -534,8 +537,15 @@
 <c>    * </c>
 <c>    * Call find_surface_model once, set ReturnResultHandle to 'true'.</c>
 <c></c>
+<l>get_object_model_3d_params (Surface3DDefault, 'diameter_axis_aligned_bounding_box', Diameter)</l>
+<l>edges_object_model_3d (Surface3DDefault, 0.01 * Diameter, ['max_gap'], [30], ObjectModel3DEdges)</l>
+<c>  </c>
 <c>    </c>
-<l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.04, 0.5, 0.3, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel'], [2,1,'mls',0.001], Poses, Scores, ResultHandle)</l>
+<c></c>
+<c></c>
+<c>    </c>
+<l>    write_object_model_3d (Surface3DDefault, 'ply', 'C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/采集点云.ply', [], [])</l>
+<l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.02, 0.5, 0, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel'], [2,1,'mls',0.01], Poses, Scores, ResultHandle)</l>
 <l>    refine_surface_model_pose (SurfaceModel, Surface3DDefault, Poses, 0, 'true', [], [], Pose, Score1, SurfaceMatchingResultID)</l>
 <c>        </c>
 <c>     </c>
@@ -568,7 +578,7 @@
 <l>      object_model_3d_to_xyz (Re_X, Re_Y, Re_Z, ObjectModel3DResult, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
 <c>    </c>
 <c> </c>
-<c>      </c>
+<l>      VV:=[Surface3DDefault,sampled_scene,key_points,sampled_3d_edges,ObjectModel3DResult]</l>
 <c>    </c>
 <l>    visualize_object_model_3d (WindowHandle3, [Surface3DDefault,sampled_scene,key_points,sampled_3d_edges,ObjectModel3DResult], [], [], ['alpha', 'color_0','color_1'],  [0.55, 'blue','red'], [], [], [], PoseOut)</l>
 <c>    </c>
@@ -587,8 +597,9 @@
 <c>    </c>
 <c>    </c>
 <c>    </c>
-<l>    find_deformable_surface_model (DeformableSurfaceModel, ObjectModel3DDefect, 0.04, 0, ['pose_ref_num_steps'], [80], Score, DeformableSurfaceMatchingResult)</l>
+<l>    find_deformable_surface_model (DeformableSurfaceModel, ObjectModel3DDefect, 0.04, 0, ['pose_ref_num_steps'], [20], Score, DeformableSurfaceMatchingResult)</l>
 <l>    get_deformable_surface_matching_result (DeformableSurfaceMatchingResult, 'deformed_model', 0, ResultValue)</l>
+<l>    get_deformable_surface_matching_result (DeformableSurfaceMatchingResult, 'deformed_sampled_model', 0, deformed_sampled_model)</l>
 <c>    </c>
 <l>     object_model_3d_to_xyz (X_Re, Y_Re, Z_Re, ResultValue, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
 <c>    </c>
@@ -2487,80 +2498,80 @@
 <l>    convert_image_type (ImageScaled, ImageFront, 'byte')</l>
 <l>else</l>
 <c>    </c>
-<c>  </c>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'ExposureTime', 8000.0)</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'Gain', 19)</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
-<c>        </c>
-<c>        </c>
-<l>*         par_start &lt;Thread_L&gt; : grab_image_async (ImageFront, Camera_L, -1)</l>
-<c>        </c>
-<l>        par_start &lt;Thread_L&gt; :  wait_seconds(0.0)</l>
-<l>        par_start &lt;Thread_L&gt; :  grab_image (ImageFront, Camera_L)</l>
-<l>        par_start &lt;Thread_L&gt; :  wait_seconds(0.0)</l>
-<l>*         par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
-<l>*         par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
-<c>        </c>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'ExposureTime', 40000.0)</l>
-<l>        par_start &lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'Gain', 19)</l>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
-<c>        </c>
-<c>        </c>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'StrobeEnable', 0)</l>
-<c>        </c>
-<c>        </c>
-<c>        </c>
-<c>        </c>
-<c>        </c>
-<l>        par_start &lt;Thread_R&gt; :  wait_seconds(0.0)</l>
-<l>*         par_start&lt;Thread_R&gt; :  grab_image_async (ImageBack, Camera_R, -1)</l>
-<l>        par_start&lt;Thread_R&gt; : grab_image (ImageBack, Camera_R)</l>
-<l>        par_start &lt;Thread_R&gt; :  wait_seconds(0.0)</l>
-<c>        </c>
-<c>        </c>
-<l>        par_join([Thread_L,Thread_R])</l>
-<c>        </c>
-<c>        </c>
-<l>        wait_seconds(2)</l>
-<c>        </c>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'ExposureTime', 8000.0)</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'Gain', 19)</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
-<l>        par_start &lt;Thread_L&gt; :  set_framegrabber_param (Camera_L, 'StrobeEnable', 0)</l>
-<l>        par_start &lt;Thread_L&gt; :  wait_seconds(0.0)</l>
-<l>        par_start &lt;Thread_L&gt; :  grab_image (ImageFront_1, Camera_L)</l>
-<c>        </c>
-<l>*         par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
-<l>*         par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
-<c>        </c>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'ExposureTime', 10000.0)</l>
-<l>        par_start &lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'Gain', 19)</l>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
-<l>        par_start&lt;Thread_R&gt; :  set_framegrabber_param (Camera_R, 'StrobeEnable', 1)</l>
-<c>        </c>
-<c>        </c>
-<c>        </c>
-<l>        par_start &lt;Thread_R&gt; :  wait_seconds(0.0)</l>
-<l>        par_start&lt;Thread_R&gt; : grab_image (ImageBack_1, Camera_R)</l>
-<c>        </c>
-<c>        </c>
-<c>        </c>
-<l>        par_join([Thread_R,Thread_L])</l>
-<c>        </c>
-<c>        </c>
-<c>        </c>
-<l>*         wait_seconds (2)</l>
-<c>        </c>
-<c> </c>
+<c>    </c>
+<l>    set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
+<l>    set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 8000.0)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gain', 19)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
+<l>    set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
+<c>    </c>
+<c>    </c>
+<l>*     par_start &lt;Thread_L&gt; : grab_image_async (ImageFront, Camera_L, -1)</l>
+<c>    </c>
+<l>    wait_seconds(0.0)</l>
+<l>    par_start &lt;Thread_L&gt; :  grab_image (ImageFront, Camera_L)</l>
+<l>    wait_seconds(0.0)</l>
+<l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
+<l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
+<c>    </c>
+<l>    set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
+<l>    set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
+<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 40000.0)</l>
+<l>    set_framegrabber_param (Camera_R, 'Gain', 19)</l>
+<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
+<c>    </c>
+<c>    </c>
+<l>    set_framegrabber_param (Camera_R, 'StrobeEnable', 0)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    wait_seconds(0.0)</l>
+<l>*     par_start&lt;Thread_R&gt; :  grab_image_async (ImageBack, Camera_R, -1)</l>
+<l>    par_start&lt;Thread_R&gt; : grab_image (ImageBack, Camera_R)</l>
+<l>    wait_seconds(0.0)</l>
+<c>    </c>
+<c>    </c>
+<l>    par_join([Thread_L,Thread_R])</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
+<l>    set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 8000.0)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gain', 19)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
+<l>    set_framegrabber_param (Camera_L, 'StrobeEnable', 0)</l>
+<l>    wait_seconds(0.0)</l>
+<l>    par_start &lt;Thread_L&gt; :  grab_image (ImageFront_1, Camera_L)</l>
+<c>    </c>
+<l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
+<l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
+<c>    </c>
+<l>    set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
+<l>    set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
+<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 10000.0)</l>
+<l>    set_framegrabber_param (Camera_R, 'Gain', 19)</l>
+<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
+<l>    set_framegrabber_param (Camera_R, 'StrobeEnable', 1)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    wait_seconds(0.0)</l>
+<l>    par_start&lt;Thread_R&gt; : grab_image (ImageBack_1, Camera_R)</l>
+<c>    </c>
+<l>    wait_seconds(2)</l>
+<c>    </c>
+<l>    par_join([Thread_R,Thread_L])</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>*     wait_seconds (2)</l>
+<c>    </c>
+<c>    </c>
 <c>    </c>
 <l>endif</l>
 <c></c>
@@ -2628,7 +2639,7 @@
 <c></c>
 <l>wait_seconds(0.0)</l>
 <c></c>
-<l>View_Unio:=[ObjectModel3DScene_2,ObjectModel3DScene_1]</l>
+<l>View_Unio:=[ObjectModel3DScene_1,ObjectModel3DScene_2]</l>
 <c></c>
 <c></c>
 <l>Image_2D:=Front</l>
@@ -2887,7 +2898,7 @@
 <l>* compose3 (X_O_Zoom, Y_O_Zoom, Z_O_Zoom, XYZ_Zoom)</l>
 <c></c>
 <c></c>
-<l> compose3 (X, Y, Z, XYZImage)</l>
+<l>compose3 (X, Y, Z, XYZImage)</l>
 <c></c>
 <c></c>
 <l>* erosion_circle (X,X_1 , 30)</l>
@@ -2907,7 +2918,12 @@
 <c></c>
 <l>* get_domain (Z, Domain)</l>
 <c></c>
-<c></c>
+<c>*设置点云颜色</c>
+<l>get_domain (Z, Domain)</l>
+<l>get_region_points (Domain, Rows, Columns)</l>
+<l>get_grayval (Image_2D, Rows, Columns, AttribValues)</l>
+<c>* Set the gray values as attributes of the 3D object model.</c>
+<l>set_object_model_3d_attrib_mod (Surface3DDefault, '&amp;gray', 'points', AttribValues)</l>
 <c></c>
 <c></c>
 <c></c>
