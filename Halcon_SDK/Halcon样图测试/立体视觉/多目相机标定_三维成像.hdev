@@ -184,19 +184,19 @@
 <l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
 <c></c>
 <l>read_deformable_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.dfm', ModelID_1)</l>
-<l>read_ncc_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.ncm', ModelID)</l>
+<l>* read_ncc_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.ncm', ModelID)</l>
 <c></c>
 <l>read_shape_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.shm', ModelID)</l>
 <c></c>
 <c></c>
-<l>read_object_model_3d ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/三维测试零件.STEP', 'm', [], [], Def_ObjectModel3D, Status)</l>
+<l>read_object_model_3d ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/三维测试零件.STEP', 'm', [], [], Def_ObjectModel3D_1, Status)</l>
 <c></c>
-<l>surface_normals_object_model_3d (Def_ObjectModel3D, 'mls', [], [], Def_ObjectModel3D)</l>
+<l>surface_normals_object_model_3d (Def_ObjectModel3D_1, 'mls', [], [], Def_ObjectModel3D)</l>
 <c></c>
 <c></c>
 <l>create_deformable_surface_model (Def_ObjectModel3D, 0.01, ['model_invert_normals','bending_max','stiffness','scale_min','scale_max'], [true,0,1,0.98,1.2], DeformableSurfaceModel)</l>
 <c></c>
-<l>create_surface_model (Def_ObjectModel3D, 0.02, ['model_invert_normals','train_3d_edges', 'train_view_based','train_self_similar_poses'], ['true','false', 'true','true'], SurfaceModel)</l>
+<l>create_surface_model (Def_ObjectModel3D, 0.02, ['model_invert_normals','train_3d_edges', 'train_view_based','train_self_similar_poses'], ['true','true', 'true','true'], SurfaceModel)</l>
 <c></c>
 <c>* 参考点必须位于物体表面。</c>
 <l>ReferencePointX := [-1.5, -8.571, -11.5, -11.5, -11.5] * 0.001</l>
@@ -212,7 +212,7 @@
 <c></c>
 <c></c>
 <c></c>
-<c></c>
+<l>stop()</l>
 <c></c>
 <c>*已经标定开始运行</c>
 <l>read_calib_data ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd', CalibDataID)</l>
@@ -246,7 +246,7 @@
 <c></c>
 <c>* Set the stereo parameters.</c>
 <c>*设置重建盒子范围大小</c>
-<l>BoundingBox := [-0.4, -0.4, 0.28, 0.4, 0.4, 0.325]</l>
+<l>BoundingBox := [-0.4, -0.4, 0.22, 0.4, 0.4, 0.325]</l>
 <c></c>
 <c>*指定用于表面立体重建的图像对</c>
 <l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
@@ -460,7 +460,7 @@
 <c>    </c>
 <c>    </c>
 <c>    </c>
-<l>    visualize_object_model_3d (WindowHandle3, Surface3DDefault, [], [], 'color_attrib', 'red', [], [], [], VisPose)</l>
+<l>    visualize_object_model_3d (WindowHandle3, Surface3DDefault, [], [], 'color_attrib', '&amp;gray', [], [], [], VisPose)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
@@ -537,15 +537,19 @@
 <c>    * </c>
 <c>    * Call find_surface_model once, set ReturnResultHandle to 'true'.</c>
 <c></c>
-<l>get_object_model_3d_params (Surface3DDefault, 'diameter_axis_aligned_bounding_box', Diameter)</l>
-<l>edges_object_model_3d (Surface3DDefault, 0.01 * Diameter, ['max_gap'], [30], ObjectModel3DEdges)</l>
+<c>    </c>
+<l>    sample_object_model_3d (Surface3DDefault, 'xyz_mapping', 0.001, [], [], SampledObjectModel3D)</l>
+<c>    </c>
+<c>    </c>
+<l>get_object_model_3d_params (SampledObjectModel3D, 'diameter_axis_aligned_bounding_box', Diameter)</l>
+<l>edges_object_model_3d (Surface3DDefault, 0.01 * Diameter, ['max_gap'], [300], ObjectModel3DEdges)</l>
 <c>  </c>
 <c>    </c>
 <c></c>
 <c></c>
 <c>    </c>
-<l>    write_object_model_3d (Surface3DDefault, 'ply', 'C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/采集点云.ply', [], [])</l>
-<l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.02, 0.5, 0, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel'], [2,1,'mls',0.01], Poses, Scores, ResultHandle)</l>
+<l>    write_object_model_3d (Surface3DDefault, 'om3', 'C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/采集点云', [], [])</l>
+<l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.02, 0.2, 0.3, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel','max_gap'], [10,1,'mls',0.01,300], Poses, Scores, ResultHandle)</l>
 <l>    refine_surface_model_pose (SurfaceModel, Surface3DDefault, Poses, 0, 'true', [], [], Pose, Score1, SurfaceMatchingResultID)</l>
 <c>        </c>
 <c>     </c>
@@ -597,11 +601,11 @@
 <c>    </c>
 <c>    </c>
 <c>    </c>
-<l>    find_deformable_surface_model (DeformableSurfaceModel, ObjectModel3DDefect, 0.04, 0, ['pose_ref_num_steps'], [20], Score, DeformableSurfaceMatchingResult)</l>
-<l>    get_deformable_surface_matching_result (DeformableSurfaceMatchingResult, 'deformed_model', 0, ResultValue)</l>
-<l>    get_deformable_surface_matching_result (DeformableSurfaceMatchingResult, 'deformed_sampled_model', 0, deformed_sampled_model)</l>
+<l>*     find_deformable_surface_model (DeformableSurfaceModel, ObjectModel3DDefect, 0.08, 0, ['pose_ref_num_steps'], [10], Score, DeformableSurfaceMatchingResult)</l>
+<l>*     get_deformable_surface_matching_result (DeformableSurfaceMatchingResult, 'deformed_model', 0, ResultValue)</l>
+<l>*     get_deformable_surface_matching_result (DeformableSurfaceMatchingResult, 'deformed_sampled_model', 0, deformed_sampled_model)</l>
 <c>    </c>
-<l>     object_model_3d_to_xyz (X_Re, Y_Re, Z_Re, ResultValue, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
+<l>*      object_model_3d_to_xyz (X_Re, Y_Re, Z_Re, ResultValue, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
 <c>    </c>
 <c>    </c>
 <c>     </c>
@@ -612,8 +616,8 @@
 <l>    dev_display (Re_Image)</l>
 <c>    </c>
 <c>    </c>
-<l>     View:=[Surface3DDefault,ResultValue]</l>
-<l>     visualize_object_model_3d (WindowHandle3, [Surface3DDefault,ResultValue], [], [], ['alpha_1', 'color_0'],  [0.55, 'blue'], [], [], [], PoseOut)</l>
+<l>*      View:=[Surface3DDefault,ResultValue]</l>
+<l>*      visualize_object_model_3d (WindowHandle3, [Surface3DDefault,ResultValue], [], [], ['alpha_1', 'color_0'],  [0.55, 'blue'], [], [], [], PoseOut)</l>
 <c>    </c>
 <l>    ParamName := ['color_0', 'color_1','disp_pose']</l>
 <l>    ParamValue := ['red', 'green','false']</l>
@@ -2534,14 +2538,14 @@
 <l>    wait_seconds(0.0)</l>
 <c>    </c>
 <c>    </c>
-<l>    par_join([Thread_L,Thread_R])</l>
+<l>    par_join([Thread_R,Thread_L])</l>
 <c>    </c>
 <c>    </c>
-<c>    </c>
+<l>      wait_seconds(0.5)</l>
 <c>    </c>
 <l>    set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
 <l>    set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 8000.0)</l>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 50000.0)</l>
 <l>    set_framegrabber_param (Camera_L, 'Gain', 19)</l>
 <l>    set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
 <l>    set_framegrabber_param (Camera_L, 'StrobeEnable', 0)</l>
@@ -2553,7 +2557,7 @@
 <c>    </c>
 <l>    set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
 <l>    set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 10000.0)</l>
+<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 20000.0)</l>
 <l>    set_framegrabber_param (Camera_R, 'Gain', 19)</l>
 <l>    set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
 <l>    set_framegrabber_param (Camera_R, 'StrobeEnable', 1)</l>
@@ -2563,7 +2567,7 @@
 <l>    wait_seconds(0.0)</l>
 <l>    par_start&lt;Thread_R&gt; : grab_image (ImageBack_1, Camera_R)</l>
 <c>    </c>
-<l>    wait_seconds(2)</l>
+<c>  </c>
 <c>    </c>
 <l>    par_join([Thread_R,Thread_L])</l>
 <c>    </c>
@@ -2869,7 +2873,7 @@
 <l>ParameterValues := ['verbose',35,'fixed',0.0025,200,'false',100,0.1,1000000000,'true','true',4,0]</l>
 <c></c>
 <c>*三角化预生产，减少计算时间</c>
-<l>prepare_object_model_3d (ObjectModel3Dsmooth, 'segmentation', 'true', ['max_area_holes'], [10000])</l>
+<l>prepare_object_model_3d (ObjectModel3Dsmooth, 'segmentation', 'true', ['max_area_holes'], [1000000])</l>
 <c>*测量三角化计算</c>
 <l>triangulate_object_model_3d (ObjectModel3Dsmooth, 'greedy', ParameterNames , ParameterValues, Surface3DDefault, Info)</l>
 <c></c>
@@ -2919,10 +2923,14 @@
 <l>* get_domain (Z, Domain)</l>
 <c></c>
 <c>*设置点云颜色</c>
-<l>get_domain (Z, Domain)</l>
+<l>object_model_3d_to_xyz (I_X, I_Y, I_Z, Surface3DDefault, 'from_xyz_map', [], [])</l>
+<l>get_image_size (I_X, Width, Height)</l>
+<l>zoom_image_size (FromImage, ImageZoom, Width, Height, 'weighted')</l>
+<l>get_domain (I_Z, Domain)</l>
 <l>get_region_points (Domain, Rows, Columns)</l>
-<l>get_grayval (Image_2D, Rows, Columns, AttribValues)</l>
+<l>get_grayval (ImageZoom, Rows, Columns, AttribValues)</l>
 <c>* Set the gray values as attributes of the 3D object model.</c>
+<l>remove_object_model_3d_attrib (Surface3DDefault, ['red','green','blue'], Surface3DDefault)</l>
 <l>set_object_model_3d_attrib_mod (Surface3DDefault, '&amp;gray', 'points', AttribValues)</l>
 <c></c>
 <c></c>
