@@ -2472,8 +2472,13 @@
 <l>grab_image_start (Camera_L, -1)</l>
 <c></c>
 <c></c>
-<c></c>
-<c></c>
+<l>    set_framegrabber_param (Camera_R, 'TriggerMode', 'On')</l>
+<l>    set_framegrabber_param (Camera_R, 'TriggerSource', 'Line0')</l>
+<l>    set_framegrabber_param (Camera_R, 'TriggerActivation', 'RisingEdge')</l>
+<l>    set_framegrabber_param (Camera_R, 'TriggerCacheEnable', 1)</l>
+<l>  set_framegrabber_param (Camera_L, 'LineSelector', 'Line2')</l>
+<l>  set_framegrabber_param (Camera_L, 'LineMode','Strobe')</l>
+<l>  set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
 <l>Image_HDR:=0</l>
 <c></c>
 <l>if (Image_HDR)</l>
@@ -2502,46 +2507,60 @@
 <l>    convert_image_type (ImageScaled, ImageFront, 'byte')</l>
 <l>else</l>
 <c>    </c>
+<c></c>
+<c>        </c>
+<l>    while (1)</l>
+<c>        </c>
+<c></c>
+<c>    </c>
 <c>    </c>
 <l>    set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
+<l>   set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
+<c>   </c>
 <l>    set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 8000.0)</l>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 58000.0)</l>
 <l>    set_framegrabber_param (Camera_L, 'Gain', 19)</l>
 <l>    set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
-<l>    set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
-<c>    </c>
-<c>    </c>
+<c>        </c>
+<c></c>
+<c>  </c>
+<c>  </c>
+<c>      </c>
 <l>*     par_start &lt;Thread_L&gt; : grab_image_async (ImageFront, Camera_L, -1)</l>
 <c>    </c>
 <l>    wait_seconds(0.0)</l>
-<l>    par_start &lt;Thread_L&gt; :  grab_image (ImageFront, Camera_L)</l>
+<l>    * grab_image (ImageFront, Camera_L)</l>
+<l>  *  par_start &lt;Thread_L&gt; :   grab_image_async (ImageFront, Camera_L, -1)</l>
 <l>    wait_seconds(0.0)</l>
 <l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
 <l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
 <c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
 <l>    set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
+<l>     set_framegrabber_param (Camera_R, 'StrobeEnable', 0)</l>
 <l>    set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
 <l>    set_framegrabber_param (Camera_R, 'ExposureTime', 40000.0)</l>
 <l>    set_framegrabber_param (Camera_R, 'Gain', 19)</l>
 <l>    set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
+<c>   </c>
+<c>    </c>
+<c></c>
 <c>    </c>
 <c>    </c>
-<l>    set_framegrabber_param (Camera_R, 'StrobeEnable', 0)</l>
+<c></c>
+<l>    grab_image (ImageFront, Camera_L)</l>
+<l>    grab_image_async (ImageBack, Camera_R, -1)</l>
+<l>   * par_start&lt;Thread_R&gt; : grab_image (ImageBack, Camera_R)</l>
+<l>   * wait_seconds(0.5)</l>
+<c>   </c>
+<l>   * par_join([Thread_R,Thread_L])</l>
 <c>    </c>
 <c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>    wait_seconds(0.0)</l>
-<l>*     par_start&lt;Thread_R&gt; :  grab_image_async (ImageBack, Camera_R, -1)</l>
-<l>    par_start&lt;Thread_R&gt; : grab_image (ImageBack, Camera_R)</l>
-<l>    wait_seconds(0.0)</l>
-<c>    </c>
-<c>    </c>
-<l>    par_join([Thread_R,Thread_L])</l>
-<c>    </c>
-<c>    </c>
-<l>      wait_seconds(0.5)</l>
+<l>    *  wait_seconds(0)</l>
 <c>    </c>
 <l>    set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
 <l>    set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
@@ -2550,32 +2569,33 @@
 <l>    set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
 <l>    set_framegrabber_param (Camera_L, 'StrobeEnable', 0)</l>
 <l>    wait_seconds(0.0)</l>
-<l>    par_start &lt;Thread_L&gt; :  grab_image (ImageFront_1, Camera_L)</l>
+<c>   </c>
 <c>    </c>
 <l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
 <l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
 <c>    </c>
 <l>    set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
 <l>    set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 20000.0)</l>
+<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 50000.0)</l>
 <l>    set_framegrabber_param (Camera_R, 'Gain', 19)</l>
 <l>    set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
 <l>    set_framegrabber_param (Camera_R, 'StrobeEnable', 1)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
-<l>    wait_seconds(0.0)</l>
-<l>    par_start&lt;Thread_R&gt; : grab_image (ImageBack_1, Camera_R)</l>
+<l>   * wait_seconds(0.0)</l>
+<l>   grab_image (ImageFront_1, Camera_L)</l>
+<l>   grab_image_async (ImageBack_1, Camera_R,-1)</l>
 <c>    </c>
 <c>  </c>
 <c>    </c>
-<l>    par_join([Thread_R,Thread_L])</l>
+<l> *   par_join([Thread_R,Thread_L])</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
 <l>*     wait_seconds (2)</l>
-<c>    </c>
-<c>    </c>
+<l>    stop()</l>
+<l>    endwhile</l>
 <c>    </c>
 <l>endif</l>
 <c></c>
