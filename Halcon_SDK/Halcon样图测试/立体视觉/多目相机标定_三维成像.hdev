@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.2" halcon_version="24.05.0.0">
+<hdevelop file_version="1.2" halcon_version="23.11.0.0">
 <procedure name="main">
 <interface/>
 <body>
@@ -17,8 +17,20 @@
 <c>* </c>
 <c></c>
 <l>I := 1</l>
-<l>read_image (ImageBack, 'C:/Users/zhiwei2.he/MVS/Data/L/1.tif')</l>
-<l>read_image (ImageFront, 'C:/Users/zhiwei2.he/MVS/Data/R/1.tif')</l>
+<l>Image_L:='C:/Users/H/MVS/Data/L/'</l>
+<l>Image_R:='C:/Users/H/MVS/Data/R/'</l>
+<c></c>
+<l>* User_Name:='C:/Users/zhiwei2.he/source/repos/We-sson/'</l>
+<l>User_Name:='C:/Users/H/source/repos/'</l>
+<c></c>
+<l>stop()</l>
+<c></c>
+<c></c>
+<c></c>
+<l>read_image (ImageBack, Image_L+'1.tif')</l>
+<l>read_image (ImageFront, Image_R+'1.tif')</l>
+<l>* read_image (ImageFront, 'C:/Users/zhiwei2.he/MVS/Data/L/1.tif')</l>
+<l>* read_image (ImageBack, 'C:/Users/zhiwei2.he/MVS/Data/R/1.tif')</l>
 <l>get_image_size (ImageBack, WidthBack, HeightBack)</l>
 <l>get_image_size (ImageFront, WidthFront, HeightFront)</l>
 <c>* </c>
@@ -64,7 +76,10 @@
 <l>create_calib_data ('calibration_object', 2, 1, CalibDataID)</l>
 <l>set_calib_data_cam_param (CalibDataID, 1, [], StartCamParamBack)</l>
 <l>set_calib_data_cam_param (CalibDataID, 0, [], StartCamParamFront)</l>
-<l>CalibObjDescr := 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
+<l>* CalibObjDescr := 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
+<c></c>
+<l>CalibObjDescr := 'C:/Users/H/source/repos/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
+<c></c>
 <l>set_calib_data_calib_object (CalibDataID, 0, CalibObjDescr)</l>
 <c>* As the two cameras are mounted rigidly and stationary and the</c>
 <c>* object is moved linearly in front of the cameras, only one</c>
@@ -81,9 +96,9 @@
 <l>gen_empty_obj (ImagesBack)</l>
 <l>gen_empty_obj (ImagesFront)</l>
 <c>* 读取本地文件</c>
-<l>list_files ('C:/Users/zhiwei2.he/MVS/Data/L', ['files','follow_links'], ImagesBackFiles)</l>
+<l>list_files (Image_L, ['files','follow_links'], ImagesBackFiles)</l>
 <l>tuple_regexp_select (ImagesBackFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesBackFiles)</l>
-<l>list_files ('C:/Users/zhiwei2.he/MVS/Data/R', ['files','follow_links'], ImagesFrontFiles)</l>
+<l>list_files (Image_R, ['files','follow_links'], ImagesFrontFiles)</l>
 <l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
 <c></c>
 <l>NumImages := |ImagesBackFiles|</l>
@@ -170,7 +185,8 @@
 <c>* </c>
 <c>* Create the stereo model.</c>
 <c>* 创建立体模型。</c>
-<l>write_calib_data (CalibDataID, 'C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd')</l>
+<l>* write_calib_data (CalibDataID, 'C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd')</l>
+<l>write_calib_data (CalibDataID, 'C:/Users/H/source/repos/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd')</l>
 <c></c>
 <c></c>
 <c></c>
@@ -178,12 +194,12 @@
 <l>stop()</l>
 <l>dev_close_window ()</l>
 <l>* dev_open_window (0, 0, 600, 450, 'black', WindowHandle)</l>
-<l>list_files ('C:/Users/zhiwei2.he/MVS/Data/L', ['files','follow_links'], ImagesBackFiles)</l>
-<l>tuple_regexp_select (ImagesBackFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesBackFiles)</l>
-<l>list_files ('C:/Users/zhiwei2.he/MVS/Data/R', ['files','follow_links'], ImagesFrontFiles)</l>
-<l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
+<l>* list_files ('C:/Users/zhiwei2.he/MVS/Data/L', ['files','follow_links'], ImagesBackFiles)</l>
+<l>* tuple_regexp_select (ImagesBackFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesBackFiles)</l>
+<l>* list_files ('C:/Users/zhiwei2.he/MVS/Data/R', ['files','follow_links'], ImagesFrontFiles)</l>
+<l>* tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
 <c></c>
-<l>read_deformable_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.dfm', ModelID_1)</l>
+<l>read_deformable_model (User_Name+'source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.dfm', ModelID_1)</l>
 <l>* read_ncc_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.ncm', ModelID)</l>
 <c></c>
 <l>read_shape_model ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.shm', ModelID)</l>
@@ -215,7 +231,8 @@
 <l>stop()</l>
 <c></c>
 <c>*已经标定开始运行</c>
-<l>read_calib_data ('C:/Users/zhiwei2.he/source/repos/We-sson/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd', CalibDataID)</l>
+<l>read_calib_data (User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Two_Calib.ccd', CalibDataID)</l>
+<c></c>
 <l>calibrate_cameras (CalibDataID, Errors)</l>
 <c></c>
 <c>*获得相机参数</c>
@@ -450,7 +467,7 @@
 <c>    </c>
 <c>    </c>
 <c>    </c>
-<l>    Union_Two_Camera  (X, Y, Z, Image_2D, CamSetupModel, StereoModelID, Camera_R, Camera_L, Surface3DDefault, Info)</l>
+<l>    Union_Two_Camera  (X, Y, Z, Image_2D, CamSetupModel, StereoModelID, Camera_L, Camera_R, Surface3DDefault, Info)</l>
 <c>    </c>
 <l>*     Two_Eye_Camera (X, Y, Z, Image_2D, CamSetupModel, StereoModelID, Camera_R, Camera_L, Surface3DDefault, Info)</l>
 <l>*     Register_3DModel(X, Y, Z, Image_2D, CamSetupModel, StereoModelID, Camera_L, Camera_R,WindowHandle3, Surface3DDefault, Info)</l>
@@ -2472,13 +2489,17 @@
 <l>grab_image_start (Camera_L, -1)</l>
 <c></c>
 <c></c>
-<l>    set_framegrabber_param (Camera_R, 'TriggerMode', 'On')</l>
-<l>    set_framegrabber_param (Camera_R, 'TriggerSource', 'Line0')</l>
-<l>    set_framegrabber_param (Camera_R, 'TriggerActivation', 'RisingEdge')</l>
-<l>    set_framegrabber_param (Camera_R, 'TriggerCacheEnable', 1)</l>
-<l>  set_framegrabber_param (Camera_L, 'LineSelector', 'Line2')</l>
-<l>  set_framegrabber_param (Camera_L, 'LineMode','Strobe')</l>
-<l>  set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
+<l>set_framegrabber_param (Camera_R, 'TriggerMode', 'On')</l>
+<l>set_framegrabber_param (Camera_R, 'TriggerSource', 'Line0')</l>
+<l>set_framegrabber_param (Camera_R, 'TriggerActivation', 'RisingEdge')</l>
+<l>set_framegrabber_param (Camera_R, 'TriggerCacheEnable', 1)</l>
+<c></c>
+<c></c>
+<c></c>
+<l>set_framegrabber_param (Camera_L, 'TriggerMode', 'Off')</l>
+<l>set_framegrabber_param (Camera_L, 'LineSelector', 'Line2')</l>
+<l>set_framegrabber_param (Camera_L, 'LineMode','Strobe')</l>
+<l>set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
 <l>Image_HDR:=0</l>
 <c></c>
 <l>if (Image_HDR)</l>
@@ -2507,95 +2528,95 @@
 <l>    convert_image_type (ImageScaled, ImageFront, 'byte')</l>
 <l>else</l>
 <c>    </c>
-<c></c>
+<c>    </c>
+<c>    </c>
+<l>*     while (1)</l>
 <c>        </c>
-<l>    while (1)</l>
 <c>        </c>
-<c></c>
-<c>    </c>
-<c>    </c>
-<l>    set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
-<l>   set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
-<c>   </c>
-<l>    set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 58000.0)</l>
-<l>    set_framegrabber_param (Camera_L, 'Gain', 19)</l>
-<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
 <c>        </c>
-<c></c>
-<c>  </c>
-<c>  </c>
-<c>      </c>
-<l>*     par_start &lt;Thread_L&gt; : grab_image_async (ImageFront, Camera_L, -1)</l>
-<c>    </c>
-<l>    wait_seconds(0.0)</l>
-<l>    * grab_image (ImageFront, Camera_L)</l>
-<l>  *  par_start &lt;Thread_L&gt; :   grab_image_async (ImageFront, Camera_L, -1)</l>
-<l>    wait_seconds(0.0)</l>
-<l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
-<l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>    set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
-<l>     set_framegrabber_param (Camera_R, 'StrobeEnable', 0)</l>
-<l>    set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 40000.0)</l>
-<l>    set_framegrabber_param (Camera_R, 'Gain', 19)</l>
-<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
-<c>   </c>
-<c>    </c>
-<c></c>
-<c>    </c>
-<c>    </c>
-<c></c>
-<l>    grab_image (ImageFront, Camera_L)</l>
-<l>    grab_image_async (ImageBack, Camera_R, -1)</l>
-<l>   * par_start&lt;Thread_R&gt; : grab_image (ImageBack, Camera_R)</l>
-<l>   * wait_seconds(0.5)</l>
-<c>   </c>
-<l>   * par_join([Thread_R,Thread_L])</l>
-<c>    </c>
-<c>    </c>
-<l>    *  wait_seconds(0)</l>
-<c>    </c>
-<l>    set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
-<l>    set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 50000.0)</l>
-<l>    set_framegrabber_param (Camera_L, 'Gain', 19)</l>
-<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
-<l>    set_framegrabber_param (Camera_L, 'StrobeEnable', 0)</l>
-<l>    wait_seconds(0.0)</l>
-<c>   </c>
-<c>    </c>
-<l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
-<l>*     par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
-<c>    </c>
-<l>    set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
-<l>    set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 50000.0)</l>
-<l>    set_framegrabber_param (Camera_R, 'Gain', 19)</l>
-<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
-<l>    set_framegrabber_param (Camera_R, 'StrobeEnable', 1)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>   * wait_seconds(0.0)</l>
-<l>   grab_image (ImageFront_1, Camera_L)</l>
-<l>   grab_image_async (ImageBack_1, Camera_R,-1)</l>
-<c>    </c>
-<c>  </c>
-<c>    </c>
-<l> *   par_join([Thread_R,Thread_L])</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     wait_seconds (2)</l>
-<l>    stop()</l>
-<l>    endwhile</l>
+<c>        </c>
+<l>        set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
+<l>        set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
+<c>        </c>
+<l>        set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
+<l>        set_framegrabber_param (Camera_L, 'ExposureTime', 58000.0)</l>
+<l>        set_framegrabber_param (Camera_L, 'Gain', 19)</l>
+<l>        set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<l>*         par_start &lt;Thread_L&gt; : grab_image_async (ImageFront, Camera_L, -1)</l>
+<c>        </c>
+<l>*         wait_seconds(0.0)</l>
+<l>*         grab_image (ImageFront, Camera_L)</l>
+<l>*         par_start &lt;Thread_L&gt; :   grab_image_async (ImageFront, Camera_L, -1)</l>
+<l>*         wait_seconds(0.0)</l>
+<l>*         par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
+<l>*         par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<l>        set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
+<l>        set_framegrabber_param (Camera_R, 'StrobeEnable', 0)</l>
+<l>        set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
+<l>        set_framegrabber_param (Camera_R, 'ExposureTime', 40000.0)</l>
+<l>        set_framegrabber_param (Camera_R, 'Gain', 19)</l>
+<l>        set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<l>        grab_image (ImageFront, Camera_L)</l>
+<l>        grab_image_async (ImageBack, Camera_R, -1)</l>
+<l>*         par_start&lt;Thread_R&gt; : grab_image (ImageBack, Camera_R)</l>
+<l>*         wait_seconds(0.5)</l>
+<c>        </c>
+<l>*         par_join([Thread_R,Thread_L])</l>
+<c>        </c>
+<c>        </c>
+<l>*         wait_seconds(0)</l>
+<c>        </c>
+<l>        set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
+<l>        set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
+<l>        set_framegrabber_param (Camera_L, 'ExposureTime', 50000.0)</l>
+<l>        set_framegrabber_param (Camera_L, 'Gain', 19)</l>
+<l>        set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
+<l>        set_framegrabber_param (Camera_L, 'StrobeEnable', 0)</l>
+<l>        wait_seconds(0.0)</l>
+<c>        </c>
+<c>        </c>
+<l>*         par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
+<l>*         par_start &lt;Thread_L&gt; : set_framegrabber_param (Camera_L, 'StrobeEnable', 1)</l>
+<c>        </c>
+<l>        set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
+<l>        set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
+<l>        set_framegrabber_param (Camera_R, 'ExposureTime', 50000.0)</l>
+<l>        set_framegrabber_param (Camera_R, 'Gain', 19)</l>
+<l>        set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
+<l>        set_framegrabber_param (Camera_R, 'StrobeEnable', 1)</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<l>*         wait_seconds(0.0)</l>
+<l>        grab_image (ImageFront_1, Camera_L)</l>
+<l>        grab_image_async (ImageBack_1, Camera_R,-1)</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<l>*         par_join([Thread_R,Thread_L])</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
+<l>*         wait_seconds (2)</l>
+<l>*         stop()</l>
+<l>*     endwhile</l>
 <c>    </c>
 <l>endif</l>
 <c></c>
@@ -2621,11 +2642,11 @@
 <l>* read_image (ImageFront,  ImagesFrontFiles[21])</l>
 <l>emphasize (ImageFront_1, Front_1, 100, 100, 8)</l>
 <l>emphasize (ImageBack_1, Back_1, 100, 100,8)</l>
-<l>concat_obj (Front_1, Back_1, Images_1)</l>
+<l>concat_obj (Back_1,Front_1, Images_1)</l>
 <c></c>
 <l>emphasize (ImageFront, Front, 100, 100, 3)</l>
 <l>emphasize (ImageBack, Back, 100, 100,3)</l>
-<l>concat_obj (Front, Back, Images)</l>
+<l>concat_obj (Back,Front,  Images)</l>
 <c></c>
 <c></c>
 <c></c>
@@ -2666,7 +2687,7 @@
 <l>View_Unio:=[ObjectModel3DScene_1,ObjectModel3DScene_2]</l>
 <c></c>
 <c></c>
-<l>Image_2D:=Front</l>
+<l>Image_2D:=Back</l>
 <c></c>
 <c>* Perform the stereo reconstruction.</c>
 <c>* 执行立体重建。</c>
