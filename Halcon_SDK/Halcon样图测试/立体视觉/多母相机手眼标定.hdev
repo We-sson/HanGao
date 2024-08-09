@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.05.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c></c>
+<l>dev_update_off ()</l>
+<l>dev_set_color ('green')</l>
+<c>* Open a window if the correct size.</c>
+<l>dev_close_window ()</l>
+<l>WindowWidth := 512</l>
+<l>WindowHeight := 384</l>
+<c>* Directories containing images and data files.</c>
+<l>* ImagesDir := '3d_machine_vision/hand_eye/robot_gripper_gray_'</l>
+<l>dev_open_window (0, WindowWidth + 10, WindowWidth, WindowHeight, 'black', ImageWindowHandle)</l>
+<l>dev_open_window (0, 0, WindowWidth, WindowHeight, 'black', WindowHandle)</l>
+<l>set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>set_display_font (ImageWindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>* Instruction := ['Rotate: Left button', 'Zoom:   Shift + left button', 'Move:   Ctrl  + left button']</l>
+<c>* Read the 3D object model from file.</c>
+<c>* This object model will serve as the calibration object.</c>
+<l>* read_object_model_3d ('hand_eye/robot_gripper_3d_model.om3', 1, [], [], OM3DModel, Status)</l>
+<l>* create_surface_model (OM3DModel, 0.03, [], [], SurfaceModelID)</l>
+<l>* Message := 'Surface model to be searched'</l>
+<c>* For better visualization, reduce the point density of the model.</c>
+<l>* sample_object_model_3d (OM3DModel, 'fast', 0.0009, [], [], SampledObjectModel3D)</l>
+<l>* visualize_object_model_3d (WindowHandle, SampledObjectModel3D, [], [], 'color_0', 'gray', Message, [], Instruction, PoseOut)</l>
+<c>* The number of files.</c>
+<l>* NumCalibrationScenes := 15</l>
+<c>* Create the calibration model for the hand eye calibration</c>
+<c>* using a stationary 3D sensor. Since not camera calibration using</c>
+<c>* a calibration object is performed and the poses are set directly</c>
+<c>* in the model, the number of cameras and the number of calibration object is 0.</c>
+<c></c>
+<c></c>
+<c></c>
+<l>* User_Name:='C:/Users/zhiwei2.he/source/repos/We-sson/'</l>
+<l>User_Name:='C:/Users/H/source/repos/'</l>
+<c></c>
+<c></c>
+<l>Image_L:='C:/Users/H/MVS/Data/L/'</l>
+<l>Image_R:='C:/Users/H/MVS/Data/R/'</l>
+<c></c>
+<c>* 设置摄像机内部参数的初始值。</c>
+<l>* read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651471.dat', StartCamParamBack)</l>
+<l>* read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651573.dat', StartCamParamFront)</l>
+<l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, 4024 / 2, 3036/2, 4024, 3036, StartCamParam_L)</l>
+<l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, 4024 / 2, 3036/2, 4024, 3036, StartCamParam_R)</l>
+<l>* gen_cam_par_line_scan_telecentric_division (0.228, 0, 7.0e-6, 7.0e-6, WidthBack / 2, 0, WidthBack, HeightBack, 0, 2.7e-5, 0, StartCamParamBack)</l>
+<l>* gen_cam_par_line_scan_telecentric_division (0.268, 0, 7.0e-6, 7.0e-6, WidthFront / 2, 0, WidthFront, HeightFront, 0, 2.7e-5, 0, StartCamParamFront)</l>
+<c>* </c>
+<c>* Create a calibration data model in which all calibration data</c>
+<c>* including the image coordinates of the calibration marks and</c>
+<c>* the observation poses of the calibration plate will be</c>
+<c>* accumulated.</c>
+<c>* 创建校准数据模型，其中包括所有校准数据</c>
+<c>* 包括校准标记的图像坐标和</c>
+<c>* 校准板的观测位置。</c>
+<c>* 积累。</c>
+<l>create_calib_data ('hand_eye_moving_cam', 0, 0, HECCalibDataID)</l>
+<l>set_calib_data_cam_param (HECCalibDataID, 0, [], StartCamParam_L)</l>
+<l>set_calib_data_cam_param (HECCalibDataID, 1, [], StartCamParam_R)</l>
+<l>* CalibObjDescr := 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
+<c></c>
+<l>CalibObjDescr := User_Name+'HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
+<c></c>
+<l>set_calib_data_calib_object (HECCalibDataID, 0, CalibObjDescr)</l>
+<c></c>
+<c></c>
+<l>* create_calib_data ('hand_eye_stationary_cam', 0, 0, HECCalibDataID)</l>
+<c>* Set the optimization method to be used.</c>
+<l>set_calib_data (HECCalibDataID, 'model', 'general', 'optimization_method', 'stochastic')</l>
+<c></c>
+<c></c>
+<c>* 读取本地文件</c>
+<l>list_files (Image_L, ['files','follow_links'], ImagesBackFiles)</l>
+<l>tuple_regexp_select (ImagesBackFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesBackFiles)</l>
+<l>list_files (Image_R, ['files','follow_links'], ImagesFrontFiles)</l>
+<l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
+<c></c>
+<c></c>
+<l>NumCalibrationScenes := |ImagesBackFiles|</l>
+<c></c>
+<c>* </c>
+<c>* Determine the 3D poses of the observed model object</c>
+<c>* in all scenes using surface-based matching.</c>
+<l>for I := 1 to NumCalibrationScenes by 1</l>
+<l>    read_image (ImageRobotGripperGray, ImagesDir + I$'02d')</l>
+<l>    read_pose ('tool_in_base_pose_' + I$'02d' + '.dat', ToolInBasePose)</l>
+<c>    * Read the 3D object model</c>
+<l>    filename := 'hand_eye/robot_gripper_3d_scene_' + I$'02d'</l>
+<c>    * Read the current scene.</c>
+<l>    read_object_model_3d (filename, 1, [], [], OM3DScene, Status1)</l>
+<c>    * Find the surface model in the current scene.</c>
+<l>    find_surface_model (SurfaceModelID, OM3DScene, 0.05, 1, 0, 'false', [], [], ObjInCamPose, Score, SurfaceMatchingResultID)</l>
+<l>    refine_surface_model_pose (SurfaceModelID, OM3DScene, ObjInCamPose, 0, 'false', [], [], ObjInCamPose, Score, SurfaceMatchingResultID1)</l>
+<l>    if (|Score|)</l>
+<c>        * Only use the pose if the result of the surface-based matching is</c>
+<c>        * good enough.</c>
+<l>        set_calib_data (HECCalibDataID, 'tool', I, 'tool_in_base_pose', ToolInBasePose)</l>
+<l>        set_calib_data_observ_pose (HECCalibDataID, 0, 0, I, ObjInCamPose)</l>
+<l>    endif</l>
+<c>    * To visualize in what pose the model was found in the scene,</c>
+<c>    * transform the 3d object model so that it can be overlaid onto</c>
+<c>    * the current scene.</c>
+<l>    pose_to_hom_mat3d (ObjInCamPose, HomMat3D)</l>
+<l>    affine_trans_object_model_3d (SampledObjectModel3D, HomMat3D, OM3DModelTrans)</l>
+<c>    * Only show interactive 3D visualization for the first three scenes.</c>
+<l>    if (I &lt; 4)</l>
+<c>        * Clear both windows.</c>
+<l>        dev_clear_window ()</l>
+<l>        dev_set_window (ImageWindowHandle)</l>
+<l>        dev_display (ImageRobotGripperGray)</l>
+<l>        disp_message (ImageWindowHandle, 'Image from pinhole camera', 'window', 12, 12, 'black', 'true')</l>
+<l>        dev_set_window (WindowHandle)</l>
+<l>        Message := 'Surface model is matched in the 3D scene.'</l>
+<l>        Message[1] := 'Points of the current scene are gray.'</l>
+<l>        Message[2] := 'Points of the matched model are green.'</l>
+<c>        * For better visualization, reduce the point density of the model.</c>
+<l>        sample_object_model_3d (OM3DScene, 'fast', 0.0009, [], [], SampledOM3DScene)</l>
+<l>        disp_message (WindowHandle, Message, 'window', 12, 12, 'black', 'true')</l>
+<l>        Message := 'Scene: '</l>
+<l>        Message[1] := I + ' of ' + NumCalibrationScenes</l>
+<l>        disp_message (WindowHandle, Message, 'window', 80, 12, 'white', 'false')</l>
+<c>        * Visualize matching result with user interaction.</c>
+<l>        visualize_object_model_3d (WindowHandle, [SampledOM3DScene,OM3DModelTrans], [], [], ['color_0', 'color_1', 'disp_background'], ['gray', 'green', 'true'], [], [], Instruction, PoseOut)</l>
+<l>    else</l>
+<c>        * Clear both windows.</c>
+<l>        dev_clear_window ()</l>
+<l>        dev_set_window (ImageWindowHandle)</l>
+<l>        dev_clear_window ()</l>
+<l>        dev_set_window (WindowHandle)</l>
+<l>        if (I == 4)</l>
+<l>            Message := 'In the following, the surface-based matching'</l>
+<l>            Message[1] := 'result is shown using the 3D visualization '</l>
+<l>            Message[2] := 'without user interaction.'</l>
+<l>            disp_message (WindowHandle, Message, 'window', 12, 12, 'black', 'true')</l>
+<l>            disp_continue_message (WindowHandle, 'black', 'true')</l>
+<l>            stop ()</l>
+<l>            dev_clear_window ()</l>
+<l>        endif</l>
+<l>        dev_set_window (ImageWindowHandle)</l>
+<l>        dev_display (ImageRobotGripperGray)</l>
+<l>        disp_message (ImageWindowHandle, 'Image from pinhole camera', 'window', 12, 12, 'black', 'true')</l>
+<l>        dev_set_window (WindowHandle)</l>
+<c>        * For better visualization, reduce the point density of the model.</c>
+<l>        sample_object_model_3d (OM3DScene, 'fast', 0.0009, [], [], SampledOM3DScene)</l>
+<c>        * Visualize matching result without user interaction.</c>
+<l>        disp_object_model_3d_safe (WindowHandle, [SampledOM3DScene,OM3DModelTrans], [], [], ['color_0', 'color_1'], ['gray', 'green'])</l>
+<l>        Message := 'Scene: ' + I + ' of ' + NumCalibrationScenes</l>
+<l>        disp_message (WindowHandle, Message, 'window', 12, 12, 'white', 'false')</l>
+<l>        disp_continue_message (WindowHandle, 'black', 'true')</l>
+<l>        stop ()</l>
+<l>    endif</l>
+<l>endfor</l>
+<c>* Check the input poses for consistency</c>
+<l>check_hand_eye_calibration_input_poses (HECCalibDataID, 0.05, 0.005, Warnings)</l>
+<l>if (|Warnings| != 0)</l>
+<c>    * There were problem detected in the input poses. Inspect Warnings and</c>
+<c>    * remove erroneous poses with remove_calib_data and remove_calib_data_observ.</c>
+<l>    dev_inspect_ctrl (Warnings)</l>
+<l>    stop ()</l>
+<l>endif</l>
+<c>* Now that all data has been collected,</c>
+<c>* the hand-eye calibration can be performed.</c>
+<l>dev_clear_window ()</l>
+<l>disp_message (WindowHandle, 'Performing the hand-eye calibration', 'window', 12, 12, 'black', 'true')</l>
+<l>calibrate_hand_eye (HECCalibDataID, HECPoseError)</l>
+<c>* Obtain the results of the hand-eye calibration and save them to file.</c>
+<l>get_calib_data (HECCalibDataID, 'camera', 0, 'base_in_cam_pose', BaseInSensorPose)</l>
+<l>get_calib_data (HECCalibDataID, 'calib_obj', 0, 'obj_in_tool_pose', ObjInToolPose)</l>
+<l>dev_clear_window ()</l>
+<c>* Display calibration errors of the hand-eye calibration.</c>
+<l>Message := 'Quality of the results:'</l>
+<l>Message[1] := ' '</l>
+<l>Message[2] := 'Translation errors in mm: '</l>
+<l>MeanTransError := HECPoseError[0] * 1000</l>
+<l>MaxTransError := HECPoseError[2] * 1000</l>
+<l>Message[3] := 'root mean square    ' + MeanTransError$'6.4f'</l>
+<l>Message[4] := 'maximum             ' + MaxTransError$'6.4f'</l>
+<l>Message[5] := ' '</l>
+<l>Message[6] := 'Rotation error in degrees:        '</l>
+<l>Message[7] := 'root mean square    ' + HECPoseError[1]$'6.4f'</l>
+<l>Message[8] := 'maximum             ' + HECPoseError[3]$'6.4f'</l>
+<l>disp_message (WindowHandle, Message, 'window', 12, 12, 'black', 'true')</l>
+<l>disp_continue_message (WindowHandle, 'black', 'true')</l>
+<l>stop ()</l>
+<c>* For the given camera, get the corresponding pose indices and</c>
+<c>* calibration object indices.</c>
+<l>query_calib_data_observ_indices (HECCalibDataID, 'camera', 0, CalibObjIdx, PoseIds)</l>
+<c>* Compute the pose of the calibration object in the camera coordinate</c>
+<c>* system via calibrated poses and the ToolInBasePose and visualize it.</c>
+<l>dev_clear_window ()</l>
+<l>for J := 1 to NumCalibrationScenes by 1</l>
+<l>    read_image (ImageRobotGripperGray, ImagesDir + J$'02d')</l>
+<l>    filename := 'hand_eye/robot_gripper_3d_scene_' + J$'02d'</l>
+<l>    read_object_model_3d (filename, 1, [], [], OM3DScene, Status1)</l>
+<c>    * Obtain the pose of the tool in robot base coordinates used in the calibration.</c>
+<c>    * The index corresponds to the index of the pose of the observation object.</c>
+<l>    get_calib_data (HECCalibDataID, 'tool', PoseIds[J - 1], 'tool_in_base_pose', ToolInBasePose)</l>
+<c>    * Compute the pose of the calibration in sensor coordinates using the</c>
+<c>    * poses computed by the hand-eye calibration.</c>
+<l>    calc_calplate_pose_stationarycam (ObjInToolPose, BaseInSensorPose, ToolInBasePose, CalObjInCamPose)</l>
+<c>    * To visualize in what pose the model was found in the scene,</c>
+<c>    * transform the 3d object model, so that it can be laid over the current scene</c>
+<c>    * using the computed pose.</c>
+<l>    pose_to_hom_mat3d (CalObjInCamPose, HomMat3D)</l>
+<l>    affine_trans_object_model_3d (OM3DModel, HomMat3D, OM3DModelTrans)</l>
+<l>    dev_clear_window ()</l>
+<l>    dev_set_window (ImageWindowHandle)</l>
+<l>    dev_display (ImageRobotGripperGray)</l>
+<l>    disp_message (ImageWindowHandle, 'Image from pinhole camera', 'window', 12, 12, 'black', 'true')</l>
+<l>    dev_set_window (WindowHandle)</l>
+<l>    Message := 'Using the calibration results to obtain the'</l>
+<l>    Message[1] := 'pose of the calibration object in the scene.'</l>
+<l>    disp_message (WindowHandle, Message, 'window', 12, 12, 'black', 'true')</l>
+<l>    Message := 'Scene: ' + J + ' of ' + NumCalibrationScenes</l>
+<l>    disp_message (WindowHandle, Message, 'window', 80, 12, 'white', 'false')</l>
+<c>    * For better visualization, reduce the point density of the model.</c>
+<l>    sample_object_model_3d (OM3DScene, 'fast', 0.0009, [], [], SampledOM3DScene)</l>
+<c>    * Visualize matching result.</c>
+<l>    visualize_object_model_3d (WindowHandle, [SampledOM3DScene,OM3DModelTrans], [], [], ['color_0', 'color_1', 'disp_background'], ['gray', 'green', 'true'], [], [], Instruction, PoseOut)</l>
+<l>endfor</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="calc_calplate_pose_stationarycam">
+<interface>
+<ic>
+<par name="CalObjInToolPose" base_type="ctrl" dimension="0"/>
+<par name="BaseInCamPose" base_type="ctrl" dimension="0"/>
+<par name="ToolInBasePose" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="CalObjInCamPose" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* CalObjInCamPose = cam_H_calplate = cam_H_base * base_H_tool * tool_H_calplate</c>
+<c>*                               = BaseInCamPose*ToolInBasePose*CalObjInToolPose</c>
+<l>pose_compose (BaseInCamPose, ToolInBasePose, ToolInCamPose)</l>
+<l>pose_compose (ToolInCamPose, CalObjInToolPose, CalObjInCamPose)</l>
+<l>return ()</l>
+</body>
+<docu id="calc_calplate_pose_stationarycam">
+<short lang="en_US">compute cam_H_calplate from hand-eye calibration results</short>
+<parameters>
+<parameter id="BaseInCamPose"/>
+<parameter id="CalObjInCamPose"/>
+<parameter id="CalObjInToolPose"/>
+<parameter id="ToolInBasePose"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

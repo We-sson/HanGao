@@ -263,7 +263,7 @@
 <c></c>
 <c>* Set the stereo parameters.</c>
 <c>*设置重建盒子范围大小</c>
-<l>BoundingBox := [-0.4, -0.4, 0.22, 0.4, 0.4, 0.325]</l>
+<l>BoundingBox := [-0.4, -0.4, 0.22, 0.4, 0.4, 0.355]</l>
 <c></c>
 <c>*指定用于表面立体重建的图像对</c>
 <l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
@@ -276,7 +276,7 @@
 <l>set_stereo_model_param (StereoModelID, 'persistence', 1)</l>
 <c></c>
 <c>*整流图的子抽样因子</c>
-<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1.2)</l>
+<l>set_stereo_model_param (StereoModelID, 'rectif_sub_sampling', 1.8)</l>
 <c>*整流图的插值模式</c>
 <l>set_stereo_model_param (StereoModelID, 'rectif_interpolation', 'bilinear')</l>
 <c></c>
@@ -461,6 +461,13 @@
 <l>* set_framegrabber_param (Camera_R, 'AcquisitionMode', 'SingleFrame')</l>
 <c></c>
 <c></c>
+<c>*验证</c>
+<l>create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
+<l>set_calib_data_cam_param (CalibDataID, 0, [], CamParamLeft)</l>
+<l>CalibObjDescr := User_Name+'HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
+<l>set_calib_data_calib_object (CalibDataID, 0, CalibObjDescr)</l>
+<c></c>
+<c></c>
 <c></c>
 <l>ALL_Scale:=[]</l>
 <l>while (1)</l>
@@ -475,8 +482,29 @@
 <c>    </c>
 <l>    compose3 (X, Y, Z, PXYZ_Image)</l>
 <c>    </c>
+<l>     find_calib_object (Image_2D, CalibDataID, 0, 0, 0, 'sigma', 1)</l>
+<c>    * 可视化提取的校准标记。</c>
+<l>    get_calib_data_observ_pose (CalibDataID, 0, 0, 0, Cam0_P_Obj)</l>
+<c></c>
+<l>    disp_3d_coord_system (WindowHandle3, CamParamLeft, Cam0_P_Obj, 0.01)</l>
 <c>    </c>
 <c>    </c>
+<l>pose_to_hom_mat3d (Cam0_P_Obj, TransWorld2Cam)</l>
+<c>* Project the world origin into the image.</c>
+<l>affine_trans_point_3d (TransWorld2Cam, 0, 0, 0, OrigCamX, OrigCamY, OrigCamZ)</l>
+<l>project_3d_point (OrigCamX, OrigCamY, OrigCamZ, CamParamLeft, Row0, Column0)</l>
+<l>gen_cross_contour_xld (CrossRight, Row0, Column0, 20, rad(45))</l>
+<c>    </c>
+<c></c>
+<l>get_grayval (PXYZ_Image, Row0, Column0, Grayval)</l>
+<c>    </c>
+<l>X_Error:=(Grayval[0]-OrigCamX)*1000</l>
+<l>Y_Error:=(Grayval[1]-OrigCamY)*1000</l>
+<l>Z_Error:=(Grayval[2]-OrigCamZ)*1000</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
 <l>    visualize_object_model_3d (WindowHandle3, Surface3DDefault, [], [], 'color_attrib', '&amp;gray', [], [], [], VisPose)</l>
 <c>    </c>
 <c>    </c>
@@ -2711,7 +2739,7 @@
 <l>View_Unio:=[ObjectModel3DScene_1,ObjectModel3DScene_2]</l>
 <c></c>
 <c></c>
-<l>Image_2D:=Back</l>
+<l>Image_2D:=ImageBack</l>
 <c></c>
 <c>* Perform the stereo reconstruction.</c>
 <c>* 执行立体重建。</c>
