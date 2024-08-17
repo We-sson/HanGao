@@ -60,8 +60,8 @@
 <c>* 设置摄像机内部参数的初始值。</c>
 <l>* read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651471.dat', StartCamParamBack)</l>
 <l>* read_cam_par ('C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/HanGao_Base/bin/x64/Debug/net6.0-windows/Calibration_File/DA0651573.dat', StartCamParamFront)</l>
-<l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, WidthBack / 2, HeightBack/2, WidthBack, HeightBack, StartCamParamBack)</l>
-<l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, WidthFront / 2, HeightFront/2, WidthFront, HeightFront, StartCamParamFront)</l>
+<l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, WidthBack / 2, HeightBack/2, WidthBack, HeightBack, StartCamParam_L)</l>
+<l>gen_cam_par_area_scan_polynomial (0.016, 0, 0, 0, 0, 0, 1.85e-06, 1.85e-06, WidthFront / 2, HeightFront/2, WidthFront, HeightFront, StartCamParam_R)</l>
 <l>* gen_cam_par_line_scan_telecentric_division (0.228, 0, 7.0e-6, 7.0e-6, WidthBack / 2, 0, WidthBack, HeightBack, 0, 2.7e-5, 0, StartCamParamBack)</l>
 <l>* gen_cam_par_line_scan_telecentric_division (0.268, 0, 7.0e-6, 7.0e-6, WidthFront / 2, 0, WidthFront, HeightFront, 0, 2.7e-5, 0, StartCamParamFront)</l>
 <c>* </c>
@@ -74,8 +74,8 @@
 <c>* 校准板的观测位置。</c>
 <c>* 积累。</c>
 <l>create_calib_data ('calibration_object', 2, 1, CalibDataID)</l>
-<l>set_calib_data_cam_param (CalibDataID, 1, [], StartCamParamBack)</l>
-<l>set_calib_data_cam_param (CalibDataID, 0, [], StartCamParamFront)</l>
+<l>set_calib_data_cam_param (CalibDataID, 1, [], StartCamParam_L)</l>
+<l>set_calib_data_cam_param (CalibDataID, 0, [], StartCamParam_R)</l>
 <l>* CalibObjDescr := 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
 <c></c>
 <l>CalibObjDescr := User_Name+'HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
@@ -96,17 +96,17 @@
 <l>gen_empty_obj (ImagesBack)</l>
 <l>gen_empty_obj (ImagesFront)</l>
 <c>* 读取本地文件</c>
-<l>list_files (Image_L, ['files','follow_links'], ImagesBackFiles)</l>
-<l>tuple_regexp_select (ImagesBackFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesBackFiles)</l>
-<l>list_files (Image_R, ['files','follow_links'], ImagesFrontFiles)</l>
-<l>tuple_regexp_select (ImagesFrontFiles, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
+<l>list_files (Image_L, ['files','follow_links'], Image_L_Files)</l>
+<l>tuple_regexp_select (Image_L_Files, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesBackFiles)</l>
+<l>list_files (Image_R, ['files','follow_links'], Image_R_Files)</l>
+<l>tuple_regexp_select (Image_R_Files, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImagesFrontFiles)</l>
 <c></c>
-<l>NumImages := |ImagesBackFiles|</l>
+<l>NumImages := |Image_L_Files|</l>
 <l>for I := 0 to |ImagesBackFiles|-1 by 1</l>
 <c>    * Read the calibration images.</c>
 <c>    * 读取校准图像。</c>
-<l>    read_image (ImageBack, ImagesBackFiles[I])</l>
-<l>    read_image (ImageFront, ImagesFrontFiles[I])</l>
+<l>    read_image (Image_L_Caib, Image_L_Files[I])</l>
+<l>    read_image (Image_R_Caib, Image_R_Files[I])</l>
 <c>    * Find the calibration plate and store observations</c>
 <c>    * in the calibration data model.</c>
 <c>    * 找到校准板并将观测数据</c>
@@ -447,8 +447,8 @@
 <c></c>
 <l>close_framegrabber (Camera_R)</l>
 <c>*海康SDK</c>
-<l>open_framegrabber ('MVision', 1, 1, 0, 0, 0, 0, 'progressive', 8, 'default', -1, 'false', 'auto', 'GEV:DA0651573 MV-CU120-10GM', 0, -1, Camera_L)</l>
-<l>open_framegrabber ('MVision', 1, 1, 0, 0, 0, 0, 'progressive', 8, 'default', -1, 'false', 'auto', 'GEV:DA0651471 MV-CU120-10GM', 0, -1, Camera_R)</l>
+<l>open_framegrabber ('MVision', 1, 1, 0, 0, 0, 0, 'progressive', 8, 'default', -1, 'false', 'auto', 'GEV:DA0651573 MV-CU120-10GM', 0, -1, Camera_R)</l>
+<l>open_framegrabber ('MVision', 1, 1, 0, 0, 0, 0, 'progressive', 8, 'default', -1, 'false', 'auto', 'GEV:DA0651471 MV-CU120-10GM', 0, -1, Camera_L)</l>
 <c>*设置采集连续</c>
 <c></c>
 <c></c>
@@ -577,7 +577,7 @@
 <c>    </c>
 <l>    write_object_model_3d (Surface3DDefault, 'om3', User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/采集点云', [], [])</l>
 <l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.01, 0.2, 0.3, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel','max_gap'], [10,1,'mls',0.01,300], Poses, Scores, ResultHandle)</l>
-<l>    refine_surface_model_pose (SurfaceModel, Surface3DDefault, Poses, 0, 'true', [], [], Pose, Score1, SurfaceMatchingResultID)</l>
+<l>*     refine_surface_model_pose (SurfaceModel, Surface3DDefault, Poses, 0, 'true', [], [], Pose, Score1, SurfaceMatchingResultID)</l>
 <c>        </c>
 <c>     </c>
 <l>     ObjectModel3DResult := []</l>
@@ -2666,11 +2666,11 @@
 <l>* read_image (ImageFront,  ImagesFrontFiles[21])</l>
 <l>emphasize (ImageFront_1, Front_1, 100, 100, 8)</l>
 <l>emphasize (ImageBack_1, Back_1, 100, 100,8)</l>
-<l>concat_obj (Back_1,Front_1, Images_1)</l>
+<l>concat_obj (Front_1,Back_1, Images_1)</l>
 <c></c>
 <l>emphasize (ImageFront, Front, 100, 100, 5)</l>
 <l>emphasize (ImageBack, Back, 100, 100,5)</l>
-<l>concat_obj (Back,Front,  Images)</l>
+<l>concat_obj (Front,Back,  Images)</l>
 <c></c>
 <c></c>
 <c></c>
@@ -2711,7 +2711,7 @@
 <l>View_Unio:=[ObjectModel3DScene_1,ObjectModel3DScene_2]</l>
 <c></c>
 <c></c>
-<l>Image_2D:=Back</l>
+<l>Image_2D:=ImageFront</l>
 <c></c>
 <c>* Perform the stereo reconstruction.</c>
 <c>* 执行立体重建。</c>
