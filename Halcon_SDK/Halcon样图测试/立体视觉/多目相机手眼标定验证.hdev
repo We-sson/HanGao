@@ -309,10 +309,17 @@
 <c></c>
 <c></c>
 <l>ALL_Scale:=[]</l>
+<c></c>
+<c></c>
+<l>ToolInBasePose[0]:=[-279.56,1082.38,856.49,179.94,29.33,-93.31,2]</l>
+<l>ToolInBasePose[0]:=[-279.56,1082.38,856.49,179.94,29.33,-93.31,2]</l>
 <l>while (1)</l>
 <c>    </c>
-<l>    while (1)</l>
+<c>   </c>
 <c>        </c>
+<l>        for I := 0 to |ToolInBasePose| by 1</l>
+<c>            </c>
+<c>            </c>
 <c>        </c>
 <c>    </c>
 <c>    </c>
@@ -324,9 +331,9 @@
 <c>    </c>
 <l>    compose3 (X, Y, Z, PXYZ_Image)</l>
 <c>    </c>
-<l>     find_calib_object (Image_2D, CalibDataID, 0, 0, 0, 'sigma', 1)</l>
+<l>     find_calib_object (Image_2D, CalibDataID, 0, 0, I, 'sigma', 1)</l>
 <c>    * 可视化提取的校准标记。</c>
-<l>    get_calib_data_observ_pose (CalibDataID, 0, 0, 0, Cam0_P_Obj)</l>
+<l>    get_calib_data_observ_pose (CalibDataID, 0, 0, I, Cam0_P_Obj)</l>
 <c></c>
 <l>    disp_3d_coord_system (WindowHandle3, CamParamLeft, Cam0_P_Obj, 0.01)</l>
 <c>    </c>
@@ -344,17 +351,17 @@
 <l>Y_Error:=(Grayval[1]-OrigCamY)*1000</l>
 <l>Z_Error:=(Grayval[2]-OrigCamZ)*1000</l>
 <c></c>
-<c></c>
+<c> </c>
 <c></c>
 <c></c>
 <l>    visualize_object_model_3d (WindowHandle3, Surface3DDefault, [], [], 'color_attrib', '&amp;gray', [], [], [], VisPose)</l>
 <c>    </c>
-<l>    create_pose (0, 0, 0, 0, 0, 0, 'Rp+T', 'abg', 'point', ToolInBasePose)</l>
-<l>    set_calib_data (CalibDataID, 'tool', I, 'tool_in_base_pose', ToolInBasePose)</l>
+<l>*     create_pose (0, 0, 0, 0, 0, 0, 'Rp+T', 'abg', 'point', ToolInBasePose)</l>
+<l>    set_calib_data (CalibDataID, 'tool', I, 'tool_in_base_pose', ToolInBasePose[I])</l>
 <c>    </c>
 <c>    </c>
-<l>    endwhile</l>
-<c>    </c>
+<c>   </c>
+<l>        endfor</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
