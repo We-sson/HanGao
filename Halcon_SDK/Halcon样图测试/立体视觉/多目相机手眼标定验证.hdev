@@ -300,6 +300,9 @@
 <l>grab_image_start (Camera_R, -1)</l>
 <l>grab_image_start (Camera_L, -1)</l>
 <c></c>
+<c></c>
+<c></c>
+<c></c>
 <c>*验证</c>
 <l>create_calib_data ('hand_eye_moving_cam', 1, 1, CalibDataID)</l>
 <l>set_calib_data_cam_param (CalibDataID, 0, [], CamParamLeft)</l>
@@ -309,15 +312,27 @@
 <c></c>
 <c></c>
 <l>ALL_Scale:=[]</l>
+<l>create_dict (DictHandle)</l>
 <c></c>
+<l>set_dict_tuple (DictHandle, 0, [-279.56,1082.38,856.49,179.94,29.33,-93.31,2])</l>
+<l>set_dict_tuple (DictHandle, 1, [-174.79,1077.97,856.49,162.72,27.34,-101.53,2])</l>
+<l>set_dict_tuple (DictHandle, 2,[-177.88,1081.01,825.36,162.72,27.34,-101.53,2])</l>
+<l>set_dict_tuple (DictHandle, 3,[-129.17,1198.11,839.94,158.87,9.19,-103.89,2])</l>
+<l>set_dict_tuple (DictHandle, 4,[-217.55,1198.11,839.94,171.67,12.04,-101.52,2])</l>
+<l>set_dict_tuple (DictHandle, 5,[-347.98,1167.22,839.94,-168.60,21.45,-94.59,2])</l>
+<l>set_dict_tuple (DictHandle, 6,[-347.94,976.87,838.31,-171.74,48.39,-96.44,2])</l>
+<l>set_dict_tuple (DictHandle, 7,[-270.38,948.21,818.56,-171.72,48.42,-75.54,2])</l>
+<l>set_dict_tuple (DictHandle, 8,[-213.92,933.15,794.63,-171.72,48.42,-61.65,2])</l>
+<l>set_dict_tuple (DictHandle, 9,[-213.88,1013.62,805.15,-179.26,36.91,-66.79,2])</l>
+<l>set_dict_tuple (DictHandle, 10,[-338.35,1013.6,800.69,-160.24,28.16,-56.46,2])</l>
+<l>* set_dict_tuple (DictHandle, 11,[-323.96,1207.64,593.98,-131.88,73.34,-16.38,2])</l>
 <c></c>
-<l>ToolInBasePose[0]:=[-279.56,1082.38,856.49,179.94,29.33,-93.31,2]</l>
-<l>ToolInBasePose[0]:=[-279.56,1082.38,856.49,179.94,29.33,-93.31,2]</l>
+<l>get_dict_param (DictHandle, 'keys', [], Key_Number)</l>
 <l>while (1)</l>
 <c>    </c>
 <c>   </c>
-<c>        </c>
-<l>        for I := 0 to |ToolInBasePose| by 1</l>
+<c>      </c>
+<l>        for I := 0 to |Key_Number|-1 by 1</l>
 <c>            </c>
 <c>            </c>
 <c>        </c>
@@ -331,7 +346,7 @@
 <c>    </c>
 <l>    compose3 (X, Y, Z, PXYZ_Image)</l>
 <c>    </c>
-<l>     find_calib_object (Image_2D, CalibDataID, 0, 0, I, 'sigma', 1)</l>
+<l>     find_calib_object (Image_2D, CalibDataID, 0, 0, I, 'sigma', 1.5)</l>
 <c>    * 可视化提取的校准标记。</c>
 <l>    get_calib_data_observ_pose (CalibDataID, 0, 0, I, Cam0_P_Obj)</l>
 <c></c>
@@ -354,20 +369,57 @@
 <c> </c>
 <c></c>
 <c></c>
-<l>    visualize_object_model_3d (WindowHandle3, Surface3DDefault, [], [], 'color_attrib', '&amp;gray', [], [], [], VisPose)</l>
+<l>    *visualize_object_model_3d (WindowHandle3, Surface3DDefault, [], [], 'color_attrib', '&amp;gray', [], [], [], VisPose)</l>
 <c>    </c>
 <l>*     create_pose (0, 0, 0, 0, 0, 0, 'Rp+T', 'abg', 'point', ToolInBasePose)</l>
-<l>    set_calib_data (CalibDataID, 'tool', I, 'tool_in_base_pose', ToolInBasePose[I])</l>
+<l>    get_dict_tuple (DictHandle, I, Robot_Tool_Pos)</l>
+<l>    create_pose (Robot_Tool_Pos[0]*0.001, Robot_Tool_Pos[1]*0.001, Robot_Tool_Pos[2]*0.001, Robot_Tool_Pos[3], Robot_Tool_Pos[4], Robot_Tool_Pos[5], 'Rp+T', 'abg', 'point', ToolInBasePose)</l>
+<c>    </c>
+<l>    set_calib_data (CalibDataID, 'tool', I, 'tool_in_base_pose', ToolInBasePose)</l>
 <c>    </c>
 <c>    </c>
 <c>   </c>
 <l>        endfor</l>
 <c>    </c>
+<l>check_hand_eye_calibration_input_poses (CalibDataID, 0.05, 0.005, Warnings)</l>
+<l>    calibrate_hand_eye (CalibDataID, PoseErrors)</l>
+<c></c>
+<c>    *保存结果</c>
+<l>get_calib_data (CalibDataID, 'camera', 0, 'tool_in_cam_pose', ToolInCamPose)</l>
+<l>get_calib_data (CalibDataID, 'calib_obj', 0, 'obj_in_base_pose', CalObjInBasePose)</l>
+<l>write_calib_data (CalibDataID, 'C:/Users/H/source/repos/HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Robot_Tool_Calib.ccd')</l>
+<c>    </c>
+<c></c>
+<c></c>
+<c></c>
+<l>while (1)</l>
+<c>    </c>
+<c>        </c>
+<l>    Union_Two_Camera  (X, Y, Z, Image_2D, CamSetupModel, StereoModelID, Camera_L, Camera_R, Surface3DDefault, Info)</l>
+<l>    compose3 (X, Y, Z, PXYZ_Image)</l>
+<c>    </c>
+<c>    </c>
+<l>   critical_points_sub_pix (Image_2D, 'facet', 3, 1.5, RowMin, ColMin, RowMax, ColMax, RowPointLeft, ColumnPointLeft)</l>
+<l>gen_cross_contour_xld (CrossLeft, RowPointLeft, ColumnPointLeft, 200, rad(45))</l>
+<c></c>
+<c></c>
+<l>sort_contours_xld (CrossLeft, CrossLeft, 'upper_left', 'true', 'column')</l>
+<c></c>
+<l>dev_display (CrossLeft)</l>
+<c></c>
+<l>get_grayval (PXYZ_Image, RowPointLeft, ColumnPointLeft, Grayval)</l>
+<c></c>
+<c></c>
 <c>    </c>
 <c>    </c>
 <c>    </c>
 <c>    </c>
-<c>    </c>
+<l>endwhile</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
 <l>    max_diameter_object_model_3d (Surface3DDefault, Diameter)</l>
 <c>    *选择出最大区域得图像</c>
 <l>    connection_object_model_3d (Surface3DDefault, 'distance_3d',0.001, ObjectModel3DConnected)</l>
