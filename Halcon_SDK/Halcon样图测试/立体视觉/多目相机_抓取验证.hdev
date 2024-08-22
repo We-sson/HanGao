@@ -114,7 +114,7 @@
 <c></c>
 <c>* Set the stereo parameters.</c>
 <c>*设置重建盒子范围大小</c>
-<l>BoundingBox := [-0.4, -0.4, 0.22, 0.4, 0.4, 0.355]</l>
+<l>BoundingBox := [-0.4, -0.4, 0.22, 0.4, 0.4, 0.455]</l>
 <c></c>
 <c>*指定用于表面立体重建的图像对</c>
 <l>set_stereo_model_image_pairs (StereoModelID, 0, 1)</l>
@@ -436,10 +436,10 @@
 <c>    * Call find_surface_model once, set ReturnResultHandle to 'true'.</c>
 <c>    </c>
 <c>    </c>
-<l>    sample_object_model_3d (Surface3DDefault, 'xyz_mapping', 0.001, [], [], SampledObjectModel3D)</l>
+<l>     sample_object_model_3d (Surface3DDefault, 'xyz_mapping', 0.001, [], [], SampledObjectModel3D)</l>
 <c>    </c>
 <c>    </c>
-<l>    get_object_model_3d_params (SampledObjectModel3D, 'diameter_axis_aligned_bounding_box', Diameter)</l>
+<l>    get_object_model_3d_params (Surface3DDefault, 'diameter_axis_aligned_bounding_box', Diameter)</l>
 <l>    edges_object_model_3d (Surface3DDefault, 0.01 * Diameter, ['max_gap'], [300], ObjectModel3DEdges)</l>
 <c>    </c>
 <c>    </c>
@@ -448,11 +448,16 @@
 <c>    </c>
 <l>    write_object_model_3d (Surface3DDefault, 'om3', User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/采集点云', [], [])</l>
 <c>    </c>
-<l>    SampleDistance := 0.0005</l>
-<l>    sample_object_model_3d (Surface3DDefault, 'xyz_mapping_compute_normals', SampleDistance, [], [], Sample_Surface3DDefault)</l>
-<c>    * </c>
 <c>    </c>
-<l>    find_surface_model (SurfaceModel, Sample_Surface3DDefault, 0.01, 0.5, 0.3, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel','max_gap'], [10,1,'mls',0.05,300], Poses, Scores, ResultHandle)</l>
+<l>*     xyz_to_object_model_3d (X, Y, Z, New_Surface3DDefault)</l>
+<c>    </c>
+<c>    </c>
+<c>*根据像素滤波</c>
+<l>*     SampleDistance := 20</l>
+<l>*     sample_object_model_3d (New_Surface3DDefault, 'xyz_mapping', SampleDistance, [], [], Sample_Surface3DDefault)</l>
+<c>* </c>
+<c>    </c>
+<l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.03, 0.5, 0.3, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel','max_gap'], [10,1,'mls',0.01,100], Poses, Scores, ResultHandle)</l>
 <l>    refine_surface_model_pose (SurfaceModel, Surface3DDefault, Poses, 0, 'true', [], [], Pose, Score1, SurfaceMatchingResultID)</l>
 <c>    </c>
 <c>    </c>
@@ -482,12 +487,12 @@
 <l>    get_surface_matching_result (ResultHandle, 'all_scores', [0], all_scores)</l>
 <c>    </c>
 <c>    </c>
-<l>    object_model_3d_to_xyz (Re_X, Re_Y, Re_Z, ObjectModel3DResult, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
+<l>    object_model_3d_to_xyz (Re_X, Re_Y, Re_Z, ObjectModel3DResult, 'cartesian_faces', CamParam_Lelt, CamSetupModel_Pos)</l>
 <c>    </c>
 <c>    </c>
 <l>    VV:=[Surface3DDefault,sampled_scene,key_points,sampled_3d_edges,ObjectModel3DResult]</l>
 <c>    </c>
-<l>*     visualize_object_model_3d (WindowHandle3, [Surface3DDefault,sampled_scene,key_points,sampled_3d_edges,ObjectModel3DResult], [], [], ['alpha', 'color_0','color_1'],  [0.55, 'blue','red'], [], [], [], PoseOut)</l>
+<l>     *visualize_object_model_3d (WindowHandle3, [Sample_Surface3DDefault,sampled_scene,key_points,sampled_3d_edges,ObjectModel3DResult], [], [], ['alpha', 'color_0','color_1'],  [0.55, 'blue','red'], [], [], [], PoseOut)</l>
 <c>    </c>
 <c>    * </c>
 <l>*     dev_clear_window ()</l>
@@ -497,7 +502,7 @@
 <l>*     stop ()</l>
 <c>    * </c>
 <c>    * Finally, call the debug procedure to inspect model and scene.</c>
-<l>*     debug_find_surface_model (SurfaceModel, Def_ObjectModel3D, Surface3DDefault, ResultHandle, CreateNames, CreateValues, FindNames, FindValues)</l>
+<l>*        debug_find_surface_model (SurfaceModel, Def_ObjectModel3D, Surface3DDefault, ResultHandle, CreateNames, CreateValues, FindNames, FindValues)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
@@ -536,8 +541,8 @@
 <l>*     View:=[Surface3DDefault,ResultValue]</l>
 <l>*     visualize_object_model_3d (WindowHandle3, [Surface3DDefault,ResultValue], [], [], ['alpha_1', 'color_0'],  [0.55, 'blue'], [], [], [], PoseOut)</l>
 <c>    </c>
-<l>    ParamName := ['color_0', 'color_1','disp_pose']</l>
-<l>    ParamValue := ['red', 'green','false']</l>
+<l>*     ParamName := ['color_0', 'color_1','disp_pose']</l>
+<l>*     ParamValue := ['red', 'green','false']</l>
 <l>*     visualize_object_model_3d (WindowHandle3, [ObjectModel3DDefect,OM3DSphereOnly], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
 <c>    </c>
 <c>    </c>
@@ -2556,9 +2561,9 @@
 <c></c>
 <c></c>
 <c></c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',2)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 40)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',40)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 20)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',20)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.5)</l>
 <l>reconstruct_surface_stereo (Images, StereoModelID, ObjectModel3DScene_1)</l>
 <l>get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
@@ -2818,7 +2823,7 @@
 <c></c>
 <c></c>
 <l>ParameterNames := ['information','greedy_kNN','greedy_radius_type','greedy_radius_value','greedy_neigh_orient_tol','greedy_neigh_orient_consistent','greedy_neigh_latitude_tol','greedy_neigh_vertical_tol','greedy_hole_filling','greedy_fix_flips','greedy_prefetch_neighbors','greedy_mesh_erosion','greedy_mesh_dilation']</l>
-<l>ParameterValues := ['verbose',80,'fixed',0.0025,200,'false',100,0.1,1000000,'true','true',4,0]</l>
+<l>ParameterValues := ['verbose',20,'fixed',0.005,200,'false',100,0.1,1000000,'true','true',0,5]</l>
 <c></c>
 <c>*三角化预生产，减少计算时间</c>
 <l>prepare_object_model_3d (ObjectModel3Dsmooth, 'segmentation', 'true', ['max_area_holes'], [1000000])</l>
