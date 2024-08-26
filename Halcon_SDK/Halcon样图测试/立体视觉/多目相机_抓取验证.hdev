@@ -47,12 +47,14 @@
 <c></c>
 <l>read_object_model_3d (User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/三维测试零件.STEP', 'm', [], [], Def_ObjectModel3D_1, Status)</l>
 <c></c>
-<l>surface_normals_object_model_3d (Def_ObjectModel3D_1, 'mls', [], [], Def_ObjectModel3D)</l>
+<c>*统一法线</c>
+<c></c>
+<l>surface_normals_object_model_3d (Def_ObjectModel3D_1, 'mls', ['mls_force_inwards'], ['true'], Def_ObjectModel3D_1)</l>
 <c></c>
 <c></c>
-<l>create_deformable_surface_model (Def_ObjectModel3D, 0.01, ['model_invert_normals','bending_max','stiffness','scale_min','scale_max'], [true,0,1,0.98,1.2], DeformableSurfaceModel)</l>
+<l>create_deformable_surface_model (Def_ObjectModel3D_1, 0.01, ['model_invert_normals','bending_max','stiffness','scale_min','scale_max'], [true,0,1,0.98,1.2], DeformableSurfaceModel)</l>
 <c></c>
-<l>create_surface_model (Def_ObjectModel3D, 0.03, ['model_invert_normals','train_3d_edges', 'train_view_based','train_self_similar_poses'], ['true','true', 'true','true'], SurfaceModel)</l>
+<l>create_surface_model (Def_ObjectModel3D_1, 0.02, ['model_invert_normals','train_3d_edges', 'train_view_based','train_self_similar_poses'], ['true','true', 'true','false'], SurfaceModel)</l>
 <c></c>
 <c>* 参考点必须位于物体表面。</c>
 <l>ReferencePointX := [-1.5, -8.571, -11.5, -11.5, -11.5] * 0.001</l>
@@ -336,14 +338,12 @@
 <l>*     get_grayval (PXYZ_Image, RowPointLeft, ColumnPointLeft, Grayval)</l>
 <c>    </c>
 <c>    *机器人当前位置</c>
-<l>    create_pose (-295.23*0.001,1082.44*0.001, 826.54*0.001,-172.80, 29.47, -89.76, 'Rp+T', 'abg', 'point', ToolInBasePose)</l>
+<l>    create_pose (412.71*0.001,627.59*0.001, 949.73*0.001,174.73, 34.3, -141.34, 'Rp+T', 'abg', 'point', ToolInBasePose)</l>
 <l>*     create_pose (Grayval[0], Grayval[1], Grayval[2],0, 0, 0, 'Rp+T', 'gba', 'point', ObjInCamPose)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
-<l>    pose_invert (ToolInCamPose, CamInToolPose)</l>
-<l>*     pose_compose (ToolInBasePose, CamInToolPose, CamInBasePose)</l>
-<l>*     pose_compose (CamInBasePose, ObjInCamPose, ObjInBasePose)    </l>
+<c>    </c>
 <c>    </c>
 <c>    *删去旋转数据</c>
 <l>*     ObjInBasePose[3]:=0</l>
@@ -374,91 +374,38 @@
 <l>    object_model_3d_to_xyz (X1, Y1, Z1, ObjectModel3DDefect, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
 <l>    compose3 (X1, Y1, Z1, primitives_Image)</l>
 <c>    </c>
-<c>    *点云拟合平面</c>
-<l>*     ParFitting := ['primitive_type', 'fitting_algorithm', 'output_xyz_mapping']</l>
-<l>*     ValFitting := ['plane', 'least_squares', 'true']</l>
-<l>*     fit_primitives_object_model_3d (ObjectModel3DDefect, ParFitting, ValFitting, ObjectModel3DOut)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     get_object_model_3d_params (ObjectModel3DOut, 'primitive_parameter', parameter)</l>
-<l>*     get_object_model_3d_params (ObjectModel3DOut, 'primitive_parameter_pose', parameter_pose)</l>
-<l>*     get_object_model_3d_params (ObjectModel3DOut, 'primitive_pose', ModelInPlanePos)</l>
-<l>*     get_object_model_3d_params (ObjectModel3DOut, 'primitive_parameter_extension', parameter_extension)</l>
-<c>    </c>
-<c>    *得到平面坐标信息,对齐方向</c>
-<l>*     moments_object_model_3d (ObjectModel3DOut, 'principal_axes', Moments)</l>
-<l>*     pose_to_hom_mat3d (Moments, HomMat3D)</l>
-<l>*     hom_mat3d_rotate_local (HomMat3D, rad(180),'x', HomMat3DRotate)</l>
-<l>*     hom_mat3d_to_pose (HomMat3DRotate, Moments)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    *旋转X轴对齐Z朝下</c>
-<l>*     pose_to_hom_mat3d (ModelInPlanePos, HomMat3D)</l>
-<l>*     hom_mat3d_rotate_local (HomMat3D, rad(180),'x', HomMat3DRotate)</l>
-<l>*     hom_mat3d_to_pose (HomMat3DRotate, ModelInPlanePos)</l>
-<c>    </c>
-<c>    *拷贝拟合外包平面模型</c>
-<l>*     copy_object_model_3d (ObjectModel3DOut, 'primitives_all', OM3DSphereOnly)</l>
-<l>*     triangulate_object_model_3d (OM3DSphereOnly, 'greedy', [] , [], OM3DSphereOnly_Plan, _)</l>
-<c>    </c>
-<c>    </c>
-<l>*     get_camera_setup_param (CamSetupModel, 0, 'params', CamParamLeft)</l>
-<l>*     get_camera_setup_param (CamSetupModel, 0, 'pose', CamSetupModel_Pos)</l>
-<l>*     object_model_3d_to_xyz (X1, Y1, Z1, OM3DSphereOnly_Plan, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
-<l>*     compose3 (X1, Y1, Z1, primitives_Image)</l>
-<c>    </c>
-<c>    </c>
-<l>*     gen_box_object_model_3d ([0, 0, 0, 0, 0, 0, 0], 0.103, 0.082, 0.05, OM3DBox)</l>
-<l>*     triangulate_object_model_3d (OM3DBox, 'greedy', [], [], OM3DModel, Information)</l>
-<c>    * </c>
-<c>    * Prepare a model for edge-supported surface-based matching.</c>
-<l>*     FileName := 'box_edge_supported.sfm'</l>
-<l>*     file_exists (FileName, FileExists)</l>
-<l>*     if (not FileExists)</l>
-<l>*     dev_disp_text ('Creating new surface model. This might take some minutes...', 'window', 'top', 'left', 'black', [], [])</l>
-<l>*     create_surface_model (Def_ObjectModel3D, 0.02, ['train_3d_edges', 'train_view_based'], ['true', 'true'], SurfaceModel)</l>
-<l>*     write_surface_model (SurfaceModel, FileName)</l>
-<l>*     else</l>
-<l>*     dev_disp_text ('Reading pre-created surface model...', 'window', 'top', 'left', 'black', [], [])</l>
-<l>*     read_surface_model (FileName, SurfaceModel)</l>
-<l>*     endif</l>
-<c>    * </c>
-<l>*     read_image (ImageXYZ, 'boxes/cardboard_boxes_xyz_01')</l>
-<l>*     decompose3 (ImageXYZ, XScene, YScene, ZScene)</l>
-<l>*     xyz_to_object_model_3d (XScene, YScene, ZScene, OM3DScene)</l>
-<l>*     dev_clear_window ()</l>
-<l>*     dev_display (ZScene)</l>
-<c>    * </c>
-<l>*     dev_disp_text ('Searching for model in the scene...', 'window', 'top', 'left', 'black', [], [])</l>
-<c>    * </c>
-<c>    * Call find_surface_model once, set ReturnResultHandle to 'true'.</c>
-<c>    </c>
-<c>    </c>
-<l>     sample_object_model_3d (Surface3DDefault, 'xyz_mapping', 0.001, [], [], SampledObjectModel3D)</l>
-<c>    </c>
-<c>    </c>
-<l>    get_object_model_3d_params (Surface3DDefault, 'diameter_axis_aligned_bounding_box', Diameter)</l>
-<l>    edges_object_model_3d (Surface3DDefault, 0.01 * Diameter, ['max_gap'], [300], ObjectModel3DEdges)</l>
-<c>    </c>
-<c>    </c>
 <c>    </c>
 <c>    </c>
 <c>    </c>
 <l>    write_object_model_3d (Surface3DDefault, 'om3', User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/采集点云', [], [])</l>
 <c>    </c>
 <c>    </c>
-<l>*     xyz_to_object_model_3d (X, Y, Z, New_Surface3DDefault)</l>
 <c>    </c>
 <c>    </c>
-<c>*根据像素滤波</c>
-<l>*     SampleDistance := 20</l>
-<l>*     sample_object_model_3d (New_Surface3DDefault, 'xyz_mapping', SampleDistance, [], [], Sample_Surface3DDefault)</l>
-<c>* </c>
 <c>    </c>
-<l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.03, 0.5, 0.3, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel','max_gap'], [10,1,'mls',0.01,100], Poses, Scores, ResultHandle)</l>
+<c>            **推算模型在Base下坐标</c>
+<l>    pose_invert (ToolInCamPose, CamInToolPose)</l>
+<l>    pose_compose (ToolInBasePose, CamInToolPose, CamInBasePose)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    *设置查找角度</c>
+<l>      set_surface_model_param (SurfaceModel, 'pose_restriction_max_angle_diff', rad(10))</l>
+<c>     *查找模型        </c>
+<l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.01, 0.2, 0.3, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel','max_gap'], [1,1,'mls',0.01,100], Poses, Scores, ResultHandle)</l>
 <l>    refine_surface_model_pose (SurfaceModel, Surface3DDefault, Poses, 0, 'true', [], [], Pose, Score1, SurfaceMatchingResultID)</l>
+<l>    get_surface_matching_result (ResultHandle, 'sampled_scene', [], sampled_scene)</l>
+<l>    get_surface_matching_result (ResultHandle, 'key_points', [], key_points)</l>
+<l>    get_surface_matching_result (ResultHandle, 'sampled_3d_edges', [], sampled_3d_edges)</l>
+<l>    get_surface_matching_result (ResultHandle, 'all_scores', [0], all_scores)</l>
+<c>    </c>
+<c>    </c>
+<c>    *平移结果到Base坐标下</c>
+<l>    rigid_trans_object_model_3d ([Surface3DDefault,sampled_scene,key_points,sampled_3d_edges], CamInBasePose, find_Result)</l>
+<c>        </c>
+<c>    </c>
+<c>    </c>
+<c>   </c>
 <c>    </c>
 <c>    </c>
 <l>    ObjectModel3DResult := []</l>
@@ -470,407 +417,81 @@
 <c>        * </c>
 <c>        </c>
 <c>        </c>
+<c></c>
+<l>        pose_compose (CamInBasePose, CPose, ObjInBasePose)   </l>
 <c>        </c>
-<l>        rigid_trans_object_model_3d (Def_ObjectModel3D, CPose, ObjectModel3DRigidTrans)</l>
 <c>        </c>
 <c>        </c>
+<l>        Calib:=0</l>
+<l>        if (Calib)</l>
+<c>            </c>
+<c>            </c>
+<c>            </c>
+<l>            Calib_PointX := [512.600769,513.217 ,533.333, 598.188] * 0.001</l>
+<l>            Calib_PointY := [756.051, 719.053, 660.596,660.724] * 0.001</l>
+<l>            Calib_PointZ := [546.90387, 547.04,548.36, 552.691] * 0.001</l>
+<l>            gen_object_model_3d_from_points (Calib_PointX, Calib_PointY, Calib_PointZ, Calib_Point3D)</l>
+<l>            pose_invert (ObjInBasePose, BaseInObjPose)</l>
+<l>            rigid_trans_object_model_3d (Calib_Point3D, BaseInObjPose, Calib_Point3D_Oring)</l>
+<c>        </c>
+<l>            set_surface_model_param (SurfaceModel, 'pose_restriction_reference_pose', CPose)</l>
+<c>           </c>
+<c>            </c>
+<l>        endif</l>
+<c>        </c>
+<c>        </c>
+<l>        rigid_trans_object_model_3d ([Def_ObjectModel3D_1,Calib_Point3D_Oring], ObjInBasePose, ObjectModel3DRigidTrans)</l>
+<c>        </c>
+<c>      </c>
 <c>        </c>
 <l>        ObjectModel3DResult := [ObjectModel3DResult,ObjectModel3DRigidTrans]</l>
+<c>        </c>
+<c></c>
+<c>        </c>
+<c>        </c>
+<c>        </c>
 <l>    endfor</l>
 <c>    </c>
-<l>*     rigid_trans_object_model_3d (Def_ObjectModel3D, Poses, ObjectModel3DRigidTrans)</l>
-<c>    </c>
-<c>    </c>
-<l>    get_surface_matching_result (ResultHandle, 'sampled_scene', [], sampled_scene)</l>
-<l>    get_surface_matching_result (ResultHandle, 'key_points', [], key_points)</l>
-<l>    get_surface_matching_result (ResultHandle, 'sampled_3d_edges', [], sampled_3d_edges)</l>
-<l>    get_surface_matching_result (ResultHandle, 'all_scores', [0], all_scores)</l>
-<c>    </c>
-<c>    </c>
-<l>    object_model_3d_to_xyz (Re_X, Re_Y, Re_Z, ObjectModel3DResult, 'cartesian_faces', CamParam_Lelt, CamSetupModel_Pos)</l>
-<c>    </c>
-<c>    </c>
-<l>    VV:=[Surface3DDefault,sampled_scene,key_points,sampled_3d_edges,ObjectModel3DResult]</l>
-<c>    </c>
-<l>     *visualize_object_model_3d (WindowHandle3, [Sample_Surface3DDefault,sampled_scene,key_points,sampled_3d_edges,ObjectModel3DResult], [], [], ['alpha', 'color_0','color_1'],  [0.55, 'blue','red'], [], [], [], PoseOut)</l>
-<c>    </c>
-<c>    * </c>
-<l>*     dev_clear_window ()</l>
-<l>*     dev_display (ZScene)</l>
-<l>*     dev_disp_text ('find_surface_model has completed. Next, the debug procedure will be started,\nwhich allows inspection and debugging of the parameters.', 'window', 'top', 'left', 'black', [], [])</l>
-<l>*     dev_disp_text ('Press Run (F5) to continue', 'window', 'bottom', 'right', 'black', [], [])</l>
-<l>*     stop ()</l>
-<c>    * </c>
-<c>    * Finally, call the debug procedure to inspect model and scene.</c>
-<l>*        debug_find_surface_model (SurfaceModel, Def_ObjectModel3D, Surface3DDefault, ResultHandle, CreateNames, CreateValues, FindNames, FindValues)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
+<l>*  disp_3d_coord_system (WindowHandle3, CamParamLeft, BaseInObjPose, 0.05)</l>
 <c>    </c>
 <c>    </c>
-<c>    </c>
-<l>*     find_deformable_surface_model (DeformableSurfaceModel, ObjectModel3DDefect, 0.08, 0, ['pose_ref_num_steps'], [10], Score, DeformableSurfaceMatchingResult)</l>
-<l>*     get_deformable_surface_matching_result (DeformableSurfaceMatchingResult, 'deformed_model', 0, ResultValue)</l>
-<l>*     get_deformable_surface_matching_result (DeformableSurfaceMatchingResult, 'deformed_sampled_model', 0, deformed_sampled_model)</l>
-<c>    </c>
-<l>*     object_model_3d_to_xyz (X_Re, Y_Re, Z_Re, ResultValue, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
+<c> *查看图需映射情况</c>
+<l>    rigid_trans_object_model_3d ([Def_ObjectModel3D_1,Calib_Point3D_Oring], Pose, Result_Camera)</l>
+<c>      </c>
+<l>    object_model_3d_to_xyz (Re_X, Re_Y, Re_Z, Result_Camera, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
 <l>    compose3 (Re_X, Re_Y, Re_Z, Re_Image)</l>
+<c>    </c>
+<c>    </c>
+<c></c>
+<c>    </c>
+<l>    VV:=[ObjectModel3DResult,find_Result]</l>
+<c>    </c>
+<l>     visualize_object_model_3d (WindowHandle3, [ObjectModel3DResult,find_Result], [], [], ['alpha', 'color_0','color_1','point_size_1'],  [0.55, 'blue','red',10], [], [], [], PoseOut)</l>
+<c>    </c>
+<c>    </c>
+<c></c>
+<c>    * Finally, call the debug procedure to inspect model and scene.</c>
+<l>*      debug_find_surface_model (SurfaceModel, Def_ObjectModel3D_1, Surface3DDefault, ResultHandle, CreateNames, CreateValues, FindNames, FindValues)</l>
+<c>    </c>
+<c>    **查看结果</c>
+<c>    </c>
+<c>    </c>
+<l>    get_object_model_3d_params (ObjectModel3DResult[1], 'point_coord_x', Result_Point_X)</l>
+<l>    get_object_model_3d_params (ObjectModel3DResult[1], 'point_coord_y', Result_Point_Y)</l>
+<l>    get_object_model_3d_params (ObjectModel3DResult[1], 'point_coord_z', Result_Point_Z)</l>
+<c> </c>
+<c>    </c>
+<c>    *显示匹配结果</c>
 <l>    dev_display (Image_2D)</l>
 <l>    dev_display (Re_Image)</l>
 <c>    </c>
-<l>*     critical_points_sub_pix (Image_2D, 'facet', 6, 1.5, RowMin, ColMin, RowMax, ColMax, RowPointLeft, ColumnPointLeft)</l>
-<l>*     gen_cross_contour_xld (CrossLeft, RowPointLeft, ColumnPointLeft, 200, rad(45))</l>
+<l>    Point_Str:=[[Result_Point_X[0],Result_Point_Y[0],Result_Point_Z[0]]*1000,'----------',[Result_Point_X[1],Result_Point_Y[1],Result_Point_Z[1]]*1000,'----------',[Result_Point_X[2],Result_Point_Y[2],Result_Point_Z[2]]*1000,'----------',[Result_Point_X[3],Result_Point_Y[3],Result_Point_Z[3]]*1000]</l>
 <c>    </c>
-<c>    </c>
-<l>*     sort_contours_xld (CrossLeft, CrossLeft, 'upper_left', 'true', 'column')</l>
-<c>    </c>
-<l>*     dev_display (CrossLeft)</l>
-<c>    </c>
-<l>*     get_grayval (primitives_Image, RowPointLeft, ColumnPointLeft, Grayval)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     View:=[Surface3DDefault,ResultValue]</l>
-<l>*     visualize_object_model_3d (WindowHandle3, [Surface3DDefault,ResultValue], [], [], ['alpha_1', 'color_0'],  [0.55, 'blue'], [], [], [], PoseOut)</l>
-<c>    </c>
-<l>*     ParamName := ['color_0', 'color_1','disp_pose']</l>
-<l>*     ParamValue := ['red', 'green','false']</l>
-<l>*     visualize_object_model_3d (WindowHandle3, [ObjectModel3DDefect,OM3DSphereOnly], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
-<c>    </c>
-<c>    </c>
-<c>    *校正物体YZ平面</c>
-<c>    </c>
-<l>*     pose_invert (ModelInPlanePos, PoseInvert)</l>
-<l>*     rigid_trans_object_model_3d (OM3DSphereOnly_Plan, PoseInvert, ObjectModel3DRigidTrans1)</l>
-<l>*     smallest_bounding_box_object_model_3d (OM3DSphereOnly_Plan, 'oriented', Pose, Length1, Length2, Length3)</l>
-<l>*     dev_display(Image_2D)</l>
-<l>*     disp_3d_coord_system (WindowHandle3, CamParamLeft, Pose, 0.05)</l>
-<l>*     parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, Pose, Image_2D_Width, Image_2D_Height, Scale_vector, Pose_vector, WidthTo, HeightFrom)</l>
-<l>*     image_to_world_plane (Image_2D, Imagevector, CamParamLeft, Pose_vector, WidthTo, HeightFrom, Scale_vector, 'bilinear')</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     ParamName := ['color_0', 'color_1','alpha_1','disp_pose']</l>
-<l>*     ParamValue := ['red', 'green',0.5,'true']</l>
-<l>*     visualize_object_model_3d (WindowHandle3, [ObjectModel3DRigidTrans1,OM3DSphereOnly_Plan], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     diameter_region (primitives_Image, Row_diameter, Column_diameter, Row_diameter1, Column_diameter1, Distance)</l>
-<l>*     gen_region_line (RegionLines, Row_diameter, Column_diameter, Row_diameter1, Column_diameter1)</l>
-<l>*     get_region_points (RegionLines, Rows, Columns)</l>
-<c>    </c>
-<c>    </c>
-<l>*     get_region_contour (primitives_Image, Rows1, Columns1)</l>
-<l>*     get_grayval (primitives_Image, Rows1, Columns1, Grayval)</l>
-<l>*     Rows1:=[Rows1,Rows]</l>
-<l>*     Columns1:=[Columns1,Columns]</l>
-<l>*     XLd_Rows:=[]</l>
-<l>*     XLd_Columns:=[]</l>
-<l>*     XLd_no:=0</l>
-<l>*     for Index := 0 to |Rows1|-1 by 100</l>
-<c>    </c>
-<l>*     XLd_Rows[XLd_no]:=Rows1[Index]</l>
-<l>*     XLd_Columns[XLd_no]:=Columns1[Index]</l>
-<l>*     XLd_no:=XLd_no+1</l>
-<l>*     endfor</l>
-<c>    </c>
-<c>    </c>
-<l>*     gen_cross_contour_xld (Cross, XLd_Rows, XLd_Columns, 60, 0.785398)</l>
-<c>    </c>
-<l>*     XLd_X:=[]</l>
-<l>*     XLd_Y:=[]  </l>
-<l>*     XLd_Z:=[]   </l>
-<c>    </c>
-<c>    </c>
-<l>*     image_points_to_world_plane (CamParamLeft, ModelInPlanePos, XLd_Rows, XLd_Columns, 'm', X2, Y2)</l>
-<c>    </c>
-<l>*     vector_to_pose (X2, Y2, XLd_Z, XLd_Rows, XLd_Columns, CamParamLeft, 'planar_analytic', 'error', FinalPose, Errors)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     for Index := 0 to |XLd_Rows|-1 by 1</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     get_grayval (primitives_Image, XLd_Rows[Index], XLd_Columns[Index], Grayval)</l>
-<l>*     XLd_X[Index]:=Grayval[0]</l>
-<l>*     XLd_Y[Index]:=Grayval[1]</l>
-<l>*     XLd_Z[Index]:=Grayval[2]</l>
-<l>*     endfor</l>
-<c>    </c>
-<c>    </c>
-<l>*     vector_to_pose (XLd_X, XLd_Y, XLd_Z, XLd_Rows, XLd_Columns, CamParamLeft, 'planar_analytic', 'error', FinalPose, Errors)</l>
-<l>*     tuple_gen_const (|XLd_Rows|, 0, NUll_Columns)</l>
-<c>    </c>
-<l>*     vector_to_hom_mat3d ('rigid', XLd_X, XLd_Y, XLd_Z, XLd_Rows, XLd_Columns, NUll_Columns, HomMat3D1)</l>
-<c>    </c>
-<l>*     hom_mat3d_to_pose (HomMat3D1, Pose)</l>
-<c>    </c>
-<l>*     disp_3d_coord_system (WindowHandle3, CamParamLeft, ModelInPlanePos, 0.05)</l>
-<c>    </c>
-<c>    </c>
-<l>*     parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, FinalPose, Image_2D_Width, Image_2D_Height, Scale_vector, Pose_vector, WidthTo, HeightFrom)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     image_to_world_plane (Image_2D, Imagevector, CamParamLeft, Pose_vector, WidthTo, HeightFrom, Scale_vector, 'bilinear')</l>
-<c>    </c>
-<l>*     Image_X:=[]</l>
-<l>*     Image_Y:=[]</l>
-<l>*     Image_Z:=[]</l>
-<l>*     for Index := 0 to |Rows|-1 by 1</l>
-<c>    </c>
-<c>    </c>
-<l>*     XYZ_Pos:=Grayval[Index * 3:Index * 3 + 2]</l>
-<c>    </c>
-<c>    </c>
-<l>*     Image_X[Index]:=Grayval[Index * 3:Index * 3 ]</l>
-<l>*     Image_Y[Index]:=Grayval[Index * 3+1:Index * 3 +1]</l>
-<l>*     Image_Z[Index]:=Grayval[Index * 3+2:Index * 3 +2]</l>
-<l>*     endfor</l>
-<c>    </c>
-<l>*     vector_to_pose (Image_X, Image_Y, Image_Z, Rows, Columns, CamParamLeft, 'analytic', 'error', Pose1, Quality1)</l>
-<c>    </c>
-<c>    </c>
-<l>*     diameter_region (primitives_Image, Row1, Column1, Row2, Column2, Diameter)</l>
-<c>    </c>
-<l>*     gen_cross_contour_xld (Cross, [Row1,Row2], [Column1,Column2], 60, 0.785398)</l>
-<l>*     disp_line (WindowHandle3, Row1, Column1, Row2, Column2)</l>
-<c>    </c>
-<l>*     vector_to_pose (Diameter, Diameter, Diameter, Diameter, Diameter, StartCamParamFront, 'iterative', 'error', Pose, Quality)</l>
-<c>    </c>
-<c>    </c>
-<l>*     ArrowThickness := 0.0008</l>
-<l>*     ArrowLength := 0.1</l>
-<l>*     gen_robot_tool_and_base_object_model_3d (ArrowThickness, ArrowLength, OM3DToolOrigin, OM3DBase)</l>
-<l>*     get_calib_data (CalibDataID, 'model', 'general', 'camera_setup_model', CamSetupModel)</l>
-<l>*     gen_camera_setup_object_model_3d (CamSetupModel, 0.05, 0.3, OM3DCameraOrigin, OM3DConeOrig)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     rigid_trans_object_model_3d (OM3DToolOrigin, ModelInPlanePos, ObjectModel3DRigidTrans)</l>
-<c>    </c>
-<c>    </c>
-<l>*     ParamName := ['color_0', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5', 'color_6', 'alpha_6','disp_pose']</l>
-<l>*     ParamValue := ['red', 'green', 'blue', 'red', 'green', 'blue', 'white', 0.5,'false']</l>
-<l>*     visualize_object_model_3d (WindowHandle3, [OM3DBase,ObjectModel3DRigidTrans,ObjectModel3DOut,OM3DCameraOrigin], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     gen_grid_region (Image_region, 20, 20, 'points', Image_2D_Width, Image_2D_Height)</l>
-<l>*     get_region_points (Image_region, A_Rows, A_Columns)</l>
-<l>*     gen_circle_contour_xld (ContCircle, A_Rows, A_Columns, gen_tuple_const(|A_Rows|,1.0), 0, rad(360), 'positive', 0.1)</l>
-<l>*     contour_to_world_plane_xld (ContCircle, ContCircleWorldPlane, CamParamLeft, ModelInPlanePos, 'm')</l>
-<l>*     fit_ellipse_contour_xld (ContCircleWorldPlane, 'fitzgibbon', -1, 0, 0, 200, 3, 2, Row, Column, Phi, Radius1, Radius2, StartPhi, EndPhi, PointOrder)</l>
-<c>    </c>
-<l>*     Scale1:=median(Radius1)</l>
-<l>*     Scale2:=median(Radius2)</l>
-<l>*     Scale3:=mean(Radius1)</l>
-<l>*     Scale4:=mean(Radius2)</l>
-<l>*     Scale5:=(mean(Radius1)+mean(Radius2))/2</l>
-<l>*     Scale6:=(median(Radius1)+median(Radius2))/2</l>
-<c>    </c>
-<c>    *获得图像比例</c>
-<l>*     parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, ModelInPlanePos, Image_2D_Width, Image_2D_Height, ScaleForEntireImage, PoseForEntireImage, WidthTo, HeightFrom)</l>
-<c>    </c>
-<l>*     ScaleForEntireImage:=ScaleForEntireImage+0.00000000</l>
-<l>*     ALL_Scale:=[ALL_Scale,ScaleForEntireImage]</l>
-<c>    </c>
-<c>    </c>
-<l>*     image_to_world_plane (Image_2D, ImageMapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, ScaleForEntireImage, 'nearest_neighbor')</l>
-<l>*     image_to_world_plane (Image_2D, Scale1_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale1, 'bilinear')</l>
-<l>*     image_to_world_plane (Image_2D, Scale2_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale2, 'bilinear')</l>
-<l>*     image_to_world_plane (Image_2D, Scale3_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale3, 'bilinear')</l>
-<l>*     image_to_world_plane (Image_2D, Scale4_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale4, 'bilinear')</l>
-<l>*     image_to_world_plane (Image_2D, Scale5_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale5, 'bilinear')</l>
-<l>*     image_to_world_plane (Image_2D, Scale6_Mapped, CamParamLeft, PoseForEntireImage, WidthTo, HeightFrom, Scale6, 'bilinear')</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     ALL_Scale:=[ScaleForEntireImage,Scale1,Scale2,Scale3,Scale4,Scale5,Scale6]</l>
-<c>    </c>
-<l>*     create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
-<l>*     set_calib_data_cam_param (CalibDataID, 0, [], CamParamLeft)</l>
-<l>*     CalibObjDescr := 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
-<l>*     set_calib_data_calib_object (CalibDataID, 0, CalibObjDescr)</l>
-<l>*     find_calib_object (Image_2D, CalibDataID, 0, 0, I, 'sigma', 1.2)</l>
-<l>*     get_calib_data_observ_points (CalibDataID, 0, 0, 4, Row, Column, Index, StartPose)</l>
-<l>*     disp_caltab (WindowHandle3, CalibObjDescr, CamParamLeft, StartPose, 1)</l>
-<c>    </c>
-<l>*     pose_invert (StartPose, StartPoseInvert)</l>
-<l>*     pose_compose (StartPoseInvert, ModelInPlanePos, Error_Pos)</l>
-<l>*     pose_compose (StartPoseInvert, Moments, Error_Pos1)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    *创建1米的平面</c>
-<l>*     gen_plane_object_model_3d (ModelInPlanePos, [-5,-5,5,5], [-5,5,5,-5], ObjectModel_Plan)</l>
-<c>    </c>
-<l>*     gen_plane_object_model_3d (Moments,[-5,-5,5,5], [-5,5,5,-5], ObjectModel_Plan1)</l>
-<c>    *创建面</c>
-<l>*     ParameterNames := ['information','greedy_kNN','greedy_radius_type','greedy_radius_value','greedy_neigh_orient_tol','greedy_neigh_orient_consistent','greedy_neigh_latitude_tol','greedy_neigh_vertical_tol','greedy_hole_filling','greedy_fix_flips','greedy_prefetch_neighbors','v','greedy_mesh_dilation']</l>
-<l>*     ParameterValues := ['verbose',25,'fixed',0.003,100,'false',100,0.1,100000,'true','true',1,5]</l>
-<l>*     triangulate_object_model_3d (ObjectModel_Plan, 'greedy', ParameterNames , ParameterValues, Surface3DPlane, _)</l>
-<l>*     visualize_object_model_3d (WindowHandle3, [OM3DBase,ObjectModel3DRigidTrans,ObjectModel3DOut,OM3DCameraOrigin,ObjectModel_Plan,ObjectModel_Plan1], [], [],  ParamName, ParamValue, [], [], [], PoseOut1)</l>
-<c>    </c>
-<c>    </c>
-<c>    *计算整个平面深度图像</c>
-<l>*     object_model_3d_to_xyz (X2, Y2, Z2, Surface3DPlane, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
-<c>    </c>
-<l>*     compose3 (X2, Y2, Z2, Plane_Image)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     gen_empty_obj (ResultImage)</l>
-<l>*     concat_obj (ImageMapped, Scale1_Mapped, ResultImage)</l>
-<l>*     concat_obj (ResultImage, Scale2_Mapped, ResultImage)</l>
-<l>*     concat_obj (ResultImage, Scale3_Mapped, ResultImage)</l>
-<l>*     concat_obj (ResultImage, Scale4_Mapped, ResultImage)</l>
-<l>*     concat_obj (ResultImage, Scale5_Mapped, ResultImage)</l>
-<l>*     concat_obj (ResultImage, Scale6_Mapped, ResultImage)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
-<c>    </c>
-<l>*     set_calib_data_cam_param (CalibDataID, 0, [], CamParamLeft)</l>
-<l>*     CalibObjDescr := 'C:/Users/zhiwei2.he/Source/repos/We-sson/HanGao/Halcon_SDK/Calibration_File/CalTabFile/27_31_0.0015_calplate.cpd'</l>
-<l>*     set_calib_data_calib_object (CalibDataID, 0, CalibObjDescr)</l>
-<c>    </c>
-<l>*     find_calib_object (Image_2D, CalibDataID, 0, 0, 0, 'sigma', 1.2)</l>
-<c>    </c>
-<l>*     get_calib_data_observ_pose (CalibDataID, 0, 0, 0, ObjInCameraPose)</l>
-<c>    </c>
-<l>*     ObjInCameraPose[5]:=0</l>
-<l>*     parameters_image_to_world_plane_entire (Image_2D, CamParamLeft, ObjInCameraPose, Image_2D_Width, Image_2D_Height, ScaleForEntireImage1, PoseForEntireImage1, WidthTo, HeightFrom)</l>
-<c>    </c>
-<l>*     ScaleForEntireImage1:=ScaleForEntireImage1-0.0000011</l>
-<c>    </c>
-<l>*     image_to_world_plane (Image_2D, ImageMapped1, CamParamLeft, PoseForEntireImage1, 4024, 3036, ScaleForEntireImage1, 'bilinear')</l>
-<c>    </c>
-<c>    </c>
-<l>*     disp_3d_coord_system (WindowHandle3, CamParamLeft, ObjInCameraPose, 0.05)</l>
-<l>*     emphasize (ImageMapped, Imageemphasize, 50, 50, 3)</l>
-<l>*     gray_opening_rect (Imageemphasize, ImageOpening, 20, 20)</l>
-<c>    </c>
-<l>*     median_image (ImageOpening, ImageMedian, 'square', 8, 'mirrored')</l>
-<l as_id="matching" as_name="Matching 01" as_grp="[6]" as_ord="3">*     find_ncc_model (ImageMedian, ModelID, rad(0), rad(360), 0.5, 1, 0, 'true', 0, Row, Column, Angle, Score)</l>
-<l>*     dev_display(ImageMapped)</l>
-<l>*     dev_display_ncc_matching_results (ModelID, 'red', Row, Column, Angle, 0)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     count_obj (ResultImage, Number)</l>
-<l>*     for Index := 1 to Number by 1</l>
-<c>    </c>
-<l>*     select_obj (ResultImage, ObjectSelected, Index)</l>
-<l>*     emphasize (ObjectSelected, ObjectSelected, 30, 30,1)</l>
-<l>*     dev_display (ObjectSelected)</l>
-<c>    </c>
-<c>    </c>
-<l>*     get_mbutton (WindowHandle3, Row, Column, Button)</l>
-<l>*     get_mbutton (WindowHandle3, Row3, Column3, Button1)</l>
-<l>*     distance_pp (Row, Column, Row3, Column3, Distance)</l>
-<l>*     gen_cross_contour_xld (Cross, [Row,Row3], [Column,Column3], 60, 0.785398)</l>
-<l>*     disp_line (WindowHandle3, Row, Column, Row3, Column3)</l>
-<c>    </c>
-<l>*     Di:=Distance*(ALL_Scale[Index-1]+0.0000002)*1000</l>
-<c>    </c>
-<l>*     disp_message (WindowHandle3,'长度：'+Di+'mm', 'window', 12, 12, 'black', 'true')  </l>
-<l>*     find_ncc_model (ObjectSelected, ModelID, rad(0), rad(360), 0.8, 1, 0.5, 'true', 0, Row, Column, Angle, Score)</l>
-<l>*     dev_display_ncc_matching_results (ModelID, 'rad', Row, Column, Angle, Score)</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     endfor</l>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<c>    </c>
-<l>*     get_deformable_model_contours (ModelContours, ModelID_1, 1)</l>
-<c>    </c>
-<c>    </c>
-<l>*     find_planar_uncalib_deformable_model (ImageMapped, ModelID_1, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.25, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D0, Score)</l>
-<l>*     find_planar_uncalib_deformable_model (Scale1_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D1, Score)</l>
-<l>*     find_planar_uncalib_deformable_model (Scale2_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D2, Score)</l>
-<l>*     find_planar_uncalib_deformable_model (Scale3_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D3, Score)</l>
-<l>*     find_planar_uncalib_deformable_model (Scale4_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D4, Score)</l>
-<l>*     find_planar_uncalib_deformable_model (Scale5_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D5, Score)</l>
-<l>*     find_planar_uncalib_deformable_model (Scale6_Mapped, ModelID, rad(0), rad(360), 1, 1, 1, 1, 0.5, 1, 0.5, 0, 0.75, ['subpixel'], ['least_squares_very_high'], ResultHomMat2D6, Score)</l>
-<c>    </c>
-<c>    </c>
-<l>*     ResultHomMat2D:=[]</l>
-<l>*     ResultHomMat2D:=[ResultHomMat2D0,ResultHomMat2D1,ResultHomMat2D2,ResultHomMat2D3,ResultHomMat2D4,ResultHomMat2D5,ResultHomMat2D6]</l>
-<c>    </c>
-<l>*     D:=[]</l>
-<l>*     for Index := 0 to |ResultHomMat2D|/9-1 by 1</l>
-<c>    </c>
-<c>    </c>
-<l>*     Result:=ResultHomMat2D[Index * 9:Index * 9+8]</l>
-<l>*     select_obj (ResultImage, ImageMapped, Index+1)</l>
-<l>*     dev_display (ImageMapped)</l>
-<l>*     projective_trans_contour_xld (ModelContours, TransContours, ResultHomMat2D0)</l>
-<l>*     gen_region_contour_xld (TransContours, Region, 'filled')</l>
-<l>*     union1 (Region, RegionUnion)</l>
-<l>*     fill_up (RegionUnion, RegionFillUp)</l>
-<l>*     diameter_region (RegionFillUp, Row11, Column11, Row2, Column2, Distance)</l>
-<c>    </c>
-<l>*     gen_cross_contour_xld (Cross, [Row11,Row2], [Column11,Column2], 60, 0.785398)</l>
-<l>*     disp_line (WindowHandle3, Row11, Column11, Row2, Column2)</l>
-<c>    </c>
-<l>*     D[Index]:=Distance</l>
-<l>*     DD:=Distance*ScaleForEntireImage*1000</l>
-<l>*     disp_message (WindowHandle3,DD+'mm', 'window', 12, 12, 'black', 'true')</l>
-<l>*     endfor</l>
-<c>    </c>
-<c>    </c>
-<l>*     dev_display (ImageMapped)</l>
-<l>*     dev_get_window (WindowHandle3)</l>
-<c>    </c>
-<l>*     get_mbutton (WindowHandle3, Row, Column, Button)</l>
-<l>*     get_mbutton (WindowHandle3, Row3, Column3, Button1)</l>
-<l>*     distance_pp (Row, Column, Row3, Column3, Distance)</l>
-<l>*     gen_cross_contour_xld (Cross, [Row,Row3], [Column,Column3], 60, 0.785398)</l>
-<l>*     disp_line (WindowHandle3, Row, Column, Row3, Column3)</l>
-<l>*     Di:=Distance*(ScaleForEntireImage+0.000000)*1000</l>
-<c>    </c>
-<l>*     SS:=100/Distance/1000</l>
-<c>    </c>
-<c>    </c>
-<l>*     D1:=D[0]*(ScaleForEntireImage+0.000000)*1000</l>
-<l>*     D2:=D[1]*(Scale1+0.000000)*1000</l>
-<l>*     D3:=D[2]*(Scale2+0.000000)*1000</l>
-<l>*     D4:=D[3]*(Scale3+0.000000)*1000</l>
-<l>*     D5:=D[4]*(Scale4+0.000000)*1000</l>
-<l>*     D6:=D[5]*(Scale5)*1000</l>
-<l>*     D7:=D[6]*(Scale6)*1000</l>
-<l>*     Lens[0]:='长度：'+D1+'mm'</l>
-<l>*     Lens[1]:='X中位长度：'+D2+'mm'</l>
-<l>*     Lens[2]:='Y中位长度：'+D3+'mm'</l>
-<l>*     Lens[3]:='X平均长度：'+D4+'mm'</l>
-<l>*     Lens[4]:='Y平均长度：'+D5+'mm'</l>
-<l>*     Lens[5]:='中位平均长度：'+D6+'mm'</l>
-<l>*     Lens[6]:='平均平均长度：'+D7+'mm'</l>
-<l>*     disp_message (WindowHandle3,Info+Lens, 'window', 12, 12, 'black', 'true')</l>
-<c>    </c>
-<c>    </c>
+<l>    dev_disp_text (Point_Str, 'window', 'top', 'left', 'black', [], [])</l>
+<c>    *  </c>
 <l>    stop()</l>
 <c>    </c>
 <l>endwhile</l>
@@ -2562,8 +2183,8 @@
 <c></c>
 <c></c>
 <l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 20)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',20)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 30)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',30)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.5)</l>
 <l>reconstruct_surface_stereo (Images, StereoModelID, ObjectModel3DScene_1)</l>
 <l>get_stereo_model_object (ToImage, StereoModelID, [0, 1], 'to_image_rect')</l>
@@ -2723,8 +2344,8 @@
 <c>*mls 平滑方法</c>
 <l>* smooth_object_model_3d (OM3DSampledMapping, 'mls', [], [], ObjectModel3Dsmooth)</l>
 <c></c>
-<c></c>
-<l>smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_kNN', 200, ObjectModel3Dsmooth)</l>
+<c>*修复法线正确方向</c>
+<l>smooth_object_model_3d (OM3DSampledMapping, 'mls', ['mls_kNN','mls_force_inwards'],[ 200,'false'], ObjectModel3Dsmooth)</l>
 <c></c>
 <l>* smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_order', 1, ObjectModel3Dsmooth)</l>
 <c></c>
@@ -2823,7 +2444,7 @@
 <c></c>
 <c></c>
 <l>ParameterNames := ['information','greedy_kNN','greedy_radius_type','greedy_radius_value','greedy_neigh_orient_tol','greedy_neigh_orient_consistent','greedy_neigh_latitude_tol','greedy_neigh_vertical_tol','greedy_hole_filling','greedy_fix_flips','greedy_prefetch_neighbors','greedy_mesh_erosion','greedy_mesh_dilation']</l>
-<l>ParameterValues := ['verbose',20,'fixed',0.005,200,'false',100,0.1,1000000,'true','true',0,5]</l>
+<l>ParameterValues := ['verbose',20,'fixed',0.005,200,'false',100,0.1,1000000,'true','true',4,1]</l>
 <c></c>
 <c>*三角化预生产，减少计算时间</c>
 <l>prepare_object_model_3d (ObjectModel3Dsmooth, 'segmentation', 'true', ['max_area_holes'], [1000000])</l>
