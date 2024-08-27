@@ -45,6 +45,10 @@
 <l>read_shape_model (User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/Matching 01.shm', ModelID)</l>
 <c></c>
 <c></c>
+<c>*读取标定数据</c>
+<l>read_object_model_3d (User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/标定位置点云.om3', 'm', [], [], Calib_Point3D_Oring, Status)</l>
+<l>read_pose (User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/标定模型位置.dat', Calib_Pose)</l>
+<c></c>
 <l>read_object_model_3d (User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/三维测试零件.STEP', 'm', [], [], Def_ObjectModel3D_1, Status)</l>
 <c></c>
 <c>*统一法线</c>
@@ -52,9 +56,11 @@
 <l>surface_normals_object_model_3d (Def_ObjectModel3D_1, 'mls', ['mls_force_inwards'], ['true'], Def_ObjectModel3D_1)</l>
 <c></c>
 <c></c>
-<l>create_deformable_surface_model (Def_ObjectModel3D_1, 0.01, ['model_invert_normals','bending_max','stiffness','scale_min','scale_max'], [true,0,1,0.98,1.2], DeformableSurfaceModel)</l>
+<l>* create_deformable_surface_model (Def_ObjectModel3D_1, 0.01, ['model_invert_normals','bending_max','stiffness','scale_min','scale_max'], [true,0,1,0.98,1.2], DeformableSurfaceModel)</l>
 <c></c>
 <l>create_surface_model (Def_ObjectModel3D_1, 0.02, ['model_invert_normals','train_3d_edges', 'train_view_based','train_self_similar_poses'], ['true','true', 'true','false'], SurfaceModel)</l>
+<l>set_surface_model_param (SurfaceModel, 'pose_restriction_reference_pose', Calib_Pose)</l>
+<c>          </c>
 <c></c>
 <c>* 参考点必须位于物体表面。</c>
 <l>ReferencePointX := [-1.5, -8.571, -11.5, -11.5, -11.5] * 0.001</l>
@@ -63,7 +69,7 @@
 <c></c>
 <c></c>
 <l>gen_object_model_3d_from_points (ReferencePointX, ReferencePointY, ReferencePointZ, ObjectModel3DReferencePoints)</l>
-<l>add_deformable_surface_model_reference_point (DeformableSurfaceModel, ReferencePointX, ReferencePointY, ReferencePointZ, ReferencePointIndex)</l>
+<l>* add_deformable_surface_model_reference_point (DeformableSurfaceModel, ReferencePointX, ReferencePointY, ReferencePointZ, ReferencePointIndex)</l>
 <c></c>
 <c></c>
 <l>* visualize_object_model_3d (WindowHandle3, [Def_ObjectModel3D,ObjectModel3DReferencePoints], [], [], ['color_1', 'point_size_1','disp_pose_0'], ['green', 10,'true'], [], [], [], PoseOut)</l>
@@ -392,7 +398,7 @@
 <c>    *设置查找角度</c>
 <l>      set_surface_model_param (SurfaceModel, 'pose_restriction_max_angle_diff', rad(10))</l>
 <c>     *查找模型        </c>
-<l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.01, 0.2, 0.3, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel','max_gap'], [1,1,'mls',0.01,100], Poses, Scores, ResultHandle)</l>
+<l>    find_surface_model (SurfaceModel, Surface3DDefault, 0.01, 0.5, 0.3, 'true', ['num_matches','max_overlap_dist_rel','scene_normal_computation','3d_edge_min_amplitude_rel','max_gap'], [1,1,'mls',0.01,100], Poses, Scores, ResultHandle)</l>
 <l>    refine_surface_model_pose (SurfaceModel, Surface3DDefault, Poses, 0, 'true', [], [], Pose, Score1, SurfaceMatchingResultID)</l>
 <l>    get_surface_matching_result (ResultHandle, 'sampled_scene', [], sampled_scene)</l>
 <l>    get_surface_matching_result (ResultHandle, 'key_points', [], key_points)</l>
@@ -427,15 +433,18 @@
 <c>            </c>
 <c>            </c>
 <c>            </c>
-<l>            Calib_PointX := [512.600769,513.217 ,533.333, 598.188] * 0.001</l>
-<l>            Calib_PointY := [756.051, 719.053, 660.596,660.724] * 0.001</l>
-<l>            Calib_PointZ := [546.90387, 547.04,548.36, 552.691] * 0.001</l>
+<l>            Calib_PointX := [527.064697,529.564758 ,552.785522,  669.155396] * 0.001</l>
+<l>            Calib_PointY := [787.167725, 678.995178, 653.390198,655.961609] * 0.001</l>
+<l>            Calib_PointZ := [ 555.561, 554.228271, 554.606079, 557.049927] * 0.001</l>
 <l>            gen_object_model_3d_from_points (Calib_PointX, Calib_PointY, Calib_PointZ, Calib_Point3D)</l>
 <l>            pose_invert (ObjInBasePose, BaseInObjPose)</l>
 <l>            rigid_trans_object_model_3d (Calib_Point3D, BaseInObjPose, Calib_Point3D_Oring)</l>
-<c>        </c>
+<c>        *设置标定角度</c>
 <l>            set_surface_model_param (SurfaceModel, 'pose_restriction_reference_pose', CPose)</l>
-<c>           </c>
+<c>           *保存标定</c>
+<l>           write_object_model_3d (Calib_Point3D_Oring, 'om3', User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/标定位置点云', [], [])</l>
+<l>           write_pose (CPose, User_Name+'HanGao/Halcon_SDK/Halcon样图测试/立体视觉/标定模型位置.dat')</l>
+<c>    </c>
 <c>            </c>
 <l>        endif</l>
 <c>        </c>
@@ -461,7 +470,7 @@
 <c> *查看图需映射情况</c>
 <l>    rigid_trans_object_model_3d ([Def_ObjectModel3D_1,Calib_Point3D_Oring], Pose, Result_Camera)</l>
 <c>      </c>
-<l>    object_model_3d_to_xyz (Re_X, Re_Y, Re_Z, Result_Camera, 'cartesian_faces', CamParamLeft, CamSetupModel_Pos)</l>
+<l>    object_model_3d_to_xyz (Re_X, Re_Y, Re_Z, Result_Camera, 'cartesian_faces', CamParam_Lelt, CamSetupModel_Pos)</l>
 <l>    compose3 (Re_X, Re_Y, Re_Z, Re_Image)</l>
 <c>    </c>
 <c>    </c>
@@ -2115,10 +2124,10 @@
 <c>    </c>
 <l>    set_framegrabber_param (Camera_L, 'LineSelector', 'Line1')</l>
 <l>    set_framegrabber_param (Camera_L, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 5000.0)</l>
+<l>    set_framegrabber_param (Camera_L, 'ExposureTime', 10000.0)</l>
 <l>    set_framegrabber_param (Camera_L, 'Gain', 19)</l>
 <l>    set_framegrabber_param (Camera_L, 'GammaEnable', 1)</l>
-<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.75)</l>
+<l>    set_framegrabber_param (Camera_L, 'Gamma', 0.55)</l>
 <l>    set_framegrabber_param (Camera_L, 'StrobeEnable', 0)</l>
 <l>    wait_seconds(0.0)</l>
 <c>    </c>
@@ -2128,10 +2137,10 @@
 <c>    </c>
 <l>    set_framegrabber_param (Camera_R, 'LineSelector', 'Line1')</l>
 <l>    set_framegrabber_param (Camera_R, 'BlackLevel', 200)</l>
-<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 5000.0)</l>
+<l>    set_framegrabber_param (Camera_R, 'ExposureTime', 10000.0)</l>
 <l>    set_framegrabber_param (Camera_R, 'Gain', 19)</l>
 <l>    set_framegrabber_param (Camera_R, 'GammaEnable', 1)</l>
-<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.75)</l>
+<l>    set_framegrabber_param (Camera_R, 'Gamma', 0.55)</l>
 <l>    set_framegrabber_param (Camera_R, 'StrobeEnable', 1)</l>
 <c>    </c>
 <c>    </c>
@@ -2176,8 +2185,8 @@
 <l>emphasize (Image_R, Image_R1, 100, 100,2)</l>
 <l>concat_obj (Image_L1,Image_R1, Images)</l>
 <c></c>
-<l>emphasize (Image_L_1, Image_L_11, 100, 100, 8)</l>
-<l>emphasize (Image_R_1, Image_R_11, 100, 100,8)</l>
+<l>emphasize (Image_L_1, Image_L_11, 50, 50, 10)</l>
+<l>emphasize (Image_R_1, Image_R_11, 50, 50,10)</l>
 <l>concat_obj (Image_L_11,Image_R_11,  Images_1)</l>
 <c></c>
 <c></c>
@@ -2195,10 +2204,10 @@
 <c></c>
 <l>* wait_seconds(0.1)</l>
 <c></c>
-<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',3)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_num_levels',2)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_width', 60)</l>
 <l>set_stereo_model_param (StereoModelID, 'binocular_mask_height',60)</l>
-<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.3)</l>
+<l>set_stereo_model_param (StereoModelID, 'binocular_score_thresh', 0.2)</l>
 <l>reconstruct_surface_stereo (Images_1, StereoModelID, ObjectModel3DScene_2)</l>
 <l>get_stereo_model_object (ToImage_1, StereoModelID, [0, 1], 'to_image_rect')</l>
 <l>get_stereo_model_object (FromImage_1, StereoModelID, [0, 1], 'from_image_rect')</l>
@@ -2444,7 +2453,7 @@
 <c></c>
 <c></c>
 <l>ParameterNames := ['information','greedy_kNN','greedy_radius_type','greedy_radius_value','greedy_neigh_orient_tol','greedy_neigh_orient_consistent','greedy_neigh_latitude_tol','greedy_neigh_vertical_tol','greedy_hole_filling','greedy_fix_flips','greedy_prefetch_neighbors','greedy_mesh_erosion','greedy_mesh_dilation']</l>
-<l>ParameterValues := ['verbose',20,'fixed',0.005,200,'false',100,0.1,1000000,'true','true',4,1]</l>
+<l>ParameterValues := ['verbose',20,'fixed',0.005,200,'false',100,0.1,1000000,'true','true',3,0]</l>
 <c></c>
 <c>*三角化预生产，减少计算时间</c>
 <l>prepare_object_model_3d (ObjectModel3Dsmooth, 'segmentation', 'true', ['max_area_holes'], [1000000])</l>
