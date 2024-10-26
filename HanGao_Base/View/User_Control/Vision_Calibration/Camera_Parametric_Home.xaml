@@ -4339,7 +4339,7 @@
                         </Grid.RowDefinitions>
 
                         <Border Grid.Row=" 0" Grid.Column="0"
-                                Height=" 55"
+                                Height=" 50"
                                 Margin="0"
                                 Background="{DynamicResource 全局_按钮_蓝颜色}"
                                 CornerRadius="5 5 0 0">
@@ -4369,8 +4369,8 @@
                                            Text="相机参数"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="22"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="20"
                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
 
@@ -4429,17 +4429,45 @@
                                                                  Content="Camera_0"
                                                                  IsChecked="{Binding Halcon_Camera_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}}"
                                                                  FontSize=" 14"
-                                                                 GroupName="Camera_Control" />
+                                                                 GroupName="Camera_Control">
+
+                                                        <i:Interaction.Triggers>
+
+                                                            <i:EventTrigger EventName="Checked">
+                                                                <i:InvokeCommandAction Command="{Binding Select_Camera_Control_Comm}"
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                       PassEventArgsToCommand="True" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </RadioButton>
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                  Content="Camera_1"
                                                                  IsChecked="{Binding Halcon_Camera_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}}"
                                                                  FontSize="14"
-                                                                 GroupName="Camera_Control" />
+                                                                 GroupName="Camera_Control">
+                                                        <i:Interaction.Triggers>
+
+                                                            <i:EventTrigger EventName="Checked">
+                                                                <i:InvokeCommandAction Command="{Binding Select_Camera_Control_Comm}"
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                       PassEventArgsToCommand="True" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </RadioButton>
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
                                                                  Content="双目相机"
                                                                  IsChecked="{Binding Halcon_Camera_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.双目相机}}"
                                                                  FontSize="14"
-                                                                 GroupName="Camera_Control" />
+                                                                 GroupName="Camera_Control">
+                                                        <i:Interaction.Triggers>
+
+                                                            <i:EventTrigger EventName="Checked">
+                                                                <i:InvokeCommandAction Command="{Binding Select_Camera_Control_Comm}"
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                       PassEventArgsToCommand="True" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </RadioButton>
                                                 </Grid>
 
                                             </Border>
@@ -4584,7 +4612,7 @@
                                                     Maximum="50000"
                                                     Minimum="1"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Parameter_Val.ExposureTime, Mode=TwoWay}">
+                                                    Value="{Binding Select_Camera_Parameter_Val.ExposureTime, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                             <i:EventTrigger EventName="PreviewMouseUp">
@@ -4639,7 +4667,7 @@
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.01"
-                                                    Value="{Binding Camera_Parameter_Val.Gain, Mode=TwoWay}">
+                                                    Value="{Binding Select_Camera_Parameter_Val.Gain, Mode=TwoWay}">
 
                                                 <!--<i:Interaction.Triggers>
 
@@ -4685,7 +4713,7 @@
                                                     Minimum="-6"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Camera_Parameter_Val.DigitalShift, Mode=TwoWay}">
+                                                    Value="{Binding Select_Camera_Parameter_Val.DigitalShift, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                             <i:EventTrigger EventName="PreviewMouseUp">
@@ -4730,7 +4758,7 @@
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Camera_Parameter_Val.Gamma, Mode=TwoWay}">
+                                                    Value="{Binding Select_Camera_Parameter_Val.Gamma, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                             <i:EventTrigger EventName="PreviewMouseUp">
@@ -4775,7 +4803,7 @@
                         Minimum="0"
                         SmallChange="1"
                         TickFrequency="0.1"
-                        Value="{Binding Camera_Parameter_Val.Sharpness, Mode=TwoWay}">
+                        Value="{Binding Select_Camera_Parameter_Val.Sharpness, Mode=TwoWay}">
                     <i:Interaction.Triggers>
 
                         <i:EventTrigger EventName="PreviewMouseUp">
@@ -4818,7 +4846,7 @@
                                                     Maximum="4095"
                                                     Minimum="0"
                                                     SmallChange="1"
-                                                    Value="{Binding Camera_Parameter_Val.BlackLevel, Mode=TwoWay}">
+                                                    Value="{Binding Select_Camera_Parameter_Val.BlackLevel, Mode=TwoWay}">
                                                 <!--<i:Interaction.Triggers>
 
                                             <i:EventTrigger EventName="PreviewMouseUp">
@@ -4870,17 +4898,17 @@
 
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
                                                                  Content="关"
-                                                                 IsChecked="{Binding Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}"
+                                                                 IsChecked="{Binding Select_Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}"
                                                                  FontSize=" 16"
                                                                  GroupName="Lighting_Control" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                  Content="开"
-                                                                 IsChecked="{Binding Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}"
+                                                                 IsChecked="{Binding Select_Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}"
                                                                  FontSize="16"
                                                                  GroupName="Lighting_Control" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
                                                                  Content="自动"
-                                                                 IsChecked="{Binding Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}"
+                                                                 IsChecked="{Binding Select_Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}"
                                                                  FontSize="16"
                                                                  GroupName="Lighting_Control" />
                                                 </Grid>
@@ -4916,7 +4944,7 @@
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource MVS:MV_CAM_ACQUISITION_MODE}"
-                                                      SelectedValue="{Binding Camera_Parameter_Val.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Camera_Parameter_Val.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding}"
@@ -4997,7 +5025,7 @@
 
                                             <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
                                                       Content="闪光灯"
-                                                      IsChecked="{Binding Camera_Parameter_Val.LineInverter}"
+                                                      IsChecked="{Binding Select_Camera_Parameter_Val.LineInverter}"
                                                       Margin="0"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Center"
