@@ -242,6 +242,41 @@ namespace MVS_SDK_Base.Model
 
             }
 
+      
+            private Camera_Lighting_Control_Type_Enum _Camera_Lighting_Control= Camera_Lighting_Control_Type_Enum.自动;
+
+            /// <summary>
+            /// 相机控制光源选项
+            /// </summary>
+            public Camera_Lighting_Control_Type_Enum Camera_Lighting_Control
+            {
+                get { return _Camera_Lighting_Control; }
+                set {
+                    _Camera_Lighting_Control= value;
+                    switch (value)
+                    {
+                        case Camera_Lighting_Control_Type_Enum.开:
+                            LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                            StrobeEnable = false;
+                            LineInverter = true;
+                            break;
+                        case Camera_Lighting_Control_Type_Enum.关:
+                            LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                            StrobeEnable = false;
+                            LineInverter = false;
+                            break;
+                        case Camera_Lighting_Control_Type_Enum.自动:
+
+                            LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                            StrobeEnable = true ;
+                            LineInverter = false ;
+                            break;
+              
+                    }
+                }
+            }
+
+
             /// <summary>
             /// 设备采集的采集模式、枚举类型值 ——默认持续采集模式，"MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS"
             /// </summary>
@@ -703,7 +738,9 @@ namespace MVS_SDK_Base.Model
                         //读取标记读取属性
                         Camera_ReadWriteAttribute _CameraRW_Type = (Camera_ReadWriteAttribute)_Type.GetCustomAttribute(typeof(Camera_ReadWriteAttribute));
 
-                        if (_CameraRW_Type.GetCamera_ReadWrite_Type() == Camera_Parameter_RW_Type.Read)
+
+
+                        if (_CameraRW_Type!=null && _CameraRW_Type.GetCamera_ReadWrite_Type() == Camera_Parameter_RW_Type.Read)
                         {
 
                             if (Get_Camera_Info_Val(Camera, _Type, _Type.Name, ref _Val).GetResult())
@@ -743,12 +780,18 @@ namespace MVS_SDK_Base.Model
                 try
                 {
 
+
+
+
+
+
+
                     //遍历设置参数,调整参数顺序
                     foreach (PropertyInfo _Type in _Parameter.GetType().GetProperties().OrderBy(x => x.MetadataToken))
                     {
                         Camera_ReadWriteAttribute _CameraRW_Type = (Camera_ReadWriteAttribute)_Type.GetCustomAttribute(typeof(Camera_ReadWriteAttribute));
 
-                        if (_CameraRW_Type.GetCamera_ReadWrite_Type() == Camera_Parameter_RW_Type.Write)
+                        if (_CameraRW_Type!=null && _CameraRW_Type.GetCamera_ReadWrite_Type() == Camera_Parameter_RW_Type.Write)
                         {
 
                             if (!Set_Camera_Parameters_Val(Camera, _Type, _Type.Name, _Type.GetValue(_Parameter)))
@@ -1332,7 +1375,7 @@ namespace MVS_SDK_Base.Model
 
 
                     //获得相机属性
-                    Get_Camrea_Parameters();
+                    _Parameter= Get_Camrea_Parameters();
 
                     //获得图像最大像素
                     Camera_Info.HeightMax = _Parameter.HeightMax;
@@ -1811,5 +1854,18 @@ namespace MVS_SDK_Base.Model
         内参标定,
         双目标定,
     }
+
+
+
+    /// <summary>
+    /// 相机灯光控制
+    /// </summary>
+    public enum Camera_Lighting_Control_Type_Enum
+    {
+        开,
+        关,
+        自动
+    }
+
 
 }

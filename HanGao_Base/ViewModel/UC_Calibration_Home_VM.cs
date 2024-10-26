@@ -1563,7 +1563,7 @@ namespace HanGao.ViewModel
                         //功能未开发
 
 
-                        throw new Exception("双目功能未开发");
+                        //throw new Exception("双目功能未开发");
 
 
                     //break;
@@ -1613,6 +1613,8 @@ namespace HanGao.ViewModel
 
                     //根据选择得相机开始取流图像
                     _Select_Camera.StopGrabbing();
+                    //连续取土需要设置相机连续
+                    Camera_Parameter_Val.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
                     _Select_Camera.Set_Camrea_Parameters_List(Camera_Parameter_Val);
                     _Select_Camera.StartGrabbing();
 

@@ -279,7 +279,7 @@
 
 
                         <Border Grid.Column=" 1"
-                                Width=" 3"
+                                Width=" 2"
                                 HorizontalAlignment="Stretch"
                                 Background="{DynamicResource 全局_按钮_深灰颜色}">
                             <Border.Style>
@@ -4555,10 +4555,11 @@
 
 
 
-                                        <Border Height=" 3"
+                                        <Border Height=" 2"
                                                 Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                                CornerRadius="1" />
+                                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
 
 
                                         <Grid Height="35" Margin="0,5,0,5">
@@ -4840,6 +4841,58 @@
                                         </Grid>
 
 
+                                        <Grid Height=" 35" Margin="0,5,0,5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="光源控制"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <Border Grid.Column=" 1"
+                                                    Margin="0,0,0,0"
+                                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                    BorderThickness="0,0,0,2">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
+                                                                 Content="关"
+                                                                 IsChecked="{Binding Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}"
+                                                                 FontSize=" 16"
+                                                                 GroupName="Lighting_Control" />
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
+                                                                 Content="开"
+                                                                 IsChecked="{Binding Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}"
+                                                                 FontSize="16"
+                                                                 GroupName="Lighting_Control" />
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
+                                                                 Content="自动"
+                                                                 IsChecked="{Binding Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}"
+                                                                 FontSize="16"
+                                                                 GroupName="Lighting_Control" />
+                                                </Grid>
+
+                                            </Border>
+
+
+
+
+                                        </Grid>
+
+
 
                                         <Grid Height=" 35" Margin="0,5,0,5">
 
@@ -4883,10 +4936,11 @@
 
                                         </Grid>
 
-                                        <Border Height=" 3"
+                                        <Border Height=" 2"
                                                 Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                                CornerRadius="1" />
+                                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
 
                                         <Grid Height=" 35" Margin="0,5,0,5">
                                             <Grid.ColumnDefinitions>

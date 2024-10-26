@@ -725,6 +725,9 @@ namespace Halcon_SDK_DLL
 
 
 
+
+
+
         /// <summary>
         /// 查找标定板方法
         /// </summary>
@@ -1102,6 +1105,9 @@ namespace Halcon_SDK_DLL
         Camera_1,
 
     }
+
+
+
 
     /// <summary>
     /// 手眼标定模式枚举
