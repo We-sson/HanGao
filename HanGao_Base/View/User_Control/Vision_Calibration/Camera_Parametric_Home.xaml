@@ -5034,7 +5034,7 @@
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
-                                                      IsChecked="{Binding Camera_Interna_Parameters.Halcon_Find_Calib_Model}"
+                                                      IsChecked="{Binding Select_Camera_Select_Val.Camera_Live}"
                                                       Height=" 38"
                                                       Margin="0,0,10,0"
                                                       HorizontalContentAlignment="Center"
