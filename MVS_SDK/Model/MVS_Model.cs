@@ -211,6 +211,7 @@ namespace MVS_SDK_Base.Model
             {
                 AcquisitionMode = _Param.AcquisitionMode;
                 AcquisitionFrameRateEnable = _Param.AcquisitionFrameRateEnable;
+                TriggerCacheEnable = _Param.TriggerCacheEnable;
                 ExposureTime = _Param.ExposureTime;
                 ExposureAuto = _Param.ExposureAuto;
                 //ExposureMode = _Param.ExposureMode;
@@ -289,6 +290,13 @@ namespace MVS_SDK_Base.Model
             [StringValue("设置每个帧突发开始触发信号采集的帧数失败")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
             public bool AcquisitionFrameRateEnable { set; get; } = true;
+
+            [StringValue("设置启用触发器缓存失败")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            public bool TriggerCacheEnable { set; get; } = true;
+
+
+
             /// <summary>
             /// 曝光模式定时时的曝光时间
             /// </summary>
@@ -661,6 +669,13 @@ namespace MVS_SDK_Base.Model
             /// 相机是否实时模式
             /// </summary>
             public bool Camera_Live { set; get; } = false;
+
+
+            /// <summary>
+            /// 相机检测延时
+            /// </summary>
+            public int  Camera_Check_Delay { set; get; } = 0;
+
 
             /// <summary>
             /// 泛型类型委托声明

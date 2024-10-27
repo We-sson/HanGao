@@ -260,22 +260,70 @@
                         </Grid.ColumnDefinitions>
 
 
+                        <Grid Grid.Column=" 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height=" auto" />
+                                <RowDefinition Height=" *" />
+                            </Grid.RowDefinitions>
 
-                        <Halcon:HSmartWindowControlWPF x:Name="Calibration_Window_1"
-                                                       MinWidth="400"
-                                                       MinHeight="400"
-                                                       HorizontalAlignment="Stretch"
-                                                       VerticalAlignment="Stretch"
-                                                       HorizontalContentAlignment="Center"
-                                                       VerticalContentAlignment="Center"
-                                                       HDisableAutoResize="True"
-                                                       SnapsToDevicePixels="True">
-                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayImage}" />
-                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Calibration_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                            HDraw="{Binding Halcon_Window_Display.Calibration_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                            IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayRegion}" />
-                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayXLD}" />
-                        </Halcon:HSmartWindowControlWPF>
+
+                            <Border Grid.Row="0"
+                                    Height=" 35"
+                                    Margin="0"
+                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                    CornerRadius=" 0">
+
+
+
+
+                                <Grid>
+
+                                    <TextBlock Text="{Binding Camera_0_Select_Val.Camera_Info.SerialNumber, FallbackValue=..., StringFormat={}Camera: {0}}"
+                                               TextWrapping="Wrap"
+                                               Margin="0,0,0,0"
+                                               Padding="20,0,0,0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16 "
+                                               Foreground="{DynamicResource 全局_背景_白颜色}"
+                                               IsEnabled="True"
+                                               TextTrimming="CharacterEllipsis" />
+
+                                    <TextBlock Text="{Binding Camera_0_Select_Val.Camera_Check_Delay, StringFormat={}检测延时:{0}ms, FallbackValue=检测延时:0}"
+                                               TextWrapping="Wrap"
+                                               Margin="0,0,0,0"
+                                               Padding="0,0,10,0"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16 "
+                                               Foreground="{DynamicResource 全局_按钮_黄颜色}"
+                                               IsEnabled="True"
+                                               TextTrimming="CharacterEllipsis" />
+                                </Grid>
+
+                            </Border>
+
+
+                            <Halcon:HSmartWindowControlWPF x:Name="Calibration_Window_1" Grid.Row=" 1"
+                                                           MinWidth="400"
+                                                           MinHeight="400"
+                                                           HorizontalAlignment="Stretch"
+                                                           VerticalAlignment="Stretch"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           HDisableAutoResize="True"
+                                                           SnapsToDevicePixels="True">
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayImage}" />
+                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Calibration_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                HDraw="{Binding Halcon_Window_Display.Calibration_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayRegion}" />
+                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Calibration_Window_1.DisplayXLD}" />
+                            </Halcon:HSmartWindowControlWPF>
+
+
+                        </Grid>
 
 
                         <Border Grid.Column=" 1"
@@ -294,33 +342,47 @@
                         </Border>
 
 
-                        <Halcon:HSmartWindowControlWPF x:Name="Calibration_Window_2" Grid.Column=" 2"
-                                                       MinWidth="400"
-                                                       MinHeight="400"
-                                                       HorizontalAlignment="Stretch"
-                                                       VerticalAlignment="Stretch"
-                                                       HorizontalContentAlignment="Center"
-                                                       VerticalContentAlignment="Center"
-                                                       HDisableAutoResize="True"
-                                                       SnapsToDevicePixels="True">
-                            <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Calibration_Window_2.DisplayImage}" />
-                            <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Calibration_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                            HDraw="{Binding Halcon_Window_Display.Calibration_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                            IconicObject="{Binding Halcon_Window_Display.Calibration_Window_2.DisplayRegion}" />
-                            <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Calibration_Window_2.DisplayXLD}" />
-                            <Halcon:HSmartWindowControlWPF.Style>
-                                <Style TargetType="Halcon:HSmartWindowControlWPF">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Halcon:HSmartWindowControlWPF.Style>
-
-                        </Halcon:HSmartWindowControlWPF>
+                        <Grid Grid.Column=" 2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height=" auto" />
+                                <RowDefinition Height=" *" />
+                            </Grid.RowDefinitions>
 
 
+                            <Border Grid.Row="0"
+                                    Height=" 35"
+                                    Margin="0"
+                                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                    CornerRadius=" 0" />
+
+                            <Halcon:HSmartWindowControlWPF x:Name="Calibration_Window_2" Grid.Row=" 1"
+                                                           MinWidth="400"
+                                                           MinHeight="400"
+                                                           HorizontalAlignment="Stretch"
+                                                           VerticalAlignment="Stretch"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           HDisableAutoResize="True"
+                                                           SnapsToDevicePixels="True">
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Calibration_Window_2.DisplayImage}" />
+                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Calibration_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                HDraw="{Binding Halcon_Window_Display.Calibration_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                IconicObject="{Binding Halcon_Window_Display.Calibration_Window_2.DisplayRegion}" />
+                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.Calibration_Window_2.DisplayXLD}" />
+                                <Halcon:HSmartWindowControlWPF.Style>
+                                    <Style TargetType="Halcon:HSmartWindowControlWPF">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Calibration_Switch}" Value="true">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Halcon:HSmartWindowControlWPF.Style>
+
+                            </Halcon:HSmartWindowControlWPF>
+
+
+                        </Grid>
 
 
 
@@ -1059,7 +1121,7 @@
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                           FontSize="20"
+                                           FontSize="18"
                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
                                 <!--<Button Style="{DynamicResource Halcon_Window_Button}"
@@ -1890,7 +1952,7 @@
                                                 <TextBlock Text="标定板参数"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                             </StackPanel>
@@ -2149,7 +2211,7 @@
                                                 <TextBlock Text="Camera 0 内参初始化"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                             </StackPanel>
@@ -4517,6 +4579,7 @@
 
                                                                     <Setter Property="Content" Value="已连接相机" />
                                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
+                                                                    <Setter Property="IsEnabled" Value="False" />
                                                                 </MultiDataTrigger.Setters>
 
 
@@ -4530,6 +4593,8 @@
 
                                                                     <Setter Property="Content" Value="已连接相机" />
                                                                     <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
+                                                                    <Setter Property="IsEnabled" Value="False" />
+
                                                                 </MultiDataTrigger.Setters>
 
                                                             </MultiDataTrigger>
@@ -5033,7 +5098,7 @@
                                                       FontSize="16"
                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
+                                            <CheckBox x:Name="Live_Camera" Grid.Column=" 1"
                                                       IsChecked="{Binding Select_Camera_Select_Val.Camera_Live}"
                                                       Height=" 38"
                                                       Margin="0,0,10,0"
@@ -5041,14 +5106,53 @@
                                                       VerticalContentAlignment="Center"
                                                       Background="{DynamicResource 全局_按钮_蓝颜色}"
                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                      FontSize=" 26">
-                                                <TextBlock Text="实时检测"
+                                                      FontSize=" 16"
+                                                      Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                                <!--<TextBlock Text="实时检测"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
-                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />-->
+                                                <CheckBox.Style>
+                                                    <Style BasedOn="{StaticResource CheckBoxStyle1}" TargetType="CheckBox">
+                                                        <Setter Property="Content" Value="准备检测" />
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                                                        <Style.Triggers>
 
+
+                                                            <MultiDataTrigger>
+
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}" />
+                                                                    <Condition Binding="{Binding Select_Camera_Select_Val.Camera_Live}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <MultiDataTrigger.Setters>
+
+                                                                    <Setter Property="Content" Value="实时检测中..." />
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
+                                                                </MultiDataTrigger.Setters>
+
+
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}" />
+                                                                    <Condition Binding="{Binding Select_Camera_Select_Val.Camera_Live}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <MultiDataTrigger.Setters>
+
+                                                                    <Setter Property="Content" Value="实时检测中..." />
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
+                                                                </MultiDataTrigger.Setters>
+
+                                                            </MultiDataTrigger>
+
+                                                        </Style.Triggers>
+                                                    </Style>
+
+
+                                                </CheckBox.Style>
 
 
                                                 <i:Interaction.Triggers>
