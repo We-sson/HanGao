@@ -58,7 +58,7 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <ObjectDataProvider x:Key="HandEye_Optimization_Enum"
+        <ObjectDataProvider x:Key="Halcon_Optimization_Enum"
                             MethodName="GetValues"
                             ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -3241,8 +3241,8 @@
                                                       FontSize="16"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Binding Source={StaticResource HandEye_Optimization_Enum}}"
-                                                      SelectedValue="{Binding HandEye_Camera_Parameters.HandEye_Optimization_Method}">
+                                                      ItemsSource="{Binding Source={StaticResource Halcon_Optimization_Enum}}"
+                                                      SelectedValue="{Binding HandEye_Camera_Parameters.Optimization_Method}">
 
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>

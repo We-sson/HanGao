@@ -39,6 +39,13 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
+        <ObjectDataProvider x:Key="Halcon_Optimization_Enum"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Halcon_DLL:HandEye_Optimization_Method_Enum" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
 
 
     </Window.Resources>
@@ -353,7 +360,39 @@
                                     Height=" 35"
                                     Margin="0"
                                     Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                    CornerRadius=" 0" />
+                                    CornerRadius=" 0">
+
+
+
+
+                                <Grid>
+
+                                    <TextBlock Text="{Binding Camera_1_Select_Val.Camera_Info.SerialNumber, FallbackValue=..., StringFormat={}Camera: {0}}"
+                                               TextWrapping="Wrap"
+                                               Margin="0,0,0,0"
+                                               Padding="20,0,0,0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16 "
+                                               Foreground="{DynamicResource 全局_背景_白颜色}"
+                                               IsEnabled="True"
+                                               TextTrimming="CharacterEllipsis" />
+
+                                    <TextBlock Text="{Binding Camera_1_Select_Val.Camera_Check_Delay, StringFormat={}检测延时:{0}ms, FallbackValue=检测延时:0}"
+                                               TextWrapping="Wrap"
+                                               Margin="0,0,0,0"
+                                               Padding="0,0,10,0"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16 "
+                                               Foreground="{DynamicResource 全局_按钮_黄颜色}"
+                                               IsEnabled="True"
+                                               TextTrimming="CharacterEllipsis" />
+                                </Grid>
+
+                            </Border>
 
                             <Halcon:HSmartWindowControlWPF x:Name="Calibration_Window_2" Grid.Row=" 1"
                                                            MinWidth="400"
@@ -2159,7 +2198,46 @@
 
 
 
+                                        <Grid Height=" 35" Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="校准模式"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                                      HorizontalContentAlignment="Center"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderThickness="2"
+                                                      FontSize="16"
+                                                      IsDropDownOpen="False"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding Source={StaticResource Halcon_Optimization_Enum}}"
+                                                      SelectedValue="{Binding Camera_Interna_Parameters.Optimization_Method}">
 
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="14"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+
+
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+
+                                            </ComboBox>
+
+                                        </Grid>
 
 
 
@@ -4516,11 +4594,36 @@
                                                             </i:EventTrigger>
                                                         </i:Interaction.Triggers>
                                                     </RadioButton>
-                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
+                                                    <RadioButton Grid.Column=" 2"
                                                                  Content="双目相机"
                                                                  IsChecked="{Binding Halcon_Camera_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.双目相机}}"
                                                                  FontSize="14"
                                                                  GroupName="Camera_Control">
+                                                        <RadioButton.Style>
+                                                            <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                                <Style.Triggers>
+
+                                                                    <MultiDataTrigger>
+
+                                                                        <MultiDataTrigger.Conditions>
+                                                                            <Condition Binding="{Binding Camera_0_Select_Val.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}" />
+                                                                            <Condition Binding="{Binding Camera_1_Select_Val.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}" />
+
+                                                                        </MultiDataTrigger.Conditions>
+                                                                        <MultiDataTrigger.Setters>
+
+                                                                            <Setter Property="IsEnabled" Value="True" />
+
+                                                                        </MultiDataTrigger.Setters>
+
+
+                                                                    </MultiDataTrigger>
+
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </RadioButton.Style>
+
                                                         <i:Interaction.Triggers>
 
                                                             <i:EventTrigger EventName="Checked">
@@ -5088,7 +5191,7 @@
                                             </Grid.ColumnDefinitions>
 
 
-                                            <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
+                                            <!--<CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
                                                       Content="闪光灯"
                                                       IsChecked="{Binding Select_Camera_Parameter_Val.LineInverter}"
                                                       Margin="0"
@@ -5096,7 +5199,15 @@
                                                       VerticalAlignment="Center"
                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                       FontSize="16"
-                                                      Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                      Foreground="{DynamicResource 全局_按钮_黑颜色}" />-->
+
+
+                                            <TextBlock Text="相机操作"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <CheckBox x:Name="Live_Camera" Grid.Column=" 1"
                                                       IsChecked="{Binding Select_Camera_Select_Val.Camera_Live}"

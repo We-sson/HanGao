@@ -1051,7 +1051,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 手眼标定校正模式
         /// </summary>
-        public HandEye_Optimization_Method_Enum HandEye_Optimization_Method { set; get; } = HandEye_Optimization_Method_Enum.stochastic;
+        public HandEye_Optimization_Method_Enum Optimization_Method { set; get; } = HandEye_Optimization_Method_Enum.stochastic;
 
         /// <summary>
         /// 标定结果保存文件夹

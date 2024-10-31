@@ -29,12 +29,12 @@ namespace Halcon_SDK_DLL
         }
 
 
-        public Halcon_Calibration_SDK(Camera_Connect_Control_Type_Enum _Type, HCamPar _CamPar)
-        {
-            Camera_Connect_Model = _Type;
-            Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_CamPar);
+        //public Halcon_Calibration_SDK(Camera_Connect_Control_Type_Enum _Type, HCamPar _CamPar)
+        //{
+        //    Camera_Connect_Model = _Type;
+        //    Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(_CamPar);
 
-        }
+        //}
 
 
         /// <summary>
@@ -98,15 +98,20 @@ namespace Halcon_SDK_DLL
 
 
 
-        ///// <summary>
-        ///// 标定初始参数
-        ///// </summary>
-        //public HCamPar HCamParData { set; get; } = new HCamPar();
+ 
 
         /// <summary>
-        /// 相机标定参数
+        /// 相机0标定参数
         /// </summary>
-        public Halcon_Camera_Calibration_Parameters_Model Camera_Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+        public Halcon_Camera_Calibration_Parameters_Model Camera_0_Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+
+
+        /// <summary>
+        /// 相机1标定参数
+        /// </summary>
+        public Halcon_Camera_Calibration_Parameters_Model Camera_1_Calibration_Paramteters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+
+
 
 
 
@@ -115,7 +120,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         /// <param name="_HandEye_Param"></param>
         /// <exception cref="Exception"></exception>
-        private void Creation_Calibration(Halcon_Camera_Calibration_Model _HandEye_Param)
+        private void Creation_Calibration(Halcon_Camera_Calibration_Model _HandEye_Param )
         {
 
 
@@ -133,6 +138,17 @@ namespace Halcon_SDK_DLL
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
                             //功能未开发
+
+                            ///创建标定属性
+                            HCalibData = new HCalibData(_HandEye_Param.Calibration_Setup_Model.ToString(), 2, 1);
+
+                            ///设置标定文件
+                            HCalibData.SetCalibDataCalibObject(0, _HandEye_Param.Selected_Calibration_Pate_Address.FullName);
+
+                            HCalibData.SetCalibDataCamParam(0, new HTuple(), Camera_0_Calibration_Paramteters.Get_HCamPar());
+                            HCalibData.SetCalibDataCamParam(1, new HTuple(), Camera_1_Calibration_Paramteters.Get_HCamPar());
+
+
                             break;
                         case Camera_Connect_Control_Type_Enum.Camera_0 or Camera_Connect_Control_Type_Enum.Camera_1:
 
@@ -142,32 +158,35 @@ namespace Halcon_SDK_DLL
                             ///设置标定文件
                             HCalibData.SetCalibDataCalibObject(0, _HandEye_Param.Selected_Calibration_Pate_Address.FullName);
 
-                            HCalibData.SetCalibDataCamParam(0, new HTuple(), Camera_Calibration_Paramteters.Get_HCamPar());
+                            HCalibData.SetCalibDataCamParam(0, new HTuple(), Camera_0_Calibration_Paramteters.Get_HCamPar());
 
 
 
-                            //对应标定方法设置参数
-                            switch (_HandEye_Param.Calibration_Setup_Model)
-                            {
-                                case Halcon_Calibration_Setup_Model_Enum.calibration_object:
 
 
+                            break;
 
-                                    break;
-                                case Halcon_Calibration_Setup_Model_Enum.hand_eye_moving_cam:
-
-                                    HCalibData.SetCalibData("model", "general", "optimization_method", _HandEye_Param.HandEye_Optimization_Method.ToString());
-                                    break;
-                                case Halcon_Calibration_Setup_Model_Enum.hand_eye_scara_moving_cam:
-                                    break;
-                                case Halcon_Calibration_Setup_Model_Enum.hand_eye_scara_stationary_cam:
-                                    break;
-                                case Halcon_Calibration_Setup_Model_Enum.hand_eye_stationary_cam:
-                                    break;
-
-                            }
+                    }
 
 
+                    //对应标定方法设置参数
+                    switch (_HandEye_Param.Calibration_Setup_Model)
+                    {
+                        case Halcon_Calibration_Setup_Model_Enum.calibration_object:
+
+                            HCalibData.SetCalibData("model", "general", "optimization_method", _HandEye_Param.Optimization_Method.ToString());
+
+
+                            break;
+                        case Halcon_Calibration_Setup_Model_Enum.hand_eye_moving_cam:
+
+                            HCalibData.SetCalibData("model", "general", "optimization_method", _HandEye_Param.Optimization_Method.ToString());
+                            break;
+                        case Halcon_Calibration_Setup_Model_Enum.hand_eye_scara_moving_cam:
+                            break;
+                        case Halcon_Calibration_Setup_Model_Enum.hand_eye_scara_stationary_cam:
+                            break;
+                        case Halcon_Calibration_Setup_Model_Enum.hand_eye_stationary_cam:
                             break;
 
                     }
@@ -512,7 +531,7 @@ namespace Halcon_SDK_DLL
 
 
                 //根据标定类型读取结果参数
-                switch (_CalibParam.HandEye_Optimization_Method)
+                switch (_CalibParam.Optimization_Method)
                 {
                     case HandEye_Optimization_Method_Enum.linear:
 

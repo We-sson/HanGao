@@ -1993,7 +1993,7 @@ namespace HanGao.ViewModel
 
 
                         //设置相机采集参数
-                        Halcon_HandEye_Calibra.Camera_Calibration_Paramteters = Camera_Calibration_0.Camera_Calibration_Paramteters;
+                        Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters = Camera_Calibration_0.Camera_Calibration_Paramteters;
 
                         //根据触发模式选择显示画面和连接相机
                         switch (_HandEyeModel)
@@ -2025,7 +2025,7 @@ namespace HanGao.ViewModel
                         Camera_1_Select_Val.ThrowIfNull("Camera 1 设备为空，请选择Camera设备！");
 
                         //设置相机采集参数
-                        Halcon_HandEye_Calibra.Camera_Calibration_Paramteters = Camera_Calibration_1.Camera_Calibration_Paramteters;
+                        Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters = Camera_Calibration_1.Camera_Calibration_Paramteters;
 
 
                         //根据触发模式选择显示画面和连接相机
@@ -2183,7 +2183,7 @@ namespace HanGao.ViewModel
                             }
 
                             ///拷贝设备相机标定的内参初始值
-                            Halcon_HandEye_Calibra.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Calibration_0.Camera_Calibration_Paramteters.Get_HCamPar());
+                            Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Calibration_0.Camera_Calibration_Paramteters.Get_HCamPar());
 
                             _Selected_Results = HandEye_Results_Pos = HandEye_Camera_0_Results = Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters);
 
@@ -2229,7 +2229,7 @@ namespace HanGao.ViewModel
                             ///拷贝设备相机标定的内参初始值
 
 
-                            Halcon_HandEye_Calibra.Camera_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Calibration_1.Camera_Calibration_Paramteters.Get_HCamPar());
+                            Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Calibration_1.Camera_Calibration_Paramteters.Get_HCamPar());
 
                             _Selected_Results = HandEye_Results_Pos = HandEye_Camera_1_Results = Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters);
                         }
