@@ -162,7 +162,50 @@ namespace HanGao.ViewModel
 
 
 
+        public ICommand TwoCamera_Check_LiveImage_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                CheckBox E = Sm.Source as CheckBox;
 
+
+                if ((bool)(E.IsChecked == true))
+                {
+
+
+                    Task.Run(() =>
+                    {
+
+                        try
+                        {
+
+
+
+                            ///单帧模式
+                            //Camera_Interna_Parameters.Halcon_Find_Calib_Model = true;
+
+                            //Select_Camera_Select_Val.Camera_Live = true ;
+
+                            ///查找标定板结果
+                            HandEye_Find_Calibration();
+               
+
+                        }
+                        catch (Exception _e)
+                        {
+
+                            //Application.Current.Dispatcher.Invoke(() => { E.IsChecked = false; });
+                            Select_Camera_Select_Val.Camera_Live = false;
+
+                            User_Log_Add(_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
+
+                        }
+
+                    });
+
+                }
+            });
+        }
 
 
 
@@ -733,6 +776,9 @@ namespace HanGao.ViewModel
                 }
             });
         }
+
+
+
 
 
 
@@ -1733,43 +1779,70 @@ namespace HanGao.ViewModel
                 {
 
 
-                MVS_Image_Mode _MVS_Image_0 = Camera_0_Info.MVS_GetOneFrameTimeout();
-                MVS_Image_Mode _MVS_Image_1 = Camera_1_Info.MVS_GetOneFrameTimeout();
+                    //MVS_Image_Mode _MVS_Image_0 = Camera_0_Info.MVS_GetOneFrameTimeout();
+                    //MVS_Image_Mode _MVS_Image_1 = Camera_1_Info.MVS_GetOneFrameTimeout();
 
-                HImage _Camera_0_Image = new();
-                HImage _Camera_1_Image = new();
-
-
-
-                if (_MVS_Image_0 != null || _MVS_Image_1 != null)
-                {
-
-                    _Camera_0_Image = Halcon_SDK.Mvs_To_Halcon_Image(_MVS_Image_0.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_0.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_0.PData);
-                    _Camera_1_Image = Halcon_SDK.Mvs_To_Halcon_Image(_MVS_Image_1.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_1.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_1.PData);
-
-
-                    Camera_0_Check_LiveImage = Halcon_Camera_Calibra.Check_CalibObject_Features(_Camera_0_Image, Camera_Interna_Parameters);
-                    Camera_0_Check_LiveImage._Image = _Camera_0_Image;
-
-
-
-
-
-                    Camera_1_Check_LiveImage = Halcon_Camera_Calibra.Check_CalibObject_Features(_Camera_1_Image, Camera_Interna_Parameters);
-                    Camera_1_Check_LiveImage._Image = _Camera_1_Image;
-
-                    Application.Current.Dispatcher.Invoke(() =>
+                    Task<MVS_Image_Mode> Camera_0_Image_Tk =
+                        Task.Run<MVS_Image_Mode>(() =>
                     {
 
+                        return Camera_0_Info.MVS_GetOneFrameTimeout();
 
-                        //显示画面结果
-                        Halcon_Window_Display.Display_HObject(Camera_0_Info.Show_Window, Camera_0_Check_LiveImage._Image, Camera_0_Check_LiveImage._CalibRegion, _DrawColor: Camera_0_Check_LiveImage._DrawColor);
-                        Halcon_Window_Display.Display_HObject(Camera_0_Info.Show_Window, _XLD: Camera_0_Check_LiveImage._CalibXLD);
-                        //显示画面结果
-                        Halcon_Window_Display.Display_HObject(Camera_1_Info.Show_Window, Camera_1_Check_LiveImage._Image, Camera_1_Check_LiveImage._CalibRegion, _DrawColor: Camera_1_Check_LiveImage._DrawColor);
-                        Halcon_Window_Display.Display_HObject(Camera_1_Info.Show_Window, _XLD: Camera_1_Check_LiveImage._CalibXLD);
                     });
-                }
+                    Task<MVS_Image_Mode> Camera_1_Image_Tk =
+                             Task.Run<MVS_Image_Mode>(() =>
+                             {
+
+                                 return Camera_0_Info.MVS_GetOneFrameTimeout();
+
+                             });
+
+
+                    Task<MVS_Image_Mode[]> reasult_Camera = Task.WhenAll(Camera_0_Image_Tk, Camera_1_Image_Tk);
+
+
+
+
+                    HImage _Camera_0_Image = new();
+                    HImage _Camera_1_Image = new();
+
+
+                   
+
+
+                    if (reasult_Camera.Result[0] != null || reasult_Camera.Result[1] != null)
+                    {
+
+                        MVS_Image_Mode _MVS_Image_0 = reasult_Camera.Result[0];
+                        MVS_Image_Mode _MVS_Image_1 = reasult_Camera.Result[1];
+
+
+                        _Camera_0_Image = Halcon_SDK.Mvs_To_Halcon_Image(_MVS_Image_0.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_0.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_0.PData);
+                        _Camera_1_Image = Halcon_SDK.Mvs_To_Halcon_Image(_MVS_Image_1.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_1.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_1.PData);
+
+
+                        Camera_0_Check_LiveImage = Halcon_Camera_Calibra.Check_CalibObject_Features(_Camera_0_Image, Camera_Interna_Parameters);
+                        Camera_0_Check_LiveImage._Image = _Camera_0_Image;
+
+
+
+
+
+                        Camera_1_Check_LiveImage = Halcon_Camera_Calibra.Check_CalibObject_Features(_Camera_1_Image, Camera_Interna_Parameters);
+                        Camera_1_Check_LiveImage._Image = _Camera_1_Image;
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+
+
+                            //显示画面结果
+                            Halcon_Window_Display.Display_HObject(Camera_0_Info.Show_Window, Camera_0_Check_LiveImage._Image, Camera_0_Check_LiveImage._CalibRegion, _DrawColor: Camera_0_Check_LiveImage._DrawColor);
+                            Halcon_Window_Display.Display_HObject(Camera_0_Info.Show_Window, _XLD: Camera_0_Check_LiveImage._CalibXLD);
+                            //显示画面结果
+                            Halcon_Window_Display.Display_HObject(Camera_1_Info.Show_Window, Camera_1_Check_LiveImage._Image, Camera_1_Check_LiveImage._CalibRegion, _DrawColor: Camera_1_Check_LiveImage._DrawColor);
+                            Halcon_Window_Display.Display_HObject(Camera_1_Info.Show_Window, _XLD: Camera_1_Check_LiveImage._CalibXLD);
+                        });
+                    }
 
 
 

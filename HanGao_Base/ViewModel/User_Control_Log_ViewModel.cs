@@ -135,6 +135,8 @@ namespace HanGao.ViewModel
             {
 
 
+            try
+            {
 
 
 
@@ -159,6 +161,13 @@ namespace HanGao.ViewModel
 
                 Application.Current.Dispatcher.Invoke(() => { MessageBox.Show(Log, "操作提示....", MessageBoxButton.OK, _MessType); });
 
+            }
+            catch (Exception e)
+            {
+
+                    Application.Current.Dispatcher.Invoke(() => { MessageBox.Show(e.Message, "操作提示....", MessageBoxButton.OK, _MessType); });
+
+                }
 
             });
 

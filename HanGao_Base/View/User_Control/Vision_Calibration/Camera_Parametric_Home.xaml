@@ -5315,6 +5315,151 @@
 
                                         </Grid>
 
+                                        <Grid Margin="0,5,0,5">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.双目相机}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <!--<CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
+                Content="闪光灯"
+                IsChecked="{Binding Select_Camera_Parameter_Val.LineInverter}"
+                Margin="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                FontSize="16"
+                Foreground="{DynamicResource 全局_按钮_黑颜色}" />-->
+
+
+                                            <TextBlock Text="双目操作"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <CheckBox x:Name="Live_TwoCamera" Grid.Column=" 1"
+                                                      IsChecked="{Binding Select_Camera_Select_Val.Camera_Live}"
+                                                      Height=" 38"
+                                                      Margin="0,0,10,0"
+                                                      HorizontalContentAlignment="Center"
+                                                      VerticalContentAlignment="Center"
+                                                      Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                      FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                      FontSize=" 16"
+                                                      Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                                <!--<TextBlock Text="实时检测"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     FontFamily="{DynamicResource 全局_文字_中文字体}"
+                     FontSize="16"
+                     Foreground="{DynamicResource 全局_按钮_白颜色}" />-->
+                                                <CheckBox.Style>
+                                                    <Style BasedOn="{StaticResource CheckBoxStyle1}" TargetType="CheckBox">
+                                                        <Setter Property="Content" Value="同步检测" />
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                                                        <Style.Triggers>
+
+
+                                                            <MultiDataTrigger>
+
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}" />
+                                                                    <Condition Binding="{Binding Select_Camera_Select_Val.Camera_Live}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <MultiDataTrigger.Setters>
+
+                                                                    <Setter Property="Content" Value="实时检测中..." />
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
+                                                                </MultiDataTrigger.Setters>
+
+
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}" />
+                                                                    <Condition Binding="{Binding Select_Camera_Select_Val.Camera_Live}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <MultiDataTrigger.Setters>
+
+                                                                    <Setter Property="Content" Value="实时检测中..." />
+                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
+                                                                </MultiDataTrigger.Setters>
+
+                                                            </MultiDataTrigger>
+
+                                                        </Style.Triggers>
+                                                    </Style>
+
+
+                                                </CheckBox.Style>
+
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Check_LiveImage_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </CheckBox>
+
+
+
+
+
+
+                                            <Button x:Name="TwoCamera_OneImage" Grid.Column=" 2"
+                                                    Height=" 38"
+                                                    Margin="10,0,0,0"
+                                                    Background="{DynamicResource 全局_按钮_蓝颜色}">
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                        <!--<Style.Triggers>
+                      <DataTrigger Binding="{Binding ElementName=Live_Camera, Path=IsChecked}" Value="true">
+                          <Setter Property="IsEnabled" Value="True" />
+                      </DataTrigger>
+                  </Style.Triggers>-->
+                                                    </Style>
+                                                </Button.Style>
+                                                <TextBlock Text="采集图像"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                <i:Interaction.Triggers>
+
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Check_OneImage_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </Button>
+
+                                        </Grid>
+
+
+
 
                                     </StackPanel>
 
