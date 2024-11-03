@@ -159,7 +159,7 @@ namespace HanGao.ViewModel
                 }
 
 
-                Application.Current.Dispatcher.Invoke(() => { MessageBox.Show(Log, "操作提示....", MessageBoxButton.OK, _MessType); });
+                Application.Current.Dispatcher.Invoke(() => {  MessageBox.Show(Log, "操作提示....", MessageBoxButton.OK, _MessType); });
 
             }
             catch (Exception e)

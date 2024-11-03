@@ -2090,7 +2090,7 @@ namespace HanGao.ViewModel
                         MVS_Image_Mode _MVS_Image = _Select_Camera.MVS_GetOneFrameTimeout();
 
                         //发送到图像显示
-                        _Image = Halcon_SDK.Mvs_To_Halcon_Image(_MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData);
+                        _Image = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData);
 
                         ///识别结果
                         HandEye_Check_LiveImage = Halcon_HandEye_Calibra.Check_CalibObject_Features(_Image, HandEye_Camera_Parameters);

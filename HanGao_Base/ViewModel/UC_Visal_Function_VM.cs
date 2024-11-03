@@ -47,6 +47,11 @@ namespace HanGao.ViewModel
 
         }
 
+        /// <summary>
+        /// Halcon 外部拓张方法
+        /// </summary>
+        public Halcon_External_Method_Model Halcon_External_Method { set; get; } = new Halcon_External_Method_Model();
+
 
         /// <summary>
         /// 手眼机器人通讯参数
@@ -2213,7 +2218,7 @@ namespace HanGao.ViewModel
             //HImage_Display_Model MVS_TOHalcon = new HImage_Display_Model();
             HImage _Image = new();
             ///转换海康图像类型
-            _Image = Halcon_SDK.Mvs_To_Halcon_Image(pFrameInfo.nWidth, pFrameInfo.nHeight, pData);
+            _Image = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(pFrameInfo.nWidth, pFrameInfo.nHeight, pData);
 
             Application.Current.Dispatcher.Invoke(() =>
         {
@@ -2606,7 +2611,7 @@ namespace HanGao.ViewModel
                 //保存图像当当前目录下
                 if (Global_Seting.IsVisual_image_saving)
                 {
-                    Halcon_SDK.Save_Image(_Image);
+                    Halcon_External_Method.Save_Image(_Image);
                     //{
                     //}
                 }
@@ -2807,7 +2812,7 @@ namespace HanGao.ViewModel
 
 
                     //生产十字架
-                    _Cross = Halcon_SDK.Draw_Cross(Halcon_Shape_Mode.Chick_Position.X, Halcon_Shape_Mode.Chick_Position.Y);
+                    _Cross = new Halcon_External_Method_Model().Draw_Cross(Halcon_Shape_Mode.Chick_Position.X, Halcon_Shape_Mode.Chick_Position.Y);
 
 
 
@@ -2960,7 +2965,7 @@ namespace HanGao.ViewModel
 
 
                     ///生成xld模型
-                    _Cir = Halcon_SDK.Draw_Group_Cir([.. Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data]);
+                    _Cir = new Halcon_External_Method_Model().Draw_Group_Cir([.. Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data]);
 
 
                     ///设置模型属性
@@ -3019,7 +3024,7 @@ namespace HanGao.ViewModel
 
 
 
-                    _Lin = Halcon_SDK.Draw_Group_Lin([.. Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data]);
+                    _Lin = new Halcon_External_Method_Model().Draw_Group_Lin([.. Halcon_Shape_Mode.User_Drawing_Data.Drawing_Data]);
 
                     Halcon_Shape_Mode.User_Drawing_Data.Craft_Type_Enum = (Enum)_E.Tag;
                     Halcon_Shape_Mode.User_Drawing_Data.Craft_XLd_Creation_Status = XLD_Contours_Creation_Status.Creation_OK;

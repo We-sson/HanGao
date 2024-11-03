@@ -5352,7 +5352,7 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <CheckBox x:Name="Live_TwoCamera" Grid.Column=" 1"
+                                            <!--<CheckBox x:Name="Live_TwoCamera" Grid.Column=" 1"
                                                       IsChecked="{Binding Select_Camera_Select_Val.Camera_Live}"
                                                       Height=" 38"
                                                       Margin="0,0,10,0"
@@ -5362,12 +5362,12 @@
                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                       FontSize=" 16"
                                                       Foreground="{DynamicResource 全局_按钮_白颜色}">
-                                                <!--<TextBlock Text="实时检测"
+                                                --><!--<TextBlock Text="实时检测"
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
                      FontFamily="{DynamicResource 全局_文字_中文字体}"
                      FontSize="16"
-                     Foreground="{DynamicResource 全局_按钮_白颜色}" />-->
+                     Foreground="{DynamicResource 全局_按钮_白颜色}" />--><!--
                                                 <CheckBox.Style>
                                                     <Style BasedOn="{StaticResource CheckBoxStyle1}" TargetType="CheckBox">
                                                         <Setter Property="Content" Value="同步检测" />
@@ -5417,7 +5417,7 @@
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-                                            </CheckBox>
+                                            </CheckBox>-->
 
 
 

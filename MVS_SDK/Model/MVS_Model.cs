@@ -861,7 +861,7 @@ namespace MVS_SDK_Base.Model
 
                     StopGrabbing();
                     //转换Halcon图像变量
-                    _HImage = Halcon_SDK.Mvs_To_Halcon_Image(_MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData);
+                    _HImage = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image.PData);
 
 
 
@@ -920,6 +920,8 @@ namespace MVS_SDK_Base.Model
                         pData_Buffer = new byte[stParam.CurValue]
                     };
 
+                    lock (Frame_Image)
+                    {
 
 
                     //抓取一张图片
@@ -930,6 +932,7 @@ namespace MVS_SDK_Base.Model
                         return Frame_Image;
                     }
 
+                    }
 
 
                 }

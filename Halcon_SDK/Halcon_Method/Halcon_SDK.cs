@@ -30,10 +30,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         public HSmartWindowControlWPF Halcon_UserContol { set; get; } = new HSmartWindowControlWPF();
 
-        /// <summary>
-        /// 样品图片保存后序号
-        /// </summary>
-        private static int Sample_Save_Image_Number { set; get; } = 1;
+
 
         /// <summary>
         /// 当前匹配文件存档
@@ -89,12 +86,470 @@ namespace Halcon_SDK_DLL
         /// </summary>
         public static List<Match_Models_List_Model> Match_Models_List { set; get; } = new List<Match_Models_List_Model>();
 
+
+
+
+
+
+        ///// <summary>
+        ///// 读取矩阵文件方法
+        ///// </summary>
+        ///// <param name="_Mat2D"></param>
+        ///// <param name="_Name"></param>
+        ///// <param name="_Path"></param>
+        //public static HPR_Status_Model<bool> Read_Mat2d_Method(ref HTuple _Mat2D, string Vision_Area, string Work_Area)
+        //{
+        //    HTuple _FileHandle = new();
+
+        //    HTuple _HomMatID = new();
+
+        //    try
+        //    {
+        //        //打开文件
+        //        string _Path = Directory.GetCurrentDirectory() + "\\Nine_Calibration\\" + Vision_Area + "_" + Work_Area;
+
+        //        HOperatorSet.OpenFile(_Path + ".mat", "input_binary", out _FileHandle);
+
+        //        //从文件中读取序列化项目
+        //        HOperatorSet.FreadSerializedItem(_FileHandle, out _HomMatID);
+
+        //        //反序列化序列化的同类 2D 转换矩阵
+        //        HOperatorSet.DeserializeHomMat2d(_HomMatID, out _Mat2D);
+        //        //关闭文件
+        //        HOperatorSet.CloseFile(_FileHandle);
+
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "读取矩阵文件成功！" };
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.读取矩阵文件失败) { Result_Error_Info = e.Message };
+        //    }
+        //    finally
+        //    {
+        //        _FileHandle.Dispose();
+        //        _HomMatID.Dispose();
+        //    }
+        //}
+
+        ///// <summary>
+        ///// 计算矩阵， 放回结果计算误差方法
+        ///// </summary>
+        ///// <param name="Calibration"></param>
+        ///// <param name="Robot"></param>
+        ///// <returns></returns>
+        //public static HPR_Status_Model<bool> Calibration_Results_Compute(ref Point3D _Results, List<Point3D> Calibration, List<Point3D> Robot, ref HTuple HomMat2D)
+        //{
+        //    //初始化坐标属性
+        //    HTuple Calibration_RowLine = new();
+        //    HTuple Calibration_ColLine = new();
+        //    HTuple Robot_RowLine = new();
+        //    HTuple Robot_ColLine = new();
+
+        //    HTuple _Qx = new();
+        //    HTuple _Qy = new();
+        //    List<double> _Error_List_X = new List<double>();
+        //    List<double> _Error_List_Y = new List<double>();
+
+        //    try
+        //    {
+        //        //将点转化为Halcon组
+        //        foreach (var _List in Calibration)
+        //        {
+        //            Calibration_ColLine = Calibration_ColLine.TupleConcat(_List.Y);
+
+        //            Calibration_RowLine = Calibration_RowLine.TupleConcat(_List.X);
+        //        }
+        //        //将点转化为Halcon组
+        //        foreach (var _List in Robot)
+        //        {
+        //            Robot_ColLine = Robot_ColLine.TupleConcat(_List.Y);
+
+        //            Robot_RowLine = Robot_RowLine.TupleConcat(_List.X);
+        //        }
+
+        //        //根据位置点组计算矩阵坐标
+        //        HOperatorSet.VectorToHomMat2d(Calibration_RowLine, Calibration_ColLine, Robot_RowLine, Robot_ColLine,
+        //  out HomMat2D);
+
+        //        //转换视觉图像结果
+        //        for (int i = 0; i < Calibration.Count; i++)
+        //        {
+        //            HOperatorSet.AffineTransPoint2d(HomMat2D, Calibration[i].X, Calibration[i].Y, out _Qx, out _Qy);
+
+        //            double _Ex = Robot_RowLine[i].D - _Qx.D;
+        //            double _Ey = Robot_ColLine[i].D - _Qy.D;
+
+        //            _Error_List_X.Add(_Ex);
+        //            _Error_List_Y.Add(_Ey);
+        //        }
+        //        //Point3D
+
+        //        //计算结果组偏差
+        //        double Calibration_Error_X_UI = double.Parse(Specimen_Error(_Error_List_X));
+        //        double Calibration_Error_Y_UI = double.Parse(Specimen_Error(_Error_List_Y));
+
+        //        _Results = new Point3D(Calibration_Error_X_UI, Calibration_Error_Y_UI, 0);
+
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "实际偏差：X " + Calibration_Error_X_UI + ",Y " + Calibration_Error_Y_UI };
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.计算实际误差失败) { Result_Error_Info = e.Message };
+        //    }
+        //    finally
+        //    {
+        //        Calibration_RowLine.Dispose();
+        //        Calibration_ColLine.Dispose();
+        //        Robot_RowLine.Dispose();
+        //        Robot_ColLine.Dispose();
+        //        _Qx.Dispose();
+        //        _Qy.Dispose();
+        //    }
+        //}
+
+        ///// <summary>
+        ///// 计算一组样本标准差值
+        ///// </summary>
+        ///// <param name="_EList"></param>
+        ///// <returns></returns>
+        //public static string Specimen_Error(List<double> _EList)
+        //{
+        //    double xSum = 0;//样本总和
+        //    double xAvg = 0;//样本平均值
+        //    double sSum = 0;//方差的分子
+
+        //    //得到样本数量，分母
+        //    foreach (var _ALsit in _EList)
+        //    {
+        //        xSum += _ALsit;
+        //    }
+
+        //    //计算得到样本平均值
+        //    xAvg = xSum / _EList.Count;
+
+        //    foreach (var _SList in _EList)
+        //    {
+        //        sSum += ((_SList - xAvg) * (_SList - xAvg));
+        //    }
+
+        //    return Math.Round(Math.Sqrt((sSum / (_EList.Count - 1))), 3).ToString();//样本标准差
+
+        //    //double    STDP = Convert.ToDouble(Math.Sqrt((sSum / _EList.Count)).ToString());//总体标准差
+        //}
+
+        /// <summary>
+        /// 显示图像中最大的灰度
+        /// </summary>
+        /// <param name="_Region"></param>
+        /// <param name="imgee"></param>
+        /// <returns></returns>
+        //public static HPR_Status_Model<bool> ShowMaxGray_Image(ref HRegion _Region, HImage imgee)
+        //{
+        //    try
+        //    {
+        //        _Region = new HRegion();
+
+        //        _Region = imgee.Threshold(new HTuple(254), new HTuple(255));
+
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
+        //    }
+        //}
+
+        /// <summary>
+        /// 显示图像中最小的灰度
+        /// </summary>
+        /// <param name="_Region"></param>
+        /// <param name="imgee"></param>
+        /// <returns></returns>
+        //public static HPR_Status_Model<bool> ShowMinGray_Image(ref HRegion _Region, HImage imgee)
+        //{
+        //    try
+        //    {
+        //        _Region = new HRegion();
+
+        //        _Region = imgee.Threshold(new HTuple(0), new HTuple(1));
+
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
+        //    }
+        //}
+
+
+
+
+
+
+        /// <summary>
+        /// 路径读取图片
+        /// </summary>
+        /// <param name="_Image"></param>
+        /// <param name="_Path"></param>
+        /// <returns></returns>
+        //public static void HRead_Image(ref HImage _Image, string _Path)
+        //{
+        //    try
+        //    {
+        //        //if (_Path != "")
+        //        //{
+        //        _Image.ReadImage(_Path);
+        //        //HOperatorSet.ReadImage(out _Image, _Path);
+
+        //        //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件图像读取成功！" };
+        //        //}
+        //        //else
+        //        //{
+        //        //    return new HPR_Status_Model<bool>(HVE_Result_Enum.读取图像文件格式错误);
+        //        //}
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception("图像文件读取失败！原因：" + e.Message);
+        //        //return new HPR_Status_Model<bool>(HVE_Result_Enum.读取图像文件格式错误) { Result_Error_Info = e.Message };
+        //    }
+        //}
+
+        /// <summary>
+        /// 查找标定图像中的模型位置
+        /// </summary>
+        /// <param name="_Window"></param>
+        /// <param name="_Input_Image"></param>
+        /// <param name="_Filtering_Model"></param>
+        /// <param name="_Calibration_Data"></param>
+        /// <returns></returns>
+        //public static HPR_Status_Model<bool> Find_Calibration(ref List<Point3D> _Calibration_Point, HWindow _Window, HObject _Input_Image, Halcon_Find_Calibration_Model _Calibration_Data)
+        //{
+        //    HObject _Image = new HObject();
+
+        //    try
+        //    {
+        //        //图像最大灰度值分布在值范围0到255 中
+        //        HOperatorSet.ScaleImageMax(_Input_Image, out _Image);
+
+        //        if (_Calibration_Data.Median_image_Enable)
+        //        {
+        //            //进行图像中值滤波器平滑
+        //            HOperatorSet.MedianImage(_Image, out _Image, _Calibration_Data.MaskType_Model.ToString(), _Calibration_Data.Median_image_Radius, _Calibration_Data.Margin_Model.ToString());
+        //            if (_Calibration_Data.Median_image_Disp)
+        //            {
+        //                _Window.DispObj(_Image);
+        //            }
+        //        }
+
+        //        if (_Calibration_Data.Emphasize_Enable)
+        //        {
+        //            //增强图像的对比度
+        //            HOperatorSet.Emphasize(_Image, out _Image, _Calibration_Data.Emphasize_MaskWidth, _Calibration_Data.Emphasize_MaskHeight, _Calibration_Data.Emphasize_Factor);
+        //            if (_Calibration_Data.Emphasize_Disp)
+        //            {
+        //                _Window.DispObj(_Image);
+        //            }
+        //        }
+
+        //        // 使用全局阈值分割图像
+        //        HOperatorSet.Threshold(_Image, out _Image, _Calibration_Data.MinGray, _Calibration_Data.MaxGray);
+
+        //        ////区域开运算消除边缘
+        //        HOperatorSet.OpeningCircle(_Image, out _Image, _Calibration_Data.OpeningCircle_Radius);
+
+        //        //计算区域中连接的组件
+        //        HOperatorSet.Connection(_Image, out _Image);
+
+        //        //填补区域的漏洞
+        //        HOperatorSet.FillUp(_Image, out _Image);
+
+        //        //形状特征选择圆形和圆度筛选区域
+        //        HOperatorSet.SelectShape(_Image, out _Image, (new HTuple("area")).TupleConcat("circularity"), "and", (new HTuple(_Calibration_Data.Min_Area)).TupleConcat(0.9), (new HTuple(_Calibration_Data.Max_Area)).TupleConcat(1));
+
+        //        //区域开运算消除边缘
+        //        HOperatorSet.OpeningCircle(_Image, out _Image, _Calibration_Data.OpeningCircle_Radius);
+
+        //        if (_Calibration_Data.Gray_Disp)
+        //        {
+        //            //区域显示边框
+        //            HOperatorSet.SetDraw(_Window, "margin");
+        //            HOperatorSet.SetColor(_Window, nameof(KnownColor.Green).ToLower());
+        //            HOperatorSet.SetLineWidth(_Window, 3);
+
+        //            _Window.DispObj(_Image);
+
+        //            HOperatorSet.SetColor(_Window, nameof(KnownColor.Red).ToLower());
+
+        //            //区域显示边框
+        //            HOperatorSet.SetDraw(_Window, "fill");
+        //        }
+
+        //        // 根据区域的相对位置对区域进行排序。
+        //        HOperatorSet.SortRegion(_Image, out _Image, "character", "true", "row");
+
+        //        //计算区域中心
+        //        HOperatorSet.AreaCenter(_Image, out _, out HTuple _Row, out HTuple _Column);
+
+        //        //计算识别特征中心十字形的 XLD 轮廓
+        //        HOperatorSet.GenCrossContourXld(out HObject _Cross, _Row, _Column, 100, (new HTuple(45)).TupleRad());
+
+        //        //生产xld到窗口控件
+        //        HOperatorSet.DispObj(_Cross, _Window);
+
+        //        //控件显示识别特征数量
+        //        int _Number = _Image.CountObj();
+        //        _Calibration_Point = new List<Point3D>();
+
+        //        if (_Number == 9)
+        //        {
+        //            //识别特征坐标存储列表
+
+        //            for (int i = 1; i < _Number + 1; i++)
+        //            {
+        //                double _X = Math.Round(_Row.TupleSelect(i - 1).D, 3);
+        //                double _Y = Math.Round(_Column.TupleSelect(i - 1).D, 3);
+
+        //                _Calibration_Point.Add(new Point3D(_X, _Y, 0));
+
+        //                //控件窗口显示识别信息
+        //                HOperatorSet.DispText(_Window, "图号: " + i + " X:" + _X + " Y: " + _Y, "image", _X + 100, _Y - 100, "black", "box", "true");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return new HPR_Status_Model<bool>(HVE_Result_Enum.标定查找9点位置区域失败);
+        //        }
+
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "查找9点标定区域成功！" };
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.标定查找9点位置区域失败) { Result_Error_Info = e.Message };
+        //    }
+        //    finally
+        //    {
+        //        _Image.Dispose();
+        //    }
+        //}
+
+        /// <summary>
+        /// 根据模型类型获得模型文件地址
+        /// </summary>
+        /// <param name="_path"></param>
+        /// <param name="_Model_Enum"></param>
+        /// <returns></returns>
+        //public static HPR_Status_Model<bool> Get_ModelXld_Path<T1>(ref T1 _path, string _Location, FilePath_Type_Model_Enum _FilePath_Type, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID, int _Number = 0)
+        //{
+        //    ////获得识别位置名称
+        //    //string _Name = ShapeModel_Name.ToString();
+        //    //string _Work = Work_Name.ToString();
+
+        //    List<FileInfo> _ModelIDS = new List<FileInfo>();
+        //    string Save_Path = "";
+
+        //    if (_Location != "")
+        //    {
+        //        switch (_FilePath_Type)
+        //        {
+        //            case FilePath_Type_Model_Enum.Get:
+
+        //                DirectoryInfo _FileInfo = new DirectoryInfo(_Location);
+
+        //                foreach (FileInfo _FileName in _FileInfo.GetFiles())
+        //                {
+        //                    string[] NameList = _FileName.Name.Split('.')[0].Split('_');
+
+        //                    if (NameList[0] == _ID.ToString() && NameList[2] == _Name.ToString().Split('_')[1] && NameList[3] == ((int)_Model_Enum).ToString())
+        //                    {
+        //                        _ModelIDS.Add(_FileName);
+        //                    }
+        //                }
+
+        //                //类型转换
+        //                _path = (T1)(object)_ModelIDS;
+
+        //                break;
+
+        //            case FilePath_Type_Model_Enum.Save:
+
+        //                Save_Path = _Location + "\\" + _ID.ToString() + "_" + _Name;
+
+        //                //路径添加格式后缀
+        //                switch (_Model_Enum)
+        //                {
+        //                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
+
+        //                        Save_Path += "_" + ((int)_Model_Enum).ToString() + "_" + _Number + ".shm";
+
+        //                        break;
+
+        //                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
+
+        //                        Save_Path += "_" + ((int)_Model_Enum).ToString() + "_" + _Number + ".dfm";
+        //                        break;
+
+        //                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Ncc_Model:
+
+        //                        Save_Path += "_" + ((int)_Model_Enum).ToString() + "_" + _Number + ".ncm";
+        //                        break;
+
+        //                    case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Halcon_DXF:
+
+        //                        Save_Path += "_" + ((int)Shape_Based_Model_Enum.Ncc_Model).ToString() + "_" + _Number + ".dxf";
+        //                        break;
+        //                }
+
+        //                _path = (T1)(object)Save_Path;
+
+        //                break;
+        //        }
+
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件路径读取成功！" };
+        //    }
+        //    else
+        //    {
+        //        //User_Log_Add("读取模型文件地址错误，请检查设置！");
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.文件路径提取失败) { Result_Error_Info = Save_Path };
+        //    }
+        //}
+
+
+        /// <summary>
+        /// GC回收处理方法
+        /// </summary>
+        public void Dispose()
+        {
+            //_Image.Dispose();
+            //GC.Collect();
+            //GC.SuppressFinalize(this);
+
+            HWindow?.Dispose();
+            Halcon_UserContol?.Dispose();
+            //DisplayImage?.Dispose();
+            //DisplayRegion?.Dispose();
+            //DisplayXLD?.Dispose();
+        }
+    }
+
+
+    [AddINotifyPropertyChangedInterface]
+    public class Halcon_External_Method_Model
+    {
+
+
+        /// <summary>
+        /// 样品图片保存后序号
+        /// </summary>
+        private  int Sample_Save_Image_Number { set; get; } = 1;
+
+
         /// <summary>
         /// 保存图像到当前文件
         /// </summary>
         /// <param name="_Image"></param>
         /// <returns></returns>
-        public static void Save_Image(HObject _Image)
+        public  void Save_Image(HObject _Image)
         {
             try
             {
@@ -135,240 +590,13 @@ namespace Halcon_SDK_DLL
         }
 
         /// <summary>
-        /// 保存标定矩阵坐标方法
-        /// </summary>
-        /// <param name="_HomMat2D">需要保存矩阵对象</param>
-        /// <param name="_Name">保存名字</param>
-        /// <param name="_Path">保存地址</param>
-        public static HPR_Status_Model<bool> Save_Mat2d_Method(HTuple _HomMat2D, string _Path)
-        {
-            HTuple _HomMatID = new();
-            HTuple _FileHandle = new();
-
-            try
-            {
-                //矩阵二进制化
-                HOperatorSet.SerializeHomMat2d(_HomMat2D, out _HomMatID);
-
-                //打开文件
-                HOperatorSet.OpenFile(_Path + ".mat", "output_binary", out _FileHandle);
-
-                //写入矩阵变量
-                HOperatorSet.FwriteSerializedItem(_FileHandle, _HomMatID);
-                //关闭文件
-                HOperatorSet.CloseFile(_FileHandle);
-
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "保存矩阵文件成功！" };
-            }
-            catch (Exception e)
-            {
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.保存矩阵文件失败) { Result_Error_Info = e.Message };
-            }
-            finally
-            {
-                _HomMatID.Dispose();
-                _FileHandle.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// 读取矩阵文件方法
-        /// </summary>
-        /// <param name="_Mat2D"></param>
-        /// <param name="_Name"></param>
-        /// <param name="_Path"></param>
-        public static HPR_Status_Model<bool> Read_Mat2d_Method(ref HTuple _Mat2D, string Vision_Area, string Work_Area)
-        {
-            HTuple _FileHandle = new();
-
-            HTuple _HomMatID = new();
-
-            try
-            {
-                //打开文件
-                string _Path = Directory.GetCurrentDirectory() + "\\Nine_Calibration\\" + Vision_Area + "_" + Work_Area;
-
-                HOperatorSet.OpenFile(_Path + ".mat", "input_binary", out _FileHandle);
-
-                //从文件中读取序列化项目
-                HOperatorSet.FreadSerializedItem(_FileHandle, out _HomMatID);
-
-                //反序列化序列化的同类 2D 转换矩阵
-                HOperatorSet.DeserializeHomMat2d(_HomMatID, out _Mat2D);
-                //关闭文件
-                HOperatorSet.CloseFile(_FileHandle);
-
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "读取矩阵文件成功！" };
-            }
-            catch (Exception e)
-            {
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.读取矩阵文件失败) { Result_Error_Info = e.Message };
-            }
-            finally
-            {
-                _FileHandle.Dispose();
-                _HomMatID.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// 计算矩阵， 放回结果计算误差方法
-        /// </summary>
-        /// <param name="Calibration"></param>
-        /// <param name="Robot"></param>
-        /// <returns></returns>
-        public static HPR_Status_Model<bool> Calibration_Results_Compute(ref Point3D _Results, List<Point3D> Calibration, List<Point3D> Robot, ref HTuple HomMat2D)
-        {
-            //初始化坐标属性
-            HTuple Calibration_RowLine = new();
-            HTuple Calibration_ColLine = new();
-            HTuple Robot_RowLine = new();
-            HTuple Robot_ColLine = new();
-
-            HTuple _Qx = new();
-            HTuple _Qy = new();
-            List<double> _Error_List_X = new List<double>();
-            List<double> _Error_List_Y = new List<double>();
-
-            try
-            {
-                //将点转化为Halcon组
-                foreach (var _List in Calibration)
-                {
-                    Calibration_ColLine = Calibration_ColLine.TupleConcat(_List.Y);
-
-                    Calibration_RowLine = Calibration_RowLine.TupleConcat(_List.X);
-                }
-                //将点转化为Halcon组
-                foreach (var _List in Robot)
-                {
-                    Robot_ColLine = Robot_ColLine.TupleConcat(_List.Y);
-
-                    Robot_RowLine = Robot_RowLine.TupleConcat(_List.X);
-                }
-
-                //根据位置点组计算矩阵坐标
-                HOperatorSet.VectorToHomMat2d(Calibration_RowLine, Calibration_ColLine, Robot_RowLine, Robot_ColLine,
-          out HomMat2D);
-
-                //转换视觉图像结果
-                for (int i = 0; i < Calibration.Count; i++)
-                {
-                    HOperatorSet.AffineTransPoint2d(HomMat2D, Calibration[i].X, Calibration[i].Y, out _Qx, out _Qy);
-
-                    double _Ex = Robot_RowLine[i].D - _Qx.D;
-                    double _Ey = Robot_ColLine[i].D - _Qy.D;
-
-                    _Error_List_X.Add(_Ex);
-                    _Error_List_Y.Add(_Ey);
-                }
-                //Point3D
-
-                //计算结果组偏差
-                double Calibration_Error_X_UI = double.Parse(Specimen_Error(_Error_List_X));
-                double Calibration_Error_Y_UI = double.Parse(Specimen_Error(_Error_List_Y));
-
-                _Results = new Point3D(Calibration_Error_X_UI, Calibration_Error_Y_UI, 0);
-
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "实际偏差：X " + Calibration_Error_X_UI + ",Y " + Calibration_Error_Y_UI };
-            }
-            catch (Exception e)
-            {
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.计算实际误差失败) { Result_Error_Info = e.Message };
-            }
-            finally
-            {
-                Calibration_RowLine.Dispose();
-                Calibration_ColLine.Dispose();
-                Robot_RowLine.Dispose();
-                Robot_ColLine.Dispose();
-                _Qx.Dispose();
-                _Qy.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// 计算一组样本标准差值
-        /// </summary>
-        /// <param name="_EList"></param>
-        /// <returns></returns>
-        public static string Specimen_Error(List<double> _EList)
-        {
-            double xSum = 0;//样本总和
-            double xAvg = 0;//样本平均值
-            double sSum = 0;//方差的分子
-
-            //得到样本数量，分母
-            foreach (var _ALsit in _EList)
-            {
-                xSum += _ALsit;
-            }
-
-            //计算得到样本平均值
-            xAvg = xSum / _EList.Count;
-
-            foreach (var _SList in _EList)
-            {
-                sSum += ((_SList - xAvg) * (_SList - xAvg));
-            }
-
-            return Math.Round(Math.Sqrt((sSum / (_EList.Count - 1))), 3).ToString();//样本标准差
-
-            //double    STDP = Convert.ToDouble(Math.Sqrt((sSum / _EList.Count)).ToString());//总体标准差
-        }
-
-        /// <summary>
-        /// 显示图像中最大的灰度
-        /// </summary>
-        /// <param name="_Region"></param>
-        /// <param name="imgee"></param>
-        /// <returns></returns>
-        public static HPR_Status_Model<bool> ShowMaxGray_Image(ref HRegion _Region, HImage imgee)
-        {
-            try
-            {
-                _Region = new HRegion();
-
-                _Region = imgee.Threshold(new HTuple(254), new HTuple(255));
-
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK);
-            }
-            catch (Exception e)
-            {
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
-            }
-        }
-
-        /// <summary>
-        /// 显示图像中最小的灰度
-        /// </summary>
-        /// <param name="_Region"></param>
-        /// <param name="imgee"></param>
-        /// <returns></returns>
-        public static HPR_Status_Model<bool> ShowMinGray_Image(ref HRegion _Region, HImage imgee)
-        {
-            try
-            {
-                _Region = new HRegion();
-
-                _Region = imgee.Threshold(new HTuple(0), new HTuple(1));
-
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK);
-            }
-            catch (Exception e)
-            {
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.显示最大灰度失败) { Result_Error_Info = e.Message };
-            }
-        }
-
-        /// <summary>
         /// 海康获取图像指针转换Halcon图像
         /// </summary>
         /// <param name="_Width"></param>
         /// <param name="_Height"></param>
         /// <param name="_pData"></param>
         /// <returns></returns>
-        public static HImage Mvs_To_Halcon_Image(int _Width, int _Height, IntPtr _pData)
+        public HImage Mvs_To_Halcon_Image(int _Width, int _Height, IntPtr _pData)
         {
             try
             {
@@ -388,240 +616,12 @@ namespace Halcon_SDK_DLL
         }
 
         /// <summary>
-        /// 路径读取图片
-        /// </summary>
-        /// <param name="_Image"></param>
-        /// <param name="_Path"></param>
-        /// <returns></returns>
-        public static void HRead_Image(ref HImage _Image, string _Path)
-        {
-            try
-            {
-                //if (_Path != "")
-                //{
-                _Image.ReadImage(_Path);
-                //HOperatorSet.ReadImage(out _Image, _Path);
-
-                //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件图像读取成功！" };
-                //}
-                //else
-                //{
-                //    return new HPR_Status_Model<bool>(HVE_Result_Enum.读取图像文件格式错误);
-                //}
-            }
-            catch (Exception e)
-            {
-                throw new Exception("图像文件读取失败！原因：" + e.Message);
-                //return new HPR_Status_Model<bool>(HVE_Result_Enum.读取图像文件格式错误) { Result_Error_Info = e.Message };
-            }
-        }
-
-        /// <summary>
-        /// 查找标定图像中的模型位置
-        /// </summary>
-        /// <param name="_Window"></param>
-        /// <param name="_Input_Image"></param>
-        /// <param name="_Filtering_Model"></param>
-        /// <param name="_Calibration_Data"></param>
-        /// <returns></returns>
-        public static HPR_Status_Model<bool> Find_Calibration(ref List<Point3D> _Calibration_Point, HWindow _Window, HObject _Input_Image, Halcon_Find_Calibration_Model _Calibration_Data)
-        {
-            HObject _Image = new HObject();
-
-            try
-            {
-                //图像最大灰度值分布在值范围0到255 中
-                HOperatorSet.ScaleImageMax(_Input_Image, out _Image);
-
-                if (_Calibration_Data.Median_image_Enable)
-                {
-                    //进行图像中值滤波器平滑
-                    HOperatorSet.MedianImage(_Image, out _Image, _Calibration_Data.MaskType_Model.ToString(), _Calibration_Data.Median_image_Radius, _Calibration_Data.Margin_Model.ToString());
-                    if (_Calibration_Data.Median_image_Disp)
-                    {
-                        _Window.DispObj(_Image);
-                    }
-                }
-
-                if (_Calibration_Data.Emphasize_Enable)
-                {
-                    //增强图像的对比度
-                    HOperatorSet.Emphasize(_Image, out _Image, _Calibration_Data.Emphasize_MaskWidth, _Calibration_Data.Emphasize_MaskHeight, _Calibration_Data.Emphasize_Factor);
-                    if (_Calibration_Data.Emphasize_Disp)
-                    {
-                        _Window.DispObj(_Image);
-                    }
-                }
-
-                // 使用全局阈值分割图像
-                HOperatorSet.Threshold(_Image, out _Image, _Calibration_Data.MinGray, _Calibration_Data.MaxGray);
-
-                ////区域开运算消除边缘
-                HOperatorSet.OpeningCircle(_Image, out _Image, _Calibration_Data.OpeningCircle_Radius);
-
-                //计算区域中连接的组件
-                HOperatorSet.Connection(_Image, out _Image);
-
-                //填补区域的漏洞
-                HOperatorSet.FillUp(_Image, out _Image);
-
-                //形状特征选择圆形和圆度筛选区域
-                HOperatorSet.SelectShape(_Image, out _Image, (new HTuple("area")).TupleConcat("circularity"), "and", (new HTuple(_Calibration_Data.Min_Area)).TupleConcat(0.9), (new HTuple(_Calibration_Data.Max_Area)).TupleConcat(1));
-
-                //区域开运算消除边缘
-                HOperatorSet.OpeningCircle(_Image, out _Image, _Calibration_Data.OpeningCircle_Radius);
-
-                if (_Calibration_Data.Gray_Disp)
-                {
-                    //区域显示边框
-                    HOperatorSet.SetDraw(_Window, "margin");
-                    HOperatorSet.SetColor(_Window, nameof(KnownColor.Green).ToLower());
-                    HOperatorSet.SetLineWidth(_Window, 3);
-
-                    _Window.DispObj(_Image);
-
-                    HOperatorSet.SetColor(_Window, nameof(KnownColor.Red).ToLower());
-
-                    //区域显示边框
-                    HOperatorSet.SetDraw(_Window, "fill");
-                }
-
-                // 根据区域的相对位置对区域进行排序。
-                HOperatorSet.SortRegion(_Image, out _Image, "character", "true", "row");
-
-                //计算区域中心
-                HOperatorSet.AreaCenter(_Image, out _, out HTuple _Row, out HTuple _Column);
-
-                //计算识别特征中心十字形的 XLD 轮廓
-                HOperatorSet.GenCrossContourXld(out HObject _Cross, _Row, _Column, 100, (new HTuple(45)).TupleRad());
-
-                //生产xld到窗口控件
-                HOperatorSet.DispObj(_Cross, _Window);
-
-                //控件显示识别特征数量
-                int _Number = _Image.CountObj();
-                _Calibration_Point = new List<Point3D>();
-
-                if (_Number == 9)
-                {
-                    //识别特征坐标存储列表
-
-                    for (int i = 1; i < _Number + 1; i++)
-                    {
-                        double _X = Math.Round(_Row.TupleSelect(i - 1).D, 3);
-                        double _Y = Math.Round(_Column.TupleSelect(i - 1).D, 3);
-
-                        _Calibration_Point.Add(new Point3D(_X, _Y, 0));
-
-                        //控件窗口显示识别信息
-                        HOperatorSet.DispText(_Window, "图号: " + i + " X:" + _X + " Y: " + _Y, "image", _X + 100, _Y - 100, "black", "box", "true");
-                    }
-                }
-                else
-                {
-                    return new HPR_Status_Model<bool>(HVE_Result_Enum.标定查找9点位置区域失败);
-                }
-
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "查找9点标定区域成功！" };
-            }
-            catch (Exception e)
-            {
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.标定查找9点位置区域失败) { Result_Error_Info = e.Message };
-            }
-            finally
-            {
-                _Image.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// 根据模型类型获得模型文件地址
-        /// </summary>
-        /// <param name="_path"></param>
-        /// <param name="_Model_Enum"></param>
-        /// <returns></returns>
-        public static HPR_Status_Model<bool> Get_ModelXld_Path<T1>(ref T1 _path, string _Location, FilePath_Type_Model_Enum _FilePath_Type, Shape_Based_Model_Enum _Model_Enum, ShapeModel_Name_Enum _Name, int _ID, int _Number = 0)
-        {
-            ////获得识别位置名称
-            //string _Name = ShapeModel_Name.ToString();
-            //string _Work = Work_Name.ToString();
-
-            List<FileInfo> _ModelIDS = new List<FileInfo>();
-            string Save_Path = "";
-
-            if (_Location != "")
-            {
-                switch (_FilePath_Type)
-                {
-                    case FilePath_Type_Model_Enum.Get:
-
-                        DirectoryInfo _FileInfo = new DirectoryInfo(_Location);
-
-                        foreach (FileInfo _FileName in _FileInfo.GetFiles())
-                        {
-                            string[] NameList = _FileName.Name.Split('.')[0].Split('_');
-
-                            if (NameList[0] == _ID.ToString() && NameList[2] == _Name.ToString().Split('_')[1] && NameList[3] == ((int)_Model_Enum).ToString())
-                            {
-                                _ModelIDS.Add(_FileName);
-                            }
-                        }
-
-                        //类型转换
-                        _path = (T1)(object)_ModelIDS;
-
-                        break;
-
-                    case FilePath_Type_Model_Enum.Save:
-
-                        Save_Path = _Location + "\\" + _ID.ToString() + "_" + _Name;
-
-                        //路径添加格式后缀
-                        switch (_Model_Enum)
-                        {
-                            case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.shape_model || _T == Shape_Based_Model_Enum.Scale_model:
-
-                                Save_Path += "_" + ((int)_Model_Enum).ToString() + "_" + _Number + ".shm";
-
-                                break;
-
-                            case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.planar_deformable_model || _T == Shape_Based_Model_Enum.local_deformable_model:
-
-                                Save_Path += "_" + ((int)_Model_Enum).ToString() + "_" + _Number + ".dfm";
-                                break;
-
-                            case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Ncc_Model:
-
-                                Save_Path += "_" + ((int)_Model_Enum).ToString() + "_" + _Number + ".ncm";
-                                break;
-
-                            case Shape_Based_Model_Enum _T when _T == Shape_Based_Model_Enum.Halcon_DXF:
-
-                                Save_Path += "_" + ((int)Shape_Based_Model_Enum.Ncc_Model).ToString() + "_" + _Number + ".dxf";
-                                break;
-                        }
-
-                        _path = (T1)(object)Save_Path;
-
-                        break;
-                }
-
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "文件路径读取成功！" };
-            }
-            else
-            {
-                //User_Log_Add("读取模型文件地址错误，请检查设置！");
-                return new HPR_Status_Model<bool>(HVE_Result_Enum.文件路径提取失败) { Result_Error_Info = Save_Path };
-            }
-        }
-
-        /// <summary>
         /// 根据用户生产数据生产圆弧XLD
         /// </summary>
         /// <param name="_Cir"></param>
         /// <param name="_Point"></param>
         /// <returns></returns>
-        public static HXLDCont Draw_Group_Cir(List<Point3D> _Point)
+        public  HXLDCont Draw_Group_Cir(List<Point3D> _Point)
         {
             HTuple _Row = new();
             HTuple _Col = new();
@@ -698,7 +698,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Lin"></param>
         /// <param name="_Point"></param>
         /// <returns></returns>
-        public static HXLDCont Draw_Group_Lin(List<Point3D> _Point)
+        public  HXLDCont Draw_Group_Lin(List<Point3D> _Point)
         {
             HTuple _Row = new();
             HTuple _Col = new();
@@ -767,7 +767,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Row"></param>
         /// <param name="_Col"></param>
         /// <returns></returns>
-        public static HXLDCont Draw_Cross(double _Row, double _Col, double _Size = 50)
+        public  HXLDCont Draw_Cross(double _Row, double _Col, double _Size = 50)
         {
             try
             {
@@ -794,22 +794,49 @@ namespace Halcon_SDK_DLL
             }
         }
 
-        /// <summary>
-        /// GC回收处理方法
-        /// </summary>
-        public void Dispose()
-        {
-            //_Image.Dispose();
-            //GC.Collect();
-            //GC.SuppressFinalize(this);
 
-            HWindow?.Dispose();
-            Halcon_UserContol?.Dispose();
-            //DisplayImage?.Dispose();
-            //DisplayRegion?.Dispose();
-            //DisplayXLD?.Dispose();
-        }
+        /// <summary>
+        /// 保存标定矩阵坐标方法
+        /// </summary>
+        /// <param name="_HomMat2D">需要保存矩阵对象</param>
+        /// <param name="_Name">保存名字</param>
+        /// <param name="_Path">保存地址</param>
+        //public  HPR_Status_Model<bool> Save_Mat2d_Method(HTuple _HomMat2D, string _Path)
+        //{
+        //    HTuple _HomMatID = new();
+        //    HTuple _FileHandle = new();
+
+        //    try
+        //    {
+        //        //矩阵二进制化
+        //        HOperatorSet.SerializeHomMat2d(_HomMat2D, out _HomMatID);
+
+        //        //打开文件
+        //        HOperatorSet.OpenFile(_Path + ".mat", "output_binary", out _FileHandle);
+
+        //        //写入矩阵变量
+        //        HOperatorSet.FwriteSerializedItem(_FileHandle, _HomMatID);
+        //        //关闭文件
+        //        HOperatorSet.CloseFile(_FileHandle);
+
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "保存矩阵文件成功！" };
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new HPR_Status_Model<bool>(HVE_Result_Enum.保存矩阵文件失败) { Result_Error_Info = e.Message };
+        //    }
+        //    finally
+        //    {
+        //        _HomMatID.Dispose();
+        //        _FileHandle.Dispose();
+        //    }
+        //}
+
+
+
     }
+
+
 
     [AddINotifyPropertyChangedInterface]
     public class Halcon_Window_Display_Model : IDisposable

@@ -209,7 +209,7 @@ namespace Halcon_SDK_DLL
             //HCalibData.Clone();
             HCalibData.ClearCalibData();
 
-
+            //HCalibData.Dispose();
         }
 
 
@@ -717,6 +717,10 @@ namespace Halcon_SDK_DLL
                 }
 
 
+         
+
+               
+
             }
             catch (Exception)
             {
@@ -747,6 +751,9 @@ namespace Halcon_SDK_DLL
             FindCalibObject_Results _Results = new FindCalibObject_Results();
 
 
+      
+                
+
             Creation_Calibration(_Calibration_Param);
 
 
@@ -754,6 +761,9 @@ namespace Halcon_SDK_DLL
 
 
             Clear_HandEye_Calibration();
+
+ 
+
 
             return _Results;
 
@@ -786,7 +796,7 @@ namespace Halcon_SDK_DLL
                 try
                 {
 
-                    _Results._Image = _HImage;
+                    _Results._Image = _HImage.CopyObj(1,-1);
 
 
 
