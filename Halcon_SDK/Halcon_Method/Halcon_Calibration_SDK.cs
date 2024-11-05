@@ -802,7 +802,7 @@ namespace Halcon_SDK_DLL
 
 
 
-                    HCalibData.FindCalibObject(_HImage, 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
+                    HCalibData.FindCalibObject(new HImage(_HImage), 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
 
 
 
@@ -827,7 +827,7 @@ namespace Halcon_SDK_DLL
 
 
 
-                    _Results._CalibXLD = Halcon_Example.Disp_3d_coord(_CamerPar, _Results.hv_Pose, new HTuple(0.02));
+                    _Results._CalibXLD =new  Halcon_Example().Disp_3d_coord(new HCamPar(_CamerPar), new HPose( _Results.hv_Pose), new HTuple(0.02));
 
                     ///设置显示颜色
                     _Results._DrawColor = KnownColor.Green.ToString();
