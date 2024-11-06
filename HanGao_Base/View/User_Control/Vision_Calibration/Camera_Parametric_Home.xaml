@@ -297,7 +297,7 @@
                                                IsEnabled="True"
                                                TextTrimming="CharacterEllipsis" />
 
-                                    <TextBlock Text="{Binding Camera_0_Select_Val.Camera_Check_Delay, StringFormat={}检测延时:{0}ms, FallbackValue=检测延时:0}"
+                                    <TextBlock Text="{Binding Camera_0_Select_Val.Camera_Check_Delay, StringFormat={}检测周期:{0}ms, FallbackValue=检测周期:0ms}"
                                                TextWrapping="Wrap"
                                                Margin="0,0,0,0"
                                                Padding="0,0,10,0"
@@ -379,7 +379,7 @@
                                                IsEnabled="True"
                                                TextTrimming="CharacterEllipsis" />
 
-                                    <TextBlock Text="{Binding Camera_1_Select_Val.Camera_Check_Delay, StringFormat={}检测延时:{0}ms, FallbackValue=检测延时:0}"
+                                    <TextBlock Text="{Binding Camera_1_Select_Val.Camera_Check_Delay, StringFormat={}检测周期:{0}ms, FallbackValue=检测周期:0ms}"
                                                TextWrapping="Wrap"
                                                Margin="0,0,0,0"
                                                Padding="0,0,10,0"
@@ -1553,7 +1553,29 @@
                                 HorizontalAlignment="Center"
                                 Orientation="Vertical">
 
+                        <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                Width="110"
+                                Height="38"
+                                Margin="5"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Background="{DynamicResource 全局_按钮_蓝颜色}">
+                            <TextBlock Text="开始标定"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                       FontSize="16"
+                                       Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding Camera_Calibration_ImageList_Comm}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                           PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                        </Button>
 
                         <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                 Width="110"
@@ -4645,6 +4667,20 @@
 
 
                                         <Grid Margin="0,8,0,8">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
 
 
                                             <Grid.ColumnDefinitions>
@@ -4760,6 +4796,19 @@
 
                                         <Grid Height="35" Margin="0,5,0,5">
 
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 80" />
                                                 <ColumnDefinition />
@@ -4813,7 +4862,19 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="0,5,0,5">
-
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition />
@@ -4859,7 +4920,19 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="0,5,0,5">
-
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition />
@@ -4904,7 +4977,19 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="0,5,0,5">
-
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition />
@@ -4993,7 +5078,19 @@
                          FontSize="18" />
             </Grid>-->
                                         <Grid Height="35" Margin="0,5,0,5">
-
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition />
@@ -5038,6 +5135,19 @@
 
 
                                         <Grid Height=" 35" Margin="0,5,0,5">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
@@ -5091,7 +5201,19 @@
 
 
                                         <Grid Height=" 35" Margin="0,5,0,5">
-
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
@@ -5136,9 +5258,38 @@
                                                 Margin="8,4,8,4"
                                                 Background="{DynamicResource 全局_按钮_黑颜色}"
                                                 CornerRadius="1"
-                                                Opacity=" 0.5" />
+                                                Opacity=" 0.5">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+
+
+                                        </Border>
 
                                         <Grid Height=" 35" Margin="0,5,0,5">
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -5182,7 +5333,19 @@
 
 
                                         <Grid Margin="0,5,0,5">
-
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
@@ -5352,81 +5515,12 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <!--<CheckBox x:Name="Live_TwoCamera" Grid.Column=" 1"
-                                                      IsChecked="{Binding Select_Camera_Select_Val.Camera_Live}"
-                                                      Height=" 38"
-                                                      Margin="0,0,10,0"
-                                                      HorizontalContentAlignment="Center"
-                                                      VerticalContentAlignment="Center"
-                                                      Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                                      FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                      FontSize=" 16"
-                                                      Foreground="{DynamicResource 全局_按钮_白颜色}">
-                                                --><!--<TextBlock Text="实时检测"
-                     HorizontalAlignment="Center"
-                     VerticalAlignment="Center"
-                     FontFamily="{DynamicResource 全局_文字_中文字体}"
-                     FontSize="16"
-                     Foreground="{DynamicResource 全局_按钮_白颜色}" />--><!--
-                                                <CheckBox.Style>
-                                                    <Style BasedOn="{StaticResource CheckBoxStyle1}" TargetType="CheckBox">
-                                                        <Setter Property="Content" Value="同步检测" />
-                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                        <Style.Triggers>
 
 
-                                                            <MultiDataTrigger>
-
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}" />
-                                                                    <Condition Binding="{Binding Select_Camera_Select_Val.Camera_Live}" Value="true" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <MultiDataTrigger.Setters>
-
-                                                                    <Setter Property="Content" Value="实时检测中..." />
-                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
-                                                                </MultiDataTrigger.Setters>
-
-
-                                                            </MultiDataTrigger>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}" />
-                                                                    <Condition Binding="{Binding Select_Camera_Select_Val.Camera_Live}" Value="true" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <MultiDataTrigger.Setters>
-
-                                                                    <Setter Property="Content" Value="实时检测中..." />
-                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_深绿颜色}" />
-                                                                </MultiDataTrigger.Setters>
-
-                                                            </MultiDataTrigger>
-
-                                                        </Style.Triggers>
-                                                    </Style>
-
-
-                                                </CheckBox.Style>
-
-
-                                                <i:Interaction.Triggers>
-
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Camera_Check_LiveImage_Comm}"
-                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </CheckBox>-->
-
-
-
-
-
-
-                                            <Button x:Name="TwoCamera_OneImage" Grid.Column=" 2"
+                                            <Button x:Name="TwoCamera_OneImage" Grid.Column=" 1"
+                                                    Grid.ColumnSpan=" 2"
                                                     Height=" 38"
-                                                    Margin="10,0,0,0"
+                                                    Margin="0,0,0,0"
                                                     Background="{DynamicResource 全局_按钮_蓝颜色}">
                                                 <Button.Style>
                                                     <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
@@ -6278,10 +6372,11 @@
 
                                         </Grid>-->
 
-                                        <Border Height=" 3"
+                                        <Border Height=" 2"
                                                 Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                                CornerRadius="1" />
+                                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
 
 
                                         <Grid Height="35" Margin="8">
@@ -6300,7 +6395,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                            <Button Grid.Column=" 1"
+                                            <!--<Button Grid.Column=" 1"
                                                     Margin="4,0,4,0"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
@@ -6342,7 +6437,7 @@
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-                                            </Button>
+                                            </Button>-->
 
 
 
@@ -7176,10 +7271,11 @@
                                         </Grid>-->
 
 
-                                        <Border Height=" 3"
+                                        <Border Height=" 2"
                                                 Margin="8,4,8,4"
-                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                                CornerRadius="1" />
+                                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
 
 
                                         <Grid Height="35" Margin="8">
@@ -7198,7 +7294,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                            <Button Grid.Column=" 1"
+                                            <!--<Button Grid.Column=" 1"
                                                     Margin="4,0,4,0"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
@@ -7240,7 +7336,7 @@
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-                                            </Button>
+                                            </Button>-->
 
 
 

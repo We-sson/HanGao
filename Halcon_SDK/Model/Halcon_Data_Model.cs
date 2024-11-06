@@ -1000,6 +1000,8 @@ namespace Halcon_SDK_DLL.Model
         }
 
         public HObject _Image { set; get; } = new HObject();
+     
+
         public HObject _CalibXLD { set; get; } = new HObject();
         public HObject _CalibRegion { set; get; } = new HObject();
 
@@ -1265,8 +1267,12 @@ namespace Halcon_SDK_DLL.Model
     /// 标定图像集合模型参数
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public class Calibration_Image_List_Model : IDisposable
+    public class Calibration_Image_List_Model 
     {
+
+ 
+
+
         /// <summary>
         /// 标定图像序号
         /// </summary>
@@ -1354,15 +1360,15 @@ namespace Halcon_SDK_DLL.Model
             }
         }
 
-        public void Dispose()
-        {
-            Camera_0?.Dispose();
+        //public void Dispose()
+        //{
+        //    Camera_0?.Dispose();
 
-            Camera_1?.Dispose();
+        //    Camera_1?.Dispose();
 
-            //GC.Collect();
-            //GC.SuppressFinalize(this);
-        }
+        //    //GC.Collect();
+        //    //GC.SuppressFinalize(this);
+        //}
     }
 
     [AddINotifyPropertyChangedInterface]
@@ -1981,12 +1987,26 @@ namespace Halcon_SDK_DLL.Model
         public XLD_Contours_Creation_Status Craft_XLd_Creation_Status { set; get; } = XLD_Contours_Creation_Status.None;
     }
 
+    /// <summary>
+    /// 标定图像相机类型
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public class Calibration_Image_Camera_Model : IDisposable
+    public class Calibration_Image_Camera_Model 
     {
         public Calibration_Image_Camera_Model()
         {
         }
+
+        public Calibration_Image_Camera_Model(Calibration_Image_Camera_Model _Image_Camera_Model)
+        {
+            Calibration_Image = new(_Image_Camera_Model.Calibration_Image);
+            Calibration_Region = new(_Image_Camera_Model.Calibration_Region);
+            Calibration_XLD = new(_Image_Camera_Model.Calibration_XLD);
+            Calibration_3D_Model = _Image_Camera_Model.Calibration_3D_Model;
+            Calibration_State = _Image_Camera_Model.Calibration_State;
+
+        }
+
 
         /// <summary>
         /// 标定精度
@@ -1994,9 +2014,15 @@ namespace Halcon_SDK_DLL.Model
         public double Calibration_Accuracy { set; get; } = 0;
 
         /// <summary>
-        /// 标定图像
+        /// 标定Camera0图像
         /// </summary>
         public HObject? Calibration_Image { set; get; }
+
+
+
+
+
+
 
         /// <summary>
         /// 标定板特征
@@ -2021,25 +2047,56 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public Camera_Calibration_Image_State_Enum Calibration_State { set; get; } = Camera_Calibration_Image_State_Enum.None;
 
+
+
+
+        public void Camera_Image_Save(string File_Log, Camera_Connect_Control_Type_Enum _camerEnum,int i)
+        {
+
+
+            //检查列表是否有图像
+            if (Calibration_Image != null)
+            {
+
+                HImage _Imgea_0 = new HImage(Calibration_Image);
+
+                //保存图像
+                _Imgea_0.WriteImage("tiff", 0, File_Log + "\\" + _camerEnum + "_Camera-0_"+i);
+
+
+
+
+            }
+            else
+            {
+
+                throw new Exception(_camerEnum + "：第 " + i + " 张列表无图像，保存失败！");
+
+            }
+        }
+
+
+
         /// <summary>
         /// 清理模型内存
         /// </summary>
-        public void Dispose()
-        {
-            Calibration_Image?.Dispose();
-            Calibration_Region?.Dispose();
-            Calibration_XLD?.Dispose();
+        //public void Dispose()
+        //{
+        //    Calibration_Image?.Dispose();
+ 
+        //    Calibration_Region?.Dispose();
+        //    Calibration_XLD?.Dispose();
 
-            foreach (var _model in Calibration_3D_Model)
-            {
-                _model.ClearObjectModel3d();
-                _model.Dispose();
-            }
-            Calibration_3D_Model.Clear();
+        //    foreach (var _model in Calibration_3D_Model)
+        //    {
+        //        _model.ClearObjectModel3d();
+        //        _model.Dispose();
+        //    }
+        //    Calibration_3D_Model.Clear();
 
-            //GC.Collect();
-            //GC.SuppressFinalize(this);
-        }
+        //    //GC.Collect();
+        //    //GC.SuppressFinalize(this);
+        //}
     }
 
     [AddINotifyPropertyChangedInterface]
