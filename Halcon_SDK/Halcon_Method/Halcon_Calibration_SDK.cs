@@ -251,7 +251,6 @@ namespace Halcon_SDK_DLL
             int _Checked_imageNum = 0;
 
 
-
             try
             {
 
@@ -269,6 +268,7 @@ namespace Halcon_SDK_DLL
 
 
                     Calibration_Image_Camera_Model _Selected_camera = new Calibration_Image_Camera_Model(); ;
+                    Camera_Calibtion_Result _Camera_Calib_Result = new Camera_Calibtion_Result();
 
                     switch (Camera_Connect_Model)
                     {
@@ -291,7 +291,11 @@ namespace Halcon_SDK_DLL
                     FindCalibObject_Results _Res = new FindCalibObject_Results();
 
                     //查找标定板流程
-                    _Res = Find_Calibration_Workflows(_Selected_camera.Calibration_Image!, _CalibParam, i);
+                    //_Res = Find_Calibration_Workflows(_Selected_camera.Calibration_Image!, _CalibParam, i);
+
+
+                    _Camera_Calib_Result= Camera_Calib3D_Points((HImage)_ImageList[i].Camera_0.Calibration_Image!,(HImage) _ImageList[i].Camera_1.Calibration_Image!, _CalibParam, i);
+
 
 
                     var ppp = _Res._CalibXLD.IsInitialized();
@@ -725,7 +729,7 @@ namespace Halcon_SDK_DLL
                 {
 
 
-                    _Results = Find_Calib3D_Points((HImage)_Image, _Calibration_Param, _CalibPos_No);
+                    _Results = Check_Calib3D_Points((HImage)_Image, _Calibration_Param, _CalibPos_No);
 
                     //查找标定板
                     if (_Results._CalibRegion != null && _Results._CalibXLD != null)
@@ -809,7 +813,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_CalibParam"></param>
         /// <param name="_CalibPos_No"></param>
         /// <exception cref="Exception"></exception>
-        public FindCalibObject_Results Find_Calib3D_Points(HImage _HImage, Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
+        public FindCalibObject_Results Check_Calib3D_Points(HImage _HImage,  Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
         {
 
 
@@ -830,8 +834,8 @@ namespace Halcon_SDK_DLL
 
 
 
-                HCalibData.FindCalibObject(new HImage(_HImage), 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
-
+                        HCalibData.FindCalibObject(new HImage(_HImage), 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
+           
 
 
 
@@ -881,6 +885,110 @@ namespace Halcon_SDK_DLL
         }
 
 
+
+        public Camera_Calibtion_Result Camera_Calib3D_Points(HImage _HImage_0, HImage _HImage_1, Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
+        {
+
+
+            //lock (HCalibData)
+            //{
+
+            Camera_Calibtion_Result _Results = new Camera_Calibtion_Result();
+            HTuple _CamerPar = new();
+
+            try
+            {
+
+                _Results.Camera_0_Result. _Image = new(_HImage_0);
+
+
+
+                switch (Camera_Connect_Model)
+                {
+                    case Camera_Connect_Control_Type_Enum.双目相机:
+
+                        _Results.Camera_0_Result._Image = new(_HImage_0);
+                        _Results.Camera_1_Result._Image = new(_HImage_1);
+
+
+                        HCalibData.FindCalibObject(new HImage(_HImage_0), 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
+
+                        HCalibData.FindCalibObject(new HImage(_HImage_1), 1, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
+
+                        //获得标定板识别轮廓
+                        _Results.Camera_0_Result._CalibRegion = HCalibData.GetCalibDataObservContours("marks", 0, 0, _CalibPos_No);                //获得标定板识别轮廓
+                        _Results.Camera_1_Result._CalibRegion = HCalibData.GetCalibDataObservContours("marks", 1, 0, _CalibPos_No);
+
+
+                        //获得标定板位置
+                        HCalibData.GetCalibDataObservPoints(0, 0, _CalibPos_No, out _Results.Camera_0_Result.hv_Row, out _Results.Camera_0_Result.hv_Column, out _Results.Camera_0_Result.hv_I, out _Results.Camera_0_Result.hv_Pose);
+                        HCalibData.GetCalibDataObservPoints(1, 0, _CalibPos_No, out _Results.Camera_1_Result.hv_Row, out _Results.Camera_0_Result.hv_Column, out _Results.Camera_1_Result.hv_I, out _Results.Camera_1_Result.hv_Pose);
+
+
+                        _CamerPar = HCalibData.GetCalibData("camera", 0, "init_params");
+                        _CamerPar = HCalibData.GetCalibData("camera", 1, "init_params");
+
+                        ///技术三维坐标
+                        _Results.Camera_0_Result._CalibXLD = new Halcon_Example().Disp_3d_coord(new HCamPar(_CamerPar), new HPose(_Results.Camera_0_Result.hv_Pose), new HTuple(0.02));
+                        _Results.Camera_1_Result._CalibXLD = new Halcon_Example().Disp_3d_coord(new HCamPar(_CamerPar), new HPose(_Results.Camera_1_Result.hv_Pose), new HTuple(0.02));
+
+                        ///设置显示颜色
+                        _Results.Camera_0_Result._DrawColor = KnownColor.Green.ToString();
+                        _Results.Camera_1_Result._DrawColor = KnownColor.Green.ToString();
+
+                        break;
+                    case Camera_Connect_Control_Type_Enum.Camera_0 or Camera_Connect_Control_Type_Enum.Camera_1:
+
+                        HCalibData.FindCalibObject(new HImage(_HImage_0), 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
+
+
+                        //获得标定板识别轮廓
+                        _Results.Camera_0_Result._CalibRegion = HCalibData.GetCalibDataObservContours("marks", 0, 0, _CalibPos_No);
+
+
+
+                        //获得标定板位置
+                        HCalibData.GetCalibDataObservPoints(0, 0, _CalibPos_No, out _Results.Camera_0_Result.hv_Row, out _Results.Camera_0_Result.hv_Column, out _Results.Camera_0_Result.hv_I, out _Results.Camera_0_Result.hv_Pose);
+
+
+                        _CamerPar = HCalibData.GetCalibData("camera", 0, "init_params");
+                        _Results.Camera_0_Result._CalibXLD = new Halcon_Example().Disp_3d_coord(new HCamPar(_CamerPar), new HPose(_Results.Camera_0_Result.hv_Pose), new HTuple(0.02));
+
+
+
+                        ///设置显示颜色
+                        _Results.Camera_0_Result._DrawColor = KnownColor.Green.ToString();
+                        break;
+           
+        
+                }
+
+
+
+
+
+
+
+
+
+    
+
+
+
+            }
+
+
+            catch (Exception)
+            {
+
+                //throw new Exception("识别标定板失败！" + " 原因：" + _e.Message);
+
+            }
+
+            return _Results;
+
+            //}
+        }
 
 
 

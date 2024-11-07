@@ -110,13 +110,13 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 匹配结果2d矩阵列表
             /// </summary>
-            public ObservableCollection<HHomMat2D> Results_HomMat2D_List { set; get; } = new ();
+            public ObservableCollection<HHomMat2D> Results_HomMat2D_List { set; get; } = new();
 
 
             /// <summary>
             /// 匹配结果xld显示列表
             /// </summary>
-            public ObservableCollection<HXLDCont> Results_HXLD_List { set; get; } = new ();
+            public ObservableCollection<HXLDCont> Results_HXLD_List { set; get; } = new();
 
 
             public HObject HXLD_Results_All { set; get; } = new HObject();
@@ -144,27 +144,27 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 模型实例的行坐标 =Y
             /// </summary>
-            public ObservableCollection<double> Find_Row { set; get; } = new ();
+            public ObservableCollection<double> Find_Row { set; get; } = new();
 
             /// <summary>
             /// 模型实例的列坐标 =X
             /// </summary>
-            public ObservableCollection<double> Find_Column { set; get; } = new ();
+            public ObservableCollection<double> Find_Column { set; get; } = new();
 
             /// <summary>
             /// 模型实例的旋转角度
             /// </summary>
-            public ObservableCollection<double> Find_Angle { set; get; } = new ();
+            public ObservableCollection<double> Find_Angle { set; get; } = new();
 
             /// <summary>
             /// 模型和找到的实例相似值
             /// </summary>
-            public ObservableCollection<double> Find_Score { set; get; } = new ();
+            public ObservableCollection<double> Find_Score { set; get; } = new();
 
             /// <summary>
             /// 查找耗时
             /// </summary>
-            public ObservableCollection<double> Find_Time { set; get; } = new ();
+            public ObservableCollection<double> Find_Time { set; get; } = new();
 
 
 
@@ -176,18 +176,18 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 存储结果点
             /// </summary>
-            public ObservableCollection<Point3D> Vision_Pos { set; get; } = new ();
+            public ObservableCollection<Point3D> Vision_Pos { set; get; } = new();
 
             /// <summary>
             /// 存储结果点
             /// </summary>
-            public ObservableCollection<Point3D> Robot_Pos { set; get; } = new ();
+            public ObservableCollection<Point3D> Robot_Pos { set; get; } = new();
 
             //public double Right_Angle { set; get; } = 0;
             /// <summary>
             /// 找到的模型实例的分数
             /// </summary>
-            public ObservableCollection<HTuple> HomMat2D { set; get; } = new ();
+            public ObservableCollection<HTuple> HomMat2D { set; get; } = new();
 
             /// <summary>
             /// 页面显示结过集合
@@ -209,7 +209,7 @@ namespace Halcon_SDK_DLL.Model
             public ObservableCollection<string> Set_Results_Data_List()
             {
                 List<string> _DataList = new();
-                
+
                 Text_Arr_UI.Add("匹配模型Base坐标偏移结果：" + Results_PlanOffset_Pos.ToString());
                 Text_Arr_UI.Add("匹配模型Base原点坐标：" + Results_ModelInBase_Pos.ToString());
                 Text_Arr_UI.Add("匹配模型到相机坐标：" + Results_ModelInCam_Pos.ToString());
@@ -232,7 +232,7 @@ namespace Halcon_SDK_DLL.Model
                     Text_Arr_UI.Add($"结果路径坐标—{i}号 | 坐标 X: {Results_PathInBase_Pos[i].X:F3}mm,Y: {Results_PathInBase_Pos[i].Y:F3}mm, Z:  {Results_PathInBase_Pos[i].Z:F3}mm, Rx: {Results_PathInBase_Pos[i].Rx:F3}度, Ry: {Results_PathInBase_Pos[i].Ry:F3}, Rz: {Results_PathInBase_Pos[i].Rz:F3}");
                 }
 
-                return new ObservableCollection<string> (_DataList);
+                return new ObservableCollection<string>(_DataList);
             }
 
 
@@ -274,7 +274,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// UI绑定查找模型区域名字
             /// </summary>
-            public string ShapeModel_Name { set; get; } ="默认";
+            public string ShapeModel_Name { set; get; } = "默认";
 
             /// <summary>
             /// 模型创建ID号
@@ -411,7 +411,7 @@ namespace Halcon_SDK_DLL.Model
                 Compulsory_Image_Rectified = _.Compulsory_Image_Rectified;
                 Time_Out = _.Time_Out;
                 Auto_Image_Rectified = _.Auto_Image_Rectified;
-                 
+
             }
 
             /// <summary>
@@ -504,7 +504,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 图像自动校正
             /// </summary>
-            public bool Auto_Image_Rectified { set; get; } = false ;
+            public bool Auto_Image_Rectified { set; get; } = false;
 
             /// <summary>
             /// 匹配查找世界限制超时
@@ -834,7 +834,7 @@ namespace Halcon_SDK_DLL.Model
 
             public HCamPar Get_HCamPar()
             {
-                HCamPar hCamPar = new ();
+                HCamPar hCamPar = new();
 
                 switch (Camera_Calibration_Model)
                 {
@@ -877,7 +877,7 @@ namespace Halcon_SDK_DLL.Model
             /// <summary>
             /// 标定内参参数变量
             /// </summary>
-            private HCamPar _HCamPar = new ();
+            private HCamPar _HCamPar = new();
 
             public HCamPar HCamPar
             {
@@ -973,6 +973,32 @@ namespace Halcon_SDK_DLL.Model
 
     }
 
+
+    /// <summary>
+    /// 相机设备标定结果
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class Camera_Calibtion_Result
+    {
+        public Camera_Calibtion_Result()
+        {
+
+        }
+        public Camera_Calibtion_Result(Camera_Calibtion_Result _Result)
+        {
+            Camera_0_Result = new(_Result.Camera_0_Result);
+            Camera_1_Result = new(_Result.Camera_1_Result);
+        }
+
+
+        public FindCalibObject_Results Camera_0_Result { set; get; } = new FindCalibObject_Results();
+        public FindCalibObject_Results Camera_1_Result { set; get; } = new FindCalibObject_Results();
+
+
+
+    }
+
+
     /// <summary>
     /// 图像查找标定板结果类型
     /// </summary>
@@ -1000,7 +1026,7 @@ namespace Halcon_SDK_DLL.Model
         }
 
         public HObject _Image { set; get; } = new HObject();
-     
+
 
         public HObject _CalibXLD { set; get; } = new HObject();
         public HObject _CalibRegion { set; get; } = new HObject();
@@ -1009,10 +1035,10 @@ namespace Halcon_SDK_DLL.Model
 
         public string _DrawColor { set; get; } = KnownColor.Blue.ToString();
 
-        public HTuple hv_Row = new ();
-        public HTuple hv_Column = new ();
-        public HTuple hv_I = new ();
-        public HTuple hv_Pose = new ();
+        public HTuple hv_Row = new();
+        public HTuple hv_Column = new();
+        public HTuple hv_I = new();
+        public HTuple hv_Pose = new();
 
         public void Dispose()
         {
@@ -1267,10 +1293,10 @@ namespace Halcon_SDK_DLL.Model
     /// 标定图像集合模型参数
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public class Calibration_Image_List_Model 
+    public class Calibration_Image_List_Model
     {
 
- 
+
 
 
         /// <summary>
@@ -1525,7 +1551,7 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-        private HPose _HPose = new (0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
+        private HPose _HPose = new(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
 
         public HPose HPose
         {
@@ -1991,7 +2017,7 @@ namespace Halcon_SDK_DLL.Model
     /// 标定图像相机类型
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public class Calibration_Image_Camera_Model 
+    public class Calibration_Image_Camera_Model
     {
         public Calibration_Image_Camera_Model()
         {
@@ -2050,7 +2076,7 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-        public void Camera_Image_Save(string File_Log, Camera_Connect_Control_Type_Enum _camerEnum,int i)
+        public void Camera_Image_Save(string File_Log, Camera_Connect_Control_Type_Enum _camerEnum, int i)
         {
 
 
@@ -2061,7 +2087,7 @@ namespace Halcon_SDK_DLL.Model
                 HImage _Imgea_0 = new HImage(Calibration_Image);
 
                 //保存图像
-                _Imgea_0.WriteImage("tiff", 0, File_Log + "\\" + _camerEnum + "_Camera-0_"+i);
+                _Imgea_0.WriteImage("tiff", 0, File_Log + "\\" + _camerEnum + "_Camera-0_" + i);
 
 
 
@@ -2083,7 +2109,7 @@ namespace Halcon_SDK_DLL.Model
         //public void Dispose()
         //{
         //    Calibration_Image?.Dispose();
- 
+
         //    Calibration_Region?.Dispose();
         //    Calibration_XLD?.Dispose();
 
@@ -2100,7 +2126,7 @@ namespace Halcon_SDK_DLL.Model
     }
 
     [AddINotifyPropertyChangedInterface]
-    public class Shape_Mode_File_Model 
+    public class Shape_Mode_File_Model
     {
         public Shape_Mode_File_Model()
         {
@@ -2134,24 +2160,24 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 创建模型句柄集合
         /// </summary>
-        public List<HTuple> Shape_Handle_List { set; get; } = new ();
+        public List<HTuple> Shape_Handle_List { set; get; } = new();
 
 
         /// <summary>
         /// 选择的模型句柄
         /// </summary>
-        public HTuple? Selected_Shape_Handle { set; get; } 
+        public HTuple? Selected_Shape_Handle { set; get; }
 
 
         /// <summary>
         /// 创建模型xld句柄
         /// </summary>
-        public List<HXLDCont> Shape_XLD_Handle_List { set; get; } = new ();
+        public List<HXLDCont> Shape_XLD_Handle_List { set; get; } = new();
 
         /// <summary>
         /// 选择XLD对象模型
         /// </summary>
-        public HXLDCont? Selected_Shape_XLD_Handle { set; get; } 
+        public HXLDCont? Selected_Shape_XLD_Handle { set; get; }
 
 
         /// <summary>
@@ -2179,12 +2205,12 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 匹配模型平面位置
         /// </summary>
-        public Point_Model Shape_PlaneInBase_Pos { set; get; } = new ();
+        public Point_Model Shape_PlaneInBase_Pos { set; get; } = new();
 
         /// <summary>
         /// 图像原点位置
         /// </summary>
-        public Point_Model Shape_Model_2D_Origin { set; get; } = new ();
+        public Point_Model Shape_Model_2D_Origin { set; get; } = new();
 
         /// <summary>
         /// 标定路径坐标列表
@@ -2221,7 +2247,7 @@ namespace Halcon_SDK_DLL.Model
         //        _Model.Dispose();
         //    }
         //    Shape_Image_Rectified.Dispose();
-         
+
         //    GC.SuppressFinalize(this);
         //}
 
