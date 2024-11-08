@@ -244,9 +244,9 @@ namespace Halcon_SDK_DLL
         /// <param name="_Selected_Camera"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public Calibration_Camera_Data_Results_Model Camera_Cailbration_Results(ObservableCollection<Calibration_Image_List_Model> _ImageList, Halcon_Camera_Calibration_Model _CalibParam)
+        public Caliration_AllCamera_Results_Model Camera_Cailbration_Results(ObservableCollection<Calibration_Image_List_Model> _ImageList, Halcon_Camera_Calibration_Model _CalibParam)
         {
-            Calibration_Camera_Data_Results_Model _Results = new Calibration_Camera_Data_Results_Model();
+            Caliration_AllCamera_Results_Model _Results = new Caliration_AllCamera_Results_Model();
             Reconstruction_3d _Camera_3DModel = new Reconstruction_3d();
             int _Checked_imageNum = 0;
 
@@ -267,61 +267,158 @@ namespace Halcon_SDK_DLL
                 {
 
 
-                    Calibration_Image_Camera_Model _Selected_camera = new Calibration_Image_Camera_Model(); ;
+                    //Calibration_Image_Camera_Model _Camera_0_Calib_Image = new Calibration_Image_Camera_Model(); 
+                    //Calibration_Image_Camera_Model _Camera_1_Calib_Image = new Calibration_Image_Camera_Model();
                     Camera_Calibtion_Result _Camera_Calib_Result = new Camera_Calibtion_Result();
+
+
+
 
                     switch (Camera_Connect_Model)
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
-                            throw new Exception("双目手眼标定未开发！");
+                            _Camera_Calib_Result = Camera_Calib3D_Points((HImage)_ImageList[i].Camera_0.Calibration_Image!, (HImage)_ImageList[i].Camera_1.Calibration_Image!, _CalibParam, i);
 
+
+                            break;
 
 
                         case Camera_Connect_Control_Type_Enum.Camera_0:
-                            _Selected_camera = _ImageList[i].Camera_0;
+
+
+                            _Camera_Calib_Result = Camera_Calib3D_Points((HImage)_ImageList[i].Camera_0.Calibration_Image!, null!, _CalibParam, i);
+
+
 
                             break;
                         case Camera_Connect_Control_Type_Enum.Camera_1:
 
-                            _Selected_camera = _ImageList[i].Camera_1;
+                            _Camera_Calib_Result = Camera_Calib3D_Points((HImage)_ImageList[i].Camera_1.Calibration_Image!, null!, _CalibParam, i);
+
+
                             break;
                     }
 
-                    FindCalibObject_Results _Res = new FindCalibObject_Results();
+                    //FindCalibObject_Results _Res = new FindCalibObject_Results();
 
                     //查找标定板流程
                     //_Res = Find_Calibration_Workflows(_Selected_camera.Calibration_Image!, _CalibParam, i);
 
 
-                    _Camera_Calib_Result= Camera_Calib3D_Points((HImage)_ImageList[i].Camera_0.Calibration_Image!,(HImage) _ImageList[i].Camera_1.Calibration_Image!, _CalibParam, i);
 
 
-
-                    var ppp = _Res._CalibXLD.IsInitialized();
-
-                    ///识别失败设置状态
-                    if (_Res._CalibXLD.IsInitialized() && _Res._CalibRegion.IsInitialized())
+                    switch (Camera_Connect_Model)
                     {
+                        case Camera_Connect_Control_Type_Enum.双目相机:
 
-                        _Selected_camera.Calibration_Region = _Res._CalibRegion;
-                        _Selected_camera.Calibration_XLD = _Res._CalibXLD;
-
-
-                        _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
-                        //设备对应设备标定板坐标参数
-                        _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_Res.hv_Pose));
+                            if (_Camera_Calib_Result.Camera_1_Result._CalibXLD.IsInitialized() && _Camera_Calib_Result.Camera_0_Result._CalibXLD.IsInitialized())
+                            {
 
 
-                        _Checked_imageNum++;
+
+                                _ImageList[i].Camera_0.Calibration_Region = new(_Camera_Calib_Result.Camera_0_Result._CalibRegion);
+                                _ImageList[i].Camera_1.Calibration_Region = new(_Camera_Calib_Result.Camera_1_Result._CalibRegion);
+
+
+                                _ImageList[i].Camera_0.Calibration_XLD = new(_Camera_Calib_Result.Camera_0_Result._CalibXLD);
+                                _ImageList[i].Camera_1.Calibration_XLD = new(_Camera_Calib_Result.Camera_1_Result._CalibXLD);
+
+                                _ImageList[i].Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
+                                _ImageList[i].Camera_1.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
+
+
+
+                                _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_Camera_Calib_Result.Camera_0_Result.hv_Pose));
+
+
+
+                                _Checked_imageNum++;
+                            }
+                            else
+                            {
+                                _ImageList[i].Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+                                _ImageList[i].Camera_1.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+                                _ImageList[i].Calibration_Plate_Pos.HPose = new HPose();
+                            }
+
+
+
+                            break;
+                        case Camera_Connect_Control_Type_Enum.Camera_0:
+
+                            if (_Camera_Calib_Result.Camera_0_Result._CalibXLD.IsInitialized())
+                            {
+
+                                _ImageList[i].Camera_0.Calibration_Region = new(_Camera_Calib_Result.Camera_0_Result._CalibRegion);
+
+                                _ImageList[i].Camera_0.Calibration_XLD = new(_Camera_Calib_Result.Camera_0_Result._CalibXLD);
+
+                                _ImageList[i].Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
+
+                                _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_Camera_Calib_Result.Camera_0_Result.hv_Pose));
+
+                                _Checked_imageNum++;
+                            }
+                            else
+                            {
+                                _ImageList[i].Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+
+                                _ImageList[i].Calibration_Plate_Pos.HPose = new HPose();
+                            }
+
+                            break;
+                        case Camera_Connect_Control_Type_Enum.Camera_1:
+
+                            if (_Camera_Calib_Result.Camera_1_Result._CalibXLD.IsInitialized())
+                            {
+
+
+                                _ImageList[i].Camera_1.Calibration_Region = new(_Camera_Calib_Result.Camera_1_Result._CalibRegion);
+
+                                _ImageList[i].Camera_1.Calibration_XLD = new(_Camera_Calib_Result.Camera_1_Result._CalibXLD);
+
+                                _ImageList[i].Camera_1.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
+
+                                _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_Camera_Calib_Result.Camera_0_Result.hv_Pose));
+
+                                _Checked_imageNum++;
+                            }
+                            else
+                            {
+
+                                _ImageList[i].Camera_1.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+                                _ImageList[i].Calibration_Plate_Pos.HPose = new HPose();
+                            }
+                            break;
+
                     }
-                    else
-                    {
 
-                        _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
-                        _ImageList[i].Calibration_Plate_Pos.HPose = new HPose(); ;
 
-                    }
+
+
+                    /////识别失败设置状态
+                    //if (_Res._CalibXLD.IsInitialized() && _Res._CalibRegion.IsInitialized())
+                    //{
+
+                    //    _Selected_camera.Calibration_Region = _Res._CalibRegion;
+                    //    _Selected_camera.Calibration_XLD = _Res._CalibXLD;
+
+
+                    //    _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
+                    //    //设备对应设备标定板坐标参数
+                    //    _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_Res.hv_Pose));
+
+
+                    //    _Checked_imageNum++;
+                    //}
+                    //else
+                    //{
+
+                    //    _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+                    //    _ImageList[i].Calibration_Plate_Pos.HPose = new HPose();
+
+                    //}
 
                     ///添加到集合中
                     //_ResList.Add(_Calib_Res);
@@ -335,12 +432,54 @@ namespace Halcon_SDK_DLL
                     throw new Exception(@"标定列表中有 " + (_ImageList.Count - _Checked_imageNum) + " 张图像检测异常...，请处理再标定！");
                 }
 
-                //继续相机标定误差
-                _Results.Camera_Calib_Error = HCalibData.CalibrateCameras();
-                _Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
 
-                //获得标定后内参值
-                _Results.Camera_Result_Pama.HCamPar = new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(0, "params"));
+                switch (Camera_Connect_Model)
+                {
+                    case Camera_Connect_Control_Type_Enum.双目相机:
+
+                        _Results.Camera_1_Results.Camera_Calib_Error = _Results.Camera_0_Results.Camera_Calib_Error = HCalibData.CalibrateCameras();
+
+                        //获得标定后内参值
+                        _Results.Camera_0_Results.Camera_Result_Pama.HCamPar = new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(0, "params"));
+                        _Results.Camera_1_Results.Camera_Result_Pama.HCamPar = new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(1, "params"));
+
+
+                        _Results.Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
+                        _Results.Camera_1_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
+
+
+                        break;
+                    case Camera_Connect_Control_Type_Enum.Camera_0:
+
+
+                 _Results.Camera_0_Results.Camera_Calib_Error = HCalibData.CalibrateCameras();
+
+
+                        _Results.Camera_0_Results.Camera_Result_Pama.HCamPar = new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(0, "params"));
+                      
+                        _Results.Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
+
+
+                        break;
+                    case Camera_Connect_Control_Type_Enum.Camera_1:
+
+                        _Results.Camera_1_Results.Camera_Calib_Error =  HCalibData.CalibrateCameras();
+
+                        _Results.Camera_1_Results.Camera_Result_Pama.HCamPar = new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(0, "params"));
+                     
+                        _Results.Camera_1_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
+
+                        break;
+         
+                }
+
+
+                ////继续相机标定误差
+                //_Results.Camera_1_Results.Camera_Calib_Error =_Results.Camera_0_Results.Camera_Calib_Error = HCalibData.CalibrateCameras();
+                //_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
+
+                ////获得标定后内参值
+                //_Results.Camera_Result_Pama.HCamPar = new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(0, "params"));
 
                 ///遍历设置相机三维模型
                 for (int i = 0; i < _ImageList.Count; i++)
@@ -353,6 +492,11 @@ namespace Halcon_SDK_DLL
                     switch (Camera_Connect_Model)
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
+
+
+                            _ImageList[i].Camera_0.Calibration_3D_Model = _Camera3D;
+                            _ImageList[i].Camera_1.Calibration_3D_Model = _Camera3D;
+
 
                             ///
                             break;
@@ -813,7 +957,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_CalibParam"></param>
         /// <param name="_CalibPos_No"></param>
         /// <exception cref="Exception"></exception>
-        public FindCalibObject_Results Check_Calib3D_Points(HImage _HImage,  Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
+        public FindCalibObject_Results Check_Calib3D_Points(HImage _HImage, Halcon_Camera_Calibration_Model _CalibParam, int _CalibPos_No = 0)
         {
 
 
@@ -834,8 +978,8 @@ namespace Halcon_SDK_DLL
 
 
 
-                        HCalibData.FindCalibObject(new HImage(_HImage), 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
-           
+                HCalibData.FindCalibObject(new HImage(_HImage), 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
+
 
 
 
@@ -899,7 +1043,7 @@ namespace Halcon_SDK_DLL
             try
             {
 
-                _Results.Camera_0_Result. _Image = new(_HImage_0);
+                _Results.Camera_0_Result._Image = new(_HImage_0);
 
 
 
@@ -959,8 +1103,8 @@ namespace Halcon_SDK_DLL
                         ///设置显示颜色
                         _Results.Camera_0_Result._DrawColor = KnownColor.Green.ToString();
                         break;
-           
-        
+
+
                 }
 
 
@@ -971,7 +1115,7 @@ namespace Halcon_SDK_DLL
 
 
 
-    
+
 
 
 

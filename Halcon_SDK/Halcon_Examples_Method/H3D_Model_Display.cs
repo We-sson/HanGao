@@ -1350,7 +1350,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             }
             finally
             {
-                HOperatorSet.WaitSeconds(0.05);
+                //HOperatorSet.WaitSeconds(0.05);
+                Thread.Sleep(5);
                 While_ResetEvent.Reset();
             }
 
@@ -1388,7 +1389,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 //HOperatorSet.WaitSeconds(0.5);
                 While_ResetEvent.Set();
-                HOperatorSet.WaitSeconds(0.05);
+                Thread.Sleep(5);
+                //HOperatorSet.WaitSeconds(0.05);
                 While_ResetEvent.Reset();
 
             }
