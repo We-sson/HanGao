@@ -1741,6 +1741,101 @@ namespace Halcon_SDK_DLL.Model
         public Calibration_Camera_Data_Results_Model Camera_0_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
 
         public Calibration_Camera_Data_Results_Model Camera_1_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
+
+
+        public HCameraSetupModel All_Camera_SetupModel { set; get; } = new HCameraSetupModel();
+
+
+        public string Result_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File";
+        private string Save_File_Address { set; get; } = string.Empty;
+
+
+        private bool Checked_SaveFile(Camera_Connect_Control_Type_Enum _Save_Camera_Type)
+        {
+            ////检查文件夹，创建
+            if (!Directory.Exists(Result_Fold_Address)) Directory.CreateDirectory(Result_Fold_Address);
+
+
+            switch (_Save_Camera_Type)
+            {
+                case Camera_Connect_Control_Type_Enum.双目相机:
+
+                    Save_File_Address = Result_Fold_Address + "\\" +"TwoCameraCalibtion_"+ Camera_0_Results.Calibration_Name+"_"+ Camera_1_Results.Calibration_Name;
+                    break;
+                case Camera_Connect_Control_Type_Enum.Camera_0:
+
+                    //添加名称
+                    Save_File_Address = Result_Fold_Address + "\\" + "CameraCalibtion_"+ Camera_0_Results.Calibration_Name;
+                    break;
+                case Camera_Connect_Control_Type_Enum.Camera_1:
+
+                    Save_File_Address = Result_Fold_Address + "\\" + "CameraCalibtion_" + Camera_1_Results.Calibration_Name;
+
+                    break;
+       
+            }
+
+        
+
+            if (File.Exists(Save_File_Address += ".ccd"))
+            {
+                if (MessageBox.Show("相机内参文件：" + Save_File_Address + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 保存相机参数
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public void Save_Camera_Parameters(Camera_Connect_Control_Type_Enum _Save_Camera_Type)
+        {
+
+
+            switch (_Save_Camera_Type)
+            {
+                case Camera_Connect_Control_Type_Enum.双目相机:
+
+                    Camera_0_Results.Camera_Calinration_Process_Type.Throw(Camera_0_Results.Calibration_Name + "：未进行手眼标定！").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
+                    Camera_1_Results.Camera_Calinration_Process_Type.Throw(Camera_0_Results.Calibration_Name + "：未进行手眼标定！").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
+
+          
+
+
+                    break;
+                case Camera_Connect_Control_Type_Enum.Camera_0:
+                    Camera_0_Results.Camera_Calinration_Process_Type.Throw(Camera_0_Results.Calibration_Name + "：未进行手眼标定！").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
+
+                    break;
+                case Camera_Connect_Control_Type_Enum.Camera_1:
+                    Camera_1_Results.Camera_Calinration_Process_Type.Throw(Camera_1_Results.Calibration_Name + "：未进行手眼标定！").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
+
+                    break;
+
+     
+            }
+
+
+            if (!All_Camera_SetupModel.IsInitialized())
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (!Checked_SaveFile(_Save_Camera_Type))
+                    {
+                        All_Camera_SetupModel.WriteCameraSetupModel(Save_File_Address);
+                    }
+                });
+            }
+            else
+            {
+                throw new Exception("未进行相机标定，无法保存！");
+            }
+        }
+
+
     }
 
     [AddINotifyPropertyChangedInterface]

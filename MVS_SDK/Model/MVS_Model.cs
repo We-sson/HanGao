@@ -1062,7 +1062,7 @@ namespace MVS_SDK_Base.Model
                     case Type _T when _T.BaseType == typeof(Enum):
 
                         //设置相机参数
-                        _Parameters_Type = Set_Camera_Val(_Val_Type, _Camera.SetEnumValue(_name, (uint)_val));
+                        _Parameters_Type = Set_Camera_Val(_Val_Type, _Camera.SetEnumValue(_name, Convert.ToUInt32(_val)));
 
 
 

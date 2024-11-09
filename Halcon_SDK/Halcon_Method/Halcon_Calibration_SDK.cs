@@ -278,7 +278,7 @@ namespace Halcon_SDK_DLL
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
-                            _Camera_Calib_Result = Camera_Calib3D_Points((HImage)_ImageList[i].Camera_0.Calibration_Image!, (HImage)_ImageList[i].Camera_1.Calibration_Image!, _CalibParam, i);
+                            _Camera_Calib_Result = Camera_Calib3D_Points(new HImage(_ImageList[i].Camera_0.Calibration_Image), new HImage(_ImageList[i].Camera_1.Calibration_Image), _CalibParam, i);
 
 
                             break;
@@ -287,14 +287,14 @@ namespace Halcon_SDK_DLL
                         case Camera_Connect_Control_Type_Enum.Camera_0:
 
 
-                            _Camera_Calib_Result = Camera_Calib3D_Points((HImage)_ImageList[i].Camera_0.Calibration_Image!, null!, _CalibParam, i);
+                            _Camera_Calib_Result = Camera_Calib3D_Points(new HImage(_ImageList[i].Camera_0.Calibration_Image), null!, _CalibParam, i);
 
 
 
                             break;
                         case Camera_Connect_Control_Type_Enum.Camera_1:
 
-                            _Camera_Calib_Result = Camera_Calib3D_Points((HImage)_ImageList[i].Camera_1.Calibration_Image!, null!, _CalibParam, i);
+                            _Camera_Calib_Result = Camera_Calib3D_Points(new HImage(_ImageList[i].Camera_1.Calibration_Image), null!, _CalibParam, i);
 
 
                             break;
@@ -439,9 +439,12 @@ namespace Halcon_SDK_DLL
 
                         _Results.Camera_1_Results.Camera_Calib_Error = _Results.Camera_0_Results.Camera_Calib_Error = HCalibData.CalibrateCameras();
 
+
+                        _Results.All_Camera_SetupModel = new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H);
+
                         //获得标定后内参值
-                        _Results.Camera_0_Results.Camera_Result_Pama.HCamPar = new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(0, "params"));
-                        _Results.Camera_1_Results.Camera_Result_Pama.HCamPar = new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(1, "params"));
+                        _Results.Camera_0_Results.Camera_Result_Pama.HCamPar = new HCamPar(_Results.All_Camera_SetupModel.GetCameraSetupParam(0, "params"));
+                        _Results.Camera_1_Results.Camera_Result_Pama.HCamPar = new HCamPar(_Results.All_Camera_SetupModel.GetCameraSetupParam(1, "params"));
 
 
                         _Results.Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
@@ -452,25 +455,30 @@ namespace Halcon_SDK_DLL
                     case Camera_Connect_Control_Type_Enum.Camera_0:
 
 
-                 _Results.Camera_0_Results.Camera_Calib_Error = HCalibData.CalibrateCameras();
+                        _Results.Camera_0_Results.Camera_Calib_Error = HCalibData.CalibrateCameras();
+
+                        _Results.All_Camera_SetupModel = new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H);
 
 
-                        _Results.Camera_0_Results.Camera_Result_Pama.HCamPar = new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(0, "params"));
-                      
+                        _Results.Camera_0_Results.Camera_Result_Pama.HCamPar = new HCamPar(_Results.All_Camera_SetupModel.GetCameraSetupParam(0, "params"));
+
                         _Results.Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
 
 
                         break;
                     case Camera_Connect_Control_Type_Enum.Camera_1:
 
-                        _Results.Camera_1_Results.Camera_Calib_Error =  HCalibData.CalibrateCameras();
+                        _Results.Camera_1_Results.Camera_Calib_Error = HCalibData.CalibrateCameras();
 
-                        _Results.Camera_1_Results.Camera_Result_Pama.HCamPar = new HCamPar(new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H).GetCameraSetupParam(0, "params"));
-                     
+                        _Results.All_Camera_SetupModel = new HCameraSetupModel(HCalibData.GetCalibData("model", "general", "camera_setup_model").H);
+
+                        _Results.Camera_1_Results.Camera_Result_Pama.HCamPar = new HCamPar(_Results.All_Camera_SetupModel.GetCameraSetupParam(0, "params"));
+
+
                         _Results.Camera_1_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibration_Successful;
 
                         break;
-         
+
                 }
 
 

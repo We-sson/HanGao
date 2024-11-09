@@ -1240,7 +1240,7 @@
 
                     </Border>
 
-                    <DataGrid Grid.Row=" 1" Grid.Column=" 0"
+                    <DataGrid x:Name="Camera_0_Image_DataGrid" Grid.Row=" 1" Grid.Column=" 0"
                               HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch"
                               AutoGenerateColumns="False"
@@ -1257,6 +1257,7 @@
                               ColumnHeaderHeight="40"
                               ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
                               ColumnWidth=" 50"
+                              EnableRowVirtualization="False"
                               FontFamily="{DynamicResource 全局_文字_数字字体}"
                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
                               GridLinesVisibility="Horizontal"
@@ -1278,9 +1279,13 @@
                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
+
                         </i:Interaction.Triggers>
+
+
                         <DataGrid.Resources>
                             <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
+
                         </DataGrid.Resources>
 
                         <DataGrid.Columns>
@@ -1401,7 +1406,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <DataGrid Grid.Row=" 1" Grid.Column=" 1"
+                    <DataGrid x:Name="Camera_1_Image_DataGrid" Grid.Row=" 1" Grid.Column=" 1"
                               HorizontalContentAlignment="Stretch"
                               VerticalContentAlignment="Stretch"
                               AutoGenerateColumns="False"
@@ -1418,6 +1423,7 @@
                               ColumnHeaderHeight="40"
                               ColumnHeaderStyle="{DynamicResource Point_UI_DataGridColumnHeaderStyle}"
                               ColumnWidth=" 50"
+                              EnableRowVirtualization="False"
                               FontFamily="{DynamicResource 全局_文字_数字字体}"
                               Foreground="{DynamicResource 全局_按钮_黑颜色}"
                               GridLinesVisibility="Horizontal"
@@ -1439,6 +1445,7 @@
                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                        PassEventArgsToCommand="True" />
                             </i:EventTrigger>
+
                         </i:Interaction.Triggers>
                         <DataGrid.Resources>
                             <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="ScrollBar" />
@@ -5683,7 +5690,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Calib_Error}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Calib_Error}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Camera_0_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -5728,7 +5735,7 @@
                                                       IsEnabled="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Source={StaticResource Halocn_Camera_Calibration}}"
-                                                      SelectedValue="{Binding Camera_0_Results.Camera_Result_Pama.Camera_Calibration_Model}">
+                                                      SelectedValue="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.Camera_Calibration_Model}">
 
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
@@ -5774,7 +5781,7 @@
                                                     Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.Focus}">
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.Focus}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="PreviewMouseUp">
                                                         <i:InvokeCommandAction Command="{Binding}"
@@ -5826,7 +5833,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.Kappa}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.Kappa}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Camera_Kappa_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -5870,7 +5877,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.K1}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.K1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K1_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -5915,7 +5922,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.K2}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.K2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K2_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -5960,7 +5967,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.K3}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.K3}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K3_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -6005,7 +6012,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.P1}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.P1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P1_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -6050,7 +6057,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.P2}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.P2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P2_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -6095,7 +6102,7 @@
                                                     Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.Sx}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.Sx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Width_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -6140,7 +6147,7 @@
                                                     Maximum="99999"
                                                     Minimum="-999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.Sy}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.Sy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Height_UI, Path=Value}"
@@ -6185,7 +6192,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.Cx}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.Cx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Width_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -6230,7 +6237,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.Cy}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.Cy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Height_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -6275,7 +6282,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.Image_Width}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.Image_Width}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Width_UI, Path=Value}"
@@ -6320,7 +6327,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_0_Results.Camera_Result_Pama.Image_Height}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Result_Pama.Image_Height}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Heigth_UI, Path=Value}"
@@ -6578,7 +6585,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Calib_Error}">
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Calib_Error}">
                                                 <!--<i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -6589,7 +6596,7 @@
                                             </Slider>
 
                                             <TextBox Grid.Column=" 2"
-                                                     Text="{Binding ElementName=Calibration_Camera_1_Error_UI, Path=Value, StringFormat={}{0:N3}}"
+                                                     Text="{Binding ElementName=Calibration_Camera_1_Error_UI, Path=Value, StringFormat={}{0:F4}}"
                                                      Width="100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6631,7 +6638,7 @@
                                                       IsEnabled="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Source={StaticResource Halocn_Camera_Calibration}}"
-                                                      SelectedValue="{Binding Camera_1_Results.Camera_Result_Pama.Camera_Calibration_Model}">
+                                                      SelectedValue="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.Camera_Calibration_Model}">
 
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
@@ -6675,7 +6682,7 @@
                                                     Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.Focus}">
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.Focus}">
                                                 <!--<i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -6727,7 +6734,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.Kappa}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.Kappa}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Camera_Kappa_UI_2, Path=Value, StringFormat={}{0:F4}}"
@@ -6771,7 +6778,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.K1}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.K1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K1_UI_2, Path=Value, StringFormat={}{0:F4}}"
@@ -6815,7 +6822,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.K2}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.K2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K2_UI_2, Path=Value, StringFormat={}{0:F4}}"
@@ -6859,7 +6866,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.K3}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.K3}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K3_UI_2, Path=Value, StringFormat={}{0:F4}}"
@@ -6903,7 +6910,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.P1}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.P1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P1_UI_2, Path=Value, StringFormat={}{0:F4}}"
@@ -6947,7 +6954,7 @@
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.P2}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.P2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P2_UI_2, Path=Value, StringFormat={}{0:F4}}"
@@ -6992,7 +6999,7 @@
                                                     Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.Sx}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.Sx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Width_UI_2, Path=Value, StringFormat={}{0:F4}}"
@@ -7037,7 +7044,7 @@
                                                     Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.Sy}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.Sy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Height_UI_2, Path=Value}"
@@ -7082,7 +7089,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.Cx}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.Cx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Width_UI_2, Path=Value, StringFormat={}{0:F4}}"
@@ -7127,7 +7134,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.Cy}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.Cy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Height_UI_2, Path=Value, StringFormat={}{0:F4}}"
@@ -7172,7 +7179,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.Image_Width}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.Image_Width}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Width_UI_2, Path=Value}"
@@ -7217,7 +7224,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_1_Results.Camera_Result_Pama.Image_Height}" />
+                                                    Value="{Binding ALL_Camera_Calibration_Results.Camera_1_Results.Camera_Result_Pama.Image_Height}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Heigth_UI_2, Path=Value}"
