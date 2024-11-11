@@ -1783,7 +1783,6 @@ namespace HanGao.ViewModel
 
 
 
-
                         break;
                     case Camera_Connect_Control_Type_Enum.Camera_0:
                         User_Log_Add(Halcon_Camera_Calibra.Camera_Connect_Model + "：设备标定误差" + ALL_Camera_Calibration_Results.Camera_0_Results.Camera_Calib_Error + " 。详细请看标定结果！", Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
