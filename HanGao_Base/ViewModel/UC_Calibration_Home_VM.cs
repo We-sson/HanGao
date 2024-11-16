@@ -1667,6 +1667,11 @@ namespace HanGao.ViewModel
                             Halcon_Camera_Calibra.Camera_1_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Calibration_1.Camera_Calibration_Paramteters);
 
                             ALL_Camera_Calibration_Results = Halcon_Camera_Calibra.Camera_Cailbration_Results(Camera_Calibration_Image_List, Camera_Interna_Parameters);
+
+                            ALL_Camera_Calibration_Results.Camera_0_Results.Calibration_Name = Camera_0_Select_Val.Camera_Info.SerialNumber;
+                            ALL_Camera_Calibration_Results.Camera_1_Results.Calibration_Name = Camera_1_Select_Val.Camera_Info.SerialNumber;
+
+
                         }
                         catch (Exception _e)
                         {
@@ -1703,6 +1708,8 @@ namespace HanGao.ViewModel
                             Halcon_Camera_Calibra.Camera_0_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Calibration_0.Camera_Calibration_Paramteters);
 
                             ALL_Camera_Calibration_Results = Halcon_Camera_Calibra.Camera_Cailbration_Results(Camera_Calibration_Image_List, Camera_Interna_Parameters);
+                            ALL_Camera_Calibration_Results.Camera_0_Results.Calibration_Name = Camera_0_Select_Val.Camera_Info.SerialNumber;
+
                         }
                         catch (Exception _e)
                         {
@@ -1739,6 +1746,7 @@ namespace HanGao.ViewModel
 
                             ALL_Camera_Calibration_Results = Halcon_Camera_Calibra.Camera_Cailbration_Results(Camera_Calibration_Image_List, Camera_Interna_Parameters);
 
+                            ALL_Camera_Calibration_Results.Camera_1_Results.Calibration_Name = Camera_1_Select_Val.Camera_Info.SerialNumber;
 
                         }
                         catch (Exception _e)

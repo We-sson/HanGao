@@ -1819,8 +1819,8 @@ namespace Halcon_SDK_DLL.Model
             }
 
 
-            if (!All_Camera_SetupModel.IsInitialized())
-            {
+            //if (!All_Camera_SetupModel.IsInitialized())
+            //{
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     if (!Checked_SaveFile(_Save_Camera_Type))
@@ -1828,11 +1828,11 @@ namespace Halcon_SDK_DLL.Model
                         All_Camera_SetupModel.WriteCameraSetupModel(Save_File_Address);
                     }
                 });
-            }
-            else
-            {
-                throw new Exception("未进行相机标定，无法保存！");
-            }
+            //}
+            //else
+            //{
+            //    throw new Exception("未进行相机标定，无法保存！");
+            //}
         }
 
 

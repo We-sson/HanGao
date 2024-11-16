@@ -536,7 +536,7 @@ namespace Halcon_SDK_DLL
             }
             finally
             {
-                Clear_HandEye_Calibration();
+                 Clear_HandEye_Calibration();
 
             }
 
@@ -881,7 +881,7 @@ namespace Halcon_SDK_DLL
                 {
 
 
-                    _Results = Check_Calib3D_Points((HImage)_Image, _Calibration_Param, _CalibPos_No);
+                    _Results = Check_Calib3D_Points(new HImage(_Image), _Calibration_Param, _CalibPos_No);
 
                     //查找标定板
                     if (_Results._CalibRegion != null && _Results._CalibXLD != null)
@@ -986,7 +986,7 @@ namespace Halcon_SDK_DLL
 
 
 
-                HCalibData.FindCalibObject(new HImage(_HImage), 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
+                HCalibData.FindCalibObject(_HImage, 0, 0, _CalibPos_No, new HTuple("sigma"), _CalibParam.Halcon_Calibretion_Sigma);
 
 
 
