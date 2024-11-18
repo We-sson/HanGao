@@ -1818,6 +1818,9 @@ namespace HanGao.ViewModel
                 ALL_Camera_Calibration_Results.Save_Camera_Parameters(Halcon_Camera_Calibra.Camera_Connect_Model);
 
 
+                User_Log_Add(Halcon_Camera_Calibra.Camera_Connect_Model + "：设备标定文件保存成功！"  , Log_Show_Window_Enum.Calibration, MessageBoxImage.Information);
+
+
             }
 
 

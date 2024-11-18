@@ -278,6 +278,10 @@ namespace Halcon_SDK_DLL
                     {
                         case Camera_Connect_Control_Type_Enum.双目相机:
 
+
+                            _ImageList[i].Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Loading;
+                            _ImageList[i].Camera_1.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Loading;
+
                             _Camera_Calib_Result = Camera_Calib3D_Points(new HImage(_ImageList[i].Camera_0.Calibration_Image), new HImage(_ImageList[i].Camera_1.Calibration_Image), _CalibParam, i);
 
 
@@ -286,6 +290,7 @@ namespace Halcon_SDK_DLL
 
                         case Camera_Connect_Control_Type_Enum.Camera_0:
 
+                            _ImageList[i].Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Loading;
 
                             _Camera_Calib_Result = Camera_Calib3D_Points(new HImage(_ImageList[i].Camera_0.Calibration_Image), null!, _CalibParam, i);
 
@@ -293,6 +298,9 @@ namespace Halcon_SDK_DLL
 
                             break;
                         case Camera_Connect_Control_Type_Enum.Camera_1:
+
+
+                            _ImageList[i].Camera_1.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Loading;
 
                             _Camera_Calib_Result = Camera_Calib3D_Points(new HImage(_ImageList[i].Camera_1.Calibration_Image), null!, _CalibParam, i);
 

@@ -1826,6 +1826,8 @@ namespace Halcon_SDK_DLL.Model
                     if (!Checked_SaveFile(_Save_Camera_Type))
                     {
                         All_Camera_SetupModel.WriteCameraSetupModel(Save_File_Address);
+                     
+
                     }
                 });
             //}
