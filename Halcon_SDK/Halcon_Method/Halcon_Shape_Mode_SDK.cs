@@ -1766,26 +1766,36 @@ namespace Halcon_SDK_DLL.Halcon_Method
     }
 
 
-    public class Map_Image_Fun
-    {
-        public Map_Image_Fun(HImage _Image, HImage _map)
-        {
-            Result_Image.Dispose();
-            Result_Image.GenEmptyObj();
-            _Image = _Image.ZoomImageSize(4024, 3036, "bilinear");
-
-            Result_Image = _Image.MapImage(_map);
-            _map.Dispose();
-            _Image.Dispose();
-        }
 
 
 
-        public HImage Result_Image { set; get; } = new HImage();
 
 
 
-    }
+
+
+
+
+    //public class Map_Image_Fun
+    //{
+    //    public Map_Image_Fun(HImage _Image, HImage _map)
+    //    {
+    //        Result_Image.Dispose();
+    //        Result_Image.GenEmptyObj();
+    //        _Image = _Image.ZoomImageSize(4024, 3036, "bilinear");
+
+    //        Result_Image = _Image.MapImage(_map);
+    //        _map.Dispose();
+    //        _Image.Dispose();
+    //    }
+
+
+
+    //    public HImage Result_Image { set; get; } = new HImage();
+
+
+
+    //}
 
 
 }
