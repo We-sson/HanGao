@@ -1,6 +1,7 @@
 ﻿
 
 using HalconDotNet;
+using System.Windows.Media.Media3D;
 
 namespace Halcon_SDK_DLL.Halcon_Method
 {
@@ -31,6 +32,296 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// 重建方法。
         /// </summary>
         public H3DStereo_Method_Enum H3DStereo_Method { set; get; } = H3DStereo_Method_Enum.surface_pairwise;
+
+
+
+        /// <summary>
+        /// 最小重建的边界框值
+        /// </summary>
+        public Point3D Min_BoundingBox { set; get; } = new Point3D(0, 0, 0);
+
+
+        /// <summary>
+        /// 最大重建的边界框值
+        /// </summary>
+        public Point3D Max_BoundingBox { set; get; } = new Point3D(0, 0, 0);
+
+
+
+
+
+        private List<double> _Bounding_box;
+
+
+        /// <summary>
+        /// 重建的边界框
+        /// </summary>
+        public List<double> Bounding_box
+        {
+            get
+            {
+                return _Bounding_box = new List<double>() { Min_BoundingBox.X, Min_BoundingBox.Y, Min_BoundingBox.Z, Max_BoundingBox.X, Max_BoundingBox.Y, Max_BoundingBox.Z };
+            }
+            set
+            {
+                _Bounding_box = value;
+
+                if (value.Count == 6)
+                {
+
+                    _Bounding_box[0] = Min_BoundingBox.X;
+                    _Bounding_box[1] = Min_BoundingBox.Y;
+                    _Bounding_box[2] = Min_BoundingBox.Z;
+                    _Bounding_box[3] = Max_BoundingBox.X;
+                    _Bounding_box[4] = Max_BoundingBox.Y;
+                    _Bounding_box[5] = Max_BoundingBox.Z;
+                }
+                else
+                {
+                    throw new Exception("输入边界数组参数错误");
+
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// 内存保持，调试下应用
+        /// </summary>
+        public bool Persistence { set; get; } = false;
+
+
+        /// <summary>
+        /// 3D 点的颜色设置
+        /// </summary>
+        public Color_Value_Enum Color { set; get; } = Color_Value_Enum.median;
+
+
+
+
+        /// <summary>
+        /// 重建将包含与3D点着色数据
+        /// </summary>
+        public bool Color_invisible { set; get; } = false;
+
+        /// <summary>
+        /// 分数高于通过阈值的差,创建3D点
+        /// </summary>
+        public double Binocular_score_thresh { set; get; } = 0.5;
+
+
+
+        /// <summary>
+        ///仅适用于 'surface_pairwise' 的参数： X、Y 和 Z 图像数据的子采样
+        /// </summary>
+        public int Sub_sampling_step { set; get; } = 10;
+
+
+        /// <summary>
+        /// 子抽样因子
+        /// </summary>
+        public double Rectif_sub_sampling { set; get; } = 1.5;
+
+
+
+        /// <summary>
+        /// 插值模式
+        /// </summary>
+        public Rectif_interpolation_Value_Enum Rectif_interpolation { set; get; } = Rectif_interpolation_Value_Enum.bilinear;
+
+
+        /// <summary>
+        /// 校正图的校正方法
+        /// </summary>
+        public Rectif_method_Value_Enum Rectif_method { set; get; } = Rectif_method_Value_Enum.viewing_direction;
+
+
+        /// <summary>
+        /// 创建视差图像的方法
+        /// </summary>
+        public Disparity_method_Value_Enum Disparity_Method_Value { set; get; } = Disparity_method_Value_Enum.binocular;
+
+
+        /// <summary>
+        /// 设置所需的匹配方法。
+        /// </summary>
+        public Binocular_method_Value_Enum Binocular_method { set; get; } = Binocular_method_Value_Enum.ncc;
+
+
+
+        /// <summary>
+        /// 匹配使用层数
+        /// </summary>
+        public int Binocular_num_levels { set; get; } = 3;
+
+
+        /// <summary>
+        /// 匹配掩码宽度
+        /// </summary>
+        public int Binocular_mask_width { set; get; } = 11;
+
+        /// <summary>
+        /// 匹配掩码高度
+        /// </summary>
+        public int Binocular_mask_height { set; get; } = 11;
+
+
+        /// <summary>
+        /// 纹理图像区域的方差阈值
+        /// </summary>
+        public double Binocular_texture_thresh { set; get; } = 10;
+
+
+        /// <summary>
+        /// 匹配过滤器选择
+        /// </summary>
+        public Binocular_filter_Value_Enum Binocular_filter { set; get; } = Binocular_filter_Value_Enum.left_right_check;
+
+
+        /// <summary>
+        /// 视差的子像素插值。
+        /// </summary>
+        public Binocular_sub_disparity_Value_Enum Binocular_sub_disparity { set; get; } = Binocular_sub_disparity_Value_Enum.interpolation;
+
+
+
+        /// <summary>
+        /// 数据术语中灰度值常量的权重。
+        /// </summary>
+        public double Binocular_mg_gray_constancy { set; get; } = 1;
+
+        /// <summary>
+        /// 数据项中梯度恒定性的权重。
+        /// </summary>
+        public double binocular_mg_gradient_constancy { set; get; } = 30;
+
+        /// <summary>
+        /// 平滑度项相对于数据项的权重。
+        /// </summary>
+        public double Binocular_mg_smoothness { set; get; } = 5;
+
+        /// <summary>
+        /// 对差异的初步猜测
+        /// </summary>
+        public double Binocular_mg_initial_guess { set; get; } = 0;
+
+        /// <summary>
+        /// 默认mg参数设置
+        /// </summary>
+        public Binocular_mg_default_parameters_Value_Enum Binocular_mg_default_parameters { set; get; } = Binocular_mg_default_parameters_Value_Enum.fast_accurate;
+
+
+        /// <summary>
+        /// 线性方程组的求解器。
+        /// </summary>
+        public Binocular_mg_solver_Value Binocular_mg_solver { set; get; } = Binocular_mg_solver_Value.full_multigrid;
+
+        /// <summary>
+        /// multigrid 求解器的递归类型。
+        /// </summary>
+        public Binocular_mg_cycle_type_Value_Enum Binocular_mg_cycle_type { set; get; } = Binocular_mg_cycle_type_Value_Enum.v;
+
+        /// <summary>
+        /// 设置预松弛步骤的迭代次数 multigrid 求解器或 Gauss-Seidel 的迭代次数 solver 中，具体取决于所选的求解器。
+        /// </summary>
+        public double Binocular_mg_pre_relax { set; get; } = 1;
+
+        /// <summary>
+        /// 设置后松弛步骤的迭代次数。
+        /// </summary>
+        public int Binocular_mg_post_relax { set; get; } = 1;
+
+        /// <summary>
+        /// 设置图像棱锥体的最粗糙级别，其中粗略到精细 进程启动。
+        /// </summary>
+        public int Binocular_mg_initial_level { set; get; } = -2;
+
+
+        /// <summary>
+        /// 设置固定点迭代的迭代次数 金字塔级别。
+        /// </summary>
+        public int Binocular_mg_iterations { set; get; } = 1;
+
+        /// <summary>
+        /// 确定创建图像时缩放图像的系数 粗到细过程的图像棱锥。
+        /// </summary>
+        public double Binocular_mg_pyramid_factor { set; get; } = 0.6;
+
+
+
+        /// <summary>
+        /// 表面平滑。
+        /// </summary>
+        public int Binocular_ms_surface_smoothing { set; get; } = 50;
+
+        /// <summary>
+        /// 平滑边缘。
+        /// </summary>
+        public int Binocular_ms_edge_smoothing { set; get; } = 50;
+
+
+        /// <summary>
+        /// 此参数可提高返回匹配项的稳健性 因为结果依赖于并发的直接匹配和反向匹配。
+        /// </summary>
+        public bool Binocular_ms_consistency_check { set; get; } = true;
+
+
+        /// <summary>
+        /// 设置相似性度量的方法。
+        /// </summary>
+        public Binocular_ms_similarity_measure_Value_Enum Binocular_ms_similarity_measure { set; get; } = Binocular_ms_similarity_measure_Value_Enum.census_dense;
+
+
+        /// <summary>
+        /// 启用或禁用视差的子像素优化。
+        /// </summary>
+        public bool Binocular_ms_sub_disparity { set; get; } = true;
+
+        /// <summary>
+        /// 启用后处理步骤，以便对重建的表面点
+        /// </summary>
+        public Point_meshing_Value_Enum Point_meshing { set; get; } = Point_meshing_Value_Enum.none;
+
+        /// <summary>
+        /// 求解器 octree 的深度
+        /// </summary>
+        public int Poisson_depth { set; get; } = 8;
+
+        /// <summary>
+        /// 深求解泊松的块 Gauss-Seidel 求解器的深度
+        /// </summary>
+        public int Poisson_solver_divide { set; get; } = 8;
+
+        /// <summary>
+        /// 单个八叉树中应落下的最小点数叶
+        /// </summary>
+        public int Poisson_samples_per_node { set; get; } = 30;
+
+
+        /// <summary>
+        /// 仅适用于 'surface_fusion' 的参数：每个坐标方向上相邻采样点的距离 边界框的离散化。
+        /// </summary>
+        public double Resolution { set; get; } = 0.03;
+
+
+        /// <summary>
+        /// 仅适用于 'surface_fusion' 的参数：指定输入点云周围的噪声应合并多少 拖动到曲面。
+        /// </summary>
+        public double Surface_tolerance { set; get; } = 0.03;
+
+
+        /// <summary>
+        /// 仅适用于 'surface_fusion' 的参数：初始通过成对重建获得的表面。
+        /// </summary>
+        public double Min_thickness { set; get; } = 0.05;
+
+
+        /// <summary>
+        /// 仅适用于 'surface_fusion' 的参数：将距离函数的变化与数据保真度进行了比较。
+        /// </summary>
+        public double Smoothing { set; get; } = 1;
+
 
 
 
@@ -223,16 +514,120 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// disparity_method = "binocular_mg"，确定为粗到细处理创建图像金字塔时缩放图像的系数。
         /// </summary>
-        binocular_mg_pyramid_factor
+        binocular_mg_pyramid_factor,
+
+        /// <summary>
+        /// disparity_method = "binocular_ms"， 平滑表面
+        /// </summary>
+        binocular_ms_surface_smoothing,
+
+
+
+        /// <summary>
+        /// disparity_method = "binocular_ms"， 平滑边缘
+        /// </summary>
+        binocular_ms_edge_smoothing,
+
+        /// <summary>
+        /// disparity_method = "binocular_ms"， 该参数提高了返回匹配结果的稳健性，因为结果依赖于同时进行的直接匹配和反向匹配。
+        /// </summary>
+        binocular_ms_consistency_check,
+
+
+        /// <summary>
+        /// disparity_method = "binocular_ms"， 设置相似度测量的方法。
+        /// </summary>
+        binocular_ms_similarity_measure,
+
+        /// <summary>
+        /// disparity_method = "binocular_ms"， 启用或禁用亚像素细化差异。
+        /// </summary>
+        binocular_ms_sub_disparity,
+
+
+        /// <summary>
+        /// 启用后处理步骤，对重建的曲面点进行网格划分。
+        /// </summary>
+        point_meshing,
+
+        /// <summary>
+        /// 求解器 octree 的深度。更多细节（即更高的分辨率） 的网格是通过更深的树实现的。3 <= “poisson_depth” <= 12
+        /// </summary>
+        poisson_depth,
+
+        /// <summary>
+        /// 求解泊松的块 Gauss-Seidel 求解器的深度 方程。3 <= “poisson_solver_divide” <= “poisson_depth”
+        /// </summary>
+        poisson_solver_divide,
+
+
+        /// <summary>
+        ///  单个八叉树叶中应包含的最少点数。
+        /// </summary>
+        poisson_samples_per_node,
+
+
+        /// <summary>
+        ///surface_pairwise参数： 对差分估算得出的 X、Y 和 Z 图像数据进行子采样，然后再将这些数据用于曲面重建。
+        /// </summary>
+        sub_sampling_step,
+
+
+        /// <summary>
+        /// surface_fusion参数： 边界框离散化中各坐标方向上相邻样本点的距离。
+        /// </summary>
+        resolution,
+
+        /// <summary>
+        ///  surface_fusion参数：指定应将输入点云周围多少噪点组合成曲面。
+        /// </summary>
+        surface_tolerance,
+
+
+        /// <summary>
+        ///  surface_fusion参数：通过距离对重建获得的表面。
+        /// </summary>
+        min_thickness,
+
+        /// <summary>
+        ///  surface_fusion参数：确定小额总计的重要性 将距离函数的变化与数据保真度进行了比较。
+        /// </summary>
+        smoothing
 
 
 
     }
 
 
+    public enum Point_meshing_Value_Enum
+    {
+        /// <summary>
+        /// 默认值：无
+        /// </summary>
+        none,
+        /// <summary>
+        /// 泊松模式
+        /// </summary>
+        poisson,
+        /// <summary>
+        /// 等曲面模式
+        /// </summary>
+        isosurface
+    }
 
+    public enum Binocular_ms_similarity_measure_Value_Enum
+    {
+        /// <summary>
+        /// 密度
+        /// </summary>
+        census_dense,
+        /// <summary>
+        /// 稀疏
+        /// </summary>
+        census_sparse
+    }
 
-    public enum binocular_mg_cycle_type_Value_Enum
+    public enum Binocular_mg_cycle_type_Value_Enum
     {
         /// <summary>
         /// 
@@ -249,7 +644,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
     }
 
 
-    public enum binocular_mg_solver_Value
+    public enum Binocular_mg_solver_Value
     {
         /// <summary>
         /// 
@@ -268,7 +663,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-    public enum binocular_mg_default_parameters_Value_Enum
+    public enum Binocular_mg_default_parameters_Value_Enum
     {
         /// <summary>
         /// 
@@ -291,7 +686,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
     /// <summary>
     /// 设置3D对象模型颜色信息值
     /// </summary>
-    public enum color_Value_Enum
+    public enum Color_Value_Enum
     {
         /// <summary>
         /// 不设置模型颜色
@@ -327,7 +722,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
     /// <summary>
     /// 校正映射的插值模式
     /// </summary>
-    public enum rectif_interpolation_Value_Enum
+    public enum Rectif_interpolation_Value_Enum
     {
         /// <summary>
         /// 无
@@ -343,7 +738,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
     /// <summary>
     /// 校正图的校正方法值
     /// </summary>
-    public enum rectif_method_Value_Enum
+    public enum Rectif_method_Value_Enum
     {
         /// <summary>
         /// 查看方向
@@ -357,7 +752,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-    public enum disparity_method_Value_Enum
+    public enum Disparity_method_Value_Enum
     {
         /// <summary>
         /// 双目重建
@@ -373,7 +768,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         binocular_ms
     }
 
-    public enum binocular_method_Value_Enum
+
+
+    /// <summary>
+    /// 设置所需的匹配方法。
+    /// </summary>
+    public enum Binocular_method_Value_Enum
     {
         /// <summary>
         /// 归一化匹配
@@ -390,7 +790,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
     }
 
 
-    public enum binocular_filter_Value_Enum
+    public enum Binocular_filter_Value_Enum
     {
         /// <summary>
         /// 
@@ -405,7 +805,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-    public enum binocular_sub_disparity_Value_Enum
+    public enum Binocular_sub_disparity_Value_Enum
     {
         /// <summary>
         /// 
