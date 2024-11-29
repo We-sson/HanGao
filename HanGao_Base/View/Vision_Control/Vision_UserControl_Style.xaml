@@ -595,6 +595,7 @@
                             Height="{TemplateBinding Height}"
                             Background="{DynamicResource 全局_按钮_黑颜色}"
                             CornerRadius=" 5"
+                            Opacity=" 0.5"
                             SnapsToDevicePixels="True" />
 
 

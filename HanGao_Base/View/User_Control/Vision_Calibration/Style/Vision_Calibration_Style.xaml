@@ -30,7 +30,7 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="1" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="Margin" Value="2" />
         <Setter Property="Template">
             <Setter.Value>
@@ -138,7 +138,7 @@
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
                             <Setter TargetName="border_Bottom" Property="Grid.Column" Value="1" />
-                            <Setter TargetName="border_Bottom" Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                            <Setter TargetName="border_Bottom" Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />

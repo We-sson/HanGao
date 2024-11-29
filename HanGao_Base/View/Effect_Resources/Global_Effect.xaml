@@ -56,8 +56,8 @@
     <SolidColorBrush x:Key="全局_按钮_黑颜色" Color="#434343" />
     <SolidColorBrush x:Key="全局_按钮_青红颜色" Color="#F2856D" />
 
-    <FontFamily x:Key="全局_文字_数字字体">DengXian</FontFamily>
-    <FontFamily x:Key="全局_文字_中文字体">Cambria</FontFamily>
+    <FontFamily x:Key="全局_文字_数字字体">Microsoft JhengHei UI</FontFamily>
+    <FontFamily x:Key="全局_文字_中文字体">Microsoft JhengHei UI</FontFamily>
     <FontFamily x:Key="全局_文字_英文字体">Calibri</FontFamily>
 
 

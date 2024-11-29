@@ -5173,7 +5173,7 @@
                                             <Border Grid.Column=" 1"
                                                     Margin="0,0,0,0"
                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                    BorderThickness="0,0,0,2">
+                                                    BorderThickness="0,0,0,0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition />

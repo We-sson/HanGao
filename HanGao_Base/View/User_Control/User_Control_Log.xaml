@@ -85,7 +85,7 @@
                      Background="Transparent"
                      BorderThickness="0"
                      FontFamily="{DynamicResource 全局_文字_数字字体}"
-                     FontSize="16"
+                     FontSize="14"
                      Foreground="{DynamicResource 全局_按钮_黑颜色}"
                      IsReadOnly="True">
                 <i:Interaction.Triggers>

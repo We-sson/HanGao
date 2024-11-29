@@ -117,7 +117,7 @@
                                     <TextBlock Text="相机视角"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                FontSize="16" />
                                 </StackPanel>
                             </RadioButton>
@@ -1959,7 +1959,14 @@
 
                                         <Grid>
 
-                                            <StackPanel Margin="10"
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <StackPanel Grid.Column="0"
+                                                        Margin="10"
                                                         HorizontalAlignment="Left"
                                                         VerticalAlignment="Center"
                                                         Orientation="Horizontal">
@@ -1979,6 +1986,53 @@
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                             </StackPanel>
+
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Camera_Type" Grid.Column=" 1"
+                                                          Margin="8,10,8,10"
+                                                          Padding="0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Center"
+                                                          Background="{DynamicResource 全局_背景_白颜色}"
+                                                          BorderThickness="2"
+                                                          Tag="Camera_1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column=" 0"
+                                                           Content="2D相机"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize=" 14"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                    <Label Grid.Column=" 1"
+                                                           Content="3D相机"
+                                                           Padding="0,0,0,0"
+                                                           HorizontalAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           VerticalContentAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                           FontSize=" 14"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                </Grid>
+
+                                                <!--<i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Unchecked">
+                                                        <i:InvokeCommandAction Command="{Binding Camera_Diver_Model_Select_Comm}"
+                                         CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                         PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>-->
+
+                                            </ToggleButton>
+
+
+
                                         </Grid>
                                     </Border>
                                 </Expander.Header>
@@ -1989,10 +2043,10 @@
 
 
 
-                                        <Grid Height="40" Margin="0,4,0,4">
+                                        <Grid Height="38" Margin="0,4,0,4">
 
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 80" />
+                                                <ColumnDefinition Width=" 90" />
 
                                                 <ColumnDefinition Width=" *" />
 
@@ -2001,6 +2055,7 @@
                                             <TextBlock Text="设备模式"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
@@ -2021,12 +2076,14 @@
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
                                                                  Content="在线设备"
                                                                  IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
+                                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                  FontSize=" 16"
                                                                  GroupName="Camera_Diver_Model"
                                                                  Tag="Camera_0" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                  Content="本地模式"
                                                                  IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
+                                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                  FontSize="16"
                                                                  GroupName="Camera_Diver_Model"
                                                                  Tag="Camera_0">
@@ -2051,67 +2108,7 @@
 
 
 
-                                        <Grid Height="40" Margin="0,4,0,4">
 
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 80" />
-
-                                                <ColumnDefinition Width=" *" />
-
-
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="设备类型"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-
-                                            <Border Grid.Column=" 1"
-                                                    Margin="0,0,0,0"
-                                                    BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                                    BorderThickness="0,0,0,2"
-                                                    CornerRadius=" 0">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition />
-
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
-                                                                 Content="2D相机"
-                                                                 IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
-                                                                 FontSize=" 16"
-                                                                 GroupName="Camera_Type_Model" />
-                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
-                                                                 Content="3D相机"
-                                                                 IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
-                                                                 FontSize="16"
-                                                                 GroupName="Camera_Type_Model">
-                                                        <!--<i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="Checked">
-                                                                <i:InvokeCommandAction Command="{Binding Camera_Selected_Local_Model_Comm}"
-                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                                       PassEventArgsToCommand="True" />
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>-->
-                                                    </RadioButton>
-
-                                                </Grid>
-
-                                            </Border>
-
-
-
-
-                                        </Grid>
-                                        <Border Height=" 2"
-                                                Margin="0,4,0,4"
-                                                Background="{DynamicResource 全局_按钮_红颜色}"
-                                                CornerRadius="1"
-                                                Opacity=" 0.5" />
 
                                         <Grid Height="45" Margin="0,0,0,0">
 
@@ -2126,6 +2123,7 @@
                                             <TextBlock Text="标定文件"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
@@ -2155,6 +2153,7 @@
                                                 <Label Content="相机内参"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize=" 16" />
                                             </StackPanel>
 
@@ -2185,6 +2184,7 @@
                                                 <Label Content="手眼标定"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                        FontSize=" 16" />
                                             </StackPanel>
 
@@ -2505,6 +2505,7 @@
                                                                 <TextBlock Text="{Binding Camera_Info.ModelName}"
                                                                            HorizontalAlignment="Center"
                                                                            VerticalAlignment="Center"
+                                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                            FontSize="16"
                                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                             </DataTemplate>
@@ -2527,6 +2528,7 @@
                                                                            Margin="4"
                                                                            HorizontalAlignment="Center"
                                                                            VerticalAlignment="Center"
+                                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                            FontSize="16"
                                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                             </DataTemplate>
@@ -2605,16 +2607,28 @@
 
                                         <StackPanel Margin="5" Orientation="Vertical">
 
-                                            <Grid Margin="0,5,0,5">
+                                            <Grid Height=" 35"
+                                                  Margin="0,5,0,5"
+                                                  ShowGridLines="False">
 
                                                 <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width=" 90" />
                                                     <ColumnDefinition />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
 
-                                                <Button x:Name="Connection_Camera" Grid.Column=" 0"
-                                                        Height=" 38"
-                                                        Margin="0,0,10,0"
+
+
+                                                <TextBlock Grid.Column=" 0"
+                                                           Text="控制相机"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                <Button x:Name="Connection_Camera" Grid.Column=" 1"
+                                                        Margin="0,0,5,0"
                                                         HorizontalContentAlignment="Center"
                                                         VerticalContentAlignment="Center"
                                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -2631,8 +2645,8 @@
                                                     </Button.Style>
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize="16"
+                                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                               FontSize="15"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}">
                                                         <TextBlock.Style>
                                                             <Style TargetType="TextBlock">
@@ -2656,15 +2670,16 @@
                                                     </i:Interaction.Triggers>
                                                 </Button>
 
-                                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                        Height=" 38"
-                                                        Margin="10,0,0,0"
+                                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                        Margin="5,0,0,0"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Stretch"
                                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
                                                     <TextBlock Text="断开相机"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize="16"
+                                                               FontSize="15"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
                                                     <i:Interaction.Triggers>
@@ -2724,6 +2739,7 @@
                                                          Background="Transparent"
                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                          BorderThickness="2"
+                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                          FontSize="18">
                                                     <TextBox.Style>
                                                         <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
@@ -2748,7 +2764,7 @@
                                                 <TextBlock Text="增益"
                                                            HorizontalAlignment="Left"
                                                            VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                 <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Gain_UI" Grid.Column=" 1"
@@ -2781,6 +2797,7 @@
                                                          Background="Transparent"
                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                          BorderThickness="2"
+                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                          FontSize="18" />
                                             </Grid>
 
@@ -2826,6 +2843,7 @@
                                                          Background="Transparent"
                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                          BorderThickness="2"
+                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                          FontSize="18" />
                                             </Grid>
 
@@ -2871,6 +2889,7 @@
                                                          Background="Transparent"
                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                          BorderThickness="2"
+                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                          FontSize="18" />
                                             </Grid>
 
@@ -2916,18 +2935,89 @@
                                                          Background="Transparent"
                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                          BorderThickness="2"
+                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                          FontSize="18" />
                                             </Grid>
 
 
+                                            <Grid Height=" 35" Margin="0,0,0,0">
+                                                <!--<Grid.Style>
+                                                    <Style TargetType="{x:Type Grid}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>-->
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="90" />
+                                                    <ColumnDefinition />
+
+                                                </Grid.ColumnDefinitions>
+
+
+                                                <TextBlock Grid.Column=" 0"
+                                                           Text="光源控制"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                <Border Grid.Column=" 1"
+                                                        Margin="0,0,0,0"
+                                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                        BorderThickness="0,0,0,0">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
+                                                                     Content="OFF"
+                                                                     IsChecked="{Binding Select_Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize=" 16"
+                                                                     GroupName="Lighting_Control" />
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
+                                                                     Content="ON"
+                                                                     IsChecked="{Binding Select_Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="Lighting_Control" />
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
+                                                                     Content="Auto"
+                                                                     IsChecked="{Binding Select_Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="Lighting_Control" />
+                                                    </Grid>
+
+                                                </Border>
 
 
 
-                                            <Border Height=" 2"
+
+                                            </Grid>
+
+
+
+                                            <!--<Border Height=" 2"
                                                     Margin="8,4,8,4"
                                                     Background="{DynamicResource 全局_按钮_黑颜色}"
                                                     CornerRadius="1"
-                                                    Opacity=" 0.5" />
+                                                    Opacity=" 0.5" />-->
+
+
+
+
 
                                             <Grid Height=" 35" Margin="0,5,0,5">
 
@@ -2957,7 +3047,7 @@
                                                                        TextWrapping="Wrap"
                                                                        Padding="0,4,0,4"
                                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                       FontSize="14"
+                                                                       FontSize="13"
                                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                        TextTrimming="CharacterEllipsis" />
                                                         </DataTemplate>
@@ -2966,8 +3056,16 @@
                                                 </ComboBox>
                                             </Grid>
 
+                                            <Border Height=" 2"
+                                                    Margin="8,4,8,4"
+                                                    Background="{DynamicResource 全局_按钮_黑颜色}"
+                                                    CornerRadius="1"
+                                                    Opacity=" 0.5" />
 
-                                            <Grid Height=" 35" Margin="0,5,0,5">
+
+                                            <Grid Height=" 38"
+                                                  Margin="0,5,0,5"
+                                                  ShowGridLines="False">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=" 90" />
                                                     <ColumnDefinition />
@@ -2981,7 +3079,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                        Margin="10,0,0,0"
+                                                        Margin="0,0,0,0"
                                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
 
                                                     <i:Interaction.Triggers>
@@ -2996,26 +3094,24 @@
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize="16"
+                                                               FontSize="15"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 </Button>
                                             </Grid>
 
-                                            <Border Height=" 2"
-                                                    Margin="8,4,8,4"
-                                                    Background="{DynamicResource 全局_按钮_黑颜色}"
-                                                    CornerRadius="1"
-                                                    Opacity=" 0.5" />
 
-                                            <Grid Margin="0,5,0,5">
+
+                                            <Grid Height=" 38"
+                                                  Margin="0,5,0,5"
+                                                  ShowGridLines="False">
 
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="90" />
+                                                    <ColumnDefinition Width=" *" />
+                                                    <ColumnDefinition Width=" *" />
                                                 </Grid.ColumnDefinitions>
 
-                                                <CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
+                                                <!--<CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
                                                           Content="闪光灯"
                                                           IsChecked="{Binding Select_Vision_Value.Camera_Parameter_Data.LineInverter}"
                                                           Margin="0"
@@ -3024,7 +3120,8 @@
                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                           FontSize="16"
                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}">
-                                                    <!--<i:Interaction.Triggers>
+                                                -->
+                                                <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="Click">
                                                         <i:InvokeCommandAction Command="{Binding Camera_Flash_Open_Comm}"
@@ -3032,13 +3129,20 @@
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>-->
-                                                </CheckBox>
+                                                <!--
+                                                </CheckBox>-->
+
+
+                                                <TextBlock Text="相机操作"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                                 <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
                                                           IsChecked="{Binding Camera_Device_List.Select_Camera.Camera_Live}"
-                                                          Width="90"
-                                                          Height=" 38"
-                                                          Margin="0,0,0,0"
+                                                          Margin="0,0,5,0"
                                                           HorizontalContentAlignment="Center"
                                                           VerticalContentAlignment="Center"
                                                           Background="{DynamicResource 全局_按钮_蓝颜色}"
@@ -3048,7 +3152,7 @@
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize="16"
+                                                               FontSize="15"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
                                                     <i:Interaction.Triggers>
@@ -3062,10 +3166,9 @@
                                                 </CheckBox>
 
                                                 <Button x:Name="Camera_OneImage" Grid.Column=" 2"
-                                                        Width="90"
-                                                        Height=" 38"
-                                                        Margin="0,0,0,0"
-                                                        HorizontalAlignment="Right"
+                                                        Margin="5,0,0,0"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Stretch"
                                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
                                                     <Button.Style>
                                                         <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
@@ -3080,7 +3183,7 @@
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize="16"
+                                                               FontSize="15"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
                                                     <i:Interaction.Triggers>
