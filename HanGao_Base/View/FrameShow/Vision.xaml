@@ -3257,49 +3257,74 @@
                                     <StackPanel Margin="5" Orientation="Vertical">
 
 
-                                        <Button Grid.Column=" 0"
-                                                Height=" 38"
-                                                Margin="0,0,10,0"
-                                                HorizontalContentAlignment="Center"
-                                                VerticalContentAlignment="Center"
-                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                FontSize=" 26">
-                                            <Button.Style>
-                                                <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
-                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Camera_Device_List.Select_Camera.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
-                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                            <TextBlock HorizontalAlignment="Center"
+                                        <Grid Height=" 35" Margin="0,5,0,5">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="配置文件"
+                                                       HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_白颜色}">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Text" Value="连接相机" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Camera_Device_List.Select_Camera.Camer_Status}" Value="{x:Static MVS_Enum:MV_CAM_Device_Status_Enum.Connecting}">
-                                                                <Setter Property="Text" Value="已连接相机" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
+                                                      HorizontalContentAlignment="Left"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      IsDropDownOpen="False"
+                                                      IsSynchronizedWithCurrentItem="True">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="13"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
 
-                                            <i:Interaction.Triggers>
+                                            </ComboBox>
+                                        </Grid>
 
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding Connection_Camera_Comm}"
-                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                           PassEventArgsToCommand="True" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </Button>
+                                        <Border Height=" 2"
+                                                Margin="10,5,10,5"
+                                                Background="{DynamicResource 全局_按钮_深蓝颜色}"
+                                                CornerRadius="1"
+                                                Opacity=" 0.5" />
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid Grid.Column=" 0">
+                                                <TextBlock Grid.Column=" 0"
+                                                           Text="配置文件"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            </Grid>
+
+                                            <Grid Grid.Column=" 1">
+                                                <TextBlock Grid.Column=" 0"
+                                                           Text="配置文件"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            </Grid>
+
+                                        </Grid>
 
 
                                     </StackPanel>
