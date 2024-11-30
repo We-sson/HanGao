@@ -50,7 +50,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        private List<double> _Bounding_box;
+        private List<double> _Bounding_box=new List<double> ();
 
 
         /// <summary>
