@@ -1,10 +1,13 @@
 ﻿
 
 using HalconDotNet;
+using PropertyChanged;
+using System.ComponentModel;
 using System.Windows.Media.Media3D;
 
 namespace Halcon_SDK_DLL.Halcon_Method
 {
+    [AddINotifyPropertyChangedInterface]
     public class Halcon_3DStereoModel_SDK
     {
 
@@ -50,7 +53,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        private List<double> _Bounding_box=new List<double> ();
+        private List<double> _Bounding_box = new List<double>();
 
 
         /// <summary>
@@ -330,25 +333,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-    /// <summary>
-    /// 多相机立体重建方法
-    /// </summary>
-    public enum H3DStereo_Method_Enum
-    {
-        /// <summary>
-        /// 重建 3D 点
-        /// </summary>
-        points_3d,
-        /// <summary>
-        /// 重建表面
-        /// </summary>
-        surface_fusion,
-        /// <summary>
-        /// 表面融合
-        /// </summary>
-        surface_pairwise
-    }
-
 
     public enum H3DStereo_ParamName_Enum
     {
@@ -599,47 +583,78 @@ namespace Halcon_SDK_DLL.Halcon_Method
     }
 
 
+    /// <summary>
+    /// 多相机立体重建方法
+    /// </summary>
+    public enum H3DStereo_Method_Enum
+    {
+        /// <summary>
+        /// 重建 3D 点
+        /// </summary>
+        [Description("默认值：点云重建")]
+        points_3d,
+        /// <summary>
+        /// 重建表面
+        /// </summary>
+        [Description("融合表面")]
+        surface_fusion,
+        /// <summary>
+        /// 表面融合
+        /// </summary>
+        [Description("表面重建")]
+        surface_pairwise
+    }
+
     public enum Point_meshing_Value_Enum
     {
         /// <summary>
-        /// 默认值：无
+        /// 默认值：无网格化
         /// </summary>
+        [Description("默认值：无网格化")]
         none,
         /// <summary>
-        /// 泊松模式
+        /// 泊松表面重建（仅适用于 surface_pairwise 类型）
         /// </summary>
+        [Description("泊松表面重建")]
         poisson,
         /// <summary>
-        /// 等曲面模式
+        /// 等曲面模式（仅适用于 surface_fusion 类型）
         /// </summary>
+        [Description("等值面网格化")]
         isosurface
     }
 
     public enum Binocular_ms_similarity_measure_Value_Enum
     {
         /// <summary>
-        /// 密度
+        /// 大窗口像素比较
         /// </summary>
+        [Description("默认值：大窗口像素比较")]
         census_dense,
         /// <summary>
-        /// 稀疏
+        /// 小窗口像素比较
         /// </summary>
+        [Description("小窗口像素比较")]
         census_sparse
     }
 
     public enum Binocular_mg_cycle_type_Value_Enum
     {
         /// <summary>
-        /// 
+        /// V 型递归
         /// </summary>
+        [Description("默认值：V 型递归")]
         v,
         /// <summary>
-        /// 
+        /// W 型递归
         /// </summary>
+        [Description("W 型递归")]
+
         w,
         /// <summary>
-        /// 
+        /// 无递归
         /// </summary>
+        [Description("不启动")]
         none
     }
 
@@ -647,16 +662,19 @@ namespace Halcon_SDK_DLL.Halcon_Method
     public enum Binocular_mg_solver_Value
     {
         /// <summary>
-        /// 
+        /// 多重网格
         /// </summary>
+        [Description("默认值：多重网格")]
         multigrid,
         /// <summary>
-        /// 
+        /// 全多重网格
         /// </summary>
+        [Description("全多重网格")]
         full_multigrid,
         /// <summary>
-        /// 
+        /// 高斯-赛德尔方法
         /// </summary>
+        [Description("高斯-赛德尔")]
         gauss_seidel
     }
 
@@ -666,20 +684,24 @@ namespace Halcon_SDK_DLL.Halcon_Method
     public enum Binocular_mg_default_parameters_Value_Enum
     {
         /// <summary>
-        /// 
+        /// 极高精度模式
         /// </summary>
+        [Description("极高精度模式")]
         very_accurate,
         /// <summary>
-        /// 
+        /// 高精度模式
         /// </summary>
+        [Description("高精度模式")]
         accurate,
         /// <summary>
-        /// 
+        /// 快速精确模式
         /// </summary>
+        [Description("默认值：快速精确模式")]
         fast_accurate,
         /// <summary>
-        /// 
+        /// 快速模式
         /// </summary>
+        [Description("快速模式")]
         fast
     }
 
@@ -691,26 +713,33 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 不设置模型颜色
         /// </summary>
+        [Description("不显示颜色")]
         none,
         /// <summary>
         ///  三维点的颜色值是三维点可见的所有摄像头颜色值的中值。
         /// </summary>
+        [Description("默认值：可见颜色中值")]
         median,
         /// <summary>
         /// 三维点的颜色值对应于与该三维点距离最小的摄像头的颜色值
         /// </summary>
+        [Description("相机距离最小的颜色")]
         smallest_distance,
         /// <summary>
         /// 平均各摄像机的加权颜色值来计算三维点的颜色值。
         /// </summary>
+        [Description("平均加权点云颜色")]
         mean_weighted_distances,
         /// <summary>
         /// 三维点的颜色值对应于点法线与视线夹角最小的摄像头的颜色值。
         /// </summary>
+
+        [Description("法线与视线的点云颜色")]
         line_of_sight,
         /// <summary>
         /// 通过平均各摄像机的加权颜色值来计算三维点的颜色值。
         /// </summary>
+        [Description("平均全部相机点云颜色")]
         mean_weighted_lines_of_sight,
 
 
@@ -727,10 +756,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 无
         /// </summary>
+        [Description("不启动")]
         none,
         /// <summary>
-        /// 双线性
+        /// 双线性插值
         /// </summary>
+        [Description("默认值：双线性插值")]
         bilinear,
     }
 
@@ -741,12 +772,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
     public enum Rectif_method_Value_Enum
     {
         /// <summary>
-        /// 查看方向
+        /// 视角的校正方法
         /// </summary>
+        [Description("默认值：视角的校正方法")]
         viewing_direction,
         /// <summary>
-        /// 几何
+        /// 几何的校正方法
         /// </summary>
+        [Description("几何的校正方法")]
         geometric
     }
 
@@ -757,14 +790,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 双目重建
         /// </summary>
+        [Description("默认值：通用算法")]
         binocular,
         /// <summary>
-        /// 
+        /// 基于特征点
         /// </summary>
+        [Description("基于特征点")]
         binocular_mg,
         /// <summary>
-        /// 
+        /// 基于表面或视差
         /// </summary>
+        [Description("基于表面或视差")]
         binocular_ms
     }
 
@@ -778,14 +814,18 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 归一化匹配
         /// </summary>
+        /// 
+        [Description("默认值：归一化")]
         ncc,
         /// <summary>
         /// 
         /// </summary>
+        [Description("绝对差和")]
         sad,
         /// <summary>
-        /// 
+        /// 平方差和
         /// </summary>
+        [Description("平方差和")]
         ssd,
     }
 
@@ -793,12 +833,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
     public enum Binocular_filter_Value_Enum
     {
         /// <summary>
-        /// 
+        /// 不启动
         /// </summary>
+        [Description("默认值：不启动")]
         none,
         /// <summary>
-        /// 
+        /// 左右图像检查
         /// </summary>
+        [Description("左右图像检查")]
         left_right_check
 
     }
@@ -808,12 +850,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
     public enum Binocular_sub_disparity_Value_Enum
     {
         /// <summary>
-        /// 
+        /// 不启动
         /// </summary>
+        [Description("默认值：不启动")]
         none,
         /// <summary>
-        /// 
+        /// 像素插补
         /// </summary>
+        [Description("像素插补")]
         interpolation
     }
 }

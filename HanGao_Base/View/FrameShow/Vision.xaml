@@ -4694,7 +4694,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                                 <TextBox Grid.Row=" 1" Grid.Column=" 1"
-                                                         Text=" -0.5"
+                                                         Text="{Binding Halcon_3DStereoModel.Bounding_box[0], UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4715,7 +4715,7 @@
                                                     </TextBox.Style>
                                                 </TextBox>
                                                 <TextBox Grid.Row=" 2" Grid.Column=" 1"
-                                                         Text=" -0.5"
+                                                         Text="{Binding Halcon_3DStereoModel.Bounding_box[1], UpdateSourceTrigger=Default, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4738,7 +4738,7 @@
                                                 </TextBox>
 
                                                 <TextBox Grid.Row=" 3" Grid.Column=" 1"
-                                                         Text=" -0.5"
+                                                         Text="{Binding Halcon_3DStereoModel.Min_BoundingBox.Z, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4760,7 +4760,7 @@
                                                 </TextBox>
 
                                                 <TextBox Grid.Row=" 1" Grid.Column=" 2"
-                                                         Text=" -0.5"
+                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox.X, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4781,7 +4781,7 @@
                                                     </TextBox.Style>
                                                 </TextBox>
                                                 <TextBox Grid.Row=" 2" Grid.Column=" 2"
-                                                         Text=" -0.5"
+                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox.Y, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4801,9 +4801,8 @@
                                                         </Style>
                                                     </TextBox.Style>
                                                 </TextBox>
-
                                                 <TextBox Grid.Row=" 3" Grid.Column=" 2"
-                                                         Text=" -0.5"
+                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox.Z, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4848,6 +4847,48 @@
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                             </Grid>
                                         </Grid>
+
+
+                                        <Grid Height=" 35" Margin="0,8,0,8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="点云模式"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="stereo_model_UI" Grid.Column=" 1"
+                                                      HorizontalContentAlignment="Left"
+                                                      VerticalContentAlignment="Center"
+                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                      BorderThickness="2"
+                                                      IsDropDownOpen="False"
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:H3DStereo_Method_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.H3DStereo_Method, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                   TextWrapping="Wrap"
+                                                                   Padding="0,4,0,4"
+                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                   FontSize="13"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+
+                                            </ComboBox>
+                                        </Grid>
+
+
+
+
                                         <Grid Height=" 38 " Margin="0,8,0,8">
 
                                             <Grid.ColumnDefinitions>
@@ -4925,10 +4966,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Color_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5021,10 +5063,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Rectif_method_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5055,10 +5098,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Rectif_interpolation_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5137,10 +5181,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Disparity_method_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5221,10 +5266,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_method_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5442,10 +5488,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_filter_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5477,10 +5524,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_sub_disparity_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5693,10 +5741,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_default_parameters_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5728,10 +5777,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_solver_Value}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5764,10 +5814,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_cycle_type_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -6174,10 +6225,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_ms_similarity_measure_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -6257,7 +6309,7 @@ PassEventArgsToCommand="True" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column=" 0"
-                                                       Text="网格方法"
+                                                       Text="网格化法"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -6269,10 +6321,11 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Point_meshing_Value_Enum}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"

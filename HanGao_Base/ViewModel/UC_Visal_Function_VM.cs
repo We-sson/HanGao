@@ -53,6 +53,9 @@ namespace HanGao.ViewModel
         public Halcon_External_Method_Model Halcon_External_Method { set; get; } = new Halcon_External_Method_Model();
 
 
+
+        public Halcon_3DStereoModel_SDK Halcon_3DStereoModel { set; get; } = new Halcon_3DStereoModel_SDK();
+
         /// <summary>
         /// 手眼机器人通讯参数
         /// </summary>
