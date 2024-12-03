@@ -1988,6 +1988,7 @@
                                             </StackPanel>
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Camera_Type" Grid.Column=" 1"
+                                                          IsChecked="{Binding Camera_Devices_2D3D_Switch}"
                                                           Margin="8,10,8,10"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -2021,13 +2022,13 @@
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                 </Grid>
 
-                                                <!--<i:Interaction.Triggers>
+                                                <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Unchecked">
-                                                        <i:InvokeCommandAction Command="{Binding Camera_Diver_Model_Select_Comm}"
-                                         CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                         PassEventArgsToCommand="True" />
+                                                        <i:InvokeCommandAction Command="{Binding Device_3DCamera_Switch_Command}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
-                                                </i:Interaction.Triggers>-->
+                                                </i:Interaction.Triggers>
 
                                             </ToggleButton>
 
@@ -2982,19 +2983,19 @@
 
                                                         <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
                                                                      Content="OFF"
-                                                                     IsChecked="{Binding Select_Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}"
+                                                                     IsChecked="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}"
                                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                      FontSize=" 16"
                                                                      GroupName="Lighting_Control" />
                                                         <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                      Content="ON"
-                                                                     IsChecked="{Binding Select_Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}"
+                                                                     IsChecked="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}"
                                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                      FontSize="16"
                                                                      GroupName="Lighting_Control" />
                                                         <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
                                                                      Content="Auto"
-                                                                     IsChecked="{Binding Select_Camera_Parameter_Val.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}"
+                                                                     IsChecked="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}"
                                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                      FontSize="16"
                                                                      GroupName="Lighting_Control" />
@@ -3282,10 +3283,11 @@
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True">
+                                                      IsSynchronizedWithCurrentItem="True"
+                                                      ItemsSource="{Binding Halcon_3DStereoModel.TwoCamera_Calibration_Fold}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding}"
+                                                        <TextBlock Text="{Binding Name}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -3497,6 +3499,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 1"
+                                                          IsChecked="{Binding Halcon_3DStereoModel.Stereo_Preprocessing_CameraSwitch}"
                                                           Margin="0,0,0,0"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -4694,7 +4697,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                                 <TextBox Grid.Row=" 1" Grid.Column=" 1"
-                                                         Text="{Binding Halcon_3DStereoModel.Bounding_box[0], UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                         Text="{Binding Halcon_3DStereoModel.Min_BoundingBox_X, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4715,7 +4718,7 @@
                                                     </TextBox.Style>
                                                 </TextBox>
                                                 <TextBox Grid.Row=" 2" Grid.Column=" 1"
-                                                         Text="{Binding Halcon_3DStereoModel.Bounding_box[1], UpdateSourceTrigger=Default, Mode=TwoWay}"
+                                                         Text="{Binding Halcon_3DStereoModel.Min_BoundingBox_Y, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4738,7 +4741,7 @@
                                                 </TextBox>
 
                                                 <TextBox Grid.Row=" 3" Grid.Column=" 1"
-                                                         Text="{Binding Halcon_3DStereoModel.Min_BoundingBox.Z, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                         Text="{Binding Halcon_3DStereoModel.Min_BoundingBox_Z, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4760,7 +4763,7 @@
                                                 </TextBox>
 
                                                 <TextBox Grid.Row=" 1" Grid.Column=" 2"
-                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox.X, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox_X, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4781,7 +4784,7 @@
                                                     </TextBox.Style>
                                                 </TextBox>
                                                 <TextBox Grid.Row=" 2" Grid.Column=" 2"
-                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox.Y, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox_Y, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4802,7 +4805,7 @@
                                                     </TextBox.Style>
                                                 </TextBox>
                                                 <TextBox Grid.Row=" 3" Grid.Column=" 2"
-                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox.Z, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox_Z, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4906,13 +4909,13 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="persistence_UI" Grid.Column=" 1"
+                                                          IsChecked="{Binding Halcon_3DStereoModel.Persistence}"
                                                           Margin="0,0,0,0"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
                                                           VerticalContentAlignment="Center"
                                                           Background="{DynamicResource 全局_背景_白颜色}"
-                                                          BorderThickness="2"
-                                                          Tag="Camera_1">
+                                                          BorderThickness="2">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*" />
@@ -4967,7 +4970,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Color_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Color_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5003,6 +5007,7 @@ PassEventArgsToCommand="True" />
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="color_invisible_UI" Grid.Column=" 1"
+                                                          IsChecked="{Binding Halcon_3DStereoModel.Color_invisible}"
                                                           Margin="0,0,0,0"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -5064,7 +5069,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Rectif_method_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Rectif_method_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Rectif_method, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5099,7 +5105,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Rectif_interpolation_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Rectif_interpolation_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Rectif_interpolation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5135,10 +5142,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="10"
                                                     Minimum="0"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_3DStereoModel.Rectif_sub_sampling}">
                                                 <!--<i:Interaction.Triggers>
 
            <i:EventTrigger EventName="PreviewMouseUp">
@@ -5150,7 +5158,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=rectif_sub_sampling_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5182,7 +5190,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Disparity_method_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Disparity_method_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Disparity_Method_Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5219,10 +5228,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
-                                                    Minimum="0"
+                                                    Maximum="1"
+                                                    Minimum="-1"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_score_thresh}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5234,7 +5244,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_score_thresh_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5267,7 +5277,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_method_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_method_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_method, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5302,10 +5313,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="10"
                                                     Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_num_levels}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5317,7 +5329,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_num_levels_UI, Path=Value, Mode=TwoWay, StringFormat={}{0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5348,10 +5360,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
-                                                    Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    Maximum="512"
+                                                    Minimum="3"
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mask_width}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5363,7 +5376,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mask_width_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:N0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5394,10 +5407,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="512"
                                                     Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mask_height}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5409,7 +5423,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mask_height_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:N0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5441,10 +5455,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="1000"
                                                     Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_texture_thresh}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5456,7 +5471,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_texture_thresh_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:N0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5489,7 +5504,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_filter_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_filter_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_filter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5525,7 +5541,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_sub_disparity_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_sub_disparity_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_sub_disparity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5561,10 +5578,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_gray_constancy}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5576,7 +5594,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mg_gray_constancy_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5605,10 +5623,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_3DStereoModel.binocular_mg_gradient_constancy}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5620,7 +5639,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mg_gradient_constancy_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5653,7 +5672,8 @@ PassEventArgsToCommand="True" />
                                                     Maximum="4"
                                                     Minimum="0"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_smoothness}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5665,7 +5685,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mg_smoothness_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5694,10 +5714,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_initial_guess}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5709,7 +5730,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mg_initial_guess_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5742,7 +5763,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_default_parameters_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_default_parameters_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_mg_default_parameters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5778,7 +5800,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_solver_Value}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_solver_Value}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_mg_solver, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5815,7 +5838,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_cycle_type_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_cycle_type_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_mg_cycle_type, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5850,10 +5874,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_pre_relax}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5865,7 +5890,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mg_pre_relax_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5895,10 +5920,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_post_relax}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5910,7 +5936,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mg_post_relax_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5940,10 +5966,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
-                                                    Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    Maximum="10"
+                                                    Minimum="-2"
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_initial_level}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5955,7 +5982,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mg_initial_level_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:N0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -5985,10 +6012,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="10"
                                                     Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_iterations}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6000,7 +6028,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mg_iterations_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6029,10 +6057,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
-                                                    Minimum="0"
+                                                    Maximum="0.9"
+                                                    Minimum="0.1"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_pyramid_factor}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6044,7 +6073,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_mg_pyramid_factor_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6075,10 +6104,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="100"
                                                     Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_ms_surface_smoothing}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6090,7 +6120,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_ms_surface_smoothing_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:N0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6121,10 +6151,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="100"
                                                     Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Binocular_ms_edge_smoothing}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6136,7 +6167,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=binocular_ms_edge_smoothing_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6165,6 +6196,7 @@ PassEventArgsToCommand="True" />
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="binocular_ms_consistency_check_UI" Grid.Column=" 1"
+                                                          IsChecked="{Binding Halcon_3DStereoModel.Binocular_ms_consistency_check}"
                                                           Margin="0,0,0,0"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -6226,7 +6258,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_ms_similarity_measure_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_ms_similarity_measure_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_ms_similarity_measure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -6259,6 +6292,7 @@ PassEventArgsToCommand="True" />
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="binocular_ms_sub_disparity_UI" Grid.Column=" 1"
+                                                          IsChecked="{Binding Halcon_3DStereoModel. Binocular_ms_sub_disparity}"
                                                           Margin="0,0,0,0"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -6322,7 +6356,8 @@ PassEventArgsToCommand="True" />
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Point_meshing_Value_Enum}">
+                                                      ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Point_meshing_Value_Enum}"
+                                                      SelectedValue="{Binding Halcon_3DStereoModel.Point_meshing, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -6358,10 +6393,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
-                                                    Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    Maximum="12"
+                                                    Minimum="3"
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Poisson_depth}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6373,7 +6409,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=poisson_depth_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:N0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6404,10 +6440,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
-                                                    Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    Maximum="12"
+                                                    Minimum="3"
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Poisson_solver_divide}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6419,7 +6456,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=poisson_solver_divide_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:N0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6449,10 +6486,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="1000"
                                                     Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Poisson_samples_per_node}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6464,7 +6502,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=poisson_samples_per_node_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6498,10 +6536,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
-                                                    Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    Maximum="30"
+                                                    Minimum="1"
+                                                    SmallChange="1"
+                                                    TickFrequency="1"
+                                                    Value="{Binding Halcon_3DStereoModel.Sub_sampling_step}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6513,7 +6552,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=sub_sampling_step_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:N0}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6547,10 +6586,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="1"
                                                     Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    SmallChange="0.001"
+                                                    TickFrequency="0.001"
+                                                    Value="{Binding Halcon_3DStereoModel.Resolution}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6562,7 +6602,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=resolution_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F3}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6591,10 +6631,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="1"
                                                     Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    SmallChange="0.001"
+                                                    TickFrequency="0.001"
+                                                    Value="{Binding Halcon_3DStereoModel.Surface_tolerance}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6606,7 +6647,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=surface_tolerance_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F3}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6636,10 +6677,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="1"
                                                     Minimum="0"
-                                                    SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    SmallChange="0.001"
+                                                    TickFrequency="0.001"
+                                                    Value="{Binding Halcon_3DStereoModel.Min_thickness}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6651,7 +6693,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=min_thickness_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F3}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
@@ -6682,10 +6724,11 @@ PassEventArgsToCommand="True" />
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsSnapToTickEnabled="True"
-                                                    Maximum="4"
+                                                    Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="0.1"
-                                                    TickFrequency="0.1">
+                                                    TickFrequency="0.1"
+                                                    Value="{Binding Halcon_3DStereoModel.Smoothing}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6697,7 +6740,7 @@ PassEventArgsToCommand="True" />
                                             </Slider>
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                     Text="{Binding Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
+                                                     Text="{Binding ElementName=smoothing_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}"
                                                      Width=" 100"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"

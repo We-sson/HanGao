@@ -1760,16 +1760,16 @@ namespace Halcon_SDK_DLL.Model
             {
                 case Camera_Connect_Control_Type_Enum.双目相机:
 
-                    Save_File_Address = Result_Fold_Address + "\\" +"TwoCameraCalibtion_"+ Camera_0_Results.Calibration_Name+"_"+ Camera_1_Results.Calibration_Name;
+                    Save_File_Address = Result_Fold_Address + "\\" + Camera_0_Results.Calibration_Name+"_"+ Camera_1_Results.Calibration_Name;
                     break;
                 case Camera_Connect_Control_Type_Enum.Camera_0:
 
                     //添加名称
-                    Save_File_Address = Result_Fold_Address + "\\" + "CameraCalibtion_"+ Camera_0_Results.Calibration_Name;
+                    Save_File_Address = Result_Fold_Address + "\\" +  Camera_0_Results.Calibration_Name;
                     break;
                 case Camera_Connect_Control_Type_Enum.Camera_1:
 
-                    Save_File_Address = Result_Fold_Address + "\\" + "CameraCalibtion_" + Camera_1_Results.Calibration_Name;
+                    Save_File_Address = Result_Fold_Address + "\\" + Camera_1_Results.Calibration_Name;
 
                     break;
        
@@ -1777,7 +1777,7 @@ namespace Halcon_SDK_DLL.Model
 
         
 
-            if (File.Exists(Save_File_Address += ".ccd"))
+            if (File.Exists(Save_File_Address += ".csm"))
             {
                 if (MessageBox.Show("相机内参文件：" + Save_File_Address + " 已存在，是否覆盖？", "标定提示", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK) return false; return true;
             }

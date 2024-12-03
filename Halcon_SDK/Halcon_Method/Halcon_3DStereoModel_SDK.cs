@@ -2,8 +2,10 @@
 
 using HalconDotNet;
 using PropertyChanged;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Media.Media3D;
+using System.IO;
+using System.Net;
 
 namespace Halcon_SDK_DLL.Halcon_Method
 {
@@ -31,6 +33,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HCameraSetupModel CameraSetupModel { set; get; } = new HCameraSetupModel();
 
 
+
+        /// <summary>
+        /// 图像处理流程
+        /// </summary>
+        public Halcon_Image_Preprocessing_Process_SDK Stereo_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK();
+
+        /// <summary>
+        /// 图像处理流程设备切换
+        /// </summary>
+        public bool Stereo_Preprocessing_CameraSwitch { set; get; } = false;
+
         /// <summary>
         /// 重建方法。
         /// </summary>
@@ -38,32 +51,40 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+
+
+
+
         /// <summary>
         /// 最小重建的边界框值
         /// </summary>
-        public Point3D Min_BoundingBox { set; get; } = new Point3D(0, 0, 0);
+        public double Min_BoundingBox_X { set; get; } = -1.5;
+        public double Min_BoundingBox_Y { set; get; } = -1.5;
+        public double Min_BoundingBox_Z { set; get; } = -1.5;
+
 
 
         /// <summary>
         /// 最大重建的边界框值
         /// </summary>
-        public Point3D Max_BoundingBox { set; get; } = new Point3D(0, 0, 0);
+        public double Max_BoundingBox_X { set; get; } = 1.5;
+        public double Max_BoundingBox_Y { set; get; } = 1.5;
+        public double Max_BoundingBox_Z { set; get; } = 1.5;
 
 
 
-
-
-        private List<double> _Bounding_box = new List<double>();
+        private ObservableCollection<double> _Bounding_box = new ObservableCollection<double>();
 
 
         /// <summary>
         /// 重建的边界框
         /// </summary>
-        public List<double> Bounding_box
+        public ObservableCollection<double> Bounding_box
         {
             get
+
             {
-                return _Bounding_box = new List<double>() { Min_BoundingBox.X, Min_BoundingBox.Y, Min_BoundingBox.Z, Max_BoundingBox.X, Max_BoundingBox.Y, Max_BoundingBox.Z };
+                return _Bounding_box = new ObservableCollection<double>() { Min_BoundingBox_X, Min_BoundingBox_Y, Min_BoundingBox_Z, Max_BoundingBox_X, Max_BoundingBox_Y, Max_BoundingBox_Z };
             }
             set
             {
@@ -72,12 +93,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 if (value.Count == 6)
                 {
 
-                    _Bounding_box[0] = Min_BoundingBox.X;
-                    _Bounding_box[1] = Min_BoundingBox.Y;
-                    _Bounding_box[2] = Min_BoundingBox.Z;
-                    _Bounding_box[3] = Max_BoundingBox.X;
-                    _Bounding_box[4] = Max_BoundingBox.Y;
-                    _Bounding_box[5] = Max_BoundingBox.Z;
+                    _Bounding_box[0] = Min_BoundingBox_X;
+                    _Bounding_box[1] = Min_BoundingBox_Y;
+                    _Bounding_box[2] = Min_BoundingBox_Z;
+                    _Bounding_box[3] = Max_BoundingBox_X;
+                    _Bounding_box[4] = Max_BoundingBox_Y;
+                    _Bounding_box[5] = Max_BoundingBox_Z;
                 }
                 else
                 {
@@ -122,7 +143,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
         /// <summary>
-        /// 子抽样因子
+        /// 采样因子
         /// </summary>
         public double Rectif_sub_sampling { set; get; } = 1.5;
 
@@ -328,6 +349,50 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+
+        /// <summary>
+        /// 本地双目相机标定文件列表
+        /// </summary>
+        public ObservableCollection<FileInfo> TwoCamera_Calibration_Fold { set; get; } = new ObservableCollection<FileInfo>();
+
+
+
+
+
+
+        /// <summary>
+        /// 标定结果保存文件夹
+        /// </summary>
+        private  string TwoCamera_Calibration_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File\\";
+
+        public void Load_TwoCamera_Calibration_Fold()
+        {
+
+
+            //判断位置是否存在
+            if (!Directory.Exists(TwoCamera_Calibration_Fold_Address)) Directory.CreateDirectory(TwoCamera_Calibration_Fold_Address);
+
+
+            //获得的文件夹内文件
+            FileInfo[] Files = new DirectoryInfo(TwoCamera_Calibration_Fold_Address).GetFiles();
+
+            //删除旧数据
+            TwoCamera_Calibration_Fold.Clear();
+            //读取标定板文件
+            foreach (var file in Files)
+            {
+                if (file.Extension.Equals(".csm"))
+                {
+                    //添加到列表中
+                    TwoCamera_Calibration_Fold.Add(file);
+                }
+            }
+
+
+
+
+
+        }
     }
 
 
@@ -713,12 +778,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 不设置模型颜色
         /// </summary>
-        [Description("不显示颜色")]
+        [Description("不计算颜色信息")]
         none,
         /// <summary>
         ///  三维点的颜色值是三维点可见的所有摄像头颜色值的中值。
         /// </summary>
-        [Description("默认值：可见颜色中值")]
+        [Description("默认值：相机中颜色中值")]
         median,
         /// <summary>
         /// 三维点的颜色值对应于与该三维点距离最小的摄像头的颜色值
@@ -756,7 +821,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 无
         /// </summary>
-        [Description("不启动")]
+        [Description("不进行插值处理")]
         none,
         /// <summary>
         /// 双线性插值

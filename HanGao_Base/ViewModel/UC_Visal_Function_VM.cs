@@ -52,8 +52,15 @@ namespace HanGao.ViewModel
         /// </summary>
         public Halcon_External_Method_Model Halcon_External_Method { set; get; } = new Halcon_External_Method_Model();
 
+        /// <summary>
+        /// 相机设备2D3D切换类型
+        /// </summary>
+        public bool Camera_Devices_2D3D_Switch { set; get; } = true ;
 
 
+        /// <summary>
+        /// 3D相机相关功能
+        /// </summary>
         public Halcon_3DStereoModel_SDK Halcon_3DStereoModel { set; get; } = new Halcon_3DStereoModel_SDK();
 
         /// <summary>
@@ -3203,5 +3210,30 @@ namespace HanGao.ViewModel
                 }
             });
         }
+
+        /// <summary>
+        /// 删除用户选择参数
+        /// </summary>
+        public ICommand Device_3DCamera_Switch_Command
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+
+                ToggleButton E = Sm.Source as ToggleButton;
+
+
+                Halcon_3DStereoModel.Load_TwoCamera_Calibration_Fold();
+
+
+
+                    //User_Log_Add("请选择参数号进行操作！", Log_Show_Window_Enum.Home);
+               
+            });
+        }
+
+
+
+
     }
 }
