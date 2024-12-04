@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>HanGao</RootNamespace>
     <AssemblyName>HanGao</AssemblyName>
@@ -37,11 +37,10 @@
   <PropertyGroup>
     <ManifestKeyFile>悍高软件_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<!--<Exec Command="Copy &quot;$(ProjectDir)VTK_DLL\*.*&quot; &quot;$(TargetDir)&quot;" />-->
-	</Target>
-	<PropertyGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <!--<Exec Command="Copy &quot;$(ProjectDir)VTK_DLL\*.*&quot; &quot;$(TargetDir)&quot;" />-->
+  </Target>
+  <PropertyGroup>
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
@@ -88,7 +87,6 @@
     <None Remove="Ps_UI\**" />
     <Page Remove="Ps_UI\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="halcondotnet">
       <HintPath>..\Halcon_SDK\halcondotnet.dll</HintPath>
@@ -263,16 +261,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fody" Version="6.8.0">
+    <PackageReference Include="Fody" Version="6.9.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
-    <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="9.0.0" />
     <PackageReference Include="Throw" Version="1.4.0" />
   </ItemGroup>
   <ItemGroup>
@@ -300,7 +297,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>8.2.2</Version>
+      <Version>8.3.2</Version>
     </PackageReference>
     <PackageReference Include="Dirkster.NumericUpDownLib">
       <Version>3.4.0</Version>
@@ -309,7 +306,7 @@
       <Version>2.0.0-beta.700</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
-      <Version>1.1.77</Version>
+      <Version>1.1.135</Version>
     </PackageReference>
     <PackageReference Include="Nancy">
       <Version>2.0.0</Version>
@@ -358,8 +355,6 @@
   </ItemGroup>
   <PropertyGroup />
   <PropertyGroup>
-
-	
     <PlatformTarget>x64</PlatformTarget>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
