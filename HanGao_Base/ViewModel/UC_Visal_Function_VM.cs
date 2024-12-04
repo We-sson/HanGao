@@ -3212,7 +3212,7 @@ namespace HanGao.ViewModel
         }
 
         /// <summary>
-        /// 删除用户选择参数
+        /// 23D相机切换更新配置文件
         /// </summary>
         public ICommand Device_3DCamera_Switch_Command
         {
@@ -3232,7 +3232,26 @@ namespace HanGao.ViewModel
             });
         }
 
+        /// <summary>
+        /// 23D相机切换更新配置文件
+        /// </summary>
+        public ICommand Select_TwoCamera_Calibration_Command
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
 
+
+                ComboBox E = Sm.Source as ComboBox;
+
+
+                //Halcon_3DStereoModel.Load_TwoCamera_Calibration_Fold();
+
+
+
+                //User_Log_Add("请选择参数号进行操作！", Log_Show_Window_Enum.Home);
+
+            });
+        }
 
 
     }
