@@ -3363,7 +3363,7 @@
                                                     BorderThickness="2"
                                                     CornerRadius="4">
                                                 <TextBlock Grid.Column=" 0"
-                                                           Text="...."
+                                                           Text="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -3381,7 +3381,7 @@
                                                     BorderThickness="2"
                                                     CornerRadius="4">
                                                 <TextBlock Grid.Column=" 0"
-                                                           Text="DA0651473"
+                                                           Text="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"

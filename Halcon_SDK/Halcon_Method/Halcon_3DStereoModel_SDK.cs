@@ -938,18 +938,71 @@ namespace Halcon_SDK_DLL.Halcon_Method
     [AddINotifyPropertyChangedInterface]
     public class TwoCamera_Calibration_Model
     {
-        public   FileInfo? Fold { set; get; }
+ 
 
 
 
+        private FileInfo? _Fold;
 
-    
+        public FileInfo? Fold
+        {
+            get { return _Fold; }
+            set {
+
+                try
+                {
+
+           
+                if (value==null) { throw new Exception (); }
+
+                List<string > _Camerakey= new List<string>( value.Name.Split('.')[0].Split('_'));
+
+                if (_Camerakey.Count==2)
+                {
+                    Camera_0_Key = _Camerakey[0];
+                    Camera_1_Key = _Camerakey[1];
+                }
+                else
+                {
+                    throw new Exception();
+                }
+                }
+                catch (Exception )
+                {
+
+                    Camera_0_Key = "文件名称错误..";
+                    Camera_1_Key = "文件名称错误..";
+
+
+                }
+
+                _Fold = value; 
+            }
+        }
+
+
 
 
         public HCameraSetupModel TwoCamera_HCameraSetup { set; get; } = new HCameraSetupModel();
 
 
-         
+        public string Camera_0_Key { set; get; } = string.Empty;
+        public string Camera_1_Key { set; get; } = string.Empty;
+
+
+     
+
+
+
+        public void Find_CameraDive_State()
+        {
+
+
+
+
+
+        }
+
 
     }
 

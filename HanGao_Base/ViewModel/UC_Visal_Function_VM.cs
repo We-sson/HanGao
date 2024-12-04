@@ -894,6 +894,17 @@ namespace HanGao.ViewModel
                             }
                         }
 
+                        //双目相机模式下
+                        if (!Camera_Devices_2D3D_Switch)
+                        {
+
+
+
+
+                        }
+
+
+
                         Thread.Sleep(1000);
                     }
                     catch (Exception)
@@ -3247,7 +3258,7 @@ namespace HanGao.ViewModel
                 //Halcon_3DStereoModel.Load_TwoCamera_Calibration_Fold();
 
 
-
+                
                 //User_Log_Add("请选择参数号进行操作！", Log_Show_Window_Enum.Home);
 
             });
