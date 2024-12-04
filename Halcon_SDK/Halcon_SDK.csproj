@@ -49,7 +49,7 @@
     <Content Include="Halcon样图测试\9点标定板样图\Image_20221028151800086.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fody" Version="6.8.0">
+    <PackageReference Include="Fody" Version="6.9.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
