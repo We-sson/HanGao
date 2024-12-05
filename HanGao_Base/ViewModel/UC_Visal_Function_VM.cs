@@ -8,7 +8,6 @@ using Roboto_Socket_Library;
 using System.Windows.Controls.Primitives;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
-using static HanGao.ViewModel.Messenger_Eunm.Messenger_Name;
 using static MVS_SDK_Base.Model.MVS_Model;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 using Point = System.Windows.Point;
@@ -55,7 +54,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 相机设备2D3D切换类型
         /// </summary>
-        public bool Camera_Devices_2D3D_Switch { set; get; } = true ;
+        public bool Camera_Devices_2D3D_Switch { set; get; } = true;
 
 
         /// <summary>
@@ -894,9 +893,54 @@ namespace HanGao.ViewModel
                             }
                         }
 
-                        //双目相机模式下
-                        if (!Camera_Devices_2D3D_Switch)
+
+                        //双目相机模式下,处理相机状态显示
+                        if (!Camera_Devices_2D3D_Switch && Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode != null)
                         {
+
+                            var _camera_0_Sata = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
+                            var _camera_1_Sata = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
+
+                            if (_camera_0_Sata == null)
+                            {
+                                Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State = TwoCamera_Drive_State_Enum.unknown;
+                            }
+                            else
+                            {
+
+
+
+                                Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State = _camera_0_Sata.Camer_Status switch
+                                {
+                                    MV_CAM_Device_Status_Enum.Null => TwoCamera_Drive_State_Enum.Ready,
+                                    MV_CAM_Device_Status_Enum.Possess => TwoCamera_Drive_State_Enum.Error,
+                                    MV_CAM_Device_Status_Enum.Connecting => TwoCamera_Drive_State_Enum.Run,
+                                    _ => TwoCamera_Drive_State_Enum.unknown
+
+
+                                };
+
+                            }
+                            if (_camera_1_Sata == null)
+                            {
+                                Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State = TwoCamera_Drive_State_Enum.unknown;
+
+                            }
+                            else
+                            {
+                                Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State = _camera_1_Sata.Camer_Status switch
+                                {
+                                    MV_CAM_Device_Status_Enum.Null => TwoCamera_Drive_State_Enum.Ready,
+                                    MV_CAM_Device_Status_Enum.Possess => TwoCamera_Drive_State_Enum.Error,
+                                    MV_CAM_Device_Status_Enum.Connecting => TwoCamera_Drive_State_Enum.Run,
+                                    _ => TwoCamera_Drive_State_Enum.unknown
+
+
+                                };
+                            }
+
+
+
 
 
 
@@ -2317,7 +2361,7 @@ namespace HanGao.ViewModel
                     Camera_Device_List.Select_Camera?.Stop_ImageCallback_delegate();
                     Camera_Device_List.Select_Camera?.Close_Camera();
 
-                    Camera_Device_List.Select_Camera.Camera_Live = false ;
+                    Camera_Device_List.Select_Camera.Camera_Live = false;
 
                     User_Log_Add("开启实时相机失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                 }
@@ -3238,8 +3282,8 @@ namespace HanGao.ViewModel
 
 
 
-                    //User_Log_Add("请选择参数号进行操作！", Log_Show_Window_Enum.Home);
-               
+                //User_Log_Add("请选择参数号进行操作！", Log_Show_Window_Enum.Home);
+
             });
         }
 
@@ -3258,7 +3302,7 @@ namespace HanGao.ViewModel
                 //Halcon_3DStereoModel.Load_TwoCamera_Calibration_Fold();
 
 
-                
+
                 //User_Log_Add("请选择参数号进行操作！", Log_Show_Window_Enum.Home);
 
             });

@@ -3355,15 +3355,40 @@
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-                                            <Border Grid.Column="0"
+                                            <Border x:Name="Camera_0_State_Info_UI" Grid.Column="0"
                                                     Height=" 40"
                                                     Margin="0,0,5,0"
-                                                    Background="{DynamicResource 全局_按钮_深灰颜色}"
                                                     BorderBrush="{DynamicResource 全局_按钮_深蓝颜色}"
                                                     BorderThickness="2"
                                                     CornerRadius="4">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+                                                        <Setter Property="BorderThickness" Value="2" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Error}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Run}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Ready}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_青颜色}" />
+                                                            </DataTrigger>
+                                                            <!--<DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}" Value="false">
+                      <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+                  </DataTrigger>-->
+                                                        </Style.Triggers>
+
+
+
+                                                    </Style>
+                                                </Border.Style>
+
                                                 <TextBlock Grid.Column=" 0"
-                                                           Text="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key}"
+                                                           Text="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key, TargetNullValue=...}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -3371,17 +3396,76 @@
                                                            Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
 
+
+
                                             </Border>
 
-                                            <Border Grid.Column="1"
+                                            <Popup Grid.Column=" 0"
+                                                   AllowsTransparency="True"
+                                                   Effect="{DynamicResource 全局_字体_阴影样式}"
+                                                   Placement="Bottom"
+                                                   StaysOpen="True"
+                                                   VerticalOffset="5">
+                                                <Popup.Style>
+                                                    <Style TargetType="Popup">
+
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=Camera_0_State_Info_UI}" Value="true">
+                                                                <Setter Property="IsOpen" Value="True" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Popup.Style>
+                                                <Border Background="{DynamicResource 全局_背景_白颜色}"
+                                                        BorderBrush="{DynamicResource 全局_按钮_红颜色}"
+                                                        BorderThickness="2"
+                                                        CornerRadius="4">
+
+                                                    <StackPanel Margin="10">
+                                                        <TextBlock Text="1234565791321654657465465"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </Popup>
+
+
+
+                                            <Border x:Name="Camera_1_State_Info_UI" Grid.Column="1"
                                                     Height=" 40"
                                                     Margin="5,0,0,0"
-                                                    Background="{DynamicResource 全局_按钮_绿颜色}"
                                                     BorderBrush="{DynamicResource 全局_按钮_深蓝颜色}"
                                                     BorderThickness="2"
                                                     CornerRadius="4">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+                                                        <Setter Property="BorderThickness" Value="2" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Error}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Run}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Ready}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_青颜色}" />
+                                                            </DataTrigger>
+                                                            <!--<DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}" Value="false">
+                                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+                                                            </DataTrigger>-->
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+
+
+
                                                 <TextBlock Grid.Column=" 0"
-                                                           Text="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key}"
+                                                           Text="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key, TargetNullValue=...}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"

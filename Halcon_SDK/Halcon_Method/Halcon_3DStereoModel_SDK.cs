@@ -5,7 +5,6 @@ using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Net;
 
 namespace Halcon_SDK_DLL.Halcon_Method
 {
@@ -388,16 +387,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     //TwoCamera_Calibration_Fold.Add(file);
 
 
-                    TwoCamera_Calibration_HCameraSetupModel_List.Add(new TwoCamera_Calibration_Model() { Fold= file , TwoCamera_HCameraSetup=new HCameraSetupModel (file.FullName) });
+                    TwoCamera_Calibration_HCameraSetupModel_List.Add(new TwoCamera_Calibration_Model() { Fold = file, TwoCamera_HCameraSetup = new HCameraSetupModel(file.FullName) });
                 }
             }
 
 
             //默认选择第一个
-            if (TwoCamera_Calibration_HCameraSetupModel_List.Count>1)
+            if (TwoCamera_Calibration_HCameraSetupModel_List.Count > 1)
             {
 
-            Select_TwoCamera_Calibration_HCameraSetupMode = TwoCamera_Calibration_HCameraSetupModel_List[0];
+                Select_TwoCamera_Calibration_HCameraSetupMode = TwoCamera_Calibration_HCameraSetupModel_List[0];
             }
 
 
@@ -935,10 +934,40 @@ namespace Halcon_SDK_DLL.Halcon_Method
         interpolation
     }
 
+
+
+    /// <summary>
+    /// 双目相机驱动状态
+    /// </summary>
+    public enum TwoCamera_Drive_State_Enum
+    {
+        /// <summary>
+        /// 相机设备准备就绪
+        /// </summary>
+        Ready,
+        /// <summary>
+        /// 相机设备错误
+        /// </summary>
+        Error,
+        /// <summary>
+        /// 相机设备正常运行
+        /// </summary>
+        Run,
+
+        /// <summary>
+        /// 相机设备未知
+        /// </summary>
+        unknown
+
+
+    }
+
+
+
     [AddINotifyPropertyChangedInterface]
     public class TwoCamera_Calibration_Model
     {
- 
+
 
 
 
@@ -947,27 +976,34 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public FileInfo? Fold
         {
             get { return _Fold; }
-            set {
+            set
+            {
 
                 try
                 {
 
-           
-                if (value==null) { throw new Exception (); }
 
-                List<string > _Camerakey= new List<string>( value.Name.Split('.')[0].Split('_'));
+                    if (value == null) { throw new Exception(); }
 
-                if (_Camerakey.Count==2)
-                {
-                    Camera_0_Key = _Camerakey[0];
-                    Camera_1_Key = _Camerakey[1];
+                    List<string> _Camerakey = new List<string>(value.Name.Split('.')[0].Split('_'));
+
+                    if (_Camerakey.Count == 2)
+                    {
+                        Camera_0_Key = _Camerakey[0];
+                        Camera_1_Key = _Camerakey[1];
+
+
+
+
+
+
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                 }
-                else
-                {
-                    throw new Exception();
-                }
-                }
-                catch (Exception )
+                catch (Exception)
                 {
 
                     Camera_0_Key = "文件名称错误..";
@@ -976,7 +1012,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                 }
 
-                _Fold = value; 
+                _Fold = value;
             }
         }
 
@@ -990,7 +1026,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public string Camera_1_Key { set; get; } = string.Empty;
 
 
-     
+        
+
+
+        public TwoCamera_Drive_State_Enum Camera_0_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
+        public TwoCamera_Drive_State_Enum Camera_1_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
 
 
 

@@ -794,6 +794,10 @@ namespace Halcon_SDK_DLL.Model
                 Image_Width = _Parameters_Model.Image_Width;
             }
 
+
+
+
+
             private void Set_HCamPar(HCamPar hCamPar)
             {
                 //HCamPar = hCamPar;
