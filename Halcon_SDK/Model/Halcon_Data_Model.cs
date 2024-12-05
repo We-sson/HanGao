@@ -794,7 +794,31 @@ namespace Halcon_SDK_DLL.Model
                 Image_Width = _Parameters_Model.Image_Width;
             }
 
+            public void Get_Camera_Parameter_Info_List()
+            {
+                ObservableCollection<String> __Camera_Parameter_Info_List = new ObservableCollection<string>();
 
+
+                __Camera_Parameter_Info_List.Add(nameof(Sy)+" = "+Sy);
+                __Camera_Parameter_Info_List.Add(nameof(Sx) +" = "+ Sx);
+                __Camera_Parameter_Info_List.Add(nameof(Focus) +" = "+ Focus);
+                __Camera_Parameter_Info_List.Add(nameof(Kappa) +" = " + Kappa);
+                __Camera_Parameter_Info_List.Add(nameof(K1) +" = " + K1);
+                __Camera_Parameter_Info_List.Add(nameof(K2) +" = " + K2);
+                __Camera_Parameter_Info_List.Add(nameof(K3) +" = " + K3);
+                __Camera_Parameter_Info_List.Add(nameof(P1) +" = " + P1);
+                __Camera_Parameter_Info_List.Add(nameof(P2) +" = " + P2);
+                __Camera_Parameter_Info_List.Add(nameof(Cy) +" = " + Cy);
+                __Camera_Parameter_Info_List.Add(nameof(Cx) +" = " + Cx);
+                __Camera_Parameter_Info_List.Add(nameof(Image_Height) +" = " + Image_Height);
+                __Camera_Parameter_Info_List.Add(nameof(Image_Width) +" = " + Image_Width);
+
+
+
+
+
+
+            }
 
 
 
