@@ -3278,8 +3278,19 @@ namespace HanGao.ViewModel
                 ToggleButton E = Sm.Source as ToggleButton;
 
 
-                Halcon_3DStereoModel.Load_TwoCamera_Calibration_Fold();
+                ///切换2D3D模型晴空模型数据
+                if (!Camera_Devices_2D3D_Switch)
+                {
 
+                    Halcon_3DStereoModel.Load_TwoCamera_Calibration_Fold();
+
+                }
+                else
+                {
+                    Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode = null;
+
+
+                }
 
 
                 //User_Log_Add("请选择参数号进行操作！", Log_Show_Window_Enum.Home);
@@ -3299,7 +3310,21 @@ namespace HanGao.ViewModel
                 ComboBox E = Sm.Source as ComboBox;
 
 
-                //Halcon_3DStereoModel.Load_TwoCamera_Calibration_Fold();
+                try
+                {
+
+
+                    Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Load_CameraDive_Parameters();
+
+
+
+                }
+                catch (Exception e)
+                {
+
+                    User_Log_Add("读取配置文件错误！原因：" + e.Message, Log_Show_Window_Enum.Home);
+
+                }
 
 
 
@@ -3307,6 +3332,70 @@ namespace HanGao.ViewModel
 
             });
         }
+
+
+
+
+        /// <summary>
+        /// 相机实时采集图像功能
+        /// </summary>
+        public ICommand TwoCamera_Connect_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                CheckBox E = Sm.Source as CheckBox;
+                //bool _State = false;
+
+                try
+                {
+                    //Camera_Device_List.Select_Camera.Connect_Camera();
+                    Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.ThrowIfNull("设备配置文件未选择！请检查文件。");
+
+                    if ((bool)E.IsChecked)
+                    {
+
+
+
+
+                        Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
+                        Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
+
+
+                        Camera_Device_List.Select_3DCamera_0 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
+                        Camera_Device_List.Select_3DCamera_1 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
+
+
+                        Camera_Device_List.Select_3DCamera_0.Connect_Camera();
+                        Camera_Device_List.Select_3DCamera_1.Connect_Camera();
+
+
+                        User_Log_Add("连接3D相机硬件成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+
+                    }
+                    else
+                    {
+
+                        Camera_Device_List.Select_3DCamera_0.Close_Camera();
+                        Camera_Device_List.Select_3DCamera_1.Close_Camera();
+
+
+
+                        User_Log_Add("断开3D相机硬件成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    }
+                }
+                catch (Exception _e)
+                {
+
+                    E.IsChecked = false;
+                    //Camera_Device_List.Select_3DCamera_0.Close_Camera();
+                    //Camera_Device_List.Select_3DCamera_1.Close_Camera();
+
+                    User_Log_Add("连接3D相机硬件失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+            });
+        }
+
 
 
     }

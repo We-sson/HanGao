@@ -794,27 +794,65 @@ namespace Halcon_SDK_DLL.Model
                 Image_Width = _Parameters_Model.Image_Width;
             }
 
-            public void Get_Camera_Parameter_Info_List()
+
+            private ObservableCollection<string> _Camera_Parameter_Info_List = new();
+
+            /// <summary>
+            /// 相机参数信息汇总
+            /// </summary>
+            public ObservableCollection<string> Camera_Parameter_Info_List
             {
-                ObservableCollection<String> __Camera_Parameter_Info_List = new ObservableCollection<string>();
+                get
+                {
+                    _Camera_Parameter_Info_List = new()
+    {
+        $"相机类型 = {Camera_Calibration_Model}",
+        $"{nameof(Sy)} = {Sy}",
+        $"{nameof(Sx)} = {Sx}",
+        $"{nameof(Focus)} = {Focus}",
+        $"{nameof(Kappa)} = {Kappa}",
+        $"{nameof(K1)} = {K1}",
+        $"{nameof(K2)} = {K2}",
+        $"{nameof(K3)} = {K3}",
+        $"{nameof(P1)} = {P1}",
+        $"{nameof(P2)} = {P2}",
+        $"{nameof(Cy)} = {Cy}",
+        $"{nameof(Cx)} = {Cx}",
+        $"{nameof(Image_Height)} = {Image_Height}",
+        $"{nameof(Image_Width)} = {Image_Width}"
+    };
+                    return _Camera_Parameter_Info_List;
+                }
+                set { _Camera_Parameter_Info_List = value; }
+            }
 
 
-                __Camera_Parameter_Info_List.Add(nameof(Sy)+" = "+Sy);
-                __Camera_Parameter_Info_List.Add(nameof(Sx) +" = "+ Sx);
-                __Camera_Parameter_Info_List.Add(nameof(Focus) +" = "+ Focus);
-                __Camera_Parameter_Info_List.Add(nameof(Kappa) +" = " + Kappa);
-                __Camera_Parameter_Info_List.Add(nameof(K1) +" = " + K1);
-                __Camera_Parameter_Info_List.Add(nameof(K2) +" = " + K2);
-                __Camera_Parameter_Info_List.Add(nameof(K3) +" = " + K3);
-                __Camera_Parameter_Info_List.Add(nameof(P1) +" = " + P1);
-                __Camera_Parameter_Info_List.Add(nameof(P2) +" = " + P2);
-                __Camera_Parameter_Info_List.Add(nameof(Cy) +" = " + Cy);
-                __Camera_Parameter_Info_List.Add(nameof(Cx) +" = " + Cx);
-                __Camera_Parameter_Info_List.Add(nameof(Image_Height) +" = " + Image_Height);
-                __Camera_Parameter_Info_List.Add(nameof(Image_Width) +" = " + Image_Width);
+            /// <summary>
+            /// 获得相机参数信息
+            /// </summary>
+            /// <returns></returns>
+            public ObservableCollection<string> Get_Camera_Parameter_Info_List()
+            {
+                ObservableCollection<string> Camera_Parameter_Info_List = new()
+    {
+        $"相机类型 = {Camera_Calibration_Model}",
+        $"{nameof(Sy)} = {Sy}",
+        $"{nameof(Sx)} = {Sx}",
+        $"{nameof(Focus)} = {Focus}",
+        $"{nameof(Kappa)} = {Kappa}",
+        $"{nameof(K1)} = {K1}",
+        $"{nameof(K2)} = {K2}",
+        $"{nameof(K3)} = {K3}",
+        $"{nameof(P1)} = {P1}",
+        $"{nameof(P2)} = {P2}",
+        $"{nameof(Cy)} = {Cy}",
+        $"{nameof(Cx)} = {Cx}",
+        $"{nameof(Image_Height)} = {Image_Height}",
+        $"{nameof(Image_Width)} = {Image_Width}"
+    };
 
 
-
+                return Camera_Parameter_Info_List;
 
 
 
@@ -858,6 +896,11 @@ namespace Halcon_SDK_DLL.Model
 
                         break;
                 }
+
+
+
+
+
             }
 
             public HCamPar Get_HCamPar()
@@ -918,6 +961,7 @@ namespace Halcon_SDK_DLL.Model
                 {
                     _HCamPar = value;
                     Set_HCamPar(value);
+
                 }
             }
 
@@ -1788,22 +1832,22 @@ namespace Halcon_SDK_DLL.Model
             {
                 case Camera_Connect_Control_Type_Enum.双目相机:
 
-                    Save_File_Address = Result_Fold_Address + "\\" + Camera_0_Results.Calibration_Name+"_"+ Camera_1_Results.Calibration_Name;
+                    Save_File_Address = Result_Fold_Address + "\\" + Camera_0_Results.Calibration_Name + "_" + Camera_1_Results.Calibration_Name;
                     break;
                 case Camera_Connect_Control_Type_Enum.Camera_0:
 
                     //添加名称
-                    Save_File_Address = Result_Fold_Address + "\\" +  Camera_0_Results.Calibration_Name;
+                    Save_File_Address = Result_Fold_Address + "\\" + Camera_0_Results.Calibration_Name;
                     break;
                 case Camera_Connect_Control_Type_Enum.Camera_1:
 
                     Save_File_Address = Result_Fold_Address + "\\" + Camera_1_Results.Calibration_Name;
 
                     break;
-       
+
             }
 
-        
+
 
             if (File.Exists(Save_File_Address += ".csm"))
             {
@@ -1830,7 +1874,7 @@ namespace Halcon_SDK_DLL.Model
                     Camera_0_Results.Camera_Calinration_Process_Type.Throw(Camera_0_Results.Calibration_Name + "：未进行手眼标定！").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
                     Camera_1_Results.Camera_Calinration_Process_Type.Throw(Camera_0_Results.Calibration_Name + "：未进行手眼标定！").IfEquals(Camera_Calinration_Process_Enum.Uncalibrated);
 
-          
+
 
 
                     break;
@@ -1843,21 +1887,21 @@ namespace Halcon_SDK_DLL.Model
 
                     break;
 
-     
+
             }
 
 
             //if (!All_Camera_SetupModel.IsInitialized())
             //{
-                Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (!Checked_SaveFile(_Save_Camera_Type))
                 {
-                    if (!Checked_SaveFile(_Save_Camera_Type))
-                    {
-                        All_Camera_SetupModel.WriteCameraSetupModel(Save_File_Address);
-                     
+                    All_Camera_SetupModel.WriteCameraSetupModel(Save_File_Address);
 
-                    }
-                });
+
+                }
+            });
             //}
             //else
             //{

@@ -6,7 +6,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{DynamicResource OptionMark.Static.Background}" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />
         <Setter Property="Template">
             <Setter.Value>

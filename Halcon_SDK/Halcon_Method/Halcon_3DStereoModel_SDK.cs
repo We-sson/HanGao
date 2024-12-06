@@ -5,6 +5,7 @@ using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Halcon_Method
 {
@@ -365,6 +366,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         private string TwoCamera_Calibration_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File\\";
 
+
+
+        /// <summary>
+        /// 加载本地文件下全部配置文件
+        /// </summary>
         public void Load_TwoCamera_Calibration_Fold()
         {
 
@@ -393,14 +399,151 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
             //默认选择第一个
-            if (TwoCamera_Calibration_HCameraSetupModel_List.Count > 1)
-            {
+            //if (TwoCamera_Calibration_HCameraSetupModel_List.Count > 1)
+            //{
 
-                Select_TwoCamera_Calibration_HCameraSetupMode = TwoCamera_Calibration_HCameraSetupModel_List[0];
-            }
+            //    Select_TwoCamera_Calibration_HCameraSetupMode = TwoCamera_Calibration_HCameraSetupModel_List[0];
+            //}
 
 
         }
+
+
+
+
+
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    public class TwoCamera_Calibration_Model
+    {
+        /// <summary>
+        /// 初始化时候读取文件
+        /// </summary>
+        public TwoCamera_Calibration_Model()
+        {
+
+
+            //Load_CameraDive_Parameters();
+
+        }
+
+        private FileInfo? _Fold;
+
+        /// <summary>
+        /// 配置文件位置
+        /// </summary>
+        public FileInfo? Fold
+        {
+            get { return _Fold; }
+            set
+            {
+
+                try
+                {
+
+
+                    if (value == null) { throw new Exception(); }
+
+                    List<string> _Camerakey = new List<string>(value.Name.Split('.')[0].Split('_'));
+
+                    if (_Camerakey.Count == 2)
+                    {
+                        Camera_0_Key = _Camerakey[0];
+                        Camera_1_Key = _Camerakey[1];
+
+
+
+
+
+
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch (Exception)
+                {
+
+                    Camera_0_Key = "文件名称错误..";
+                    Camera_1_Key = "文件名称错误..";
+
+
+                }
+
+                _Fold = value;
+            }
+        }
+
+
+
+        
+        public HCameraSetupModel TwoCamera_HCameraSetup { set; get; } = new HCameraSetupModel();
+
+
+        public string Camera_0_Key { set; get; } = string.Empty;
+        public string Camera_1_Key { set; get; } = string.Empty;
+
+
+
+
+
+
+        public Halcon_Camera_Calibration_Parameters_Model Camera_0_Parameters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+        public Halcon_Camera_Calibration_Parameters_Model Camera_1_Parameters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+
+
+        public ObservableCollection<String> Camera_0_CameraSetup_Info { set; get; } = [];
+        public ObservableCollection<String> Camera_1_CameraSetup_Info { set; get; } = [];
+
+
+
+
+        public TwoCamera_Drive_State_Enum Camera_0_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
+        public TwoCamera_Drive_State_Enum Camera_1_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
+
+
+        /// <summary>
+        /// 配置文件加载参数方法
+        /// </summary>
+        public void Load_CameraDive_Parameters()
+        {
+
+            if (Fold != null)
+            {
+
+
+
+                TwoCamera_HCameraSetup.ReadCameraSetupModel(Fold.FullName);
+
+                Camera_0_Parameters = new Halcon_Camera_Calibration_Parameters_Model(new HCamPar(TwoCamera_HCameraSetup.GetCameraSetupParam(0, "params")));
+                Camera_1_Parameters = new Halcon_Camera_Calibration_Parameters_Model(new HCamPar(TwoCamera_HCameraSetup.GetCameraSetupParam(1, "params")));
+
+       
+                Camera_0_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_0_Parameters.Camera_Parameter_Info_List));
+                Camera_1_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_1_Parameters.Camera_Parameter_Info_List));
+
+
+
+            }
+            else
+            {
+
+                new Exception("配置文件数据损坏！");
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
     }
 
 
@@ -963,88 +1106,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
     }
 
 
-
-    [AddINotifyPropertyChangedInterface]
-    public class TwoCamera_Calibration_Model
-    {
-
-
-
-
-        private FileInfo? _Fold;
-
-        public FileInfo? Fold
-        {
-            get { return _Fold; }
-            set
-            {
-
-                try
-                {
-
-
-                    if (value == null) { throw new Exception(); }
-
-                    List<string> _Camerakey = new List<string>(value.Name.Split('.')[0].Split('_'));
-
-                    if (_Camerakey.Count == 2)
-                    {
-                        Camera_0_Key = _Camerakey[0];
-                        Camera_1_Key = _Camerakey[1];
-
-
-
-
-
-
-                    }
-                    else
-                    {
-                        throw new Exception();
-                    }
-                }
-                catch (Exception)
-                {
-
-                    Camera_0_Key = "文件名称错误..";
-                    Camera_1_Key = "文件名称错误..";
-
-
-                }
-
-                _Fold = value;
-            }
-        }
-
-
-
-
-        public HCameraSetupModel TwoCamera_HCameraSetup { set; get; } = new HCameraSetupModel();
-
-
-        public string Camera_0_Key { set; get; } = string.Empty;
-        public string Camera_1_Key { set; get; } = string.Empty;
-
-
-        
-
-
-        public TwoCamera_Drive_State_Enum Camera_0_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
-        public TwoCamera_Drive_State_Enum Camera_1_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
-
-
-
-        public void Find_CameraDive_State()
-        {
-
-
-
-
-
-        }
-
-
-    }
 
 
 }
