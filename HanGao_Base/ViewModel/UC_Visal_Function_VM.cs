@@ -42,7 +42,7 @@ namespace HanGao.ViewModel
             Initialization_Camera_Thread();
             Initialization_ShapeModel_File();
             Initialization_Local_Network_Robot_Socket();
-
+            Halcon_3DStereoModel.Load_TwoCamera_Calibration_Fold();
 
         }
 
@@ -3282,12 +3282,16 @@ namespace HanGao.ViewModel
                 if (!Camera_Devices_2D3D_Switch)
                 {
 
-                    Halcon_3DStereoModel.Load_TwoCamera_Calibration_Fold();
+                    //if (Halcon_3DStereoModel.TwoCamera_Calibration_HCameraSetupModel_List.Count>1)
+                    //{
+
+                    //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode = Halcon_3DStereoModel.TwoCamera_Calibration_HCameraSetupModel_List[0];
+                    //}
 
                 }
                 else
                 {
-                    Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode = null;
+                    //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode = null;
 
 
                 }
