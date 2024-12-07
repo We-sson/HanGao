@@ -15,6 +15,17 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public MVS_Camera_Parameter_Model Camera_Parameter_Data { set; get; } = new MVS_Camera_Parameter_Model();
 
 
+
+        public MVS_Camera_Parameter_Model Camera_0_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
+        public MVS_Camera_Parameter_Model Camera_1_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
+
+        public MVS_Camera_Parameter_Model Camera_0_3DFusionImage_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
+        public MVS_Camera_Parameter_Model Camera_1_3DFusionImage_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
+
+
+        public H3DStereo_ParamData_Model H3DStereo_ParamData { set; get; } = new H3DStereo_ParamData_Model();
+
+
         public Find_Shape_Based_ModelXld Find_Shape_Data { set; get; } = new Find_Shape_Based_ModelXld() { };
 
 

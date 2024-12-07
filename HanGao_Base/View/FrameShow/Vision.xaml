@@ -2713,7 +2713,7 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_ExposureTime_UI" Grid.Column=" 1"
+                                                <Slider x:Name="Camera_ExposureTime_UI" Grid.Column=" 1"
                                                         Margin="5"
                                                         VerticalAlignment="Center"
                                                         HorizontalContentAlignment="Stretch"
@@ -2722,7 +2722,27 @@
                                                         Maximum="50000"
                                                         Minimum="0"
                                                         SmallChange="10"
-                                                        Value="{Binding Select_Vision_Value.Camera_Parameter_Data.ExposureTime, Mode=TwoWay}">
+                                                        Value="{Binding Select_Vision_Value.Camera_Parameter_Data.ExposureTime, TargetNullValue=0}">
+                                                    <Slider.Style>
+                                                        <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Camera_Devices_2D3D_Switch}" Value="true">
+                                                                    <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.ExposureTime, TargetNullValue=0}" />
+                                                                </DataTrigger>
+                                                                <MultiTrigger>
+                                                                    <MultiTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}" Value="true" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    </MultiTrigger.Conditions>
+                                                                    <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.ExposureTime, TargetNullValue=0}" />
+                                                                </MultiTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Slider.Style>
+
+
                                                     <!--<i:Interaction.Triggers>
 
                                                     <i:EventTrigger EventName="PreviewMouseUp">
@@ -3556,6 +3576,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="TwoCamera_Connect_UI" Grid.Column=" 1"
+                                                      IsChecked="{Binding Halcon_3DStereoModel.TwoCamera_Connect_Sate}"
                                                       Margin="0,0,5,0"
                                                       HorizontalContentAlignment="Center"
                                                       VerticalContentAlignment="Center"
@@ -3616,6 +3637,76 @@
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
 
+                                        <Grid Height=" 35" Margin="0,5,0,5">
+                                            <!--<Grid.Style>
+               <Style TargetType="{x:Type Grid}">
+                   <Setter Property="Visibility" Value="Collapsed" />
+                   <Style.Triggers>
+                       <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_0}">
+                           <Setter Property="Visibility" Value="Visible" />
+                       </DataTrigger>
+                       <DataTrigger Binding="{Binding Halcon_Camera_Calibra.Camera_Connect_Model}" Value="{x:Static Halcon_DLL:Camera_Connect_Control_Type_Enum.Camera_1}">
+                           <Setter Property="Visibility" Value="Visible" />
+                       </DataTrigger>
+                   </Style.Triggers>
+               </Style>
+           </Grid.Style>-->
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="成像类型"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <Border Grid.Column=" 1"
+                                                    Margin="0,0,0,0"
+                                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                    BorderThickness="0,0,0,0">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
+                                                                 Content="3D点云"
+                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}}"
+                                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                 FontSize=" 16"
+                                                                 GroupName="3D_Type_Switch" />
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
+                                                                 Content="深度图"
+                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
+                                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                 FontSize="16"
+                                                                 GroupName="3D_Type_Switch" />
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
+                                                                 Content="融合图"
+                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.融合图像}}"
+                                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                 FontSize="16"
+                                                                 GroupName="3D_Type_Switch" />
+                                                </Grid>
+
+                                            </Border>
+
+
+
+
+                                        </Grid>
+
+
+
+
                                         <Grid Height=" 38 " Margin="0,8,0,8">
 
                                             <Grid.ColumnDefinitions>
@@ -3625,7 +3716,7 @@
 
 
                                             <TextBlock Grid.Column=" 0"
-                                                       Text="图像预处理"
+                                                       Text="相机参数"
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -3633,7 +3724,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" Grid.Column=" 1"
-                                                          IsChecked="{Binding Halcon_3DStereoModel.Stereo_Preprocessing_CameraSwitch}"
+                                                          IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}"
                                                           Margin="0,0,0,0"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -3664,16 +3755,21 @@
                                                 </Grid>
 
                                                 <!--<i:Interaction.Triggers>
-            <i:EventTrigger EventName="Unchecked">
-                <i:InvokeCommandAction Command="{Binding Camera_Diver_Model_Select_Comm}"
- CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
- PassEventArgsToCommand="True" />
-            </i:EventTrigger>
-        </i:Interaction.Triggers>-->
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>-->
 
                                             </ToggleButton>
 
                                         </Grid>
+
+
+
+
+
 
                                         <Grid Margin="0,8,0,8">
 
@@ -4831,7 +4927,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                                 <TextBox Grid.Row=" 1" Grid.Column=" 1"
-                                                         Text="{Binding Halcon_3DStereoModel.Min_BoundingBox_X, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                         Text="{Binding Select_Vision_Value.H3DStereo_ParamData.Min_BoundingBox_X, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4852,7 +4948,7 @@
                                                     </TextBox.Style>
                                                 </TextBox>
                                                 <TextBox Grid.Row=" 2" Grid.Column=" 1"
-                                                         Text="{Binding Halcon_3DStereoModel.Min_BoundingBox_Y, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                         Text="{Binding Select_Vision_Value.H3DStereo_ParamData.Min_BoundingBox_Y, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4875,7 +4971,7 @@
                                                 </TextBox>
 
                                                 <TextBox Grid.Row=" 3" Grid.Column=" 1"
-                                                         Text="{Binding Halcon_3DStereoModel.Min_BoundingBox_Z, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                         Text="{Binding Select_Vision_Value.H3DStereo_ParamData.Min_BoundingBox_Z, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4897,7 +4993,7 @@
                                                 </TextBox>
 
                                                 <TextBox Grid.Row=" 1" Grid.Column=" 2"
-                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox_X, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                         Text="{Binding Select_Vision_Value.H3DStereo_ParamData.Max_BoundingBox_X, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4918,7 +5014,7 @@
                                                     </TextBox.Style>
                                                 </TextBox>
                                                 <TextBox Grid.Row=" 2" Grid.Column=" 2"
-                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox_Y, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                         Text="{Binding Select_Vision_Value.H3DStereo_ParamData.Max_BoundingBox_Y, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -4939,7 +5035,7 @@
                                                     </TextBox.Style>
                                                 </TextBox>
                                                 <TextBox Grid.Row=" 3" Grid.Column=" 2"
-                                                         Text="{Binding Halcon_3DStereoModel.Max_BoundingBox_Z, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                         Text="{Binding Select_Vision_Value.H3DStereo_ParamData.Max_BoundingBox_Z, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                          Margin="4"
                                                          HorizontalContentAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -5007,7 +5103,7 @@
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:H3DStereo_Method_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.H3DStereo_Method, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5043,7 +5139,7 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="persistence_UI" Grid.Column=" 1"
-                                                          IsChecked="{Binding Halcon_3DStereoModel.Persistence}"
+                                                          IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.Persistence}"
                                                           Margin="0,0,0,0"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -5105,7 +5201,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Color_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5141,7 +5237,7 @@ PassEventArgsToCommand="True" />
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="color_invisible_UI" Grid.Column=" 1"
-                                                          IsChecked="{Binding Halcon_3DStereoModel.Color_invisible}"
+                                                          IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.Color_invisible}"
                                                           Margin="0,0,0,0"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -5204,7 +5300,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Rectif_method_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Rectif_method, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Rectif_method, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5240,7 +5336,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Rectif_interpolation_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Rectif_interpolation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Rectif_interpolation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5280,7 +5376,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_3DStereoModel.Rectif_sub_sampling}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Rectif_sub_sampling}">
                                                 <!--<i:Interaction.Triggers>
 
            <i:EventTrigger EventName="PreviewMouseUp">
@@ -5325,7 +5421,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Disparity_method_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Disparity_Method_Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5366,7 +5462,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="-1"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_score_thresh}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_score_thresh}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5412,7 +5508,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_method_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_method, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_method, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5451,7 +5547,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_num_levels}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_num_levels}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5498,7 +5594,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="3"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mask_width}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mask_width}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5545,7 +5641,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mask_height}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mask_height}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5593,7 +5689,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_texture_thresh}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_texture_thresh}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5639,7 +5735,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_filter_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_filter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_filter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5676,7 +5772,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_sub_disparity_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_sub_disparity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_sub_disparity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5716,7 +5812,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_gray_constancy}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_gray_constancy}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5761,7 +5857,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_3DStereoModel.binocular_mg_gradient_constancy}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.binocular_mg_gradient_constancy}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5807,7 +5903,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_smoothness}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_smoothness}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5852,7 +5948,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_initial_guess}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_initial_guess}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -5898,7 +5994,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_default_parameters_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_mg_default_parameters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_default_parameters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5935,7 +6031,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_solver_Value}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_mg_solver, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_solver, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -5973,7 +6069,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_cycle_type_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_mg_cycle_type, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_cycle_type, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -6012,7 +6108,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_pre_relax}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_pre_relax}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6058,7 +6154,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_post_relax}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_post_relax}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6104,7 +6200,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="-2"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_initial_level}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_initial_level}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6150,7 +6246,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_iterations}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_iterations}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6195,7 +6291,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0.1"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_mg_pyramid_factor}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_mg_pyramid_factor}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6242,7 +6338,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_ms_surface_smoothing}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_ms_surface_smoothing}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6289,7 +6385,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Binocular_ms_edge_smoothing}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_ms_edge_smoothing}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6330,7 +6426,7 @@ PassEventArgsToCommand="True" />
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="binocular_ms_consistency_check_UI" Grid.Column=" 1"
-                                                          IsChecked="{Binding Halcon_3DStereoModel.Binocular_ms_consistency_check}"
+                                                          IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_ms_consistency_check}"
                                                           Margin="0,0,0,0"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -6393,7 +6489,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_ms_similarity_measure_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Binocular_ms_similarity_measure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_ms_similarity_measure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -6426,7 +6522,7 @@ PassEventArgsToCommand="True" />
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="binocular_ms_sub_disparity_UI" Grid.Column=" 1"
-                                                          IsChecked="{Binding Halcon_3DStereoModel. Binocular_ms_sub_disparity}"
+                                                          IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.Binocular_ms_sub_disparity}"
                                                           Margin="0,0,0,0"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -6491,7 +6587,7 @@ PassEventArgsToCommand="True" />
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Point_meshing_Value_Enum}"
-                                                      SelectedValue="{Binding Halcon_3DStereoModel.Point_meshing, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                      SelectedValue="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -6531,7 +6627,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="3"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Poisson_depth}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Poisson_depth}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6578,7 +6674,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="3"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Poisson_solver_divide}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Poisson_solver_divide}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6624,7 +6720,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Poisson_samples_per_node}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Poisson_samples_per_node}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6674,7 +6770,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="1"
                                                     SmallChange="1"
                                                     TickFrequency="1"
-                                                    Value="{Binding Halcon_3DStereoModel.Sub_sampling_step}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Sub_sampling_step}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6724,7 +6820,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.001"
                                                     TickFrequency="0.001"
-                                                    Value="{Binding Halcon_3DStereoModel.Resolution}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Resolution}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6769,7 +6865,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.001"
                                                     TickFrequency="0.001"
-                                                    Value="{Binding Halcon_3DStereoModel.Surface_tolerance}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Surface_tolerance}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6815,7 +6911,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.001"
                                                     TickFrequency="0.001"
-                                                    Value="{Binding Halcon_3DStereoModel.Min_thickness}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Min_thickness}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">
@@ -6862,7 +6958,7 @@ PassEventArgsToCommand="True" />
                                                     Minimum="0"
                                                     SmallChange="0.1"
                                                     TickFrequency="0.1"
-                                                    Value="{Binding Halcon_3DStereoModel.Smoothing}">
+                                                    Value="{Binding Select_Vision_Value.H3DStereo_ParamData.Smoothing}">
                                                 <!--<i:Interaction.Triggers>
 
     <i:EventTrigger EventName="PreviewMouseUp">

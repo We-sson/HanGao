@@ -1,4 +1,5 @@
 ﻿using Halcon_SDK_DLL.Halcon_Method;
+using HanGao.View.FrameShow;
 using HanGao.View.User_Control.Vision_Calibration;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
@@ -61,6 +62,10 @@ namespace HanGao.ViewModel
         /// 3D相机相关功能
         /// </summary>
         public Halcon_3DStereoModel_SDK Halcon_3DStereoModel { set; get; } = new Halcon_3DStereoModel_SDK();
+
+
+
+
 
         /// <summary>
         /// 手眼机器人通讯参数
@@ -944,6 +949,12 @@ namespace HanGao.ViewModel
 
 
 
+
+                        }
+                        else
+                        {
+                            Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State = TwoCamera_Drive_State_Enum.unknown;
+                            Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State = TwoCamera_Drive_State_Enum.unknown;
 
                         }
 
@@ -3294,6 +3305,13 @@ namespace HanGao.ViewModel
                     //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode = null;
 
 
+
+
+                    Camera_Device_List.Select_3DCamera_0?.Close_Camera();
+                    Camera_Device_List.Select_3DCamera_1?.Close_Camera();
+                    Halcon_3DStereoModel.TwoCamera_Connect_Sate = false;
+                    User_Log_Add("已经切换2D相机，断开3D相机硬件成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
                 }
 
 
@@ -3318,6 +3336,9 @@ namespace HanGao.ViewModel
                 {
 
 
+                    Camera_Devices_2D3D_Switch.Throw("请选择3D相机模式后再选择！").IfEquals(true);
+
+
                     Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Load_CameraDive_Parameters();
 
 
@@ -3326,7 +3347,7 @@ namespace HanGao.ViewModel
                 catch (Exception e)
                 {
 
-                    User_Log_Add("读取配置文件错误！原因：" + e.Message, Log_Show_Window_Enum.Home);
+                    User_Log_Add("读取配置文件错误！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
                 }
 

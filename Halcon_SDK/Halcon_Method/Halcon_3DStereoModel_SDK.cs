@@ -39,6 +39,220 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public Halcon_Image_Preprocessing_Process_SDK Stereo_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK();
 
+
+
+        /// <summary>
+        /// 三维成像参数
+        /// </summary>
+        //public H3DStereo_ParamData_Model H3DStereo_ParamData { set; get; } = new H3DStereo_ParamData_Model();
+
+
+
+
+
+
+        /// <summary>
+        /// 本地双目相机标定文件列表信息
+        /// </summary>
+        public ObservableCollection<TwoCamera_Calibration_Model> TwoCamera_Calibration_HCameraSetupModel_List { set; get; } = new ObservableCollection<TwoCamera_Calibration_Model>();
+
+
+        /// <summary>
+        /// 选择的双目相机标定文件
+        /// </summary>
+        public TwoCamera_Calibration_Model Select_TwoCamera_Calibration_HCameraSetupMode { set; get; } = new TwoCamera_Calibration_Model();
+
+        /// <summary>
+        /// 标定结果保存文件夹
+        /// </summary>
+        private string TwoCamera_Calibration_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File\\";
+
+
+        public bool TwoCamera_Connect_Sate { set; get; } = false;
+
+
+        /// <summary>
+        /// 加载本地文件下全部配置文件
+        /// </summary>
+        public void Load_TwoCamera_Calibration_Fold()
+        {
+
+
+            //判断位置是否存在
+            if (!Directory.Exists(TwoCamera_Calibration_Fold_Address)) Directory.CreateDirectory(TwoCamera_Calibration_Fold_Address);
+
+
+            //获得的文件夹内文件
+            FileInfo[] Files = new DirectoryInfo(TwoCamera_Calibration_Fold_Address).GetFiles();
+
+            //删除旧数据
+            TwoCamera_Calibration_HCameraSetupModel_List.Clear();
+            //读取标定板文件
+            foreach (var file in Files)
+            {
+                if (file.Extension.Equals(".csm"))
+                {
+                    //添加到列表中
+                    //TwoCamera_Calibration_Fold.Add(file);
+
+
+                    TwoCamera_Calibration_HCameraSetupModel_List.Add(new TwoCamera_Calibration_Model() { Fold = file, TwoCamera_HCameraSetup = new HCameraSetupModel(file.FullName) });
+                }
+            }
+
+
+            //默认选择第一个
+            //if (TwoCamera_Calibration_HCameraSetupModel_List.Count > 1)
+            //{
+
+            //    Select_TwoCamera_Calibration_HCameraSetupMode = TwoCamera_Calibration_HCameraSetupModel_List[0];
+            //}
+
+
+        }
+
+
+
+
+
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    public class TwoCamera_Calibration_Model
+    {
+        /// <summary>
+        /// 初始化时候读取文件
+        /// </summary>
+        public TwoCamera_Calibration_Model()
+        {
+
+
+            //Load_CameraDive_Parameters();
+
+        }
+
+        private FileInfo? _Fold;
+
+        /// <summary>
+        /// 配置文件位置
+        /// </summary>
+        public FileInfo? Fold
+        {
+            get { return _Fold; }
+            set
+            {
+
+                try
+                {
+
+
+                    if (value == null) { throw new Exception(); }
+
+                    List<string> _Camerakey = new List<string>(value.Name.Split('.')[0].Split('_'));
+
+                    if (_Camerakey.Count == 2)
+                    {
+                        Camera_0_Key = _Camerakey[0];
+                        Camera_1_Key = _Camerakey[1];
+
+
+
+
+
+
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch (Exception)
+                {
+
+                    Camera_0_Key = "文件名称错误..";
+                    Camera_1_Key = "文件名称错误..";
+
+
+                }
+
+                _Fold = value;
+            }
+        }
+
+
+
+
+        public HCameraSetupModel TwoCamera_HCameraSetup { set; get; } = new HCameraSetupModel();
+
+
+        public string Camera_0_Key { set; get; } = string.Empty;
+        public string Camera_1_Key { set; get; } = string.Empty;
+
+
+
+
+
+
+        public Halcon_Camera_Calibration_Parameters_Model Camera_0_Parameters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+        public Halcon_Camera_Calibration_Parameters_Model Camera_1_Parameters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
+
+
+        public ObservableCollection<String> Camera_0_CameraSetup_Info { set; get; } = [];
+        public ObservableCollection<String> Camera_1_CameraSetup_Info { set; get; } = [];
+
+
+
+
+        public TwoCamera_Drive_State_Enum Camera_0_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
+        public TwoCamera_Drive_State_Enum Camera_1_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
+
+
+        /// <summary>
+        /// 配置文件加载参数方法
+        /// </summary>
+        public void Load_CameraDive_Parameters()
+        {
+
+            if (Fold != null)
+            {
+
+
+
+                TwoCamera_HCameraSetup.ReadCameraSetupModel(Fold.FullName);
+
+                Camera_0_Parameters = new Halcon_Camera_Calibration_Parameters_Model(new HCamPar(TwoCamera_HCameraSetup.GetCameraSetupParam(0, "params")));
+                Camera_1_Parameters = new Halcon_Camera_Calibration_Parameters_Model(new HCamPar(TwoCamera_HCameraSetup.GetCameraSetupParam(1, "params")));
+
+
+                Camera_0_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_0_Parameters.Camera_Parameter_Info_List));
+                Camera_1_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_1_Parameters.Camera_Parameter_Info_List));
+
+
+
+            }
+            else
+            {
+
+                new Exception("配置文件数据损坏！");
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+    }
+
+
+    public  class H3DStereo_ParamData_Model
+    {
+
         /// <summary>
         /// 图像处理流程设备切换
         /// </summary>
@@ -48,6 +262,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// 重建方法。
         /// </summary>
         public H3DStereo_Method_Enum H3DStereo_Method { set; get; } = H3DStereo_Method_Enum.surface_pairwise;
+
+        /// <summary>
+        /// 生产图像类型
+        /// </summary>
+        public H3DStereo_Image_Type_Enum H3DStereo_Image_Type { set; get; } = H3DStereo_Image_Type_Enum.点云图像;
 
 
 
@@ -350,204 +569,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        /// <summary>
-        /// 本地双目相机标定文件列表信息
-        /// </summary>
-        public ObservableCollection<TwoCamera_Calibration_Model> TwoCamera_Calibration_HCameraSetupModel_List { set; get; } = new ObservableCollection<TwoCamera_Calibration_Model>();
-
-
-        /// <summary>
-        /// 选择的双目相机标定文件
-        /// </summary>
-        public TwoCamera_Calibration_Model Select_TwoCamera_Calibration_HCameraSetupMode { set; get; } = new TwoCamera_Calibration_Model();
-
-        /// <summary>
-        /// 标定结果保存文件夹
-        /// </summary>
-        private string TwoCamera_Calibration_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File\\";
-
-
-
-        /// <summary>
-        /// 加载本地文件下全部配置文件
-        /// </summary>
-        public void Load_TwoCamera_Calibration_Fold()
-        {
-
-
-            //判断位置是否存在
-            if (!Directory.Exists(TwoCamera_Calibration_Fold_Address)) Directory.CreateDirectory(TwoCamera_Calibration_Fold_Address);
-
-
-            //获得的文件夹内文件
-            FileInfo[] Files = new DirectoryInfo(TwoCamera_Calibration_Fold_Address).GetFiles();
-
-            //删除旧数据
-            TwoCamera_Calibration_HCameraSetupModel_List.Clear();
-            //读取标定板文件
-            foreach (var file in Files)
-            {
-                if (file.Extension.Equals(".csm"))
-                {
-                    //添加到列表中
-                    //TwoCamera_Calibration_Fold.Add(file);
-
-
-                    TwoCamera_Calibration_HCameraSetupModel_List.Add(new TwoCamera_Calibration_Model() { Fold = file, TwoCamera_HCameraSetup = new HCameraSetupModel(file.FullName) });
-                }
-            }
-
-
-            //默认选择第一个
-            //if (TwoCamera_Calibration_HCameraSetupModel_List.Count > 1)
-            //{
-
-            //    Select_TwoCamera_Calibration_HCameraSetupMode = TwoCamera_Calibration_HCameraSetupModel_List[0];
-            //}
-
-
-        }
-
-
-
-
-
     }
-
-    [AddINotifyPropertyChangedInterface]
-    public class TwoCamera_Calibration_Model
-    {
-        /// <summary>
-        /// 初始化时候读取文件
-        /// </summary>
-        public TwoCamera_Calibration_Model()
-        {
-
-
-            //Load_CameraDive_Parameters();
-
-        }
-
-        private FileInfo? _Fold;
-
-        /// <summary>
-        /// 配置文件位置
-        /// </summary>
-        public FileInfo? Fold
-        {
-            get { return _Fold; }
-            set
-            {
-
-                try
-                {
-
-
-                    if (value == null) { throw new Exception(); }
-
-                    List<string> _Camerakey = new List<string>(value.Name.Split('.')[0].Split('_'));
-
-                    if (_Camerakey.Count == 2)
-                    {
-                        Camera_0_Key = _Camerakey[0];
-                        Camera_1_Key = _Camerakey[1];
-
-
-
-
-
-
-                    }
-                    else
-                    {
-                        throw new Exception();
-                    }
-                }
-                catch (Exception)
-                {
-
-                    Camera_0_Key = "文件名称错误..";
-                    Camera_1_Key = "文件名称错误..";
-
-
-                }
-
-                _Fold = value;
-            }
-        }
-
-
-
-        
-        public HCameraSetupModel TwoCamera_HCameraSetup { set; get; } = new HCameraSetupModel();
-
-
-        public string Camera_0_Key { set; get; } = string.Empty;
-        public string Camera_1_Key { set; get; } = string.Empty;
-
-
-
-
-
-
-        public Halcon_Camera_Calibration_Parameters_Model Camera_0_Parameters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
-        public Halcon_Camera_Calibration_Parameters_Model Camera_1_Parameters { set; get; } = new Halcon_Camera_Calibration_Parameters_Model();
-
-
-        public ObservableCollection<String> Camera_0_CameraSetup_Info { set; get; } = [];
-        public ObservableCollection<String> Camera_1_CameraSetup_Info { set; get; } = [];
-
-
-
-
-        public TwoCamera_Drive_State_Enum Camera_0_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
-        public TwoCamera_Drive_State_Enum Camera_1_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
-
-
-        /// <summary>
-        /// 配置文件加载参数方法
-        /// </summary>
-        public void Load_CameraDive_Parameters()
-        {
-
-            if (Fold != null)
-            {
-
-
-
-                TwoCamera_HCameraSetup.ReadCameraSetupModel(Fold.FullName);
-
-                Camera_0_Parameters = new Halcon_Camera_Calibration_Parameters_Model(new HCamPar(TwoCamera_HCameraSetup.GetCameraSetupParam(0, "params")));
-                Camera_1_Parameters = new Halcon_Camera_Calibration_Parameters_Model(new HCamPar(TwoCamera_HCameraSetup.GetCameraSetupParam(1, "params")));
-
-       
-                Camera_0_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_0_Parameters.Camera_Parameter_Info_List));
-                Camera_1_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_1_Parameters.Camera_Parameter_Info_List));
-
-
-
-            }
-            else
-            {
-
-                new Exception("配置文件数据损坏！");
-
-
-            }
-
-
-
-
-
-
-
-        }
-
-
-    }
-
-
-
 
 
     public enum H3DStereo_ParamName_Enum
@@ -793,6 +815,22 @@ namespace Halcon_SDK_DLL.Halcon_Method
         ///  surface_fusion参数：确定小额总计的重要性 将距离函数的变化与数据保真度进行了比较。
         /// </summary>
         smoothing
+
+
+
+    }
+
+
+
+    /// <summary>
+    /// 三维图像类型
+    /// </summary>
+    public enum H3DStereo_Image_Type_Enum
+    {
+   
+        点云图像,
+        深度图像,
+        融合图像,
 
 
 
