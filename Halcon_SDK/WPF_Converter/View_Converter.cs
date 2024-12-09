@@ -184,15 +184,22 @@ namespace Halcon_SDK_DLL.WPF_Converter
         }
         public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (Boolean.Parse(value.ToString()!))
+
+            if (value==null)
+            {
+                return Binding.DoNothing;
+
+            }
+            if (Boolean.Parse(value.ToString()!) )
             {
                 TypeDescriptor.GetConverter(targetType);
                 return (Enum)Enum.Parse(targetType, parameter.ToString()!);
             }
             else
             {
-                return null;
+                return Binding.DoNothing;
             }
+       
         }
     }
 

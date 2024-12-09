@@ -52,10 +52,7 @@ namespace HanGao.ViewModel
         /// </summary>
         public Halcon_External_Method_Model Halcon_External_Method { set; get; } = new Halcon_External_Method_Model();
 
-        /// <summary>
-        /// 相机设备2D3D切换类型
-        /// </summary>
-        public bool Camera_Devices_2D3D_Switch { set; get; } = true;
+
 
 
         /// <summary>
@@ -900,7 +897,7 @@ namespace HanGao.ViewModel
 
 
                         //双目相机模式下,处理相机状态显示
-                        if (!Camera_Devices_2D3D_Switch && Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode != null)
+                        if (!Select_Vision_Value.Camera_Devices_2D3D_Switch && Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode != null)
                         {
 
                             var _camera_0_Sata = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
@@ -3286,11 +3283,11 @@ namespace HanGao.ViewModel
             {
 
 
-                ToggleButton E = Sm.Source as ToggleButton;
+                  ToggleButton E = Sm.Source as ToggleButton;
 
 
                 ///切换2D3D模型晴空模型数据
-                if (!Camera_Devices_2D3D_Switch)
+                if (!Select_Vision_Value.Camera_Devices_2D3D_Switch)
                 {
 
                     //if (Halcon_3DStereoModel.TwoCamera_Calibration_HCameraSetupModel_List.Count>1)
@@ -3310,7 +3307,7 @@ namespace HanGao.ViewModel
                     Camera_Device_List.Select_3DCamera_0?.Close_Camera();
                     Camera_Device_List.Select_3DCamera_1?.Close_Camera();
                     Halcon_3DStereoModel.TwoCamera_Connect_Sate = false;
-                    User_Log_Add("已经切换2D相机，断开3D相机硬件成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    User_Log_Add("已经切换2D相机，断开3D相机硬件成功！", Log_Show_Window_Enum.Home);
 
                 }
 
@@ -3336,7 +3333,7 @@ namespace HanGao.ViewModel
                 {
 
 
-                    Camera_Devices_2D3D_Switch.Throw("请选择3D相机模式后再选择！").IfEquals(true);
+                    Select_Vision_Value. Camera_Devices_2D3D_Switch.Throw("请选择3D相机模式后再选择！").IfEquals(true);
 
 
                     Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Load_CameraDive_Parameters();

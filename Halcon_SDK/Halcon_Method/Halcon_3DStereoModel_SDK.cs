@@ -256,7 +256,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 图像处理流程设备切换
         /// </summary>
-        public bool Stereo_Preprocessing_CameraSwitch { set; get; } = false;
+        public bool Stereo_Preprocessing_CameraSwitch { set; get; } = true;
 
         /// <summary>
         /// 重建方法。
@@ -270,7 +270,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-
+        /// <summary>
+        /// 点云重建融合模式
+        /// </summary>
+        public bool Stereo_Image_3DFusion_Model { set; get; } = false;
 
 
 
@@ -830,7 +833,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
    
         点云图像,
         深度图像,
-        融合图像,
+     
 
 
 

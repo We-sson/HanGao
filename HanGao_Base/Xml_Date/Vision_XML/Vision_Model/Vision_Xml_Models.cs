@@ -6,10 +6,18 @@ using static MVS_SDK_Base.Model.MVS_Model;
 
 namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 {
+    [AddINotifyPropertyChangedInterface]
     [Serializable]
     [XmlRoot("Vision_Data")]
     public class Vision_Xml_Models
     {
+
+
+        /// <summary>
+        /// 相机设备2D3D切换类型
+        /// </summary>
+        public bool Camera_Devices_2D3D_Switch { set; get; } = true;
+
 
 
         public MVS_Camera_Parameter_Model Camera_Parameter_Data { set; get; } = new MVS_Camera_Parameter_Model();
