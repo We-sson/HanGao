@@ -51,6 +51,13 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public string Date_Last_Revise { get; set; } = DateTime.Now.ToString();
 
 
+        public void Get_Camera_H3DStereo_ParamData()
+        {
+
+
+
+
+        }
 
     }
 

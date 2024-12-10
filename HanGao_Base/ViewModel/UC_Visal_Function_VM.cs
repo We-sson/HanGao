@@ -2838,8 +2838,7 @@ namespace HanGao.ViewModel
                         //获得点击图像位置
                         Halcon_Shape_Mode.Chick_Position = new Point(_E.Row, _E.Column);
                         Halcon_Shape_Mode.Get_Pos_Gray(new HImage(_Load_Image));
-                        //HOperatorSet.GetGrayval(Load_Image, _E.Row, _E.Column, out HTuple _Gray);
-                        //Mouse_Pos_Gray = (int)_Gray.D;
+                 
                     }
                     catch (Exception e)
                     {
@@ -2848,28 +2847,12 @@ namespace HanGao.ViewModel
 
                     }
                 }
-                //MessageBox.Show("X:" + _E.Row.ToString() + " Y:" + _E.Column.ToString());
-                //全部控件显示居中
+      
 
             });
         }
 
-        //public static Task<TResult> WaitAsync<TResult>(Task<TResult> task, int timeout)
-        //{
-        //    task.Start();
-        //    if (task.Wait(timeout) == true)
-        //    {
-        //        //指定时间内完成的处理
-        //        return task;
-        //    }
-        //    else
-        //    {
-        //        //超时处理
-        //        task.Dispose();
-        //        return default;
-        //        //throw new TimeoutException("The operation has timed out.");
-        //    }
-        //}
+
 
         /// <summary>
         /// 添加直线特征点
@@ -3422,6 +3405,55 @@ namespace HanGao.ViewModel
                 }
             });
         }
+
+
+        /// <summary>
+        /// 相机同步采集采集图像功能
+        /// </summary>
+        public ICommand TwoCamera_GetImage_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+                //bool _State = false;
+
+                try
+                {
+                    //Camera_Device_List.Select_Camera.Connect_Camera();
+                    Select_Vision_Value.Camera_Devices_2D3D_Switch.Throw("请切换到3D相机模式下进行操作！").IfTrue();
+                    Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.ThrowIfNull("设备配置文件未选择！请检查文件。");
+
+                    Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
+                    Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
+                    Camera_Device_List.Select_3DCamera_0.Camer_Status.Throw("相机0号硬件未连接成功！请检查硬件。").IfEquals(MV_CAM_Device_Status_Enum.Connecting);
+                    Camera_Device_List.Select_3DCamera_1.Camer_Status.Throw("相机1号硬件未连接成功！请检查硬件。").IfEquals(MV_CAM_Device_Status_Enum.Connecting);
+
+
+
+                    Camera_Device_List.Select_Camera.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_Parameter_Data);
+
+
+
+
+
+                    User_Log_Add("双目相机同步采集图像成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+
+
+                }
+                catch (Exception _e)
+                {
+
+                    Camera_Device_List.Select_3DCamera_0?.Close_Camera();
+                    Camera_Device_List.Select_3DCamera_1?.Close_Camera();
+                    //Camera_Device_List.Select_3DCamera_0.Close_Camera();
+                    //Camera_Device_List.Select_3DCamera_1.Close_Camera();
+
+                    User_Log_Add("双目相机采集图像失败已断开连接！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+            });
+        }
+
+
 
 
 

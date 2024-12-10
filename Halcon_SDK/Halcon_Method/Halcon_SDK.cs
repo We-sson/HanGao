@@ -860,6 +860,13 @@ namespace Halcon_SDK_DLL
         /// </summary>
         public Halcon_SDK Features_Window { set; get; } = new Halcon_SDK();
 
+
+        /// <summary>
+        /// 相机三维图像窗口
+        /// </summary>
+        public Halcon_SDK Camera_3DImage_Window { set; get; } =new Halcon_SDK();
+
+
         /// <summary>
         /// 实施相机视角控件
         /// </summary>
@@ -910,41 +917,46 @@ namespace Halcon_SDK_DLL
         {
             switch (Window_UserContol.Name)
             {
-                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Live_Window):
+                case string  when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Live_Window):
                     //初始化halcon图像属性
                     Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Live_Window.HWindow.SetWindowParam("background_color", "#334C66");
                     break;
 
-                case string _N when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window):
+                case string  when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window):
                     //加载halcon图像属性
                     Features_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Features_Window.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Camera_3DImage_Window)):
+                    //加载halcon图像属性
+                    Camera_3DImage_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Camera_3DImage_Window.HWindow.SetWindowParam("background_color", "#334C66");
 
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_1)):
+                    break;
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_1)):
                     //加载halcon图像属性
                     Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Results_Window_1.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
 
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_2)):
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_2)):
                     //加载halcon图像属性
                     Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Results_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
 
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_3)):
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_3)):
                     //加载halcon图像属性
                     Results_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Results_Window_3.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
 
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_4)):
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_4)):
                     //加载halcon图像属性
                     Results_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Results_Window_4.HWindow.SetWindowParam("background_color", "#334C66");
@@ -973,42 +985,43 @@ namespace Halcon_SDK_DLL
                     HDisplay_3D = new H3D_Model_Display(Features_3D_Results);
 
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_2)):
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_2)):
                     //加载halcon图像属性
                     Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Calibration_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_1)):
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_1)):
                     //加载halcon图像属性
                     Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Calibration_Window_1.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_1)):
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_1)):
                     //加载halcon图像属性
                     HandEye_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     HandEye_Window_1.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_2)):
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_2)):
                     //加载halcon图像属性
                     HandEye_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     HandEye_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_1)):
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_1)):
                     //加载halcon图像属性
                     HandEye_Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     HandEye_Results_Window_1.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string _N when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_2)):
+                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_2)):
                     //加载halcon图像属性
                     HandEye_Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     HandEye_Results_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
+         
 
             }
             //设置halcon窗体大小

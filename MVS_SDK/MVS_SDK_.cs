@@ -85,6 +85,11 @@ namespace MVS_SDK
                 return CGCamera_List;
             }
         }
+
+
+
+
+
     }
 
     /// <summary>
