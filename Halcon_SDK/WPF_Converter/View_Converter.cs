@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
@@ -170,37 +171,59 @@ namespace Halcon_SDK_DLL.WPF_Converter
     /// </summary>
     public class Radio_CheckedToEnumConverter : IValueConverter
     {
+        //public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        //{
+        //    if (value.ToString() == parameter.ToString())
+        //    {
+        //        return true;
+
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+        //public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        //{
+
+        //    if (value==null)
+        //    {
+        //        return Binding.DoNothing;
+
+        //    }
+
+        //    var a=    TypeDescriptor.GetConverter(targetType);
+        //    if (Boolean.Parse(value.ToString()!) )
+        //    {
+        //        return (Enum)Enum.Parse(targetType, parameter.ToString()!);
+        //    }
+        //    else
+        //    {
+        //        return Binding.DoNothing;
+        //    }
+
+        //}
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.ToString() == parameter.ToString())
-            {
-                return true;
-
-            }
-            else
-            {
+            if (value == null || parameter == null)
                 return false;
-            }
+
+            return value.ToString() == parameter.ToString();
         }
-        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            //if (value is bool isChecked && isChecked && parameter != null)
+            //{
+            //    return Enum.Parse(targetType, parameter.ToString()!);
 
-            if (value==null)
-            {
-                return Binding.DoNothing;
-
-            }
-            if (Boolean.Parse(value.ToString()!) )
-            {
-                TypeDescriptor.GetConverter(targetType);
-                return (Enum)Enum.Parse(targetType, parameter.ToString()!);
-            }
-            else
-            {
-                return Binding.DoNothing;
-            }
-       
+            //}
+            return Enum.Parse(targetType, parameter!.ToString()!);
+            //return Binding.DoNothing;
         }
+
+
     }
 
 

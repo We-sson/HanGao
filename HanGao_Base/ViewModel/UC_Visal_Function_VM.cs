@@ -3333,8 +3333,8 @@ namespace HanGao.ViewModel
                 {
 
 
-                    Select_Vision_Value. Camera_Devices_2D3D_Switch.Throw("请选择3D相机模式后再选择！").IfEquals(true);
 
+                    Select_Vision_Value. Camera_Devices_2D3D_Switch.Throw("请选择3D相机模式后再选择！").IfEquals(true);
 
                     Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Load_CameraDive_Parameters();
 
@@ -3344,7 +3344,11 @@ namespace HanGao.ViewModel
                 catch (Exception e)
                 {
 
+
+
                     User_Log_Add("读取配置文件错误！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    //E.SelectedIndex = 0;
+
 
                 }
 
@@ -3371,6 +3375,7 @@ namespace HanGao.ViewModel
                 try
                 {
                     //Camera_Device_List.Select_Camera.Connect_Camera();
+                    Select_Vision_Value.Camera_Devices_2D3D_Switch.Throw("请切换到3D相机模式下进行操作！").IfTrue();
                     Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.ThrowIfNull("设备配置文件未选择！请检查文件。");
 
                     if ((bool)E.IsChecked)

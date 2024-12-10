@@ -1988,7 +1988,7 @@
                                             </StackPanel>
 
                                             <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Camera_Type" Grid.Column=" 1"
-                                                          IsChecked="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          IsChecked="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}"
                                                           Margin="8,10,8,10"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -2047,17 +2047,11 @@
                                     <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5" />
                                     <StackPanel Margin="5" Orientation="Vertical">
 
-
-
-
                                         <Grid Height="38" Margin="0,4,0,4">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
-
                                                 <ColumnDefinition Width=" *" />
-
-
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="设备模式"
                                                        HorizontalAlignment="Left"
@@ -2076,8 +2070,7 @@
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition />
-                                                        <ColumnDefinition />
-
+                                                        <ColumnDefinition Width="116.5" />
                                                     </Grid.ColumnDefinitions>
 
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
@@ -3099,10 +3092,10 @@
                                                         SmallChange="1">
                                                     <Slider.Style>
                                                         <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                            <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.BlackLevel}" />
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="true">
-                                                                    <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.BlackLevel}" />
-                                                                </DataTrigger>
+
+
                                                                 <MultiDataTrigger>
                                                                     <MultiDataTrigger.Conditions>
                                                                         <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
@@ -3183,42 +3176,176 @@
                                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                         BorderThickness="0,0,0,0">
                                                     <Grid>
-                                                        <!--<Grid.Style>
-                                                            <Style TargetType="Grid">
-                                                                <Setter Property="DataContext" Value="{Binding Select_Vision_Value}" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false">
-                                                                        <Setter Property="DataContext" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter}" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Grid.Style>-->
+
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition />
                                                             <ColumnDefinition />
                                                             <ColumnDefinition />
                                                         </Grid.ColumnDefinitions>
 
-                                                        <RadioButton Grid.Column=" 0"
+
+                                                        <!--<RadioButton Grid.Column=" 0"
                                                                      Content="OFF"
                                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                     FontSize=" 16"
+                                                                     FontSize="16"
                                                                      GroupName="Lighting_Control">
+
                                                             <RadioButton.Style>
                                                                 <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
 
                                                                     <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="true">
-                                                                            <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
-                                                                        </DataTrigger>
+
                                                                         <MultiDataTrigger>
                                                                             <MultiDataTrigger.Conditions>
+
+                                                                                <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="true" />
+
+
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+
+                                                                                <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+
+
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+
+
+
+
+                                                                    </Style.Triggers>
+                                                                </Style>
+
+                                                            </RadioButton.Style>
+
+
+                                                        </RadioButton>
+                                                        <RadioButton Grid.Column=" 1"
+                                                                     Content="ON"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="Lighting_Control">
+
+                                                            <RadioButton.Style>
+                                                                <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
+
+                                                                    <Style.Triggers>
+
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+
+                                                                                <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="true" />
+
+
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+
+                                                                                <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+
+
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+
+
+
+
+                                                                    </Style.Triggers>
+                                                                </Style>
+
+                                                            </RadioButton.Style>
+
+
+                                                        </RadioButton>
+                                                        <RadioButton Grid.Column=" 2"
+                                                                     Content="AUTO"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="Lighting_Control">
+
+                                                            <RadioButton.Style>
+                                                                <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
+
+                                                                    <Style.Triggers>
+
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+
+                                                                                <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="true" />
+
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+
+                                                                                <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+
+
+
+
+                                                                    </Style.Triggers>
+                                                                </Style>
+
+                                                            </RadioButton.Style>
+
+
+                                                        </RadioButton>-->
+
+
+                                                        <RadioButton Grid.Column=" 0"
+                                                                     Content="OFF"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="Lighting_Control">
+
+                                                            <RadioButton.Style>
+                                                                <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
+
+                                                                    <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+                                                                    <Style.Triggers>
+
+
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+
                                                                                 <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
                                                                                 <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}" Value="true" />
                                                                                 <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+
                                                                             </MultiDataTrigger.Conditions>
                                                                             <MultiDataTrigger.Setters>
-                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
                                                                         <MultiDataTrigger>
@@ -3228,7 +3355,9 @@
                                                                                 <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
                                                                             </MultiDataTrigger.Conditions>
                                                                             <MultiDataTrigger.Setters>
+
                                                                                 <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
                                                                         <MultiDataTrigger>
@@ -3238,7 +3367,9 @@
                                                                                 <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
                                                                             </MultiDataTrigger.Conditions>
                                                                             <MultiDataTrigger.Setters>
+
                                                                                 <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
                                                                         <MultiDataTrigger>
@@ -3259,20 +3390,22 @@
                                                                 </Style>
 
                                                             </RadioButton.Style>
-                                                        </RadioButton>
 
+
+                                                        </RadioButton>
                                                         <RadioButton Grid.Column=" 1"
                                                                      Content="ON"
                                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                      FontSize="16"
                                                                      GroupName="Lighting_Control">
+
                                                             <RadioButton.Style>
                                                                 <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
 
+                                                                    <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
                                                                     <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="true">
-                                                                            <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
-                                                                        </DataTrigger>
+
+
                                                                         <MultiDataTrigger>
                                                                             <MultiDataTrigger.Conditions>
                                                                                 <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
@@ -3281,7 +3414,7 @@
                                                                             </MultiDataTrigger.Conditions>
                                                                             <MultiDataTrigger.Setters>
 
-                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
                                                                         <MultiDataTrigger>
@@ -3292,7 +3425,7 @@
                                                                             </MultiDataTrigger.Conditions>
                                                                             <MultiDataTrigger.Setters>
 
-                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
 
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
@@ -3304,7 +3437,7 @@
                                                                             </MultiDataTrigger.Conditions>
                                                                             <MultiDataTrigger.Setters>
 
-                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
 
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
@@ -3317,7 +3450,7 @@
                                                                             <MultiDataTrigger.Setters>
 
 
-                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
 
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
@@ -3326,6 +3459,8 @@
                                                                 </Style>
 
                                                             </RadioButton.Style>
+
+
                                                         </RadioButton>
                                                         <RadioButton Grid.Column=" 2"
                                                                      Content="Auto"
@@ -3336,10 +3471,10 @@
                                                             <RadioButton.Style>
                                                                 <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
 
+                                                                    <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
                                                                     <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="true">
-                                                                            <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
-                                                                        </DataTrigger>
+
+
                                                                         <MultiDataTrigger>
                                                                             <MultiDataTrigger.Conditions>
                                                                                 <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
@@ -3348,7 +3483,7 @@
                                                                             </MultiDataTrigger.Conditions>
                                                                             <MultiDataTrigger.Setters>
 
-                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
                                                                         <MultiDataTrigger>
@@ -3359,7 +3494,7 @@
                                                                             </MultiDataTrigger.Conditions>
                                                                             <MultiDataTrigger.Setters>
 
-                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
 
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
@@ -3371,7 +3506,7 @@
                                                                             </MultiDataTrigger.Conditions>
                                                                             <MultiDataTrigger.Setters>
 
-                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
 
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
@@ -3384,7 +3519,7 @@
                                                                             <MultiDataTrigger.Setters>
 
 
-                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
 
                                                                             </MultiDataTrigger.Setters>
                                                                         </MultiDataTrigger>
@@ -3433,15 +3568,73 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="AcquisitionMode" Grid.Column=" 1"
+                                                <ComboBox x:Name="AcquisitionMode" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
                                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                           BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
-                                                          ItemsSource="{Enum_Converter:EnumBindingSource MVS:MV_CAM_ACQUISITION_MODE}"
-                                                          SelectedValue="{Binding Select_Vision_Value.Camera_Parameter_Data.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                          ItemsSource="{Enum_Converter:EnumBindingSource MVS:MV_CAM_ACQUISITION_MODE}">
+                                                    <ComboBox.Style>
+                                                        <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                            <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                                            <Style.Triggers>
+
+
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}" Value="true" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}" Value="false" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+
+                                                                        <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}" Value="true" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}" Value="false" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ComboBox.Style>
+
+
+
                                                     <ComboBox.ItemTemplate>
                                                         <DataTemplate>
                                                             <TextBlock Text="{Binding}"
@@ -3711,11 +3904,125 @@
                                             </ComboBox>
                                         </Grid>
 
+
+                                        <Grid Height=" 38" Margin="0,5,0,5">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition />
+
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="点云类型"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <Border Grid.Column=" 1"
+                                                    Margin="0,0,0,0"
+                                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                    BorderThickness="0,0,0,0">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DPoint_Type" Grid.Column=" 0"
+                                                                 Content="3D点云"
+                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}}"
+                                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                 FontSize=" 16"
+                                                                 GroupName="3D_Type_Switch" />
+                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DDepth_Type" Grid.Column=" 1"
+                                                                 Content="深度图"
+                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
+                                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                 FontSize="16"
+                                                                 GroupName="3D_Type_Switch" />
+
+                                                </Grid>
+
+                                            </Border>
+
+
+
+
+                                        </Grid>
+
+
+
+
+                                        <Grid Height=" 38 " Margin="0,8,0,8">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Grid.Column=" 0"
+                                                       Text="相机参数"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Two_Camera_ParamDate_Switch_UI" Grid.Column=" 1"
+                                                          IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}"
+                                                          Margin="0,0,0,0"
+                                                          Padding="0"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Center"
+                                                          Background="{DynamicResource 全局_背景_白颜色}"
+                                                          BorderThickness="2"
+                                                          Tag="Camera_1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column=" 0"
+                                                               Text="Camera_0"
+                                                               Padding="0,0,0,0"
+                                                               HorizontalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize=" 14"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                    <TextBlock Grid.Column=" 1"
+                                                               Text="Camera_1"
+                                                               Padding="0,0,0,0"
+                                                               HorizontalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize=" 14"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                </Grid>
+
+                                                <!--<i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>-->
+
+                                            </ToggleButton>
+
+                                        </Grid>
+
                                         <Border Height=" 2"
                                                 Margin="8,5,8,5"
                                                 Background="{DynamicResource 全局_按钮_深蓝颜色}"
                                                 CornerRadius="1"
                                                 Opacity=" 0.5" />
+
 
                                         <Grid Margin="0,8,0,8">
                                             <Grid.ColumnDefinitions>
@@ -3972,11 +4279,16 @@
 
                                                 <i:Interaction.Triggers>
 
-                                                    <i:EventTrigger EventName="IsChecked">
+                                                    <i:EventTrigger EventName="Click">
                                                         <i:InvokeCommandAction Command="{Binding TwoCamera_Connect_Comm}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
+                                                    <!--<i:EventTrigger EventName="Checked">
+                                                        <i:InvokeCommandAction Command="{Binding TwoCamera_Connect_Comm}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                               PassEventArgsToCommand="True" />
+                                                    </i:EventTrigger>-->
                                                 </i:Interaction.Triggers>
                                             </CheckBox>
 
@@ -4025,117 +4337,6 @@
 
 
 
-                                        <Grid Height=" 38" Margin="0,5,0,5">
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="90" />
-                                                <ColumnDefinition />
-
-                                            </Grid.ColumnDefinitions>
-
-
-                                            <TextBlock Grid.Column=" 0"
-                                                       Text="点云类型"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                            <Border Grid.Column=" 1"
-                                                    Margin="0,0,0,0"
-                                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                    BorderThickness="0,0,0,0">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition />
-
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DPoint_Type" Grid.Column=" 0"
-                                                                 Content="3D点云"
-                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}}"
-                                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                 FontSize=" 16"
-                                                                 GroupName="3D_Type_Switch" />
-                                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DDepth_Type" Grid.Column=" 1"
-                                                                 Content="深度图"
-                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
-                                                                 FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                 FontSize="16"
-                                                                 GroupName="3D_Type_Switch" />
-
-                                                </Grid>
-
-                                            </Border>
-
-
-
-
-                                        </Grid>
-
-
-
-
-                                        <Grid Height=" 38 " Margin="0,8,0,8">
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width=" 90" />
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
-
-
-                                            <TextBlock Grid.Column=" 0"
-                                                       Text="相机参数"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                       FontSize="16"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Two_Camera_ParamDate_Switch_UI" Grid.Column=" 1"
-                                                          IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}"
-                                                          Margin="0,0,0,0"
-                                                          Padding="0"
-                                                          HorizontalContentAlignment="Stretch"
-                                                          VerticalContentAlignment="Center"
-                                                          Background="{DynamicResource 全局_背景_白颜色}"
-                                                          BorderThickness="2"
-                                                          Tag="Camera_1">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column=" 0"
-                                                               Text="Camera_0"
-                                                               Padding="0,0,0,0"
-                                                               HorizontalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize=" 14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                                    <TextBlock Grid.Column=" 1"
-                                                               Text="Camera_1"
-                                                               Padding="0,0,0,0"
-                                                               HorizontalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize=" 14"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                </Grid>
-
-                                                <!--<i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding}"
-                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>-->
-
-                                            </ToggleButton>
-
-                                        </Grid>
 
 
 
