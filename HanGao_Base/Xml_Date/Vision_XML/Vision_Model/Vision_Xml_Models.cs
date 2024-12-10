@@ -27,6 +27,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public MVS_Camera_Parameter_Model Camera_0_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
         public MVS_Camera_Parameter_Model Camera_1_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
 
+
         public MVS_Camera_Parameter_Model Camera_0_3DFusionImage_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
         public MVS_Camera_Parameter_Model Camera_1_3DFusionImage_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
 

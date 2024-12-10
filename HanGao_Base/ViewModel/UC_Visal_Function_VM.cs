@@ -3432,6 +3432,35 @@ namespace HanGao.ViewModel
 
                     Camera_Device_List.Select_Camera.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_Parameter_Data);
 
+              
+                    switch (Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type)
+                    {
+                        case H3DStereo_Image_Type_Enum.点云图像:
+
+                            Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+                            Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
+                            break;
+                        case H3DStereo_Image_Type_Enum.深度图像:
+
+
+                            Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DFusionImage_Parameter);
+                            Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DFusionImage_Parameter);
+
+                            break;
+                   
+                    }
+
+
+
+
+
+                    if (Select_Vision_Value.H3DStereo_ParamData.Stereo_Image_3DFusion_Model)
+                    {
+
+                    }
+
+
+
 
 
 

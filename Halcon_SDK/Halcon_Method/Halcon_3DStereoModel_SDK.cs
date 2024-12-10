@@ -68,6 +68,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         private string TwoCamera_Calibration_Fold_Address { set; get; } = Directory.GetCurrentDirectory() + "\\Calibration_File\\";
 
 
+        /// <summary>
+        /// 相机连接状态
+        /// </summary>
         public bool TwoCamera_Connect_Sate { set; get; } = false;
 
 
