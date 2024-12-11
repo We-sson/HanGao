@@ -902,11 +902,10 @@
                                                            VerticalContentAlignment="Center"
                                                            HDisableAutoResize="True"
                                                            HKeepAspectRatio="True"
-                                                           SnapsToDevicePixels="True"
-                                                           Visibility="Visible">
+                                                           SnapsToDevicePixels="True">
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Camera_3DImage_Window.DisplayImage}" />
-                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Camera_3DImage_Window.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                                HDraw="{Binding Halcon_Window_Display.Camera_3DImage_Window.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Camera_3DImage_Window.SetDisplay.SetColor}"
+                                                                HDraw="{Binding Halcon_Window_Display.Camera_3DImage_Window.SetDisplay.SetDraw}"
                                                                 IconicObject="{Binding Halcon_Window_Display.Camera_3DImage_Window.DisplayRegion}" />
                                 <Halcon:HIconicDisplayObjectWPF HColor="green"
                                                                 IconicObject="{Binding Halcon_Window_Display.Camera_3DImage_Window.DisplayXLD}"

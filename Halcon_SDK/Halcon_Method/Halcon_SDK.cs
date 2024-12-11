@@ -1304,7 +1304,9 @@ namespace Halcon_SDK_DLL
                 case Window_Show_Name_Enum.Live_Window:
                     Live_Window.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
                     break;
-
+                case Window_Show_Name_Enum.Camera_3DImage_Window:
+                    Camera_3DImage_Window.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
                 case Window_Show_Name_Enum.Features_Window:
                     Features_Window.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
                     break;
@@ -1374,7 +1376,10 @@ namespace Halcon_SDK_DLL
                 case Window_Show_Name_Enum.Features_Window:
                     _WindowDisplay = Features_Window;
                     break;
-
+         
+                case Window_Show_Name_Enum.Camera_3DImage_Window:
+                    _WindowDisplay = Camera_3DImage_Window;
+                    break;
                 case Window_Show_Name_Enum.Results_Window_1:
                     _WindowDisplay = Results_Window_1;
                     break;

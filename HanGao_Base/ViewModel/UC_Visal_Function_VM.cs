@@ -2576,8 +2576,8 @@ namespace HanGao.ViewModel
 
 
 
-
                         Camera_Device_List.Select_Camera.ThrowIfNull("未选择相机设备，不能采集图像！");
+                        Camera_Device_List.Select_Camera.Camer_Status.Throw("未正确连接相机，请检测硬件！").IfNotEquals(MV_CAM_Device_Status_Enum.Connecting);
 
 
                         //清除实时模型连接
@@ -2618,72 +2618,18 @@ namespace HanGao.ViewModel
 
 
 
-                ///增加判断避免过快采集
-                //if (_Load_Image.IsInitialized())
-                //{
-                //Load_Image = new HImage(_Load_Image);
 
-                //选择查找视觉号的模型
-                Halcon_Shape_Mode.Selected_Shape_Model = Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID);
+                ////选择查找视觉号的模型
+                //Halcon_Shape_Mode.Selected_Shape_Model = Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID);
 
-                //进行图像校正处理
-                _Load_Image.Dispose();
-                _Image = Halcon_Shape_Mode.Shape_Match_Map(_Image, Select_Vision_Value.Find_Shape_Data.Auto_Image_Rectified, Select_Vision_Value.Find_Shape_Data.Compulsory_Image_Rectified);
-                _Load_Image = _Image;
-                //Halcon_Shape_Mode_SDK.Image_Rectified = Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID)?.Shape_Image_Rectified;
-                ///有校正图像将校正
-                //if (Halcon_Shape_Mode.Selected_Shape_Model != null && Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified.IsInitialized() && Halcon_Shape_Mode.Auto_Image_Rectified)
-                //{
-
-                //    HImage _HI = new HImage();
-
-                //    //_HI = new HImage(Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified);
-                //    //HOperatorSet.MapImage(_Load_Image, _Rectified, out _HI);
-                //    try
-                //    {
-
-                //        //using (_HI = Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified.Clone())
-                //        //{
-                //        _HI = Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified.CopyImage();
-                //            //_HI.GenRadialDistortionMap(Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters.HCamPar, "bilinear");
-
-
-                //             var aa= HSystem.GetSystem("temp_mem");
-                //             var bb= HSystem.GetSystem("tsp_temporary_mem_cache_block_sizes");
-                //             var cc= HSystem.GetSystem("temporary_mem_reservoir_block_sizes");
-                //             var dd= HSystem.GetSystem("alloctmp_max_used");
-                //             var ee= HSystem.GetSystem("memory_allocators_supported");
-
-                //        _Load_Image.Dispose();
-                //        _Load_Image = null;
-                //        Map_Image_Fun _Map = new Map_Image_Fun(_Image, _HI);
-                //        _Load_Image = _Map.Result_Image;
-
-                //            //_Load_Image = _Load_Image.MapImage(_HI);
+                ////进行图像校正处理
+                //_Load_Image.Dispose();
+                //_Image = Halcon_Shape_Mode.Shape_Match_Map(_Image, Select_Vision_Value.Find_Shape_Data.Auto_Image_Rectified, Select_Vision_Value.Find_Shape_Data.Compulsory_Image_Rectified);
+                //_Load_Image = _Image;
+            
 
 
 
-                //        //}
-                //    }
-                //    catch (AccessViolationException e)
-                //    {
-
-                //        throw new Exception(e.Message);
-                //    }
-
-
-                //}
-
-                //获得图像内存地址，随时调用
-                //Load_Image = _Image;
-                //GC.KeepAlive(_Image);
-                //Application.Current.Dispatcher.Invoke(() =>
-                //{
-                //    Halcon_Window_Display.Display_HObject(_HW, Load_Image, Image_AutoPart: true);
-                //});
-
-                //显示图像
-                //_Window.DisplayImage = _Image;
                 //保存图像当当前目录下
                 if (Global_Seting.IsVisual_image_saving)
                 {
@@ -2691,12 +2637,7 @@ namespace HanGao.ViewModel
                     //{
                     //}
                 }
-                //}
-                //else
-                //{
-                //    throw new Exception("采集速度过快属性未能初始化完成，请重试！");
-
-                //}
+       
 
                 return _Image;
             }
@@ -2707,49 +2648,10 @@ namespace HanGao.ViewModel
             //return new HPR_Status_Model<bool>(HVE_Result_Enum.Run_OK) { Result_Error_Info = "采集图像方法成功！" };
         }
 
-        //private static readonly object obj = new object();
-        //HImage Tmp;
-        //HObject _Load_Image_Tmp = new HObject();
-        //public HObject GetImage(Image_Diver_Model_Enum _Get_Model, Window_Show_Name_Enum _HW, string _path = "")
-        //{
-        //    HObject _Load_Image2 = null;
 
-        //    lock (obj)
-        //    {
-        //        Halcon_Shape_Mode.Selected_Shape_Model = Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID);
-        //        switch (_Get_Model)
-        //        {
-        //            case Image_Diver_Model_Enum.Online:
-        //                Camera_Device_List.Select_Camera.ThrowIfNull("未选择相机设备，不能采集图像！");
-        //                _Load_Image_Tmp = Camera_Device_List.Select_Camera.GetOneFrameTimeout(Select_Vision_Value.Camera_Parameter_Data);
-        //                //采集后断开相机,以免枪夺权限
-        //                Camera_Device_List.Select_Camera.Stop_ImageCallback_delegate();
-        //                //Camera_Device_List.Select_Camera.Close_Camera();
-        //                //return new HPR_Status_Model<bool>(HVE_Result_Enum.图像文件读取失败);
-        //                break;
-        //            case Image_Diver_Model_Enum.Local:
-        //                if (File.Exists(_path))
-        //                {
-        //                    _Load_Image_Tmp?.Dispose();
-        //                    _Load_Image_Tmp = null;
-        //                    //_Load_Image_Tmp = new HImage();
-        //                    //HTuple das = null;
-        //                    //  _Load_Image_Tmp.ReadImage(_path);
-        //                    HOperatorSet.ReadImage(out _Load_Image_Tmp, _path);
-        //                    Tmp = Halcon_Shape_Mode.Selected_Shape_Model.Shape_Image_Rectified.Clone();
-        //                    //HOperatorSet.GetGrayval(_Load_Image_Tmp, 20, 600, out HTuple val1);
-        //                    HOperatorSet.MapImage(_Load_Image_Tmp, Tmp, out _Load_Image2);
-        //                    //_Load_Image2= _Load_Image_Tmp.MapImage(Tmp);
-        //                }
-        //                else
-        //                {
-        //                    throw new Exception("读取的地址不是文件，请重新选择！");
-        //                }
-        //                break;
-        //        }
-        //        return _Load_Image2;
-        //    }
-        //}
+
+
+
 
 
         public ICommand Selected_Calib_PathInBase_Comm
@@ -3379,6 +3281,9 @@ namespace HanGao.ViewModel
                         Camera_Device_List.Select_3DCamera_1.Connect_Camera();
 
 
+
+
+
                         User_Log_Add("连接3D相机硬件成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
 
 
@@ -3398,8 +3303,8 @@ namespace HanGao.ViewModel
                 {
 
                     E.IsChecked = false;
-                    //Camera_Device_List.Select_3DCamera_0.Close_Camera();
-                    //Camera_Device_List.Select_3DCamera_1.Close_Camera();
+                    Camera_Device_List.Select_3DCamera_0?.Close_Camera();
+                    Camera_Device_List.Select_3DCamera_1?.Close_Camera();
 
                     User_Log_Add("连接3D相机硬件失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                 }
@@ -3423,45 +3328,28 @@ namespace HanGao.ViewModel
                     Select_Vision_Value.Camera_Devices_2D3D_Switch.Throw("请切换到3D相机模式下进行操作！").IfTrue();
                     Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.ThrowIfNull("设备配置文件未选择！请检查文件。");
 
-                    Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
-                    Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
-                    Camera_Device_List.Select_3DCamera_0.Camer_Status.Throw("相机0号硬件未连接成功！请检查硬件。").IfEquals(MV_CAM_Device_Status_Enum.Connecting);
-                    Camera_Device_List.Select_3DCamera_1.Camer_Status.Throw("相机1号硬件未连接成功！请检查硬件。").IfEquals(MV_CAM_Device_Status_Enum.Connecting);
+                    //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
+                    //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
+                    Camera_Device_List.Select_3DCamera_0.Camer_Status.Throw("相机0号硬件未连接成功！请检查硬件。").IfNotEquals(MV_CAM_Device_Status_Enum.Connecting);
+                    Camera_Device_List.Select_3DCamera_1.Camer_Status.Throw("相机1号硬件未连接成功！请检查硬件。").IfNotEquals(MV_CAM_Device_Status_Enum.Connecting);
 
 
+                    HImage _GetImage_0 = new();
+                    HImage _GetImage_1 = new();
 
-                    Camera_Device_List.Select_Camera.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_Parameter_Data);
 
-              
-                    switch (Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type)
+                   ( _GetImage_0, _GetImage_1) = Get_CameraDives_HImage(Camera_Device_List.Camera_Diver_Model);
+
+          
+
+
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        case H3DStereo_Image_Type_Enum.点云图像:
-
-                            Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
-                            Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
-                            break;
-                        case H3DStereo_Image_Type_Enum.深度图像:
-
-
-                            Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DFusionImage_Parameter);
-                            Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DFusionImage_Parameter);
-
-                            break;
-                   
-                    }
-
-
-
-
-
-                    if (Select_Vision_Value.H3DStereo_ParamData.Stereo_Image_3DFusion_Model)
-                    {
-
-                    }
-
-
-
-
+                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Camera_3DImage_Window);
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _GetImage_0, Image_AutoPart: true);
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Camera_3DImage_Window, _GetImage_1, Image_AutoPart: true);
+                    });
 
 
 
@@ -3483,8 +3371,182 @@ namespace HanGao.ViewModel
         }
 
 
+        public (HImage, HImage) Get_CameraDives_HImage(Image_Diver_Model_Enum _Get_Model, string _path = "")
+        {
+
+            HImage _Camera_0_Himage = new();
+            HImage _Camera_1_Himage = new();
+
+            lock (_Load_Image)
+            {
+                //HSystem.SetCheck("memory");
+
+
+                switch (_Get_Model)
+                {
+                    case Image_Diver_Model_Enum.Online:
+
+
+                        if (Select_Vision_Value.Camera_Devices_2D3D_Switch)
+                        {
 
 
 
+
+                            Camera_Device_List.Select_Camera.ThrowIfNull("未选择相机设备，不能采集图像！");
+                            Camera_Device_List.Select_Camera.Camer_Status.Throw("未正确连接相机，请检测硬件！").IfEquals(MV_CAM_Device_Status_Enum.Connecting);
+
+
+                            //清除实时采集连接连接
+                            if (Camera_Device_List.Select_Camera.Camera_Live)
+                            {
+                                Camera_Device_List.Select_Camera.Stop_ImageCallback_delegate();
+                                Camera_Device_List.Select_Camera.Camera_Live = false;
+                            }
+
+
+                            _Camera_0_Himage = Camera_Device_List.Select_Camera.GetOneFrameTimeout(Select_Vision_Value.Camera_Parameter_Data);
+
+
+                            //采集后断开相机,以免枪夺权限
+                            Camera_Device_List.Select_Camera.Stop_ImageCallback_delegate();
+                            //Camera_Device_List.Select_Camera.Close_Camera();
+
+                         
+                        }
+                        else
+                        {
+
+
+
+                            if (!Select_Vision_Value.H3DStereo_ParamData.Stereo_Image_3DFusion_Model)
+                            {
+
+
+                        
+
+                                switch (Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type)
+                                {
+                                    case H3DStereo_Image_Type_Enum.点云图像:
+
+
+
+                                        ///Camera 0设置
+                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = false;
+
+                                        Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+
+                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
+                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
+                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true ;
+                                        Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+
+
+
+                                        ///Camera 1设置
+                                        Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                                        Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = true ;
+                                        Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.RisingEdge;
+                                        //Select_Vision_Value.Camera_1_3DPoint_Parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+                                        Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
+
+
+
+
+
+
+                                      (_Camera_0_Himage , _Camera_1_Himage) =Camera_Device_List.Get_TwoCamera_ImageFrame();
+                                    
+
+
+                                        break;
+                                    case H3DStereo_Image_Type_Enum.深度图像:
+
+                                            Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DFusionImage_Parameter);
+                                            Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DFusionImage_Parameter);
+
+                                        (_Camera_0_Himage, _Camera_1_Himage) = Camera_Device_List.Get_TwoCamera_ImageFrame();
+
+
+
+                                        break;
+                          
+                                }
+
+                        
+                            
+                            
+
+
+                            }
+                            else
+                            {
+
+
+                               /// 融合采集
+                            }
+
+
+
+
+                        }
+
+                        break;
+
+                    case Image_Diver_Model_Enum.Local:
+
+
+
+
+
+
+                        if (File.Exists(_path))
+                        {
+                            _Camera_0_Himage.ReadImage(_path);
+
+                        }
+                        else
+                        {
+                            throw new Exception("读取的地址不是文件，请重新选择！");
+
+                        }
+
+
+                        break;
+                }
+
+
+
+
+                ////选择查找视觉号的模型
+                //Halcon_Shape_Mode.Selected_Shape_Model = Halcon_Shape_Mode.Shape_Mode_File_Model_List.FirstOrDefault((w) => w.ID == Select_Vision_Value.Find_Shape_Data.FInd_ID);
+
+                ////进行图像校正处理
+                //_Load_Image.Dispose();
+                //_Image = Halcon_Shape_Mode.Shape_Match_Map(_Image, Select_Vision_Value.Find_Shape_Data.Auto_Image_Rectified, Select_Vision_Value.Find_Shape_Data.Compulsory_Image_Rectified);
+                //_Load_Image = _Image;
+
+
+
+
+                //保存图像当当前目录下
+                if (Global_Seting.IsVisual_image_saving)
+                {
+                    Halcon_External_Method.Save_Image(_Camera_0_Himage);
+                    //{
+                    //}
+                }
+
+
+
+
+
+
+
+                return (_Camera_0_Himage, _Camera_0_Himage);
+            }
+
+        }
     }
 }

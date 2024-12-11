@@ -1,9 +1,12 @@
-﻿using Halcon_SDK_DLL.Model;
+﻿using Halcon_SDK_DLL;
+using Halcon_SDK_DLL.Model;
+using HalconDotNet;
 using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using static MVS_SDK_Base.Model.MVS_Model;
 
 namespace MVS_SDK
@@ -48,6 +51,44 @@ namespace MVS_SDK
         public string Image_Location_UI { set; get; } =string.Empty;
 
 
+
+
+        public (HImage, HImage) Get_TwoCamera_ImageFrame()
+        {
+            HImage _HImage_0 = new();
+            HImage _HImage_1 = new();
+
+            MVS_Image_Mode _MVS_Image_1 = new MVS_Image_Mode();
+            MVS_Image_Mode _MVS_Image_0 = new MVS_Image_Mode();
+
+            Select_3DCamera_0.StartGrabbing();
+            Select_3DCamera_1.StartGrabbing();
+
+            Task task = Task.Run(() =>
+            {
+
+              //  _MVS_Image_1 = Select_3DCamera_1.MVS_GetOneFrameTimeout();
+
+
+
+            });
+
+
+
+             _MVS_Image_0 = Select_3DCamera_0.MVS_GetOneFrameTimeout();
+
+            task.Wait(); 
+            Select_3DCamera_0.StopGrabbing();
+            Select_3DCamera_1.StopGrabbing();
+
+            _HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_0.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_0.PData);
+            _HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_1.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_1.PData);
+
+
+
+
+            return (_HImage_0, _HImage_1);
+        }
 
 
 
