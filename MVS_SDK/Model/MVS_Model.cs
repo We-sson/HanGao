@@ -938,7 +938,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             /// <param name="_Timeout"></param>
             /// <returns></returns>
-            public MVS_Image_Mode MVS_GetOneFrameTimeout(int _Timeout = 5000)
+            public MVS_Image_Mode MVS_GetOneFrameTimeout(int _Timeout = 10000)
             {
 
 

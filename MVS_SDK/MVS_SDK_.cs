@@ -4,7 +4,6 @@ using HalconDotNet;
 using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using PropertyChanged;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static MVS_SDK_Base.Model.MVS_Model;
@@ -48,7 +47,7 @@ namespace MVS_SDK
         /// <summary>
         /// UI图像文件显示地址
         /// </summary>
-        public string Image_Location_UI { set; get; } =string.Empty;
+        public string Image_Location_UI { set; get; } = string.Empty;
 
 
 
@@ -61,31 +60,37 @@ namespace MVS_SDK
             MVS_Image_Mode _MVS_Image_1 = new MVS_Image_Mode();
             MVS_Image_Mode _MVS_Image_0 = new MVS_Image_Mode();
 
-            Select_3DCamera_0.StartGrabbing();
-            Select_3DCamera_1.StartGrabbing();
+            //Select_3DCamera_0.StartGrabbing();
+            //Select_3DCamera_1.StartGrabbing();
 
             Task task = Task.Run(() =>
             {
 
-              //  _MVS_Image_1 = Select_3DCamera_1.MVS_GetOneFrameTimeout();
 
 
+
+
+            _MVS_Image_0 = Select_3DCamera_0.MVS_GetOneFrameTimeout();
+            _MVS_Image_0 = Select_3DCamera_0.MVS_GetOneFrameTimeout();
+                _HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_0.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_0.PData);
 
             });
 
+            //Task task1 = Task.Run(() => 
+            //{ 
+            
+            
+            
 
+            //_MVS_Image_1 = Select_3DCamera_1.MVS_GetOneFrameTimeout();
+            //_HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_1.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_1.PData);
 
-             _MVS_Image_0 = Select_3DCamera_0.MVS_GetOneFrameTimeout();
+            //});
 
-            task.Wait(); 
-            Select_3DCamera_0.StopGrabbing();
-            Select_3DCamera_1.StopGrabbing();
+            Task.WaitAll(task);
 
-            _HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_0.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_0.PData);
-            _HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_1.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_1.PData);
-
-
-
+            //Select_3DCamera_1.StopGrabbing();
+            //Select_3DCamera_0.StopGrabbing();
 
             return (_HImage_0, _HImage_1);
         }
@@ -100,8 +105,8 @@ namespace MVS_SDK
         {
             //初始化
             int nRet;
-            List<CCameraInfo> _CCamera_List = new ();
-            List<CGigECameraInfo> CGCamera_List = new ();
+            List<CCameraInfo> _CCamera_List = new();
+            List<CGigECameraInfo> CGCamera_List = new();
             //List<CGigECameraInfo> _CGigECamera_List = new List<CGigECameraInfo> ();
 
             //获得设备枚举
