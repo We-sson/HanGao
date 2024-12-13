@@ -7,9 +7,9 @@ using MvCamCtrl.NET.CameraParams;
 using MVS_SDK;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -198,8 +198,17 @@ namespace MVS_SDK_Base.Model
             /// 使能输出信号输出到所选线路
             /// </summary>
             [StringValue("设置使能输出信号输出到所选线路失败")]
-            LineInverter
+            LineInverter,
 
+            [StringValue("获取一帧图片数据，或超时失败")]
+            GetImageBuffer,
+
+            [StringValue("清除缓存图片数据失败")]
+            FreeImageBuffer,
+
+
+            [StringValue("设置缓存图片数量失败")]
+            SetImageNodeNum,
         }
 
         /// <summary>
@@ -218,7 +227,7 @@ namespace MVS_SDK_Base.Model
                 //ExposureMode = _Param.ExposureMode;
                 TriggerMode = _Param.TriggerMode;
                 TriggerActivation = _Param.TriggerActivation;
-                TriggerDelay = _Param.TriggerDelay;
+                //TriggerDelay = _Param.TriggerDelay;
                 //TriggerCacheEnable = _Param.TriggerCacheEnable;
                 GainAuto = _Param.GainAuto;
                 Gain = _Param.Gain;
@@ -345,7 +354,7 @@ namespace MVS_SDK_Base.Model
             [Display(Order = 7)]
             [StringValue("设置触发器的激活模式失败")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public MV_CAM_TRIGGER_ACTIVATION TriggerActivation { set; get; } = MV_CAM_TRIGGER_ACTIVATION.FallingEdge;
+            public MV_CAM_TRIGGER_ACTIVATION TriggerActivation { set; get; } = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
 
 
 
@@ -355,10 +364,10 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 指定在激活触发接收之前要应用的延迟（以us为单位）
             /// </summary>
-            [Display(Order = 8)]
-            [StringValue("设置指定在激活触发接收之前要应用的延迟失败")]
-            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
-            public double TriggerDelay { set; get; } = 0.00;
+            //[Display(Order = 8)]
+            //[StringValue("设置指定在激活触发接收之前要应用的延迟失败")]
+            //[Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            //public double TriggerDelay { set; get; } = 0.00;
             /// <summary>
             /// 设置自动增益控制（AGC）模式，枚举类型——默认，"MV_CAM_GAIN_MODE.MV_GAIN_MODE_OFF"
             /// </summary>
@@ -892,11 +901,11 @@ namespace MVS_SDK_Base.Model
                     //_Camera_parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_SINGLE;
 
                     //Set_Camrea_Parameters_List(Camera_parameter);
-                    if (_Camera_parameter!=null)
+                    if (_Camera_parameter != null)
                     {
 
-                    //设置相机总参数
-                    Set_Camrea_Parameters_List(_Camera_parameter);
+                        //设置相机总参数
+                        Set_Camrea_Parameters_List(_Camera_parameter);
                     }
 
                     StartGrabbing();
@@ -928,8 +937,46 @@ namespace MVS_SDK_Base.Model
             }
 
 
-   
 
+
+            public MVS_Image_Mode MVS_GetImageBuffer(int _Timeout = 1000)
+            {
+
+                MVS_Image_Mode Image_Data = new();
+
+                CFrameout pcFrame = new CFrameout();
+
+
+
+                //while (true) 
+                //{
+
+
+                Set_Camera_Val(Camera_Parameters_Name_Enum.GetImageBuffer, Camera.GetImageBuffer(ref pcFrame, _Timeout));
+                DateTime now = DateTime.Now;
+                Debug.WriteLine($"{Camera_Info.SerialNumber} 当前时间：{now:yyyy-MM-dd HH:mm:ss.fff}");
+                if (pcFrame.Image != null)
+                {
+                    Image_Data.Frame_Info = pcFrame;
+
+                }
+                else
+                {
+                    //continue;
+                }
+                return Image_Data;
+
+
+                //Image_Data.pData_Buffer = pcFrame.Image.ImageData;
+                //Image_Data.PData = pcFrame.Image.ImageAddr;
+
+                //}
+
+
+
+                //return Image_Data;
+
+            }
 
 
 
@@ -1044,6 +1091,19 @@ namespace MVS_SDK_Base.Model
                 try
                 {
 
+
+                    if (!Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.SetImageNodeNum(1)))
+                    {
+                        throw new Exception();
+
+                    }
+
+
+                    if (!Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.SetGrabStrategy(MV_GRAB_STRATEGY.MV_GrabStrategy_LatestImagesOnly)))
+                    {
+                        throw new Exception();
+
+                    }
 
                     if (!Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.StartGrabbing()))
                     {

@@ -5,6 +5,7 @@ using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using PropertyChanged;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -51,7 +52,6 @@ namespace MVS_SDK
 
 
 
-
         public (HImage, HImage) Get_TwoCamera_ImageFrame()
         {
             HImage _HImage_0 = new();
@@ -70,24 +70,37 @@ namespace MVS_SDK
 
 
 
-            _MVS_Image_0 = Select_3DCamera_0.MVS_GetOneFrameTimeout();
-            _MVS_Image_0 = Select_3DCamera_0.MVS_GetOneFrameTimeout();
-                _HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_0.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_0.PData);
+                //_MVS_Image_0 = Select_3DCamera_0.MVS_GetOneFrameTimeout();
+                //_MVS_Image_0 = Select_3DCamera_0.MVS_GetOneFrameTimeout();
+
+
+                //Thread.Sleep(1000);
+
+
+
+
+                //_HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_0.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_0.PData);
 
             });
 
-            //Task task1 = Task.Run(() => 
-            //{ 
-            
-            
-            
+            //Task task1 = Task.Run(() =>
+            //{
 
-            //_MVS_Image_1 = Select_3DCamera_1.MVS_GetOneFrameTimeout();
-            //_HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_1.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_1.PData);
+
+                _MVS_Image_0 = Select_3DCamera_0.MVS_GetImageBuffer();
+                _MVS_Image_1 = Select_3DCamera_1.MVS_GetImageBuffer();
+
+            _HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.Frame_Info.Image.Width, _MVS_Image_1.Frame_Info.Image.Height, _MVS_Image_1.Frame_Info.Image.ImageAddr);
+                _HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.Frame_Info.Image.Width, _MVS_Image_0.Frame_Info.Image.Height, _MVS_Image_0.Frame_Info.Image.ImageAddr);
+
+                //_MVS_Image_1 = Select_3DCamera_1.MVS_GetOneFrameTimeout();
+                //_HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_1.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_1.PData);
 
             //});
 
-            Task.WaitAll(task);
+
+            //Task.WaitAll(task1);
+            Task.WaitAll( task);
 
             //Select_3DCamera_1.StopGrabbing();
             //Select_3DCamera_0.StopGrabbing();

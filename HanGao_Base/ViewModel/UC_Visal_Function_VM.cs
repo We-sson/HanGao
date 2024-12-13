@@ -1,5 +1,4 @@
 ﻿using Halcon_SDK_DLL.Halcon_Method;
-using HanGao.View.FrameShow;
 using HanGao.View.User_Control.Vision_Calibration;
 using HanGao.View.User_Control.Vision_hand_eye_Calibration;
 using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
@@ -957,7 +956,7 @@ namespace HanGao.ViewModel
 
 
 
-                        Thread.Sleep(1000);
+                        Thread.Sleep(500);
                     }
                     catch (Exception)
                     {
@@ -2626,7 +2625,7 @@ namespace HanGao.ViewModel
                 //_Load_Image.Dispose();
                 //_Image = Halcon_Shape_Mode.Shape_Match_Map(_Image, Select_Vision_Value.Find_Shape_Data.Auto_Image_Rectified, Select_Vision_Value.Find_Shape_Data.Compulsory_Image_Rectified);
                 //_Load_Image = _Image;
-            
+
 
 
 
@@ -2637,7 +2636,7 @@ namespace HanGao.ViewModel
                     //{
                     //}
                 }
-       
+
 
                 return _Image;
             }
@@ -2740,7 +2739,7 @@ namespace HanGao.ViewModel
                         //获得点击图像位置
                         Halcon_Shape_Mode.Chick_Position = new Point(_E.Row, _E.Column);
                         Halcon_Shape_Mode.Get_Pos_Gray(new HImage(_Load_Image));
-                 
+
                     }
                     catch (Exception e)
                     {
@@ -2749,7 +2748,7 @@ namespace HanGao.ViewModel
 
                     }
                 }
-      
+
 
             });
         }
@@ -3168,7 +3167,7 @@ namespace HanGao.ViewModel
             {
 
 
-                  ToggleButton E = Sm.Source as ToggleButton;
+                ToggleButton E = Sm.Source as ToggleButton;
 
 
                 ///切换2D3D模型晴空模型数据
@@ -3219,7 +3218,7 @@ namespace HanGao.ViewModel
 
 
 
-                    Select_Vision_Value. Camera_Devices_2D3D_Switch.Throw("请选择3D相机模式后再选择！").IfEquals(true);
+                    Select_Vision_Value.Camera_Devices_2D3D_Switch.Throw("请选择3D相机模式后再选择！").IfEquals(true);
 
                     Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Load_CameraDive_Parameters();
 
@@ -3281,6 +3280,81 @@ namespace HanGao.ViewModel
                         Camera_Device_List.Select_3DCamera_1.Connect_Camera();
 
 
+                        switch (Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type)
+                        {
+                            case H3DStereo_Image_Type_Enum.点云图像:
+
+
+
+                                ///Camera 0设置
+                                Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                                Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = false;
+
+                                Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+
+                                Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
+                                Select_Vision_Value.Camera_0_3DPoint_Parameter.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
+                                Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true;
+                                Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+
+
+
+                                ///Camera 1设置
+                                Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                                Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = true;
+                                Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
+                                //Select_Vision_Value.Camera_1_3DPoint_Parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+                                Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
+
+
+
+
+
+
+
+
+
+                                break;
+                            case H3DStereo_Image_Type_Enum.深度图像:
+
+
+                                ///Camera 0设置
+                                Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                                Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true;
+
+                                Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+
+                                Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
+                                Select_Vision_Value.Camera_0_3DPoint_Parameter.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
+                                Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true;
+                                Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+
+
+
+                                ///Camera 1设置
+                                Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                                Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = false;
+                                Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
+                                //Select_Vision_Value.Camera_1_3DPoint_Parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+                                Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
+
+
+
+
+
+
+
+
+
+                                break;
+
+                        }
+
+
+
+
+
+
 
 
 
@@ -3322,43 +3396,53 @@ namespace HanGao.ViewModel
                 Button E = Sm.Source as Button;
                 //bool _State = false;
 
+
                 try
                 {
-                    //Camera_Device_List.Select_Camera.Connect_Camera();
-                    Select_Vision_Value.Camera_Devices_2D3D_Switch.Throw("请切换到3D相机模式下进行操作！").IfTrue();
-                    Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.ThrowIfNull("设备配置文件未选择！请检查文件。");
 
-                    //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
-                    //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
-                    Camera_Device_List.Select_3DCamera_0.Camer_Status.Throw("相机0号硬件未连接成功！请检查硬件。").IfNotEquals(MV_CAM_Device_Status_Enum.Connecting);
-                    Camera_Device_List.Select_3DCamera_1.Camer_Status.Throw("相机1号硬件未连接成功！请检查硬件。").IfNotEquals(MV_CAM_Device_Status_Enum.Connecting);
-
-
-                    HImage _GetImage_0 = new();
-                    HImage _GetImage_1 = new();
-
-                    Camera_Device_List.Select_3DCamera_0.StartGrabbing();
-                    Camera_Device_List.Select_3DCamera_1.StartGrabbing();
-
-
-                    ( _GetImage_0, _GetImage_1) = Get_CameraDives_HImage(Camera_Device_List.Camera_Diver_Model);
-
-          
-
-
-                    Application.Current.Dispatcher.Invoke(() =>
+                    Task.Run(() =>
                     {
-                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
-                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Camera_3DImage_Window);
-                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _GetImage_0, Image_AutoPart: true);
-                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Camera_3DImage_Window, _GetImage_1, Image_AutoPart: true);
+
+
+
+
+
+                        //Camera_Device_List.Select_Camera.Connect_Camera();
+                        Select_Vision_Value.Camera_Devices_2D3D_Switch.Throw("请切换到3D相机模式下进行操作！").IfTrue();
+                        Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.ThrowIfNull("设备配置文件未选择！请检查文件。");
+
+                        //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
+                        //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
+                        Camera_Device_List.Select_3DCamera_0.Camer_Status.Throw("相机0号硬件未连接成功！请检查硬件。").IfNotEquals(MV_CAM_Device_Status_Enum.Connecting);
+                        Camera_Device_List.Select_3DCamera_1.Camer_Status.Throw("相机1号硬件未连接成功！请检查硬件。").IfNotEquals(MV_CAM_Device_Status_Enum.Connecting);
+
+
+                        HImage _GetImage_0 = new();
+                        HImage _GetImage_1 = new();
+
+                        Camera_Device_List.Select_3DCamera_0.StartGrabbing();
+                        Camera_Device_List.Select_3DCamera_1.StartGrabbing();
+
+
+                        (_GetImage_0, _GetImage_1) = Get_CameraDives_HImage(Camera_Device_List.Camera_Diver_Model);
+
+
+
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Camera_3DImage_Window);
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _GetImage_0, Image_AutoPart: true);
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Camera_3DImage_Window, _GetImage_1, Image_AutoPart: true);
+                        });
+                        Camera_Device_List.Select_3DCamera_0.StopGrabbing();
+                        Camera_Device_List.Select_3DCamera_1.StopGrabbing();
+
+
+                        User_Log_Add("双目相机同步采集图像成功！", Log_Show_Window_Enum.Home);
+
                     });
-                    Camera_Device_List.Select_3DCamera_0.StopGrabbing();
-                    Camera_Device_List.Select_3DCamera_1.StopGrabbing();
-
-
-                    User_Log_Add("双目相机同步采集图像成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
-
 
                 }
                 catch (Exception _e)
@@ -3371,6 +3455,9 @@ namespace HanGao.ViewModel
 
                     User_Log_Add("双目相机采集图像失败已断开连接！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                 }
+
+
+
             });
         }
 
@@ -3421,7 +3508,7 @@ namespace HanGao.ViewModel
                             Camera_Device_List.Select_Camera.Stop_ImageCallback_delegate();
                             //Camera_Device_List.Select_Camera.Close_Camera();
 
-                         
+
                         }
                         else
                         {
@@ -3432,7 +3519,7 @@ namespace HanGao.ViewModel
                             {
 
 
-                        
+
 
                                 switch (Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type)
                                 {
@@ -3440,58 +3527,25 @@ namespace HanGao.ViewModel
 
 
 
-                                        ///Camera 0设置
-                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
-                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = false;
+                                        /////Camera 0设置
+                                        //Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                                        //Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = false;
 
-                                        Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+                                        //Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
 
-                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
-                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
-                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true ;
-                                        Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
-
-
-
-                                        ///Camera 1设置
-                                        Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
-                                        Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = true ;
-                                        Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.RisingEdge;
-                                        //Select_Vision_Value.Camera_1_3DPoint_Parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
-                                        Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
+                                        //Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
+                                        //Select_Vision_Value.Camera_0_3DPoint_Parameter.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
+                                        //Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true;
+                                        //Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
 
 
 
-
-
-
-                                      (_Camera_0_Himage , _Camera_1_Himage) =Camera_Device_List.Get_TwoCamera_ImageFrame();
-                                    
-
-
-                                        break;
-                                    case H3DStereo_Image_Type_Enum.深度图像:
-
-
-                                        ///Camera 0设置
-                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
-                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true ;
-
-                                        Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
-
-                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
-                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
-                                        Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true  ;
-                                        Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
-
-
-
-                                        ///Camera 1设置
-                                        Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
-                                        Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = false ;
-                                        Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.RisingEdge;
-                                        //Select_Vision_Value.Camera_1_3DPoint_Parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
-                                        Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
+                                        /////Camera 1设置
+                                        //Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                                        //Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = true;
+                                        //Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh ;
+                                        ////Select_Vision_Value.Camera_1_3DPoint_Parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+                                        //Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
 
 
 
@@ -3503,12 +3557,45 @@ namespace HanGao.ViewModel
 
 
                                         break;
-                          
+                                    case H3DStereo_Image_Type_Enum.深度图像:
+
+
+                                        /////Camera 0设置
+                                        //Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                                        //Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true;
+
+                                        //Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+
+                                        //Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
+                                        //Select_Vision_Value.Camera_0_3DPoint_Parameter.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
+                                        //Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true;
+                                        //Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+
+
+
+                                        /////Camera 1设置
+                                        //Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                                        //Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = false;
+                                        //Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
+                                        ////Select_Vision_Value.Camera_1_3DPoint_Parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+                                        //Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
+
+
+
+
+
+
+                                        (_Camera_0_Himage, _Camera_1_Himage) = Camera_Device_List.Get_TwoCamera_ImageFrame();
+
+
+
+                                        break;
+
                                 }
 
-                        
-                            
-                            
+
+
+
 
 
                             }
@@ -3516,7 +3603,7 @@ namespace HanGao.ViewModel
                             {
 
 
-                               /// 融合采集
+                                /// 融合采集
                             }
 
 
