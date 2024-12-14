@@ -24,11 +24,11 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 
 
 
-        public MVS_Camera_Parameter_Model Camera_0_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
+        public MVS_Camera_Parameter_Model Camera_0_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON , TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE};
         public MVS_Camera_Parameter_Model Camera_1_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode= MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON, TriggerSource= MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0, TriggerActivation= MVS_SDK_Base.Model.MV_CAM_TRIGGER_ACTIVATION.LevelHigh };
 
 
-        public MVS_Camera_Parameter_Model Camera_0_3DFusionImage_Parameter { set; get; } = new MVS_Camera_Parameter_Model();
+        public MVS_Camera_Parameter_Model Camera_0_3DFusionImage_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON, TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE };
         public MVS_Camera_Parameter_Model Camera_1_3DFusionImage_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON, TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0, TriggerActivation = MVS_SDK_Base.Model.MV_CAM_TRIGGER_ACTIVATION.LevelHigh };
 
 

@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace MVS_SDK_Base.Model
@@ -209,6 +210,11 @@ namespace MVS_SDK_Base.Model
 
             [StringValue("设置缓存图片数量失败")]
             SetImageNodeNum,
+
+
+
+            [StringValue("软触发取图失败")]
+            Command_TriggerSoftware
         }
 
         /// <summary>
@@ -721,6 +727,8 @@ namespace MVS_SDK_Base.Model
             public bool Camera_Live { set; get; } = false;
 
 
+
+
             /// <summary>
             /// 相机检测延时
             /// </summary>
@@ -746,6 +754,13 @@ namespace MVS_SDK_Base.Model
             /// 相机设备当前状态
             /// </summary>
             public MV_CAM_Device_Status_Enum Camer_Status { set; get; } = MV_CAM_Device_Status_Enum.Null;
+
+
+            /// <summary>
+            /// 相机工作状态
+            /// </summary>
+            public MV_CAM_Camera_Work_State_Enum Camera_Work_State { set; get; } = MV_CAM_Camera_Work_State_Enum.Camera_Ready;
+
 
             private CGigECameraInfo _CGigECamera;
             /// <summary>
@@ -860,12 +875,26 @@ namespace MVS_SDK_Base.Model
                         if (_CameraRW_Type != null && _CameraRW_Type.GetCamera_ReadWrite_Type() == Camera_Parameter_RW_Type.Write)
                         {
 
+                            ///针对个别参数设置跳过
+                            if (_Type.Name == nameof(MVS_Camera_Parameter_Model.TriggerActivation))
+                            {
+
+                                if ((MV_CAM_TRIGGER_SOURCE)properties.FirstOrDefault((_) => _.Name == nameof(MVS_Camera_Parameter_Model.TriggerSource)).GetValue(_Parameter) == MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE)
+                                {
+                                    continue;
+                                }
+
+
+                            }
+
+
                             if (!Set_Camera_Parameters_Val(Camera, _Type, _Type.Name, _Type.GetValue(_Parameter)))
                             {
 
 
                                 throw new Exception(MVE_Result_Enum.相机参数设置错误 + "_参数名：" + _Type.Name);
                             }
+
                         }
                     }
                 }
@@ -939,44 +968,120 @@ namespace MVS_SDK_Base.Model
 
 
 
-            public MVS_Image_Mode MVS_GetImageBuffer(int _Timeout = 1000)
-            {
 
+
+            /// <summary>
+            /// 使用回调函数取图方法
+            /// </summary>
+            /// <param name="CommVale">是否使用命令提前</param>
+            /// <param name="_Timeout">取图等待超时</param>
+            /// <returns></returns>
+            /// <exception cref="Exception"></exception>
+            public MVS_Image_Mode MSV_GetImageCallback(bool CommVale = false, int _Timeout = 10000)
+            {
                 MVS_Image_Mode Image_Data = new();
 
-                CFrameout pcFrame = new CFrameout();
+                ManualResetEvent Camera_Signal = new ManualResetEvent(false);
 
 
-
-                //while (true) 
-                //{
-
-
-                Set_Camera_Val(Camera_Parameters_Name_Enum.GetImageBuffer, Camera.GetImageBuffer(ref pcFrame, _Timeout));
-                DateTime now = DateTime.Now;
-                Debug.WriteLine($"{Camera_Info.SerialNumber} 当前时间：{now:yyyy-MM-dd HH:mm:ss.fff}");
-                if (pcFrame.Image != null)
+                try
                 {
-                    Image_Data.Frame_Info = pcFrame;
+
+
+
+                    // 注册回调函数，直接使用 Lambda 表达式定义逻辑
+                    Camera.RegisterImageCallBackEx((IntPtr pData, ref MV_FRAME_OUT_INFO_EX pFrameInfo, IntPtr pUser) =>
+                    {
+                        DateTime now = DateTime.Now;
+                        Image_Data.Callback_pFrameInfo = pFrameInfo;
+                        Image_Data.PData = pData;
+
+                        Debug.WriteLine($"{Camera_Info.SerialNumber} 当前时间：{now:yyyy-MM-dd HH:mm:ss.fff}");
+                        Camera_Signal.Set();
+
+
+                    }, IntPtr.Zero);
+
+
+                    //注册回调后开始取流
+                    StartGrabbing();
+
+
+
+                    // 如果需要，发送软触发命令
+                    if (CommVale)
+                    {
+                        if (!Set_Camera_Val(Camera_Parameters_Name_Enum.Command_TriggerSoftware, Camera.SetCommandValue("TriggerSoftware")))
+                        {
+                            throw new Exception("软触发命令失败，请检查配置设置！");
+                        }
+                    }
+
+
+                    if (!Camera_Signal.WaitOne(_Timeout))
+                    {
+
+                        throw new TimeoutException("软触发等待图像超时，请检查相机配置！");
+                    }
+                    return Image_Data;
+
 
                 }
-                else
+                catch (Exception e)
                 {
-                    //continue;
+
+
+                    throw new Exception("使用回调函数取图失败！原因：" + e.Message);
                 }
-                return Image_Data;
-
-
-                //Image_Data.pData_Buffer = pcFrame.Image.ImageData;
-                //Image_Data.PData = pcFrame.Image.ImageAddr;
-
-                //}
-
-
-
-                //return Image_Data;
+                finally
+                {
+                    StopGrabbing();
+                    Camera.RegisterImageCallBackEx(null, IntPtr.Zero);// 释放回调
+                }
 
             }
+
+
+
+
+            //public MVS_Image_Mode MVS_GetImageBuffer(int _Timeout = 1000)
+            //{
+
+            //    MVS_Image_Mode Image_Data = new();
+
+            //    CFrameout pcFrame = new CFrameout();
+
+
+
+            //    //while (true) 
+            //    //{
+
+
+            //    Set_Camera_Val(Camera_Parameters_Name_Enum.GetImageBuffer, Camera.GetImageBuffer(ref pcFrame, _Timeout));
+            //    DateTime now = DateTime.Now;
+            //    Debug.WriteLine($"{Camera_Info.SerialNumber} 当前时间：{now:yyyy-MM-dd HH:mm:ss.fff}");
+            //    if (pcFrame.Image != null)
+            //    {
+            //        Image_Data.Frame_Info = pcFrame;
+
+            //    }
+            //    else
+            //    {
+            //        //continue;
+            //    }
+            //    return Image_Data;
+
+
+            //    //Image_Data.pData_Buffer = pcFrame.Image.ImageData;
+            //    //Image_Data.PData = pcFrame.Image.ImageAddr;
+
+            //    //}
+
+
+
+            //    //return Image_Data;
+
+            //}
 
 
 
@@ -1099,11 +1204,11 @@ namespace MVS_SDK_Base.Model
                     }
 
 
-                    if (!Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.SetGrabStrategy(MV_GRAB_STRATEGY.MV_GrabStrategy_LatestImagesOnly)))
-                    {
-                        throw new Exception();
+                    //if (!Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.SetGrabStrategy(MV_GRAB_STRATEGY.MV_GrabStrategy_LatestImagesOnly)))
+                    //{
+                    //    throw new Exception();
 
-                    }
+                    //}
 
                     if (!Set_Camera_Val(Camera_Parameters_Name_Enum.StartGrabbing, Camera.StartGrabbing()))
                     {
@@ -1782,6 +1887,13 @@ namespace MVS_SDK_Base.Model
             public CFrameout Frame_Info = new();
 
 
+
+            /// <summary>
+            /// 回调参数的
+            /// </summary>
+            public MV_FRAME_OUT_INFO_EX Callback_pFrameInfo = new MV_FRAME_OUT_INFO_EX();
+
+
             /// <summary>
             /// 用户信息句柄
             /// </summary>
@@ -1904,6 +2016,29 @@ namespace MVS_SDK_Base.Model
     }
 
 
+    /// <summary>
+    /// 相机工作状态
+    /// </summary>
+    public enum MV_CAM_Camera_Work_State_Enum
+    {
+        /// <summary>
+        /// 相机准备中
+        /// </summary>
+        [Description("相机准备中")]
+        Camera_Ready,
+        /// <summary>
+        /// 相机获取图像中
+        /// </summary>
+        [Description("相机获取图像中")]
+        Camera_GetImage,
+        /// <summary>
+        /// 相机错误
+        /// </summary>
+        [Description("相机错误")]
+        Camera_Error,
+
+
+    }
 
 
 

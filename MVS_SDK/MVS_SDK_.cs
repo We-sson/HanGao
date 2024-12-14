@@ -5,7 +5,6 @@ using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using PropertyChanged;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -23,27 +22,27 @@ namespace MVS_SDK
         /// </summary>
         public MVS_Camera_Info_Model Select_Camera { set; get; }
 
-        //public Get_Image_Model_Enum Get_Image_Model { set; get; } = Get_Image_Model_Enum.相机采集;
 
-
-
-
+        /// <summary>
+        /// 相机0信息
+        /// </summary>
         public MVS_Camera_Info_Model Select_3DCamera_0 { set; get; }
+        /// <summary>
+        /// 相机1信息
+        /// </summary>
         public MVS_Camera_Info_Model Select_3DCamera_1 { set; get; }
 
-        /// <summary>
-        /// 相机采集参数
-        /// </summary>
-        //public MVS_Camera_Parameter_Model Camera_parameter { set; get; } = new MVS_Camera_Parameter_Model();
 
-        /// <summary>
-        /// 用户采集相机
-        /// </summary>
-        //public MVS_Camera_Info_Model Camera_Select_Val { set; get; }
         /// <summary>
         /// 设备图像来源设置
         /// </summary>
         public Image_Diver_Model_Enum Camera_Diver_Model { get; set; } = Image_Diver_Model_Enum.Online;
+
+
+
+
+
+
 
         /// <summary>
         /// UI图像文件显示地址
@@ -52,6 +51,11 @@ namespace MVS_SDK
 
 
 
+
+        /// <summary>
+        /// 双目相机取图方法
+        /// </summary>
+        /// <returns></returns>
         public (HImage, HImage) Get_TwoCamera_ImageFrame()
         {
             HImage _HImage_0 = new();
@@ -60,50 +64,34 @@ namespace MVS_SDK
             MVS_Image_Mode _MVS_Image_1 = new MVS_Image_Mode();
             MVS_Image_Mode _MVS_Image_0 = new MVS_Image_Mode();
 
-            //Select_3DCamera_0.StartGrabbing();
-            //Select_3DCamera_1.StartGrabbing();
+   
+
 
             Task task = Task.Run(() =>
             {
 
 
+                _MVS_Image_1 = Select_3DCamera_1.MSV_GetImageCallback();
 
-
-
-                //_MVS_Image_0 = Select_3DCamera_0.MVS_GetOneFrameTimeout();
-                //_MVS_Image_0 = Select_3DCamera_0.MVS_GetOneFrameTimeout();
-
-
-                //Thread.Sleep(1000);
-
-
-
-
-                //_HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_0.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_0.PData);
+                _HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.Callback_pFrameInfo.nWidth, _MVS_Image_1.Callback_pFrameInfo.nHeight, _MVS_Image_1.PData);
 
             });
 
-            //Task task1 = Task.Run(() =>
-            //{
+
+                _MVS_Image_0 = Select_3DCamera_0.MSV_GetImageCallback(true);
 
 
-                _MVS_Image_0 = Select_3DCamera_0.MVS_GetImageBuffer();
-                _MVS_Image_1 = Select_3DCamera_1.MVS_GetImageBuffer();
 
-            _HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.Frame_Info.Image.Width, _MVS_Image_1.Frame_Info.Image.Height, _MVS_Image_1.Frame_Info.Image.ImageAddr);
-                _HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.Frame_Info.Image.Width, _MVS_Image_0.Frame_Info.Image.Height, _MVS_Image_0.Frame_Info.Image.ImageAddr);
+            _HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.Callback_pFrameInfo.nWidth, _MVS_Image_0.Callback_pFrameInfo.nHeight, _MVS_Image_0.PData);
 
-                //_MVS_Image_1 = Select_3DCamera_1.MVS_GetOneFrameTimeout();
-                //_HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.FrameEx_Info.pcImageInfoEx.Width, _MVS_Image_1.FrameEx_Info.pcImageInfoEx.Height, _MVS_Image_1.PData);
+ 
 
-            //});
+            Task.WaitAll(new[] {  task }, 10000);
 
 
-            //Task.WaitAll(task1);
-            Task.WaitAll( task);
 
-            //Select_3DCamera_1.StopGrabbing();
-            //Select_3DCamera_0.StopGrabbing();
+            Select_3DCamera_1.StopGrabbing();
+            Select_3DCamera_0.StopGrabbing();
 
             return (_HImage_0, _HImage_1);
         }
