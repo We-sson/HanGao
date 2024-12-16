@@ -4,7 +4,10 @@ using HalconDotNet;
 using MvCamCtrl.NET;
 using MVS_SDK_Base.Model;
 using PropertyChanged;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -69,29 +72,47 @@ namespace MVS_SDK
 
             Task task = Task.Run(() =>
             {
+                DateTime now = DateTime.Now;
+  
 
 
                 _MVS_Image_1 = Select_3DCamera_1.MSV_GetImageCallback();
 
-                _HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.Callback_pFrameInfo.nWidth, _MVS_Image_1.Callback_pFrameInfo.nHeight, _MVS_Image_1.PData);
+                Debug.WriteLine($"0采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
+                 now = DateTime.Now;
 
+                //_HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.Callback_pFrameInfo.nWidth, _MVS_Image_1.Callback_pFrameInfo.nHeight, _MVS_Image_1.PData);
+
+                Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
             });
 
+            Task task1 = Task.Run(() =>
+            {
+
+                DateTime now = DateTime.Now;
 
                 _MVS_Image_0 = Select_3DCamera_0.MSV_GetImageCallback(true);
+                Debug.WriteLine($"1采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
+                 now = DateTime.Now;
 
+                //_HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.Callback_pFrameInfo.nWidth, _MVS_Image_0.Callback_pFrameInfo.nHeight, _MVS_Image_0.PData);
+               
+                
+                Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
 
-
-            _HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.Callback_pFrameInfo.nWidth, _MVS_Image_0.Callback_pFrameInfo.nHeight, _MVS_Image_0.PData);
-
+            });
  
 
-            Task.WaitAll(new[] {  task }, 10000);
+            
 
+            if (!Task.WaitAll([task, task1], 10000))
+            {
 
+                throw new TimeoutException("软触发等待图像超时，请检查相机配置！");
+            }
 
-            Select_3DCamera_1.StopGrabbing();
-            Select_3DCamera_0.StopGrabbing();
+            //Select_3DCamera_1.StopGrabbing();
+            //Select_3DCamera_0.StopGrabbing();
 
             return (_HImage_0, _HImage_1);
         }

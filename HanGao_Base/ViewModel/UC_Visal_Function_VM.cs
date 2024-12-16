@@ -956,7 +956,7 @@ namespace HanGao.ViewModel
 
 
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(1000);
                     }
                     catch (Exception)
                     {
@@ -3578,44 +3578,70 @@ namespace HanGao.ViewModel
                             }
                             else
                             {
+                                var Now = DateTime.Now;
 
-                                ///Camera 0设置
-                                Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
-                                Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = false;
-                                Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
 
+                                Camera_Device_List.Select_3DCamera_0.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
+                                Camera_Device_List.Select_3DCamera_0.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), false);
                                 ///Camera 1设置
-                                Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
-                                Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = true;
 
-                                Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
-
+                                Camera_Device_List.Select_3DCamera_1.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
+                                Camera_Device_List.Select_3DCamera_1.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), true);
 
 
+                                User_Log_Add($"0相机设置：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
 
+                                for (int i = 0; i < 5; i++)
+                                {
+
+
+                                Now = DateTime.Now;
 
 
                                 (_Camera_0_Himage, _Camera_1_Himage) = Camera_Device_List.Get_TwoCamera_ImageFrame();
 
 
+                                User_Log_Add($"0采集时间：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
 
+                                }
+                                Now = DateTime.Now;
 
                                 ///Camera 0设置
-                                Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
-                                Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true;
-                                Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
 
-  
+                                Camera_Device_List.Select_3DCamera_0.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
+                                Camera_Device_List.Select_3DCamera_0.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), true);
                                 ///Camera 1设置
-             
-                                Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
-                                Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = false;
-                                Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
 
 
+                                Camera_Device_List.Select_3DCamera_1.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
+                                Camera_Device_List.Select_3DCamera_1.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), false);
+
+
+
+
+
+                                User_Log_Add($"1相机设置：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
+
+                                for (int i = 0; i < 5; i++)
+                                {
+
+                               
+                                Now = DateTime.Now;
 
 
                                 (_Camera_2_Himage, _Camera_3_Himage) = Camera_Device_List.Get_TwoCamera_ImageFrame();
+
+
+                                User_Log_Add($"1采集时间：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
+
+                                }
+
+
+
+                                Camera_Device_List. Select_3DCamera_1.StopGrabbing();
+                                Camera_Device_List. Select_3DCamera_0.StopGrabbing();
+
+
                                 /// 融合采集
                             }
 

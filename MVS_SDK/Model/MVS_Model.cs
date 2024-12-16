@@ -997,8 +997,8 @@ namespace MVS_SDK_Base.Model
                         Image_Data.PData = pData;
 
                         Debug.WriteLine($"{Camera_Info.SerialNumber} 当前时间：{now:yyyy-MM-dd HH:mm:ss.fff}");
-                        Camera_Signal.Set();
 
+                        Camera_Signal.Set();
 
                     }, IntPtr.Zero);
 
