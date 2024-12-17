@@ -197,6 +197,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\From_单窗口_Ioc.png" />
+    <Resource Include="Resources\From_双窗口_ioc.png" />
+    <Resource Include="Resources\From_四窗口_ioc.png" />
     <Resource Include="Resources\悍高LOGO_ioc.png" />
     <Resource Include="Resources\Vision_读取文件_ioc.png" />
     <Resource Include="Resources\Vision_清除数据_ioc.png" />
@@ -329,6 +332,7 @@
     <ProjectReference Include="..\VTK_3DLibrary\VTK_3DLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Model\Class1.cs" />
     <Compile Remove="ViewModel\UC_Vision_Calibration_Image_VM.cs" />
     <Compile Remove="ViewModel\UC_Vision_Calibration_Results_VM.cs" />
     <Compile Remove="ViewModel\UC_Vision_Camera_Calibration_VM.cs" />
@@ -337,6 +341,9 @@
     <Compile Remove="View\User_Control\UserControl_Grid.xaml.cs" />
     <Compile Remove="View\User_Control\Vision_Control\UC_Vision_Calibration_Results.xaml.cs" />
     <Compile Remove="View\User_Control\Vision_Control\UC_Vision_Camera_Parametric.xaml.cs" />
+    <None Remove="Resources\From_单窗口_Ioc.png" />
+    <None Remove="Resources\From_双窗口_ioc.png" />
+    <None Remove="Resources\From_四窗口_ioc.png" />
     <None Remove="Resources\Vision_标定图标.png" />
     <Page Remove="View\User_Control\KUKA_Status.xaml" />
     <Page Remove="View\User_Control\UserControl_Grid.xaml" />

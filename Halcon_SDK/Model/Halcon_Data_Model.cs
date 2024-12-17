@@ -2966,7 +2966,9 @@ namespace Halcon_SDK_DLL.Model
 
         [Description("图像特征页面")]
         Features_Window,
-        Camera_3DImage_Window,
+        Features_Window_1,
+        Features_Window_2,
+        Features_Window_3,
         Features_3D_Results,
         Results_Window_1,
         Results_Window_2,

@@ -59,7 +59,7 @@ namespace MVS_SDK
         /// 双目相机取图方法
         /// </summary>
         /// <returns></returns>
-        public (HImage, HImage) Get_TwoCamera_ImageFrame()
+        public (HImage, HImage) Get_TwoCamera_ImageFrame( int _Timeout = 10000)
         {
             HImage _HImage_0 = new();
             HImage _HImage_1 = new();
@@ -72,40 +72,40 @@ namespace MVS_SDK
 
             Task task = Task.Run(() =>
             {
-                DateTime now = DateTime.Now;
+               // DateTime now = DateTime.Now;
   
 
 
                 _MVS_Image_1 = Select_3DCamera_1.MSV_GetImageCallback();
 
-                Debug.WriteLine($"0采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
-                 now = DateTime.Now;
+               // Debug.WriteLine($"0采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
+              //   now = DateTime.Now;
 
                 //_HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.Callback_pFrameInfo.nWidth, _MVS_Image_1.Callback_pFrameInfo.nHeight, _MVS_Image_1.PData);
 
-                Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
+              //  Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
             });
 
             Task task1 = Task.Run(() =>
             {
 
-                DateTime now = DateTime.Now;
+              //  DateTime now = DateTime.Now;
 
                 _MVS_Image_0 = Select_3DCamera_0.MSV_GetImageCallback(true);
-                Debug.WriteLine($"1采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
-                 now = DateTime.Now;
+           //     Debug.WriteLine($"1采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
+            //     now = DateTime.Now;
 
                 //_HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.Callback_pFrameInfo.nWidth, _MVS_Image_0.Callback_pFrameInfo.nHeight, _MVS_Image_0.PData);
                
                 
-                Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
+            //    Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
 
             });
  
 
             
 
-            if (!Task.WaitAll([task, task1], 10000))
+            if (!Task.WaitAll([task, task1], _Timeout))
             {
 
                 throw new TimeoutException("软触发等待图像超时，请检查相机配置！");

@@ -859,12 +859,15 @@ namespace Halcon_SDK_DLL
         /// 实施相机视角控件
         /// </summary>
         public Halcon_SDK Features_Window { set; get; } = new Halcon_SDK();
+        public Halcon_SDK Features_Window_1 { set; get; } = new Halcon_SDK();
+        public Halcon_SDK Features_Window_2 { set; get; } = new Halcon_SDK();
+        public Halcon_SDK Features_Window_3 { set; get; } = new Halcon_SDK();
 
 
-        /// <summary>
-        /// 相机三维图像窗口
-        /// </summary>
-        public Halcon_SDK Camera_3DImage_Window { set; get; } =new Halcon_SDK();
+        ///// <summary>
+        ///// 相机三维图像窗口
+        ///// </summary>
+        //public Halcon_SDK Camera_3DImage_Window { set; get; } =new Halcon_SDK();
 
 
         /// <summary>
@@ -929,10 +932,22 @@ namespace Halcon_SDK_DLL
                     Features_Window.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Camera_3DImage_Window)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window_1)):
                     //加载halcon图像属性
-                    Camera_3DImage_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    Camera_3DImage_Window.HWindow.SetWindowParam("background_color", "#334C66");
+                    Features_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Features_Window_1.HWindow.SetWindowParam("background_color", "#334C66");
+
+                    break;
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window_2)):
+                    //加载halcon图像属性
+                    Features_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Features_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
+
+                    break;
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window_3)):
+                    //加载halcon图像属性
+                    Features_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    Features_Window_3.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
                 case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_1)):
@@ -1053,7 +1068,30 @@ namespace Halcon_SDK_DLL
                     Features_Window.Draw_XLD = null;
 
                     break;
+                case Window_Show_Name_Enum.Features_Window_1:
+                    Features_Window_1.HWindow.ClearWindow();
+                    Features_Window_1.DisplayImage = null;
+                    Features_Window_1.DisplayXLD = null;
+                    Features_Window_1.DisplayRegion = null;
+                    Features_Window_1.Draw_XLD = null;
 
+                    break;
+                case Window_Show_Name_Enum.Features_Window_2:
+                    Features_Window_2.HWindow.ClearWindow();
+                    Features_Window_2.DisplayImage = null;
+                    Features_Window_2.DisplayXLD = null;
+                    Features_Window_2.DisplayRegion = null;
+                    Features_Window_2.Draw_XLD = null;
+
+                    break;
+                case Window_Show_Name_Enum.Features_Window_3:
+                    Features_Window_3.HWindow.ClearWindow();
+                    Features_Window_3.DisplayImage = null;
+                    Features_Window_3.DisplayXLD = null;
+                    Features_Window_3.DisplayRegion = null;
+                    Features_Window_3.Draw_XLD = null;
+
+                    break;
                 case Window_Show_Name_Enum.Results_Window_1:
                     Results_Window_1.HWindow.ClearWindow();
                     Results_Window_1.DisplayImage? .Dispose();
@@ -1304,13 +1342,19 @@ namespace Halcon_SDK_DLL
                 case Window_Show_Name_Enum.Live_Window:
                     Live_Window.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
                     break;
-                case Window_Show_Name_Enum.Camera_3DImage_Window:
-                    Camera_3DImage_Window.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
-                    break;
+        
                 case Window_Show_Name_Enum.Features_Window:
                     Features_Window.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
                     break;
-
+                case Window_Show_Name_Enum.Features_Window_1:
+                    Features_Window_1.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.Features_Window_2:
+                    Features_Window_2.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
+                case Window_Show_Name_Enum.Features_Window_3:
+                    Features_Window_3.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+                    break;
                 case Window_Show_Name_Enum.Results_Window_1:
                     Results_Window_1.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
                     break;
@@ -1376,9 +1420,15 @@ namespace Halcon_SDK_DLL
                 case Window_Show_Name_Enum.Features_Window:
                     _WindowDisplay = Features_Window;
                     break;
-         
-                case Window_Show_Name_Enum.Camera_3DImage_Window:
-                    _WindowDisplay = Camera_3DImage_Window;
+
+                case Window_Show_Name_Enum.Features_Window_1:
+                    _WindowDisplay = Features_Window_1;
+                    break;
+                case Window_Show_Name_Enum.Features_Window_2:
+                    _WindowDisplay = Features_Window_2;
+                    break;
+                case Window_Show_Name_Enum.Features_Window_3:
+                    _WindowDisplay = Features_Window_3;
                     break;
                 case Window_Show_Name_Enum.Results_Window_1:
                     _WindowDisplay = Results_Window_1;

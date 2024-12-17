@@ -996,7 +996,7 @@ namespace MVS_SDK_Base.Model
                         Image_Data.Callback_pFrameInfo = pFrameInfo;
                         Image_Data.PData = pData;
 
-                        Debug.WriteLine($"{Camera_Info.SerialNumber} 当前时间：{now:yyyy-MM-dd HH:mm:ss.fff}");
+                      //  Debug.WriteLine($"{Camera_Info.SerialNumber} 当前时间：{now:yyyy-MM-dd HH:mm:ss.fff}");
 
                         Camera_Signal.Set();
 
@@ -1042,46 +1042,6 @@ namespace MVS_SDK_Base.Model
             }
 
 
-
-
-            //public MVS_Image_Mode MVS_GetImageBuffer(int _Timeout = 1000)
-            //{
-
-            //    MVS_Image_Mode Image_Data = new();
-
-            //    CFrameout pcFrame = new CFrameout();
-
-
-
-            //    //while (true) 
-            //    //{
-
-
-            //    Set_Camera_Val(Camera_Parameters_Name_Enum.GetImageBuffer, Camera.GetImageBuffer(ref pcFrame, _Timeout));
-            //    DateTime now = DateTime.Now;
-            //    Debug.WriteLine($"{Camera_Info.SerialNumber} 当前时间：{now:yyyy-MM-dd HH:mm:ss.fff}");
-            //    if (pcFrame.Image != null)
-            //    {
-            //        Image_Data.Frame_Info = pcFrame;
-
-            //    }
-            //    else
-            //    {
-            //        //continue;
-            //    }
-            //    return Image_Data;
-
-
-            //    //Image_Data.pData_Buffer = pcFrame.Image.ImageData;
-            //    //Image_Data.PData = pcFrame.Image.ImageAddr;
-
-            //    //}
-
-
-
-            //    //return Image_Data;
-
-            //}
 
 
 

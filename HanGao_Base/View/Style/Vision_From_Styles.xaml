@@ -97,8 +97,10 @@
 
     <Style x:Key="Menu_Style" TargetType="{x:Type Menu}">
         <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -116,7 +118,7 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <!--<Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
                             <Setter Property="BorderThickness" Value="2" />-->
-                            <Setter Property="Opacity" Value="0.9" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
