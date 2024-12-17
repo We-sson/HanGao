@@ -134,9 +134,17 @@ namespace MVS_SDK
             //获得设备枚举
             nRet = CSystem.EnumDevices(CSystem.MV_GIGE_DEVICE, ref _CCamera_List);
 
+                //if (_CCamera_List.Count==0 && nRet == CErrorDefine.MV_OK)
+                //{
+                //    nRet = CSystem.EnumDevices(CSystem.MV_VIR_GIGE_DEVICE, ref _CCamera_List);
+
+                //}
             if (nRet == CErrorDefine.MV_OK)
             {
                 CGCamera_List.Clear();
+
+
+
                 foreach (var _CCamer in _CCamera_List)
                 {
                     if (_CCamer.nTLayerType == CSystem.MV_GIGE_DEVICE)
@@ -152,6 +160,12 @@ namespace MVS_SDK
             {
                 return CGCamera_List;
             }
+
+
+
+
+
+
         }
 
 

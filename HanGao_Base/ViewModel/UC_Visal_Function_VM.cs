@@ -50,7 +50,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 窗口显示枚举
         /// </summary>
-        public UI_FromWindow_Switch_Enum UI_ImageResults_Window_Switch { set; get; } = UI_FromWindow_Switch_Enum.One_Window;
+        public UI_FromWindow_Switch_Enum UI_ImageResults_Window_Switch { set; get; } = UI_FromWindow_Switch_Enum.Four_Window;
         /// <summary>
         /// 窗口显示枚举
         /// </summary>

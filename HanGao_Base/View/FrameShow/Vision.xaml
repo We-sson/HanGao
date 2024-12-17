@@ -192,7 +192,9 @@
 
                         </Grid>
                         <!--  图像功能按钮  -->
-                        <Grid Grid.Column=" 1" HorizontalAlignment="Right">
+                        <Grid Grid.Column=" 1"
+                              Margin="8,0,8,0"
+                              HorizontalAlignment="Right">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -308,7 +310,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="14" />
                                         </MenuItem.Header>
-                                        <MenuItem IsChecked="{Binding UI_ImageResults_Window_Switch, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static UI_Emum:UI_FromWindow_Switch_Enum.One_Window}}" IsCheckable="True">
+                                        <MenuItem IsChecked="{Binding UI_EditImage_Window_Switch, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static UI_Emum:UI_FromWindow_Switch_Enum.One_Window}}" IsCheckable="True">
                                             <MenuItem.Header>
                                                 <TextBlock Text="单窗口"
                                                            VerticalAlignment="Center"
@@ -316,7 +318,7 @@
                                                            FontSize="14" />
                                             </MenuItem.Header>
                                         </MenuItem>
-                                        <MenuItem IsChecked="{Binding UI_ImageResults_Window_Switch, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static UI_Emum:UI_FromWindow_Switch_Enum.Two_Window}}" IsCheckable="True">
+                                        <MenuItem IsChecked="{Binding UI_EditImage_Window_Switch, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static UI_Emum:UI_FromWindow_Switch_Enum.Two_Window}}" IsCheckable="True">
                                             <MenuItem.Header>
                                                 <TextBlock Text="双窗口"
                                                            VerticalAlignment="Center"
@@ -324,7 +326,7 @@
                                                            FontSize="14" />
                                             </MenuItem.Header>
                                         </MenuItem>
-                                        <MenuItem IsChecked="{Binding UI_ImageResults_Window_Switch, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static UI_Emum:UI_FromWindow_Switch_Enum.Four_Window}}" IsCheckable="True">
+                                        <MenuItem IsChecked="{Binding UI_EditImage_Window_Switch, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static UI_Emum:UI_FromWindow_Switch_Enum.Four_Window}}" IsCheckable="True">
                                             <MenuItem.Header>
                                                 <TextBlock Text="四窗口"
                                                            VerticalAlignment="Center"
@@ -396,7 +398,7 @@
                             </Grid>-->
 
 
-                            <Grid Grid.Column=" 2">
+                            <!--<Grid Grid.Column=" 2">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -479,7 +481,7 @@
 
 
 
-                            </Grid>
+                            </Grid>-->
 
                         </Grid>
 
@@ -1133,6 +1135,10 @@
                                             <Setter Property="Grid.ColumnSpan" Value="3" />
                                             <Setter Property="Grid.RowSpan" Value="3" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding UI_EditImage_Window_Switch}" Value="{x:Static UI_Emum:UI_FromWindow_Switch_Enum.Two_Window}">
+                                            <Setter Property="Grid.ColumnSpan" Value="1" />
+                                            <Setter Property="Grid.RowSpan" Value="3" />
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Grid.Style>
@@ -1282,6 +1288,12 @@
 
                                             <Setter Property="Visibility" Value="Collapsed" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding UI_EditImage_Window_Switch}" Value="{x:Static UI_Emum:UI_FromWindow_Switch_Enum.Two_Window}">
+                                            <Setter Property="Grid.ColumnSpan" Value="1" />
+                                            <Setter Property="Grid.RowSpan" Value="3" />
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+
                                     </Style.Triggers>
                                 </Style>
                             </Grid.Style>
@@ -1332,6 +1344,10 @@
 
                                             <Setter Property="Visibility" Value="Collapsed" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding UI_EditImage_Window_Switch}" Value="{x:Static UI_Emum:UI_FromWindow_Switch_Enum.Two_Window}">
+
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Grid.Style>
@@ -1379,6 +1395,10 @@
 
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding UI_EditImage_Window_Switch}" Value="{x:Static UI_Emum:UI_FromWindow_Switch_Enum.One_Window}">
+
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding UI_EditImage_Window_Switch}" Value="{x:Static UI_Emum:UI_FromWindow_Switch_Enum.Two_Window}">
 
                                             <Setter Property="Visibility" Value="Collapsed" />
                                         </DataTrigger>
@@ -1434,7 +1454,10 @@
 
                                             <Setter Property="Visibility" Value="Collapsed" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding UI_EditImage_Window_Switch}" Value="{x:Static UI_Emum:UI_FromWindow_Switch_Enum.Two_Window}">
 
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
