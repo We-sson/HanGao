@@ -1149,6 +1149,8 @@
                                                            VerticalAlignment="Stretch"
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
+                                                           BorderBrush="{DynamicResource 全局_背景_白颜色}"
+                                                           BorderThickness="1"
                                                            HDisableAutoResize="True"
                                                            HKeepAspectRatio="True"
                                                            SnapsToDevicePixels="True">
@@ -1268,11 +1270,17 @@
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
-                                    <i:EventTrigger EventName="HMouseDown">
+                                    <i:EventTrigger EventName="HMouseMove">
                                         <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction Command="{Binding GetSmartWindowControl_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+
                                 </i:Interaction.Triggers>
 
                             </Halcon:HSmartWindowControlWPF>
@@ -1302,6 +1310,8 @@
                                                            VerticalAlignment="Stretch"
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
+                                                           BorderBrush="{DynamicResource 全局_背景_白颜色}"
+                                                           BorderThickness="1"
                                                            HDisableAutoResize="True"
                                                            HKeepAspectRatio="True"
                                                            SnapsToDevicePixels="True">
@@ -1325,8 +1335,13 @@
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
-                                    <i:EventTrigger EventName="HMouseDown">
+                                    <i:EventTrigger EventName="HMouseMove">
                                         <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction Command="{Binding GetSmartWindowControl_Comm}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
@@ -1356,6 +1371,8 @@
                                                            VerticalAlignment="Stretch"
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
+                                                           BorderBrush="{DynamicResource 全局_背景_白颜色}"
+                                                           BorderThickness="1"
                                                            HDisableAutoResize="True"
                                                            HKeepAspectRatio="True"
                                                            SnapsToDevicePixels="True">
@@ -1379,8 +1396,13 @@
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
-                                    <i:EventTrigger EventName="HMouseDown">
+                                    <i:EventTrigger EventName="HMouseMove">
                                         <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction Command="{Binding GetSmartWindowControl_Comm}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
@@ -1410,6 +1432,8 @@
                                                            VerticalAlignment="Stretch"
                                                            HorizontalContentAlignment="Center"
                                                            VerticalContentAlignment="Center"
+                                                           BorderBrush="{DynamicResource 全局_背景_白颜色}"
+                                                           BorderThickness="1"
                                                            HDisableAutoResize="True"
                                                            HKeepAspectRatio="True"
                                                            SnapsToDevicePixels="True">
@@ -1433,8 +1457,13 @@
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
-                                    <i:EventTrigger EventName="HMouseDown">
+                                    <i:EventTrigger EventName="HMouseMove">
                                         <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                               PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction Command="{Binding GetSmartWindowControl_Comm}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
                                     </i:EventTrigger>
@@ -1444,7 +1473,7 @@
                         </Grid>
 
 
-                        <Border Grid.Row="1" Grid.Column=" 1"
+                        <!--<Border Grid.Row="1" Grid.Column=" 1"
                                 Width=" 2"
                                 Background="{DynamicResource 全局_背景_白颜色}">
                             <Border.Style>
@@ -1461,9 +1490,9 @@
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
-                        </Border>
+                        </Border>-->
 
-                        <Border Grid.Row="1" Grid.Column=" 1"
+                        <!--<Border Grid.Row="1" Grid.Column=" 1"
                                 Height=" 2"
                                 Background="{DynamicResource 全局_背景_白颜色}">
                             <Border.Style>
@@ -1477,7 +1506,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
-                        </Border>
+                        </Border>-->
 
 
 
@@ -1505,12 +1534,12 @@
                                                Foreground="{DynamicResource 全局_按钮_白颜色}">
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="鼠标位置 X:{0:F3} Y:{1:F3}">
-                                                <Binding Path="Halcon_Shape_Mode.Chick_Position.X" />
-                                                <Binding Path="Halcon_Shape_Mode.Chick_Position.Y" />
+                                                <Binding Path="Halcon_Window_Display.Mouse_Pose.X" />
+                                                <Binding Path="Halcon_Window_Display.Mouse_Pose.Y" />
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
-                                    <TextBlock Text="{Binding Halcon_Shape_Mode.Chick_Position_Gray, StringFormat=鼠标灰度值: {0}}"
+                                    <TextBlock Text="{Binding Halcon_Window_Display.Mouse_Pose_Gray, StringFormat=灰度值: {0}}"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="12"
@@ -4552,11 +4581,29 @@
 
 
 
-                                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                <Button Grid.Column=" 2"
                                                         Margin="5,0,0,0"
                                                         HorizontalAlignment="Stretch"
                                                         VerticalAlignment="Stretch"
                                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+                                                    <Button.Style>
+                                                        <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                            <Style.Triggers>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Work_State}" Value="{x:Static MVS_Enum:MV_CAM_Camera_Work_State_Enum.Camera_Ready}" />
+                                                                        <Condition Binding="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Work_State}" Value="{x:Static MVS_Enum:MV_CAM_Camera_Work_State_Enum.Camera_Ready}" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="IsEnabled" Value="True" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
                                                     <TextBlock Text="同步采集"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"

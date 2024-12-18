@@ -81,7 +81,7 @@ namespace MVS_SDK
                // Debug.WriteLine($"0采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
               //   now = DateTime.Now;
 
-                //_HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.Callback_pFrameInfo.nWidth, _MVS_Image_1.Callback_pFrameInfo.nHeight, _MVS_Image_1.PData);
+                _HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.Callback_pFrameInfo.nWidth, _MVS_Image_1.Callback_pFrameInfo.nHeight, _MVS_Image_1.PData);
 
               //  Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
             });
@@ -95,7 +95,7 @@ namespace MVS_SDK
            //     Debug.WriteLine($"1采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
             //     now = DateTime.Now;
 
-                //_HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.Callback_pFrameInfo.nWidth, _MVS_Image_0.Callback_pFrameInfo.nHeight, _MVS_Image_0.PData);
+                _HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.Callback_pFrameInfo.nWidth, _MVS_Image_0.Callback_pFrameInfo.nHeight, _MVS_Image_0.PData);
                
                 
             //    Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");

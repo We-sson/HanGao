@@ -8,6 +8,7 @@ using System.IO;
 using System.Windows.Media.Media3D;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
+using Point = System.Windows.Point;
 
 namespace Halcon_SDK_DLL
 {
@@ -541,7 +542,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 样品图片保存后序号
         /// </summary>
-        private  int Sample_Save_Image_Number { set; get; } = 1;
+        private int Sample_Save_Image_Number { set; get; } = 1;
 
 
         /// <summary>
@@ -549,7 +550,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         /// <param name="_Image"></param>
         /// <returns></returns>
-        public  void Save_Image(HObject _Image)
+        public void Save_Image(HObject _Image)
         {
             try
             {
@@ -621,7 +622,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Cir"></param>
         /// <param name="_Point"></param>
         /// <returns></returns>
-        public  HXLDCont Draw_Group_Cir(List<Point3D> _Point)
+        public HXLDCont Draw_Group_Cir(List<Point3D> _Point)
         {
             HTuple _Row = new();
             HTuple _Col = new();
@@ -698,7 +699,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Lin"></param>
         /// <param name="_Point"></param>
         /// <returns></returns>
-        public  HXLDCont Draw_Group_Lin(List<Point3D> _Point)
+        public HXLDCont Draw_Group_Lin(List<Point3D> _Point)
         {
             HTuple _Row = new();
             HTuple _Col = new();
@@ -767,7 +768,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Row"></param>
         /// <param name="_Col"></param>
         /// <returns></returns>
-        public  HXLDCont Draw_Cross(double _Row, double _Col, double _Size = 50)
+        public HXLDCont Draw_Cross(double _Row, double _Col, double _Size = 50)
         {
             try
             {
@@ -913,6 +914,141 @@ namespace Halcon_SDK_DLL
 
 
         /// <summary>
+        /// 鼠标当前位置控件图像
+        /// </summary>
+        private HImage Mouse_Pose_Image { set; get; } = new HImage();
+
+
+
+
+
+        private int _Mouse_Pose_Gray = -1;
+
+        /// <summary>
+        /// 鼠标当前灰度值
+        /// </summary>
+        public int Mouse_Pose_Gray
+        {
+            get
+            {
+
+
+                try
+                {
+
+                    if (Mouse_Pose_Image != null && Mouse_Pose_Image.IsInitialized())
+                    {
+
+                        Mouse_Pose_Image.GetImageSize(out int _Witch, out int _height);
+                        if (Mouse_Pose.X <= _height && Mouse_Pose.Y <= _Witch   && Mouse_Pose.X>=0 && Mouse_Pose.Y>=0)
+                        {
+                            _Mouse_Pose_Gray = Mouse_Pose_Image.GetGrayval(Mouse_Pose.X, Mouse_Pose.Y);
+
+                        }
+                        else
+                        {
+                            _Mouse_Pose_Gray = -1;
+
+                        }
+                    }
+                    else
+                    {
+                        _Mouse_Pose_Gray = -1;
+
+                    }
+
+
+                }
+                catch (Exception)
+                {
+                    _Mouse_Pose_Gray = -1;
+
+                }
+
+                return _Mouse_Pose_Gray;
+            }
+            set { _Mouse_Pose_Gray = value; }
+        }
+
+
+
+        /// <summary>
+        /// 用户鼠标位置
+        /// </summary>
+        public Point Mouse_Pose { set; get; } = new Point(0, 0);
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 获得当前控件图像
+        /// </summary>
+        /// <param name="_window"></param>
+        /// <returns></returns>
+        public HImage Get_HWindow_Image(Window_Show_Name_Enum _window)
+        {
+
+
+            switch (_window)
+            {
+                case Window_Show_Name_Enum.Live_Window:
+                    break;
+                case Window_Show_Name_Enum.Features_Window:
+
+                    Mouse_Pose_Image = new HImage(Features_Window.DisplayImage);
+
+                    break;
+                case Window_Show_Name_Enum.Features_Window_1:
+                    Mouse_Pose_Image = new HImage(Features_Window_1.DisplayImage);
+
+                    break;
+                case Window_Show_Name_Enum.Features_Window_2:
+                    Mouse_Pose_Image = new HImage(Features_Window_2.DisplayImage);
+
+                    break;
+                case Window_Show_Name_Enum.Features_Window_3:
+                    Mouse_Pose_Image = new HImage(Features_Window_3.DisplayImage);
+
+                    break;
+                case Window_Show_Name_Enum.Features_3D_Results:
+                    break;
+                case Window_Show_Name_Enum.Results_Window_1:
+                    break;
+                case Window_Show_Name_Enum.Results_Window_2:
+                    break;
+                case Window_Show_Name_Enum.Results_Window_3:
+                    break;
+                case Window_Show_Name_Enum.Results_Window_4:
+                    break;
+                case Window_Show_Name_Enum.Calibration_Window_1:
+                    break;
+                case Window_Show_Name_Enum.Calibration_Window_2:
+                    break;
+                case Window_Show_Name_Enum.Calibration_3D_Results:
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_1:
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_2:
+                    break;
+                case Window_Show_Name_Enum.HandEye_Results_Window_1:
+                    break;
+                case Window_Show_Name_Enum.HandEye_Results_Window_2:
+                    break;
+                case Window_Show_Name_Enum.HandEye_3D_Results:
+                    break;
+
+            }
+
+
+            return Mouse_Pose_Image;
+        }
+
+
+        /// <summary>
         /// Halcon窗口初始化
         /// </summary>
         /// <param name="Window_UserContol"></param>
@@ -920,13 +1056,13 @@ namespace Halcon_SDK_DLL
         {
             switch (Window_UserContol.Name)
             {
-                case string  when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Live_Window):
+                case string when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Live_Window):
                     //初始化halcon图像属性
                     Live_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Live_Window.HWindow.SetWindowParam("background_color", "#334C66");
                     break;
 
-                case string  when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window):
+                case string when Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_Window):
                     //加载halcon图像属性
                     Features_Window = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Features_Window.HWindow.SetWindowParam("background_color", "#334C66");
@@ -950,28 +1086,28 @@ namespace Halcon_SDK_DLL
                     Features_Window_3.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_1)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_1)):
                     //加载halcon图像属性
                     Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Results_Window_1.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
 
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_2)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_2)):
                     //加载halcon图像属性
                     Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Results_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
 
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_3)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_3)):
                     //加载halcon图像属性
                     Results_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Results_Window_3.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
 
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_4)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_4)):
                     //加载halcon图像属性
                     Results_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Results_Window_4.HWindow.SetWindowParam("background_color", "#334C66");
@@ -1000,43 +1136,43 @@ namespace Halcon_SDK_DLL
                     HDisplay_3D = new H3D_Model_Display(Features_3D_Results);
 
                     break;
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_2)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_2)):
                     //加载halcon图像属性
                     Calibration_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Calibration_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_1)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_1)):
                     //加载halcon图像属性
                     Calibration_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Calibration_Window_1.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_1)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_1)):
                     //加载halcon图像属性
                     HandEye_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     HandEye_Window_1.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_2)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_2)):
                     //加载halcon图像属性
                     HandEye_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     HandEye_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_1)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_1)):
                     //加载halcon图像属性
                     HandEye_Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     HandEye_Results_Window_1.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-                case string  when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_2)):
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_2)):
                     //加载halcon图像属性
                     HandEye_Results_Window_2 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     HandEye_Results_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
-         
+
 
             }
             //设置halcon窗体大小
@@ -1094,7 +1230,7 @@ namespace Halcon_SDK_DLL
                     break;
                 case Window_Show_Name_Enum.Results_Window_1:
                     Results_Window_1.HWindow.ClearWindow();
-                    Results_Window_1.DisplayImage? .Dispose();
+                    Results_Window_1.DisplayImage?.Dispose();
                     Results_Window_1.DisplayXLD?.Dispose();
                     Results_Window_1.DisplayRegion?.Dispose();
                     Results_Window_1.Draw_XLD?.Dispose();
@@ -1342,7 +1478,7 @@ namespace Halcon_SDK_DLL
                 case Window_Show_Name_Enum.Live_Window:
                     Live_Window.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
                     break;
-        
+
                 case Window_Show_Name_Enum.Features_Window:
                     Features_Window.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
                     break;
@@ -2864,7 +3000,7 @@ namespace Halcon_SDK_DLL
     }
 
     [AddINotifyPropertyChangedInterface]
-    public  class Halcon_Example
+    public class Halcon_Example
     {
 
         public Halcon_Example()
@@ -2883,12 +3019,12 @@ namespace Halcon_SDK_DLL
         {
             // Local iconic variables
 
-            HObject ho_Arrows=new HObject ();
+            HObject ho_Arrows = new HObject();
 
             // Local control variables
 
             HTuple hv_CameraType = new(), hv_IsTelecentric = new();
-            HTuple  hv_OrigCamX = new();
+            HTuple hv_OrigCamX = new();
             HTuple hv_OrigCamY = new(), hv_OrigCamZ = new();
             HTuple hv_Row0 = new(), hv_Column0 = new();
             HTuple hv_X = new(), hv_Y = new(), hv_Z = new();
@@ -2922,10 +3058,10 @@ namespace Halcon_SDK_DLL
                 //}
 
 
-               
 
 
-                if (hv_Pose==null)
+
+                if (hv_Pose == null)
                 {
                     return ho_Arrows;
 
@@ -2936,7 +3072,7 @@ namespace Halcon_SDK_DLL
                 //hv_IsTelecentric.Dispose();
 
 
-               
+
 
                 //hv_IsTelecentric = new HTuple(((hv_CameraType.TupleStrstr(
                 //    "telecentric"))).TupleNotEqual(-1));
@@ -2954,7 +3090,7 @@ namespace Halcon_SDK_DLL
                 //    return ho_Arrows;
                 //}
 
-                if (hv_CamParam[0] == "telecentric" && hv_Pose?[2]==0 )
+                if (hv_CamParam[0] == "telecentric" && hv_Pose?[2] == 0)
                 {
                     return ho_Arrows;
 
@@ -2964,7 +3100,7 @@ namespace Halcon_SDK_DLL
                 //hv_TransWorld2Cam.Dispose();
                 //HOperatorSet.PoseToHomMat3d(hv_Pose, out hv_TransWorld2Cam);
 
-                hv_TransWorld2Cam=new HPose(hv_Pose) .PoseToHomMat3d();
+                hv_TransWorld2Cam = new HPose(hv_Pose).PoseToHomMat3d();
 
 
                 //Project the world origin into the image
@@ -2973,7 +3109,7 @@ namespace Halcon_SDK_DLL
                 //HOperatorSet.AffineTransPoint3d(hv_TransWorld2Cam, 0, 0, 0, out hv_OrigCamX,
                 //    out hv_OrigCamY, out hv_OrigCamZ);
 
-                hv_OrigCamX= hv_TransWorld2Cam.AffineTransPoint3d(0, 0, 0, out hv_OrigCamY, out hv_OrigCamZ);
+                hv_OrigCamX = hv_TransWorld2Cam.AffineTransPoint3d(0, 0, 0, out hv_OrigCamY, out hv_OrigCamZ);
 
                 //hv_Row0.Dispose(); hv_Column0.Dispose();
                 //HOperatorSet.Project3dPoint(hv_OrigCamX, hv_OrigCamY, hv_OrigCamZ, hv_CamParam,
@@ -2988,7 +3124,7 @@ namespace Halcon_SDK_DLL
                 //HOperatorSet.AffineTransPoint3d(hv_TransWorld2Cam, hv_CoordAxesLength, 0, 0,
                 //    out hv_X, out hv_Y, out hv_Z);
 
-                hv_X= hv_TransWorld2Cam.AffineTransPoint3d(hv_CoordAxesLength, 0, 0, out hv_Y, out hv_Z);
+                hv_X = hv_TransWorld2Cam.AffineTransPoint3d(hv_CoordAxesLength, 0, 0, out hv_Y, out hv_Z);
 
                 //hv_RowAxX.Dispose(); hv_ColumnAxX.Dispose();
                 //HOperatorSet.Project3dPoint(hv_X, hv_Y, hv_Z, hv_CamParam, out hv_RowAxX, out hv_ColumnAxX);
@@ -3000,7 +3136,7 @@ namespace Halcon_SDK_DLL
                 //HOperatorSet.AffineTransPoint3d(hv_TransWorld2Cam, 0, hv_CoordAxesLength, 0,
                 //    out hv_X, out hv_Y, out hv_Z);
 
-                hv_X= hv_TransWorld2Cam.AffineTransPoint3d(0, hv_CoordAxesLength, 0, out hv_Y, out hv_Z);
+                hv_X = hv_TransWorld2Cam.AffineTransPoint3d(0, hv_CoordAxesLength, 0, out hv_Y, out hv_Z);
 
 
 
@@ -3014,7 +3150,7 @@ namespace Halcon_SDK_DLL
                 //HOperatorSet.AffineTransPoint3d(hv_TransWorld2Cam, 0, 0, hv_CoordAxesLength,
                 //    out hv_X, out hv_Y, out hv_Z);
 
-                hv_X= hv_TransWorld2Cam.AffineTransPoint3d(0, 0, hv_CoordAxesLength, out hv_Y, out hv_Z);
+                hv_X = hv_TransWorld2Cam.AffineTransPoint3d(0, 0, hv_CoordAxesLength, out hv_Y, out hv_Z);
 
 
                 //hv_RowAxZ.Dispose(); hv_ColumnAxZ.Dispose();
@@ -3030,7 +3166,7 @@ namespace Halcon_SDK_DLL
                 //    hv_RowAxY))).TupleConcat(hv_RowAxZ), ((hv_ColumnAxX.TupleConcat(hv_ColumnAxY))).TupleConcat(
                 //    hv_ColumnAxZ), out hv_Distance);
 
-             
+
 
                 hv_Distance = HMisc.DistancePp(((hv_Row0.TupleConcat(hv_Row0))).TupleConcat(hv_Row0),
                     ((hv_Column0.TupleConcat(hv_Column0))).TupleConcat(hv_Column0), ((hv_RowAxX.TupleConcat(
@@ -3044,7 +3180,7 @@ namespace Halcon_SDK_DLL
                 ho_Arrows.Dispose();
 
 
-                ho_Arrows= Gen_arrow_contour_xld( ((hv_Row0.TupleConcat(hv_Row0))).TupleConcat(
+                ho_Arrows = Gen_arrow_contour_xld(((hv_Row0.TupleConcat(hv_Row0))).TupleConcat(
                     hv_Row0), ((hv_Column0.TupleConcat(hv_Column0))).TupleConcat(hv_Column0),
                     ((hv_RowAxX.TupleConcat(hv_RowAxY))).TupleConcat(hv_RowAxZ), ((hv_ColumnAxX.TupleConcat(
                     hv_ColumnAxY))).TupleConcat(hv_ColumnAxZ), hv_HeadLength, hv_HeadLength);
@@ -3126,7 +3262,7 @@ namespace Halcon_SDK_DLL
         /// <param name="hv_Column2"></param>
         /// <param name="hv_HeadLength"></param>
         /// <param name="hv_HeadWidth"></param>
-        private    HObject Gen_arrow_contour_xld(HTuple hv_Row1, HTuple hv_Column1,HTuple hv_Row2, HTuple hv_Column2, HTuple hv_HeadLength, HTuple hv_HeadWidth)
+        private HObject Gen_arrow_contour_xld(HTuple hv_Row1, HTuple hv_Column1, HTuple hv_Row2, HTuple hv_Column2, HTuple hv_HeadLength, HTuple hv_HeadWidth)
         {
             // Stack for temporary objects
             //HObject[] OTemp = new HObject[20];
@@ -3144,9 +3280,9 @@ namespace Halcon_SDK_DLL
             HTuple hv_Index = new();
             // Initialize local and output iconic variables
 
-            HObject ho_Arrow = new ();
-            HXLDCont ho_TempArrow = new ();
-            
+            HObject ho_Arrow = new();
+            HXLDCont ho_TempArrow = new();
+
             ho_Arrow.GenEmptyObj();
             ho_TempArrow.GenEmptyObj();
 
@@ -3183,7 +3319,7 @@ namespace Halcon_SDK_DLL
                 //hv_Length.Dispose();
                 //HOperatorSet.DistancePp(hv_Row1, hv_Column1, hv_Row2, hv_Column2, out hv_Length);
 
-                hv_Length= HMisc.DistancePp(hv_Row1, hv_Column1, hv_Row2, hv_Column2);
+                hv_Length = HMisc.DistancePp(hv_Row1, hv_Column1, hv_Row2, hv_Column2);
                 //
                 //Mark arrows with identical start and end point
                 //(set Length to -1 to avoid division-by-zero exception)
@@ -3196,7 +3332,7 @@ namespace Halcon_SDK_DLL
                     if (hv_Length == null)
                         hv_Length = new();
                     hv_Length[hv_ZeroLengthIndices] = -1;
-             
+
 
                 }
                 //
@@ -3275,7 +3411,7 @@ namespace Halcon_SDK_DLL
                         //HOperatorSet.ConcatObj(ho_Arrow, ho_TempArrow, out ExpTmpOutVar_0);
                         //ho_Arrow.Dispose();
                         //ho_Arrow = ExpTmpOutVar_0;
-                        ho_Arrow= ho_Arrow.ConcatObj(ho_TempArrow);
+                        ho_Arrow = ho_Arrow.ConcatObj(ho_TempArrow);
 
                     }
 

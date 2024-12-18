@@ -143,10 +143,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        /// <summary>
-        /// 鼠标当前灰度值
-        /// </summary>
-        public int Chick_Position_Gray { set; get; } = -1;
+
 
         /// <summary>
         /// 保存单次生产手动描述特征点
@@ -742,24 +739,24 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// 获得位置点的灰度值
         /// </summary>
         /// <param name="_Image"></param>
-        public void Get_Pos_Gray(HImage _Image)
-        {
+        //public void Get_Pos_Gray(HImage _Image)
+        //{
 
-            try
-            {
-
-
-                Chick_Position_Gray = _Image.GetGrayval(Chick_Position.X, Chick_Position.Y);
+        //    try
+        //    {
 
 
-            }
-            catch (Exception)
-            {
-                Chick_Position_Gray = -1;
+        //        Chick_Position_Gray = _Image.GetGrayval(Chick_Position.X, Chick_Position.Y);
 
-            }
 
-        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Chick_Position_Gray = -1;
+
+        //    }
+
+        //}
 
 
 
