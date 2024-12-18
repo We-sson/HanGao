@@ -512,6 +512,7 @@
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -875,7 +876,7 @@
                         </MultiDataTrigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <!--<Setter TargetName="arrow" Property="Fill" Value="{DynamicResource ComboBox.MouseOver.Glyph}" />-->
-                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
                         </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -1145,7 +1146,7 @@
                 <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
             </Trigger>
         </Style.Triggers>
     </Style>

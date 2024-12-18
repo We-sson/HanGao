@@ -24,8 +24,8 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 
 
 
-        public MVS_Camera_Parameter_Model Camera_0_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON , TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE};
-        public MVS_Camera_Parameter_Model Camera_1_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode= MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON, TriggerSource= MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0, TriggerActivation= MVS_SDK_Base.Model.MV_CAM_TRIGGER_ACTIVATION.LevelHigh };
+        public MVS_Camera_Parameter_Model Camera_0_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON, TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE };
+        public MVS_Camera_Parameter_Model Camera_1_3DPoint_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON, TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0, TriggerActivation = MVS_SDK_Base.Model.MV_CAM_TRIGGER_ACTIVATION.LevelHigh };
 
 
         public MVS_Camera_Parameter_Model Camera_0_3DFusionImage_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON, TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE };
@@ -44,6 +44,18 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public ObservableCollection<Preprocessing_Process_Lsit_Model> Find_Preprocessing_Process_List { set; get; } = [];
 
 
+        public ObservableCollection<Preprocessing_Process_Lsit_Model> Camera_0_3DPoint_Process_List { set; get; } = [];
+        public ObservableCollection<Preprocessing_Process_Lsit_Model> Camera_1_3DPoint_Process_List { set; get; } = [];
+
+
+
+        public ObservableCollection<Preprocessing_Process_Lsit_Model> Camera_0_3DFusionImage_Process_List { set; get; } = [];
+        public ObservableCollection<Preprocessing_Process_Lsit_Model> Camera_1_3DFusionImage_Process_List { set; get; } = [];
+
+
+
+
+
 
         [XmlAttribute()]
         public string ID { set; get; } = "0";
@@ -52,11 +64,17 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public string Date_Last_Revise { get; set; } = DateTime.Now.ToString();
 
 
-        public void Get_Camera_H3DStereo_ParamData()
+        public ObservableCollection<Preprocessing_Process_Lsit_Model> Get_H3DStereo_Preprocessing_Process()
         {
 
+            var cameraProcessList = H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch ? (H3DStereo_ParamData.H3DStereo_Image_Type == H3DStereo_Image_Type_Enum.点云图像
+                  ? Camera_0_3DPoint_Process_List
+                  : Camera_0_3DFusionImage_Process_List)
+              : (H3DStereo_ParamData.H3DStereo_Image_Type == H3DStereo_Image_Type_Enum.点云图像
+                  ? Camera_1_3DPoint_Process_List
+                  : Camera_1_3DFusionImage_Process_List);
 
-
+            return cameraProcessList ?? Find_Preprocessing_Process_List;
 
         }
 
@@ -68,7 +86,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
     /// 视觉数据参数文件集合
     /// </summary>
     [Serializable]
- 
+
     public class Vision_Data
     {
         /// <summary>
@@ -110,7 +128,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public double Vision_Rotation_Max_Offset { set; get; } = 5.0;
 
 
-        
+
         /// <summary>
         /// 视觉检查有效区域范围值,,超过会偏移相机位置
         /// </summary>

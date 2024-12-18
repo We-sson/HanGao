@@ -141,7 +141,7 @@
                             <Setter TargetName="border_Bottom" Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
                             <!--<Setter Property="Opacity" Value="0.9" />-->
                             <!--<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />-->

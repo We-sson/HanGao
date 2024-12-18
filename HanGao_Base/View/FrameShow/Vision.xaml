@@ -4874,16 +4874,69 @@
                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                           GridLinesVisibility="Horizontal"
                                                           HeadersVisibility="Column"
-                                                          ItemsSource="{Binding Select_Vision_Value.Find_Preprocessing_Process_List}"
                                                           RowHeaderWidth="0"
                                                           RowStyle="{DynamicResource Point_UI_DataGridRowStyle}"
-                                                          SelectedValue="{Binding Image_Preprocessing_Process.Preprocessing_Process_List_Selete}"
+                                                          SelectedValue="{Binding Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List_Selete}"
                                                           SelectionMode="Single"
                                                           SelectionUnit="FullRow">
                                                     <DataGrid.Resources>
                                                         <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="{x:Type ScrollBar}" />
                                                     </DataGrid.Resources>
 
+
+                                                    <DataGrid.Style>
+                                                        <Style TargetType="DataGrid">
+                                                            <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Find_Preprocessing_Process_List}" />
+
+
+                                                            <Style.Triggers>
+
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}" Value="true" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Process_List}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}" Value="false" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Process_List}" />
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}" Value="true" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Process_List}" />
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch}" Value="false" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Process_List}" />
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+
+                                                            </Style.Triggers>
+
+                                                        </Style>
+                                                    </DataGrid.Style>
                                                     <DataGrid.Columns>
 
 
@@ -4959,9 +5012,9 @@
                                                                                 </Grid>
                                                                             </Expander.Header>
 
-                                                                            <Grid Margin="0,-5,0,0" Effect="{DynamicResource 全局背景阴影}">
+                                                                            <Grid Margin="0,2,0,0" Effect="{DynamicResource 全局背景阴影}">
 
-                                                                                <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 0 0 5 5">
+                                                                                <Border Background="{DynamicResource 全局_背景_白颜色}" CornerRadius=" 5 5 5 5">
 
                                                                                     <StackPanel Orientation="Vertical">
 
@@ -5780,7 +5833,7 @@
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
                                                 <TextBlock Grid.Column=" 1"
-                                                           Text="{Binding Image_Preprocessing_Process.Preprocessing_Process_List_RunTime, StringFormat=\{0\} ms}"
+                                                           Text="{Binding Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List_RunTime, StringFormat=\{0\} ms}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -5798,14 +5851,14 @@
                                                                FontSize="14"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-                                                    <!--<i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
 
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Image_Preprocessing_Process_Start_Comm}"
-                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>-->
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding StereoImage_PreprocessingProcess_Start_Comm}"
+                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                   PassEventArgsToCommand="True" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
                                                 </Button>
                                             </Grid>
 
@@ -5859,14 +5912,14 @@
                                                                FontSize="14"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-                                                    <!--<i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
 
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Image_Preprocessing_Process_New_Comm}"
-                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>-->
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding StereoImage_PreprocessingProcess_New_Comm}"
+                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                   PassEventArgsToCommand="True" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
                                                 </Button>
 
                                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 3"
@@ -5881,14 +5934,14 @@
                                                                FontSize="14"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-                                                    <!--<i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
 
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Image_Preprocessing_Process_New_Comm}"
-                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>-->
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding StereoImage_PreprocessingProcess_New_Comm}"
+                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                   PassEventArgsToCommand="True" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
                                                 </Button>
 
                                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 4"
@@ -5903,14 +5956,14 @@
                                                                FontSize="14"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-                                                    <!--<i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
 
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Image_Preprocessing_Process_Delete_Comm}"
-                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>-->
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding StereoImage_PreprocessingProcess_Delete_Comm}"
+                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                   PassEventArgsToCommand="True" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
                                                 </Button>
                                             </Grid>
 
@@ -6180,8 +6233,6 @@
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="stereo_model_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:H3DStereo_Method_Enum}"

@@ -71,9 +71,6 @@ namespace HanGao.ViewModel
         public Halcon_3DStereoModel_SDK Halcon_3DStereoModel { set; get; } = new Halcon_3DStereoModel_SDK();
 
 
-
-
-
         /// <summary>
         /// 手眼机器人通讯参数
         /// </summary>
@@ -449,11 +446,6 @@ namespace HanGao.ViewModel
 
                 try
                 {
-
-
-
-
-
 
                     ///查找模型
                     _Find_Result = Halcon_Shape_Mode.Find_Shape_Model_Results(Select_Vision_Value.Find_Shape_Data, _Image, Camera_Device_List.Select_Camera.Camera_Calibration.Camera_Calibration_Paramteters, Camera_Device_List.Select_Camera.Camera_Calibration.HandEye_ToolinCamera);
@@ -1097,30 +1089,33 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
 
-                try
+                Task.Run(() =>
                 {
+                    try
+                    {
 
-                    ////设置全局参数
-                    Vision_Auto_Cofig.Local_Network_Config.Local_Network_IP_List = new List<string>(Vision_Socket_Robot_Parameters.Local_IP_UI);
-                    Vision_Auto_Cofig.Local_Network_Config.Local_Network_Robot_Model = Vision_Socket_Robot_Parameters.Socket_Robot_Model;
-                    Vision_Auto_Cofig.Local_Network_Config.Local_Network_Port = Vision_Socket_Robot_Parameters.Sever_Socket_Port;
-                    Vision_Auto_Cofig.Local_Network_Config.Local_Network_Auto_Connect = Vision_Socket_Robot_Parameters.Sever_IsRuning;
-                    Vision_Auto_Cofig.Vision_Global_Parameters.Auto_Camera_Selected_Name = Camera_Device_List.Select_Camera?.Camera_Info.SerialNumber;
+                        ////设置全局参数
+                        Vision_Auto_Cofig.Local_Network_Config.Local_Network_IP_List = new List<string>(Vision_Socket_Robot_Parameters.Local_IP_UI);
+                        Vision_Auto_Cofig.Local_Network_Config.Local_Network_Robot_Model = Vision_Socket_Robot_Parameters.Socket_Robot_Model;
+                        Vision_Auto_Cofig.Local_Network_Config.Local_Network_Port = Vision_Socket_Robot_Parameters.Sever_Socket_Port;
+                        Vision_Auto_Cofig.Local_Network_Config.Local_Network_Auto_Connect = Vision_Socket_Robot_Parameters.Sever_IsRuning;
+                        Vision_Auto_Cofig.Vision_Global_Parameters.Auto_Camera_Selected_Name = Camera_Device_List.Select_Camera?.Camera_Info.SerialNumber;
 
 
 
-                    ///保存参数
-                    new Vision_Xml_Method().Save_Xml(Vision_Auto_Cofig);
+                        ///保存参数
+                        new Vision_Xml_Method().Save_Xml(Vision_Auto_Cofig);
 
-                    User_Log_Add("保存全局视觉参数成功！", Log_Show_Window_Enum.Home);
+                        User_Log_Add("保存全局视觉参数成功！", Log_Show_Window_Enum.Home);
 
-                }
-                catch (Exception e)
-                {
+                    }
+                    catch (Exception e)
+                    {
 
-                    User_Log_Add("保存全局视觉参数失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                        User_Log_Add("保存全局视觉参数失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
-                }
+                    }
+                });
 
 
             });
@@ -1148,11 +1143,14 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 Button _Contol = Sm.Source as Button;
+                Image_Preprocessing_Process_Work_Enum _Enum = (Image_Preprocessing_Process_Work_Enum)_Contol.Tag;
+
+
                 try
                 {
 
                     Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Find_Preprocessing_Process_List;
-                    Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
+                    Image_Preprocessing_Process.Preprocessing_Process_Work(_Enum);
 
                     //Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
 
@@ -1162,9 +1160,42 @@ namespace HanGao.ViewModel
                 {
                     User_Log_Add("新增流程失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                 }
+
                 //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
             });
         }
+
+        public ICommand StereoImage_PreprocessingProcess_New_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button _Contol = Sm.Source as Button;
+
+
+                Image_Preprocessing_Process_Work_Enum _Enum = (Image_Preprocessing_Process_Work_Enum)_Contol.Tag;
+
+
+                try
+                {
+
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Get_H3DStereo_Preprocessing_Process();
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Work(_Enum);
+
+                    //Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
+
+                    User_Log_Add("成功新增流程！", Log_Show_Window_Enum.Home);
+                }
+                catch (Exception e)
+                {
+                    User_Log_Add("新增流程失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+            });
+        }
+
+
+
 
         /// <summary>
         /// 图像预处理删除方法
@@ -1173,6 +1204,8 @@ namespace HanGao.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
+
+
                 try
                 {
                     Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Find_Preprocessing_Process_List;
@@ -1185,11 +1218,37 @@ namespace HanGao.ViewModel
                     User_Log_Add("选择选项删除失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                 }
 
+
                 //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
             });
         }
 
+        /// <summary>
+        /// 图像预处理删除方法
+        /// </summary>
+        public ICommand StereoImage_PreprocessingProcess_Delete_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
 
+
+
+                try
+                {
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Get_H3DStereo_Preprocessing_Process();
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Lsit_Delete();
+
+                    User_Log_Add("选择选项删除成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                }
+                catch (Exception e)
+                {
+                    User_Log_Add("选择选项删除失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+
+
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+            });
+        }
 
         /// <summary>
         /// 图像预处理流程开始方法
@@ -1224,7 +1283,96 @@ namespace HanGao.ViewModel
             });
         }
 
+        public ICommand StereoImage_PreprocessingProcess_Start_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        HImage _Image = new();
+                        HImage _Image1 = new();
+                        HImage _Image2 = new();
+                        HImage _Image3 = new();
+                        //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
+                        if (Halcon_Window_Display.Features_Window.DisplayImage.IsInitialized())
+                        {
+
+                            Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_0_3DPoint_Process_List;
+                            _Image = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+
+
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image);
+
+                            });
+
+
+                        }
+                        if (Halcon_Window_Display.Features_Window_1.DisplayImage.IsInitialized())
+                        {
+
+                            Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_1_3DPoint_Process_List;
+                            _Image1 = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start((HImage)Halcon_Window_Display.Features_Window_1.DisplayImage);
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_1, _Image1);
+
+                            });
+
+                        }
+                        if (Halcon_Window_Display.Features_Window_2.DisplayImage.IsInitialized())
+                        {
+
+                            Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_0_3DFusionImage_Process_List;
+                            _Image2 = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start((HImage)Halcon_Window_Display.Features_Window_2.DisplayImage);
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, _Image2);
+
+                            });
+                        }
+                        if (Halcon_Window_Display.Features_Window_3.DisplayImage.IsInitialized())
+                        {
+
+                            Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_1_3DFusionImage_Process_List;
+                            _Image3 = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start((HImage)Halcon_Window_Display.Features_Window_3.DisplayImage);
+
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_3, _Image3);
+
+                            });
+                        }
+                        //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+
+
+
+
+                        //Application.Current.Dispatcher.Invoke(() =>
+                        //{
+                        //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image);
+                        //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_1, _Image1);
+                        //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, _Image2);
+                        //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_3, _Image3);
+                        //});
+
+                        User_Log_Add("图像预处理成功！", Log_Show_Window_Enum.Home);
+                    }
+                    catch (Exception e)
+                    {
+                        User_Log_Add("图像预处理失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    }
+                });
+            });
+        }
 
 
 
@@ -2768,7 +2916,7 @@ namespace HanGao.ViewModel
 
 
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                         //User_Log_Add("获取图像位置灰度失败！原因：" + e.Message, Log_Show_Window_Enum.Home);
@@ -3317,43 +3465,41 @@ namespace HanGao.ViewModel
                     {
 
 
-                        Task.Run(() =>
-                        {
 
 
-                            Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
-                            Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
+                        Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
+                        Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Ready);
 
 
-                            Camera_Device_List.Select_3DCamera_0 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
-                            Camera_Device_List.Select_3DCamera_1 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
+                        Camera_Device_List.Select_3DCamera_0 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
+                        Camera_Device_List.Select_3DCamera_1 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
 
 
-                            Camera_Device_List.Select_3DCamera_0.Connect_Camera();
-                            Camera_Device_List.Select_3DCamera_1.Connect_Camera();
+                        Camera_Device_List.Select_3DCamera_0.Connect_Camera();
+                        Camera_Device_List.Select_3DCamera_1.Connect_Camera();
 
 
 
 
 
-                            ///Camera 0设置
-                            Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
-                            Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = false;
-                            Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+                        ///Camera 0设置
+                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                        Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = false;
+                        Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
 
-                            Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
-                            Select_Vision_Value.Camera_0_3DPoint_Parameter.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
-                            Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true;
-                            Select_Vision_Value.Camera_0_3DPoint_Parameter.TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON;
-                            Select_Vision_Value.Camera_0_3DPoint_Parameter.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE;
-                            Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
+                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
+                        Select_Vision_Value.Camera_0_3DPoint_Parameter.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
+                        Select_Vision_Value.Camera_0_3DPoint_Parameter.StrobeEnable = true;
+                        Select_Vision_Value.Camera_0_3DPoint_Parameter.TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON;
+                        Select_Vision_Value.Camera_0_3DPoint_Parameter.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE;
+                        Camera_Device_List.Select_3DCamera_0.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_0_3DPoint_Parameter);
 
-                            ///Camera 1设置
-                            Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
-                            Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
-                            Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = false;
-                            Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
-                            Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
+                        ///Camera 1设置
+                        Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
+                        Select_Vision_Value.Camera_1_3DPoint_Parameter.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                        Select_Vision_Value.Camera_1_3DPoint_Parameter.StrobeEnable = false;
+                        Select_Vision_Value.Camera_1_3DPoint_Parameter.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
+                        Camera_Device_List.Select_3DCamera_1.Set_Camrea_Parameters_List(Select_Vision_Value.Camera_1_3DPoint_Parameter);
 
 
 
@@ -3365,10 +3511,10 @@ namespace HanGao.ViewModel
 
 
 
-                            User_Log_Add("连接3D相机硬件成功！", Log_Show_Window_Enum.Home);
+                        User_Log_Add("连接3D相机硬件成功！", Log_Show_Window_Enum.Home);
 
 
-                        });
+
                     }
                     else
                     {
@@ -3639,7 +3785,7 @@ namespace HanGao.ViewModel
 
 
         /// <summary>
-        /// 软触发获得相机图像
+        /// 软触发获得四张相机图像
         /// </summary>
         /// <param name="_Get_Model"></param>
         /// <param name="_path"></param>
