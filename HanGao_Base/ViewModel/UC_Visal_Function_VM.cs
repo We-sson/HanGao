@@ -54,7 +54,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 窗口显示枚举
         /// </summary>
-        public UI_FromWindow_Switch_Enum UI_EditImage_Window_Switch { set; get; } = UI_FromWindow_Switch_Enum.One_Window;
+        public UI_FromWindow_Switch_Enum UI_EditImage_Window_Switch { set; get; } = UI_FromWindow_Switch_Enum.Four_Window;
 
 
         /// <summary>
@@ -4054,6 +4054,103 @@ namespace HanGao.ViewModel
 
 
 
+        /// <summary>
+        /// 相机实时采集图像功能
+        /// </summary>
+        public ICommand TwoCamera_SurfaceStereo_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+                //bool _State = false;
+                Task.Run(() =>
+                {
+
+
+                    try
+                    {
+
+
+                        H3DStereo_Results_Model H3DStereo_Results = new H3DStereo_Results_Model();
+                        //Camera_Device_List.Select_Camera.Connect_Camera();
+                        Select_Vision_Value.Camera_Devices_2D3D_Switch.Throw("请切换到3D相机模式下进行操作！").IfTrue();
+                        Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.ThrowIfNull("设备配置文件未选择！请检查文件。");
+
+
+
+
+
+
+                        Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Run);
+                        Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Run);
+
+
+                        //Camera_Device_List.Select_3DCamera_0 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
+                        //Camera_Device_List.Select_3DCamera_1 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
+
+
+
+
+                        if (Halcon_Window_Display.Features_Window.DisplayImage.IsInitialized() && Halcon_Window_Display.Features_Window_1.DisplayImage.IsInitialized() && Halcon_Window_Display.Features_Window_2.DisplayImage.IsInitialized() && Halcon_Window_Display.Features_Window_3.DisplayImage.IsInitialized())
+                        {
+
+
+                            H3DStereo_Results= Halcon_3DStereoModel.Get_TwoCamera_3DModel
+                             (
+                             new HImage(Halcon_Window_Display.Features_Window.DisplayImage),
+                             new HImage(Halcon_Window_Display.Features_Window_1.DisplayImage),
+                             new HImage(Halcon_Window_Display.Features_Window_2.DisplayImage),
+                             new HImage(Halcon_Window_Display.Features_Window_3.DisplayImage),
+                             Select_Vision_Value.H3DStereo_ParamData
+                             );
+
+                            HImage Check_Results = H3DStereo_Results.HModel3D_XYZ_Image.ConcatObj(H3DStereo_Results.Image_3DFusion);
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, Check_Results, Image_AutoPart: true);
+              
+                            });
+
+
+                        }
+                        else
+                        {
+                            User_Log_Add("有相机图像未采集！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                        }
+
+
+
+
+
+
+
+                        User_Log_Add("设置3D相机参数硬件成功！", Log_Show_Window_Enum.Home);
+
+
+
+
+                        //Camera_Device_List.Select_3DCamera_0.Close_Camera();
+                        //Camera_Device_List.Select_3DCamera_1.Close_Camera();
+
+
+
+                        //User_Log_Add("断开3D相机硬件成功！", Log_Show_Window_Enum.Home);
+
+                    }
+                    catch (Exception _e)
+                    {
+
+
+                        //Camera_Device_List.Select_3DCamera_0?.Close_Camera();
+                        //Camera_Device_List.Select_3DCamera_1?.Close_Camera();
+
+                        User_Log_Add("连接3D相机硬件失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    }
+                });
+            });
+        }
 
 
 

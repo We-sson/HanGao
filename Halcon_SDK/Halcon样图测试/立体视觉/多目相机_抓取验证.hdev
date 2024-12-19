@@ -20,8 +20,8 @@
 <l>Image_L:='C:/Users/H/MVS/Data/L/'</l>
 <l>Image_R:='C:/Users/H/MVS/Data/R/'</l>
 <c></c>
-<l>* User_Name:='C:/Users/zhiwei2.he/source/repos/We-sson/'</l>
-<l>User_Name:='C:/Users/H/source/repos/'</l>
+<l> User_Name:='C:/Users/zhiwei2.he/source/repos/We-sson/'</l>
+<l>*User_Name:='C:/Users/H/source/repos/'</l>
 <c></c>
 <c></c>
 <c></c>
