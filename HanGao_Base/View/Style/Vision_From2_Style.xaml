@@ -382,9 +382,9 @@
     <!--  文字输入框样式  -->
     <Style x:Key="Vision_TextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
-        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="BorderThickness" Value="2" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -415,11 +415,11 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
 
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter TargetName="border" Property="BorderThickness" Value="3" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

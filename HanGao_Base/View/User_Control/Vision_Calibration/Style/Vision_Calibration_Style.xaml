@@ -86,7 +86,7 @@
     <Style x:Key="Window_ToggleButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -141,7 +141,7 @@
                             <Setter TargetName="border_Bottom" Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                             <!--<Setter Property="Opacity" Value="0.9" />-->
                             <!--<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />-->

@@ -99,7 +99,7 @@
         <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="Padding" Value="2" />
-        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -118,7 +118,7 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <!--<Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_灰颜色}" />
                             <Setter Property="BorderThickness" Value="2" />-->
-                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

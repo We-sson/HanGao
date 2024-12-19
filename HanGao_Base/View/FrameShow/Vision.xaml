@@ -5883,7 +5883,7 @@
                                                         Margin="0,0,5,0"
                                                         Background="{DynamicResource 全局_按钮_绿颜色}"
                                                         FontSize=" 26">
-                                                    <TextBlock Text="保存"
+                                                    <TextBlock Text="测试"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -6067,8 +6067,6 @@
                                                              HorizontalContentAlignment="Center"
                                                              VerticalContentAlignment="Center"
                                                              Background="Transparent"
-                                                             BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                             BorderThickness="2"
                                                              FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                              FontSize="16">
                                                         <TextBox.Style>
@@ -6088,8 +6086,6 @@
                                                              HorizontalContentAlignment="Center"
                                                              VerticalContentAlignment="Center"
                                                              Background="Transparent"
-                                                             BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                             BorderThickness="2"
                                                              FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                              FontSize="16">
 
@@ -6111,8 +6107,6 @@
                                                              HorizontalContentAlignment="Center"
                                                              VerticalContentAlignment="Center"
                                                              Background="Transparent"
-                                                             BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                             BorderThickness="2"
                                                              FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                              FontSize="16">
                                                         <TextBox.Style>
@@ -6133,8 +6127,6 @@
                                                              HorizontalContentAlignment="Center"
                                                              VerticalContentAlignment="Center"
                                                              Background="Transparent"
-                                                             BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                             BorderThickness="2"
                                                              FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                              FontSize="16">
                                                         <TextBox.Style>
@@ -6154,8 +6146,6 @@
                                                              HorizontalContentAlignment="Center"
                                                              VerticalContentAlignment="Center"
                                                              Background="Transparent"
-                                                             BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                             BorderThickness="2"
                                                              FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                              FontSize="16">
                                                         <TextBox.Style>
@@ -6175,8 +6165,6 @@
                                                              HorizontalContentAlignment="Center"
                                                              VerticalContentAlignment="Center"
                                                              Background="Transparent"
-                                                             BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                             BorderThickness="2"
                                                              FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                              FontSize="16">
                                                         <TextBox.Style>
@@ -6314,6 +6302,19 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height=" 35" Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method}" Value="{x:Static Process_Enum:H3DStereo_Method_Enum.surface_fusion}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method}" Value="{x:Static Process_Enum:H3DStereo_Method_Enum.surface_pairwise}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
 
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="90" />
@@ -6329,8 +6330,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="color_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Color_Value_Enum}"
@@ -6354,7 +6353,17 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height=" 38 " Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method}" Value="{x:Static Process_Enum:H3DStereo_Method_Enum.surface_fusion}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
 
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=" 90" />
                                                     <ColumnDefinition />
@@ -6428,8 +6437,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="rectif_method_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Rectif_method_Value_Enum}"
@@ -6464,8 +6471,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="rectif_interpolation_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Rectif_interpolation_Value_Enum}"
@@ -6549,8 +6554,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="disparity_method_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Disparity_method_Value_Enum}"
@@ -6636,8 +6639,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="binocular_method_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_method_Value_Enum}"
@@ -6658,6 +6659,17 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height="35" Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
 
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
@@ -6705,7 +6717,17 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height="35" Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
 
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -6752,7 +6774,16 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -6800,6 +6831,16 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height="35" Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
 
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
@@ -6848,7 +6889,16 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height=" 35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="90" />
                                                     <ColumnDefinition />
@@ -6863,8 +6913,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="binocular_filter_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_filter_Value_Enum}"
@@ -6885,7 +6933,16 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height=" 35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="90" />
                                                     <ColumnDefinition />
@@ -6900,8 +6957,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="binocular_sub_disparity_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_sub_disparity_Value_Enum}"
@@ -6923,7 +6978,16 @@ PassEventArgsToCommand="True" />
 
                                             <!--  参数集“binocular_mg”  -->
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -6968,7 +7032,16 @@ PassEventArgsToCommand="True" />
                                                          FontSize="18" />
                                             </Grid>
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7014,7 +7087,16 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7059,7 +7141,16 @@ PassEventArgsToCommand="True" />
                                                          FontSize="18" />
                                             </Grid>
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7107,7 +7198,16 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height=" 35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="90" />
                                                     <ColumnDefinition />
@@ -7122,8 +7222,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="binocular_mg_default_parameters_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_default_parameters_Value_Enum}"
@@ -7144,7 +7242,16 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height=" 35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="90" />
                                                     <ColumnDefinition />
@@ -7159,8 +7266,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="binocular_mg_solver_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_solver_Value}"
@@ -7182,7 +7287,16 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height=" 35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="90" />
                                                     <ColumnDefinition />
@@ -7197,8 +7311,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="binocular_mg_cycle_type_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_mg_cycle_type_Value_Enum}"
@@ -7219,7 +7331,16 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7265,7 +7386,16 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7311,7 +7441,16 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7357,7 +7496,16 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7402,7 +7550,16 @@ PassEventArgsToCommand="True" />
                                                          FontSize="18" />
                                             </Grid>
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_mg}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7449,7 +7606,16 @@ PassEventArgsToCommand="True" />
                                             <!--  参数集“binocular_mg”  -->
                                             <!--  参数集“binocular_ms”  -->
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_ms}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7496,7 +7662,16 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_ms}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7543,7 +7718,16 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height=" 38 " Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_ms}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=" 90" />
                                                     <ColumnDefinition />
@@ -7602,7 +7786,16 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height=" 35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_ms}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="90" />
                                                     <ColumnDefinition />
@@ -7617,8 +7810,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="binocular_ms_similarity_measure_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Binocular_ms_similarity_measure_Value_Enum}"
@@ -7639,7 +7830,16 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height=" 38 " Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Disparity_Method_Value}" Value="{x:Static Process_Enum:Disparity_method_Value_Enum.binocular_ms}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=" 90" />
                                                     <ColumnDefinition />
@@ -7700,7 +7900,19 @@ PassEventArgsToCommand="True" />
                                             <!--  后处理重建的表面点  -->
 
                                             <Grid Height=" 35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method}" Value="{x:Static Process_Enum:H3DStereo_Method_Enum.surface_fusion}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method}" Value="{x:Static Process_Enum:H3DStereo_Method_Enum.surface_pairwise}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="90" />
                                                     <ColumnDefinition />
@@ -7715,8 +7927,6 @@ PassEventArgsToCommand="True" />
                                                 <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="point_meshing_UI" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
-                                                          BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                          BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
                                                           ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Point_meshing_Value_Enum}"
@@ -7738,6 +7948,21 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height="35" Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.isosurface}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.poisson}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
+
+
 
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
@@ -7785,7 +8010,19 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.isosurface}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.poisson}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7831,7 +8068,19 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height="35" Margin="0,8,0,8">
-
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.isosurface}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.poisson}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7881,7 +8130,17 @@ PassEventArgsToCommand="True" />
                                             <!--  仅适用于 'surface_pairwise' 的参数：  -->
 
                                             <Grid Height="35" Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
 
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method}" Value="{x:Static Process_Enum:H3DStereo_Method_Enum.surface_pairwise}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7931,7 +8190,17 @@ PassEventArgsToCommand="True" />
                                             <!--  仅适用于 'surface_fusion' 的参数：  -->
 
                                             <Grid Height="35" Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
 
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method}" Value="{x:Static Process_Enum:H3DStereo_Method_Enum.surface_fusion}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -7976,7 +8245,17 @@ PassEventArgsToCommand="True" />
                                                          FontSize="18" />
                                             </Grid>
                                             <Grid Height="35" Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
 
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method}" Value="{x:Static Process_Enum:H3DStereo_Method_Enum.surface_fusion}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -8022,7 +8301,17 @@ PassEventArgsToCommand="True" />
                                             </Grid>
 
                                             <Grid Height="35" Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
 
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method}" Value="{x:Static Process_Enum:H3DStereo_Method_Enum.surface_fusion}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />
@@ -8069,7 +8358,17 @@ PassEventArgsToCommand="True" />
 
 
                                             <Grid Height="35" Margin="0,8,0,8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
 
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Method}" Value="{x:Static Process_Enum:H3DStereo_Method_Enum.surface_fusion}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="80" />
                                                     <ColumnDefinition />

@@ -478,19 +478,19 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
     public enum Image_Preprocessing_Process_Enum
     {
-        [Description("灰度动调分布")]
+        [Description("灰度动调分布_ScaleImageMax")]
         ScaleImageMax,
-        [Description("中值滤波器")]
+        [Description("中值滤波器_MedianRect")]
         MedianRect,
-        [Description("矩形开运算")]
+        [Description("矩形开运算_GrayOpeningRect")]
         GrayOpeningRect,
-        [Description("矩形闭运算")]
+        [Description("矩形闭运算_GrayClosingRect")]
         GrayClosingRect,
-        [Description("中值滤波器")]
+        [Description("中值滤波器_MedianImage")]
         MedianImage,
-        [Description("高频增强对比")]
+        [Description("高频增强对比_Illuminate")]
         Illuminate,
-        [Description("增强边缘")]
+        [Description("增强边缘_Emphasize")]
         Emphasize,
 
 
