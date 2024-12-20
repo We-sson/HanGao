@@ -4081,8 +4081,9 @@ namespace HanGao.ViewModel
 
 
 
-                        Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Run);
-                        Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Run);
+                        //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Run);
+                       // Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Run);
+
 
 
                         //Camera_Device_List.Select_3DCamera_0 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
@@ -4104,11 +4105,17 @@ namespace HanGao.ViewModel
                              Select_Vision_Value.H3DStereo_ParamData
                              );
 
-                            HImage Check_Results = H3DStereo_Results.HModel3D_XYZ_Image.ConcatObj(H3DStereo_Results.Image_3DFusion);
+
+                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>() { H3DStereo_Results.HModel3D_Camera_3DPoint }));
+
+
+
+
+                            //HImage Check_Results = H3DStereo_Results.HModel3D_XYZ_Image.ConcatObj(H3DStereo_Results.Image_3DFusion);
                             Application.Current.Dispatcher.Invoke(() =>
                             {
                                 Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, Check_Results, Image_AutoPart: true);
+                               // Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, Check_Results, Image_AutoPart: true);
               
                             });
 

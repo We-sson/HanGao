@@ -32,7 +32,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 多相机参数
         /// </summary>
-        public HCameraSetupModel CameraSetupModel { set; get; } = new HCameraSetupModel();
+        //public HCameraSetupModel CameraSetupModel { set; get; } = new HCameraSetupModel();
 
 
 
@@ -154,7 +154,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             {
 
 
-                 Image_3DPoint = _Camera_0_0.ConcatObj(_Camera_0_1);
+                Image_3DPoint = new HImage(_Camera_0_0.ConcatObj(_Camera_0_1));
 
                 H3DStereo_Results.HModel3D_Camera_3DPoint = H3DStereoModel.ReconstructSurfaceStereo(Image_3DPoint);
 
@@ -165,25 +165,25 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 if (_ParamData.Persistence)
                 {
 
-                    H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ToImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "to_image_rect");
-                    H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.FromImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "from_image_rect");
-                    H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.DisparityImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "disparity_image");
-                    H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ScoreImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "score_image");
+                    HObject _hObject1 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ToImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "to_image_rect");
+                    HObject _hObject2 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.FromImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "from_image_rect");
+                    HObject _hObject3 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.DisparityImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "disparity_image");
+                    HObject _hObject4 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ScoreImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "score_image");
 
                 }
 
 
-                 Image_3DFusion = _Camera_1_0.ConcatObj(_Camera_1_1);
+                Image_3DFusion = new HImage(_Camera_1_0.ConcatObj(_Camera_1_1));
                 H3DStereo_Results.HModel3D_Camera_3DFusion = H3DStereoModel.ReconstructSurfaceStereo(Image_3DFusion);
 
                 ///调试模式下提取
                 if (_ParamData.Persistence)
                 {
 
-                    H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ToImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "to_image_rect");
-                    H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.FromImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "from_image_rect");
-                    H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.DisparityImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "disparity_image");
-                    H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ScoreImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "score_image");
+                    HObject _hObject1 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ToImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "to_image_rect");
+                    HObject _hObject2 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.FromImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "from_image_rect");
+                    HObject _hObject3 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.DisparityImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "disparity_image");
+                    HObject _hObject4 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ScoreImage = H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "score_image");
 
                 }
 
@@ -206,7 +206,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 {
                     case H3DStereo_Image_Type_Enum.点云图像:
 
-                        Image_3DPoint = _Camera_0_0.ConcatObj(_Camera_0_1);
+                        Image_3DPoint = new HImage(_Camera_0_0.ConcatObj(_Camera_0_1));
                         H3DStereo_Results.HModel3D_Camera_3DPoint = H3DStereoModel.ReconstructSurfaceStereo(Image_3DPoint);
 
 
@@ -216,7 +216,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         break;
                     case H3DStereo_Image_Type_Enum.深度图像:
 
-                        Image_3DFusion = _Camera_1_0.ConcatObj(_Camera_1_1);
+                        Image_3DFusion = new HImage(_Camera_1_0.ConcatObj(_Camera_1_1));
                         H3DStereo_Results.HModel3D_Camera_3DFusion = H3DStereoModel.ReconstructSurfaceStereo(Image_3DFusion);
 
 
@@ -271,19 +271,19 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
             ///把模型映射到相机视角的参数
-            Point_Model Camera_0_Pos = new Point_Model(CameraSetupModel.GetCameraSetupParam(0, "pose"));
-            Halcon_Camera_Calibration_Parameters_Model Camera_0_Params = new Halcon_Camera_Calibration_Parameters_Model(CameraSetupModel.GetCameraSetupParam(0, "params"));
+            Point_Model Camera_0_Pos = new Point_Model(Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup.GetCameraSetupParam(0, "pose"));
+            Halcon_Camera_Calibration_Parameters_Model Camera_0_Params = new Halcon_Camera_Calibration_Parameters_Model(Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup.GetCameraSetupParam(0, "params"));
 
 
-            H3DStereo_Results.Get_HModel3D_XYZ_Image(_ParamData.H3DStereo_Image_Type, Camera_0_Pos, Camera_0_Params.HCamPar);
+            //H3DStereo_Results.Get_HModel3D_XYZ_Image(_ParamData.H3DStereo_Image_Type, Camera_0_Pos, Camera_0_Params.HCamPar);
 
             ///使用相机原图像
-            H3DStereo_Results.Image_3DFusion =new HImage ( _Camera_1_0);
+            H3DStereo_Results.Image_3DFusion = new HImage(_Camera_1_0);
 
 
             H3DStereoModel.ClearStereoModel();
 
-            H3DStereoModel.Clone();
+
 
 
             return H3DStereo_Results;
@@ -320,18 +320,18 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                     H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.rectif_sub_sampling), new HTuple(ParamData.Rectif_sub_sampling));
 
-                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.rectif_interpolation), new HTuple(nameof( ParamData.Rectif_interpolation)));
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.rectif_interpolation), new HTuple(ParamData.Rectif_interpolation.ToString()));
 
-                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.rectif_method), new HTuple(nameof( ParamData.Rectif_method)));
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.rectif_method), new HTuple(ParamData.Rectif_method.ToString()));
 
                     ///不同Disparity_Method方法，参数区分设置
-                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.disparity_method), new HTuple(nameof( ParamData.Disparity_Method_Value)));
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.disparity_method), new HTuple(ParamData.Disparity_Method_Value.ToString()));
 
                     switch (ParamData.Disparity_Method_Value)
                     {
                         case Disparity_method_Value_Enum.binocular:
 
-                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_method), new HTuple(nameof( ParamData.Binocular_method)));
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_method), new HTuple(ParamData.Binocular_method.ToString()));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_num_levels), new HTuple(ParamData.Binocular_num_levels));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mask_width), new HTuple(ParamData.Binocular_mask_width));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mask_height), new HTuple(ParamData.Binocular_mask_height));
@@ -339,8 +339,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_texture_thresh), new HTuple(ParamData.Binocular_texture_thresh));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_score_thresh), new HTuple(ParamData.Binocular_score_thresh));
 
-                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_filter), new HTuple(nameof( ParamData.Binocular_filter)));
-                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_sub_disparity), new HTuple(nameof( ParamData.Binocular_sub_disparity)));
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_filter), new HTuple(ParamData.Binocular_filter.ToString()));
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_sub_disparity), new HTuple(ParamData.Binocular_sub_disparity.ToString()));
 
                             break;
                         case Disparity_method_Value_Enum.binocular_mg:
@@ -353,9 +353,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_gradient_constancy), new HTuple(ParamData.binocular_mg_gradient_constancy));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_smoothness), new HTuple(ParamData.Binocular_mg_smoothness));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_initial_guess), new HTuple(ParamData.Binocular_mg_initial_guess));
-                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_default_parameters), new HTuple(nameof( ParamData.Binocular_mg_default_parameters)));
-                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_solver), new HTuple(nameof( ParamData.Binocular_mg_solver)));
-                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_cycle_type), new HTuple(nameof( ParamData.Binocular_mg_cycle_type)));
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_default_parameters), new HTuple(ParamData.Binocular_mg_default_parameters.ToString()));
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_solver), new HTuple(ParamData.Binocular_mg_solver.ToString()));
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_cycle_type), new HTuple(ParamData.Binocular_mg_cycle_type.ToString()));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_pre_relax), new HTuple(ParamData.Binocular_mg_pre_relax));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_post_relax), new HTuple(ParamData.Binocular_mg_post_relax));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_mg_initial_level), new HTuple(ParamData.Binocular_mg_initial_level));
@@ -373,15 +373,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_ms_surface_smoothing), new HTuple(ParamData.Binocular_ms_surface_smoothing));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_ms_edge_smoothing), new HTuple(ParamData.Binocular_ms_edge_smoothing));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_ms_consistency_check), new HTuple(ParamData.Binocular_ms_consistency_check));
-                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_ms_similarity_measure), new HTuple(nameof( ParamData.Binocular_ms_similarity_measure)));
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_ms_similarity_measure), new HTuple(ParamData.Binocular_ms_similarity_measure.ToString()));
                             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.binocular_ms_sub_disparity), new HTuple(ParamData.Binocular_ms_sub_disparity));
 
                             break;
 
                     }
 
-                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.color), new HTuple(ParamData.Color));
-                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.color_invisible), new HTuple(ParamData.Color_invisible));
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.color), new HTuple(ParamData.Color.ToString()));
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.color_invisible), new HTuple(ParamData.Color_invisible.ToString().ToLower()));
 
                     break;
 
@@ -564,7 +564,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
         public HImage HModel3D_XYZ_Image { set; get; } = new HImage();
-        public HImage Image_3DFusion{ set; get; } = new HImage();
+        public HImage Image_3DFusion { set; get; } = new HImage();
 
 
 
@@ -588,9 +588,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
             switch (_Model_Enum)
             {
                 case H3DStereo_Image_Type_Enum.点云图像:
-                    _X_Image= HModel3D_Camera_3DPoint.ObjectModel3dToXyz(out _Y_Image,out _Z_Image,nameof(ObjectModel3dToXyz_Type_Enum.cartesian_faces), _CamPar, _Pos.HPose);
+                    _X_Image = HModel3D_Camera_3DPoint.ObjectModel3dToXyz(out _Y_Image, out _Z_Image, nameof(ObjectModel3dToXyz_Type_Enum.cartesian_faces), _CamPar, _Pos.HPose);
 
-                
+
 
                     break;
                 case H3DStereo_Image_Type_Enum.深度图像:
@@ -603,7 +603,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     _X_Image = HModel3D_Camera_Unio.ObjectModel3dToXyz(out _Y_Image, out _Z_Image, nameof(ObjectModel3dToXyz_Type_Enum.cartesian_faces), _CamPar, _Pos.HPose);
 
                     break;
-           
+
             }
 
             HModel3D_XYZ_Image = _X_Image.Compose3(_Y_Image, _Z_Image);

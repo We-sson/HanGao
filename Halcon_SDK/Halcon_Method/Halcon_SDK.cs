@@ -998,21 +998,35 @@ namespace Halcon_SDK_DLL
                 case Window_Show_Name_Enum.Live_Window:
                     break;
                 case Window_Show_Name_Enum.Features_Window:
+                    if (Features_Window.DisplayImage!=null)
+                    {
+
 
                     Mouse_Pose_Image = new HImage(Features_Window.DisplayImage);
+                    }
 
                     break;
                 case Window_Show_Name_Enum.Features_Window_1:
-                    Mouse_Pose_Image = new HImage(Features_Window_1.DisplayImage);
+                    if (Features_Window_1.DisplayImage!=null)
+                    {
 
+                        Mouse_Pose_Image = new HImage(Features_Window_1.DisplayImage);
+                    }
                     break;
                 case Window_Show_Name_Enum.Features_Window_2:
-                    Mouse_Pose_Image = new HImage(Features_Window_2.DisplayImage);
+                    if (Features_Window_2.DisplayImage!=null)
+                    {
 
+
+                        Mouse_Pose_Image = new HImage(Features_Window_2.DisplayImage);
+                    }
                     break;
                 case Window_Show_Name_Enum.Features_Window_3:
-                    Mouse_Pose_Image = new HImage(Features_Window_3.DisplayImage);
 
+                    if (Features_Window_3.DisplayImage!=null)
+                    {
+                        Mouse_Pose_Image = new HImage(Features_Window_3.DisplayImage);
+                    }
                     break;
                 case Window_Show_Name_Enum.Features_3D_Results:
                     break;

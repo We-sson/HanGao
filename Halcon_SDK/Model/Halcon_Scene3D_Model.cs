@@ -51,6 +51,10 @@ namespace Halcon_SDK_DLL.Model
         /// 强制使用 OpenGL 1.1 的回退模式。
         /// </summary>
         public bool Compatibility_mode_enable { set; get; } = false;
+
+
+
+
     }
 
 
@@ -110,9 +114,49 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 以像素为单位设置点的直径。
         /// </summary>
-        public double Point_size { set; get; } = 3.5;
+        public double Point_size { set; get; } = 2.5;
+
+
+        /// <summary>
+        /// 伪彩色可视化的点属性
+        /// </summary>
+        public Color_attrib_Val_Enum Color_attrib { set; get; } = Color_attrib_Val_Enum.coord_z;
+
+
+
+
 
     }
+
+
+    public enum Color_attrib_Val_Enum
+    {
+        /// <summary>
+        /// 默认值：显示默认颜色
+        /// </summary>
+        none,
+        /// <summary>
+        /// 距离值-需要指定数值
+        /// </summary>
+        distance,
+        /// <summary>
+        /// x 坐标值
+        /// </summary>
+        coord_x,
+        /// <summary>
+        /// Y 坐标值
+        /// </summary>
+        coord_y,
+        /// <summary>
+        /// Z 坐标值
+        /// </summary>
+        coord_z
+
+
+
+    }
+
+
 
 
     /// <summary>

@@ -1616,114 +1616,125 @@
                             <RowDefinition Height=" auto" />
                         </Grid.RowDefinitions>
 
+
+
                         <Border Grid.Row=" 0" Grid.Column=" 0"
                                 Grid.ColumnSpan=" 3"
                                 Height=" 40"
-                                Padding="5"
                                 Background="{DynamicResource 全局_背景_白颜色}"
-                                CornerRadius=" 0 0 0 0">
-                            <StackPanel Orientation="Horizontal">
+                                CornerRadius=" 0 0 0 0" />
+                        <Grid Grid.Row=" 0" Grid.Column=" 0"
+                              Grid.ColumnSpan=" 3">
 
 
-                                <StackPanel Margin="4,0,4,0" Orientation="Horizontal">
-
-                                    <TextBlock Text="显示方式"
-                                               Margin="4,0,4,0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="14"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                    <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI_1" Grid.Column=" 1"
-                                              Width=" 80"
-                                              HorizontalContentAlignment="Center"
-                                              VerticalContentAlignment="Center"
-                                              IsSynchronizedWithCurrentItem="True"
-                                              SelectedIndex="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Instance.Attribute, ConverterParameter={x:Type Halcon_Enum:Attribute_Val_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
-                                        <ComboBoxItem>
-                                            <TextBlock Text="自动"
-                                                       TextWrapping="Wrap"
-                                                       Padding="10,5,10,5"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="14"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                       TextTrimming="CharacterEllipsis" />
-                                        </ComboBoxItem>
-                                        <ComboBoxItem>
-
-                                            <TextBlock Text="面"
-                                                       TextWrapping="Wrap"
-                                                       Padding="10,5,10,5"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="14"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                       TextTrimming="CharacterEllipsis" />
-                                        </ComboBoxItem>
-                                        <ComboBoxItem>
-
-                                            <TextBlock Text="原始"
-                                                       TextWrapping="Wrap"
-                                                       Padding="10,5,10,5"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="14"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                       TextTrimming="CharacterEllipsis" />
-                                        </ComboBoxItem>
-                                        <ComboBoxItem>
-
-                                            <TextBlock Text="点云"
-                                                       TextWrapping="Wrap"
-                                                       Padding="10,5,10,5"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="14"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                       TextTrimming="CharacterEllipsis" />
-                                        </ComboBoxItem>
-                                        <ComboBoxItem>
-
-                                            <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
-                                                       Text="线段"
-                                                       TextWrapping="Wrap"
-                                                       Padding="10,5,10,5"
-                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                       FontSize="14"
-                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                                       TextTrimming="CharacterEllipsis" />
-                                        </ComboBoxItem>
-                                    </ComboBox>
 
 
-                                    <TextBlock Text="透明度"
-                                               Margin="4,0,4,0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="14"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                            <StackPanel Margin="4" Orientation="Horizontal">
 
-                                    <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Scene3D_Alpha_1" Grid.Column=" 1"
-                                            Width=" 50"
-                                            Margin="5"
-                                            VerticalAlignment="Center"
-                                            HorizontalContentAlignment="Stretch"
-                                            VerticalContentAlignment="Stretch"
-                                            IsSnapToTickEnabled="True"
-                                            Maximum="1"
-                                            Minimum="0.01"
-                                            TickFrequency=" 0.01"
-                                            Value="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Param.Alpha, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="场景设置："
+                                           Margin="4,0,4,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="14"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI_1" Grid.Column=" 1"
+                                          Width=" 80"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          SelectedIndex="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Instance.Attribute, ConverterParameter={x:Type Halcon_Enum:Attribute_Val_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
+                                    <ComboBoxItem>
+                                        <TextBlock Text="自动"
+                                                   TextWrapping="Wrap"
+                                                   Padding="10,5,10,5"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
 
-                                    <TextBox Grid.Column=" 2"
-                                             Text="{Binding ElementName=Scene3D_Alpha_1, Path=Value, StringFormat={}{0:F2}}"
-                                             Width="80"
-                                             HorizontalContentAlignment="Center"
-                                             VerticalContentAlignment="Center"
-                                             Background="Transparent"
-                                             BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                             BorderThickness="2"
-                                             FontSize="16" />
-                                </StackPanel>
+                                        <TextBlock Text="面"
+                                                   TextWrapping="Wrap"
+                                                   Padding="10,5,10,5"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
 
+                                        <TextBlock Text="原始"
+                                                   TextWrapping="Wrap"
+                                                   Padding="10,5,10,5"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Text="点云"
+                                                   TextWrapping="Wrap"
+                                                   Padding="10,5,10,5"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+
+                                        <TextBlock Style="{DynamicResource ComboBox_TextBlok_Style}"
+                                                   Text="线段"
+                                                   TextWrapping="Wrap"
+                                                   Padding="10,5,10,5"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </ComboBoxItem>
+                                </ComboBox>
+
+
+
+                                <!--<TextBlock Text="透明度"
+                                           Margin="4,0,4,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                           FontSize="14"
+                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />-->
+
+                                <Border Width="2"
+                                        Margin="8,0,8,0"
+                                        Background="{DynamicResource 全局_按钮_深灰颜色}" />
+
+                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Scene3D_Alpha_1" Grid.Column=" 1"
+                                        Width=" 80"
+                                        Margin="0"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        Minimum="0.01"
+                                        TickFrequency=" 0.01"
+                                        Value="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Param.Alpha, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <TextBox Grid.Column=" 2"
+                                         Text="{Binding ElementName=Scene3D_Alpha_1, Path=Value, StringFormat={}{0:F2}}"
+                                         Width="80"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                         BorderThickness="2"
+                                         FontSize="16" />
+
+                                <Border Width="2"
+                                        Margin="8,0,8,0"
+                                        Background="{DynamicResource 全局_按钮_深灰颜色}" />
                                 <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
                                               IsChecked="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Instance.Disp_pose}"
                                               Margin="4,0,4,0"
@@ -1806,8 +1817,56 @@
                                     </StackPanel>
                                 </ToggleButton>
 
+
                             </StackPanel>
-                        </Border>
+
+
+                            <Menu Style="{DynamicResource Menu_Style}"
+                                  Margin="8,0,8,0"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  Background="{DynamicResource 全局_背景_白颜色}"
+                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                  FontSize="14">
+                                <MenuItem>
+                                    <MenuItem.Header>
+                                        <TextBlock Text="模型显示"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                   FontSize="14" />
+                                    </MenuItem.Header>
+                                    <MenuItem.Icon>
+                                        <Image Source="/Resources/Vision_下拉选择_ioc.png" />
+                                    </MenuItem.Icon>
+                                    <MenuItem>
+                                        <MenuItem.Header>
+                                            <TextBlock Text="图像功能"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="14" />
+                                        </MenuItem.Header>
+                                        <MenuItem IsChecked="False" IsCheckable="True">
+                                            <MenuItem.Header>
+                                                <TextBlock Text="保存拍照图片本地"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                    </MenuItem>
+
+
+
+
+
+                                </MenuItem>
+                            </Menu>
+
+                        </Grid>
+
+
 
 
 
