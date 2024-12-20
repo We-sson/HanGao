@@ -1,4 +1,5 @@
-﻿using Halcon_SDK_DLL.Model;
+﻿using Generic_Extension;
+using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using PropertyChanged;
 using System.Collections.ObjectModel;
@@ -6,6 +7,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
+using System.Xml.Linq;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Halcon_Examples_Method
@@ -85,9 +87,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型成功 !");
                             //继续中心位置
 
-                            //更新显示属性
-                            Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
-                            Set_Scene3D_Param(hv_Scene3D, Scene3D_Param);
+              
 
 
 
@@ -126,7 +126,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             break;
                     }
 
-
+                    //更新显示属性
+                    Set_Scene3D_Param(hv_Scene3D, Scene3D_Param);
+                    Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
                     ////HOperatorSet.WaitSeconds(0.5);
                     //While_ResetEvent.Set();
                     //HOperatorSet.WaitSeconds(0.05);
@@ -1411,13 +1413,19 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             foreach (PropertyInfo? _Val in _Param.GetType().GetProperties())
             {
 
+
                 _Par_Val = new object();
                 _Par_Val = _Val.PropertyType switch
                 {
-                    Type _T when _T == typeof(double) => (double)_Val.GetValue(_Param)!,
-                    Type _T when _T == typeof(int) => (int)_Val?.GetValue(_Param)!,
+                Type _T when _T == typeof(double) => (double)_Val.GetValue(_Param)!,
+                Type _T when _T == typeof(int) => (int)_Val?.GetValue(_Param)!,
+                Type _T when _T.BaseType == typeof(Enum) => ((Enum)_Val.GetValue(_Param)!).GetStringValue(),
+
                     _ => _Val.GetValue(_Param)?.ToString()?.ToLower() ?? string.Empty,
                 };
+
+
+
                 if (_Par_Val != null)
                 {
                     ///设置三维场景全部模型参数

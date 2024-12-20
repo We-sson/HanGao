@@ -195,6 +195,20 @@
                         <Grid Grid.Column=" 1"
                               Margin="8,0,8,0"
                               HorizontalAlignment="Right">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=Results_Window_Button, Path=IsChecked}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=Features_Window_Button, Path=IsChecked}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -342,146 +356,6 @@
 
 
 
-                            <!--<Grid Grid.Column="1">
-                                <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Window_Switch"
-                                              IsChecked="True"
-                                              Height=" 35"
-                                              Margin="4,0,4,0"
-                                              Padding="0"
-                                              Background="{DynamicResource 全局_背景_白颜色}"
-                                              BorderBrush="{DynamicResource 全局_背景_白颜色}"
-                                              BorderThickness="2">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column=" 0"
-                                               Content="&#xe627;"
-                                               Margin="0"
-                                               Padding="12,0,12,0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="/Resources/#iconfont"
-                                               FontSize=" 20">
-                                            <Label.Style>
-                                                <Style TargetType="Label">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="false">
-                                                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Label.Style>
-                                        </Label>
-
-                                        <Label Grid.Column=" 1"
-                                               Content="&#xe62d;"
-                                               Margin="0"
-                                               Padding="12,0,12,0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="/Resources/#iconfont"
-                                               FontSize=" 20">
-                                            <Label.Style>
-                                                <Style TargetType="Label">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Window_Switch}" Value="true">
-                                                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Label.Style>
-                                        </Label>
-                                    </Grid>
-                                </ToggleButton>
-                            </Grid>-->
-
-
-                            <!--<Grid Grid.Column=" 2">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-
-
-
-                                <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="Features_Switch_0" Grid.Column=" 0"
-                                             IsChecked="True"
-                                             FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                             FontSize="16"
-                                             GroupName="Features_Switch">
-                                    <Label Grid.Column=" 0"
-                                           Content="&#xe645;"
-                                           Margin="4"
-                                           Padding="0"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontFamily="/Resources/#iconfont"
-                                           FontSize=" 28">
-                                        <Label.Style>
-                                            <Style TargetType="Label">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Features_Switch_0}" Value="false">
-                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Label.Style>
-                                    </Label>
-                                </RadioButton>
-                                <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="Features_Switch_1" Grid.Column=" 1"
-                                             FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                             GroupName="Features_Switch">
-                                    <Label Grid.Column=" 0"
-                                           Content="&#xe642;"
-                                           Margin="4"
-                                           Padding="0"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontFamily="/Resources/#iconfont"
-                                           FontSize=" 22">
-                                        <Label.Style>
-                                            <Style TargetType="Label">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Features_Switch_1}" Value="false">
-                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Label.Style>
-                                    </Label>
-                                </RadioButton>
-                                <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="Features_Switch_3" Grid.Column=" 2"
-                                             FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                             GroupName="Features_Switch">
-                                    <Label Grid.Column=" 0"
-                                           Content="&#xe646;"
-                                           Margin="4"
-                                           Padding="0"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontFamily="/Resources/#iconfont"
-                                           FontSize=" 28">
-                                        <Label.Style>
-                                            <Style TargetType="Label">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsChecked, ElementName=Features_Switch_3}" Value="false">
-                                                        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Label.Style>
-                                    </Label>
-
-
-                                </RadioButton>
-
-
-
-                            </Grid>-->
 
                         </Grid>
 
@@ -1539,7 +1413,7 @@
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
-                                    <TextBlock Text="{Binding Halcon_Window_Display.Mouse_Pose_Gray, StringFormat=灰度值: {0}}"
+                                    <TextBlock Text="{Binding Halcon_Window_Display.Mouse_Pose_Gray, StringFormat=灰度值: {0:F4}}"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="12"
@@ -8506,7 +8380,7 @@ PassEventArgsToCommand="True" />
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
 
-                                                    <TextBlock Text="重建表面"
+                                                    <TextBlock Text="立体重建"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -8514,6 +8388,102 @@ PassEventArgsToCommand="True" />
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 </Button>
                                             </Grid>
+
+                                            <Grid Height=" 38"
+                                                  Margin="0,5,0,5"
+                                                  ShowGridLines="False">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Persistence}" Value="true">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
+
+
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width=" 90" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Text="调试图像"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                        Margin="0,0,5,0"
+                                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding SurfaceStereo_CheckResults_Image_Comm}"
+                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                   PassEventArgsToCommand="True" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+
+                                                    <TextBlock Text="原图像"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="15"
+                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                </Button>
+
+                                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                        Margin="5,0,5,0"
+                                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding SurfaceStereo_CheckResults_FromToImage_Comm}"
+                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                   PassEventArgsToCommand="True" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+
+                                                    <TextBlock Text="校正图"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="15"
+                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                </Button>
+
+                                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 3"
+                                                        Margin="5,0,0,0"
+                                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding SurfaceStereo_CheckResults_ScoreImage_Comm}"
+                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                   PassEventArgsToCommand="True" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+
+                                                    <TextBlock Text="分数图"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="15"
+                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                </Button>
+
+
+
+                                            </Grid>
+
 
                                         </StackPanel>
                                     </Grid>

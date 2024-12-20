@@ -1,4 +1,4 @@
-﻿using PropertyChanged;
+﻿using Generic_Extension;
 using System.ComponentModel;
 
 namespace Halcon_SDK_DLL.Model
@@ -77,7 +77,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 明确选择 3D 物体模型的可视化方式。
         /// </summary>
-        public Attribute_Val_Enum Attribute { set; get; } = Attribute_Val_Enum.auto;
+        public Attribute_Val_Enum Attribute { set; get; } = Attribute_Val_Enum.自动;
 
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 如果 "disp_lines "设置为 "true"，线条的颜色。可用操作符 query_color 查询可用的颜色。此外，还可以将颜色指定为 RGB 三元组，形式为 "#rrggbb"，其中 "rr"、"gg "和 "bb "均为十六进制数。
         /// </summary>
-        public string Line_color { set; get; } = "#76BA99";
+        public Color_Model_Val_Enum Line_color { set; get; } = Color_Model_Val_Enum.绿色;
 
         /// <summary>
         /// 以像素为单位设置线条宽度。
@@ -109,7 +109,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 如果 "disp_normals "设置为 "true"，可视化法线的颜色。可用操作符 query_color 查询可用的颜色。此外，颜色还可以指定为 RGB 三元组，形式为 "#rrggbb"，其中 "rr"、"gg "和 "bb "均为十六进制数。
         /// </summary>
-        public string Normal_color { set; get; } = "#ff5e58";
+        public Color_Model_Val_Enum Normal_color { set; get; } = Color_Model_Val_Enum.红色;
 
         /// <summary>
         /// 以像素为单位设置点的直径。
@@ -120,13 +120,15 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 伪彩色可视化的点属性
         /// </summary>
-        public Color_attrib_Val_Enum Color_attrib { set; get; } = Color_attrib_Val_Enum.coord_z;
+        public Color_attrib_Val_Enum Color_attrib { set; get; } = Color_attrib_Val_Enum.none;
 
 
-
+        public Color_Model_Val_Enum Color { set; get; } = Color_Model_Val_Enum.白色;
 
 
     }
+
+
 
 
     public enum Color_attrib_Val_Enum
@@ -150,11 +152,26 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// Z 坐标值
         /// </summary>
-        coord_z
+        coord_z,
+
+        [StringValue("&gray")]
+        gray
+
+    }
+
+    public enum Color_Model_Val_Enum
+    {
+        [StringValue("#FFFFFF")]
+        白色,
+        [StringValue("#ff5e58")]
+        红色,
+        [StringValue("#76BA99")]
+        绿色
 
 
 
     }
+
 
 
 
@@ -167,23 +184,28 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 自动
         /// </summary>
-        auto,
+        [StringValue("auto")]
+        自动,
         /// <summary>
         /// 面
         /// </summary>
-        faces,
+        [StringValue("faces")]
+        面,
         /// <summary>
         /// 原始
         /// </summary>
-        primitive,
+        [StringValue("primitive")]
+        原始,
         /// <summary>
         /// 点云
         /// </summary>
-        points,
+        [StringValue("points")]
+        点云,
         /// <summary>
         /// 线段
         /// </summary>
-        lines
+        [StringValue("lines")]
+        线段
     }
 
 

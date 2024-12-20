@@ -922,12 +922,12 @@ namespace Halcon_SDK_DLL
 
 
 
-        private int _Mouse_Pose_Gray = -1;
+        private double  _Mouse_Pose_Gray = -1;
 
         /// <summary>
         /// 鼠标当前灰度值
         /// </summary>
-        public int Mouse_Pose_Gray
+        public double  Mouse_Pose_Gray
         {
             get
             {

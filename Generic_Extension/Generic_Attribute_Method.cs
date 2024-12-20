@@ -10,6 +10,7 @@ namespace Generic_Extension
     /// <summary>
     /// 设置字符串变量名称
     /// </summary>
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = false)]
     public class StringValueAttribute : Attribute
     {
         public StringValueAttribute(string _StringValue)
