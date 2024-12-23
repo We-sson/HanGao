@@ -11,10 +11,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
     public class Halcon_Image_Preprocessing_Process_SDK
     {
 
-        public Halcon_Image_Preprocessing_Process_SDK()
+        public Halcon_Image_Preprocessing_Process_SDK(Preprocessing_Process_2D3D_Switch_Enum _Preprocessing_Process_2D3D)
         {
 
-
+            Preprocessing_Process_2D3D = _Preprocessing_Process_2D3D;
             //Test
             //Preprocessing_Process_List.Add(new Preprocessing_Process_Lsit_Model() { Image_Preprocessing_Process_Method = Image_Preprocessing_Process_Enum.MedianImage, Method_Run_Time = 156, V_1 = 156, V_2 = 123, V_3 = 6556 });
 
@@ -54,7 +54,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-
+        public Preprocessing_Process_2D3D_Switch_Enum Preprocessing_Process_2D3D { set; get; } = Preprocessing_Process_2D3D_Switch_Enum.Camera_2D_Drives;
 
 
 
@@ -197,20 +197,43 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
 
-
-
-            return _Process switch
+            switch (Preprocessing_Process_2D3D)
             {
-                Image_Preprocessing_Process_Enum.ScaleImageMax => () => ScaleImageMax(),
-                Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
-                Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
-                Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage(Enum.Parse<MedianImage_MaskType_Enum>(E_1!), int.Parse((string)V_1!), Enum.Parse<MedianImage_Margin_Enum>(E_2!)),
-                Image_Preprocessing_Process_Enum.Illuminate => () => Illuminate(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
-                Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
-                Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
-                _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(_Process)),// 处理默认情况，或者根据需要抛出异常
-            };
+                case Preprocessing_Process_2D3D_Switch_Enum.Camera_2D_Drives:
+
+                    return _Process switch
+                    {
+                        Image_Preprocessing_Process_Enum.ScaleImageMax => () => ScaleImageMax(),
+                        Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
+                        Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
+                        Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage(Enum.Parse<MedianImage_MaskType_Enum>(E_1!), int.Parse((string)V_1!), Enum.Parse<MedianImage_Margin_Enum>(E_2!)),
+                        Image_Preprocessing_Process_Enum.Illuminate => () => Illuminate(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
+                        Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
+                        Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
+                        _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(_Process)),// 处理默认情况，或者根据需要抛出异常
+                    };
+                 
+                case Preprocessing_Process_2D3D_Switch_Enum.Camera_3D_Drives:
+                    return _Process switch
+                    {
+                        Image_Preprocessing_Process_Enum.ScaleImageMax => () => ScaleImageMax(),
+                        Image_Preprocessing_Process_Enum.MedianRect => () => MedianRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
+                        Image_Preprocessing_Process_Enum.GrayOpeningRect => () => GrayOpeningRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
+                        Image_Preprocessing_Process_Enum.MedianImage => () => MedianImage(Enum.Parse<MedianImage_MaskType_Enum>(E_1!), int.Parse((string)V_1!), Enum.Parse<MedianImage_Margin_Enum>(E_2!)),
+                        Image_Preprocessing_Process_Enum.Illuminate => () => Illuminate(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
+                        Image_Preprocessing_Process_Enum.Emphasize => () => Emphasize(Convert.ToInt32(V_1), Convert.ToInt32(V_2), Convert.ToDouble(V_3)),
+                        Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
+                        _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(_Process)),// 处理默认情况，或者根据需要抛出异常
+                    };
+                default:
+                    throw new NotSupportedException($"未支持的 2D/3D 预处理类型: {Preprocessing_Process_2D3D}");
+            }
+
+
         }
+
+
+
 
         /// <summary>
         /// 处理图像
@@ -509,6 +532,20 @@ namespace Halcon_SDK_DLL.Halcon_Method
     }
 
 
+    public  enum Preprocessing_Process_2D3D_Switch_Enum
+    {
 
+        [Description("2D设备")]
+        Camera_2D_Drives,
+        [Description("3D设备")]
+        Camera_3D_Drives
+
+
+
+    }
+
+
+
+ 
 
 }

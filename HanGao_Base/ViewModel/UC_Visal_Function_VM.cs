@@ -156,13 +156,10 @@ namespace HanGao.ViewModel
 
 
 
-
-
-
         /// <summary>
         /// 图像处理流程
         /// </summary>
-        public Halcon_Image_Preprocessing_Process_SDK Image_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK();
+        public Halcon_Image_Preprocessing_Process_SDK Image_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK(Preprocessing_Process_2D3D_Switch_Enum.Camera_2D_Drives);
 
 
         /// <summary>
@@ -4105,7 +4102,7 @@ namespace HanGao.ViewModel
                              );
 
 
-                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>() { H3DStereo_Results.HModel3D_Camera_3DPoint }));
+                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>() { Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DPoint }));
 
 
 

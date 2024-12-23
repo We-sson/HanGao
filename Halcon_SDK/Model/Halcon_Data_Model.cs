@@ -2545,6 +2545,37 @@ namespace Halcon_SDK_DLL.Model
 
 
 
+    /// <summary>
+    /// 连接对象模型3d类型参数
+    /// </summary>
+    public enum ConnectionObjectModel3d_Feature_Enum
+    {
+        /// <summary>
+        /// 按三维距离计算，单位：m
+        /// </summary>
+        distance_3d,
+        /// <summary>
+        /// 法线之间的角度,单位：弧度[0, π] 之间
+        /// </summary>
+        angle,
+        /// <summary>
+        /// 在 2D 映射中的像素坐标计算距离,距离小于Value连接。单位：图像中的 8 邻域像素
+        /// </summary>
+        distance_mapping,
+
+        /// <summary>
+        /// 多边形连接的 3D 对象模型部分。Value参数被忽略。
+        /// </summary>
+        mesh,
+
+        /// <summary>
+        /// 返回由线段连接的 3D 对象模型部分。value 参数被忽略。
+        /// </summary>
+        lines,
+
+
+
+    }
 
 
 

@@ -53,6 +53,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public ObservableCollection<Preprocessing_Process_Lsit_Model> Camera_1_3DFusionImage_Process_List { set; get; } = [];
 
 
+        public ObservableCollection<Preprocessing_Process_Lsit_Model> Camera_3DModel_Process_List { set; get; } = [];
 
 
 
