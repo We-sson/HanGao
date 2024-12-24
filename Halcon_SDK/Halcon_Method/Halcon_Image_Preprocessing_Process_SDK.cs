@@ -241,6 +241,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
         private HImage Image { set; get; } = new HImage();
 
 
+        
+        /// <summary>
+        /// 三维模型集合
+        /// </summary>
+        private HObjectModel3D[] H3DModel { set; get; } = [];
+
+
+
 
         public void ScaleImageMax()
         {
@@ -518,6 +526,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
     }
+
+    public enum H3DObjectModel_Features_Enum
+    {
+        [Description("连接3D模型_Connection")]
+        ConnectionObjectModel3d,
+    }
+
 
 
     public enum Image_Preprocessing_Process_Work_Enum
