@@ -1,4 +1,5 @@
-﻿using HalconDotNet;
+﻿using Generic_Extension;
+using HalconDotNet;
 
 using PropertyChanged;
 using System.Collections.ObjectModel;
@@ -2553,24 +2554,30 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 按三维距离计算，单位：m
         /// </summary>
+        [Description("三维距离")]
         distance_3d,
         /// <summary>
         /// 法线之间的角度,单位：弧度[0, π] 之间
         /// </summary>
+        [Description("法线角度")]
         angle,
         /// <summary>
         /// 在 2D 映射中的像素坐标计算距离,距离小于Value连接。单位：图像中的 8 邻域像素
         /// </summary>
+        [Description("2D映射距离")]
         distance_mapping,
 
         /// <summary>
         /// 多边形连接的 3D 对象模型部分。Value参数被忽略。
         /// </summary>
+        [Description("多边形连接")]
         mesh,
 
         /// <summary>
         /// 返回由线段连接的 3D 对象模型部分。value 参数被忽略。
         /// </summary>
+        [Description("线段连接")]
+
         lines,
 
 
@@ -2578,7 +2585,145 @@ namespace Halcon_SDK_DLL.Model
     }
 
 
+    public enum SelectObjectModel3d_Feature_Enum
+    {
+        /// <summary>
+        /// 3D 对象模型中点的平均 x 坐标。
+        /// </summary>
+        [Description("平均X坐标")]
+        mean_points_x,
+        /// <summary>
+        /// 3D 对象模型中点的平均 y 坐标。
+        /// </summary>
+        [Description("平均Y坐标")]
+        mean_points_y,
 
+        /// <summary>
+        /// 3D 对象模型中点的平均 y 坐标。
+        /// </summary>
+        [Description("平均Z坐标")]
+        mean_points_z,
+
+        /// <summary>
+        /// 3D 点集的直径，定义为 最小的封闭轴平行长方体的对角线。
+        /// </summary>
+        [Description("最小平行长方体对角线")]
+        diameter_axis_aligned_bounding_box,
+
+        /// <summary>
+        /// 3D 点集的直径，定义为 最小的封闭定向长方体的对角线。此功能具有 计算复杂度高。
+        /// </summary>
+        [Description("最小定向长方体对角线")]
+        diameter_bounding_box,
+
+        /// <summary>
+        /// 3D 点集的直径，定义为 两点之间的距离。
+        /// </summary>
+        [Description("点之间的距离")]
+        diameter_object,
+
+        /// <summary>
+        ///  3D点云数量
+        /// </summary>
+        [Description("点云数量")]
+        num_points,
+
+
+
+    }
+
+
+
+    public enum SampleObjectModel3d_Method_Enum
+    {
+        [Description("快速")]
+        fast,
+        [Description("快速计算法线")]
+        fast_compute_normals,
+        [Description("准确")]
+        accurate,
+        [Description("准确-法线对齐")]
+        accurate_use_normals,
+        [Description("XYZ映射像素对齐")]
+        xyz_mapping,
+        [Description("XYZ映射像素-法线对齐")]
+        xyz_mapping_compute_normals,
+        [Description("最远处点")]
+        furthest_point,
+        [Description("最远处点-法线对齐")]
+        furthest_point_compute_normals,
+
+
+
+    }
+
+    public enum PrepareObjectModel3d_PurPose_Enum
+    {
+        [Description("准备创建匹配")]
+        shape_based_matching_3d,
+        [Description("预备三角化")]
+        segmentation,
+        [Description("准备距离计算")]
+        distance_computation,
+        [Description(" 获得XYZ映射信息")]
+        gen_xyz_mapping,
+
+
+    }
+
+    public enum PrepareObjectModel3d_DistanceTo_Enum
+    {
+        [Description("自动选择距离")]
+        auto,
+        [Description("三角形面距离")]
+
+        triangles,
+        [Description("点云距离")]
+
+        points,
+        [Description("几何基元距离")]
+
+        primitive
+    }
+
+
+
+    public enum PrepareObjectModel3d_Method_Enum
+    {
+        [Description("自动距离")]
+        auto,
+
+        [StringValue("kd-tree")]
+        kd_tree,
+        voxel,
+        linear
+    }
+
+
+
+
+    public enum SurfaceNormalsObjectModel3d_Method_Enum
+    {
+
+        [Description("最小二乘法")]
+        mls,
+        [Description("相邻三角形")]
+        triangles,
+        [Description(" 2D映射点邻域")]
+        xyz_mapping,
+    }
+
+
+
+    public enum SurfaceNormalsObjectModel3d_ParamName_Enum
+    {
+
+        mls_abs_sigma,
+        mls_force_inwards,
+        mls_kNN,
+        mls_order,
+        mls_relative_sigma
+    }
 
     /// <summary>
     /// 形状匹配模板类型枚举

@@ -132,7 +132,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HImage Preprocessing_Process_Start(HImage _OldImage)
         {
 
-            Image = new  HImage( _OldImage);
+            Image = new HImage(_OldImage);
 
             //计算总时间处理
             DateTime AllstartTime = DateTime.Now;
@@ -212,7 +212,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         Image_Preprocessing_Process_Enum.GrayClosingRect => () => GrayClosingRect(Convert.ToInt32(V_1), Convert.ToInt32(V_2)),
                         _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(_Process)),// 处理默认情况，或者根据需要抛出异常
                     };
-                 
+
                 case Preprocessing_Process_2D3D_Switch_Enum.Camera_3D_Drives:
                     return _Process switch
                     {
@@ -241,7 +241,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         private HImage Image { set; get; } = new HImage();
 
 
-        
+
         /// <summary>
         /// 三维模型集合
         /// </summary>
@@ -527,10 +527,22 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
     }
 
+
     public enum H3DObjectModel_Features_Enum
     {
-        [Description("连接3D模型_Connection")]
+        [Description("分离3D模型_Connection")]
         ConnectionObjectModel3d,
+        [Description("筛选3D模型_Select")]
+        SelectObjectModel3d,
+        [Description("重采样3D模型_Sample")]
+        SampleObjectModel3d,
+        [Description("计算法线3D模型_SurfaceNormals")]
+        SurfaceNormalsObjectModel3d,
+        [Description("平滑3D模型_Smooth")]
+        SmoothObjectModel3d,
+
+        [Description("预准备3D模型_Prepare")]
+        PrepareObjectModel3d,
     }
 
 
@@ -547,7 +559,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
     }
 
 
-    public  enum Preprocessing_Process_2D3D_Switch_Enum
+    public enum Preprocessing_Process_2D3D_Switch_Enum
     {
 
         [Description("2D设备")]
@@ -561,6 +573,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
- 
+
 
 }
