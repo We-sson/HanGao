@@ -2632,6 +2632,18 @@ namespace Halcon_SDK_DLL.Model
 
     }
 
+    public enum SelectObjectModel3d_Operation_Enum
+    {
+        [Description("和")]
+
+        and,
+        [Description("或者")]
+
+        or
+
+
+    }
+
 
 
     public enum SampleObjectModel3d_Method_Enum
@@ -2692,13 +2704,33 @@ namespace Halcon_SDK_DLL.Model
     {
         [Description("自动距离")]
         auto,
+        [Description("k维树")]
 
         [StringValue("kd-tree")]
         kd_tree,
+        [Description("体素网格")]
         voxel,
+        [Description("线性搜索")]
+
         linear
     }
 
+
+
+    public enum TriangulateObjectModel3d_Method_Enum
+    {
+
+        [Description("贪婪三角化")]
+        greedy,
+        [Description("隐式三角化")]
+        [StringValue("implicit")]
+        Implicit,
+        [Description("多边形为三角化")]
+        polygon_triangulation,
+        [Description("2D 映射三角化")]
+        xyz_mapping
+
+    }
 
 
 
@@ -2713,6 +2745,39 @@ namespace Halcon_SDK_DLL.Model
         xyz_mapping,
     }
 
+    public enum SmoothObjectModel3d_Method_Enum
+    {
+        [Description("最小二乘法")]
+        mls,
+        [Description(" 2D映射点邻域")]
+        xyz_mapping,
+        [Description(" 2D映射点邻域-法线")]
+        xyz_mapping_compute_normals
+    }
+
+
+    public enum SmoothObjectModel3d_Xyz_Mapping_Filter_Enum
+    {
+        [Description("中位数差分")]
+        median_separate,
+        [Description("中位数")]
+
+        median
+    }
+
+
+
+    public enum TriangulateObjectModel3d_Greedy_Radius_Type_Enum
+    {
+        [Description("自动选择")]
+        auto,
+        [Description("固定值")]
+        [StringValue("fixed")]
+        Fixed,
+        [Description("距离变化")]
+
+        z_factor
+    }
 
 
     public enum SurfaceNormalsObjectModel3d_ParamName_Enum

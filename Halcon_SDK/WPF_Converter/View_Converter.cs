@@ -78,45 +78,9 @@ namespace Halcon_SDK_DLL.WPF_Converter
 
 
 
-    /// <summary>
-    /// View 枚举转换器
-    /// </summary>
-    //public class EnumToItems_EnumConverter : IValueConverter
-    //{
 
 
-    //    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
 
-    //        IEnumerable<Enum>? EnumList = default;
-    //        if (value != null)
-    //        {
-
-    //            EnumList = Enum.GetValues(value.GetType()).Cast<Enum>();
-
-    //        }
-    //        return EnumList;
-    //        //int enumValue = 0;
-    //        //if (parameter is Type)
-    //        //{
-    //        //    enumValue = (int)Enum.Parse((Type)parameter, value.ToString()!);
-    //        //}
-    //        //return enumValue;
-    //    }
-    //    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-
-    //        //Enum? returnValue = default;
-    //        //if (parameter is Type @type)
-    //        //{
-    //        //    returnValue = (Enum)Enum.Parse(@type, value.ToString()!);
-    //        //}
-    //        //return returnValue;
-
-    //        return value;
-
-    //    }
-    //}
 
 
     /// <summary>
@@ -171,38 +135,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
     /// </summary>
     public class Radio_CheckedToEnumConverter : IValueConverter
     {
-        //public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        //{
-        //    if (value.ToString() == parameter.ToString())
-        //    {
-        //        return true;
 
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-        //public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        //{
-
-        //    if (value==null)
-        //    {
-        //        return Binding.DoNothing;
-
-        //    }
-
-        //    var a=    TypeDescriptor.GetConverter(targetType);
-        //    if (Boolean.Parse(value.ToString()!) )
-        //    {
-        //        return (Enum)Enum.Parse(targetType, parameter.ToString()!);
-        //    }
-        //    else
-        //    {
-        //        return Binding.DoNothing;
-        //    }
-
-        //}
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -214,13 +147,9 @@ namespace Halcon_SDK_DLL.WPF_Converter
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //if (value is bool isChecked && isChecked && parameter != null)
-            //{
-            //    return Enum.Parse(targetType, parameter.ToString()!);
-
-            //}
+   
             return Enum.Parse(targetType, parameter!.ToString()!);
-            //return Binding.DoNothing;
+  
         }
 
 

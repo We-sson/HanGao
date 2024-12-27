@@ -53,7 +53,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public Halcon_Image_Preprocessing_Process_SDK Stereo_3D_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK(Preprocessing_Process_2D3D_Switch_Enum.Camera_3D_Drives);
+        public Halcon_Image_Preprocessing_Process_SDK Stereo_3D_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK(Preprocessing_Process_2D3D_Switch_Enum.Camera_3D_Drives) ;
 
 
         /// <summary>

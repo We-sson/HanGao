@@ -359,106 +359,76 @@ namespace Halcon_SDK_DLL.Halcon_Method
             }
         }
 
+        private H3DObjectModel_Features_Enum _Preprocessing_Process_3DModel_Method = H3DObjectModel_Features_Enum.ConnectionObjectModel3d;
 
+
+
+        public H3DObjectModel_Features_Enum Preprocessing_Process_3DModel_Method
+        {
+            get { return _Preprocessing_Process_3DModel_Method; }
+            set
+            {
+                _Preprocessing_Process_3DModel_Method = value;
+                Preprocessing_Process_Work_Initialization_Value(_Preprocessing_Process_3DModel_Method);
+            }
+        }
 
         /// <summary>
         /// 选择流程方法参数初始化
         /// </summary>
         /// <param name="_Work_Enum"></param>
-        public void Preprocessing_Process_Work_Initialization_Value(Image_Preprocessing_Process_Enum _Work_Enum)
+        public void Preprocessing_Process_Work_Initialization_Value(Enum _Work_Enum) 
         {
+
+
+
 
             switch (_Work_Enum)
             {
                 case Image_Preprocessing_Process_Enum.ScaleImageMax:
 
-                    V_1 = default;
-                    V_2 = default;
-                    V_3 = default;
-                    V_4 = default;
-                    V_5 = default;
-                    E_1 = default;
-                    E_2 = default;
-                    E_3 = default;
-                    E_4 = default;
-                    E_5 = default;
+
 
                     break;
                 case Image_Preprocessing_Process_Enum.MedianRect:
 
 
-
                     V_1 = "9";
                     V_2 = "9";
-                    V_3 = default;
-                    V_4 = default;
-                    V_5 = default;
-                    E_1 = default;
-                    E_2 = default;
-                    E_3 = default;
-                    E_4 = default;
-                    E_5 = default;
+
+
                     break;
                 case Image_Preprocessing_Process_Enum.GrayOpeningRect:
                     V_1 = "9";
                     V_2 = "9";
-                    V_3 = default;
-                    V_4 = default;
-                    V_5 = default;
-                    E_1 = default;
-                    E_2 = default;
-                    E_3 = default;
-                    E_4 = default;
-                    E_5 = default;
+
                     break;
                 case Image_Preprocessing_Process_Enum.MedianImage:
 
                     V_1 = "1";
-                    V_2 = default;
-                    V_3 = default;
-                    V_4 = default;
-                    V_5 = default;
+
                     E_1 = MedianImage_MaskType_Enum.square.ToString();
                     E_2 = MedianImage_Margin_Enum.continued.ToString();
-                    E_3 = default;
-                    E_4 = default;
-                    E_5 = default;
+
+
+
                     break;
                 case Image_Preprocessing_Process_Enum.Illuminate:
                     V_1 = "9";
                     V_2 = "9";
                     V_3 = "0.8";
-                    V_4 = default;
-                    V_5 = default;
-                    E_1 = default;
-                    E_2 = default;
-                    E_3 = default;
-                    E_4 = default;
-                    E_5 = default;
+
                     break;
                 case Image_Preprocessing_Process_Enum.Emphasize:
                     V_1 = "9";
                     V_2 = "9";
                     V_3 = "0.8";
-                    V_4 = default;
-                    V_5 = default;
-                    E_1 = default;
-                    E_2 = default;
-                    E_3 = default;
-                    E_4 = default;
-                    E_5 = default;
+
                     break;
                 case Image_Preprocessing_Process_Enum.GrayClosingRect:
                     V_1 = "9";
                     V_2 = "9";
-                    V_3 = default;
-                    V_4 = default;
-                    V_5 = default;
-                    E_1 = default;
-                    E_2 = default;
-                    E_3 = default;
-                    E_4 = default;
-                    E_5 = default;
+
                     break;
 
             }
@@ -481,27 +451,32 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
         public string? V_1 { set; get; } = default;
-
         public string? V_2 { set; get; } = default;
-
         public string? V_3 { set; get; } = default;
-
         public string? V_4 { set; get; } = default;
-
         public string? V_5 { set; get; } = default;
+        public string? V_6 { set; get; } = default;
+        public string? V_7 { set; get; } = default;
+        public string? V_8 { set; get; } = default;
+        public string? V_9 { set; get; } = default;
+        public string? V_10 { set; get; } = default;
+        public string? V_11 { set; get; } = default;
+        public string? V_12 { set; get; } = default;
+        public string? V_13 { set; get; } = default;
+        public string? V_14 { set; get; } = default;
+        public string? V_15 { set; get; } = default;
 
 
         public string? E_1 { set; get; } = default;
-
-
         public string? E_2 { set; get; } = default;
-
         public string? E_3 { set; get; } = default;
-
-
         public string? E_4 { set; get; } = default;
-
         public string? E_5 { set; get; } = default;
+        public string? E_6 { set; get; } = default;
+        public string? E_7 { set; get; } = default;
+        public string? E_8 { set; get; } = default;
+        public string? E_9 { set; get; } = default;
+        public string? E_10 { set; get; } = default;
 
     }
 
@@ -524,13 +499,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         [Description("增强边缘_Emphasize")]
         Emphasize,
 
-
     }
 
 
     public enum H3DObjectModel_Features_Enum
     {
-        [Description("分离3D模型_Connection")]
+        [Description("连通3D模型_Connection")]
         ConnectionObjectModel3d,
         [Description("筛选3D模型_Select")]
         SelectObjectModel3d,
@@ -540,10 +514,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         SurfaceNormalsObjectModel3d,
         [Description("平滑3D模型_Smooth")]
         SmoothObjectModel3d,
-
         [Description("预准备3D模型_Prepare")]
         PrepareObjectModel3d,
+        [Description("三角化3D模型_Triangulate")]
+        TriangulateObjectModel3d
     }
+
 
 
 
