@@ -1,4 +1,5 @@
-﻿using Halcon_SDK_DLL.Model;
+﻿using Generic_Extension;
+using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using PropertyChanged;
 using System.Collections.ObjectModel;
@@ -143,7 +144,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 DateTime startTime = DateTime.Now;
 
 
-
                 Get_Preprocessing_Method(item.Image_Preprocessing_Process_Method, item.V_1, item.V_2, item.V_3, item.V_4, item.V_5, item.E_1, item.E_2, item.E_3, item.E_4, item.E_5).Invoke();
 
                 // 计算时间差
@@ -159,6 +159,35 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
+
+        public HObjectModel3D[] Preprocessing_Process_Start(HObjectModel3D[] _OldModel)
+        {
+
+            //Image = new HImage(_OldImage);
+
+            //计算总时间处理
+            DateTime AllstartTime = DateTime.Now;
+
+            foreach (var item in Preprocessing_Process_List)
+            {
+                //开始单个处理时间
+                DateTime startTime = DateTime.Now;
+
+                _OldModel = item.Get_3DResults_Method(_OldModel);
+
+                //Get_Preprocessing_Method(item.Image_Preprocessing_Process_Method, item.V_1, item.V_2, item.V_3, item.V_4, item.V_5, item.E_1, item.E_2, item.E_3, item.E_4, item.E_5).Invoke();
+
+                // 计算时间差
+                item.Method_Run_Time = (DateTime.Now - startTime).Milliseconds;
+            }
+
+            Preprocessing_Process_List_RunTime = (DateTime.Now - AllstartTime).Milliseconds;
+
+            return _OldModel;
+
+
+
+        }
 
         /// <summary>
         /// 预处理流程创建位置方法
@@ -235,6 +264,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+
         /// <summary>
         /// 处理图像
         /// </summary>
@@ -246,6 +276,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// 三维模型集合
         /// </summary>
         private HObjectModel3D[] H3DModel { set; get; } = [];
+
+
+
+
+
 
 
 
@@ -335,7 +370,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
     public class Preprocessing_Process_Lsit_Model
     {
-        public Preprocessing_Process_Lsit_Model()
+        public   Preprocessing_Process_Lsit_Model()
         {
 
 
@@ -373,11 +408,42 @@ namespace Halcon_SDK_DLL.Halcon_Method
             }
         }
 
+
+
+
+        public HObjectModel3D[] Get_3DResults_Method(HObjectModel3D[] _HObjectModel3D)
+        {
+
+
+
+
+            return Preprocessing_Process_3DModel_Method switch
+            {
+                H3DObjectModel_Features_Enum.ConnectionObjectModel3d => ConnectionObjectModel3d?.Get_Results(_HObjectModel3D),
+                H3DObjectModel_Features_Enum.SelectObjectModel3d => SelectObjectModel3d?.Get_Results(_HObjectModel3D),
+                H3DObjectModel_Features_Enum.SampleObjectModel3d => SampleObjectModel3d?.Get_Results(_HObjectModel3D),
+                H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d => SurfaceNormalsObjectModel3d?.Get_Results(_HObjectModel3D),
+                H3DObjectModel_Features_Enum.SmoothObjectModel3d => SmoothObjectModel3d?.Get_Results(_HObjectModel3D),
+                H3DObjectModel_Features_Enum.PrepareObjectModel3d => PrepareObjectModel3d?.Get_Results(_HObjectModel3D),
+                H3DObjectModel_Features_Enum.TriangulateObjectModel3d => TriangulateObjectModel3d?.Get_Results(_HObjectModel3D),
+
+                _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_3DModel_Method)),// 处理默认情况，或者根据需要抛出异常
+            }?? throw new ArgumentException("预处理过程错误");
+
+
+
+
+
+        }
+
+
+
+
         /// <summary>
         /// 选择流程方法参数初始化
         /// </summary>
         /// <param name="_Work_Enum"></param>
-        public void Preprocessing_Process_Work_Initialization_Value(Enum _Work_Enum) 
+        public void Preprocessing_Process_Work_Initialization_Value(Enum _Work_Enum)
         {
 
 
@@ -431,11 +497,79 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                     break;
 
+                case H3DObjectModel_Features_Enum.ConnectionObjectModel3d:
+
+                    ConnectionObjectModel3d = new ConnectionObjectModel3d_Function_Model() { };
+
+
+                    break;
+                case H3DObjectModel_Features_Enum.SelectObjectModel3d:
+
+                    SelectObjectModel3d = new SelectObjectModel3d_Funtion_Model() { };
+
+
+
+                    break;
+                case H3DObjectModel_Features_Enum.SampleObjectModel3d:
+
+                    SampleObjectModel3d = new SampleObjectModel3d_Function_Model() { };
+
+
+
+                    break;
+
+                case H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d:
+
+                    SurfaceNormalsObjectModel3d = new SurfaceNormalsObjectModel3d_Function_Model() { };
+
+                    break;
+
+
+                case H3DObjectModel_Features_Enum.SmoothObjectModel3d:
+
+                    SmoothObjectModel3d = new SmoothObjectModel3d_Function_Model() { };
+
+                    break;
+
+
+                case H3DObjectModel_Features_Enum.PrepareObjectModel3d:
+
+                    PrepareObjectModel3d = new PrepareObjectModel3d_Function_Model() { };
+
+                    break;
+                case H3DObjectModel_Features_Enum.TriangulateObjectModel3d:
+
+                    TriangulateObjectModel3d = new TriangulateObjectModel3d_Function_Model() { };
+
+                    break;
+                    
             }
 
         }
 
 
+
+
+
+        public   ConnectionObjectModel3d_Function_Model? ConnectionObjectModel3d { set; get; }
+
+        public SelectObjectModel3d_Funtion_Model? SelectObjectModel3d { set; get; }
+
+        public SampleObjectModel3d_Function_Model? SampleObjectModel3d { set; get; }
+
+
+        public SurfaceNormalsObjectModel3d_Function_Model? SurfaceNormalsObjectModel3d { set; get; }
+
+
+
+        public SmoothObjectModel3d_Function_Model? SmoothObjectModel3d { set; get; }
+
+
+        public PrepareObjectModel3d_Function_Model? PrepareObjectModel3d { set; get; }
+
+
+
+        public TriangulateObjectModel3d_Function_Model? TriangulateObjectModel3d { set; get; }
 
 
         //public Action? Action_Method { set; get; }
@@ -477,6 +611,422 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public string? E_8 { set; get; } = default;
         public string? E_9 { set; get; } = default;
         public string? E_10 { set; get; } = default;
+
+    }
+
+
+    [AddINotifyPropertyChangedInterface]
+    public class ConnectionObjectModel3d_Function_Model
+    {
+
+
+
+        public ConnectionObjectModel3d_Feature_Enum Feature { set; get; } = ConnectionObjectModel3d_Feature_Enum.distance_3d;
+
+
+        public string Value { set; get; } = 0.005.ToString();
+
+        public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
+        {
+
+            return HObjectModel3D.ConnectionObjectModel3d(_Model3D, Feature.ToString().ToLower(), Value);
+
+        }
+
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    public class SelectObjectModel3d_Funtion_Model
+    {
+        public SelectObjectModel3d_Feature_Enum Feature { set; get; } = SelectObjectModel3d_Feature_Enum.num_points;
+
+        public SelectObjectModel3d_Operation_Enum Operation { set; get; } = SelectObjectModel3d_Operation_Enum.and;
+
+        public string minValue { set; get; } = 500.ToString();
+
+
+        public string maxValue { set; get; } = 10000.ToString();
+
+
+        public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
+        {
+
+            return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), minValue, maxValue);
+
+        }
+
+
+    }
+
+
+    [AddINotifyPropertyChangedInterface]
+    public class SampleObjectModel3d_Function_Model
+    {
+
+        public SampleObjectModel3d_Method_Enum Method { set; get; } = SampleObjectModel3d_Method_Enum.fast;
+
+        public double SampleDistance { set; get; } = 0.05;
+
+
+        public double max_angle_diff { set; get; } = 180;
+
+
+        public double min_num_points { set; get; } = 5;
+
+
+        public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
+        {
+
+            return HObjectModel3D.SampleObjectModel3d(_Model3D, Method.ToString().ToLower(), SampleDistance, new HTuple([nameof(max_angle_diff), nameof(min_num_points)]), new HTuple([max_angle_diff.ToString(), min_num_points.ToString()]));
+
+        }
+
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    public class SurfaceNormalsObjectModel3d_Function_Model
+    {
+
+        public SurfaceNormalsObjectModel3d_Method_Enum Method { set; get; } = SurfaceNormalsObjectModel3d_Method_Enum.mls;
+
+
+        public double mls_kNN { set; get; } = 60;
+
+        public double mls_abs_sigma { set; get; } = 0.001;
+
+        public int mls_order { set; get; } = 2;
+
+        public double mls_relative_sigma { set; get; } = 1;
+
+        public bool mls_force_inwards { set; get; } = true;
+
+
+
+        public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
+        {
+
+            return HObjectModel3D.SurfaceNormalsObjectModel3d(
+                _Model3D,
+                Method.ToString().ToLower(),
+                new HTuple([nameof(mls_kNN), nameof(mls_abs_sigma), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
+                new HTuple([mls_kNN.ToString(), mls_abs_sigma.ToString(), mls_order.ToString(), mls_relative_sigma.ToString(), mls_force_inwards.ToString().ToLower()]));
+
+        }
+
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    public class SmoothObjectModel3d_Function_Model
+    {
+
+        public SmoothObjectModel3d_Method_Enum Method { set; get; } = SmoothObjectModel3d_Method_Enum.mls;
+
+
+        public double mls_kNN { set; get; } = 60;
+
+
+        public int mls_order { set; get; } = 2;
+        public double mls_abs_sigma { set; get; } = 0.001;
+
+        public double mls_relative_sigma { set; get; } = 1;
+
+        public bool mls_force_inwards { set; get; } = true;
+
+
+        public SmoothObjectModel3d_Xyz_Mapping_Filter_Enum xyz_mapping_filter { set; get; } = SmoothObjectModel3d_Xyz_Mapping_Filter_Enum.median_separate;
+
+
+        public int xyz_mapping_mask_width { set; get; } = 3;
+
+
+        public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
+        {
+
+
+            switch (Method)
+            {
+                case SmoothObjectModel3d_Method_Enum.mls:
+
+
+
+                    return HObjectModel3D.SmoothObjectModel3d(
+                        _Model3D,
+                        Method.ToString().ToLower(),
+                        new HTuple([nameof(mls_kNN), nameof(mls_abs_sigma), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
+                        new HTuple([mls_kNN.ToString(), mls_abs_sigma.ToString(), mls_order.ToString(), mls_relative_sigma.ToString(), mls_force_inwards.ToString().ToLower()]));
+
+                case SmoothObjectModel3d_Method_Enum.xyz_mapping or SmoothObjectModel3d_Method_Enum.xyz_mapping_compute_normals:
+
+                    return HObjectModel3D.SmoothObjectModel3d(
+                        _Model3D,
+                        Method.ToString().ToLower(),
+                        new HTuple([nameof(xyz_mapping_filter), nameof(xyz_mapping_mask_width)]),
+                        new HTuple([xyz_mapping_filter.ToString(), xyz_mapping_mask_width.ToString()]));
+
+                default: throw new ArgumentException("参数错误！");
+
+
+            }
+
+
+        }
+
+    }
+
+    [AddINotifyPropertyChangedInterface]
+    public class PrepareObjectModel3d_Function_Model
+    {
+
+        public PrepareObjectModel3d_PurPose_Enum Purpose { set; get; } = PrepareObjectModel3d_PurPose_Enum.segmentation;
+
+
+        public bool overwriteData { set; get; } = true;
+
+        public PrepareObjectModel3d_DistanceTo_Enum distance_to { set; get; } = PrepareObjectModel3d_DistanceTo_Enum.auto;
+
+
+        public PrepareObjectModel3d_Method_Enum method { set; get; } = PrepareObjectModel3d_Method_Enum.auto;
+
+
+        public int max_distance { set; get; } = 0;
+
+        public double sampling_dist_rel { set; get; } = 0.03;
+
+        public int sampling_dist_abs { set; get; } = 100;
+
+        public int xyz_map_width { set; get; } = 4024;
+
+        public int max_area_holes { set; get; } = 100;
+
+
+
+        public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
+        {
+
+
+            switch (Purpose)
+            {
+                case PrepareObjectModel3d_PurPose_Enum.shape_based_matching_3d:
+
+
+
+                    HObjectModel3D.PrepareObjectModel3d(
+                          _Model3D,
+                         Purpose.ToString().ToLower(),
+                         overwriteData.ToString().ToLower(),
+                         new HTuple(),
+                         new HTuple());
+                    break;
+
+
+                case PrepareObjectModel3d_PurPose_Enum.segmentation:
+
+                    HObjectModel3D.PrepareObjectModel3d(
+                    _Model3D,
+                   Purpose.ToString().ToLower(),
+                   overwriteData.ToString().ToLower(),
+                   new HTuple([nameof(max_area_holes)]),
+                   new HTuple([max_area_holes.ToString()]));
+                    break;
+                case PrepareObjectModel3d_PurPose_Enum.distance_computation:
+
+                    HObjectModel3D.PrepareObjectModel3d(
+                      _Model3D,
+                     Purpose.ToString().ToLower(),
+                     overwriteData.ToString().ToLower(),
+                     new HTuple([nameof(distance_to), nameof(method), nameof(max_distance), nameof(sampling_dist_rel), nameof(sampling_dist_abs)]),
+                     new HTuple([distance_to.ToString(), method.GetStringValue(), max_distance.ToString(), sampling_dist_rel.ToString(), sampling_dist_abs.ToString()]));
+
+                    break;
+                case PrepareObjectModel3d_PurPose_Enum.gen_xyz_mapping:
+
+                    HObjectModel3D.PrepareObjectModel3d(
+                        _Model3D,
+                       Purpose.ToString().ToLower(),
+                       overwriteData.ToString().ToLower(),
+                       new HTuple([nameof(xyz_map_width)]),
+                       new HTuple([xyz_map_width.ToString()]));
+
+                    break;
+
+            }
+
+
+
+            return _Model3D;
+
+
+
+        }
+
+    }
+
+
+
+
+
+    [AddINotifyPropertyChangedInterface]
+    public class TriangulateObjectModel3d_Function_Model
+    {
+
+        public TriangulateObjectModel3d_Method_Enum Method { set; get; } = TriangulateObjectModel3d_Method_Enum.greedy;
+
+
+
+
+        public int xyz_mapping_max_area_holes { set; get; } = 10;
+
+        public int xyz_mapping_max_view_angle { set; get; } = 90;
+
+        public bool xyz_mapping_max_view_dir_x { set; get; } = false;
+        public bool xyz_mapping_max_view_dir_y { set; get; } = false;
+        public bool xyz_mapping_max_view_dir_z { set; get; } = true;
+        public bool xyz_mapping_output_all_points { set; get; } = false;
+
+
+        public int greedy_kNN { set; get; } = 40;
+
+        public TriangulateObjectModel3d_Greedy_Radius_Type_Enum greedy_radius_type { set; get; } = TriangulateObjectModel3d_Greedy_Radius_Type_Enum.auto;
+
+        public double greedy_radius_value { set; get; } = 0.01;
+
+        public int greedy_neigh_orient_tol { set; get; } = 30;
+
+        public bool greedy_neigh_orient_consistent { set; get; } = false;
+
+        public int greedy_neigh_latitude_tol { set; get; } = 30;
+
+        public double greedy_neigh_vertical_tol { set; get; } = 0.1;
+
+
+        public object greedy_hole_filling { set; get; } = 40;
+
+        public bool greedy_fix_flips { get; set; } = true;
+
+        public bool greedy_prefetch_neighbors { set; get; } = true;
+
+        public int greedy_mesh_erosion { set; get; } = 3;
+
+        public int greedy_mesh_dilation { set; get; } = 2;
+
+        public object greedy_remove_small_surfaces { set; get; } = false;
+
+
+        public object greedy_timeout { set; get; } = false;
+
+
+        public bool greedy_suppress_timeout_error { set; get; } = false;
+
+        public bool greedy_output_all_points { set; get; } = false;
+
+        public TriangulateObjectModel3d_Information_Enum information { set; get; } = TriangulateObjectModel3d_Information_Enum.num_triangles;
+
+
+        public int implicit_octree_depth { set; get; } = 6;
+
+
+        public int implicit_solver_depth { set; get; } = 6;
+
+        public int implicit_min_num_samples { set; get; } = 1;
+
+
+        public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
+        {
+
+            HTuple _information;
+
+
+            switch (Method)
+            {
+                case TriangulateObjectModel3d_Method_Enum.greedy:
+
+
+                    return HObjectModel3D.TriangulateObjectModel3d(
+  _Model3D,
+  Method.ToString().ToLower(),
+  new HTuple([
+                      nameof(greedy_kNN),
+                      nameof(greedy_radius_type),
+                      nameof(greedy_radius_value),
+                      nameof(greedy_neigh_orient_tol),
+                      nameof(greedy_neigh_orient_consistent),
+                      nameof(greedy_neigh_latitude_tol),
+                      nameof(greedy_neigh_vertical_tol),
+                      nameof(greedy_hole_filling),
+                      nameof(greedy_fix_flips),
+                      nameof(greedy_prefetch_neighbors),
+                      nameof(greedy_mesh_erosion),
+                      nameof(greedy_mesh_dilation),
+                      nameof(greedy_remove_small_surfaces),
+                      nameof(greedy_timeout),
+                      nameof(greedy_suppress_timeout_error),
+                      nameof(greedy_output_all_points),
+                      nameof(information)
+                      ]),
+  new HTuple([
+                      greedy_kNN.ToString(),
+                      greedy_radius_type.ToString().ToLower(),
+                      greedy_radius_value.ToString(),
+                      greedy_neigh_orient_tol.ToString(),
+                      greedy_neigh_orient_consistent.ToString().ToLower(),
+                      greedy_neigh_latitude_tol.ToString(),
+                      greedy_neigh_vertical_tol.ToString(),
+                      greedy_hole_filling?.ToString()?.ToLower(),
+                      greedy_fix_flips.ToString(),
+                      greedy_prefetch_neighbors.ToString(),
+                      greedy_mesh_erosion.ToString(),
+                      greedy_mesh_dilation.ToString(),
+                      greedy_remove_small_surfaces?.ToString()?.ToLower(),
+                      greedy_timeout?.ToString()?.ToLower(),
+                      greedy_suppress_timeout_error.ToString().ToLower(),
+                      greedy_output_all_points.ToString(),
+                      information.ToString()]),
+  out _information);
+
+                    ;
+                case TriangulateObjectModel3d_Method_Enum.Implicit:
+
+
+                    return HObjectModel3D.TriangulateObjectModel3d(
+                _Model3D,
+                Method.ToString().ToLower(),
+                new HTuple([nameof(implicit_octree_depth), nameof(implicit_solver_depth), nameof(implicit_min_num_samples), nameof(information)]),
+                new HTuple([implicit_octree_depth.ToString(), implicit_solver_depth.ToString(), implicit_min_num_samples.ToString(), information.ToString()]),
+                out _information);
+
+
+                case TriangulateObjectModel3d_Method_Enum.polygon_triangulation:
+
+
+                    return HObjectModel3D.TriangulateObjectModel3d(
+             _Model3D,
+             Method.ToString().ToLower(),
+             new HTuple([nameof(information)]),
+             new HTuple([information.ToString()]),
+             out _information);
+
+
+                case TriangulateObjectModel3d_Method_Enum.xyz_mapping:
+
+
+                    return HObjectModel3D.TriangulateObjectModel3d(
+          _Model3D,
+          Method.ToString().ToLower(),
+          new HTuple([nameof(xyz_mapping_max_area_holes), nameof(xyz_mapping_max_view_angle), nameof(xyz_mapping_max_view_dir_x), nameof(xyz_mapping_max_view_dir_y), nameof(xyz_mapping_max_view_dir_z), nameof(xyz_mapping_output_all_points)]),
+          new HTuple([xyz_mapping_max_area_holes.ToString(), HTuple.TupleRand(xyz_mapping_max_view_angle).ToString(), Convert.ToInt32(xyz_mapping_max_view_dir_x).ToString(), Convert.ToInt32(xyz_mapping_max_view_dir_y).ToString(), Convert.ToInt32(xyz_mapping_max_view_dir_z).ToString(), xyz_mapping_output_all_points.ToString().ToLower()]),
+          out _information);
+
+
+
+
+                default: throw new ArgumentException("参数错误！");
+            }
+
+
+
+
+
+        }
 
     }
 

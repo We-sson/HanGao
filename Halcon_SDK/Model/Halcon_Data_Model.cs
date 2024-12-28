@@ -2779,6 +2779,17 @@ namespace Halcon_SDK_DLL.Model
         z_factor
     }
 
+    public enum TriangulateObjectModel3d_Information_Enum
+    {
+        [Description("三角数量")]
+        
+        num_triangles,
+        [Description("详细信息")]
+        
+        verbose,
+    }
+
+
 
     public enum SurfaceNormalsObjectModel3d_ParamName_Enum
     {

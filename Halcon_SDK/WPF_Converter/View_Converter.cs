@@ -127,6 +127,72 @@ namespace Halcon_SDK_DLL.WPF_Converter
     }
 
 
+    public class MultiTypeValueConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return DependencyProperty.UnsetValue;
+
+            try
+            {
+                return value switch
+                {
+                    bool boolValue => boolValue ? "True" : "False",
+                    Enum enumValue => enumValue.ToString(),
+                    IConvertible convertible => convertible.ToString(culture),
+                    _ => value?.ToString() ?? string.Empty
+                };
+            }
+            catch
+            {
+                return DependencyProperty.UnsetValue;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null || targetType == null)
+                return DependencyProperty.UnsetValue;
+
+            var stringValue = value.ToString();
+            if (string.IsNullOrWhiteSpace(stringValue))
+                return DependencyProperty.UnsetValue;
+
+            try
+            {
+                // Handle Enum types separately
+                if (targetType.IsEnum)
+                {
+                    return Enum.TryParse(targetType, stringValue, true, out var enumResult)
+                        ? enumResult
+                        : DependencyProperty.UnsetValue;
+                }
+
+                // Use TypeCode to determine the conversion
+                return Type.GetTypeCode(targetType) switch
+                {
+                    TypeCode.Boolean => bool.TryParse(stringValue, out var boolResult) && boolResult,
+                    TypeCode.Int32 => int.TryParse(stringValue, out var intResult) ? intResult : DependencyProperty.UnsetValue,
+                    TypeCode.Double => double.TryParse(stringValue, out var doubleResult) ? doubleResult : DependencyProperty.UnsetValue,
+                    TypeCode.Decimal => decimal.TryParse(stringValue, out var decimalResult) ? decimalResult : DependencyProperty.UnsetValue,
+                    TypeCode.String => stringValue,
+                    _ => DependencyProperty.UnsetValue
+                };
+            }
+            catch
+            {
+                return DependencyProperty.UnsetValue;
+            }
+        }
+    }
+
+
+
+
+
+
+
 
 
 

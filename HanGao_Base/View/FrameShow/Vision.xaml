@@ -8728,16 +8728,16 @@ PassEventArgsToCommand="True" />
 
 
                                                                                         <Grid Margin="8">
-                                                                                            <!--<Grid.Style>
-                 <Style TargetType="Grid">
-                     <Setter Property="Visibility" Value="Collapsed" />
-                     <Style.Triggers>
-                         <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
-                             <Setter Property="Visibility" Value="Visible" />
-                         </DataTrigger>
-                     </Style.Triggers>
-                 </Style>
-             </Grid.Style>-->
+                                                                                            <Grid.Style>
+                                                                                                <Style TargetType="Grid">
+                                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                    <Style.Triggers>
+                                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}">
+                                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                                        </DataTrigger>
+                                                                                                    </Style.Triggers>
+                                                                                                </Style>
+                                                                                            </Grid.Style>
                                                                                             <Grid.ColumnDefinitions>
                                                                                                 <ColumnDefinition Width="60" />
                                                                                                 <ColumnDefinition />
@@ -8758,7 +8758,7 @@ PassEventArgsToCommand="True" />
                                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:ConnectionObjectModel3d_Feature_Enum}"
                                                                                                       SelectedIndex="0"
-                                                                                                      SelectedItem="{Binding E_1, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                      SelectedItem="{Binding ConnectionObjectModel3d.Feature, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                                 <ComboBox.ItemTemplate>
                                                                                                     <DataTemplate>
@@ -8774,16 +8774,23 @@ PassEventArgsToCommand="True" />
                                                                                             </ComboBox>
                                                                                         </Grid>
                                                                                         <Grid Margin="8">
-                                                                                            <!--<Grid.Style>
-          <Style TargetType="Grid">
-              <Setter Property="Visibility" Value="Collapsed" />
-              <Style.Triggers>
-                  <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
-                      <Setter Property="Visibility" Value="Visible" />
-                  </DataTrigger>
-              </Style.Triggers>
-          </Style>
-      </Grid.Style>-->
+                                                                                            <Grid.Style>
+                                                                                                <Style TargetType="Grid">
+                                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                    <Style.Triggers>
+                                                                                                        <MultiDataTrigger>
+                                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}" />
+                                                                                                                <Condition Binding="{Binding ConnectionObjectModel3d.Feature}" Value="{x:Static Halcon_Enum:ConnectionObjectModel3d_Feature_Enum.distance_3d}" />
+                                                                                                            </MultiDataTrigger.Conditions>
+                                                                                                            <MultiDataTrigger.Setters>
+                                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                                            </MultiDataTrigger.Setters>
+                                                                                                        </MultiDataTrigger>
+
+                                                                                                    </Style.Triggers>
+                                                                                                </Style>
+                                                                                            </Grid.Style>
                                                                                             <Grid.ColumnDefinitions>
                                                                                                 <ColumnDefinition Width="55" />
                                                                                                 <ColumnDefinition Width=" *" />
@@ -8805,12 +8812,11 @@ PassEventArgsToCommand="True" />
                                                                                                     VerticalAlignment="Center"
                                                                                                     HorizontalContentAlignment="Stretch"
                                                                                                     VerticalContentAlignment="Stretch"
-                                                                                                    IsSnapToTickEnabled="True"
+                                                                                                    LargeChange="0.001"
                                                                                                     Maximum="1"
                                                                                                     Minimum="0"
                                                                                                     SmallChange="0.001"
-                                                                                                    TickFrequency=" 0.001"
-                                                                                                    Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                    Value="{Binding ConnectionObjectModel3d.Value, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
                                                                                                 <Slider.Style>
                                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                                         <!--<Style.Triggers>
@@ -8824,7 +8830,7 @@ PassEventArgsToCommand="True" />
                                                                                             </Slider>
 
                                                                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                                                                     Text="{Binding ElementName=ConnectionObjectModel3d_Value, Path=Value, StringFormat={}{0:F3}}"
+                                                                                                     Text="{Binding ElementName=ConnectionObjectModel3d_Distance_3D_Value, Path=Value, StringFormat={}{0:F3}}"
                                                                                                      HorizontalContentAlignment="Center"
                                                                                                      VerticalContentAlignment="Center"
                                                                                                      Background="Transparent"
@@ -8833,16 +8839,23 @@ PassEventArgsToCommand="True" />
                                                                                                      FontSize="16" />
                                                                                         </Grid>
                                                                                         <Grid Margin="8">
-                                                                                            <!--<Grid.Style>
-    <Style TargetType="Grid">
-        <Setter Property="Visibility" Value="Collapsed" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
-                <Setter Property="Visibility" Value="Visible" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-</Grid.Style>-->
+                                                                                            <Grid.Style>
+                                                                                                <Style TargetType="Grid">
+                                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                    <Style.Triggers>
+
+                                                                                                        <MultiDataTrigger>
+                                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}" />
+                                                                                                                <Condition Binding="{Binding ConnectionObjectModel3d.Feature}" Value="{x:Static Halcon_Enum:ConnectionObjectModel3d_Feature_Enum.angle}" />
+                                                                                                            </MultiDataTrigger.Conditions>
+                                                                                                            <MultiDataTrigger.Setters>
+                                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                                            </MultiDataTrigger.Setters>
+                                                                                                        </MultiDataTrigger>
+                                                                                                    </Style.Triggers>
+                                                                                                </Style>
+                                                                                            </Grid.Style>
                                                                                             <Grid.ColumnDefinitions>
                                                                                                 <ColumnDefinition Width="55" />
                                                                                                 <ColumnDefinition Width=" *" />
@@ -8864,12 +8877,11 @@ PassEventArgsToCommand="True" />
                                                                                                     VerticalAlignment="Center"
                                                                                                     HorizontalContentAlignment="Stretch"
                                                                                                     VerticalContentAlignment="Stretch"
-                                                                                                    IsSnapToTickEnabled="True"
+                                                                                                    LargeChange="1"
                                                                                                     Maximum="180"
                                                                                                     Minimum="0"
-                                                                                                    SmallChange="0.1"
-                                                                                                    TickFrequency=" 0.1"
-                                                                                                    Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                    SmallChange="1"
+                                                                                                    Value="{Binding ConnectionObjectModel3d.Value, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
                                                                                                 <Slider.Style>
                                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                                         <!--<Style.Triggers>
@@ -8883,7 +8895,7 @@ PassEventArgsToCommand="True" />
                                                                                             </Slider>
 
                                                                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                                                                     Text="{Binding ElementName=ConnectionObjectModel3d_Value, Path=Value, StringFormat={}{0:F3}}"
+                                                                                                     Text="{Binding ElementName=ConnectionObjectModel3d_Angle_Value, Path=Value, StringFormat={}{0:F1}}"
                                                                                                      HorizontalContentAlignment="Center"
                                                                                                      VerticalContentAlignment="Center"
                                                                                                      Background="Transparent"
@@ -8892,16 +8904,84 @@ PassEventArgsToCommand="True" />
                                                                                                      FontSize="16" />
                                                                                         </Grid>
                                                                                         <Grid Margin="8">
-                                                                                            <!--<Grid.Style>
-    <Style TargetType="Grid">
-        <Setter Property="Visibility" Value="Collapsed" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
-                <Setter Property="Visibility" Value="Visible" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-</Grid.Style>-->
+                                                                                            <Grid.Style>
+                                                                                                <Style TargetType="Grid">
+                                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                    <Style.Triggers>
+                                                                                                        <MultiDataTrigger>
+                                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}" />
+                                                                                                                <Condition Binding="{Binding ConnectionObjectModel3d.Feature}" Value="{x:Static Halcon_Enum:ConnectionObjectModel3d_Feature_Enum.distance_mapping}" />
+                                                                                                            </MultiDataTrigger.Conditions>
+                                                                                                            <MultiDataTrigger.Setters>
+                                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                                            </MultiDataTrigger.Setters>
+                                                                                                        </MultiDataTrigger>
+                                                                                                    </Style.Triggers>
+                                                                                                </Style>
+                                                                                            </Grid.Style>
+                                                                                            <Grid.ColumnDefinitions>
+                                                                                                <ColumnDefinition Width="55" />
+                                                                                                <ColumnDefinition Width=" *" />
+                                                                                                <ColumnDefinition Width=" *" />
+                                                                                            </Grid.ColumnDefinitions>
+
+                                                                                            <TextBlock Grid.Column=" 0"
+                                                                                                       Text="映射距离"
+                                                                                                       TextWrapping="Wrap"
+                                                                                                       HorizontalAlignment="Left"
+                                                                                                       VerticalAlignment="Center"
+                                                                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                                       FontSize="12"
+                                                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                       Opacity=" 0.8" />
+
+                                                                                            <Slider x:Name="ConnectionObjectModel3d_Distance_Mapping" Grid.Column=" 1"
+                                                                                                    Margin="4"
+                                                                                                    VerticalAlignment="Center"
+                                                                                                    HorizontalContentAlignment="Stretch"
+                                                                                                    VerticalContentAlignment="Stretch"
+                                                                                                    LargeChange="1"
+                                                                                                    Maximum="103"
+                                                                                                    Minimum="3"
+                                                                                                    SmallChange="1"
+                                                                                                    Value="{Binding ConnectionObjectModel3d.Value, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                <Slider.Style>
+                                                                                                    <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                                                                        <!--<Style.Triggers>
+
+                                                                                                      <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:Preprocessing_Process_3DModel_Method.MedianRect}">
+                                                                                                          <Setter Property="Value" Value="5" />
+                                                                                                      </DataTrigger>
+                                                                                                  </Style.Triggers>-->
+                                                                                                    </Style>
+                                                                                                </Slider.Style>
+                                                                                            </Slider>
+
+                                                                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                                     Text="{Binding ElementName=ConnectionObjectModel3d_Distance_Mapping, Path=Value, StringFormat={}{0:N0}}"
+                                                                                                     HorizontalContentAlignment="Center"
+                                                                                                     VerticalContentAlignment="Center"
+                                                                                                     Background="Transparent"
+                                                                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                     BorderThickness="2"
+                                                                                                     FontSize="16" />
+                                                                                        </Grid>
+
+
+
+
+                                                                                        <Grid Margin="8">
+                                                                                            <Grid.Style>
+                                                                                                <Style TargetType="Grid">
+                                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                    <Style.Triggers>
+                                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
+                                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                                        </DataTrigger>
+                                                                                                    </Style.Triggers>
+                                                                                                </Style>
+                                                                                            </Grid.Style>
                                                                                             <Grid.ColumnDefinitions>
                                                                                                 <ColumnDefinition Width="60" />
                                                                                                 <ColumnDefinition />
@@ -8922,7 +9002,7 @@ PassEventArgsToCommand="True" />
                                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:SelectObjectModel3d_Feature_Enum}"
                                                                                                       SelectedIndex="0"
-                                                                                                      SelectedItem="{Binding E_1, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                      SelectedItem="{Binding SelectObjectModel3d.Feature, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                                 <ComboBox.ItemTemplate>
                                                                                                     <DataTemplate>
@@ -8938,16 +9018,16 @@ PassEventArgsToCommand="True" />
                                                                                             </ComboBox>
                                                                                         </Grid>
                                                                                         <Grid Margin="8">
-                                                                                            <!--<Grid.Style>
-    <Style TargetType="Grid">
-        <Setter Property="Visibility" Value="Collapsed" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
-                <Setter Property="Visibility" Value="Visible" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-</Grid.Style>-->
+                                                                                            <Grid.Style>
+                                                                                                <Style TargetType="Grid">
+                                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                    <Style.Triggers>
+                                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
+                                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                                        </DataTrigger>
+                                                                                                    </Style.Triggers>
+                                                                                                </Style>
+                                                                                            </Grid.Style>
                                                                                             <Grid.ColumnDefinitions>
                                                                                                 <ColumnDefinition Width="60" />
                                                                                                 <ColumnDefinition />
@@ -8968,7 +9048,7 @@ PassEventArgsToCommand="True" />
                                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:SelectObjectModel3d_Operation_Enum}"
                                                                                                       SelectedIndex="0"
-                                                                                                      SelectedItem="{Binding E_1, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                      SelectedItem="{Binding SelectObjectModel3d.Operation, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                                 <ComboBox.ItemTemplate>
                                                                                                     <DataTemplate>
@@ -8984,16 +9064,16 @@ PassEventArgsToCommand="True" />
                                                                                             </ComboBox>
                                                                                         </Grid>
                                                                                         <Grid Margin="8">
-                                                                                            <!--<Grid.Style>
-              <Style TargetType="Grid">
-                  <Setter Property="Visibility" Value="Collapsed" />
-                  <Style.Triggers>
-                      <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
-                          <Setter Property="Visibility" Value="Visible" />
-                      </DataTrigger>
-                  </Style.Triggers>
-              </Style>
-          </Grid.Style>-->
+                                                                                            <Grid.Style>
+                                                                                                <Style TargetType="Grid">
+                                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                    <Style.Triggers>
+                                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
+                                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                                        </DataTrigger>
+                                                                                                    </Style.Triggers>
+                                                                                                </Style>
+                                                                                            </Grid.Style>
                                                                                             <Grid.ColumnDefinitions>
                                                                                                 <ColumnDefinition Width="55" />
                                                                                                 <ColumnDefinition Width=" *" />
@@ -9015,12 +9095,12 @@ PassEventArgsToCommand="True" />
                                                                                                     VerticalAlignment="Center"
                                                                                                     HorizontalContentAlignment="Stretch"
                                                                                                     VerticalContentAlignment="Stretch"
-                                                                                                    IsSnapToTickEnabled="True"
-                                                                                                    Maximum="101"
+                                                                                                    LargeChange="1"
+                                                                                                    Maximum="10000"
                                                                                                     Minimum="3"
                                                                                                     SmallChange="2"
-                                                                                                    TickFrequency=" 2"
-                                                                                                    Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                    TickFrequency=" 1"
+                                                                                                    Value="{Binding SelectObjectModel3d.minValue, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
                                                                                                 <Slider.Style>
                                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                                         <!--<Style.Triggers>
@@ -9043,16 +9123,16 @@ PassEventArgsToCommand="True" />
                                                                                                      FontSize="16" />
                                                                                         </Grid>
                                                                                         <Grid Margin="8">
-                                                                                            <!--<Grid.Style>
-    <Style TargetType="Grid">
-        <Setter Property="Visibility" Value="Collapsed" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
-                <Setter Property="Visibility" Value="Visible" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-</Grid.Style>-->
+                                                                                            <Grid.Style>
+                                                                                                <Style TargetType="Grid">
+                                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                                    <Style.Triggers>
+                                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
+                                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                                        </DataTrigger>
+                                                                                                    </Style.Triggers>
+                                                                                                </Style>
+                                                                                            </Grid.Style>
                                                                                             <Grid.ColumnDefinitions>
                                                                                                 <ColumnDefinition Width="55" />
                                                                                                 <ColumnDefinition Width=" *" />
@@ -9069,17 +9149,18 @@ PassEventArgsToCommand="True" />
                                                                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                        Opacity=" 0.8" />
 
-                                                                                            <Slider x:Name="SelectObjectModel3d_MaxValue" Grid.Column=" 1"
+                                                                                            <Slider x:Name="SelectObjectModel3d_MaxValue_Slider" Grid.Column=" 1"
                                                                                                     Margin="4"
                                                                                                     VerticalAlignment="Center"
                                                                                                     HorizontalContentAlignment="Stretch"
                                                                                                     VerticalContentAlignment="Stretch"
                                                                                                     IsSnapToTickEnabled="True"
-                                                                                                    Maximum="101"
+                                                                                                    LargeChange="1"
+                                                                                                    Maximum="10000"
                                                                                                     Minimum="3"
                                                                                                     SmallChange="2"
-                                                                                                    TickFrequency=" 2"
-                                                                                                    Value="{Binding V_1, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                    TickFrequency=" 1"
+                                                                                                    Value="{Binding ElementName=SelectObjectModel3d_MaxValue, Path=Text, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
                                                                                                 <Slider.Style>
                                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                                         <!--<Style.Triggers>
@@ -9092,14 +9173,27 @@ PassEventArgsToCommand="True" />
                                                                                                 </Slider.Style>
                                                                                             </Slider>
 
-                                                                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                                                                     Text="{Binding ElementName=SelectObjectModel3d_MaxValue, Path=Value, StringFormat={}{0:F1}}"
+                                                                                            <TextBox x:Name="SelectObjectModel3d_MaxValue" Grid.Column=" 2"
                                                                                                      HorizontalContentAlignment="Center"
                                                                                                      VerticalContentAlignment="Center"
                                                                                                      Background="Transparent"
                                                                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                      BorderThickness="2"
-                                                                                                     FontSize="16" />
+                                                                                                     FontSize="16">
+                                                                                                <TextBox.Style>
+                                                                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                                                                                        <Setter Property="Text" Value="{Binding SelectObjectModel3d.maxValue, StringFormat={}{0:F1}}" />
+                                                                                                        <Style.Triggers>
+                                                                                                            <DataTrigger Binding="{Binding ElementName=SelectObjectModel3d_MaxValue_Slider, Path=Value}" Value="3">
+                                                                                                                <Setter Property="Text" Value="Min" />
+                                                                                                            </DataTrigger>
+                                                                                                            <DataTrigger Binding="{Binding ElementName=SelectObjectModel3d_MaxValue_Slider, Path=Value}" Value="10000">
+                                                                                                                <Setter Property="Text" Value="Max" />
+                                                                                                            </DataTrigger>
+                                                                                                        </Style.Triggers>
+                                                                                                    </Style>
+                                                                                                </TextBox.Style>
+                                                                                            </TextBox>
                                                                                         </Grid>
 
                                                                                         <Grid Margin="8">
