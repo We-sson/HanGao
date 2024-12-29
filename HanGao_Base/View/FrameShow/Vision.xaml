@@ -41,6 +41,9 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Enum_Converter:ValueToObject_Converter x:Key="ValueToObject_Converter" />
         <Enum_Converter:Radio_CheckedToEnumConverter x:Key="Radio_CheckedToEnum" />
+        <Enum_Converter:SliderValue_Converter x:Key="SliderValue_Converter" />
+        <Enum_Converter:MultiTypeValueConverter x:Key="MultiTypeValueConverter" />
+
 
         <DataTemplate x:Key="Result_ListViewItemTemplate">
             <StackPanel Orientation="Horizontal">
@@ -9100,7 +9103,7 @@ PassEventArgsToCommand="True" />
                                                                                                     Minimum="3"
                                                                                                     SmallChange="2"
                                                                                                     TickFrequency=" 1"
-                                                                                                    Value="{Binding SelectObjectModel3d.minValue, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                    Value="{Binding SelectObjectModel3d.minValue, UpdateSourceTrigger=PropertyChanged}">
                                                                                                 <Slider.Style>
                                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                                         <!--<Style.Triggers>
@@ -9111,6 +9114,13 @@ PassEventArgsToCommand="True" />
                                                                                                         </Style.Triggers>-->
                                                                                                     </Style>
                                                                                                 </Slider.Style>
+
+                                                                                                <!--<i:EventTrigger EventName="Checked">
+            <i:InvokeCommandAction Command="{Binding TwoCamera_Connect_Comm}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                   PassEventArgsToCommand="True" />
+        </i:EventTrigger>-->
+
                                                                                             </Slider>
 
                                                                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -9149,7 +9159,7 @@ PassEventArgsToCommand="True" />
                                                                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                        Opacity=" 0.8" />
 
-                                                                                            <Slider x:Name="SelectObjectModel3d_MaxValue_Slider" Grid.Column=" 1"
+                                                                                            <Slider x:Name="SelectObjectModel3d_MaxValue" Grid.Column=" 1"
                                                                                                     Margin="4"
                                                                                                     VerticalAlignment="Center"
                                                                                                     HorizontalContentAlignment="Stretch"
@@ -9159,8 +9169,9 @@ PassEventArgsToCommand="True" />
                                                                                                     Maximum="10000"
                                                                                                     Minimum="3"
                                                                                                     SmallChange="2"
-                                                                                                    TickFrequency=" 1"
-                                                                                                    Value="{Binding ElementName=SelectObjectModel3d_MaxValue, Path=Text, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                    TickFrequency=" 1">
+
+
                                                                                                 <Slider.Style>
                                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                                         <!--<Style.Triggers>
@@ -9171,28 +9182,37 @@ PassEventArgsToCommand="True" />
                                                                                               </Style.Triggers>-->
                                                                                                     </Style>
                                                                                                 </Slider.Style>
+
+
+                                                                                                <i:Interaction.Triggers>
+                                                                                                    <i:EventTrigger EventName="ValueChanged">
+                                                                                                        <i:InvokeCommandAction Command="{Binding}"
+                                                                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                                                               PassEventArgsToCommand="True" />
+                                                                                                    </i:EventTrigger>
+                                                                                                </i:Interaction.Triggers>
                                                                                             </Slider>
 
-                                                                                            <TextBox x:Name="SelectObjectModel3d_MaxValue" Grid.Column=" 2"
+                                                                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" x:Name="SelectObjectModel3d_MaxValue_Text" Grid.Column=" 2"
                                                                                                      HorizontalContentAlignment="Center"
                                                                                                      VerticalContentAlignment="Center"
                                                                                                      Background="Transparent"
                                                                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                      BorderThickness="2"
                                                                                                      FontSize="16">
-                                                                                                <TextBox.Style>
-                                                                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
-                                                                                                        <Setter Property="Text" Value="{Binding SelectObjectModel3d.maxValue, StringFormat={}{0:F1}}" />
-                                                                                                        <Style.Triggers>
-                                                                                                            <DataTrigger Binding="{Binding ElementName=SelectObjectModel3d_MaxValue_Slider, Path=Value}" Value="3">
-                                                                                                                <Setter Property="Text" Value="Min" />
-                                                                                                            </DataTrigger>
-                                                                                                            <DataTrigger Binding="{Binding ElementName=SelectObjectModel3d_MaxValue_Slider, Path=Value}" Value="10000">
-                                                                                                                <Setter Property="Text" Value="Max" />
-                                                                                                            </DataTrigger>
-                                                                                                        </Style.Triggers>
-                                                                                                    </Style>
-                                                                                                </TextBox.Style>
+                                                                                                <TextBox.Text>
+                                                                                                    <MultiBinding Converter="{StaticResource MultiTypeValueConverter}"
+                                                                                                                  ConverterParameter="10000"
+                                                                                                                  Mode="TwoWay">
+                                                                                                        <Binding Path="SelectObjectModel3d.maxValue" UpdateSourceTrigger="PropertyChanged" />
+                                                                                                        <Binding ElementName="SelectObjectModel3d_MaxValue"
+                                                                                                                 Mode="TwoWay"
+                                                                                                                 Path="Minimum" />
+                                                                                                        <Binding ElementName="SelectObjectModel3d_MaxValue"
+                                                                                                                 Mode="TwoWay"
+                                                                                                                 Path="Maximum" />
+                                                                                                    </MultiBinding>
+                                                                                                </TextBox.Text>
                                                                                             </TextBox>
                                                                                         </Grid>
 

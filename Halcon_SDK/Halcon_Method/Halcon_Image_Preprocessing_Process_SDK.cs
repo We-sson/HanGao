@@ -4,6 +4,7 @@ using HalconDotNet;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Xml.Serialization;
 using Throw;
 
 namespace Halcon_SDK_DLL.Halcon_Method
@@ -555,6 +556,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public SelectObjectModel3d_Funtion_Model? SelectObjectModel3d { set; get; }
 
+
+
         public SampleObjectModel3d_Function_Model? SampleObjectModel3d { set; get; }
 
 
@@ -641,17 +644,18 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public SelectObjectModel3d_Feature_Enum Feature { set; get; } = SelectObjectModel3d_Feature_Enum.num_points;
 
         public SelectObjectModel3d_Operation_Enum Operation { set; get; } = SelectObjectModel3d_Operation_Enum.and;
-
+      
+        [XmlElement("minValue")]
         public string minValue { set; get; } = 500.ToString();
 
-
-        public string maxValue { set; get; } = 10000.ToString();
+        [XmlElement("maxValue")]
+        public string maxValue { set; get; } = "max";
 
 
         public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
         {
 
-            return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), minValue, maxValue);
+            return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), minValue.ToString(), maxValue.ToString());
 
         }
 

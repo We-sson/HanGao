@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
 
@@ -126,69 +127,127 @@ namespace Halcon_SDK_DLL.WPF_Converter
 
     }
 
-
-    public class MultiTypeValueConverter : IValueConverter
+    public class SliderValue_Converter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value == null)
+        public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
+        { 
+            // 检查输入参数的有效性
+            if (values == null )
                 return DependencyProperty.UnsetValue;
 
-            try
-            {
-                return value switch
-                {
-                    bool boolValue => boolValue ? "True" : "False",
-                    Enum enumValue => enumValue.ToString(),
-                    IConvertible convertible => convertible.ToString(culture),
-                    _ => value?.ToString() ?? string.Empty
-                };
-            }
-            catch
-            {
-                return DependencyProperty.UnsetValue;
-            }
+            // 解析 Slider 的 Value 和 Slider 实例
+            var currentValue = values as double?;
+
+            // 如果 Slider 或 Value 为空，返回默认显示值
+            if (currentValue == null || values is not Slider slider)
+                return "N/A"; // 可根据需求更改为默认显示值
+
+            // 判断是否为 Min 或 Max
+            if (Math.Abs(currentValue.Value - slider.Minimum) < 0.0001)
+                return "Min";
+            else if (Math.Abs(currentValue.Value - slider.Maximum) < 0.0001)
+                return "Max";
+            else
+                return currentValue.Value.ToString("F2"); // 格式化为两位小数
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null || targetType == null)
-                return DependencyProperty.UnsetValue;
-
-            var stringValue = value.ToString();
-            if (string.IsNullOrWhiteSpace(stringValue))
-                return DependencyProperty.UnsetValue;
-
-            try
+            // 获取 Slider 实例
+            var slider = parameter as Slider;
+            if (slider != null && value is string input)
             {
-                // Handle Enum types separately
-                if (targetType.IsEnum)
+                // 处理特殊值
+                if (input.Equals("Min", StringComparison.OrdinalIgnoreCase))
+                    return slider.Minimum;
+                if (input.Equals("Max", StringComparison.OrdinalIgnoreCase))
+                    return slider.Maximum;
+
+                // 尝试将字符串转换为数值
+                if (double.TryParse(input, out double result))
                 {
-                    return Enum.TryParse(targetType, stringValue, true, out var enumResult)
-                        ? enumResult
-                        : DependencyProperty.UnsetValue;
+                    // 确保值在范围内
+                    result = Math.Max(slider.Minimum, Math.Min(result, slider.Maximum));
+                    return result;
                 }
-
-                // Use TypeCode to determine the conversion
-                return Type.GetTypeCode(targetType) switch
-                {
-                    TypeCode.Boolean => bool.TryParse(stringValue, out var boolResult) && boolResult,
-                    TypeCode.Int32 => int.TryParse(stringValue, out var intResult) ? intResult : DependencyProperty.UnsetValue,
-                    TypeCode.Double => double.TryParse(stringValue, out var doubleResult) ? doubleResult : DependencyProperty.UnsetValue,
-                    TypeCode.Decimal => decimal.TryParse(stringValue, out var decimalResult) ? decimalResult : DependencyProperty.UnsetValue,
-                    TypeCode.String => stringValue,
-                    _ => DependencyProperty.UnsetValue
-                };
             }
-            catch
+            if (slider != null && value is double input1)
             {
-                return DependencyProperty.UnsetValue;
+                return input1;
             }
+
+            // 默认返回 Slider 的当前值
+            return value;
         }
     }
 
 
 
+
+    public class MultiTypeValueConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null || values.Length < 3)
+                return Binding.DoNothing;
+
+            if (values[0] is double currentValue &&
+                values[1] is double minValue &&
+                values[2] is double maxValue)
+            {
+                // 如果当前值等于最小值或最大值，返回 "min" 或 "max"
+                if (Math.Abs(currentValue - minValue) < double.Epsilon)
+                    return "min";
+                if (Math.Abs(currentValue - maxValue) < double.Epsilon)
+                    return "max";
+
+                // 否则返回当前值
+                return currentValue.ToString();
+            }
+            return Binding.DoNothing;
+        }
+
+        public  double minValue;
+        public double maxValue
+;
+
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            if (value is string input && targetTypes.Length >= 3)
+            {
+                
+                // 确保绑定值中包含有效的最小值和最大值
+                if (targetTypes[1] == typeof(double) && targetTypes[2] == typeof(double))
+                {
+                    //double minValue = System.Convert.ToDouble(targetTypes[1]);
+                    //double maxValue = System.Convert.ToDouble(targetTypes[2]);
+
+                    var  _minValue = System.Convert.ToString(targetTypes[1]);
+
+                    // 如果输入是 "min" 或 "max"，返回对应的最小值或最大值
+                    if (input.Equals("min", StringComparison.OrdinalIgnoreCase))
+                        return new object[] { minValue, Binding.DoNothing, Binding.DoNothing };
+                    if (input.Equals("max", StringComparison.OrdinalIgnoreCase))
+                        return new object[] { maxValue, Binding.DoNothing, Binding.DoNothing };
+
+                    // 尝试将字符串解析为数字
+                    if (double.TryParse(input, out double parsedValue))
+                    {
+                        // 限制值在范围内
+                        if (parsedValue < minValue)
+                            return new object[] { minValue, Binding.DoNothing, Binding.DoNothing };
+                        if (parsedValue > maxValue)
+                            return new object[] { maxValue, Binding.DoNothing, Binding.DoNothing };
+
+                        return new object[] { parsedValue, Binding.DoNothing, Binding.DoNothing };
+                    }
+                }
+            }
+
+            return new object[] { Binding.DoNothing, Binding.DoNothing, Binding.DoNothing };
+        }
+    }
 
 
 
