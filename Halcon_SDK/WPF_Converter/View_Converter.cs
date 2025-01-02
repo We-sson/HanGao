@@ -90,7 +90,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
     public class ValueToObject_Converter : IValueConverter
     {
 
-    
+
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -98,7 +98,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
         }
 
         public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        { 
+        {
             return ConvertToType(value, targetType);
         }
 
@@ -109,9 +109,9 @@ namespace Halcon_SDK_DLL.WPF_Converter
                 if (value != null && (object)value != string.Empty)
                 {
 
-                if (targetType == typeof(object)) return value;
-                var converter = TypeDescriptor.GetConverter(targetType);
-                return converter.ConvertFrom(value.ToString()!);
+                    if (targetType == typeof(object)) return value;
+                    var converter = TypeDescriptor.GetConverter(targetType);
+                    return converter.ConvertFrom(value.ToString()!);
                 }
                 return 0;
 
@@ -120,9 +120,9 @@ namespace Halcon_SDK_DLL.WPF_Converter
             {
                 var errorValue = value;
                 throw new Exception(
-                    $"在 TrueFalseValues 类中使用 TypeConverter 尝试将 { errorValue } 转换为 { targetType.Name}  类型时失败");
+                    $"在 TrueFalseValues 类中使用 TypeConverter 尝试将 {errorValue} 转换为 {targetType.Name}  类型时失败");
+            }
         }
-}
 
 
     }
@@ -130,9 +130,9 @@ namespace Halcon_SDK_DLL.WPF_Converter
     public class SliderValue_Converter : IValueConverter
     {
         public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
-        { 
+        {
             // 检查输入参数的有效性
-            if (values == null )
+            if (values == null)
                 return DependencyProperty.UnsetValue;
 
             // 解析 Slider 的 Value 和 Slider 实例
@@ -186,44 +186,56 @@ namespace Halcon_SDK_DLL.WPF_Converter
 
     public class MultiTypeValueConverter : IMultiValueConverter
     {
+
+
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || values.Length < 3)
+            if (values == null || values.Length < 2)
                 return Binding.DoNothing;
 
-            if (values[0] is double currentValue &&
-                values[1] is double minValue &&
-                values[2] is double maxValue)
-            {
-                // 如果当前值等于最小值或最大值，返回 "min" 或 "max"
-                if (Math.Abs(currentValue - minValue) < double.Epsilon)
-                    return "min";
-                if (Math.Abs(currentValue - maxValue) < double.Epsilon)
-                    return "max";
 
-                // 否则返回当前值
-                return currentValue.ToString();
+            if (values[0].ToString()!= values[1].ToString())
+            {
+
+                return Binding.DoNothing;
+
             }
-            return Binding.DoNothing;
+            else
+            {
+                return false;
+            }
+
+            //if (values[0] is double currentValue &&
+            //    values[1] is double minValue &&
+            //    values[2] is double maxValue)
+            //{
+            //    // 如果当前值等于最小值或最大值，返回 "min" 或 "max"
+            //    if (Math.Abs(currentValue - minValue) < double.Epsilon)
+            //        return "min";
+            //    if (Math.Abs(currentValue - maxValue) < double.Epsilon)
+            //        return "max";
+
+            //    // 否则返回当前值
+            //    return currentValue.ToString();
+            //}
         }
 
-        public  double minValue;
-        public double maxValue
-;
+        public double minValue;
+        public double maxValue;
 
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             if (value is string input && targetTypes.Length >= 3)
             {
-                
+
                 // 确保绑定值中包含有效的最小值和最大值
                 if (targetTypes[1] == typeof(double) && targetTypes[2] == typeof(double))
                 {
                     //double minValue = System.Convert.ToDouble(targetTypes[1]);
                     //double maxValue = System.Convert.ToDouble(targetTypes[2]);
 
-                    var  _minValue = System.Convert.ToString(targetTypes[1]);
+                    var _minValue = System.Convert.ToString(targetTypes[1]);
 
                     // 如果输入是 "min" 或 "max"，返回对应的最小值或最大值
                     if (input.Equals("min", StringComparison.OrdinalIgnoreCase))
@@ -247,8 +259,9 @@ namespace Halcon_SDK_DLL.WPF_Converter
 
             return new object[] { Binding.DoNothing, Binding.DoNothing, Binding.DoNothing };
         }
-    }
 
+
+    }
 
 
 
@@ -272,9 +285,9 @@ namespace Halcon_SDK_DLL.WPF_Converter
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-   
+
             return Enum.Parse(targetType, parameter!.ToString()!);
-  
+
         }
 
 
@@ -288,7 +301,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
     public class EnumDescriptionConverter : IValueConverter
     {
 
-        public  static   string? GetEnumDescription(object enumObj)
+        public static string? GetEnumDescription(object enumObj)
         {
             try
             {
@@ -346,7 +359,7 @@ namespace Halcon_SDK_DLL.WPF_Converter
     {
 
 
-        public Type? Enum_List { set; get; } 
+        public Type? Enum_List { set; get; }
 
         public EnumBindingSourceExtension(Type enumType)
         {

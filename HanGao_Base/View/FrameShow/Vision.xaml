@@ -9102,16 +9102,17 @@ PassEventArgsToCommand="True" />
                                                                                                     Maximum="10000"
                                                                                                     Minimum="3"
                                                                                                     SmallChange="2"
-                                                                                                    TickFrequency=" 1"
-                                                                                                    Value="{Binding SelectObjectModel3d.minValue, UpdateSourceTrigger=PropertyChanged}">
+                                                                                                    TickFrequency=" 1">
                                                                                                 <Slider.Style>
                                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
-                                                                                                        <!--<Style.Triggers>
+                                                                                                        <Setter Property="Value" Value="{Binding ElementName=SelectObjectModel3d_MinValue_Text, Path=Text, Mode=TwoWay}" />
+                                                                                                        <Style.Triggers>
 
-                                                                                                            <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
-                                                                                                                <Setter Property="Value" Value="5" />
+                                                                                                            <DataTrigger Binding="{Binding ElementName=SelectObjectModel3d_MinValue_Text, Path=Text}" Value="Max}">
+                                                                                                                <Setter Property="Value" Value="{Binding Maximum, RelativeSource={RelativeSource Self}}" />
                                                                                                             </DataTrigger>
-                                                                                                        </Style.Triggers>-->
+
+                                                                                                        </Style.Triggers>
                                                                                                     </Style>
                                                                                                 </Slider.Style>
 
@@ -9123,14 +9124,32 @@ PassEventArgsToCommand="True" />
 
                                                                                             </Slider>
 
-                                                                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                                                                     Text="{Binding ElementName=SelectObjectModel3d_MinValue, Path=Value, StringFormat={}{0:F1}}"
+                                                                                            <TextBox x:Name="SelectObjectModel3d_MinValue_Text" Grid.Column=" 2"
+                                                                                                     Text="{Binding SelectObjectModel3d.minValue}"
                                                                                                      HorizontalContentAlignment="Center"
                                                                                                      VerticalContentAlignment="Center"
                                                                                                      Background="Transparent"
                                                                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                                                                      BorderThickness="2"
-                                                                                                     FontSize="16" />
+                                                                                                     FontSize="16">
+                                                                                                <TextBox.Style>
+                                                                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
+                                                                                                        <Style.Triggers>
+                                                                                                            <DataTrigger >
+                                                                                                                <DataTrigger.Binding>
+                                                                                                                    <MultiBinding>
+                                                                                                                        <Binding ElementName="SelectObjectModel3d_MinValue"
+                                                                                                                                 Mode="TwoWay"
+                                                                                                                                 Path="Value" />
+                                                                                                                        <Binding ElementName="SelectObjectModel3d_MinValue" Path="Maximum" />
+                                                                                                                    </MultiBinding>
+                                                                                                                </DataTrigger.Binding>
+                                                                                                                <Setter Property="Text" Value="Max" />
+                                                                                                            </DataTrigger>
+                                                                                                        </Style.Triggers>
+                                                                                                    </Style>
+                                                                                                </TextBox.Style>
+                                                                                            </TextBox>
                                                                                         </Grid>
                                                                                         <Grid Margin="8">
                                                                                             <Grid.Style>
@@ -9201,9 +9220,7 @@ PassEventArgsToCommand="True" />
                                                                                                      BorderThickness="2"
                                                                                                      FontSize="16">
                                                                                                 <TextBox.Text>
-                                                                                                    <MultiBinding Converter="{StaticResource MultiTypeValueConverter}"
-                                                                                                                  ConverterParameter="10000"
-                                                                                                                  Mode="TwoWay">
+                                                                                                    <MultiBinding ConverterParameter="10000" Mode="TwoWay">
                                                                                                         <Binding Path="SelectObjectModel3d.maxValue" UpdateSourceTrigger="PropertyChanged" />
                                                                                                         <Binding ElementName="SelectObjectModel3d_MaxValue"
                                                                                                                  Mode="TwoWay"

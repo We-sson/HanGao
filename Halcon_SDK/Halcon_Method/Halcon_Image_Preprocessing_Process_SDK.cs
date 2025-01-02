@@ -652,6 +652,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public string maxValue { set; get; } = "max";
 
 
+        public int Max { set; get; } = 100000;
+        public int Min { set; get; } = 0;
+
+
         public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
         {
 
