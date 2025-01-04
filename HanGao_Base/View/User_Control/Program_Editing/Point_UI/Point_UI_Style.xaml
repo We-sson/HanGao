@@ -127,7 +127,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />
+                            <!--<Setter Property="Background" Value="{DynamicResource 全局_按钮_灰颜色}" />-->
                             <!--<Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource 全局_背景_白颜色}" />-->
                             <!--<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>-->
                             <!--<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>-->

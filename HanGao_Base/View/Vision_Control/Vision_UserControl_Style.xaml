@@ -454,9 +454,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Expander}">
-                    <Border Background="{TemplateBinding Background}"
+                    <Border x:Name="Expander_Border"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            Effect="{DynamicResource 全局背景阴影}"
                             SnapsToDevicePixels="true">
                         <DockPanel>
                             <ToggleButton Style="{StaticResource ExpanderDownHeaderStyle}" x:Name="HeaderSite"
@@ -493,6 +495,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="true">
                             <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible" />
+
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Right">
                             <Setter TargetName="ExpandSite" Property="DockPanel.Dock" Value="Right" />
@@ -510,7 +513,7 @@
                             <Setter TargetName="HeaderSite" Property="Style" Value="{StaticResource ExpanderLeftHeaderStyle}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <!--<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />-->
                         </Trigger>
 
                     </ControlTemplate.Triggers>
@@ -745,7 +748,7 @@
     <!--  视觉列表行样式  -->
     <Style x:Key="Vison_Data_ListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Padding" Value="4" />
+        <Setter Property="Margin" Value="2" />
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="Background" Value="Transparent" />
@@ -772,7 +775,10 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Opacity" Value="0.8" />
+                            <!--<Setter Property="BorderThickness" Value="2" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />-->
+
+                            <!--<Setter TargetName="Bd" Property="Opacity" Value="0.8" />-->
                             <!--<Setter TargetName="Bd" Property="Padding" Value="1" />-->
                             <!--<Setter TargetName="Bd" Property="Background" Value="{DynamicResource Item.MouseOver.Background}" />
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Item.MouseOver.Border}" />-->
