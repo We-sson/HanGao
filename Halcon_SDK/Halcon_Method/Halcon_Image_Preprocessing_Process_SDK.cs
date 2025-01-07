@@ -4,6 +4,7 @@ using HalconDotNet;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Media.Media3D;
 using System.Xml.Serialization;
 using Throw;
 
@@ -371,7 +372,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
     public class Preprocessing_Process_Lsit_Model
     {
-        public   Preprocessing_Process_Lsit_Model()
+        public Preprocessing_Process_Lsit_Model()
         {
 
 
@@ -429,7 +430,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 H3DObjectModel_Features_Enum.TriangulateObjectModel3d => TriangulateObjectModel3d?.Get_Results(_HObjectModel3D),
 
                 _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_3DModel_Method)),// 处理默认情况，或者根据需要抛出异常
-            }?? throw new ArgumentException("预处理过程错误");
+            } ?? throw new ArgumentException("预处理过程错误");
 
 
 
@@ -543,7 +544,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     TriangulateObjectModel3d = new TriangulateObjectModel3d_Function_Model() { };
 
                     break;
-                    
+
             }
 
         }
@@ -552,7 +553,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public   ConnectionObjectModel3d_Function_Model? ConnectionObjectModel3d { set; get; }
+        public ConnectionObjectModel3d_Function_Model? ConnectionObjectModel3d { set; get; }
 
         public SelectObjectModel3d_Funtion_Model? SelectObjectModel3d { set; get; }
 
@@ -644,20 +645,45 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public SelectObjectModel3d_Feature_Enum Feature { set; get; } = SelectObjectModel3d_Feature_Enum.num_points;
 
         public SelectObjectModel3d_Operation_Enum Operation { set; get; } = SelectObjectModel3d_Operation_Enum.and;
-      
-        [XmlElement("minValue")]
-        public string minValue { set; get; } = 500.ToString();
 
-        [XmlElement("maxValue")]
-        public string maxValue { set; get; } = "max";
+    
+        public double  minValue { set; get; } = 500;
+
+ 
+        public double  maxValue { set; get; } = 10000;
 
 
-        public int Max { set; get; } = 100000;
-        public int Min { set; get; } = 0;
+        public bool Max { set; get; } = false;
+        public bool Min { set; get; } = false;
 
 
         public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
         {
+
+
+            // 参数检查
+            if (_Model3D == null || _Model3D.Length == 0)
+            {
+                throw new ArgumentException("The input model3D array is null or empty.", nameof(_Model3D));
+            }
+
+            if (Max && !Min)
+            {
+                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), minValue.ToString(), nameof(Max).ToLower());
+
+            }
+
+            if (Min && !Max)
+            {
+                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), nameof(Min).ToLower(), maxValue.ToString());
+
+            }
+
+            if (Max && Min)
+            {
+                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), nameof(Min).ToLower(), nameof(Max).ToLower());
+
+            }
 
             return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), minValue.ToString(), maxValue.ToString());
 

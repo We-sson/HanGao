@@ -100,7 +100,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="5">
+                            CornerRadius="4">
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -108,7 +108,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Border x:Name="border_Bottom" Grid.Column=" 0"
-                                    Margin="1.5"
+                                    Margin="1"
                                     Background="{DynamicResource 全局_按钮_绿颜色}"
                                     BorderBrush="Transparent"
                                     BorderThickness="{Binding ElementName=border, Path=BorderThickness}"

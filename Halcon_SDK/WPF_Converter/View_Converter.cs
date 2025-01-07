@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 using System.Windows;
@@ -104,24 +105,36 @@ namespace Halcon_SDK_DLL.WPF_Converter
 
         private static object? ConvertToType(object value, Type targetType)
         {
-            try
-            {
+            //try
+            //{
                 if (value != null && (object)value != string.Empty)
                 {
 
                     if (targetType == typeof(object)) return value;
-                    var converter = TypeDescriptor.GetConverter(targetType);
-                    return converter.ConvertFrom(value.ToString()!);
-                }
-                return 0;
 
-            }
-            catch
-            {
-                var errorValue = value;
-                throw new Exception(
-                    $"在 TrueFalseValues 类中使用 TypeConverter 尝试将 {errorValue} 转换为 {targetType.Name}  类型时失败");
-            }
+                    var converter=new  object();
+                    try
+                    {
+                        converter = TypeDescriptor.GetConverter(targetType).ConvertFrom(value.ToString() ?? string.Empty);
+
+                    }
+                    catch (Exception)
+                    {
+
+                        return Binding.DoNothing;
+                    }
+
+                    return converter;
+                }
+
+                return Binding.DoNothing;
+            //}
+            //catch
+            //{
+            //    var errorValue = value;
+            //    throw new Exception(
+            //        $"在 TrueFalseValues 类中使用 TypeConverter 尝试将 {errorValue} 转换为 {targetType.Name}  类型时失败");
+            //}
         }
 
 

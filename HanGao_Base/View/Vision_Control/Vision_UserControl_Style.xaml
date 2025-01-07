@@ -458,7 +458,6 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Effect="{DynamicResource 全局背景阴影}"
                             SnapsToDevicePixels="true">
                         <DockPanel>
                             <ToggleButton Style="{StaticResource ExpanderDownHeaderStyle}" x:Name="HeaderSite"
