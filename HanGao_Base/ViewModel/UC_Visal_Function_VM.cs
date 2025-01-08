@@ -159,7 +159,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 图像处理流程
         /// </summary>
-        public Halcon_Image_Preprocessing_Process_SDK Image_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK(Preprocessing_Process_2D3D_Switch_Enum.Camera_2D_Drives);
+        public Halcon_Image_Preprocessing_Process_SDK Image_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK();
 
 
         /// <summary>
@@ -1135,12 +1135,49 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 图像预处理新建方法
         /// </summary>
+        public ICommand Preprocessing_Process_New_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button _Contol = Sm.Source as Button;
+                Enum _Enum = (Enum)_Contol.Tag;
+
+
+                try
+                {
+
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_3DModel_Process_List;
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Work(_Enum);
+
+
+
+
+                    //Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Find_Preprocessing_Process_List;
+                    //Image_Preprocessing_Process.Preprocessing_Process_Work(_Enum);
+
+                    //Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
+
+                    User_Log_Add("成功新增流程！", Log_Show_Window_Enum.Home);
+                }
+                catch (Exception e)
+                {
+                    User_Log_Add("新增流程失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+            });
+        }
+
+
+        /// <summary>
+        /// 图像预处理新建方法
+        /// </summary>
         public ICommand Image_Preprocessing_Process_New_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 Button _Contol = Sm.Source as Button;
-                Image_Preprocessing_Process_Work_Enum _Enum = (Image_Preprocessing_Process_Work_Enum)_Contol.Tag;
+                Enum _Enum = (Enum)_Contol.Tag;
 
 
                 try
@@ -1168,8 +1205,8 @@ namespace HanGao.ViewModel
             {
                 Button _Contol = Sm.Source as Button;
 
+                Enum _Enum = (Enum)_Contol.Tag;
 
-                Image_Preprocessing_Process_Work_Enum _Enum = (Image_Preprocessing_Process_Work_Enum)_Contol.Tag;
 
 
                 try
@@ -1190,7 +1227,60 @@ namespace HanGao.ViewModel
                 //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
             });
         }
+        public ICommand Stereo3D_PreprocessingProcess_New_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button _Contol = Sm.Source as Button;
 
+                Enum _Enum = (Enum)_Contol.Tag;
+
+
+
+                try
+                {
+
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_3DModel_Process_List;
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Work(_Enum);
+
+                    //Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
+
+                    User_Log_Add("成功新增流程！", Log_Show_Window_Enum.Home);
+                }
+                catch (Exception e)
+                {
+                    User_Log_Add("新增流程失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+            });
+        }
+        /// <summary>
+        /// 图像预处理删除方法
+        /// </summary>
+        public ICommand Stereo3D_PreprocessingProcess_Delete_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+
+
+                try
+                {
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_3DModel_Process_List;
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Lsit_Delete();
+
+                    User_Log_Add("选择选项删除成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                }
+                catch (Exception e)
+                {
+                    User_Log_Add("选择选项删除失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+
+
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+            });
+        }
 
 
 
@@ -1235,7 +1325,7 @@ namespace HanGao.ViewModel
                     Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Get_H3DStereo_Preprocessing_Process();
                     Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Lsit_Delete();
 
-                    User_Log_Add("选择选项删除成功！", Log_Show_Window_Enum.Home, MessageBoxImage.Question);
+                    User_Log_Add("选择选项删除成功！", Log_Show_Window_Enum.Home);
                 }
                 catch (Exception e)
                 {
@@ -1244,6 +1334,42 @@ namespace HanGao.ViewModel
 
 
                 //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+            });
+        }
+
+
+        /// <summary>
+        /// 图像预处理流程开始方法
+        /// </summary>
+        public ICommand Preprocessing_3D_Process_Start_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        HImage _Image = new();
+                        //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+
+                        Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_3DModel_Process_List;
+
+
+                        _Image = Image_Preprocessing_Process.Preprocessing_Process_Start((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+                        //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, _Image);
+                        });
+
+                        User_Log_Add("图像预处理成功！", Log_Show_Window_Enum.Home);
+                    }
+                    catch (Exception e)
+                    {
+                        User_Log_Add("图像预处理失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    }
+                });
             });
         }
 

@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Xml.Serialization;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Halcon_Method
@@ -49,11 +50,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 图像处理流程
         /// </summary>
-        public Halcon_Image_Preprocessing_Process_SDK Stereo_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK( Preprocessing_Process_2D3D_Switch_Enum.Camera_2D_Drives);
+        public Halcon_Image_Preprocessing_Process_SDK Stereo_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK( );
 
 
 
-        public Halcon_Image_Preprocessing_Process_SDK Stereo_3D_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK(Preprocessing_Process_2D3D_Switch_Enum.Camera_3D_Drives) ;
+        //public Halcon_Image_Preprocessing_Process_SDK Stereo_3D_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK(Preprocessing_Process_2D3D_Switch_Enum.Camera_3D_Drives) ;
 
 
         /// <summary>
@@ -304,6 +305,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             return H3DStereo_Results;
         }
+
+
 
 
 
@@ -641,6 +644,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
     /// <summary>
     /// 立体成像参数模型
     /// </summary>
+    [Serializable]
     [AddINotifyPropertyChangedInterface]
     public class H3DStereo_ParamData_Model
     {
@@ -693,6 +697,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 重建的边界框
         /// </summary>
+         [XmlIgnore]
         public ObservableCollection<double> Bounding_box
         {
             get
