@@ -4,6 +4,7 @@ using HalconDotNet;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Xml.Serialization;
 using Throw;
 
 namespace Halcon_SDK_DLL.Halcon_Method
@@ -227,7 +228,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public void Preprocessing_Process_New(int _List_No)
         {
             //插入新流程
-            Preprocessing_Process_List.Insert(_List_No, new Preprocessing_Process_Lsit_Model() { });
+            Preprocessing_Process_List.Insert(_List_No, new Preprocessing_Process_Lsit_Model() {   });
 
             //新建排序
             for (int i = 0; i < Preprocessing_Process_List.Count; i++)
@@ -341,19 +342,19 @@ namespace Halcon_SDK_DLL.Halcon_Method
         //    }
         //}
 
-        private Enum? _Preprocessing_Process_23DModel_Method;
+        public  Enum? Preprocessing_Process_23DModel_Method { set; get; }
 
 
-
-        public Enum? Preprocessing_Process_23DModel_Method
-        {
-            get { return _Preprocessing_Process_23DModel_Method; }
-            set
-            {
-                _Preprocessing_Process_23DModel_Method = value;
-                Preprocessing_Process_Work_Initialization_Value(_Preprocessing_Process_23DModel_Method);
-            }
-        }
+     
+        //public Enum Preprocessing_Process_23DModel_Method
+        //{
+        //    get { return _Preprocessing_Process_23DModel_Method; }
+        //    set
+        //    {
+        //        _Preprocessing_Process_23DModel_Method = value;
+        //        //Preprocessing_Process_Work_Initialization_Value(_Preprocessing_Process_23DModel_Method);
+        //    }
+        //}
 
 
 
@@ -508,43 +509,42 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
-        public Emphasize_Function_Model? Emphasize { set; get; }
+        public Emphasize_Function_Model Emphasize { set; get; } = new();
 
 
-        public Illuminate_Function_Model? Illuminate { set; get; }
+        public Illuminate_Function_Model Illuminate { set; get; } = new();
 
-        public MedianImage_Function_Model? MedianImage { set; get; }
+        public MedianImage_Function_Model MedianImage { set; get; } = new();
 
-        public GrayOpeningRect_Function_Model? GrayOpeningRect { set; get; }
+        public GrayOpeningRect_Function_Model GrayOpeningRect { set; get; } = new();
 
-        public GrayClosingRect_Function_Model? GrayClosingRect { set; get; }
+        public GrayClosingRect_Function_Model GrayClosingRect { set; get; } = new();
 
-        public MedianRect_Function_Model? MedianRect { set; get; }
+        public MedianRect_Function_Model MedianRect { set; get; } = new();
 
-        public ScaleImageMax_Function_Model? ScaleImageMax { set; get; }
+        public ScaleImageMax_Function_Model ScaleImageMax { set; get; } = new();
 
+        public ConnectionObjectModel3d_Function_Model ConnectionObjectModel3d { set; get; } = new();
 
-        public ConnectionObjectModel3d_Function_Model? ConnectionObjectModel3d { set; get; }
-
-        public SelectObjectModel3d_Funtion_Model? SelectObjectModel3d { set; get; }
-
-
-
-        public SampleObjectModel3d_Function_Model? SampleObjectModel3d { set; get; }
-
-
-        public SurfaceNormalsObjectModel3d_Function_Model? SurfaceNormalsObjectModel3d { set; get; }
+        public SelectObjectModel3d_Funtion_Model SelectObjectModel3d { set; get; } = new();
 
 
 
-        public SmoothObjectModel3d_Function_Model? SmoothObjectModel3d { set; get; }
+        public SampleObjectModel3d_Function_Model SampleObjectModel3d { set; get; } = new();
 
 
-        public PrepareObjectModel3d_Function_Model? PrepareObjectModel3d { set; get; }
+        public SurfaceNormalsObjectModel3d_Function_Model SurfaceNormalsObjectModel3d { set; get; } = new();
 
 
 
-        public TriangulateObjectModel3d_Function_Model? TriangulateObjectModel3d { set; get; }
+        public SmoothObjectModel3d_Function_Model SmoothObjectModel3d { set; get; } = new();
+
+
+        public PrepareObjectModel3d_Function_Model PrepareObjectModel3d { set; get; } = new();
+
+
+
+        public TriangulateObjectModel3d_Function_Model TriangulateObjectModel3d { set; get; } = new();
 
 
         //public Action? Action_Method { set; get; }
