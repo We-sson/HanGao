@@ -228,7 +228,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public void Preprocessing_Process_New(int _List_No)
         {
             //插入新流程
-            Preprocessing_Process_List.Insert(_List_No, new Preprocessing_Process_Lsit_Model() {   });
+            Preprocessing_Process_List.Insert(_List_No, new Preprocessing_Process_Lsit_Model() { Preprocessing_Process_2DModel_Method= Image_Preprocessing_Process_Enum.ScaleImageMax, Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.ConnectionObjectModel3d });
 
             //新建排序
             for (int i = 0; i < Preprocessing_Process_List.Count; i++)
@@ -321,6 +321,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public Preprocessing_Process_Lsit_Model()
         {
 
+                Preprocessing_Process_Work_Initialization_Value(Preprocessing_Process_2DModel_Method);
+            Preprocessing_Process_Work_Initialization_Value(Preprocessing_Process_3DModel_Method);
 
 
         }
@@ -342,10 +344,34 @@ namespace Halcon_SDK_DLL.Halcon_Method
         //    }
         //}
 
-        public  Enum? Preprocessing_Process_23DModel_Method { set; get; }
 
 
-     
+        private Image_Preprocessing_Process_Enum _Preprocessing_Process_2DModel_Method = Image_Preprocessing_Process_Enum.ScaleImageMax;
+
+        public Image_Preprocessing_Process_Enum Preprocessing_Process_2DModel_Method
+        {
+            get { return _Preprocessing_Process_2DModel_Method; }
+            set { _Preprocessing_Process_2DModel_Method = value;
+                Preprocessing_Process_Work_Initialization_Value(value);
+
+            }
+        }
+
+
+
+        private H3DObjectModel_Features_Enum _Preprocessing_Process_3DModel_Method = H3DObjectModel_Features_Enum.ConnectionObjectModel3d;
+
+        public H3DObjectModel_Features_Enum Preprocessing_Process_3DModel_Method
+        {
+            get { return _Preprocessing_Process_3DModel_Method; }
+            set { _Preprocessing_Process_3DModel_Method = value;
+                Preprocessing_Process_Work_Initialization_Value(value);
+            }
+        }
+
+
+
+
         //public Enum Preprocessing_Process_23DModel_Method
         //{
         //    get { return _Preprocessing_Process_23DModel_Method; }
@@ -365,7 +391,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-            return Preprocessing_Process_23DModel_Method switch
+            return Preprocessing_Process_3DModel_Method switch
             {
                 H3DObjectModel_Features_Enum.ConnectionObjectModel3d => ConnectionObjectModel3d?.Get_Results(_HObjectModel3D),
                 H3DObjectModel_Features_Enum.SelectObjectModel3d => SelectObjectModel3d?.Get_Results(_HObjectModel3D),
@@ -375,7 +401,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 H3DObjectModel_Features_Enum.PrepareObjectModel3d => PrepareObjectModel3d?.Get_Results(_HObjectModel3D),
                 H3DObjectModel_Features_Enum.TriangulateObjectModel3d => TriangulateObjectModel3d?.Get_Results(_HObjectModel3D),
 
-                _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_23DModel_Method)),// 处理默认情况，或者根据需要抛出异常
+                _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_3DModel_Method)),// 处理默认情况，或者根据需要抛出异常
             } ?? throw new ArgumentException("预处理过程错误");
 
 
@@ -391,7 +417,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-            return Preprocessing_Process_23DModel_Method switch
+            return Preprocessing_Process_2DModel_Method switch
             {
                 Image_Preprocessing_Process_Enum.ScaleImageMax => ScaleImageMax?.Get_Results(_HObjectModel2D),
                 Image_Preprocessing_Process_Enum.MedianImage => MedianImage?.Get_Results(_HObjectModel2D),
@@ -401,7 +427,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Image_Preprocessing_Process_Enum.Illuminate => Illuminate?.Get_Results(_HObjectModel2D),
                 Image_Preprocessing_Process_Enum.MedianRect => MedianRect?.Get_Results(_HObjectModel2D),
 
-                _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_23DModel_Method)),// 处理默认情况，或者根据需要抛出异常
+                _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_2DModel_Method)),// 处理默认情况，或者根据需要抛出异常
             } ?? throw new ArgumentException("预处理过程错误");
 
 
@@ -416,7 +442,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// 选择流程方法参数初始化
         /// </summary>
         /// <param name="_Work_Enum"></param>
-        public void Preprocessing_Process_Work_Initialization_Value(Enum? _Work_Enum)
+        public void Preprocessing_Process_Work_Initialization_Value(Enum _Work_Enum)
         {
 
 
@@ -428,6 +454,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                     ScaleImageMax = new ScaleImageMax_Function_Model();
+
                     break;
                 case Image_Preprocessing_Process_Enum.MedianRect:
 
@@ -509,42 +536,42 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
-        public Emphasize_Function_Model Emphasize { set; get; } = new();
+        public Emphasize_Function_Model? Emphasize { set; get; } 
 
 
-        public Illuminate_Function_Model Illuminate { set; get; } = new();
+        public Illuminate_Function_Model? Illuminate { set; get; }
 
-        public MedianImage_Function_Model MedianImage { set; get; } = new();
+        public MedianImage_Function_Model? MedianImage { set; get; } 
 
-        public GrayOpeningRect_Function_Model GrayOpeningRect { set; get; } = new();
+        public GrayOpeningRect_Function_Model? GrayOpeningRect { set; get; } 
 
-        public GrayClosingRect_Function_Model GrayClosingRect { set; get; } = new();
+        public GrayClosingRect_Function_Model?             GrayClosingRect { set; get; } 
 
-        public MedianRect_Function_Model MedianRect { set; get; } = new();
+        public MedianRect_Function_Model? MedianRect { set; get; } 
 
-        public ScaleImageMax_Function_Model ScaleImageMax { set; get; } = new();
+        public ScaleImageMax_Function_Model? ScaleImageMax { set; get; } 
 
-        public ConnectionObjectModel3d_Function_Model ConnectionObjectModel3d { set; get; } = new();
+        public ConnectionObjectModel3d_Function_Model? ConnectionObjectModel3d { set; get; } 
 
-        public SelectObjectModel3d_Funtion_Model SelectObjectModel3d { set; get; } = new();
-
-
-
-        public SampleObjectModel3d_Function_Model SampleObjectModel3d { set; get; } = new();
-
-
-        public SurfaceNormalsObjectModel3d_Function_Model SurfaceNormalsObjectModel3d { set; get; } = new();
+        public SelectObjectModel3d_Funtion_Model? SelectObjectModel3d { set; get; } 
 
 
 
-        public SmoothObjectModel3d_Function_Model SmoothObjectModel3d { set; get; } = new();
+        public SampleObjectModel3d_Function_Model? SampleObjectModel3d { set; get; } 
 
 
-        public PrepareObjectModel3d_Function_Model PrepareObjectModel3d { set; get; } = new();
+        public SurfaceNormalsObjectModel3d_Function_Model? SurfaceNormalsObjectModel3d { set; get; }
 
 
 
-        public TriangulateObjectModel3d_Function_Model TriangulateObjectModel3d { set; get; } = new();
+        public SmoothObjectModel3d_Function_Model? SmoothObjectModel3d { set; get; } 
+
+
+        public PrepareObjectModel3d_Function_Model? PrepareObjectModel3d { set; get; } 
+
+
+
+        public TriangulateObjectModel3d_Function_Model? TriangulateObjectModel3d { set; get; } 
 
 
         //public Action? Action_Method { set; get; }
@@ -581,8 +608,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
     [AddINotifyPropertyChangedInterface]
     public class MedianRect_Function_Model
     {
-
+        [XmlAttribute()]
         public int MaskWidth { set; get; } = 11;
+        [XmlAttribute()]
+
         public int MaskHeight { set; get; } = 11;
 
 
@@ -604,13 +633,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
     [AddINotifyPropertyChangedInterface]
     public class MedianImage_Function_Model
     {
+        [XmlAttribute()]
 
         public int Radius { set; get; } = 11;
 
 
+        [XmlAttribute()]
 
         public MedianImage_MaskType_Enum MaskType { set; get; } = MedianImage_MaskType_Enum.square;
 
+        [XmlAttribute()]
 
         public MedianImage_Margin_Enum Margin { set; get; } = MedianImage_Margin_Enum.mirrored;
 
@@ -627,8 +659,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
     [AddINotifyPropertyChangedInterface]
     public class GrayOpeningRect_Function_Model
     {
+        [XmlAttribute()]
 
         public int MaskWidth { set; get; } = 11;
+        [XmlAttribute()]
+
         public int MaskHeight { set; get; } = 11;
 
 
@@ -648,8 +683,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
     [AddINotifyPropertyChangedInterface]
     public class GrayClosingRect_Function_Model
     {
+        [XmlAttribute()]
 
         public int MaskWidth { set; get; } = 11;
+        [XmlAttribute()]
+
         public int MaskHeight { set; get; } = 11;
 
 
@@ -670,10 +708,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
     [AddINotifyPropertyChangedInterface]
     public class Illuminate_Function_Model
     {
+        [XmlAttribute()]
 
         public int MaskWidth { set; get; } = 11;
+        [XmlAttribute()]
+
         public int MaskHeight { set; get; } = 11;
 
+        [XmlAttribute()]
 
         public double Factor { set; get; } = 0.2;
 
@@ -1028,7 +1070,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public double greedy_neigh_vertical_tol { set; get; } = 0.1;
 
 
-        public object greedy_hole_filling { set; get; } = 40;
+        public int  greedy_hole_filling { set; get; } = 40;
 
         public bool greedy_fix_flips { get; set; } = true;
 
@@ -1038,10 +1080,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public int greedy_mesh_dilation { set; get; } = 2;
 
-        public object greedy_remove_small_surfaces { set; get; } = false;
+        public bool  greedy_remove_small_surfaces { set; get; } = false;
 
 
-        public object greedy_timeout { set; get; } = false;
+        public bool greedy_timeout { set; get; } = false;
 
 
         public bool greedy_suppress_timeout_error { set; get; } = false;
@@ -1100,13 +1142,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
                       greedy_neigh_orient_consistent.ToString().ToLower(),
                       greedy_neigh_latitude_tol.ToString(),
                       greedy_neigh_vertical_tol.ToString(),
-                      greedy_hole_filling?.ToString()?.ToLower(),
+                      greedy_hole_filling.ToString()?.ToLower(),
                       greedy_fix_flips.ToString(),
                       greedy_prefetch_neighbors.ToString(),
                       greedy_mesh_erosion.ToString(),
                       greedy_mesh_dilation.ToString(),
-                      greedy_remove_small_surfaces?.ToString()?.ToLower(),
-                      greedy_timeout?.ToString()?.ToLower(),
+                      greedy_remove_small_surfaces.ToString()?.ToLower(),
+                      greedy_timeout.ToString()?.ToLower(),
                       greedy_suppress_timeout_error.ToString().ToLower(),
                       greedy_output_all_points.ToString(),
                       information.ToString()]),

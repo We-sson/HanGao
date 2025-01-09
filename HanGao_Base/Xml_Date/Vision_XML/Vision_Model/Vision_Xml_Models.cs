@@ -31,7 +31,6 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public MVS_Camera_Parameter_Model Camera_0_3DFusionImage_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON, TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE };
         public MVS_Camera_Parameter_Model Camera_1_3DFusionImage_Parameter { set; get; } = new MVS_Camera_Parameter_Model() { TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON, TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0, TriggerActivation = MVS_SDK_Base.Model.MV_CAM_TRIGGER_ACTIVATION.LevelHigh };
 
-        [XmlIgnore]
         public H3DStereo_ParamData_Model H3DStereo_ParamData { set; get; } = new H3DStereo_ParamData_Model();
 
 
@@ -48,11 +47,13 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 
 
         public ObservableCollection<Preprocessing_Process_Lsit_Model> Camera_0_3DPoint_Process_List { set; get; } = [];
+
         public ObservableCollection<Preprocessing_Process_Lsit_Model> Camera_1_3DPoint_Process_List { set; get; } = [];
 
 
 
         public ObservableCollection<Preprocessing_Process_Lsit_Model> Camera_0_3DFusionImage_Process_List { set; get; } = [];
+
         public ObservableCollection<Preprocessing_Process_Lsit_Model> Camera_1_3DFusionImage_Process_List { set; get; } = [];
 
 

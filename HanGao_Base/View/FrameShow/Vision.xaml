@@ -4918,7 +4918,7 @@
                                                                                  IsReadOnly="True" />
 
                                                                         <TextBox Grid.Column=" 1"
-                                                                                 Text="{Binding Preprocessing_Process_23DModel_Method, Converter={StaticResource Enum_DescriptionConverter}, StringFormat='\{0\}'}"
+                                                                                 Text="{Binding Preprocessing_Process_2DModel_Method, Converter={StaticResource Enum_DescriptionConverter}, StringFormat='\{0\}'}"
                                                                                  HorizontalAlignment="Center"
                                                                                  VerticalAlignment="Center"
                                                                                  HorizontalContentAlignment="Stretch"
@@ -4970,7 +4970,7 @@
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Image_Preprocessing_Process_Enum}"
                                                                                       SelectedIndex="0"
-                                                                                      SelectedItem="{Binding Preprocessing_Process_23DModel_Method, UpdateSourceTrigger=PropertyChanged}">
+                                                                                      SelectedItem="{Binding Preprocessing_Process_2DModel_Method, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
                                                                                     <DataTemplate>
@@ -4997,7 +4997,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5034,7 +5034,7 @@
                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                         <Style.Triggers>
 
-                                                                                            <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
+                                                                                            <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
                                                                                                 <Setter Property="Value" Value="5" />
                                                                                             </DataTrigger>
                                                                                         </Style.Triggers>
@@ -5056,7 +5056,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5115,7 +5115,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayOpeningRect}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayOpeningRect}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5163,7 +5163,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayOpeningRect}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayOpeningRect}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5212,7 +5212,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5258,7 +5258,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5307,7 +5307,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianImage}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5354,7 +5354,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Illuminate}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Illuminate}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5402,7 +5402,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Illuminate}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Illuminate}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5450,7 +5450,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Illuminate}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Illuminate}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5499,7 +5499,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Emphasize}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Emphasize}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5547,7 +5547,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Emphasize}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Emphasize}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5595,7 +5595,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Emphasize}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.Emphasize}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5644,7 +5644,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayClosingRect}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayClosingRect}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -5692,7 +5692,7 @@
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayClosingRect}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_2DModel_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.GrayClosingRect}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -8648,7 +8648,7 @@ PassEventArgsToCommand="True" />
                                                                                  IsReadOnly="True" />
 
                                                                         <TextBox Grid.Column=" 1"
-                                                                                 Text="{Binding Preprocessing_Process_23DModel_Method, Converter={StaticResource Enum_DescriptionConverter}, StringFormat='\{0\}'}"
+                                                                                 Text="{Binding Preprocessing_Process_3DModel_Method, Converter={StaticResource Enum_DescriptionConverter}, StringFormat='\{0\}'}"
                                                                                  HorizontalAlignment="Center"
                                                                                  VerticalAlignment="Center"
                                                                                  HorizontalContentAlignment="Stretch"
@@ -8701,7 +8701,8 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:H3DObjectModel_Features_Enum}"
-                                                                                      SelectedItem="{Binding Preprocessing_Process_23DModel_Method, UpdateSourceTrigger=PropertyChanged}">
+                                                                                      SelectedIndex="-1"
+                                                                                      SelectedItem="{Binding Preprocessing_Process_3DModel_Method, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
                                                                                     <DataTemplate>
@@ -8730,7 +8731,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -8777,7 +8778,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding ConnectionObjectModel3d.Feature}" Value="{x:Static Halcon_Enum:ConnectionObjectModel3d_Feature_Enum.distance_3d}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -8813,12 +8814,12 @@ PassEventArgsToCommand="True" />
                                                                                     Maximum="1"
                                                                                     Minimum="0"
                                                                                     SmallChange="0.001"
-                                                                                    Value="{Binding ConnectionObjectModel3d.Value, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                    Value="{Binding ConnectionObjectModel3d.Value, UpdateSourceTrigger=PropertyChanged}">
                                                                                 <Slider.Style>
                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                         <!--<Style.Triggers>
 
-                                                                                                            <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Preprocessing_Process_23DModel_Method.MedianRect}">
+                                                                                                            <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:Preprocessing_Process_3DModel_Method.MedianRect}">
                                                                                                                 <Setter Property="Value" Value="5" />
                                                                                                             </DataTrigger>
                                                                                                         </Style.Triggers>-->
@@ -8843,7 +8844,7 @@ PassEventArgsToCommand="True" />
 
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding ConnectionObjectModel3d.Feature}" Value="{x:Static Halcon_Enum:ConnectionObjectModel3d_Feature_Enum.angle}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -8878,12 +8879,12 @@ PassEventArgsToCommand="True" />
                                                                                     Maximum="180"
                                                                                     Minimum="0"
                                                                                     SmallChange="1"
-                                                                                    Value="{Binding ConnectionObjectModel3d.Value, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                    Value="{Binding ConnectionObjectModel3d.Value, UpdateSourceTrigger=PropertyChanged}">
                                                                                 <Slider.Style>
                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                         <!--<Style.Triggers>
 
-                                                                                                      <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Preprocessing_Process_23DModel_Method.MedianRect}">
+                                                                                                      <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:Preprocessing_Process_3DModel_Method.MedianRect}">
                                                                                                           <Setter Property="Value" Value="5" />
                                                                                                       </DataTrigger>
                                                                                                   </Style.Triggers>-->
@@ -8907,7 +8908,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.ConnectionObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding ConnectionObjectModel3d.Feature}" Value="{x:Static Halcon_Enum:ConnectionObjectModel3d_Feature_Enum.distance_mapping}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -8942,12 +8943,12 @@ PassEventArgsToCommand="True" />
                                                                                     Maximum="103"
                                                                                     Minimum="3"
                                                                                     SmallChange="1"
-                                                                                    Value="{Binding ConnectionObjectModel3d.Value, Converter={StaticResource ValueToObject_Converter}, UpdateSourceTrigger=PropertyChanged}">
+                                                                                    Value="{Binding ConnectionObjectModel3d.Value, UpdateSourceTrigger=PropertyChanged}">
                                                                                 <Slider.Style>
                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                         <!--<Style.Triggers>
 
-                                                                                                      <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:Preprocessing_Process_23DModel_Method.MedianRect}">
+                                                                                                      <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:Preprocessing_Process_3DModel_Method.MedianRect}">
                                                                                                           <Setter Property="Value" Value="5" />
                                                                                                       </DataTrigger>
                                                                                                   </Style.Triggers>-->
@@ -8973,7 +8974,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9019,7 +9020,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9068,7 +9069,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9137,7 +9138,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9234,7 +9235,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9305,7 +9306,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SelectObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9402,7 +9403,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9448,7 +9449,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9506,7 +9507,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9565,7 +9566,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9629,7 +9630,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9675,7 +9676,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9734,7 +9735,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9793,7 +9794,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9857,7 +9858,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9916,7 +9917,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -9976,7 +9977,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -10024,7 +10025,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding SmoothObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SmoothObjectModel3d_Method_Enum.mls}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10089,7 +10090,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding SmoothObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SmoothObjectModel3d_Method_Enum.mls}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10154,7 +10155,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding SmoothObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SmoothObjectModel3d_Method_Enum.mls}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10219,7 +10220,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding SmoothObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SmoothObjectModel3d_Method_Enum.mls}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10284,7 +10285,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding SmoothObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SmoothObjectModel3d_Method_Enum.mls}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10354,7 +10355,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding SmoothObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SmoothObjectModel3d_Method_Enum.xyz_mapping}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10363,7 +10364,7 @@ PassEventArgsToCommand="True" />
                                                                                         </MultiDataTrigger>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding SmoothObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SmoothObjectModel3d_Method_Enum.xyz_mapping_compute_normals}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10415,7 +10416,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding SmoothObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SmoothObjectModel3d_Method_Enum.xyz_mapping}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10424,7 +10425,7 @@ PassEventArgsToCommand="True" />
                                                                                         </MultiDataTrigger>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SmoothObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding SmoothObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SmoothObjectModel3d_Method_Enum.xyz_mapping_compute_normals}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10488,7 +10489,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -10534,7 +10535,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -10600,7 +10601,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding PrepareObjectModel3d.Purpose}" Value="{x:Static Halcon_Enum:PrepareObjectModel3d_PurPose_Enum.segmentation}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10666,7 +10667,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding PrepareObjectModel3d.Purpose}" Value="{x:Static Halcon_Enum:PrepareObjectModel3d_PurPose_Enum.distance_computation}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10719,7 +10720,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding PrepareObjectModel3d.Purpose}" Value="{x:Static Halcon_Enum:PrepareObjectModel3d_PurPose_Enum.distance_computation}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10772,7 +10773,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding PrepareObjectModel3d.Purpose}" Value="{x:Static Halcon_Enum:PrepareObjectModel3d_PurPose_Enum.distance_computation}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -10838,7 +10839,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding PrepareObjectModel3d.Purpose}" Value="{x:Static Halcon_Enum:PrepareObjectModel3d_PurPose_Enum.distance_computation}" />
                                                                                                 <Condition Binding="{Binding PrepareObjectModel3d.method}" Value="{x:Static Halcon_Enum:PrepareObjectModel3d_Method_Enum.voxel}" />
                                                                                             </MultiDataTrigger.Conditions>
@@ -10905,7 +10906,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding PrepareObjectModel3d.Purpose}" Value="{x:Static Halcon_Enum:PrepareObjectModel3d_PurPose_Enum.distance_computation}" />
                                                                                                 <Condition Binding="{Binding PrepareObjectModel3d.method}" Value="{x:Static Halcon_Enum:PrepareObjectModel3d_Method_Enum.voxel}" />
                                                                                             </MultiDataTrigger.Conditions>
@@ -10972,7 +10973,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.PrepareObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding PrepareObjectModel3d.Purpose}" Value="{x:Static Halcon_Enum:PrepareObjectModel3d_PurPose_Enum.gen_xyz_mapping}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11037,7 +11038,7 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}">
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}">
                                                                                             <Setter Property="Visibility" Value="Visible" />
                                                                                         </DataTrigger>
                                                                                     </Style.Triggers>
@@ -11085,7 +11086,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.xyz_mapping}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11151,7 +11152,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.xyz_mapping}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11217,7 +11218,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.xyz_mapping}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11284,7 +11285,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.xyz_mapping}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11356,7 +11357,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11422,7 +11423,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11475,7 +11476,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11541,7 +11542,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11607,7 +11608,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11677,7 +11678,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11743,7 +11744,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11809,7 +11810,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11875,7 +11876,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -11946,7 +11947,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -12017,7 +12018,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -12083,7 +12084,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -12149,7 +12150,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -12215,7 +12216,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -12281,7 +12282,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -12352,7 +12353,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -12424,7 +12425,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.Implicit}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -12490,7 +12491,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.Implicit}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
@@ -12556,7 +12557,7 @@ PassEventArgsToCommand="True" />
                                                                                     <Style.Triggers>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
-                                                                                                <Condition Binding="{Binding Preprocessing_Process_23DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
                                                                                                 <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.Implicit}" />
                                                                                             </MultiDataTrigger.Conditions>
                                                                                             <MultiDataTrigger.Setters>
