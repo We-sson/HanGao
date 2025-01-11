@@ -163,7 +163,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             Set_H3DStereo_Data(_ParamData);
 
 
-
+             
 
 
             //通过双图像融合
@@ -1273,17 +1273,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 重建 3D 点
         /// </summary>
-        [Description("默认值：点云重建")]
+        [Description("默认值：点云重建_Points_3d")]
         points_3d,
         /// <summary>
         /// 重建表面
         /// </summary>
-        [Description("融合表面")]
+        [Description("融合表面_Surface_fusion")]
         surface_fusion,
         /// <summary>
         /// 表面融合
         /// </summary>
-        [Description("表面重建")]
+        [Description("表面重建_Surface_pairwise")]
         surface_pairwise
     }
 

@@ -1406,6 +1406,50 @@ namespace HanGao.ViewModel
             });
         }
 
+
+
+        /// <summary>
+        /// 图像预处理流程开始方法
+        /// </summary>
+        public ICommand StereoImage3D_Preprocessing_Process_Start_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Task.Run(() =>
+                {
+                try
+                {
+                    //HImage _Image = new();
+                    //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_3DModel_Process_List;
+
+
+
+                 Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio = HObjectModel3D.UnionObjectModel3d(Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio]), "points_surface");
+
+
+                        //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+
+
+
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio]));
+
+                        });
+
+                        User_Log_Add("图像预处理成功！", Log_Show_Window_Enum.Home);
+                    }
+                    catch (Exception e)
+                    {
+                        User_Log_Add("图像预处理失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    }
+                });
+            });
+        }
+
+
         public ICommand StereoImage_PreprocessingProcess_Start_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
@@ -4228,7 +4272,7 @@ namespace HanGao.ViewModel
                              );
 
 
-                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>() { Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DPoint }));
+                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>() { Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio }));
 
 
 

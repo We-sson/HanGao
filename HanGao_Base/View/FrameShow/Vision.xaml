@@ -4827,7 +4827,7 @@
                                                     <ListBox.Style>
                                                         <Style BasedOn="{StaticResource ListBoxStyle1}" TargetType="ListBox">
 
-                                                            <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Find_Preprocessing_Process_List}" />
+                                                            <!--<Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Find_Preprocessing_Process_List}" />-->
 
 
                                                             <Style.Triggers>
@@ -4839,7 +4839,7 @@
                                                                         <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
                                                                     </MultiDataTrigger.Conditions>
                                                                     <MultiDataTrigger.Setters>
-                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Process_List}" />
+                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Process_List, Mode=OneWay}" />
                                                                     </MultiDataTrigger.Setters>
                                                                 </MultiDataTrigger>
                                                                 <MultiDataTrigger>
@@ -4849,7 +4849,7 @@
                                                                         <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
                                                                     </MultiDataTrigger.Conditions>
                                                                     <MultiDataTrigger.Setters>
-                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Process_List}" />
+                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Process_List, Mode=OneWay}" />
 
                                                                     </MultiDataTrigger.Setters>
                                                                 </MultiDataTrigger>
@@ -4859,7 +4859,7 @@
                                                                         <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
                                                                     </MultiDataTrigger.Conditions>
                                                                     <MultiDataTrigger.Setters>
-                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Process_List}" />
+                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Process_List, Mode=OneWay}" />
 
                                                                     </MultiDataTrigger.Setters>
                                                                 </MultiDataTrigger>
@@ -4869,7 +4869,7 @@
                                                                         <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
                                                                     </MultiDataTrigger.Conditions>
                                                                     <MultiDataTrigger.Setters>
-                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Process_List}" />
+                                                                        <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Process_List, Mode=OneWay}" />
 
                                                                     </MultiDataTrigger.Setters>
                                                                 </MultiDataTrigger>
@@ -4969,7 +4969,6 @@
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Process_Enum:Image_Preprocessing_Process_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding Preprocessing_Process_2DModel_Method, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -12672,7 +12671,7 @@ PassEventArgsToCommand="True" />
                                                     <i:Interaction.Triggers>
 
                                                         <i:EventTrigger EventName="Click">
-                                                            <i:InvokeCommandAction Command="{Binding}"
+                                                            <i:InvokeCommandAction Command="{Binding StereoImage3D_Preprocessing_Process_Start_Comm}"
                                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                    PassEventArgsToCommand="True" />
                                                         </i:EventTrigger>

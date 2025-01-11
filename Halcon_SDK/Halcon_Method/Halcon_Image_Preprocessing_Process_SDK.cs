@@ -321,8 +321,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public Preprocessing_Process_Lsit_Model()
         {
 
-                Preprocessing_Process_Work_Initialization_Value(Preprocessing_Process_2DModel_Method);
-            Preprocessing_Process_Work_Initialization_Value(Preprocessing_Process_3DModel_Method);
+            Preprocessing_Process_Work_Initialization_Value(Preprocessing_Process_2DModel_Method);
+             Preprocessing_Process_Work_Initialization_Value(Preprocessing_Process_3DModel_Method);
 
 
         }
