@@ -47,11 +47,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             Scene3D_Instance.PropertyChanged += (e, o) =>
            {
                //属性修改设置显示
-               if (hv_ObjectModel3D.Count > 0)
-               {
+               //if (hv_ObjectModel3D.Count > 0)
+               //{
 
-                   Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e!);
-               }
+               //    Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e!);
+               //}
                //通知显示更新画面
                While_ResetEvent.Set();
                While_ResetEvent.Reset();
@@ -128,7 +128,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                     //更新显示属性
                     Set_Scene3D_Param(hv_Scene3D, Scene3D_Param);
-                    Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
+                    //Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
                     ////HOperatorSet.WaitSeconds(0.5);
                     //While_ResetEvent.Set();
                     //HOperatorSet.WaitSeconds(0.05);
@@ -1372,7 +1372,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             lock (this)
             {
-
+                While_ResetEvent.Set();
 
                 hv_ObjectModel3D.Clear();
 
@@ -1390,7 +1390,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                 //HOperatorSet.WaitSeconds(0.5);
-                While_ResetEvent.Set();
                 Thread.Sleep(5);
                 //HOperatorSet.WaitSeconds(0.05);
                 While_ResetEvent.Reset();

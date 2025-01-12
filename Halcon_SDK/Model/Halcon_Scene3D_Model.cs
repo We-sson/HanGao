@@ -123,7 +123,7 @@ namespace Halcon_SDK_DLL.Model
         public Color_attrib_Val_Enum Color_attrib { set; get; } = Color_attrib_Val_Enum.none;
 
 
-        public Color_Model_Val_Enum Color { set; get; } = Color_Model_Val_Enum.白色;
+        //public Color_Model_Val_Enum Color { set; get; } = Color_Model_Val_Enum.白色;
 
 
     }

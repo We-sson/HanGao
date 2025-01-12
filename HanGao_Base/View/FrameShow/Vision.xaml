@@ -8810,7 +8810,7 @@ PassEventArgsToCommand="True" />
                                                                                     HorizontalContentAlignment="Stretch"
                                                                                     VerticalContentAlignment="Stretch"
                                                                                     LargeChange="0.001"
-                                                                                    Maximum="1"
+                                                                                    Maximum="100"
                                                                                     Minimum="0"
                                                                                     SmallChange="0.001"
                                                                                     Value="{Binding ConnectionObjectModel3d.Value, UpdateSourceTrigger=PropertyChanged}">

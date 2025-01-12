@@ -763,12 +763,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public ConnectionObjectModel3d_Feature_Enum Feature { set; get; } = ConnectionObjectModel3d_Feature_Enum.distance_3d;
 
 
-        public string Value { set; get; } = 0.005.ToString();
+        public double  Value { set; get; } = 0.005;
 
         public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
         {
 
-            return HObjectModel3D.ConnectionObjectModel3d(_Model3D, Feature.ToString().ToLower(), Value);
+
+            return HObjectModel3D.UnionObjectModel3d(_Model3D, "points_surface").ConnectionObjectModel3d(Feature.ToString().ToLower(), Value);
+
+            //return _Model3D[0].ConnectionObjectModel3d(Feature.ToString().ToLower(), Value);
+
+            //return HObjectModel3D.ConnectionObjectModel3d(_Model3D, Feature.ToString().ToLower(), Value);
 
         }
 
@@ -802,25 +807,27 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 throw new ArgumentException("The input model3D array is null or empty.", nameof(_Model3D));
             }
 
-            if (Max && !Min)
+            if (!Max && Min)
             {
-                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), minValue.ToString(), nameof(Max).ToLower());
+
+                return [ HObjectModel3D.UnionObjectModel3d(_Model3D, "points_surface").SelectObjectModel3d(new HTuple( Feature.ToString().ToLower()),new HTuple(  Operation.ToString().ToLower()), new HTuple(minValue), new HTuple(nameof(Max).ToLower()))];
+                //return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), new HTuple( minValue), new HTuple ( nameof(Max).ToLower()));
 
             }
 
-            if (Min && !Max)
+            if (!Min && Max)
             {
-                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), nameof(Min).ToLower(), maxValue.ToString());
+                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), new HTuple(nameof(Min).ToLower()), new HTuple(maxValue));
 
             }
 
-            if (Max && Min)
+            if (!Max && !Min)
             {
-                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), nameof(Min).ToLower(), nameof(Max).ToLower());
+                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(),Operation.ToString().ToLower(), new HTuple(nameof(Min).ToLower()), new HTuple(nameof(Max).ToLower()));
 
             }
 
-            return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), minValue.ToString(), maxValue.ToString());
+            return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), new HTuple(minValue), new HTuple(maxValue));
 
         }
 

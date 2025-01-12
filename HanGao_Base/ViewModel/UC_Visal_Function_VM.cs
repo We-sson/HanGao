@@ -1425,7 +1425,7 @@ namespace HanGao.ViewModel
 
 
 
-                 Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio = HObjectModel3D.UnionObjectModel3d(Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio]), "points_surface");
+                     HObjectModel3D[]  _Get=   Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio]);
 
 
                         //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
@@ -1435,7 +1435,7 @@ namespace HanGao.ViewModel
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio]));
+                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model( new List<HObjectModel3D> ( _Get)));
 
                         });
 
