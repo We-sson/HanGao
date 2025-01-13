@@ -38,22 +38,25 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             Scene3D_Param.PropertyChanged += (e, o) =>
             {
+                While_ResetEvent.Set();
                 //属性修改设置显示
                 Set_Scene3D_Param(hv_Scene3D, (Halcon_Scene3D_Param_Model)e!);
                 //通知显示更新画面
-                While_ResetEvent.Set();
+                Thread.Sleep(50);
                 While_ResetEvent.Reset();
             };
             Scene3D_Instance.PropertyChanged += (e, o) =>
            {
-               //属性修改设置显示
-               //if (hv_ObjectModel3D.Count > 0)
-               //{
-
-               //    Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e!);
-               //}
-               //通知显示更新画面
                While_ResetEvent.Set();
+               //属性修改设置显示
+               if (hv_ObjectModel3D.Count > 0)
+               {
+
+                   Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e!);
+               }
+               //通知显示更新画面
+               Thread.Sleep(50);
+
                While_ResetEvent.Reset();
            };
 
@@ -63,6 +66,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
                 lock (e!)
                 {
+
+                    While_ResetEvent.Set();
 
                     //类型转换
                     ObservableCollection<HObjectModel3D> _List_Model = (e as ObservableCollection<HObjectModel3D>)!;
@@ -128,11 +133,15 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                     //更新显示属性
                     Set_Scene3D_Param(hv_Scene3D, Scene3D_Param);
-                    //Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
+                    Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
                     ////HOperatorSet.WaitSeconds(0.5);
                     //While_ResetEvent.Set();
                     //HOperatorSet.WaitSeconds(0.05);
                     //While_ResetEvent.Reset();
+
+                    Thread.Sleep(50);
+                    While_ResetEvent.Reset();
+
                 }
 
             };
@@ -600,6 +609,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     catch (Exception _he)
                     {
                         H3D_Display_Message_delegate?.Invoke("三维旋转计算失败! 原因:" + _he.Message);
+                        While_ResetEvent.Reset();
 
 
                     }
@@ -619,7 +629,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_MY2.Dispose();
 
                         //Debug.WriteLine(e.GetPosition(e.Source as FrameworkElement).X + "," + e.GetPosition(e.Source as FrameworkElement).Y + ",退出");
-                        While_ResetEvent.Reset();
 
                     }
 
@@ -644,12 +653,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             if (e.RightButton == MouseButtonState.Pressed && (Math.Abs(hv_HMouseDowm.X - e.GetPosition(e.Source as FrameworkElement).X) > 0.5 || (Math.Abs(hv_HMouseDowm.Y - e.GetPosition(e.Source as FrameworkElement).Y) > 0.5)))
             {
-
+                //释放渲染线程
+                While_ResetEvent.Set();
 
                 //e.Handled = true;
                 lock (hv_PoseIn)
                 {
-
+          
                     //局部变量初始化
                     HTuple hv_RelQuaternion = new ();
                     HTuple hv_HomMat3DRotRel = new ();
@@ -674,7 +684,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                     try
                     {
-
+                 
 
                         //平移速度(默认)
                         hv_SensFactor = 1;
@@ -729,13 +739,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         //hv_PoseIn = hv_PoseOut;
                         hv_HMouseDowm = e.GetPosition(_Window.Halcon_UserContol);
 
-                        //释放渲染线程
-                        While_ResetEvent.Set();
+      
 
                     }
                     catch (Exception _he)
                     {
                         H3D_Display_Message_delegate?.Invoke("三维旋转计算失败! 原因:" + _he.Message);
+                        While_ResetEvent.Reset();
 
 
                     }
@@ -761,7 +771,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_Len.Dispose();
                         hv_Dist.Dispose();
                         hv_Translate.Dispose();
-                        While_ResetEvent.Reset();
+
 
                         //Debug.WriteLine(e.GetPosition(e.Source as FrameworkElement).X + "," + e.GetPosition(e.Source as FrameworkElement).Y + ",退出");
 
@@ -784,7 +794,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <param name="e"></param>
         private void Calibration_3D_Results_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+          
 
             if (e.ButtonState == MouseButtonState.Pressed)
             {
@@ -826,6 +836,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             if ((e.ChangedButton == MouseButton.Left || e.ChangedButton == MouseButton.Right) && e.ButtonState == MouseButtonState.Released)
             {
                 //释放渲染线程
+                Thread.Sleep(100);
+
                 While_ResetEvent.Reset();
 
 
@@ -924,7 +936,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 //hv_Scene3D.SetScene3dCameraPose(hv_CameraIndex, hv_PoseIn);
 
-
                 //释放渲染线程
                 While_ResetEvent.Set();
 
@@ -947,6 +958,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_Dist.Dispose();
                 hv_MRow1.Dispose();
                 hv_MRow2.Dispose();
+                Thread.Sleep(50);
 
                 //释放渲染线程
                 While_ResetEvent.Reset();
@@ -1353,7 +1365,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             finally
             {
                 //HOperatorSet.WaitSeconds(0.05);
-                Thread.Sleep(5);
+                Thread.Sleep(50);
                 While_ResetEvent.Reset();
             }
 
@@ -1372,7 +1384,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             lock (this)
             {
-                While_ResetEvent.Set();
 
                 hv_ObjectModel3D.Clear();
 
@@ -1389,8 +1400,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
 
 
+                While_ResetEvent.Set();
                 //HOperatorSet.WaitSeconds(0.5);
-                Thread.Sleep(5);
+                Thread.Sleep(50);
                 //HOperatorSet.WaitSeconds(0.05);
                 While_ResetEvent.Reset();
 

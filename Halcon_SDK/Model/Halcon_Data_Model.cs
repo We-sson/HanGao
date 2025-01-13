@@ -2523,13 +2523,13 @@ namespace Halcon_SDK_DLL.Model
     /// </summary>
     public enum MedianImage_Margin_Enum
     {
-        [Description("边缘反射")]
+        [Description("边缘反射:Mirrored")]
         mirrored,
 
-        [Description("边缘循环延续")]
+        [Description("边缘循环延续:Cyclic")]
         cyclic,
 
-        [Description("边缘延续")]
+        [Description("边缘延续:Continued")]
         continued,
     }
 
@@ -2554,29 +2554,29 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 按三维距离计算，单位：m
         /// </summary>
-        [Description("三维距离")]
+        [Description("三维距离:Distance_3d")]
         distance_3d,
         /// <summary>
         /// 法线之间的角度,单位：弧度[0, π] 之间
         /// </summary>
-        [Description("法线角度")]
+        [Description("法线角度:Angle")]
         angle,
         /// <summary>
         /// 在 2D 映射中的像素坐标计算距离,距离小于Value连接。单位：图像中的 8 邻域像素
         /// </summary>
-        [Description("2D映射距离")]
+        [Description("2D映射距离:Distance_mapping")]
         distance_mapping,
 
         /// <summary>
         /// 多边形连接的 3D 对象模型部分。Value参数被忽略。
         /// </summary>
-        [Description("多边形连接")]
+        [Description("多边形连接:Mesh")]
         mesh,
 
         /// <summary>
         /// 返回由线段连接的 3D 对象模型部分。value 参数被忽略。
         /// </summary>
-        [Description("线段连接")]
+        [Description("线段连接:Lines")]
 
         lines,
 
@@ -2648,21 +2648,21 @@ namespace Halcon_SDK_DLL.Model
 
     public enum SampleObjectModel3d_Method_Enum
     {
-        [Description("快速")]
+        [Description("快速:fast")]
         fast,
-        [Description("快速计算法线")]
+        [Description("快速计算法线:fast_compute_normals")]
         fast_compute_normals,
-        [Description("准确")]
+        [Description("准确:accurate")]
         accurate,
-        [Description("准确-法线对齐")]
+        [Description("准确-法线对齐:accurate_use_normals")]
         accurate_use_normals,
-        [Description("XYZ映射像素对齐")]
+        [Description("XYZ映射像素对齐:xyz_mapping")]
         xyz_mapping,
-        [Description("XYZ映射像素-法线对齐")]
+        [Description("XYZ映射像素-法线对齐:xyz_mapping_compute_normals")]
         xyz_mapping_compute_normals,
-        [Description("最远处点")]
+        [Description("最远处点:furthest_point")]
         furthest_point,
-        [Description("最远处点-法线对齐")]
+        [Description("最远处点-法线对齐:furthest_point_compute_normals")]
         furthest_point_compute_normals,
 
 
@@ -2671,13 +2671,13 @@ namespace Halcon_SDK_DLL.Model
 
     public enum PrepareObjectModel3d_PurPose_Enum
     {
-        [Description("准备创建匹配")]
+        [Description("准备创建匹配:Shape_based_matching_3d")]
         shape_based_matching_3d,
-        [Description("预备三角化")]
+        [Description("预备三角化:Segmentation")]
         segmentation,
-        [Description("准备距离计算")]
+        [Description("准备距离计算:Distance_computation")]
         distance_computation,
-        [Description(" 获得XYZ映射信息")]
+        [Description(" 获得XYZ映射信息:Gen_xyz_mapping")]
         gen_xyz_mapping,
 
 
@@ -2685,15 +2685,15 @@ namespace Halcon_SDK_DLL.Model
 
     public enum PrepareObjectModel3d_DistanceTo_Enum
     {
-        [Description("自动选择距离")]
+        [Description("自动选择距离:Auto")]
         auto,
-        [Description("三角形面距离")]
+        [Description("三角形面距离:Triangles")]
 
         triangles,
-        [Description("点云距离")]
+        [Description("点云距离:Points")]
 
         points,
-        [Description("几何基元距离")]
+        [Description("几何基元距离:Primitive")]
 
         primitive
     }
@@ -2702,15 +2702,15 @@ namespace Halcon_SDK_DLL.Model
 
     public enum PrepareObjectModel3d_Method_Enum
     {
-        [Description("自动距离")]
+        [Description("自动距离:Auto")]
         auto,
-        [Description("k维树")]
+        [Description("k维树:kd_tree")]
 
         [StringValue("kd-tree")]
         kd_tree,
-        [Description("体素网格")]
+        [Description("体素网格:Voxel")]
         voxel,
-        [Description("线性搜索")]
+        [Description("线性搜索:linear")]
 
         linear
     }
@@ -2720,14 +2720,14 @@ namespace Halcon_SDK_DLL.Model
     public enum TriangulateObjectModel3d_Method_Enum
     {
 
-        [Description("贪婪三角化")]
+        [Description("贪婪三角化:Greedy")]
         greedy,
-        [Description("隐式三角化")]
+        [Description("隐式三角化:Implicit")]
         [StringValue("implicit")]
         Implicit,
-        [Description("多边形为三角化")]
+        [Description("多边形为三角化:Polygon_triangulation")]
         polygon_triangulation,
-        [Description("2D 映射三角化")]
+        [Description("2D映射三角化:Xyz_mapping")]
         xyz_mapping
 
     }
@@ -2737,30 +2737,30 @@ namespace Halcon_SDK_DLL.Model
     public enum SurfaceNormalsObjectModel3d_Method_Enum
     {
 
-        [Description("最小二乘法")]
+        [Description("最小二乘法:Mls")]
         mls,
-        [Description("相邻三角形")]
+        [Description("相邻三角形:Triangles")]
         triangles,
-        [Description(" 2D映射点邻域")]
+        [Description(" 2D映射点邻域:Xyz_mapping")]
         xyz_mapping,
     }
 
     public enum SmoothObjectModel3d_Method_Enum
     {
-        [Description("最小二乘法")]
+        [Description("最小二乘法:Mls")]
         mls,
-        [Description(" 2D映射点邻域")]
+        [Description(" 2D映射点邻域:Xyz_mapping")]
         xyz_mapping,
-        [Description(" 2D映射点邻域-法线")]
+        [Description(" 2D映射点邻域-法线:Xyz_mapping_compute_normals")]
         xyz_mapping_compute_normals
     }
 
 
     public enum SmoothObjectModel3d_Xyz_Mapping_Filter_Enum
     {
-        [Description("中位数差分")]
+        [Description("中位数差分:Median_separate")]
         median_separate,
-        [Description("中位数")]
+        [Description("中位数:Median")]
 
         median
     }
@@ -2769,22 +2769,22 @@ namespace Halcon_SDK_DLL.Model
 
     public enum TriangulateObjectModel3d_Greedy_Radius_Type_Enum
     {
-        [Description("自动选择")]
+        [Description("自动选择:Median")]
         auto,
-        [Description("固定值")]
+        [Description("固定值:Fixed")]
         [StringValue("fixed")]
         Fixed,
-        [Description("距离变化")]
+        [Description("距离变化:Z_factor")]
 
         z_factor
     }
 
     public enum TriangulateObjectModel3d_Information_Enum
     {
-        [Description("三角数量")]
+        [Description("三角数量:Num_triangles")]
         
         num_triangles,
-        [Description("详细信息")]
+        [Description("详细信息:Verbose")]
         
         verbose,
     }

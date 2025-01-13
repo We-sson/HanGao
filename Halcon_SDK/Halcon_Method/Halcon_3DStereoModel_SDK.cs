@@ -147,10 +147,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
             ///存储原图
-            H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0 = new HObject(_Camera_0_0);
-            H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1 = new HObject(_Camera_0_1);
-            H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0 = new HObject(_Camera_1_0);
-            H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1 = new HObject(_Camera_1_1);
+            //H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0 = new HObject(_Camera_0_0);
+            //H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1 = new HObject(_Camera_0_1);
+            //H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0 = new HObject(_Camera_1_0);
+            //H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1 = new HObject(_Camera_1_1);
 
 
             H3DStereoModel = new HStereoModel();
@@ -1273,17 +1273,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 重建 3D 点
         /// </summary>
-        [Description("默认值：点云重建_Points_3d")]
+        [Description("默认值:点云重建_Points_3d")]
         points_3d,
         /// <summary>
         /// 重建表面
         /// </summary>
-        [Description("融合表面_Surface_fusion")]
+        [Description("融合表面:Surface_fusion")]
         surface_fusion,
         /// <summary>
         /// 表面融合
         /// </summary>
-        [Description("表面重建_Surface_pairwise")]
+        [Description("表面重建:Surface_pairwise")]
         surface_pairwise
     }
 
@@ -1292,17 +1292,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 默认值：无网格化
         /// </summary>
-        [Description("默认值：无网格化")]
+        [Description("无网格化:None")]
         none,
         /// <summary>
         /// 泊松表面重建（仅适用于 surface_pairwise 类型）
         /// </summary>
-        [Description("泊松表面重建")]
+        [Description("泊松表面重建:Poisson")]
         poisson,
         /// <summary>
         /// 等曲面模式（仅适用于 surface_fusion 类型）
         /// </summary>
-        [Description("等值面网格化")]
+        [Description("等值面网格化:Isosurface")]
         isosurface
     }
 
@@ -1311,12 +1311,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 大窗口像素比较
         /// </summary>
-        [Description("默认值：大窗口像素比较")]
+        [Description("大窗口像素比较:Census_dense")]
         census_dense,
         /// <summary>
         /// 小窗口像素比较
         /// </summary>
-        [Description("小窗口像素比较")]
+        [Description("小窗口像素比较:Census_sparse")]
         census_sparse
     }
 
@@ -1325,18 +1325,18 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// V 型递归
         /// </summary>
-        [Description("默认值：V 型递归")]
+        [Description("V型递归:V")]
         v,
         /// <summary>
         /// W 型递归
         /// </summary>
-        [Description("W 型递归")]
+        [Description("W型递归:W")]
 
         w,
         /// <summary>
         /// 无递归
         /// </summary>
-        [Description("不启动")]
+        [Description("不启动:None")]
         none
     }
 
@@ -1368,22 +1368,22 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 极高精度模式
         /// </summary>
-        [Description("极高精度模式")]
+        [Description("极高精度模式:Very_accurate")]
         very_accurate,
         /// <summary>
         /// 高精度模式
         /// </summary>
-        [Description("高精度模式")]
+        [Description("高精度模式:Accurate")]
         accurate,
         /// <summary>
         /// 快速精确模式
         /// </summary>
-        [Description("默认值：快速精确模式")]
+        [Description("快速精确模式:Fast_accurate")]
         fast_accurate,
         /// <summary>
         /// 快速模式
         /// </summary>
-        [Description("快速模式")]
+        [Description("快速模式:Fast")]
         fast
     }
 
@@ -1395,33 +1395,33 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 不设置模型颜色
         /// </summary>
-        [Description("不计算颜色信息")]
+        [Description("不计算颜色信息:None")]
         none,
         /// <summary>
         ///  三维点的颜色值是三维点可见的所有摄像头颜色值的中值。
         /// </summary>
-        [Description("默认值：相机中颜色中值")]
+        [Description("相机中颜色中值:Median")]
         median,
         /// <summary>
         /// 三维点的颜色值对应于与该三维点距离最小的摄像头的颜色值
         /// </summary>
-        [Description("相机距离最小的颜色")]
+        [Description("相机距离最小的颜色:Smallest_distance")]
         smallest_distance,
         /// <summary>
         /// 平均各摄像机的加权颜色值来计算三维点的颜色值。
         /// </summary>
-        [Description("平均加权点云颜色")]
+        [Description("平均加权点云颜色:Mean_weighted_distances")]
         mean_weighted_distances,
         /// <summary>
         /// 三维点的颜色值对应于点法线与视线夹角最小的摄像头的颜色值。
         /// </summary>
 
-        [Description("法线与视线的点云颜色")]
+        [Description("法线与视线的点云颜色:Line_of_sight")]
         line_of_sight,
         /// <summary>
         /// 通过平均各摄像机的加权颜色值来计算三维点的颜色值。
         /// </summary>
-        [Description("平均全部相机点云颜色")]
+        [Description("平均全部相机点云颜色:Mean_weighted_lines_of_sight")]
         mean_weighted_lines_of_sight,
 
 
@@ -1438,12 +1438,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 无
         /// </summary>
-        [Description("不进行插值处理")]
+        [Description("不进行插值:None")]
         none,
         /// <summary>
         /// 双线性插值
         /// </summary>
-        [Description("默认值：双线性插值")]
+        [Description("双线性插值:Bilinear")]
         bilinear,
     }
 
@@ -1456,12 +1456,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 视角的校正方法
         /// </summary>
-        [Description("默认值：视角的校正方法")]
+        [Description("视角的校正方法:Viewing_direction")]
         viewing_direction,
         /// <summary>
         /// 几何的校正方法
         /// </summary>
-        [Description("几何的校正方法")]
+        [Description("几何的校正方法:Geometric")]
         geometric
     }
 
@@ -1472,17 +1472,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 双目重建
         /// </summary>
-        [Description("默认值：通用算法")]
+        [Description("双目算法:Binocular")]
         binocular,
         /// <summary>
         /// 基于特征点
         /// </summary>
-        [Description("基于特征点")]
+        [Description("基于特征点:Binocular_mg")]
         binocular_mg,
         /// <summary>
         /// 基于表面或视差
         /// </summary>
-        [Description("基于表面或视差")]
+        [Description("基于表面或视差:Binocular_ms")]
         binocular_ms
     }
 
@@ -1497,17 +1497,17 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// 归一化匹配
         /// </summary>
         /// 
-        [Description("默认值：归一化")]
+        [Description("归一化:Ncc")]
         ncc,
         /// <summary>
         /// 
         /// </summary>
-        [Description("绝对差和")]
+        [Description("绝对差和:Sad")]
         sad,
         /// <summary>
         /// 平方差和
         /// </summary>
-        [Description("平方差和")]
+        [Description("平方差和:Ssd")]
         ssd,
     }
 
@@ -1517,12 +1517,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 不启动
         /// </summary>
-        [Description("默认值：不启动")]
+        [Description("不启动:None")]
         none,
         /// <summary>
         /// 左右图像检查
         /// </summary>
-        [Description("左右图像检查")]
+        [Description("左右图像检查:Left_right_check")]
         left_right_check
 
     }
@@ -1534,12 +1534,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 不启动
         /// </summary>
-        [Description("默认值：不启动")]
+        [Description("不启动:None")]
         none,
         /// <summary>
         /// 像素插补
         /// </summary>
-        [Description("像素插补")]
+        [Description("像素插补:Interpolation")]
         interpolation
     }
 

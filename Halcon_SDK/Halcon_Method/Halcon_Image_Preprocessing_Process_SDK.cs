@@ -228,7 +228,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public void Preprocessing_Process_New(int _List_No)
         {
             //插入新流程
-            Preprocessing_Process_List.Insert(_List_No, new Preprocessing_Process_Lsit_Model() { Preprocessing_Process_2DModel_Method= Image_Preprocessing_Process_Enum.ScaleImageMax, Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.ConnectionObjectModel3d });
+            Preprocessing_Process_List.Insert(_List_No, new Preprocessing_Process_Lsit_Model() { Preprocessing_Process_2DModel_Method = Image_Preprocessing_Process_Enum.ScaleImageMax, Preprocessing_Process_3DModel_Method = H3DObjectModel_Features_Enum.ConnectionObjectModel3d });
 
             //新建排序
             for (int i = 0; i < Preprocessing_Process_List.Count; i++)
@@ -322,7 +322,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
             Preprocessing_Process_Work_Initialization_Value(Preprocessing_Process_2DModel_Method);
-             Preprocessing_Process_Work_Initialization_Value(Preprocessing_Process_3DModel_Method);
+            Preprocessing_Process_Work_Initialization_Value(Preprocessing_Process_3DModel_Method);
 
 
         }
@@ -351,7 +351,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public Image_Preprocessing_Process_Enum Preprocessing_Process_2DModel_Method
         {
             get { return _Preprocessing_Process_2DModel_Method; }
-            set { _Preprocessing_Process_2DModel_Method = value;
+            set
+            {
+                _Preprocessing_Process_2DModel_Method = value;
                 Preprocessing_Process_Work_Initialization_Value(value);
 
             }
@@ -364,7 +366,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public H3DObjectModel_Features_Enum Preprocessing_Process_3DModel_Method
         {
             get { return _Preprocessing_Process_3DModel_Method; }
-            set { _Preprocessing_Process_3DModel_Method = value;
+            set
+            {
+                _Preprocessing_Process_3DModel_Method = value;
                 Preprocessing_Process_Work_Initialization_Value(value);
             }
         }
@@ -536,42 +540,42 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
-        public Emphasize_Function_Model? Emphasize { set; get; } 
+        public Emphasize_Function_Model? Emphasize { set; get; }
 
 
         public Illuminate_Function_Model? Illuminate { set; get; }
 
-        public MedianImage_Function_Model? MedianImage { set; get; } 
+        public MedianImage_Function_Model? MedianImage { set; get; }
 
-        public GrayOpeningRect_Function_Model? GrayOpeningRect { set; get; } 
+        public GrayOpeningRect_Function_Model? GrayOpeningRect { set; get; }
 
-        public GrayClosingRect_Function_Model?             GrayClosingRect { set; get; } 
+        public GrayClosingRect_Function_Model? GrayClosingRect { set; get; }
 
-        public MedianRect_Function_Model? MedianRect { set; get; } 
+        public MedianRect_Function_Model? MedianRect { set; get; }
 
-        public ScaleImageMax_Function_Model? ScaleImageMax { set; get; } 
+        public ScaleImageMax_Function_Model? ScaleImageMax { set; get; }
 
-        public ConnectionObjectModel3d_Function_Model? ConnectionObjectModel3d { set; get; } 
+        public ConnectionObjectModel3d_Function_Model? ConnectionObjectModel3d { set; get; }
 
-        public SelectObjectModel3d_Funtion_Model? SelectObjectModel3d { set; get; } 
+        public SelectObjectModel3d_Funtion_Model? SelectObjectModel3d { set; get; }
 
 
 
-        public SampleObjectModel3d_Function_Model? SampleObjectModel3d { set; get; } 
+        public SampleObjectModel3d_Function_Model? SampleObjectModel3d { set; get; }
 
 
         public SurfaceNormalsObjectModel3d_Function_Model? SurfaceNormalsObjectModel3d { set; get; }
 
 
 
-        public SmoothObjectModel3d_Function_Model? SmoothObjectModel3d { set; get; } 
+        public SmoothObjectModel3d_Function_Model? SmoothObjectModel3d { set; get; }
 
 
-        public PrepareObjectModel3d_Function_Model? PrepareObjectModel3d { set; get; } 
+        public PrepareObjectModel3d_Function_Model? PrepareObjectModel3d { set; get; }
 
 
 
-        public TriangulateObjectModel3d_Function_Model? TriangulateObjectModel3d { set; get; } 
+        public TriangulateObjectModel3d_Function_Model? TriangulateObjectModel3d { set; get; }
 
 
         //public Action? Action_Method { set; get; }
@@ -736,6 +740,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
     public class Emphasize_Function_Model
     {
 
+        public Emphasize_Function_Model() { }
+
         public int MaskWidth { set; get; } = 11;
         public int MaskHeight { set; get; } = 11;
 
@@ -759,17 +765,34 @@ namespace Halcon_SDK_DLL.Halcon_Method
     {
 
 
+        public ConnectionObjectModel3d_Function_Model() { }
+
 
         public ConnectionObjectModel3d_Feature_Enum Feature { set; get; } = ConnectionObjectModel3d_Feature_Enum.distance_3d;
 
 
-        public double  Value { set; get; } = 0.005;
+        public double Value { set; get; } = 0.005;
 
         public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
         {
 
 
-            return HObjectModel3D.UnionObjectModel3d(_Model3D, "points_surface").ConnectionObjectModel3d(Feature.ToString().ToLower(), Value);
+            switch (Feature)
+            {
+                case ConnectionObjectModel3d_Feature_Enum.distance_3d or ConnectionObjectModel3d_Feature_Enum.distance_mapping or ConnectionObjectModel3d_Feature_Enum.lines:
+
+
+                    return HObjectModel3D.UnionObjectModel3d(_Model3D, "points_surface").ConnectionObjectModel3d(Feature.ToString().ToLower(), Value);
+
+                case ConnectionObjectModel3d_Feature_Enum.angle:
+
+
+                    return HObjectModel3D.UnionObjectModel3d(_Model3D, "points_surface").ConnectionObjectModel3d(Feature.ToString().ToLower(), new HTuple(Value).TupleRad());
+
+
+                default: throw new ArgumentException("Feature:参数错误！");
+            }
+
 
             //return _Model3D[0].ConnectionObjectModel3d(Feature.ToString().ToLower(), Value);
 
@@ -782,6 +805,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
     [AddINotifyPropertyChangedInterface]
     public class SelectObjectModel3d_Funtion_Model
     {
+
+        public SelectObjectModel3d_Funtion_Model() { }
+
         public SelectObjectModel3d_Feature_Enum Feature { set; get; } = SelectObjectModel3d_Feature_Enum.num_points;
 
         public SelectObjectModel3d_Operation_Enum Operation { set; get; } = SelectObjectModel3d_Operation_Enum.and;
@@ -809,25 +835,24 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             if (!Max && Min)
             {
-
-                return [ HObjectModel3D.UnionObjectModel3d(_Model3D, "points_surface").SelectObjectModel3d(new HTuple( Feature.ToString().ToLower()),new HTuple(  Operation.ToString().ToLower()), new HTuple(minValue), new HTuple(nameof(Max).ToLower()))];
+                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString(), minValue, "max");
                 //return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), new HTuple( minValue), new HTuple ( nameof(Max).ToLower()));
 
             }
 
             if (!Min && Max)
             {
-                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), new HTuple(nameof(Min).ToLower()), new HTuple(maxValue));
+                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString(), "min", maxValue);
 
             }
 
             if (!Max && !Min)
             {
-                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(),Operation.ToString().ToLower(), new HTuple(nameof(Min).ToLower()), new HTuple(nameof(Max).ToLower()));
+                return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString(), "min", "max");
 
             }
 
-            return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString().ToLower(), new HTuple(minValue), new HTuple(maxValue));
+            return HObjectModel3D.SelectObjectModel3d(_Model3D, Feature.ToString().ToLower(), Operation.ToString(), minValue, maxValue);
 
         }
 
@@ -841,7 +866,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public SampleObjectModel3d_Method_Enum Method { set; get; } = SampleObjectModel3d_Method_Enum.fast;
 
-        public double SampleDistance { set; get; } = 0.05;
+        public double SampleDistance { set; get; } = 0.005;
 
 
         public double max_angle_diff { set; get; } = 180;
@@ -853,7 +878,28 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
         {
 
-            return HObjectModel3D.SampleObjectModel3d(_Model3D, Method.ToString().ToLower(), SampleDistance, new HTuple([nameof(max_angle_diff), nameof(min_num_points)]), new HTuple([max_angle_diff.ToString(), min_num_points.ToString()]));
+
+
+            switch (Method)
+            {
+                case SampleObjectModel3d_Method_Enum.fast or SampleObjectModel3d_Method_Enum.fast_compute_normals or SampleObjectModel3d_Method_Enum.xyz_mapping or SampleObjectModel3d_Method_Enum.xyz_mapping_compute_normals or SampleObjectModel3d_Method_Enum.furthest_point or SampleObjectModel3d_Method_Enum.furthest_point_compute_normals:
+
+
+                    return HObjectModel3D.SampleObjectModel3d(_Model3D, Method.ToString(), SampleDistance, new HTuple(), new HTuple());
+
+
+                case SampleObjectModel3d_Method_Enum.accurate:
+                    return HObjectModel3D.SampleObjectModel3d(_Model3D, Method.ToString(), SampleDistance, new HTuple([nameof(min_num_points)]), new HTuple([min_num_points]));
+
+                case SampleObjectModel3d_Method_Enum.accurate_use_normals:
+                    return HObjectModel3D.SampleObjectModel3d(_Model3D, Method.ToString(), SampleDistance, new HTuple([nameof(max_angle_diff), nameof(min_num_points)]), new HTuple([max_angle_diff, min_num_points]));
+
+
+
+
+                default: throw new ArgumentException("Method:参数错误！");
+
+            }
 
         }
 
@@ -875,18 +921,51 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public double mls_relative_sigma { set; get; } = 1;
 
-        public bool mls_force_inwards { set; get; } = true;
+        public bool mls_force_inwards { set; get; } = false;
 
 
 
         public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
         {
 
-            return HObjectModel3D.SurfaceNormalsObjectModel3d(
-                _Model3D,
-                Method.ToString().ToLower(),
-                new HTuple([nameof(mls_kNN), nameof(mls_abs_sigma), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
-                new HTuple([mls_kNN.ToString(), mls_abs_sigma.ToString(), mls_order.ToString(), mls_relative_sigma.ToString(), mls_force_inwards.ToString().ToLower()]));
+
+            switch (Method)
+            {
+                case SurfaceNormalsObjectModel3d_Method_Enum.mls:
+
+
+                    if (mls_abs_sigma!=0)
+                    {
+                        return HObjectModel3D.SurfaceNormalsObjectModel3d(
+                  _Model3D,
+                  Method.ToString(),
+                  new HTuple([nameof(mls_kNN), nameof(mls_abs_sigma), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
+                  new HTuple([mls_kNN, mls_abs_sigma, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()]));
+                    }
+                    else
+                    {
+                        return HObjectModel3D.SurfaceNormalsObjectModel3d(
+                  _Model3D,
+                  Method.ToString(),
+                  new HTuple([nameof(mls_kNN), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
+                  new HTuple([mls_kNN, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()]));
+
+                    }
+
+
+                 
+
+                case SurfaceNormalsObjectModel3d_Method_Enum.xyz_mapping or SurfaceNormalsObjectModel3d_Method_Enum.triangles:
+                    return HObjectModel3D.SurfaceNormalsObjectModel3d(
+                  _Model3D,
+                   Method.ToString(),
+                   new HTuple(),
+                   new HTuple());
+                default: throw new ArgumentException("Method:参数错误！");
+
+            }
+
+
 
         }
 
@@ -905,9 +984,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public int mls_order { set; get; } = 2;
         public double mls_abs_sigma { set; get; } = 0.001;
 
-        public double mls_relative_sigma { set; get; } = 1;
+        public double mls_relative_sigma { set; get; } = 0.1;
 
-        public bool mls_force_inwards { set; get; } = true;
+        public bool mls_force_inwards { set; get; } = false;
 
 
         public SmoothObjectModel3d_Xyz_Mapping_Filter_Enum xyz_mapping_filter { set; get; } = SmoothObjectModel3d_Xyz_Mapping_Filter_Enum.median_separate;
@@ -924,13 +1003,24 @@ namespace Halcon_SDK_DLL.Halcon_Method
             {
                 case SmoothObjectModel3d_Method_Enum.mls:
 
-
+                    if (mls_abs_sigma!=0)
+                    {
 
                     return HObjectModel3D.SmoothObjectModel3d(
                         _Model3D,
                         Method.ToString().ToLower(),
                         new HTuple([nameof(mls_kNN), nameof(mls_abs_sigma), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
-                        new HTuple([mls_kNN.ToString(), mls_abs_sigma.ToString(), mls_order.ToString(), mls_relative_sigma.ToString(), mls_force_inwards.ToString().ToLower()]));
+                        new HTuple([mls_kNN, mls_abs_sigma, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()]));
+
+                    }
+                    else
+                    {
+                        return HObjectModel3D.SmoothObjectModel3d(
+                    _Model3D,
+                    Method.ToString().ToLower(),
+                    new HTuple([nameof(mls_kNN), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
+                    new HTuple([mls_kNN, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()]));
+                    }
 
                 case SmoothObjectModel3d_Method_Enum.xyz_mapping or SmoothObjectModel3d_Method_Enum.xyz_mapping_compute_normals:
 
@@ -938,7 +1028,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         _Model3D,
                         Method.ToString().ToLower(),
                         new HTuple([nameof(xyz_mapping_filter), nameof(xyz_mapping_mask_width)]),
-                        new HTuple([xyz_mapping_filter.ToString(), xyz_mapping_mask_width.ToString()]));
+                        new HTuple([xyz_mapping_filter.ToString(), xyz_mapping_mask_width]));
 
                 default: throw new ArgumentException("参数错误！");
 
@@ -1004,7 +1094,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                    Purpose.ToString().ToLower(),
                    overwriteData.ToString().ToLower(),
                    new HTuple([nameof(max_area_holes)]),
-                   new HTuple([max_area_holes.ToString()]));
+                   new HTuple([max_area_holes]));
                     break;
                 case PrepareObjectModel3d_PurPose_Enum.distance_computation:
 
@@ -1013,7 +1103,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                      Purpose.ToString().ToLower(),
                      overwriteData.ToString().ToLower(),
                      new HTuple([nameof(distance_to), nameof(method), nameof(max_distance), nameof(sampling_dist_rel), nameof(sampling_dist_abs)]),
-                     new HTuple([distance_to.ToString(), method.GetStringValue(), max_distance.ToString(), sampling_dist_rel.ToString(), sampling_dist_abs.ToString()]));
+                     new HTuple([distance_to.ToString(), method.GetStringValue(), max_distance, sampling_dist_rel, sampling_dist_abs]));
 
                     break;
                 case PrepareObjectModel3d_PurPose_Enum.gen_xyz_mapping:
@@ -1023,7 +1113,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                        Purpose.ToString().ToLower(),
                        overwriteData.ToString().ToLower(),
                        new HTuple([nameof(xyz_map_width)]),
-                       new HTuple([xyz_map_width.ToString()]));
+                       new HTuple([xyz_map_width]));
 
                     break;
 
@@ -1077,7 +1167,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public double greedy_neigh_vertical_tol { set; get; } = 0.1;
 
 
-        public int  greedy_hole_filling { set; get; } = 40;
+        public int greedy_hole_filling { set; get; } = 40;
 
         public bool greedy_fix_flips { get; set; } = true;
 
@@ -1087,7 +1177,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public int greedy_mesh_dilation { set; get; } = 2;
 
-        public bool  greedy_remove_small_surfaces { set; get; } = false;
+        public bool greedy_remove_small_surfaces { set; get; } = false;
 
 
         public bool greedy_timeout { set; get; } = false;
@@ -1097,7 +1187,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public bool greedy_output_all_points { set; get; } = false;
 
-        public TriangulateObjectModel3d_Information_Enum information { set; get; } = TriangulateObjectModel3d_Information_Enum.num_triangles;
+        public TriangulateObjectModel3d_Information_Enum information { set; get; } = TriangulateObjectModel3d_Information_Enum.verbose;
 
 
         public int implicit_octree_depth { set; get; } = 6;
@@ -1120,9 +1210,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                     return HObjectModel3D.TriangulateObjectModel3d(
-  _Model3D,
-  Method.ToString().ToLower(),
-  new HTuple([
+                     _Model3D,
+                     Method.ToString().ToLower(),
+                      new HTuple([
                       nameof(greedy_kNN),
                       nameof(greedy_radius_type),
                       nameof(greedy_radius_value),
@@ -1141,25 +1231,25 @@ namespace Halcon_SDK_DLL.Halcon_Method
                       nameof(greedy_output_all_points),
                       nameof(information)
                       ]),
-  new HTuple([
-                      greedy_kNN.ToString(),
+                      new HTuple([
+                      greedy_kNN,
                       greedy_radius_type.ToString().ToLower(),
-                      greedy_radius_value.ToString(),
-                      greedy_neigh_orient_tol.ToString(),
+                      greedy_radius_value,
+                      greedy_neigh_orient_tol,
                       greedy_neigh_orient_consistent.ToString().ToLower(),
-                      greedy_neigh_latitude_tol.ToString(),
-                      greedy_neigh_vertical_tol.ToString(),
-                      greedy_hole_filling.ToString()?.ToLower(),
-                      greedy_fix_flips.ToString(),
-                      greedy_prefetch_neighbors.ToString(),
-                      greedy_mesh_erosion.ToString(),
-                      greedy_mesh_dilation.ToString(),
-                      greedy_remove_small_surfaces.ToString()?.ToLower(),
-                      greedy_timeout.ToString()?.ToLower(),
+                      greedy_neigh_latitude_tol,
+                      greedy_neigh_vertical_tol,
+                      greedy_hole_filling,
+                      greedy_fix_flips.ToString().ToLower(),
+                      greedy_prefetch_neighbors.ToString().ToLower(),
+                      greedy_mesh_erosion,
+                      greedy_mesh_dilation,
+                      greedy_remove_small_surfaces.ToString().ToLower(),
+                      greedy_timeout.ToString().ToLower(),
                       greedy_suppress_timeout_error.ToString().ToLower(),
-                      greedy_output_all_points.ToString(),
+                      greedy_output_all_points.ToString().ToLower(),
                       information.ToString()]),
-  out _information);
+                      out _information);
 
                     ;
                 case TriangulateObjectModel3d_Method_Enum.Implicit:
@@ -1169,7 +1259,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _Model3D,
                 Method.ToString().ToLower(),
                 new HTuple([nameof(implicit_octree_depth), nameof(implicit_solver_depth), nameof(implicit_min_num_samples), nameof(information)]),
-                new HTuple([implicit_octree_depth.ToString(), implicit_solver_depth.ToString(), implicit_min_num_samples.ToString(), information.ToString()]),
+                new HTuple([implicit_octree_depth, implicit_solver_depth, implicit_min_num_samples, information.ToString()]),
                 out _information);
 
 
@@ -1188,11 +1278,23 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                     return HObjectModel3D.TriangulateObjectModel3d(
-          _Model3D,
-          Method.ToString().ToLower(),
-          new HTuple([nameof(xyz_mapping_max_area_holes), nameof(xyz_mapping_max_view_angle), nameof(xyz_mapping_max_view_dir_x), nameof(xyz_mapping_max_view_dir_y), nameof(xyz_mapping_max_view_dir_z), nameof(xyz_mapping_output_all_points)]),
-          new HTuple([xyz_mapping_max_area_holes.ToString(), HTuple.TupleRand(xyz_mapping_max_view_angle).ToString(), Convert.ToInt32(xyz_mapping_max_view_dir_x).ToString(), Convert.ToInt32(xyz_mapping_max_view_dir_y).ToString(), Convert.ToInt32(xyz_mapping_max_view_dir_z).ToString(), xyz_mapping_output_all_points.ToString().ToLower()]),
-          out _information);
+                     _Model3D,
+                     Method.ToString().ToLower(),
+                     new HTuple([
+                     nameof(xyz_mapping_max_area_holes), 
+                     nameof(xyz_mapping_max_view_angle), 
+                     nameof(xyz_mapping_max_view_dir_x), 
+                     nameof(xyz_mapping_max_view_dir_y), 
+                     nameof(xyz_mapping_max_view_dir_z), 
+                     nameof(xyz_mapping_output_all_points)]),
+                     new HTuple([
+                     xyz_mapping_max_area_holes, 
+                     HTuple.TupleRand(xyz_mapping_max_view_angle), 
+                     Convert.ToInt32(xyz_mapping_max_view_dir_x).ToString(), 
+                     Convert.ToInt32(xyz_mapping_max_view_dir_y).ToString(),
+                     Convert.ToInt32(xyz_mapping_max_view_dir_z).ToString(),
+                     xyz_mapping_output_all_points.ToString().ToLower()]),
+                     out _information);
 
 
 

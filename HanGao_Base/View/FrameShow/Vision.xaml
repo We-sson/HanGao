@@ -5236,7 +5236,6 @@
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:MedianImage_MaskType_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding MedianImage.MaskType, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -5331,7 +5330,6 @@
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:MedianImage_Margin_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding MedianImage.Margin, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -8619,7 +8617,7 @@ PassEventArgsToCommand="True" />
                                                                       IsExpanded="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
 
                                                                 <Expander.Header>
-                                                                    <Grid ShowGridLines="True">
+                                                                    <Grid ShowGridLines="False">
                                                                         <Grid.ColumnDefinitions>
                                                                             <ColumnDefinition Width="auto" />
                                                                             <ColumnDefinition />
@@ -8755,7 +8753,7 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:ConnectionObjectModel3d_Feature_Enum}"
-                                                                                      SelectedItem="{Binding ConnectionObjectModel3d.Feature, UpdateSourceTrigger=PropertyChanged}">
+                                                                                      SelectedItem="{Binding ConnectionObjectModel3d.Feature, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
 
                                                                                 <ComboBox.ItemTemplate>
                                                                                     <DataTemplate>
@@ -8809,10 +8807,10 @@ PassEventArgsToCommand="True" />
                                                                                     VerticalAlignment="Center"
                                                                                     HorizontalContentAlignment="Stretch"
                                                                                     VerticalContentAlignment="Stretch"
-                                                                                    LargeChange="0.001"
-                                                                                    Maximum="100"
+                                                                                    LargeChange="0.0001"
+                                                                                    Maximum="10"
                                                                                     Minimum="0"
-                                                                                    SmallChange="0.001"
+                                                                                    SmallChange="0.0001"
                                                                                     Value="{Binding ConnectionObjectModel3d.Value, UpdateSourceTrigger=PropertyChanged}">
                                                                                 <Slider.Style>
                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
@@ -8827,7 +8825,7 @@ PassEventArgsToCommand="True" />
                                                                             </Slider>
 
                                                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                                                     Text="{Binding ElementName=ConnectionObjectModel3d_Distance_3D_Value, Path=Value, StringFormat={}{0:F3}}"
+                                                                                     Text="{Binding ElementName=ConnectionObjectModel3d_Distance_3D_Value, Path=Value, StringFormat={}{0:F4}}"
                                                                                      HorizontalContentAlignment="Center"
                                                                                      VerticalContentAlignment="Center"
                                                                                      Background="Transparent"
@@ -8998,7 +8996,6 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:SelectObjectModel3d_Feature_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding SelectObjectModel3d.Feature, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -9044,7 +9041,6 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:SelectObjectModel3d_Operation_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding SelectObjectModel3d.Operation, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -9427,12 +9423,12 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:SampleObjectModel3d_Method_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding SampleObjectModel3d.Method, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
                                                                                     <DataTemplate>
                                                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                                                   MaxWidth="250"
                                                                                                    TextWrapping="Wrap"
                                                                                                    Padding="0,4,0,4"
                                                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
@@ -9506,9 +9502,25 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}">
-                                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                                        </DataTrigger>
+
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding SampleObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SampleObjectModel3d_Method_Enum.accurate}" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <MultiDataTrigger.Setters>
+                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                            </MultiDataTrigger.Setters>
+                                                                                        </MultiDataTrigger>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding SampleObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SampleObjectModel3d_Method_Enum.accurate_use_normals}" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <MultiDataTrigger.Setters>
+                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                            </MultiDataTrigger.Setters>
+                                                                                        </MultiDataTrigger>
                                                                                     </Style.Triggers>
                                                                                 </Style>
                                                                             </Grid.Style>
@@ -9565,9 +9577,15 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}">
-                                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                                        </DataTrigger>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SampleObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding SampleObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SampleObjectModel3d_Method_Enum.accurate_use_normals}" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <MultiDataTrigger.Setters>
+                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                            </MultiDataTrigger.Setters>
+                                                                                        </MultiDataTrigger>
                                                                                     </Style.Triggers>
                                                                                 </Style>
                                                                             </Grid.Style>
@@ -9654,7 +9672,6 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:SurfaceNormalsObjectModel3d_Method_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding SurfaceNormalsObjectModel3d.Method, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -9675,9 +9692,16 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
-                                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                                        </DataTrigger>
+
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding SurfaceNormalsObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SurfaceNormalsObjectModel3d_Method_Enum.mls}" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <MultiDataTrigger.Setters>
+                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                            </MultiDataTrigger.Setters>
+                                                                                        </MultiDataTrigger>
                                                                                     </Style.Triggers>
                                                                                 </Style>
                                                                             </Grid.Style>
@@ -9734,9 +9758,15 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
-                                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                                        </DataTrigger>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding SurfaceNormalsObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SurfaceNormalsObjectModel3d_Method_Enum.mls}" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <MultiDataTrigger.Setters>
+                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                            </MultiDataTrigger.Setters>
+                                                                                        </MultiDataTrigger>
                                                                                     </Style.Triggers>
                                                                                 </Style>
                                                                             </Grid.Style>
@@ -9766,7 +9796,7 @@ PassEventArgsToCommand="True" />
                                                                                     Minimum="1"
                                                                                     SmallChange="1"
                                                                                     TickFrequency=" 1"
-                                                                                    Value="{Binding SurfaceNormalsObjectModel3d.mls_order}">
+                                                                                    Value="{Binding SurfaceNormalsObjectModel3d.mls_order, Mode=TwoWay}">
                                                                                 <Slider.Style>
                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                                                         <!--<Style.Triggers>
@@ -9780,7 +9810,7 @@ PassEventArgsToCommand="True" />
                                                                             </Slider>
 
                                                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                                                     Text="{Binding ElementName=SurfaceNormalsObjectModel3d_Mls_Order, Path=Value, StringFormat={}{0:F0}}"
+                                                                                     Text="{Binding ElementName=SurfaceNormalsObjectModel3d_Mls_Order, Mode=TwoWay, Path=Value, StringFormat={}{0:F0}}"
                                                                                      HorizontalContentAlignment="Center"
                                                                                      VerticalContentAlignment="Center"
                                                                                      Background="Transparent"
@@ -9793,9 +9823,15 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
-                                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                                        </DataTrigger>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding SurfaceNormalsObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SurfaceNormalsObjectModel3d_Method_Enum.mls}" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <MultiDataTrigger.Setters>
+                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                            </MultiDataTrigger.Setters>
+                                                                                        </MultiDataTrigger>
                                                                                     </Style.Triggers>
                                                                                 </Style>
                                                                             </Grid.Style>
@@ -9857,9 +9893,15 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
-                                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                                        </DataTrigger>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding SurfaceNormalsObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SurfaceNormalsObjectModel3d_Method_Enum.mls}" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <MultiDataTrigger.Setters>
+                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                            </MultiDataTrigger.Setters>
+                                                                                        </MultiDataTrigger>
                                                                                     </Style.Triggers>
                                                                                 </Style>
                                                                             </Grid.Style>
@@ -9886,7 +9928,7 @@ PassEventArgsToCommand="True" />
                                                                                     VerticalContentAlignment="Stretch"
                                                                                     LargeChange="0.001"
                                                                                     Maximum="3"
-                                                                                    Minimum="1"
+                                                                                    Minimum="0"
                                                                                     SmallChange="0.001"
                                                                                     TickFrequency=" 0.001"
                                                                                     Value="{Binding SurfaceNormalsObjectModel3d.mls_abs_sigma}">
@@ -9916,9 +9958,15 @@ PassEventArgsToCommand="True" />
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                                                     <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}">
-                                                                                            <Setter Property="Visibility" Value="Visible" />
-                                                                                        </DataTrigger>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding SurfaceNormalsObjectModel3d.Method}" Value="{x:Static Halcon_Enum:SurfaceNormalsObjectModel3d_Method_Enum.mls}" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <MultiDataTrigger.Setters>
+                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                            </MultiDataTrigger.Setters>
+                                                                                        </MultiDataTrigger>
                                                                                     </Style.Triggers>
                                                                                 </Style>
                                                                             </Grid.Style>
@@ -9943,11 +9991,11 @@ PassEventArgsToCommand="True" />
                                                                                     VerticalAlignment="Center"
                                                                                     HorizontalContentAlignment="Stretch"
                                                                                     VerticalContentAlignment="Stretch"
-                                                                                    LargeChange="0.001"
-                                                                                    Maximum="3"
-                                                                                    Minimum="1"
-                                                                                    SmallChange="0.001"
-                                                                                    TickFrequency=" 0.001"
+                                                                                    LargeChange="0.1"
+                                                                                    Maximum="10"
+                                                                                    Minimum="0"
+                                                                                    SmallChange="0.1"
+                                                                                    TickFrequency=" 0.1"
                                                                                     Value="{Binding SurfaceNormalsObjectModel3d.mls_relative_sigma}">
                                                                                 <Slider.Style>
                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
@@ -9962,7 +10010,7 @@ PassEventArgsToCommand="True" />
                                                                             </Slider>
 
                                                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                                                     Text="{Binding ElementName=SurfaceNormalsObjectModel3d_Mls_Relative_Sigma, Path=Value, StringFormat={}{0:F3}}"
+                                                                                     Text="{Binding ElementName=SurfaceNormalsObjectModel3d_Mls_Relative_Sigma, Path=Value, StringFormat={}{0:F1}}"
                                                                                      HorizontalContentAlignment="Center"
                                                                                      VerticalContentAlignment="Center"
                                                                                      Background="Transparent"
@@ -9971,7 +10019,7 @@ PassEventArgsToCommand="True" />
                                                                                      FontSize="14" />
                                                                         </Grid>
 
-                                                                        <Grid Margin="8">
+                                                                        <Grid Height=" 30" Margin="8">
                                                                             <Grid.Style>
                                                                                 <Style TargetType="Grid">
                                                                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -10001,13 +10049,13 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:SmoothObjectModel3d_Method_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding SmoothObjectModel3d.Method, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
                                                                                     <DataTemplate>
                                                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
-                                                                                                   TextWrapping="Wrap"
+                                                                                                   MaxWidth="250"
+                                                                                                   TextWrapping="WrapWithOverflow"
                                                                                                    Padding="0,4,0,4"
                                                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                                                    FontSize="12"
@@ -10187,7 +10235,7 @@ PassEventArgsToCommand="True" />
                                                                                     VerticalContentAlignment="Stretch"
                                                                                     LargeChange="0.001"
                                                                                     Maximum="3"
-                                                                                    Minimum="1"
+                                                                                    Minimum="0"
                                                                                     SmallChange="0.001"
                                                                                     TickFrequency="0.001"
                                                                                     Value="{Binding SmoothObjectModel3d.mls_abs_sigma}">
@@ -10236,7 +10284,7 @@ PassEventArgsToCommand="True" />
                                                                             </Grid.ColumnDefinitions>
 
                                                                             <TextBlock Grid.Column=" 0"
-                                                                                       Text="乘法因子"
+                                                                                       Text="局部距离"
                                                                                        TextWrapping="Wrap"
                                                                                        HorizontalAlignment="Left"
                                                                                        VerticalAlignment="Center"
@@ -10392,7 +10440,6 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:SmoothObjectModel3d_Xyz_Mapping_Filter_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding SmoothObjectModel3d.xyz_mapping_filter, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -10513,7 +10560,6 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:PrepareObjectModel3d_PurPose_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding PrepareObjectModel3d.Purpose, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -10633,7 +10679,7 @@ PassEventArgsToCommand="True" />
                                                                                     HorizontalContentAlignment="Stretch"
                                                                                     VerticalContentAlignment="Stretch"
                                                                                     LargeChange="1"
-                                                                                    Maximum="50000"
+                                                                                    Maximum="500000"
                                                                                     Minimum="0"
                                                                                     SmallChange="1"
                                                                                     TickFrequency="1"
@@ -10696,7 +10742,6 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:PrepareObjectModel3d_DistanceTo_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding PrepareObjectModel3d.distance_to, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -10749,7 +10794,6 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:PrepareObjectModel3d_Method_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding PrepareObjectModel3d.method, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -11062,7 +11106,6 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:TriangulateObjectModel3d_Method_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding TriangulateObjectModel3d.Method, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -11452,7 +11495,6 @@ PassEventArgsToCommand="True" />
                                                                                       IsDropDownOpen="False"
                                                                                       IsSynchronizedWithCurrentItem="True"
                                                                                       ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:TriangulateObjectModel3d_Greedy_Radius_Type_Enum}"
-                                                                                      SelectedIndex="0"
                                                                                       SelectedItem="{Binding TriangulateObjectModel3d.greedy_radius_type, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                 <ComboBox.ItemTemplate>
@@ -11842,7 +11884,7 @@ PassEventArgsToCommand="True" />
                                                                                     HorizontalContentAlignment="Stretch"
                                                                                     VerticalContentAlignment="Stretch"
                                                                                     LargeChange="1"
-                                                                                    Maximum="5000"
+                                                                                    Maximum="500000"
                                                                                     Minimum="1"
                                                                                     SmallChange="1"
                                                                                     TickFrequency="1"
@@ -12050,7 +12092,7 @@ PassEventArgsToCommand="True" />
                                                                                     HorizontalContentAlignment="Stretch"
                                                                                     VerticalContentAlignment="Stretch"
                                                                                     LargeChange="1"
-                                                                                    Maximum="1000"
+                                                                                    Maximum="100"
                                                                                     Minimum="0"
                                                                                     SmallChange="1"
                                                                                     TickFrequency="1"
@@ -12116,7 +12158,7 @@ PassEventArgsToCommand="True" />
                                                                                     HorizontalContentAlignment="Stretch"
                                                                                     VerticalContentAlignment="Stretch"
                                                                                     LargeChange="1"
-                                                                                    Maximum="1000"
+                                                                                    Maximum="100"
                                                                                     Minimum="0"
                                                                                     SmallChange="1"
                                                                                     TickFrequency="1"
@@ -12134,7 +12176,7 @@ PassEventArgsToCommand="True" />
                                                                             </Slider>
 
                                                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
-                                                                                     Text="{Binding ElementName=TriangulateObjectModel3d_Greedy_Mesh_Erosion, Path=Value, StringFormat={}{0:F0}}"
+                                                                                     Text="{Binding ElementName=TriangulateObjectModel3d_Greedy_Mesh_Dilation, Path=Value, StringFormat={}{0:F0}}"
                                                                                      HorizontalContentAlignment="Center"
                                                                                      VerticalContentAlignment="Center"
                                                                                      Background="Transparent"
@@ -12181,11 +12223,11 @@ PassEventArgsToCommand="True" />
                                                                                     VerticalAlignment="Center"
                                                                                     HorizontalContentAlignment="Stretch"
                                                                                     VerticalContentAlignment="Stretch"
-                                                                                    LargeChange="0.01"
-                                                                                    Maximum="1000"
+                                                                                    LargeChange="0.1"
+                                                                                    Maximum="1000000"
                                                                                     Minimum="0"
-                                                                                    SmallChange="0.01"
-                                                                                    TickFrequency="0.01"
+                                                                                    SmallChange="0.1"
+                                                                                    TickFrequency="0.1"
                                                                                     Value="{Binding TriangulateObjectModel3d.greedy_remove_small_surfaces}">
                                                                                 <Slider.Style>
                                                                                     <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
@@ -12616,7 +12658,58 @@ PassEventArgsToCommand="True" />
                                                                                      FontSize="14" />
                                                                         </Grid>
 
+                                                                        <Grid Height=" 30" Margin="8">
+                                                                            <Grid.Style>
+                                                                                <Style TargetType="Grid">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                    <Style.Triggers>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.TriangulateObjectModel3d}" />
+                                                                                                <Condition Binding="{Binding TriangulateObjectModel3d.Method}" Value="{x:Static Halcon_Enum:TriangulateObjectModel3d_Method_Enum.greedy}" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <MultiDataTrigger.Setters>
+                                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                                            </MultiDataTrigger.Setters>
+                                                                                        </MultiDataTrigger>
 
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Grid.Style>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="60" />
+                                                                                <ColumnDefinition />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <TextBlock Grid.Column=" 0"
+                                                                                       Text="半径类型"
+                                                                                       HorizontalAlignment="Left"
+                                                                                       VerticalAlignment="Center"
+                                                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                       FontSize="12"
+                                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="TriangulateObjectModel3d_information" Grid.Column=" 1"
+                                                                                      HorizontalContentAlignment="Center"
+                                                                                      VerticalContentAlignment="Center"
+                                                                                      BorderThickness="2"
+                                                                                      FontSize="12"
+                                                                                      IsDropDownOpen="False"
+                                                                                      IsSynchronizedWithCurrentItem="True"
+                                                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:TriangulateObjectModel3d_Information_Enum}"
+                                                                                      SelectedItem="{Binding TriangulateObjectModel3d.information, UpdateSourceTrigger=PropertyChanged}">
+
+                                                                                <ComboBox.ItemTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   Padding="0,4,0,4"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   TextTrimming="CharacterEllipsis" />
+                                                                                    </DataTemplate>
+                                                                                </ComboBox.ItemTemplate>
+                                                                            </ComboBox>
+                                                                        </Grid>
 
                                                                     </StackPanel>
                                                                 </Grid>
@@ -14784,8 +14877,7 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="0">
+                                                      IsSynchronizedWithCurrentItem="True">
                                                 <ComboBoxItem>
 
                                                     <TextBlock Text="[]"
@@ -14845,8 +14937,7 @@ PassEventArgsToCommand="True" />
                                                       BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                       BorderThickness="2"
                                                       IsDropDownOpen="False"
-                                                      IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="0">
+                                                      IsSynchronizedWithCurrentItem="True">
                                                 <ComboBoxItem>
 
                                                     <TextBlock Text="big"
@@ -16686,7 +16777,6 @@ PassEventArgsToCommand="True" />
                                                                                                   IsDropDownOpen="False"
                                                                                                   IsSynchronizedWithCurrentItem="True"
                                                                                                   ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:MedianImage_MaskType_Enum}"
-                                                                                                  SelectedIndex="0"
                                                                                                   SelectedItem="{Binding E_1, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                             <ComboBox.ItemTemplate>
@@ -16781,7 +16871,6 @@ PassEventArgsToCommand="True" />
                                                                                                   IsDropDownOpen="False"
                                                                                                   IsSynchronizedWithCurrentItem="True"
                                                                                                   ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:MedianImage_Margin_Enum}"
-                                                                                                  SelectedIndex="0"
                                                                                                   SelectedItem="{Binding E_2, UpdateSourceTrigger=PropertyChanged}">
 
                                                                                             <ComboBox.ItemTemplate>
@@ -19181,7 +19270,7 @@ PassEventArgsToCommand="True" />
                                         BorderThickness="2"
                                         IsDropDownOpen="False"
                                         IsSynchronizedWithCurrentItem="True"
-                                        SelectedIndex="0">
+                                   >
                                   <ComboBoxItem Padding="6">
 
                                       <TextBlock Text="方差"

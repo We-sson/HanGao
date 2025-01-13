@@ -2352,7 +2352,7 @@
 <c>*mls 平滑方法</c>
 <l>* smooth_object_model_3d (OM3DSampledMapping, 'mls', [], [], ObjectModel3Dsmooth)</l>
 <c></c>
-<c>*修复法线正确方向</c>
+<c>*平滑方法</c>
 <l>smooth_object_model_3d (OM3DSampledMapping, 'mls', ['mls_kNN','mls_force_inwards'],[ 150,'true'], ObjectModel3Dsmooth)</l>
 <c></c>
 <l>* smooth_object_model_3d (OM3DSampledMapping, 'mls', 'mls_order', 1, ObjectModel3Dsmooth)</l>
