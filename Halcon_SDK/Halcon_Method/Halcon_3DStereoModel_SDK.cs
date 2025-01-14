@@ -50,7 +50,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 图像处理流程
         /// </summary>
-        public Halcon_Image_Preprocessing_Process_SDK Stereo_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK( );
+        public Halcon_Image_Preprocessing_Process_SDK Stereo_Preprocessing_Process { set; get; } = new Halcon_Image_Preprocessing_Process_SDK();
 
 
 
@@ -163,7 +163,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             Set_H3DStereo_Data(_ParamData);
 
 
-             
+
 
 
             //通过双图像融合
@@ -292,7 +292,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             Halcon_Camera_Calibration_Parameters_Model Camera_0_Params = new Halcon_Camera_Calibration_Parameters_Model(Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup.GetCameraSetupParam(0, "params"));
 
 
-           // H3DStereo_Results.Get_HModel3D_XYZ_Image(_ParamData.H3DStereo_Image_Type, Camera_0_Pos, Camera_0_Params.HCamPar);
+            // H3DStereo_Results.Get_HModel3D_XYZ_Image(_ParamData.H3DStereo_Image_Type, Camera_0_Pos, Camera_0_Params.HCamPar);
 
             ///使用相机原图像
             H3DStereo_Results.Image_3DFusion = new HImage(_Camera_1_0);
@@ -318,7 +318,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-
             //设置通用参数
             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.bounding_box), new HTuple(ParamData.Bounding_box.ToArray()));
             H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.persistence), new HTuple(ParamData.Persistence));
@@ -329,20 +328,21 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             switch (ParamData.H3DStereo_Method)
             {
-                case H3DStereo_Method_Enum.points_3d:
 
+                case H3DStereo_Method_Enum.surface_pairwise or H3DStereo_Method_Enum.surface_fusion:
 
-                    break;
-                case H3DStereo_Method_Enum.surface_fusion or H3DStereo_Method_Enum.surface_pairwise:
-
-                    ///XYZ采集密度
-                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.sub_sampling_step), new HTuple(ParamData.Sub_sampling_step));
 
                     H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.rectif_sub_sampling), new HTuple(ParamData.Rectif_sub_sampling));
 
                     H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.rectif_interpolation), new HTuple(ParamData.Rectif_interpolation.ToString()));
 
                     H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.rectif_method), new HTuple(ParamData.Rectif_method.ToString()));
+
+
+
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.color), new HTuple(ParamData.Color.ToString()));
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.color_invisible), new HTuple(ParamData.Color_invisible.ToString().ToLower()));
+
 
                     ///不同Disparity_Method方法，参数区分设置
                     H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.disparity_method), new HTuple(ParamData.Disparity_Method_Value.ToString()));
@@ -400,12 +400,80 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                     }
 
-                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.color), new HTuple(ParamData.Color.ToString()));
-                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.color_invisible), new HTuple(ParamData.Color_invisible.ToString().ToLower()));
+
+                    break;
+            }
+
+
+
+
+            switch (ParamData.H3DStereo_Method)
+            {
+                case H3DStereo_Method_Enum.points_3d:
+
+
+                    break;
+                case H3DStereo_Method_Enum.surface_pairwise:
+
+                    ///XYZ采集密度
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.sub_sampling_step), new HTuple(ParamData.Sub_sampling_step));
+
+
+
+
+                    switch (ParamData.Point_meshing)
+                    {
+
+
+                        case Point_meshing_Value_Enum.isosurface:
+
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.point_meshing), new HTuple(ParamData.Point_meshing.ToString()));
+
+
+
+                            break;
+
+                    }
+
+
+
+
+                    break;
+
+
+
+                case H3DStereo_Method_Enum.surface_fusion:
+
+
+                    switch (ParamData.Point_meshing)
+                    {
+
+
+                        case Point_meshing_Value_Enum.poisson:
+
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.point_meshing), new HTuple(ParamData.Point_meshing.ToString()));
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.poisson_depth), new HTuple(ParamData.Poisson_depth));
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.poisson_solver_divide), new HTuple(ParamData.Poisson_solver_divide));
+                            H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.poisson_samples_per_node), new HTuple(ParamData.Poisson_samples_per_node));
+
+
+
+                            break;
+
+                    }
+
+
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.resolution), new HTuple(ParamData.Resolution));
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.surface_tolerance), new HTuple(ParamData.Surface_tolerance));
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.min_thickness), new HTuple(ParamData.Min_thickness));
+                    H3DStereoModel.SetStereoModelParam(nameof(H3DStereo_ParamName_Enum.smoothing), new HTuple(ParamData.Smoothing));
+
+
 
                     break;
 
             }
+
 
 
             ///应用双目为成像顺序
@@ -697,7 +765,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 重建的边界框
         /// </summary>
-         [XmlIgnore]
+        [XmlIgnore]
         public ObservableCollection<double> Bounding_box
         {
             get

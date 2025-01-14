@@ -7881,9 +7881,7 @@ PassEventArgsToCommand="True" />
                                                     <Style TargetType="Grid">
                                                         <Setter Property="Visibility" Value="Collapsed" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.isosurface}">
-                                                                <Setter Property="Visibility" Value="Visible" />
-                                                            </DataTrigger>
+
                                                             <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.poisson}">
                                                                 <Setter Property="Visibility" Value="Visible" />
                                                             </DataTrigger>
@@ -7943,9 +7941,7 @@ PassEventArgsToCommand="True" />
                                                     <Style TargetType="Grid">
                                                         <Setter Property="Visibility" Value="Collapsed" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.isosurface}">
-                                                                <Setter Property="Visibility" Value="Visible" />
-                                                            </DataTrigger>
+
                                                             <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.poisson}">
                                                                 <Setter Property="Visibility" Value="Visible" />
                                                             </DataTrigger>
@@ -8001,9 +7997,7 @@ PassEventArgsToCommand="True" />
                                                     <Style TargetType="Grid">
                                                         <Setter Property="Visibility" Value="Collapsed" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.isosurface}">
-                                                                <Setter Property="Visibility" Value="Visible" />
-                                                            </DataTrigger>
+
                                                             <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Point_meshing}" Value="{x:Static Process_Enum:Point_meshing_Value_Enum.poisson}">
                                                                 <Setter Property="Visibility" Value="Visible" />
                                                             </DataTrigger>
