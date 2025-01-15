@@ -1385,6 +1385,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             lock (this)
             {
 
+
+                //foreach (var _mod in hv_ObjectModel3D)
+                //{
+                //    _mod.Dispose();
+                //}
+
                 hv_ObjectModel3D.Clear();
 
                 //设置可视化视角
