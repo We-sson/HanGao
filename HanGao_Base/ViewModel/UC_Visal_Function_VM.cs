@@ -1199,6 +1199,39 @@ namespace HanGao.ViewModel
             });
         }
 
+
+        public ICommand StereoImage_PreprocessingProcess_SingleStep_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                CheckBox _Contol = Sm.Source as CheckBox;
+
+               
+
+
+
+                try
+                {
+
+
+
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep_Number = 0; 
+        
+
+                    //Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
+
+                    User_Log_Add("切换手自动模型", Log_Show_Window_Enum.Home);
+                }
+                catch (Exception e)
+                {
+                    User_Log_Add("新增流程失败！原因：" + e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                }
+
+                //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
+            });
+        }
+
+
         public ICommand StereoImage_PreprocessingProcess_New_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
@@ -1464,10 +1497,26 @@ namespace HanGao.ViewModel
                         HImage _Image3 = new();
                         //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
-                        if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0.IsInitialized())
+
+
+
+
+
+                        if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0.IsInitialized()  &&
+                        Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1.IsInitialized() &&
+                        Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_0.IsInitialized() &&
+                        Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_1.IsInitialized()
+                        )
                         {
 
+
+
+
+
                             Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_0_3DPoint_Process_List;
+
+
+
                             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0 = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(new HImage (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0));
 
                 
@@ -1479,6 +1528,10 @@ namespace HanGao.ViewModel
 
                             });
 
+
+                        }
+                        else
+                        {
 
                         }
                         if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1.IsInitialized())
@@ -1529,7 +1582,10 @@ namespace HanGao.ViewModel
 
                             });
                         }
-                 
+
+                        //单步模型下增加流程步骤
+                        Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep_Number++;
+
 
                         User_Log_Add("图像预处理成功！", Log_Show_Window_Enum.Home);
                     }

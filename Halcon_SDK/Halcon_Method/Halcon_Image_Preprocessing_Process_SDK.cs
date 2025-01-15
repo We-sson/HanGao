@@ -41,6 +41,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public int Preprocessing_Process_List_RunTime { set; get; } = 0;
 
 
+        /// <summary>
+        /// 单步模式
+        /// </summary>
+        public bool IsSingleStep { set; get; } = false;
+
+        /// <summary>
+        /// 单步当前步骤
+        /// </summary>
+        public  int IsSingleStep_Number { set; get; } = 0;  
+
 
         public Preprocessing_Process_Lsit_Model? Preprocessing_Process_List_Selete { set; get; }
 
@@ -167,6 +177,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             Image = new HImage(_OldImage);
 
+            if (!IsSingleStep)
+            {
+                IsSingleStep_Number = 0;
+            }
+
+
+
+
             //计算总时间处理
             DateTime AllstartTime = DateTime.Now;
 
@@ -177,6 +195,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                 Image = item.Get_23DResults_Method(Image);
+
+                if (IsSingleStep && IsSingleStep_Number!= Preprocessing_Process_List.Count)
+                {
+                    //IsSingleStep_Number++;
+                    break;
+                }
 
                 // 计算时间差
                 item.Method_Run_Time = (DateTime.Now - startTime).Milliseconds;
@@ -190,6 +214,53 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
         }
+
+
+
+
+
+        /// <summary>
+        /// 预处理流程开始
+        /// </summary>
+        public (HImage, HImage, HImage, HImage) Preprocessing_Process_Start(HImage _OldImage1, HImage _OldImage2, HImage _OldImage3, HImage _OldImage4, ObservableCollection<Preprocessing_Process_Lsit_Model> _List1, ObservableCollection<Preprocessing_Process_Lsit_Model> _List2, ObservableCollection<Preprocessing_Process_Lsit_Model> _List3, ObservableCollection<Preprocessing_Process_Lsit_Model> _List4)
+        {
+
+            //Image = new HImage(_OldImage);
+
+            if (!IsSingleStep)
+            {
+                IsSingleStep_Number = 0;
+            }
+
+
+
+
+            //计算总时间处理
+            DateTime AllstartTime = DateTime.Now;
+
+            Preprocessing_Process_List = _List1;
+            _OldImage1 = Preprocessing_Process_Start(_OldImage1);
+            Preprocessing_Process_List = _List2;
+            _OldImage2 = Preprocessing_Process_Start(_OldImage2);
+            Preprocessing_Process_List = _List3;
+            _OldImage3 = Preprocessing_Process_Start(_OldImage3);
+            Preprocessing_Process_List = _List4;
+            _OldImage4 = Preprocessing_Process_Start(_OldImage4);
+
+
+
+
+            Preprocessing_Process_List_RunTime = (DateTime.Now - AllstartTime).Milliseconds;
+            GC.Collect();
+
+            return (_OldImage1, _OldImage2, _OldImage3, _OldImage4);
+
+
+
+        }
+
+
+
 
 
 

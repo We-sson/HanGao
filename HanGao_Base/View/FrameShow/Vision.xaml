@@ -5808,26 +5808,27 @@
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                        Margin="0,0,5,0"
-                                                        Background="{DynamicResource 全局_按钮_绿颜色}"
-                                                        FontSize=" 26">
-                                                    <TextBlock Text="测试"
+                                                <CheckBox Style="{DynamicResource CheckBoxStyle1}" Grid.Column=" 1"
+                                                          IsChecked="{Binding Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep}"
+                                                          Margin="0,0,5,0"
+                                                          Background="{DynamicResource 全局_按钮_青颜色}"
+                                                          FontSize=" 26">
+                                                    <TextBlock Text="单步"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                                FontSize="14"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
 
-                                                    <!--<i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
 
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Image_Preprocessing_Process_Save_Comm}"
-                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                               PassEventArgsToCommand="True" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>-->
-                                                </Button>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                   PassEventArgsToCommand="True" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </CheckBox>
 
                                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                                         Margin="0,0,5,0"
