@@ -421,8 +421,7 @@ namespace HanGao.ViewModel
                 try
                 {
                     ///进行图像预处理
-                    Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Find_Preprocessing_Process_List;
-                    _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(_Image);
+                    _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(_Image, Select_Vision_Value.Find_Preprocessing_Process_List);
 
                     Application.Current.Dispatcher.Invoke(() =>
                     {
@@ -1206,7 +1205,7 @@ namespace HanGao.ViewModel
             {
                 CheckBox _Contol = Sm.Source as CheckBox;
 
-               
+
 
 
 
@@ -1215,8 +1214,8 @@ namespace HanGao.ViewModel
 
 
 
-                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep_Number = 0; 
-        
+                    Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep_Number = 0;
+
 
                     //Image_Preprocessing_Process.Preprocessing_Process_Work((Image_Preprocessing_Process_Work_Enum)_Contol.Tag);
 
@@ -1385,10 +1384,9 @@ namespace HanGao.ViewModel
                         HImage _Image = new();
                         //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
-                        Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_3DModel_Process_List;
 
 
-                        _Image = Image_Preprocessing_Process.Preprocessing_Process_Start((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+                        _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(new HImage(Halcon_Window_Display.Features_Window.DisplayImage), Select_Vision_Value.Camera_3DModel_Process_List);
                         //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
 
                         Application.Current.Dispatcher.Invoke(() =>
@@ -1420,8 +1418,7 @@ namespace HanGao.ViewModel
                         HImage _Image = new();
                         //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
 
-                        Image_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Find_Preprocessing_Process_List;
-                        _Image = Image_Preprocessing_Process.Preprocessing_Process_Start((HImage)Halcon_Window_Display.Features_Window.DisplayImage);
+                        _Image = Image_Preprocessing_Process.Preprocessing_Process_Start(new HImage(Halcon_Window_Display.Features_Window.DisplayImage), Select_Vision_Value.Find_Preprocessing_Process_List);
                         //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
 
                         Application.Current.Dispatcher.Invoke(() =>
@@ -1454,11 +1451,10 @@ namespace HanGao.ViewModel
                     {
                         //HImage _Image = new();
                         //_Image = Get_Image(Camera_Device_List.Camera_Diver_Model, Window_Show_Name_Enum.Features_Window, Camera_Device_List.Image_Location_UI);
-                        Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_3DModel_Process_List;
 
 
 
-                        HObjectModel3D[] _Get = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(new List<HObjectModel3D>( [  Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Clone()]).ToArray());
+                        HObjectModel3D[] _Get = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(new List<HObjectModel3D>([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Clone()]).ToArray(), Select_Vision_Value.Camera_3DModel_Process_List);
 
 
                         //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
@@ -1500,9 +1496,10 @@ namespace HanGao.ViewModel
 
 
 
+               
 
 
-                        if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0.IsInitialized()  &&
+                        if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0.IsInitialized() &&
                         Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1.IsInitialized() &&
                         Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_0.IsInitialized() &&
                         Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_1.IsInitialized()
@@ -1513,18 +1510,33 @@ namespace HanGao.ViewModel
 
 
 
-                            Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_0_3DPoint_Process_List;
+                            //Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_0_3DPoint_Process_List;
 
 
+                            (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0,
+                             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1,
+                             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0,
+                             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1) = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(
+                                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0),
+                                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1),
+                                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_0),
+                                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_1),
+                                  Select_Vision_Value.Camera_0_3DPoint_Process_List,
+                                  Select_Vision_Value.Camera_1_3DPoint_Process_List,
+                                  Select_Vision_Value.Camera_0_3DFusionImage_Process_List,
+                                  Select_Vision_Value.Camera_1_3DFusionImage_Process_List,
+                                  Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type,
+                                  Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type);
 
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0 = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(new HImage (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0));
 
-                
 
                             Application.Current.Dispatcher.Invoke(() =>
                             {
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+
                                 Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), Image_AutoPart: true);
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1), Image_AutoPart: true);
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), Image_AutoPart: true);
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
 
                             });
 
@@ -1534,57 +1546,9 @@ namespace HanGao.ViewModel
                         {
 
                         }
-                        if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1.IsInitialized())
-                        {
-
-                            Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_1_3DPoint_Process_List;
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1= Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1));
-
-                            //添加到原图调试显示
-
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_1);
-
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1), Image_AutoPart: true);
-
-                            });
-
-                        }
-                        if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_0.IsInitialized())
-                        {
-
-                            Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_0_3DFusionImage_Process_List;
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0 = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_0));
-                            //添加到原图调试显示
-
-
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_2);
-
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0),Image_AutoPart:true);
-
-                            });
-                        }
-                        if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_1.IsInitialized())
-                        {
-
-                            Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_1_3DFusionImage_Process_List;
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1 = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_1));
-
-
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_3);
-
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
-
-                            });
-                        }
-
-                        //单步模型下增加流程步骤
-                        Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep_Number++;
+               
+                        
+                    
 
 
                         User_Log_Add("图像预处理成功！", Log_Show_Window_Enum.Home);
@@ -3803,7 +3767,7 @@ namespace HanGao.ViewModel
 
 
 
-     
+
 
 
 
@@ -4382,7 +4346,7 @@ namespace HanGao.ViewModel
                                 Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_2);
                                 Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_3);
 
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window,new HImage( Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ScoreImage), Image_AutoPart: true);
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ScoreImage), Image_AutoPart: true);
                                 Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.DisparityImage), Image_AutoPart: true);
 
                                 Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ScoreImage), Image_AutoPart: true);
@@ -4470,7 +4434,7 @@ namespace HanGao.ViewModel
                                    Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_2);
                                    Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_3);
 
-                                   Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window,  new HImage( Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), Image_AutoPart: true);
+                                   Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), Image_AutoPart: true);
                                    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1), Image_AutoPart: true);
 
                                    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), Image_AutoPart: true);

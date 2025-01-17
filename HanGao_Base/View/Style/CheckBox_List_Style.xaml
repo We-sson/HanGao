@@ -40,7 +40,7 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true" />
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource 全局_按钮_深黄颜色}" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource 全局_按钮_棕色颜色}" />
                             <Setter TargetName="templateRoot" Property="BorderThickness" Value="2" />
                             <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource 全局_按钮_深蓝颜色}" />
 

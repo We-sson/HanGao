@@ -7,8 +7,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Xml.Serialization;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
@@ -156,7 +154,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
- 
+
 
 
 
@@ -179,8 +177,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                     Image_3DPoint = new HImage(_Camera_0_0.ConcatObj(_Camera_0_1));
-     
-                    H3DStereo_Results.HModel3D_Camera_3DPoint =new HObjectModel3D(_H3DStereoModel.ReconstructSurfaceStereo(Image_3DPoint));
+
+                    H3DStereo_Results.HModel3D_Camera_3DPoint = new HObjectModel3D(_H3DStereoModel.ReconstructSurfaceStereo(Image_3DPoint));
 
 
 
@@ -225,7 +223,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     if (_ParamData.Persistence)
                     {
 
-                        HObject _hObject1 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ToImage =new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "to_image_rect"));
+                        HObject _hObject1 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ToImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "to_image_rect"));
                         HObject _hObject2 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.FromImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "from_image_rect"));
                         HObject _hObject3 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.DisparityImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "disparity_image"));
                         HObject _hObject4 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ScoreImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "score_image"));
@@ -253,7 +251,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-         
+
 
 
 
@@ -330,13 +328,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         ///应用双目为成像顺序
                         H3DStereoModel_3DFusion.SetStereoModelImagePairs(0, 1);
 
-                        Set_H3DStereo_Data(H3DStereoModel_3DFusion,_ParamData);
+                        Set_H3DStereo_Data(H3DStereoModel_3DFusion, _ParamData);
 
 
 
                         Image_3DFusion = new HImage(_Camera_1_0.ConcatObj(_Camera_1_1));
-     
-                        H3DStereo_Results.HModel3D_Camera_3DFusion =new HObjectModel3D (H3DStereoModel_3DFusion.ReconstructSurfaceStereo(Image_3DFusion));
+
+                        H3DStereo_Results.HModel3D_Camera_3DFusion = new HObjectModel3D(H3DStereoModel_3DFusion.ReconstructSurfaceStereo(Image_3DFusion));
 
 
                         if (_ParamData.Persistence)
@@ -363,7 +361,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-          
+
 
             }
 
@@ -677,7 +675,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Camera_1_Parameters = new Halcon_Camera_Calibration_Parameters_Model(new HCamPar(TwoCamera_HCameraSetup.GetCameraSetupParam(1, "params")));
 
 
-                Camera_0_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期：" + Fold.CreationTime,"标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_0_Parameters.Camera_Parameter_Info_List));
+                Camera_0_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期：" + Fold.CreationTime, "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_0_Parameters.Camera_Parameter_Info_List));
                 Camera_1_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期：" + Fold.CreationTime, "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_1_Parameters.Camera_Parameter_Info_List));
 
 
@@ -753,10 +751,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HObjectModel3D HModel3D_Camera_3DPoint
         {
             get { return _HModel3D_Camera_3DPoint; }
-            set {
+            set
+            {
                 _HModel3D_Camera_3DPoint.ClearObjectModel3d();
                 _HModel3D_Camera_3DPoint.Dispose();
-                _HModel3D_Camera_3DPoint = value; 
+                _HModel3D_Camera_3DPoint = value;
             }
         }
         private HObjectModel3D _HModel3D_Camera_3DFusion = new HObjectModel3D();
@@ -764,7 +763,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HObjectModel3D HModel3D_Camera_3DFusion
         {
             get { return _HModel3D_Camera_3DFusion; }
-            set {
+            set
+            {
                 _HModel3D_Camera_3DFusion.ClearObjectModel3d();
                 _HModel3D_Camera_3DFusion.Dispose();
                 _HModel3D_Camera_3DFusion = value;
@@ -777,10 +777,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HObjectModel3D HModel3D_Camera_Unio
         {
             get { return _HModel3D_Camera_Unio; }
-            set {
+            set
+            {
                 _HModel3D_Camera_Unio.ClearObjectModel3d();
                 _HModel3D_Camera_Unio.Dispose();
-                _HModel3D_Camera_Unio = value; 
+                _HModel3D_Camera_Unio = value;
             }
         }
 
@@ -845,8 +846,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 图像处理流程设备切换
         /// </summary>
-        public bool Stereo_Preprocessing_CameraSwitch { set; get; } = true;
-
+        public H3DStereo_CameraDrives_Type_Enum H3DStereo_CameraDrives_Type { set; get; } = H3DStereo_CameraDrives_Type_Enum.Camera_0;
+      
+        
+        
         /// <summary>
         /// 重建方法。
         /// </summary>
@@ -1428,6 +1431,22 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
     }
+
+
+    /// <summary>
+    /// 三维图像类型
+    /// </summary>
+    public enum H3DStereo_CameraDrives_Type_Enum
+    {
+
+        Camera_0,
+        Camera_1,
+
+
+
+
+    }
+
 
 
     public enum H3DStereo_Work_State_Enum

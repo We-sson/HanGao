@@ -72,14 +72,57 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public ObservableCollection<Preprocessing_Process_Lsit_Model> Get_H3DStereo_Preprocessing_Process()
         {
 
-            var cameraProcessList = H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch ? (H3DStereo_ParamData.H3DStereo_Image_Type == H3DStereo_Image_Type_Enum.点云图像
-                  ? Camera_0_3DPoint_Process_List
-                  : Camera_0_3DFusionImage_Process_List)
-              : (H3DStereo_ParamData.H3DStereo_Image_Type == H3DStereo_Image_Type_Enum.点云图像
-                  ? Camera_1_3DPoint_Process_List
-                  : Camera_1_3DFusionImage_Process_List);
 
-            return cameraProcessList ?? Find_Preprocessing_Process_List;
+
+            switch (H3DStereo_ParamData.H3DStereo_CameraDrives_Type)
+            {
+                case H3DStereo_CameraDrives_Type_Enum.Camera_0:
+
+                    switch (H3DStereo_ParamData.H3DStereo_Image_Type)
+                    {
+                        case H3DStereo_Image_Type_Enum.点云图像:
+
+                            return Camera_0_3DPoint_Process_List;
+                        case H3DStereo_Image_Type_Enum.深度图像:
+
+                            return Camera_0_3DFusionImage_Process_List;
+                        default: return Find_Preprocessing_Process_List;
+
+
+
+                    }
+
+
+                    
+                case H3DStereo_CameraDrives_Type_Enum.Camera_1:
+                    switch (H3DStereo_ParamData.H3DStereo_Image_Type)
+                    {
+                        case H3DStereo_Image_Type_Enum.点云图像:
+
+                            return Camera_1_3DPoint_Process_List;
+                        case H3DStereo_Image_Type_Enum.深度图像:
+
+                            return Camera_1_3DFusionImage_Process_List;
+                        default: return Find_Preprocessing_Process_List;
+
+
+                    }
+
+
+      
+
+                default: return Find_Preprocessing_Process_List;
+            }
+
+
+            //var cameraProcessList =( H3DStereo_ParamData.Stereo_Preprocessing_CameraSwitch) ? (H3DStereo_ParamData.H3DStereo_Image_Type == H3DStereo_Image_Type_Enum.点云图像
+            //      ? Camera_0_3DPoint_Process_List
+            //      : Camera_0_3DFusionImage_Process_List)
+            //  : (H3DStereo_ParamData.H3DStereo_Image_Type == H3DStereo_Image_Type_Enum.点云图像
+            //      ? Camera_1_3DPoint_Process_List
+            //      : Camera_1_3DFusionImage_Process_List);
+
+            //return cameraProcessList ?? Find_Preprocessing_Process_List;
 
         }
 
