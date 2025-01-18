@@ -1271,7 +1271,7 @@ namespace HanGao.ViewModel
 
                 try
                 {
-
+                   
                     Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_List = Select_Vision_Value.Camera_3DModel_Process_List;
                     Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Work(_Enum);
 

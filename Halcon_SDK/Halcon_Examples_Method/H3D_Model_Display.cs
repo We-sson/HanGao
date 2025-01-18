@@ -49,7 +49,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
            {
                While_ResetEvent.Set();
                //属性修改设置显示
-               if (hv_ObjectModel3D.Count > 0)
+               if (hv_AllInstances > 0)
                {
 
                    Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e!);
@@ -62,89 +62,99 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
-            hv_ObjectModel3D.CollectionChanged += (e, o) =>
-            {
-                lock (e!)
-                {
-
-                    While_ResetEvent.Set();
-
-                    //类型转换
-                    ObservableCollection<HObjectModel3D> _List_Model = (e as ObservableCollection<HObjectModel3D>)!;
-
-                    switch (o.Action)
-                    {
-                        case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-
-                            //添加位置
-                            try
-                            {
-
-                                hv_AllInstances = hv_Scene3D.AddScene3dInstance(_List_Model.Last(), hv_PoseIn);
-                            }
-                            catch (Exception)
-                            {
-                                H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型失败 !");
-                                break;
-
-                            }
-
-                            H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型成功 !");
-                            //继续中心位置
-
-              
+            //hv_ObjectModel3D.CollectionChanged += (e, o) =>
+            //{
+            //    Task.Run(() =>
+            //    {
 
 
 
-                            break;
-                        case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+            //        lock (e)
+            //        {
 
-                            break;
-                        case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
-                            break;
-                        case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
-                            break;
-                        case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+            //            While_ResetEvent.Set();
+
+            //            //类型转换
+            //            ObservableCollection<HObjectModel3D> _List_Model = (e as ObservableCollection<HObjectModel3D>)!;
 
 
 
-                            for (int i = 0; i <= hv_AllInstances; i++)
-                            {
-                                try
-                                {
-                                    hv_Scene3D.RemoveScene3dInstance(i);
 
-                                }
-                                catch (Exception)
-                                {
-                                    H3D_Display_Message_delegate?.Invoke("移除" + i + "号模型失败!");
+            //            switch (o.Action)
+            //            {
+            //                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
 
-                                    break;
-                                }
+            //                    //添加位置
+            //                    try
+            //                    {
 
-                                H3D_Display_Message_delegate?.Invoke("移除" + i + "号模型成功!");
+            //                        hv_AllInstances = hv_Scene3D.AddScene3dInstance(_List_Model.Last(), hv_PoseIn);
+            //                    }
+            //                    catch (Exception)
+            //                    {
+            //                        H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型失败 !");
+            //                        break;
 
-                            }
+            //                    }
 
-                            // Event_Int((int)_Window.Halcon_UserContol.ActualWidth, (int)_Window.Halcon_UserContol.ActualHeight);
+            //                    H3D_Display_Message_delegate?.Invoke("增加" + hv_AllInstances + "号模型成功 !");
+            //                    //继续中心位置
 
-                            break;
-                    }
 
-                    //更新显示属性
-                    Set_Scene3D_Param(hv_Scene3D, Scene3D_Param);
-                    Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
-                    ////HOperatorSet.WaitSeconds(0.5);
-                    //While_ResetEvent.Set();
-                    //HOperatorSet.WaitSeconds(0.05);
-                    //While_ResetEvent.Reset();
 
-                    Thread.Sleep(50);
-                    While_ResetEvent.Reset();
 
-                }
 
-            };
+            //                    break;
+            //                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+
+            //                    break;
+            //                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+            //                    break;
+            //                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+            //                    break;
+            //                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+
+
+
+            //                    for (int i = 0; i <= hv_AllInstances; i++)
+            //                    {
+            //                        try
+            //                        {
+            //                            hv_Scene3D.RemoveScene3dInstance(i);
+
+            //                        }
+            //                        catch (Exception)
+            //                        {
+            //                            H3D_Display_Message_delegate?.Invoke("移除" + i + "号模型失败!");
+
+            //                            break;
+            //                        }
+
+            //                        H3D_Display_Message_delegate?.Invoke("移除" + i + "号模型成功!");
+
+            //                    }
+
+            //                    // Event_Int((int)_Window.Halcon_UserContol.ActualWidth, (int)_Window.Halcon_UserContol.ActualHeight);
+
+            //                    break;
+            //            }
+
+            //            ////更新显示属性
+            //            //Set_Scene3D_Param(hv_Scene3D, Scene3D_Param);
+            //            //Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
+            //            ////HOperatorSet.WaitSeconds(0.5);
+            //            //While_ResetEvent.Set();
+            //            //HOperatorSet.WaitSeconds(0.05);
+            //            //While_ResetEvent.Reset();
+
+            //            Thread.Sleep(50);
+            //            While_ResetEvent.Reset();
+            //        }
+
+            //    });
+
+
+            //};
 
             //初始化显示
             Display_Ini();
@@ -384,7 +394,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 三维场景模型序号
         /// </summary>
-        private int hv_AllInstances { set; get; } = -1;
+        private int hv_AllInstances { set; get; } = 0;
 
 
 
@@ -505,7 +515,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 While_ResetEvent.Set();
 
                 //e.Handled = true;
-                lock (While_ResetEvent)
+                lock (e)
                 {
 
 
@@ -588,7 +598,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //设置模型显示位置
-                        for (int hv_i = 0; hv_i < hv_ObjectModel3D.Count; hv_i++)
+                        for (int hv_i = 0; hv_i < hv_AllInstances; hv_i++)
                         {
 
                             //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
@@ -657,7 +667,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 While_ResetEvent.Set();
 
                 //e.Handled = true;
-                lock (hv_PoseIn)
+                lock (e)
                 {
           
                     //局部变量初始化
@@ -725,7 +735,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //设置模型显示位置
-                        for (int hv_i = 0; hv_i < hv_ObjectModel3D.Count; hv_i++)
+                        for (int hv_i = 0; hv_i < hv_AllInstances; hv_i++)
                         {
 
                             //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
@@ -1261,7 +1271,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
             Task.Run(() =>
-            {
+            { 
 
 
 
@@ -1357,9 +1367,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
+                H3D_Display_Message_delegate?.Invoke("三维居中计算失败! 原因:" + e.Message);
 
             }
             finally
@@ -1382,16 +1393,24 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         public void SetDisplay3DModel(Display3DModel_Model _3DModel)
         {
 
-            lock (this)
+            lock (_3DModel)
             {
 
+                While_ResetEvent.Set();
 
                 //foreach (var _mod in hv_ObjectModel3D)
                 //{
                 //    _mod.Dispose();
                 //}
 
-                hv_ObjectModel3D.Clear();
+                for (int i = 0; i < hv_AllInstances; i++)
+                {
+                    hv_Scene3D.RemoveScene3dInstance(i);
+
+                }
+
+
+                hv_ObjectModel3D.Clear ();
 
                 //设置可视化视角
                 if (_3DModel._PoseIn != null)
@@ -1402,11 +1421,18 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 foreach (var _model in _3DModel._ObjectModel3D)
                 {
+                    hv_AllInstances = hv_Scene3D.AddScene3dInstance(_model, hv_PoseIn);
+
                     hv_ObjectModel3D.Add(_model);
                 }
 
 
-                While_ResetEvent.Set();
+
+
+                //更新显示属性
+                Set_Scene3D_Param(hv_Scene3D, Scene3D_Param);
+                Set_Scene3D_Instance_Param(hv_Scene3D, Scene3D_Instance);
+
                 //HOperatorSet.WaitSeconds(0.5);
                 Thread.Sleep(50);
                 //HOperatorSet.WaitSeconds(0.05);

@@ -197,7 +197,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-    
+
             ///流程状态复位
             _Preprocessing_Process_List.ToList().ForEach(list => list.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Int);
 
@@ -209,39 +209,28 @@ namespace Halcon_SDK_DLL.Halcon_Method
             {
                 //开始单个处理时间
                 DateTime startTime = DateTime.Now;
-                item.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Runing;
 
 
 
-                try
+
+                if (IsSingleStep && IsSingleStep_Number > _Preprocessing_Process_List.Count - 1)
+                {
+                    IsSingleStep_Number = 0;
+                    item.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Int;
+
+                }
+
+
+                if (IsSingleStep && item.Method_Num > IsSingleStep_Number)
                 {
 
 
-                    if (IsSingleStep &&  item.Method_Num > IsSingleStep_Number)
-                    {
-
-                        if (IsSingleStep_Number > _Preprocessing_Process_List.Count - 1)
-                        {
-                            IsSingleStep_Number = 0;
-                            item.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Int;
-
-                        }
-                        break;
-                    }
-
-                    _OldImage = item.Get_23DResults_Method(_OldImage);
+                    break;
                 }
-                catch (Exception e)
-                {
-                    item.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Error;
 
-                    throw new Exception($"流程:{item.Preprocessing_Process_2DModel_Method}执行错误！原因：{e.Message}");
-                }
-                finally
-                {
+                _OldImage = item.Get_23DResults_Method(_OldImage);
 
-                    item.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.End;
-                }
+
 
 
 
@@ -297,7 +286,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                                 _OldImage2 = Preprocessing_Process_Start(_OldImage2, _List2);
 
                                 break;
-              
+
                         }
 
                         break;
@@ -316,7 +305,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         }
                         break;
-   
+
                 }
 
 
@@ -327,13 +316,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-            _OldImage1 = Preprocessing_Process_Start(_OldImage1, _List1);
-            _OldImage2 = Preprocessing_Process_Start(_OldImage2, _List2);
+                _OldImage1 = Preprocessing_Process_Start(_OldImage1, _List1);
+                _OldImage2 = Preprocessing_Process_Start(_OldImage2, _List2);
 
 
 
-            _OldImage3 = Preprocessing_Process_Start(_OldImage3, _List3);
-            _OldImage4 = Preprocessing_Process_Start(_OldImage4, _List4);
+                _OldImage3 = Preprocessing_Process_Start(_OldImage3, _List3);
+                _OldImage4 = Preprocessing_Process_Start(_OldImage4, _List4);
 
 
             }
@@ -365,6 +354,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
 
+            ///流程状态复位
+            _Preprocessing_Process_List.ToList().ForEach(list => list.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Int);
+
 
             //计算总时间处理
             DateTime AllstartTime = DateTime.Now;
@@ -376,20 +368,40 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 //开始单个处理时间
                 DateTime startTime = DateTime.Now;
 
-                item.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Runing;
+
+
+                if (IsSingleStep && IsSingleStep_Number > _Preprocessing_Process_List.Count - 1)
+                {
+                    IsSingleStep_Number = 0;
+                    item.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Int;
+
+                }
+
+
+                if (IsSingleStep && item.Method_Num > IsSingleStep_Number)
+                {
+
+
+                    break;
+                }
+
+
 
                 _OldModel = item.Get_23DResults_Method(_OldModel);
 
 
-                item.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.End;
-
-                //Get_Preprocessing_Method(item.Image_Preprocessing_Process_Method, item.V_1, item.V_2, item.V_3, item.V_4, item.V_5, item.E_1, item.E_2, item.E_3, item.E_4, item.E_5).Invoke();
-
+            
                 // 计算时间差
                 item.Method_Run_Time = (DateTime.Now - startTime).Milliseconds;
             }
 
 
+
+            if (IsSingleStep)
+            {
+                IsSingleStep_Number++;
+
+            }
 
             Preprocessing_Process_List_RunTime = (DateTime.Now - AllstartTime).Milliseconds;
 
@@ -569,22 +581,56 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-            return Preprocessing_Process_3DModel_Method switch
+            Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Runing;
+
+            try
             {
-                H3DObjectModel_Features_Enum.ConnectionObjectModel3d => ConnectionObjectModel3d?.Get_Results(_HObjectModel3D),
-                H3DObjectModel_Features_Enum.SelectObjectModel3d => SelectObjectModel3d?.Get_Results(_HObjectModel3D),
-                H3DObjectModel_Features_Enum.SampleObjectModel3d => SampleObjectModel3d?.Get_Results(_HObjectModel3D),
-                H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d => SurfaceNormalsObjectModel3d?.Get_Results(_HObjectModel3D),
-                H3DObjectModel_Features_Enum.SmoothObjectModel3d => SmoothObjectModel3d?.Get_Results(_HObjectModel3D),
-                H3DObjectModel_Features_Enum.PrepareObjectModel3d => PrepareObjectModel3d?.Get_Results(_HObjectModel3D),
-                H3DObjectModel_Features_Enum.TriangulateObjectModel3d => TriangulateObjectModel3d?.Get_Results(_HObjectModel3D),
-
-                _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_3DModel_Method)),// 处理默认情况，或者根据需要抛出异常
-            } ?? throw new ArgumentException("预处理过程错误");
 
 
 
+                HObjectModel3D[] Result ;
 
+                switch (Preprocessing_Process_3DModel_Method)
+                {
+                    case H3DObjectModel_Features_Enum.ConnectionObjectModel3d:
+
+                        Result = ConnectionObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
+                        break;
+                    case H3DObjectModel_Features_Enum.SelectObjectModel3d:
+                        Result = SelectObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
+                        break;
+                    case H3DObjectModel_Features_Enum.SampleObjectModel3d:
+                        Result = SampleObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
+
+                        break;
+                    case H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d:
+                        Result = SurfaceNormalsObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
+                        break;
+                    case H3DObjectModel_Features_Enum.SmoothObjectModel3d:
+                        Result = SmoothObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
+                        break;
+                    case H3DObjectModel_Features_Enum.PrepareObjectModel3d:
+                        Result = PrepareObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
+                        break;
+                    case H3DObjectModel_Features_Enum.TriangulateObjectModel3d:
+                        Result = TriangulateObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
+                        break;
+                    default:
+                        throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_3DModel_Method));
+
+
+                }
+
+                Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.End;
+                return Result;
+
+
+            }
+            catch (Exception e)
+            {
+                Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Error;
+                throw new Exception($"图选处理{Preprocessing_Process_3DModel_Method}:方法错误！,原因：{e.Message}");
+            }
 
         }
 
@@ -592,22 +638,50 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HImage Get_23DResults_Method(HImage _HObjectModel2D)
         {
 
+            Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Runing;
 
-
-
-            return Preprocessing_Process_2DModel_Method switch
+            try
             {
-                Image_Preprocessing_Process_Enum.ScaleImageMax => ScaleImageMax?.Get_Results(_HObjectModel2D),
-                Image_Preprocessing_Process_Enum.MedianImage => MedianImage?.Get_Results(_HObjectModel2D),
-                Image_Preprocessing_Process_Enum.GrayClosingRect => GrayClosingRect?.Get_Results(_HObjectModel2D),
-                Image_Preprocessing_Process_Enum.GrayOpeningRect => GrayOpeningRect?.Get_Results(_HObjectModel2D),
-                Image_Preprocessing_Process_Enum.Emphasize => Emphasize?.Get_Results(_HObjectModel2D),
-                Image_Preprocessing_Process_Enum.Illuminate => Illuminate?.Get_Results(_HObjectModel2D),
-                Image_Preprocessing_Process_Enum.MedianRect => MedianRect?.Get_Results(_HObjectModel2D),
+                HImage hImage = new HImage();
 
-                _ => throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_2DModel_Method)),// 处理默认情况，或者根据需要抛出异常
-            } ?? throw new ArgumentException("预处理过程错误");
+                switch (Preprocessing_Process_2DModel_Method)
+                {
+                    case Image_Preprocessing_Process_Enum.ScaleImageMax:
 
+
+                        hImage = ScaleImageMax?.Get_Results(_HObjectModel2D) ?? _HObjectModel2D;
+                        break;
+                    case Image_Preprocessing_Process_Enum.MedianRect:
+                        hImage = MedianRect?.Get_Results(_HObjectModel2D) ?? _HObjectModel2D;
+                        break;
+                    case Image_Preprocessing_Process_Enum.GrayOpeningRect:
+                        hImage = GrayOpeningRect?.Get_Results(_HObjectModel2D) ?? _HObjectModel2D;
+                        break;
+                    case Image_Preprocessing_Process_Enum.GrayClosingRect:
+                        hImage = GrayClosingRect?.Get_Results(_HObjectModel2D) ?? _HObjectModel2D;
+                        break;
+                    case Image_Preprocessing_Process_Enum.MedianImage:
+                        hImage = MedianImage?.Get_Results(_HObjectModel2D) ?? _HObjectModel2D;
+                        break;
+                    case Image_Preprocessing_Process_Enum.Illuminate:
+                        hImage = Illuminate?.Get_Results(_HObjectModel2D) ?? _HObjectModel2D;
+                        break;
+                    case Image_Preprocessing_Process_Enum.Emphasize:
+                        hImage = Emphasize?.Get_Results(_HObjectModel2D) ?? _HObjectModel2D;
+                        break;
+                    default:
+                        throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_2DModel_Method));
+                }
+
+                Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.End;
+
+                return hImage;
+            }
+            catch (Exception e)
+            {
+                Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Error;
+                throw new Exception($"图选处理{Preprocessing_Process_2DModel_Method}:方法错误！,原因：{e.Message}");
+            }
 
 
 

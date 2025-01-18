@@ -8713,8 +8713,24 @@ PassEventArgsToCommand="True" />
                                                                                 Height=" 40"
                                                                                 Margin="0"
                                                                                 VerticalAlignment="Center"
-                                                                                Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                                                                CornerRadius=" 4" />
+                                                                                CornerRadius=" 4">
+                                                                            <Border.Style>
+                                                                                <Style TargetType="Border">
+                                                                                    <Setter Property="Background" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_Run_State}" Value="{x:Static Process_Enum:Preprocessing_Process_Run_State_Enum.Runing}">
+                                                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_深青颜色}" />
+                                                                                        </DataTrigger>
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_Run_State}" Value="{x:Static Process_Enum:Preprocessing_Process_Run_State_Enum.End}">
+                                                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_黑绿颜色}" />
+                                                                                        </DataTrigger>
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_Run_State}" Value="{x:Static Process_Enum:Preprocessing_Process_Run_State_Enum.Error}">
+                                                                                            <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Border.Style>
+                                                                        </Border>
 
                                                                         <TextBox Grid.Column=" 0"
                                                                                  Text="{Binding Method_Num, StringFormat=\{0\} ：}"
@@ -12874,10 +12890,11 @@ PassEventArgsToCommand="True" />
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
-                                                        Margin="0,0,5,0"
-                                                        Background="{DynamicResource 全局_按钮_绿颜色}"
-                                                        FontSize=" 26">
+                                                <CheckBox Style="{DynamicResource CheckBoxStyle1}" Grid.Column=" 1"
+                                                          IsChecked="{Binding Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep}"
+                                                          Margin="0,0,5,0"
+                                                          Background="{DynamicResource 全局_按钮_绿颜色}"
+                                                          FontSize=" 26">
                                                     <TextBlock Text="单步"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
@@ -12893,7 +12910,7 @@ PassEventArgsToCommand="True" />
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>-->
-                                                </Button>
+                                                </CheckBox>
 
                                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
                                                         Margin="0,0,5,0"
