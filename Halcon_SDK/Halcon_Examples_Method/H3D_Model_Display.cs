@@ -598,7 +598,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //设置模型显示位置
-                        for (int hv_i = 0; hv_i < hv_AllInstances; hv_i++)
+                        for (int hv_i = 0; hv_i < hv_AllInstances+1; hv_i++)
                         {
 
                             //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
@@ -735,7 +735,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //设置模型显示位置
-                        for (int hv_i = 0; hv_i < hv_AllInstances; hv_i++)
+                        for (int hv_i = 0; hv_i < hv_AllInstances+1; hv_i++)
                         {
 
                             //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
@@ -829,7 +829,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                     _Window.Halcon_UserContol.MouseMove += Calibration_3D_Translate_MouseMove;
                 }
-
+                GC.Collect();
             }
 
 
@@ -1403,12 +1403,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //    _mod.Dispose();
                 //}
 
-                for (int i = 0; i < hv_AllInstances; i++)
+                for (int i = 0; i < hv_ObjectModel3D .Count; i++)
                 {
                     hv_Scene3D.RemoveScene3dInstance(i);
 
                 }
-
 
                 hv_ObjectModel3D.Clear ();
 
