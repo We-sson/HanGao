@@ -1683,6 +1683,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         PrepareObjectModel3d,
         [Description("三角化3D模型_Triangulate")]
         TriangulateObjectModel3d
+
     }
 
 

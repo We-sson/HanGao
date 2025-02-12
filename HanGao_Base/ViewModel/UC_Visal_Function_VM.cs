@@ -4396,6 +4396,104 @@ namespace HanGao.ViewModel
             });
         }
 
+        /// <summary>
+        /// 检查
+        /// </summary>
+        public ICommand Check_SurfaceStereo_XYZMap_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+                //bool _State = false;
+                Task.Run(() =>
+                {
+
+
+                    try
+                    {
+
+
+                        //Camera_Device_List.Select_Camera.Connect_Camera();
+                        //Select_Vision_Value.Camera_Devices_2D3D_Switch.Throw("请切换到3D相机模式下进行操作！").IfTrue();
+                        //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.ThrowIfNull("设备配置文件未选择！请检查文件。");
+                      
+                        Halcon_3DStereoModel.H3DStereo_Results.GetModel3D_XYZMap(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.HCamPar,new Point_Model());
+
+
+
+
+                        //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State.Throw("配置文件相机0号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Run);
+                        // Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State.Throw("配置文件相机1号未准备就绪！请检查硬件。").IfNotEquals(TwoCamera_Drive_State_Enum.Run);
+
+
+
+                        //Camera_Device_List.Select_3DCamera_0 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
+                        //Camera_Device_List.Select_3DCamera_1 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
+
+
+                        var Now = DateTime.Now;
+
+
+                        if (Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image.IsInitialized() &&
+                        Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0.IsInitialized() )
+        
+                        {
+
+
+
+                            //HImage Check_Results = H3DStereo_Results.HModel3D_XYZ_Image.ConcatObj(H3DStereo_Results.Image_3DFusion);
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+
+                    
+                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_2);
+                          
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), Image_AutoPart: true);
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
+
+
+                            });
+
+
+                        }
+                        else
+                        {
+                            User_Log_Add("有相机图像未采集！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                        }
+
+
+
+
+                        User_Log_Add($"3D点云生成时间：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
+
+
+
+                        //User_Log_Add("生成3D点云成功！", Log_Show_Window_Enum.Home);
+
+
+
+
+                        //Camera_Device_List.Select_3DCamera_0.Close_Camera();
+                        //Camera_Device_List.Select_3DCamera_1.Close_Camera();
+
+
+
+                        //User_Log_Add("断开3D相机硬件成功！", Log_Show_Window_Enum.Home);
+
+                    }
+                    catch (Exception _e)
+                    {
+
+
+                        //Camera_Device_List.Select_3DCamera_0?.Close_Camera();
+                        //Camera_Device_List.Select_3DCamera_1?.Close_Camera();
+
+                        User_Log_Add("连接3D相机硬件失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    }
+                });
+            });
+        }
 
 
         /// <summary>

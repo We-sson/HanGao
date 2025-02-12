@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
+using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Halcon_Method
@@ -744,9 +745,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-
-
-        private HObjectModel3D _HModel3D_Camera_3DPoint = new HObjectModel3D();
+        
+        HObjectModel3D _HModel3D_Camera_3DPoint = new HObjectModel3D();
 
         public HObjectModel3D HModel3D_Camera_3DPoint
         {
@@ -787,7 +787,25 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+        public HImage GetModel3D_XYZMap(HCamPar _Camera_Par, Point_Model _Pose )
+        {
+            HImage _Rest = new HImage();
 
+            HModel3D_Camera_Unio.IsInitialized().Throw("三维模型未生成。请生成后重试！").IfFalse();
+
+           HTuple T= HModel3D_Camera_Unio.GetObjectModel3dParams("has_points");
+           HTuple T1= HModel3D_Camera_Unio.GetObjectModel3dParams("has_point_normals");
+           HTuple T2= HModel3D_Camera_Unio.GetObjectModel3dParams("has_triangles");
+           HTuple T3= HModel3D_Camera_Unio.GetObjectModel3dParams("has_polygons");
+           HTuple T4= HModel3D_Camera_Unio.GetObjectModel3dParams("has_lines");
+           HTuple T5= HModel3D_Camera_Unio.GetObjectModel3dParams("has_xyz_mapping");
+
+            HImage _x = HModel3D_Camera_Unio.ObjectModel3dToXyz(out HImage _y, out HImage _z, "cartesian_faces", _Camera_Par, _Pose.HPose);
+
+
+            HModel3D_XYZ_Image = _x.Compose3(_y, _z);
+            return _Rest;
+        }
 
 
 
