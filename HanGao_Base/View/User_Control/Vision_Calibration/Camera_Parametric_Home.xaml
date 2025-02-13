@@ -9,7 +9,6 @@
         xmlns:MVS_Enum="clr-namespace:MVS_SDK_Base.Model;assembly=MVS_SDK"
         xmlns:Openfile="clr-namespace:HanGao.View.User_Control.OpenFile"
         xmlns:UC_Working="clr-namespace:HanGao.View.User_Control"
-        xmlns:VTK="clr-namespace:Kitware.VTK;assembly=Kitware.VTK"
         xmlns:Vision_control="clr-namespace:HanGao.View.User_Control.Vision_Control"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"

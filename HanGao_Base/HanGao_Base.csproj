@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>HanGao</RootNamespace>
     <AssemblyName>HanGao</AssemblyName>
@@ -88,17 +88,8 @@
     <Page Remove="Ps_UI\**" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="halcondotnet">
-      <HintPath>..\Halcon_SDK\halcondotnet.dll</HintPath>
-    </Reference>
-    <Reference Include="hdevenginedotnet">
-      <HintPath>..\Halcon_SDK\hdevenginedotnet.dll</HintPath>
-    </Reference>
     <Reference Include="Kitware.mummy.Runtime">
       <HintPath>..\VTK_3DLibrary\DLL\Kitware.mummy.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Kitware.VTK">
-      <HintPath>..\VTK_3DLibrary\DLL\Kitware.VTK.dll</HintPath>
     </Reference>
     <Reference Include="MvCamCtrl.Net">
       <HintPath>..\MVS_SDK\MvCamCtrl.Net.dll</HintPath>
@@ -271,6 +262,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="MVTec.HalconDotNet-Windows" Version="24111.0.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="System.ComponentModel.Composition" Version="9.0.0" />
     <PackageReference Include="Throw" Version="1.4.0" />
@@ -329,7 +321,6 @@
     <ProjectReference Include="..\MVS_SDK\MVS_SDK.csproj" />
     <ProjectReference Include="..\Roboto_Socket_Library\Roboto_Socket_Library.csproj" />
     <ProjectReference Include="..\TCP_Modbus\TCP_Modbus.csproj" />
-    <ProjectReference Include="..\VTK_3DLibrary\VTK_3DLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Model\Class1.cs" />
@@ -366,6 +357,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
+    <AnalysisLevel>preview</AnalysisLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>embedded</DebugType>

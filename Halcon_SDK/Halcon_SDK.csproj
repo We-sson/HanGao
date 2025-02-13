@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Halcon_SDK_DLL</RootNamespace>
     <AssemblyName>Halcon_SDK_DLL</AssemblyName>
@@ -30,9 +30,13 @@
     <NoWarn>1701;1702;IDE1006</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="FakesAssemblies\**" />
     <Compile Remove="lib\**" />
+    <EmbeddedResource Remove="FakesAssemblies\**" />
     <EmbeddedResource Remove="lib\**" />
+    <None Remove="FakesAssemblies\**" />
     <None Remove="lib\**" />
+    <Page Remove="FakesAssemblies\**" />
     <Page Remove="lib\**" />
   </ItemGroup>
   <ItemGroup>
@@ -55,19 +59,13 @@
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
+    <PackageReference Include="Microsoft.QualityTools.Testing.Fakes" Version="17.5.0-beta.23060.1" />
+    <PackageReference Include="MVTec.HalconDotNet-Windows" Version="24111.0.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="Throw" Version="1.4.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="halcondotnet">
-      <HintPath>halcondotnet.dll</HintPath>
-    </Reference>
-    <Reference Include="hdevenginedotnet">
-      <HintPath>hdevenginedotnet.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Update="Calibration_File\-.csm">
@@ -118,5 +116,8 @@
     <None Update="hcanvas.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
   </ItemGroup>
 </Project>

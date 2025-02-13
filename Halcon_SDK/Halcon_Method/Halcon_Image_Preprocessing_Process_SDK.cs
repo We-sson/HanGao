@@ -1189,10 +1189,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                     case SampleObjectModel3d_Method_Enum.accurate:
-                        return HObjectModel3D.SampleObjectModel3d(_Model3D, Method.ToString(), SampleDistance, new HTuple([nameof(min_num_points)]), new HTuple([min_num_points]));
+                        return HObjectModel3D.SampleObjectModel3d(_Model3D, Method.ToString(), SampleDistance, new HTuple(nameof(min_num_points)), new HTuple(min_num_points));
 
                     case SampleObjectModel3d_Method_Enum.accurate_use_normals:
-                        return HObjectModel3D.SampleObjectModel3d(_Model3D, Method.ToString(), SampleDistance, new HTuple([nameof(max_angle_diff), nameof(min_num_points)]), new HTuple([max_angle_diff, min_num_points]));
+                        return HObjectModel3D.SampleObjectModel3d(_Model3D, Method.ToString(), SampleDistance, new HTuple(nameof(max_angle_diff), nameof(min_num_points)), new HTuple(max_angle_diff, min_num_points));
 
 
 
@@ -1247,16 +1247,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             return HObjectModel3D.SurfaceNormalsObjectModel3d(
                       _Model3D,
                       Method.ToString(),
-                      new HTuple([nameof(mls_kNN), nameof(mls_abs_sigma), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
-                      new HTuple([mls_kNN, mls_abs_sigma, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()]));
+                      new HTuple(nameof(mls_kNN), nameof(mls_abs_sigma), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)),
+                      new HTuple(mls_kNN, mls_abs_sigma, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()));
                         }
                         else
                         {
                             return HObjectModel3D.SurfaceNormalsObjectModel3d(
                       _Model3D,
                       Method.ToString(),
-                      new HTuple([nameof(mls_kNN), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
-                      new HTuple([mls_kNN, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()]));
+                      new HTuple(nameof(mls_kNN), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)),
+                      new HTuple(mls_kNN, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()));
 
                         }
 
@@ -1326,8 +1326,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             return HObjectModel3D.SmoothObjectModel3d(
                                 _Model3D,
                                 Method.ToString().ToLower(),
-                                new HTuple([nameof(mls_kNN), nameof(mls_abs_sigma), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
-                                new HTuple([mls_kNN, mls_abs_sigma, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()]));
+                                new HTuple(nameof(mls_kNN), nameof(mls_abs_sigma), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)),
+                                new HTuple(mls_kNN, mls_abs_sigma, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()));
 
                         }
                         else
@@ -1335,8 +1335,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                             return HObjectModel3D.SmoothObjectModel3d(
                         _Model3D,
                         Method.ToString().ToLower(),
-                        new HTuple([nameof(mls_kNN), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)]),
-                        new HTuple([mls_kNN, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()]));
+                        new HTuple(nameof(mls_kNN), nameof(mls_order), nameof(mls_relative_sigma), nameof(mls_force_inwards)),
+                        new HTuple(mls_kNN, mls_order, mls_relative_sigma, mls_force_inwards.ToString().ToLower()));
                         }
 
                     case SmoothObjectModel3d_Method_Enum.xyz_mapping or SmoothObjectModel3d_Method_Enum.xyz_mapping_compute_normals:
@@ -1344,8 +1344,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         return HObjectModel3D.SmoothObjectModel3d(
                             _Model3D,
                             Method.ToString().ToLower(),
-                            new HTuple([nameof(xyz_mapping_filter), nameof(xyz_mapping_mask_width)]),
-                            new HTuple([xyz_mapping_filter.ToString(), xyz_mapping_mask_width]));
+                            new HTuple(nameof(xyz_mapping_filter), nameof(xyz_mapping_mask_width)),
+                            new HTuple(xyz_mapping_filter.ToString(), xyz_mapping_mask_width));
 
                     default: throw new ArgumentException("参数错误！");
 
@@ -1418,8 +1418,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     _Model3D,
                    Purpose.ToString().ToLower(),
                    overwriteData.ToString().ToLower(),
-                   new HTuple([nameof(max_area_holes)]),
-                   new HTuple([max_area_holes]));
+                   new HTuple(nameof(max_area_holes)),
+                   new HTuple(max_area_holes));
                     break;
                 case PrepareObjectModel3d_PurPose_Enum.distance_computation:
 
@@ -1427,8 +1427,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                       _Model3D,
                      Purpose.ToString().ToLower(),
                      overwriteData.ToString().ToLower(),
-                     new HTuple([nameof(distance_to), nameof(method), nameof(max_distance), nameof(sampling_dist_rel), nameof(sampling_dist_abs)]),
-                     new HTuple([distance_to.ToString(), method.GetStringValue(), max_distance, sampling_dist_rel, sampling_dist_abs]));
+                     new HTuple(nameof(distance_to), nameof(method), nameof(max_distance), nameof(sampling_dist_rel), nameof(sampling_dist_abs)),
+                     new HTuple(distance_to.ToString(), method.GetStringValue(), max_distance, sampling_dist_rel, sampling_dist_abs));
 
                     break;
                 case PrepareObjectModel3d_PurPose_Enum.gen_xyz_mapping:
@@ -1437,8 +1437,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         _Model3D,
                        Purpose.ToString().ToLower(),
                        overwriteData.ToString().ToLower(),
-                       new HTuple([nameof(xyz_map_width)]),
-                       new HTuple([xyz_map_width]));
+                       new HTuple(nameof(xyz_map_width)),
+                       new HTuple(xyz_map_width));
 
                     break;
 
@@ -1540,7 +1540,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         return HObjectModel3D.TriangulateObjectModel3d(
                          _Model3D,
                          Method.ToString().ToLower(),
-                          new HTuple([
+                          new HTuple(
                           nameof(greedy_kNN),
                       nameof(greedy_radius_type),
                       nameof(greedy_radius_value),
@@ -1558,8 +1558,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                       nameof(greedy_suppress_timeout_error),
                       nameof(greedy_output_all_points),
                       nameof(information)
-                          ]),
-                          new HTuple([
+                          ),
+                          new HTuple(
                           greedy_kNN,
                       greedy_radius_type.ToString().ToLower(),
                       greedy_radius_value,
@@ -1576,7 +1576,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                       greedy_timeout.ToString().ToLower(),
                       greedy_suppress_timeout_error.ToString().ToLower(),
                       greedy_output_all_points.ToString().ToLower(),
-                      information.ToString()]),
+                      information.ToString()),
                           out _information);
 
                         ;
@@ -1586,8 +1586,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         return HObjectModel3D.TriangulateObjectModel3d(
                     _Model3D,
                     Method.ToString().ToLower(),
-                    new HTuple([nameof(implicit_octree_depth), nameof(implicit_solver_depth), nameof(implicit_min_num_samples), nameof(information)]),
-                    new HTuple([implicit_octree_depth, implicit_solver_depth, implicit_min_num_samples, information.ToString()]),
+                    new HTuple(nameof(implicit_octree_depth), nameof(implicit_solver_depth), nameof(implicit_min_num_samples), nameof(information)),
+                    new HTuple(implicit_octree_depth, implicit_solver_depth, implicit_min_num_samples, information.ToString()),
                     out _information);
 
 
@@ -1597,8 +1597,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         return HObjectModel3D.TriangulateObjectModel3d(
                  _Model3D,
                  Method.ToString().ToLower(),
-                 new HTuple([nameof(information)]),
-                 new HTuple([information.ToString()]),
+                 new HTuple(nameof(information)),
+                 new HTuple(information.ToString()),
                  out _information);
 
 
@@ -1608,20 +1608,20 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         return HObjectModel3D.TriangulateObjectModel3d(
                          _Model3D,
                          Method.ToString().ToLower(),
-                         new HTuple([
+                         new HTuple(
                          nameof(xyz_mapping_max_area_holes),
                      nameof(xyz_mapping_max_view_angle),
                      nameof(xyz_mapping_max_view_dir_x),
                      nameof(xyz_mapping_max_view_dir_y),
                      nameof(xyz_mapping_max_view_dir_z),
-                     nameof(xyz_mapping_output_all_points)]),
-                         new HTuple([
+                     nameof(xyz_mapping_output_all_points)),
+                         new HTuple(
                          xyz_mapping_max_area_holes,
                      HTuple.TupleRand(xyz_mapping_max_view_angle),
                      Convert.ToInt32(xyz_mapping_max_view_dir_x).ToString(),
                      Convert.ToInt32(xyz_mapping_max_view_dir_y).ToString(),
                      Convert.ToInt32(xyz_mapping_max_view_dir_z).ToString(),
-                     xyz_mapping_output_all_points.ToString().ToLower()]),
+                     xyz_mapping_output_all_points.ToString().ToLower()),
                          out _information);
 
 
