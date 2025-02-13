@@ -785,26 +785,41 @@ namespace Halcon_SDK_DLL.Halcon_Method
             }
         }
 
+        private HObjectModel3D _HModel3D_Camera_Unio_XYZ = new HObjectModel3D();
+
+        public HObjectModel3D HModel3D_Camera_Unio_XYZ
+        {
+            get { return _HModel3D_Camera_Unio_XYZ; }
+            set
+            {
+                _HModel3D_Camera_Unio_XYZ.ClearObjectModel3d();
+                _HModel3D_Camera_Unio_XYZ.Dispose();
+                _HModel3D_Camera_Unio_XYZ = value;
+            }
+        }
+
+
+
 
 
         public HImage GetModel3D_XYZMap(HCamPar _Camera_Par, Point_Model _Pose )
         {
-            HImage _Rest = new HImage();
+            //HImage _Rest = new HImage();
 
-            HModel3D_Camera_Unio.IsInitialized().Throw("三维模型未生成。请生成后重试！").IfFalse();
+            HModel3D_Camera_Unio_XYZ.IsInitialized().Throw("三维模型未生成。请生成后重试！").IfFalse();
 
-           HTuple T= HModel3D_Camera_Unio.GetObjectModel3dParams("has_points");
-           HTuple T1= HModel3D_Camera_Unio.GetObjectModel3dParams("has_point_normals");
-           HTuple T2= HModel3D_Camera_Unio.GetObjectModel3dParams("has_triangles");
-           HTuple T3= HModel3D_Camera_Unio.GetObjectModel3dParams("has_polygons");
-           HTuple T4= HModel3D_Camera_Unio.GetObjectModel3dParams("has_lines");
-           HTuple T5= HModel3D_Camera_Unio.GetObjectModel3dParams("has_xyz_mapping");
+           HModel3D_Camera_Unio_XYZ.GetObjectModel3dParams("has_triangles").Throw("三维模型不含三角化参数！").IfEquals("false");
 
-            HImage _x = HModel3D_Camera_Unio.ObjectModel3dToXyz(out HImage _y, out HImage _z, "cartesian_faces", _Camera_Par, _Pose.HPose);
+
+            HModel3D_Camera_Unio_XYZ.WriteObjectModel3d("om3", "T3", new HTuple(), new HTuple());
+
+            HImage _x = HModel3D_Camera_Unio_XYZ.ObjectModel3dToXyz(out HImage _y, out HImage _z, "cartesian_faces", _Camera_Par, _Pose.HPose);
 
 
             HModel3D_XYZ_Image = _x.Compose3(_y, _z);
-            return _Rest;
+
+
+            return HModel3D_XYZ_Image;
         }
 
 

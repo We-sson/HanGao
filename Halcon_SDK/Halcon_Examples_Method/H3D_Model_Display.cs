@@ -1269,10 +1269,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             //Thread thread = new Thread(() =>
             //{
 
-
-            Task.Run(() =>
-            { 
-
+            // 创建新线程，线程内运行的代码可以替换为你的逻辑
+            Thread highPriorityThread = new Thread(() =>
+            {
 
 
                 try
@@ -1327,7 +1326,16 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_WindowHandleBuffer.Dispose();
                     hv_Scene3D.Dispose();
                 }
+
+
+
+
             });
+
+            // 设置线程优先级为最高
+            highPriorityThread.Priority = ThreadPriority.Highest;
+            highPriorityThread.Start();
+
             //});
             //thread.Name = "3DModel_Window";
             //thread.IsBackground = true;

@@ -3178,7 +3178,8 @@ namespace Halcon_SDK_DLL.Model
         XLD,
         SetDrawColor,
         Draw,
-        Path
+        Path,
+        XYZImage
     }
 
     /// <summary>

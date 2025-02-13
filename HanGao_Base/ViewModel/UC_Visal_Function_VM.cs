@@ -955,7 +955,7 @@ namespace HanGao.ViewModel
 
 
 
-                        Thread.Sleep(1000);
+                        Thread.Sleep(100);
                     }
                     catch (Exception)
                     {
@@ -1454,9 +1454,9 @@ namespace HanGao.ViewModel
 
 
 
-                        HObjectModel3D[] _Get = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(new List<HObjectModel3D>([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Clone()]).ToArray(), Select_Vision_Value.Camera_3DModel_Process_List);
+                        HObjectModel3D[] Get=  Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(new List<HObjectModel3D>([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Clone()]).ToArray(), Select_Vision_Value.Camera_3DModel_Process_List);
 
-
+                        Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ = Get[0];
                         //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
 
 
@@ -1464,7 +1464,7 @@ namespace HanGao.ViewModel
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(_Get)));
+                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ])));
 
                         });
 
@@ -3121,6 +3121,11 @@ namespace HanGao.ViewModel
             });
         }
 
+
+        /// <summary>
+        /// 鼠标移动到窗口或者图像
+        /// 
+        /// </summary>
         public ICommand GetSmartWindowControl_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
@@ -4417,7 +4422,7 @@ namespace HanGao.ViewModel
                         //Select_Vision_Value.Camera_Devices_2D3D_Switch.Throw("请切换到3D相机模式下进行操作！").IfTrue();
                         //Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.ThrowIfNull("设备配置文件未选择！请检查文件。");
                       
-                        Halcon_3DStereoModel.H3DStereo_Results.GetModel3D_XYZMap(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.HCamPar,new Point_Model());
+                        Halcon_3DStereoModel.H3DStereo_Results.GetModel3D_XYZMap(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.HCamPar,new Point_Model(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup.GetCameraSetupParam(0,"pose")));
 
 
 
@@ -4435,7 +4440,8 @@ namespace HanGao.ViewModel
 
 
                         if (Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image.IsInitialized() &&
-                        Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0.IsInitialized() )
+                        Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0.IsInitialized()&&
+                         Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0.IsInitialized())
         
                         {
 
@@ -4445,11 +4451,13 @@ namespace HanGao.ViewModel
                             Application.Current.Dispatcher.Invoke(() =>
                             {
 
-                    
+                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+
                                 Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_2);
-                          
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), Image_AutoPart: true);
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
+
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
+
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0),new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
 
 
                             });
@@ -4458,14 +4466,14 @@ namespace HanGao.ViewModel
                         }
                         else
                         {
-                            User_Log_Add("有相机图像未采集！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                            User_Log_Add("模型深度参数未生成！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                         }
 
 
 
 
-                        User_Log_Add($"3D点云生成时间：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
+                        User_Log_Add($"3D点云深度图生成时间：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
 
 
 
@@ -4703,6 +4711,76 @@ namespace HanGao.ViewModel
                         //Camera_Device_List.Select_3DCamera_1?.Close_Camera();
 
                         User_Log_Add("查看立体视差分数图像失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                    }
+                });
+            });
+        }
+
+
+        /// <summary>
+        /// 相机实时采集图像功能
+        /// </summary>
+        public ICommand SurfaceStereo_CheckResults_XYZImage_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button E = Sm.Source as Button;
+                //bool _State = false;
+                Task.Run(() =>
+                {
+
+
+                    try
+                    {
+
+
+
+
+
+
+                        if (Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image.IsInitialized() &&
+                        Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0.IsInitialized())
+
+                        {
+
+
+
+                            //HImage Check_Results = H3DStereo_Results.HModel3D_XYZ_Image.ConcatObj(H3DStereo_Results.Image_3DFusion);
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+
+                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_1);
+                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_2);
+                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_3);
+
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
+
+
+                            });
+
+
+                            User_Log_Add("查看模型XYZ深度图！", Log_Show_Window_Enum.Home);
+
+                        }
+                        else
+                        {
+                            User_Log_Add("相机采集图选或模型深度参数未生成！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+
+                        }
+
+
+
+
+                    }
+                    catch (Exception _e)
+                    {
+
+
+                        //Camera_Device_List.Select_3DCamera_0?.Close_Camera();
+                        //Camera_Device_List.Select_3DCamera_1?.Close_Camera();
+
+                        User_Log_Add("查看模型XYZ深度图失败！原因：" + _e.Message, Log_Show_Window_Enum.Home, MessageBoxImage.Error);
                     }
                 });
             });

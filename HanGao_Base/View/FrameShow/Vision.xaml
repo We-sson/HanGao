@@ -1031,6 +1031,8 @@
                                                            HKeepAspectRatio="True"
                                                            SnapsToDevicePixels="True">
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayImage}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayXYZImage}" />
+
                                 <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                 HDraw="{Binding Halcon_Window_Display.Features_Window.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                 IconicObject="{Binding Halcon_Window_Display.Features_Window.DisplayRegion}" />
@@ -1192,6 +1194,8 @@
                                                            HKeepAspectRatio="True"
                                                            SnapsToDevicePixels="True">
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window_1.DisplayImage}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window_1.DisplayXYZImage}" />
+
                                 <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window_1.SetDisplay.SetColor}"
                                                                 HDraw="{Binding Halcon_Window_Display.Features_Window_1.SetDisplay.SetDraw}"
                                                                 IconicObject="{Binding Halcon_Window_Display.Features_Window_1.DisplayRegion}" />
@@ -1253,6 +1257,8 @@
                                                            HKeepAspectRatio="True"
                                                            SnapsToDevicePixels="True">
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window_2.DisplayImage}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window_2.DisplayXYZImage}" />
+
                                 <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window_2.SetDisplay.SetColor}"
                                                                 HDraw="{Binding Halcon_Window_Display.Features_Window_2.SetDisplay.SetDraw}"
                                                                 IconicObject="{Binding Halcon_Window_Display.Features_Window_2.DisplayRegion}" />
@@ -1314,6 +1320,8 @@
                                                            HKeepAspectRatio="True"
                                                            SnapsToDevicePixels="True">
                                 <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window_3.DisplayImage}" />
+                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.Features_Window_3.DisplayXYZImage}" />
+
                                 <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.Features_Window_3.SetDisplay.SetColor}"
                                                                 HDraw="{Binding Halcon_Window_Display.Features_Window_3.SetDisplay.SetDraw}"
                                                                 IconicObject="{Binding Halcon_Window_Display.Features_Window_3.DisplayRegion}" />
@@ -8565,6 +8573,12 @@ PassEventArgsToCommand="True" />
 
                                             </Grid>
 
+                                            <Border Height=" 2"
+                                                    Margin="8,5,8,5"
+                                                    Background="{DynamicResource 全局_按钮_红颜色}"
+                                                    CornerRadius="1"
+                                                    Opacity=" 0.5" />
+
                                             <Grid Height=" 38"
                                                   Margin="0,5,0,5"
                                                   ShowGridLines="False">
@@ -8608,7 +8622,7 @@ PassEventArgsToCommand="True" />
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
 
-                                                    <TextBlock Text="模型深度图"
+                                                    <TextBlock Text="生成深度图"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -8617,18 +8631,18 @@ PassEventArgsToCommand="True" />
                                                 </Button>
 
                                                 <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
-                                                        Margin="5,0,5,0"
+                                                        Margin="5,0,0,0"
                                                         Background="{DynamicResource 全局_按钮_蓝颜色}">
 
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Click">
-                                                            <i:InvokeCommandAction Command="{Binding}"
+                                                            <i:InvokeCommandAction Command="{Binding SurfaceStereo_CheckResults_XYZImage_Comm}"
                                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                    PassEventArgsToCommand="True" />
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
 
-                                                    <TextBlock Text="校正图"
+                                                    <TextBlock Text="查看深度图"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"

@@ -58,6 +58,7 @@ namespace Halcon_SDK_DLL
         public HObject? DisplayImage { set; get; } = new HObject();
 
 
+        public HObject? DisplayXYZImage { set; get; } = new HObject();
 
 
 
@@ -917,6 +918,7 @@ namespace Halcon_SDK_DLL
         /// 鼠标当前位置控件图像
         /// </summary>
         private HImage Mouse_Pose_Image { set; get; } = new HImage();
+        private HImage Mouse_Pose_XYZImage { set; get; } = new HImage();
 
 
 
@@ -933,6 +935,88 @@ namespace Halcon_SDK_DLL
             {
 
 
+                //try
+                //{
+
+                //    if (Mouse_Pose_Image != null && Mouse_Pose_Image.IsInitialized())
+                //    {
+
+                //        Mouse_Pose_Image.GetImageSize(out int _Witch, out int _height);
+                //        if (Mouse_Pose.X <= _height && Mouse_Pose.Y <= _Witch && Mouse_Pose.X >= 0 && Mouse_Pose.Y >= 0)
+                //        {
+                //            _Mouse_Pose_Gray = Mouse_Pose_Image.GetGrayval(Mouse_Pose.X, Mouse_Pose.Y);
+
+                //        }
+                //        else
+                //        {
+                //            _Mouse_Pose_Gray = -1;
+
+                //        }
+                //    }
+                //    else
+                //    {
+                //        _Mouse_Pose_Gray = -1;
+
+                //    }
+                //    if (Mouse_Pose_XYZImage != null && Mouse_Pose_XYZImage.IsInitialized())
+                //    {
+
+                //        Mouse_Pose_XYZImage.GetImageSize(out int _Witch, out int _height);
+                //        if (Mouse_Pose.X <= _height && Mouse_Pose.Y <= _Witch && Mouse_Pose.X >= 0 && Mouse_Pose.Y >= 0)
+                //        {
+                //          Mouse_Pose_XYZImage.GetImagePointer3(out HTuple _x,out HTuple _y,out HTuple _z,out HTuple _type, out HTuple _w ,out  HTuple _h);
+
+                //        }
+                //        else
+                //        {
+                //            _Mouse_Pose_Gray = -1;
+
+                //        }
+                //    }
+                //    else
+                //    {
+                //        _Mouse_Pose_Gray = -1;
+
+                //    }
+
+
+
+                //}
+                //catch (Exception)
+                //{
+                //    _Mouse_Pose_Gray = -1;
+
+                //}
+
+                return _Mouse_Pose_Gray;
+            }
+            set { _Mouse_Pose_Gray = value; }
+        }
+
+
+        public double Mouse_Pose_X { set; get; } = -1;
+        public double Mouse_Pose_Y { set; get; } = -1;
+        public double Mouse_Pose_Z { set; get; } = -1;
+
+
+
+
+
+
+        private Point _Mouse_Pose = new Point(0, 0);
+
+        /// <summary>
+        /// 用户鼠标位置
+        /// </summary>
+        public Point Mouse_Pose
+        {
+            get { return _Mouse_Pose; }
+            set {
+
+
+
+
+
                 try
                 {
 
@@ -940,22 +1024,53 @@ namespace Halcon_SDK_DLL
                     {
 
                         Mouse_Pose_Image.GetImageSize(out int _Witch, out int _height);
-                        if (Mouse_Pose.X <= _height && Mouse_Pose.Y <= _Witch && Mouse_Pose.X >= 0 && Mouse_Pose.Y >= 0)
+                        if (value.X <= _height && value.Y <= _Witch && value.X >= 0 && value.Y >= 0)
                         {
-                            _Mouse_Pose_Gray = Mouse_Pose_Image.GetGrayval(Mouse_Pose.X, Mouse_Pose.Y);
+                            Mouse_Pose_Gray = Mouse_Pose_Image.GetGrayval(value.X, value.Y);
 
                         }
                         else
                         {
-                            _Mouse_Pose_Gray = -1;
+                            Mouse_Pose_Gray = -1;
 
                         }
                     }
                     else
                     {
-                        _Mouse_Pose_Gray = -1;
+                        Mouse_Pose_Gray = -1;
 
                     }
+                    if (Mouse_Pose_XYZImage != null && Mouse_Pose_XYZImage.IsInitialized())
+                    {
+
+                            Mouse_Pose_XYZImage.GetImagePointer3(out HTuple _x, out HTuple _y, out HTuple _z, out HTuple _type, out HTuple _Witch, out HTuple _height);
+                        //Mouse_Pose_XYZImage.GetImageSize(out int _Witch, out int _height);
+
+
+
+                        if (value.X <= _height && value.Y <= _Witch && value.X >= 0 && value.Y >= 0)
+                        {
+                            Mouse_Pose_X = new HImage(_x).GetGrayval(value.X, value.Y);
+                            Mouse_Pose_Y = new HImage(_y).GetGrayval(value.X, value.Y);
+                            Mouse_Pose_Z = new HImage(_z).GetGrayval(value.X, value.Y);
+
+                        }
+                        else
+                        {
+                            Mouse_Pose_X = -1;
+                            Mouse_Pose_Y = -1;
+                            Mouse_Pose_Z = -1;
+
+                        }
+                    }
+                    else
+                    {
+                        Mouse_Pose_X = -1;
+                        Mouse_Pose_Y = -1;
+                        Mouse_Pose_Z = -1;
+
+                    }
+
 
 
                 }
@@ -965,19 +1080,15 @@ namespace Halcon_SDK_DLL
 
                 }
 
-                return _Mouse_Pose_Gray;
+
+                _Mouse_Pose = value; 
+            
+            
+            
+            
+            
             }
-            set { _Mouse_Pose_Gray = value; }
         }
-
-
-
-        /// <summary>
-        /// 用户鼠标位置
-        /// </summary>
-        public Point Mouse_Pose { set; get; } = new Point(0, 0);
-
-
 
 
 
@@ -989,7 +1100,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         /// <param name="_window"></param>
         /// <returns></returns>
-        public HImage Get_HWindow_Image(Window_Show_Name_Enum _window)
+        public void  Get_HWindow_Image(Window_Show_Name_Enum _window)
         {
 
 
@@ -1003,6 +1114,7 @@ namespace Halcon_SDK_DLL
 
 
                         Mouse_Pose_Image = new HImage(Features_Window.DisplayImage);
+                        Mouse_Pose_XYZImage = new HImage(Features_Window.DisplayXYZImage);
                     }
 
                     break;
@@ -1011,6 +1123,8 @@ namespace Halcon_SDK_DLL
                     {
 
                         Mouse_Pose_Image = new HImage(Features_Window_1.DisplayImage);
+                        Mouse_Pose_XYZImage = new HImage(Features_Window_1.DisplayXYZImage);
+
                     }
                     break;
                 case Window_Show_Name_Enum.Features_Window_2:
@@ -1019,6 +1133,8 @@ namespace Halcon_SDK_DLL
 
 
                         Mouse_Pose_Image = new HImage(Features_Window_2.DisplayImage);
+                        Mouse_Pose_XYZImage = new HImage(Features_Window_2.DisplayXYZImage);
+
                     }
                     break;
                 case Window_Show_Name_Enum.Features_Window_3:
@@ -1026,6 +1142,8 @@ namespace Halcon_SDK_DLL
                     if (Features_Window_3.DisplayImage != null)
                     {
                         Mouse_Pose_Image = new HImage(Features_Window_3.DisplayImage);
+                        Mouse_Pose_XYZImage = new HImage(Features_Window_3.DisplayXYZImage);
+
                     }
                     break;
                 case Window_Show_Name_Enum.Features_3D_Results:
@@ -1058,7 +1176,7 @@ namespace Halcon_SDK_DLL
             }
 
 
-            return Mouse_Pose_Image;
+            //return Mouse_Pose_Image;
         }
 
 
@@ -1197,148 +1315,207 @@ namespace Halcon_SDK_DLL
             Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(0) + "-18");
         }
 
+        private  void HWindow_Clear_Dispose(Halcon_SDK _Window)
+        {
+
+            _Window.HWindow.ClearWindow();
+            _Window.DisplayImage?.Dispose();
+            _Window.DisplayXLD?.Dispose();
+            _Window.DisplayRegion?.Dispose();
+            _Window.Draw_XLD?.Dispose();
+            _Window.DisplayXYZImage?.Dispose();
+        }
+
+
         public void HWindow_Clear(Window_Show_Name_Enum _Window)
         {
             switch (_Window)
             {
                 case Window_Show_Name_Enum.Live_Window:
 
-                    Live_Window.HWindow.ClearWindow();
-                    Live_Window.DisplayImage?.Dispose();
-                    Live_Window.DisplayXLD?.Dispose();
-                    Live_Window.DisplayRegion?.Dispose();
-                    Live_Window.Draw_XLD?.Dispose();
+                    //Live_Window.HWindow.ClearWindow();
+                    //Live_Window.DisplayImage?.Dispose();
+                    //Live_Window.DisplayXLD?.Dispose();
+                    //Live_Window.DisplayRegion?.Dispose();
+                    //Live_Window.Draw_XLD?.Dispose();
+                    //Live_Window.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Live_Window);
                     break;
 
                 case Window_Show_Name_Enum.Features_Window:
-                    Features_Window.HWindow.ClearWindow();
-                    Features_Window.DisplayImage?.Dispose();
-                    Features_Window.DisplayXLD?.Dispose();
-                    Features_Window.DisplayRegion?.Dispose();
-                    Features_Window.Draw_XLD?.Dispose();
+                    //Features_Window.HWindow.ClearWindow();
+                    //Features_Window.DisplayImage?.Dispose();
+                    //Features_Window.DisplayXLD?.Dispose();
+                    //Features_Window.DisplayRegion?.Dispose();
+                    //Features_Window.Draw_XLD?.Dispose();
+                    //Features_Window.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Features_Window);
 
                     break;
                 case Window_Show_Name_Enum.Features_Window_1:
-                    Features_Window_1.HWindow.ClearWindow();
-                    Features_Window_1.DisplayImage?.Dispose();
-                    Features_Window_1.DisplayXLD?.Dispose();
-                    Features_Window_1.DisplayRegion?.Dispose();
-                    Features_Window_1.Draw_XLD?.Dispose();
+                    //Features_Window_1.HWindow.ClearWindow();
+                    //Features_Window_1.DisplayImage?.Dispose();
+                    //Features_Window_1.DisplayXLD?.Dispose();
+                    //Features_Window_1.DisplayRegion?.Dispose();
+                    //Features_Window_1.Draw_XLD?.Dispose();
+                    //Features_Window_1.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Features_Window_1);
 
                     break;
                 case Window_Show_Name_Enum.Features_Window_2:
-                    Features_Window_2.HWindow.ClearWindow();
-                    Features_Window_2.DisplayImage?.Dispose();
-                    Features_Window_2.DisplayXLD?.Dispose();
-                    Features_Window_2.DisplayRegion?.Dispose();
-                    Features_Window_2.Draw_XLD?.Dispose();
+                    //Features_Window_2.HWindow.ClearWindow();
+                    //Features_Window_2.DisplayImage?.Dispose();
+                    //Features_Window_2.DisplayXLD?.Dispose();
+                    //Features_Window_2.DisplayRegion?.Dispose();
+                    //Features_Window_2.Draw_XLD?.Dispose();
+                    //Features_Window_2.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Features_Window_2);
 
                     break;
                 case Window_Show_Name_Enum.Features_Window_3:
-                    Features_Window_3.HWindow.ClearWindow();
-                    Features_Window_3.DisplayImage?.Dispose();
-                    Features_Window_3.DisplayXLD?.Dispose();
-                    Features_Window_3.DisplayRegion?.Dispose();
-                    Features_Window_3.Draw_XLD?.Dispose();
+                    //Features_Window_3.HWindow.ClearWindow();
+                    //Features_Window_3.DisplayImage?.Dispose();
+                    //Features_Window_3.DisplayXLD?.Dispose();
+                    //Features_Window_3.DisplayRegion?.Dispose();
+                    //Features_Window_3.Draw_XLD?.Dispose();
+                    //Features_Window_3.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Features_Window_3);
 
                     break;
                 case Window_Show_Name_Enum.Results_Window_1:
-                    Results_Window_1.HWindow.ClearWindow();
-                    Results_Window_1.DisplayImage?.Dispose();
-                    Results_Window_1.DisplayXLD?.Dispose();
-                    Results_Window_1.DisplayRegion?.Dispose();
-                    Results_Window_1.Draw_XLD?.Dispose();
+                    //Results_Window_1.HWindow.ClearWindow();
+                    //Results_Window_1.DisplayImage?.Dispose();
+                    //Results_Window_1.DisplayXLD?.Dispose();
+                    //Results_Window_1.DisplayRegion?.Dispose();
+                    //Results_Window_1.Draw_XLD?.Dispose();
+                    //Results_Window_1.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Results_Window_1);
+
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_2:
-                    Results_Window_2.HWindow.ClearWindow();
-                    Results_Window_2.DisplayImage?.Dispose();
-                    Results_Window_2.DisplayXLD?.Dispose();
-                    Results_Window_2.DisplayRegion?.Dispose();
-                    Results_Window_2.Draw_XLD?.Dispose();
+                    //Results_Window_2.HWindow.ClearWindow();
+                    //Results_Window_2.DisplayImage?.Dispose();
+                    //Results_Window_2.DisplayXLD?.Dispose();
+                    //Results_Window_2.DisplayRegion?.Dispose();
+                    //Results_Window_2.Draw_XLD?.Dispose();
+                    //Results_Window_2.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Results_Window_2);
+
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_3:
-                    Results_Window_3.HWindow.ClearWindow();
-                    Results_Window_3.DisplayImage?.Dispose();
-                    Results_Window_3.DisplayXLD?.Dispose();
-                    Results_Window_3.DisplayRegion?.Dispose();
-                    Results_Window_3.Draw_XLD?.Dispose();
+                    //Results_Window_3.HWindow.ClearWindow();
+                    //Results_Window_3.DisplayImage?.Dispose();
+                    //Results_Window_3.DisplayXLD?.Dispose();
+                    //Results_Window_3.DisplayRegion?.Dispose();
+                    //Results_Window_3.Draw_XLD?.Dispose();
+                    //Results_Window_3.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Results_Window_3);
+
                     break;
 
                 case Window_Show_Name_Enum.Results_Window_4:
 
-                    Results_Window_4.HWindow.ClearWindow();
-                    Results_Window_4.DisplayImage?.Dispose();
-                    Results_Window_4.DisplayXLD?.Dispose();
-                    Results_Window_4.DisplayRegion?.Dispose();
-                    Results_Window_4.Draw_XLD?.Dispose();
+                    //Results_Window_4.HWindow.ClearWindow();
+                    //Results_Window_4.DisplayImage?.Dispose();
+                    //Results_Window_4.DisplayXLD?.Dispose();
+                    //Results_Window_4.DisplayRegion?.Dispose();
+                    //Results_Window_4.Draw_XLD?.Dispose();
+                    //Results_Window_4.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Results_Window_4);
+
                     break;
 
                 case Window_Show_Name_Enum.Calibration_Window_1:
-                    Calibration_Window_1.HWindow.ClearWindow();
-                    Calibration_Window_1.DisplayImage?.Dispose();
-                    Calibration_Window_1.DisplayXLD?.Dispose();
-                    Calibration_Window_1.DisplayRegion?.Dispose();
-                    Calibration_Window_1.Draw_XLD?.Dispose();
+                    //Calibration_Window_1.HWindow.ClearWindow();
+                    //Calibration_Window_1.DisplayImage?.Dispose();
+                    //Calibration_Window_1.DisplayXLD?.Dispose();
+                    //Calibration_Window_1.DisplayRegion?.Dispose();
+                    //Calibration_Window_1.Draw_XLD?.Dispose();
+                    //Calibration_Window_1.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Calibration_Window_1);
+
                     break;
 
                 case Window_Show_Name_Enum.Calibration_Window_2:
 
-                    Calibration_Window_2.HWindow.ClearWindow();
-                    Calibration_Window_2.DisplayImage?.Dispose();
-                    Calibration_Window_2.DisplayXLD?.Dispose();
-                    Calibration_Window_2.DisplayRegion?.Dispose();
-                    Calibration_Window_2.Draw_XLD?.Dispose();
+                    //Calibration_Window_2.HWindow.ClearWindow();
+                    //Calibration_Window_2.DisplayImage?.Dispose();
+                    //Calibration_Window_2.DisplayXLD?.Dispose();
+                    //Calibration_Window_2.DisplayRegion?.Dispose();
+                    //Calibration_Window_2.Draw_XLD?.Dispose();
+                    //Calibration_Window_2.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Calibration_Window_2);
+
                     break;
 
                 case Window_Show_Name_Enum.Calibration_3D_Results:
 
-                    Calibration_3D_Results.HWindow.ClearWindow();
-                    Calibration_3D_Results.DisplayImage?.Dispose();
-                    Calibration_3D_Results.DisplayXLD?.Dispose();
-                    Calibration_3D_Results.DisplayRegion?.Dispose();
-                    Calibration_3D_Results.Draw_XLD?.Dispose();
+                    //Calibration_3D_Results.HWindow.ClearWindow();
+                    //Calibration_3D_Results.DisplayImage?.Dispose();
+                    //Calibration_3D_Results.DisplayXLD?.Dispose();
+                    //Calibration_3D_Results.DisplayRegion?.Dispose();
+                    //Calibration_3D_Results.Draw_XLD?.Dispose();
+                    //Calibration_3D_Results.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(Calibration_3D_Results);
+
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Window_1:
-                    HandEye_Window_1.HWindow.ClearWindow();
-                    HandEye_Window_1.DisplayImage?.Dispose();
-                    HandEye_Window_1.DisplayXLD?.Dispose();
-                    HandEye_Window_1.DisplayRegion?.Dispose();
-                    HandEye_Window_1.Draw_XLD?.Dispose();
+                    //HandEye_Window_1.HWindow.ClearWindow();
+                    //HandEye_Window_1.DisplayImage?.Dispose();
+                    //HandEye_Window_1.DisplayXLD?.Dispose();
+                    //HandEye_Window_1.DisplayRegion?.Dispose();
+                    //HandEye_Window_1.Draw_XLD?.Dispose();
+                    //HandEye_Window_1.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(HandEye_Window_1);
+
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Window_2:
-                    HandEye_Window_2.HWindow.ClearWindow();
-                    HandEye_Window_2.DisplayImage?.Dispose();
-                    HandEye_Window_2.DisplayXLD?.Dispose();
-                    HandEye_Window_2.DisplayRegion?.Dispose();
-                    HandEye_Window_2.Draw_XLD?.Dispose();
+                    //HandEye_Window_2.HWindow.ClearWindow();
+                    //HandEye_Window_2.DisplayImage?.Dispose();
+                    //HandEye_Window_2.DisplayXLD?.Dispose();
+                    //HandEye_Window_2.DisplayRegion?.Dispose();
+                    //HandEye_Window_2.Draw_XLD?.Dispose();
+                    //HandEye_Window_2.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(HandEye_Window_2);
+
+
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Results_Window_1:
-                    HandEye_Results_Window_1.HWindow.ClearWindow();
-                    HandEye_Results_Window_1.DisplayImage?.Dispose();
-                    HandEye_Results_Window_1.DisplayXLD?.Dispose();
-                    HandEye_Results_Window_1.DisplayRegion?.Dispose();
-                    HandEye_Results_Window_1.Draw_XLD?.Dispose();
+                    //HandEye_Results_Window_1.HWindow.ClearWindow();
+                    //HandEye_Results_Window_1.DisplayImage?.Dispose();
+                    //HandEye_Results_Window_1.DisplayXLD?.Dispose();
+                    //HandEye_Results_Window_1.DisplayRegion?.Dispose();
+                    //HandEye_Results_Window_1.Draw_XLD?.Dispose();
+                    //HandEye_Results_Window_1.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(HandEye_Results_Window_1);
+
                     break;
 
                 case Window_Show_Name_Enum.HandEye_Results_Window_2:
-                    HandEye_Results_Window_2.HWindow.ClearWindow();
-                    HandEye_Results_Window_2.DisplayImage?.Dispose();
-                    HandEye_Results_Window_2.DisplayXLD?.Dispose();
-                    HandEye_Results_Window_2.DisplayRegion?.Dispose();
-                    HandEye_Results_Window_2.Draw_XLD?.Dispose();
+                    //HandEye_Results_Window_2.HWindow.ClearWindow();
+                    //HandEye_Results_Window_2.DisplayImage?.Dispose();
+                    //HandEye_Results_Window_2.DisplayXLD?.Dispose();
+                    //HandEye_Results_Window_2.DisplayRegion?.Dispose();
+                    //HandEye_Results_Window_2.Draw_XLD?.Dispose();
+                    //HandEye_Results_Window_2.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(HandEye_Results_Window_2);
+
                     break;
 
                 case Window_Show_Name_Enum.HandEye_3D_Results:
-                    HandEye_3D_Results.HWindow.ClearWindow();
-                    HandEye_3D_Results.DisplayImage?.Dispose();
-                    HandEye_3D_Results.DisplayXLD?.Dispose();
-                    HandEye_3D_Results.DisplayRegion?.Dispose();
-                    HandEye_3D_Results.Draw_XLD?.Dispose();
+                    //HandEye_3D_Results.HWindow.ClearWindow();
+                    //HandEye_3D_Results.DisplayImage?.Dispose();
+                    //HandEye_3D_Results.DisplayXLD?.Dispose();
+                    //HandEye_3D_Results.DisplayRegion?.Dispose();
+                    //HandEye_3D_Results.Draw_XLD?.Dispose();
+                    //HandEye_3D_Results.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(HandEye_3D_Results);
+
                     break;
 
 
@@ -1353,7 +1530,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_XLD"></param>
         /// <param name="_DrawColor"></param>
         /// <param name="_Show"></param>
-        public void Display_HObject(Window_Show_Name_Enum _Show, HObject? _HImage = null, HObject? _Region = null, HObject? _XLD = null, HObject? _Draw = null, HObject? _Path = null, string? _DrawColor = null, bool Image_AutoPart = false)
+        public void Display_HObject(Window_Show_Name_Enum _Show, HObject? _HImage = null, HObject? _Region = null, HObject? _XYZImage = null, HObject? _XLD = null, HObject? _Draw = null, HObject? _Path = null, string? _DrawColor = null, bool Image_AutoPart = false)
         {
 
 
@@ -1369,6 +1546,13 @@ namespace Halcon_SDK_DLL
                 SetWindowDisoplay(_HImage, Display_HObject_Type_Enum.Image, _Show, Image_AutoPart);
 
             }
+            if (_XYZImage != null)
+            {
+                SetWindowDisoplay(_XYZImage, Display_HObject_Type_Enum.XYZImage, _Show, Image_AutoPart);
+
+            }
+            
+
             if (_Region != null)
             {
                 SetWindowDisoplay(_Region, Display_HObject_Type_Enum.Region, _Show);
@@ -1651,6 +1835,11 @@ namespace Halcon_SDK_DLL
                 case Display_HObject_Type_Enum.Path:
 
                     _WindowDisplay.Path_XLD = _Dispaly;
+
+                    break;
+                case Display_HObject_Type_Enum.XYZImage:
+
+                    _WindowDisplay.DisplayXYZImage = _Dispaly;
 
                     break;
             }
