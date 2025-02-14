@@ -1400,6 +1400,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column=" 0"
                                     Height=" 25"
@@ -1424,10 +1425,63 @@
                                         </TextBlock.Text>
                                     </TextBlock>
                                     <TextBlock Text="{Binding Halcon_Window_Display.Mouse_Pose_Gray, StringFormat=灰度值: {0:F4}}"
+                                               Margin="0,0,4,0"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                FontSize="12"
-                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Halcon_Window_Display.Mouse_Pose_Gray}" Value="-1">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+
+
+                                    </TextBlock>
+                                    <TextBlock Margin="0,0,4,0"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_X}" Value="-1" />
+                                                            <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Y}" Value="-1" />
+                                                            <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Z}" Value="-1" />
+
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+
+                                                    </MultiDataTrigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_X}" Value="0" />
+                                                            <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Y}" Value="0" />
+                                                            <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Z}" Value="0" />
+
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="深度图像 X:{0:F4}m Y:{1:F4}m Z:{2:F4}m">
+                                                <Binding Path="Halcon_Window_Display.Mouse_Pose_X" />
+                                                <Binding Path="Halcon_Window_Display.Mouse_Pose_Y" />
+                                                <Binding Path="Halcon_Window_Display.Mouse_Pose_Z" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+
+                                    </TextBlock>
                                 </StackPanel>
                             </Border>
                             <Border x:Name="G0" Grid.Column=" 1"
@@ -8652,6 +8706,82 @@ PassEventArgsToCommand="True" />
 
 
                                             </Grid>
+
+
+                                            <Grid Height=" 38"
+                                                  Margin="0,5,0,5"
+                                                  ShowGridLines="False">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+
+                                                            <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Persistence}" Value="true">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
+
+
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width=" 90" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Text="生成特征"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 1"
+                                                        Margin="0,0,5,0"
+                                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                   PassEventArgsToCommand="True" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+
+                                                    <TextBlock Text="生成深度图"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="15"
+                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                </Button>
+
+                                                <Button Style="{DynamicResource Halcon_Window_Button}" Grid.Column=" 2"
+                                                        Margin="5,0,0,0"
+                                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding}"
+                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                   PassEventArgsToCommand="True" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+
+                                                    <TextBlock Text="查看深度图"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="15"
+                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                </Button>
+
+
+                                            </Grid>
+
                                         </StackPanel>
                                     </Grid>
                                 </Expander>
@@ -10752,7 +10882,8 @@ PassEventArgsToCommand="True" />
                                                                                 <ComboBox.ItemTemplate>
                                                                                     <DataTemplate>
                                                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
-                                                                                                   TextWrapping="Wrap"
+                                                                                                   Width="200"
+                                                                                                   TextWrapping="WrapWithOverflow"
                                                                                                    Padding="0,4,0,4"
                                                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                                                    FontSize="12"
@@ -11298,7 +11429,8 @@ PassEventArgsToCommand="True" />
                                                                                 <ComboBox.ItemTemplate>
                                                                                     <DataTemplate>
                                                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
-                                                                                                   TextWrapping="Wrap"
+                                                                                                   Width="200"
+                                                                                                   TextWrapping="WrapWithOverflow"
                                                                                                    Padding="0,4,0,4"
                                                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                                                    FontSize="12"
@@ -12897,6 +13029,282 @@ PassEventArgsToCommand="True" />
                                                                                 </ComboBox.ItemTemplate>
                                                                             </ComboBox>
                                                                         </Grid>
+
+
+
+                                                                        <Grid Height=" 30" Margin="8">
+                                                                            <Grid.Style>
+                                                                                <Style TargetType="Grid">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d}">
+                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Grid.Style>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="60" />
+                                                                                <ColumnDefinition />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <TextBlock Grid.Column=" 0"
+                                                                                       Text="基元类型"
+                                                                                       HorizontalAlignment="Left"
+                                                                                       VerticalAlignment="Center"
+                                                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                       FontSize="12"
+                                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="FitPrimitivesObjectModel3d_Primitive_Type" Grid.Column=" 1"
+                                                                                      HorizontalContentAlignment="Center"
+                                                                                      VerticalContentAlignment="Center"
+                                                                                      BorderThickness="2"
+                                                                                      FontSize="12"
+                                                                                      IsDropDownOpen="False"
+                                                                                      IsSynchronizedWithCurrentItem="True"
+                                                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:FitPrimitivesObjectModel3d_Primitive_Type_Enum}"
+                                                                                      SelectedItem="{Binding FitPrimitivesObjectModel3d.primitive_type, UpdateSourceTrigger=PropertyChanged}">
+
+                                                                                <ComboBox.ItemTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                                                   TextWrapping="Wrap"
+                                                                                                   Padding="0,4,0,4"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   TextTrimming="CharacterEllipsis" />
+                                                                                    </DataTemplate>
+                                                                                </ComboBox.ItemTemplate>
+                                                                            </ComboBox>
+                                                                        </Grid>
+                                                                        <Grid Height=" 30" Margin="8">
+                                                                            <Grid.Style>
+                                                                                <Style TargetType="Grid">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d}">
+                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Grid.Style>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="60" />
+                                                                                <ColumnDefinition />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <TextBlock Grid.Column=" 0"
+                                                                                       Text="基元算法"
+                                                                                       HorizontalAlignment="Left"
+                                                                                       VerticalAlignment="Center"
+                                                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                       FontSize="12"
+                                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="FitPrimitivesObjectModel3d_Fitting_Algorithm" Grid.Column=" 1"
+                                                                                      HorizontalContentAlignment="Center"
+                                                                                      VerticalContentAlignment="Center"
+                                                                                      BorderThickness="2"
+                                                                                      FontSize="12"
+                                                                                      IsDropDownOpen="False"
+                                                                                      IsSynchronizedWithCurrentItem="True"
+                                                                                      ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:FitPrimitivesObjectModel3d_Fitting_Algorithm_Enum}"
+                                                                                      SelectedItem="{Binding FitPrimitivesObjectModel3d.fitting_algorithm, UpdateSourceTrigger=PropertyChanged}">
+
+                                                                                <ComboBox.ItemTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                                                                   Width="200"
+                                                                                                   TextWrapping="WrapWithOverflow"
+                                                                                                   Padding="0,4,0,4"
+                                                                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                                                   FontSize="12"
+                                                                                                   Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                                   TextTrimming="CharacterEllipsis" />
+                                                                                    </DataTemplate>
+                                                                                </ComboBox.ItemTemplate>
+                                                                            </ComboBox>
+                                                                        </Grid>
+                                                                        <Grid Margin="8">
+                                                                            <Grid.Style>
+                                                                                <Style TargetType="Grid">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d}">
+                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Grid.Style>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="60" />
+                                                                                <ColumnDefinition Width=" *" />
+                                                                                <ColumnDefinition Width=" *" />
+                                                                            </Grid.ColumnDefinitions>
+
+                                                                            <TextBlock Grid.Column=" 0"
+                                                                                       Text="采样距离"
+                                                                                       TextWrapping="Wrap"
+                                                                                       HorizontalAlignment="Left"
+                                                                                       VerticalAlignment="Center"
+                                                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                       FontSize="12"
+                                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                                            <Slider x:Name="FitPrimitivesObjectModel3d_Min_Radius" Grid.Column=" 1"
+                                                                                    Margin="4"
+                                                                                    VerticalAlignment="Center"
+                                                                                    HorizontalContentAlignment="Stretch"
+                                                                                    VerticalContentAlignment="Stretch"
+                                                                                    LargeChange="0.01"
+                                                                                    Maximum="10"
+                                                                                    Minimum="0"
+                                                                                    SmallChange="0.01"
+                                                                                    TickFrequency=" 0.01"
+                                                                                    Value="{Binding FitPrimitivesObjectModel3d.min_radius}">
+                                                                                <Slider.Style>
+                                                                                    <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                                                        <!--<Style.Triggers>
+
+                              <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
+                                  <Setter Property="Value" Value="5" />
+                              </DataTrigger>
+                          </Style.Triggers>-->
+                                                                                    </Style>
+                                                                                </Slider.Style>
+                                                                            </Slider>
+
+                                                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                     Text="{Binding ElementName=FitPrimitivesObjectModel3d_Min_Radius, Path=Value, StringFormat={}{0:F2}}"
+                                                                                     HorizontalContentAlignment="Center"
+                                                                                     VerticalContentAlignment="Center"
+                                                                                     Background="Transparent"
+                                                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                     BorderThickness="2"
+                                                                                     FontSize="16" />
+                                                                        </Grid>
+                                                                        <Grid Margin="8">
+                                                                            <Grid.Style>
+                                                                                <Style TargetType="Grid">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d}">
+                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Grid.Style>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="60" />
+                                                                                <ColumnDefinition Width=" *" />
+                                                                                <ColumnDefinition Width=" *" />
+                                                                            </Grid.ColumnDefinitions>
+
+                                                                            <TextBlock Grid.Column=" 0"
+                                                                                       Text="采样距离"
+                                                                                       TextWrapping="Wrap"
+                                                                                       HorizontalAlignment="Left"
+                                                                                       VerticalAlignment="Center"
+                                                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                       FontSize="12"
+                                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                                            <Slider x:Name="FitPrimitivesObjectModel3d_Max_Radius" Grid.Column=" 1"
+                                                                                    Margin="4"
+                                                                                    VerticalAlignment="Center"
+                                                                                    HorizontalContentAlignment="Stretch"
+                                                                                    VerticalContentAlignment="Stretch"
+                                                                                    LargeChange="0.01"
+                                                                                    Maximum="10"
+                                                                                    Minimum="0"
+                                                                                    SmallChange="0.01"
+                                                                                    TickFrequency=" 0.01"
+                                                                                    Value="{Binding FitPrimitivesObjectModel3d.max_radius}">
+                                                                                <Slider.Style>
+                                                                                    <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                                                        <!--<Style.Triggers>
+
+    <DataTrigger Binding="{Binding Image_Preprocessing_Process_Method}" Value="{x:Static Process_Enum:Image_Preprocessing_Process_Enum.MedianRect}">
+        <Setter Property="Value" Value="5" />
+    </DataTrigger>
+</Style.Triggers>-->
+                                                                                    </Style>
+                                                                                </Slider.Style>
+                                                                            </Slider>
+
+                                                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
+                                                                                     Text="{Binding ElementName=FitPrimitivesObjectModel3d_Max_Radius, Path=Value, StringFormat={}{0:F2}}"
+                                                                                     HorizontalContentAlignment="Center"
+                                                                                     VerticalContentAlignment="Center"
+                                                                                     Background="Transparent"
+                                                                                     BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                                                     BorderThickness="2"
+                                                                                     FontSize="16" />
+                                                                        </Grid>
+                                                                        <Grid Height=" 30" Margin="8">
+                                                                            <Grid.Style>
+                                                                                <Style TargetType="Grid">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d}">
+                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Grid.Style>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width=" 60" />
+                                                                                <ColumnDefinition />
+                                                                            </Grid.ColumnDefinitions>
+
+
+                                                                            <TextBlock Grid.Column=" 0"
+                                                                                       Text="点云复制"
+                                                                                       HorizontalAlignment="Left"
+                                                                                       VerticalAlignment="Center"
+                                                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                       FontSize="12"
+                                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="FitPrimitivesObjectModel3d_Output_Point_Coord" Grid.Column=" 1"
+                                                                                          IsChecked="{Binding FitPrimitivesObjectModel3d.output_point_coord}"
+                                                                                          HorizontalContentAlignment="Stretch"
+                                                                                          VerticalContentAlignment="Center"
+                                                                                          Background="{DynamicResource 全局_背景_白颜色}"
+                                                                                          BorderThickness="2">
+                                                                                <Grid>
+                                                                                    <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition Width="*" />
+                                                                                        <ColumnDefinition Width="*" />
+                                                                                    </Grid.ColumnDefinitions>
+                                                                                    <TextBlock Grid.Column=" 0"
+                                                                                               Text="开启"
+                                                                                               Padding="0,0,0,0"
+                                                                                               HorizontalAlignment="Center"
+                                                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                               FontSize=" 14"
+                                                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                                                    <TextBlock Grid.Column=" 1"
+                                                                                               Text="关闭"
+                                                                                               Padding="0,0,0,0"
+                                                                                               HorizontalAlignment="Center"
+                                                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                               FontSize=" 14"
+                                                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                                </Grid>
+
+                                                                                <!--<i:Interaction.Triggers>
+    <i:EventTrigger EventName="Click">
+        <i:InvokeCommandAction Command="{Binding}"
+                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                               PassEventArgsToCommand="True" />
+    </i:EventTrigger>
+</i:Interaction.Triggers>-->
+
+                                                                            </ToggleButton>
+
+                                                                        </Grid>
+
+
 
                                                                     </StackPanel>
                                                                 </Grid>

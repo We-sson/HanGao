@@ -4455,9 +4455,9 @@ namespace HanGao.ViewModel
 
                                 Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_2);
 
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
 
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0),new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
 
 
                             });

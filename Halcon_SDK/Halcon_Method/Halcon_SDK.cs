@@ -1043,9 +1043,9 @@ namespace Halcon_SDK_DLL
                     if (Mouse_Pose_XYZImage != null && Mouse_Pose_XYZImage.IsInitialized())
                     {
 
-                            Mouse_Pose_XYZImage.GetImagePointer3(out HTuple _x, out HTuple _y, out HTuple _z, out HTuple _type, out HTuple _Witch, out HTuple _height);
-                        //Mouse_Pose_XYZImage.GetImageSize(out int _Witch, out int _height);
-
+                        //Mouse_Pose_XYZImage.GetImagePointer3(out HTuple _x, out HTuple _y, out HTuple _z, out HTuple _type, out HTuple _Witch, out HTuple _height);
+                        Mouse_Pose_XYZImage.GetImageSize(out int _Witch, out int _height);
+                        HImage _x = Mouse_Pose_XYZImage.Decompose3(out HImage _y, out HImage _z);
 
 
                         if (value.X <= _height && value.Y <= _Witch && value.X >= 0 && value.Y >= 0)

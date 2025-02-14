@@ -2683,6 +2683,32 @@ namespace Halcon_SDK_DLL.Model
 
     }
 
+    public enum FitPrimitivesObjectModel3d_Primitive_Type_Enum
+    {
+        [Description("圆形:Cylinder")]
+        cylinder,
+        [Description("球形:Sphere")]
+        sphere,
+        [Description("平面:Plane")]
+        plane,
+        [Description("全部:All")]
+        all
+    }
+
+
+    public enum FitPrimitivesObjectModel3d_Fitting_Algorithm_Enum
+    {
+        [Description("最小二乘法:Least_squares")]
+        least_squares,
+        [Description("Huber最小二乘法:Least_squares_huber")]
+        least_squares_huber,
+        [Description("Tukey最小二乘法:Least_squares_tukey")]
+        least_squares_tukey,
+  
+    }
+
+    
+
     public enum PrepareObjectModel3d_DistanceTo_Enum
     {
         [Description("自动选择距离:Auto")]
@@ -2782,10 +2808,10 @@ namespace Halcon_SDK_DLL.Model
     public enum TriangulateObjectModel3d_Information_Enum
     {
         [Description("三角数量:Num_triangles")]
-        
+
         num_triangles,
         [Description("详细信息:Verbose")]
-        
+
         verbose,
     }
 

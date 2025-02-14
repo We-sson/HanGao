@@ -390,7 +390,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 _OldModel = item.Get_23DResults_Method(_OldModel);
 
 
-            
+
                 // 计算时间差
                 item.Method_Run_Time = (DateTime.Now - startTime).Milliseconds;
             }
@@ -588,7 +588,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-                HObjectModel3D[] Result ;
+                HObjectModel3D[] Result;
 
                 switch (Preprocessing_Process_3DModel_Method)
                 {
@@ -784,6 +784,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                     break;
 
+                case H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d:
+
+                    FitPrimitivesObjectModel3d = new FitPrimitivesObjectModel3d_Function_Model() { };
+
+                    break;
             }
 
         }
@@ -825,6 +830,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
         public TriangulateObjectModel3d_Function_Model? TriangulateObjectModel3d { set; get; }
+
+
+        public FitPrimitivesObjectModel3d_Function_Model? FitPrimitivesObjectModel3d { set; get; }
 
 
         //public Action? Action_Method { set; get; }
@@ -1647,6 +1655,115 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+    [Serializable]
+
+    [AddINotifyPropertyChangedInterface]
+    public class FitPrimitivesObjectModel3d_Function_Model
+    {
+
+        public FitPrimitivesObjectModel3d_Primitive_Type_Enum primitive_type { set; get; } = FitPrimitivesObjectModel3d_Primitive_Type_Enum.plane;
+
+
+
+
+        public FitPrimitivesObjectModel3d_Fitting_Algorithm_Enum fitting_algorithm { set; get; } = FitPrimitivesObjectModel3d_Fitting_Algorithm_Enum.least_squares;
+
+
+        public PrepareObjectModel3d_Method_Enum method { set; get; } = PrepareObjectModel3d_Method_Enum.auto;
+
+
+
+
+        public double min_radius { set; get; } = 0.01;
+
+        public double max_radius { set; get; } = 0.2;
+
+        public bool output_point_coord { set; get; } = true;
+
+        public bool output_xyz_mapping { set; get; } = false;
+
+
+
+        public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
+        {
+
+            try
+            {
+
+            switch (primitive_type)
+            {
+                case FitPrimitivesObjectModel3d_Primitive_Type_Enum.cylinder or FitPrimitivesObjectModel3d_Primitive_Type_Enum.sphere or FitPrimitivesObjectModel3d_Primitive_Type_Enum.all:
+
+                    return HObjectModel3D.FitPrimitivesObjectModel3d(_Model3D, new HTuple(
+                          nameof(primitive_type),
+                          nameof(fitting_algorithm),
+                          nameof(min_radius),
+                          nameof(max_radius),
+                          nameof(output_point_coord),
+                          nameof(output_xyz_mapping)
+
+
+                          ),
+                          new HTuple(
+                          primitive_type.ToString(),
+                          fitting_algorithm.ToString(),
+                          min_radius,
+                          max_radius,
+                          output_point_coord.ToString().ToLower(),
+                          output_xyz_mapping.ToString().ToLower()
+                          ));
+
+
+
+
+                case FitPrimitivesObjectModel3d_Primitive_Type_Enum.plane:
+
+
+                    return HObjectModel3D.FitPrimitivesObjectModel3d(_Model3D, new HTuple(
+                        nameof(primitive_type),
+                        nameof(fitting_algorithm),
+
+                        nameof(output_point_coord),
+                        nameof(output_xyz_mapping)
+
+
+                        ),
+                        new HTuple(
+                        primitive_type.ToString(),
+                        fitting_algorithm.ToString(),
+
+                        output_point_coord.ToString().ToLower(),
+                        output_xyz_mapping.ToString().ToLower()
+                        ));
+
+
+
+                default: throw new ArgumentException("参数错误！");
+
+            }
+
+
+
+            }
+            finally
+            {
+
+                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+
+            }
+
+
+
+
+
+
+        }
+
+    }
+
+
+
+
     public enum Image_Preprocessing_Process_Enum
     {
         [Description("灰度动调分布_ScaleImageMax")]
@@ -1682,8 +1799,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         [Description("预准备3D模型_Prepare")]
         PrepareObjectModel3d,
         [Description("三角化3D模型_Triangulate")]
-        TriangulateObjectModel3d
-
+        TriangulateObjectModel3d,
+        [Description("拟合3D模型_Triangulate")]
+        FitPrimitivesObjectModel3d
     }
 
 
