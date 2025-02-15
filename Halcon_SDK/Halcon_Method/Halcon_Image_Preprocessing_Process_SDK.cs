@@ -360,7 +360,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             //计算总时间处理
             DateTime AllstartTime = DateTime.Now;
-
+            //List< HObjectModel3D>_NewModel=new();
 
 
             foreach (var item in _Preprocessing_Process_List)
@@ -387,7 +387,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-                _OldModel = item.Get_23DResults_Method(_OldModel);
+                _OldModel =  item.Get_23DResults_Method(_OldModel);
 
 
 
@@ -406,7 +406,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
             Preprocessing_Process_List_RunTime = (DateTime.Now - AllstartTime).Milliseconds;
 
             GC.Collect();
-            return _OldModel;
+
+            return _OldModel.ToArray();
 
 
 
@@ -614,6 +615,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         break;
                     case H3DObjectModel_Features_Enum.TriangulateObjectModel3d:
                         Result = TriangulateObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
+                        break;
+                    case H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d:
+                        Result = FitPrimitivesObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
                         break;
                     default:
                         throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_3DModel_Method));
@@ -1080,7 +1084,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             }
             finally
             {
-                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
 
@@ -1156,7 +1160,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
         }
@@ -1213,7 +1217,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
         }
@@ -1286,7 +1290,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
 
@@ -1364,7 +1368,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
 
@@ -1644,7 +1648,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
 
@@ -1748,7 +1752,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
 

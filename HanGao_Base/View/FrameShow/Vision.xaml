@@ -13304,7 +13304,70 @@ PassEventArgsToCommand="True" />
 
                                                                         </Grid>
 
+                                                                        <Grid Height=" 30" Margin="8">
+                                                                            <Grid.Style>
+                                                                                <Style TargetType="Grid">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Preprocessing_Process_3DModel_Method}" Value="{x:Static Process_Enum:H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d}">
+                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Grid.Style>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width=" 60" />
+                                                                                <ColumnDefinition />
+                                                                            </Grid.ColumnDefinitions>
 
+
+                                                                            <TextBlock Grid.Column=" 0"
+                                                                                       Text="复制映射"
+                                                                                       HorizontalAlignment="Left"
+                                                                                       VerticalAlignment="Center"
+                                                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                       FontSize="12"
+                                                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="FitPrimitivesObjectModel3d_Output_xyz_Mapping" Grid.Column=" 1"
+                                                                                          IsChecked="{Binding FitPrimitivesObjectModel3d.output_xyz_mapping}"
+                                                                                          HorizontalContentAlignment="Stretch"
+                                                                                          VerticalContentAlignment="Center"
+                                                                                          Background="{DynamicResource 全局_背景_白颜色}"
+                                                                                          BorderThickness="2">
+                                                                                <Grid>
+                                                                                    <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition Width="*" />
+                                                                                        <ColumnDefinition Width="*" />
+                                                                                    </Grid.ColumnDefinitions>
+                                                                                    <TextBlock Grid.Column=" 0"
+                                                                                               Text="开启"
+                                                                                               Padding="0,0,0,0"
+                                                                                               HorizontalAlignment="Center"
+                                                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                               FontSize=" 14"
+                                                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                                                    <TextBlock Grid.Column=" 1"
+                                                                                               Text="关闭"
+                                                                                               Padding="0,0,0,0"
+                                                                                               HorizontalAlignment="Center"
+                                                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                                               FontSize=" 14"
+                                                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                                                </Grid>
+
+                                                                                <!--<i:Interaction.Triggers>
+    <i:EventTrigger EventName="Click">
+        <i:InvokeCommandAction Command="{Binding}"
+                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                               PassEventArgsToCommand="True" />
+    </i:EventTrigger>
+</i:Interaction.Triggers>-->
+
+                                                                            </ToggleButton>
+
+                                                                        </Grid>
 
                                                                     </StackPanel>
                                                                 </Grid>

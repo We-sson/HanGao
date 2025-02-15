@@ -179,7 +179,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                     Image_3DPoint = new HImage(_Camera_0_0.ConcatObj(_Camera_0_1));
 
-                    H3DStereo_Results.HModel3D_Camera_3DPoint = new HObjectModel3D(_H3DStereoModel.ReconstructSurfaceStereo(Image_3DPoint));
+                    H3DStereo_Results.HModel3D_Camera_3DPoint = new List<HObjectModel3D>([_H3DStereoModel.ReconstructSurfaceStereo(Image_3DPoint)]);
 
 
 
@@ -217,7 +217,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     Image_3DFusion = new HImage(_Camera_1_0.ConcatObj(_Camera_1_1));
 
 
-                    H3DStereo_Results.HModel3D_Camera_3DFusion = new HObjectModel3D(_H3DStereoModel.ReconstructSurfaceStereo(Image_3DFusion));
+                    H3DStereo_Results.HModel3D_Camera_3DFusion = new List<HObjectModel3D>([_H3DStereoModel.ReconstructSurfaceStereo(Image_3DFusion)]);
 
 
                     ///调试模式下提取
@@ -272,7 +272,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                 //合并模型
 
-                H3DStereo_Results.HModel3D_Camera_Unio = HObjectModel3D.UnionObjectModel3d([H3DStereo_Results.HModel3D_Camera_3DPoint, H3DStereo_Results.HModel3D_Camera_3DFusion], "points_surface");
+
+                H3DStereo_Results.HModel3D_Camera_Unio =  new List<HObjectModel3D>([ HObjectModel3D.UnionObjectModel3d(  H3DStereo_Results.HModel3D_Camera_3DPoint.Concat(H3DStereo_Results.HModel3D_Camera_3DFusion).ToArray(), "points_surface")]);
 
 
 
@@ -300,7 +301,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         Image_3DPoint = new HImage(_Camera_0_0.ConcatObj(_Camera_0_1));
 
-                        H3DStereo_Results.HModel3D_Camera_3DPoint = new HObjectModel3D(H3DStereoModel_3DPoint.ReconstructSurfaceStereo(Image_3DPoint));
+                        H3DStereo_Results.HModel3D_Camera_3DPoint = new List<HObjectModel3D> ([H3DStereoModel_3DPoint.ReconstructSurfaceStereo(Image_3DPoint)]);
 
                         ///调试模式下提取
                         if (_ParamData.Persistence)
@@ -335,7 +336,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         Image_3DFusion = new HImage(_Camera_1_0.ConcatObj(_Camera_1_1));
 
-                        H3DStereo_Results.HModel3D_Camera_3DFusion = new HObjectModel3D(H3DStereoModel_3DFusion.ReconstructSurfaceStereo(Image_3DFusion));
+                        H3DStereo_Results.HModel3D_Camera_3DFusion = new List<HObjectModel3D>([H3DStereoModel_3DFusion.ReconstructSurfaceStereo(Image_3DFusion)]);
 
 
                         if (_ParamData.Persistence)
@@ -745,55 +746,67 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        
-        HObjectModel3D _HModel3D_Camera_3DPoint = new HObjectModel3D();
 
-        public HObjectModel3D HModel3D_Camera_3DPoint
+        List<HObjectModel3D> _HModel3D_Camera_3DPoint = new List<HObjectModel3D>();
+
+        public List<HObjectModel3D> HModel3D_Camera_3DPoint
         {
             get { return _HModel3D_Camera_3DPoint; }
             set
             {
-                _HModel3D_Camera_3DPoint.ClearObjectModel3d();
-                _HModel3D_Camera_3DPoint.Dispose();
+                foreach (var item in _HModel3D_Camera_3DPoint)
+                {
+                    item.ClearObjectModel3d();
+                    item.Dispose();
+                }
                 _HModel3D_Camera_3DPoint = value;
             }
         }
-        private HObjectModel3D _HModel3D_Camera_3DFusion = new HObjectModel3D();
+        private List<HObjectModel3D> _HModel3D_Camera_3DFusion = new List<HObjectModel3D>();
 
-        public HObjectModel3D HModel3D_Camera_3DFusion
+        public List<HObjectModel3D> HModel3D_Camera_3DFusion
         {
             get { return _HModel3D_Camera_3DFusion; }
             set
             {
-                _HModel3D_Camera_3DFusion.ClearObjectModel3d();
-                _HModel3D_Camera_3DFusion.Dispose();
+                foreach (var item in _HModel3D_Camera_3DFusion)
+                {
+                    item.ClearObjectModel3d();
+                    item.Dispose();
+                }
                 _HModel3D_Camera_3DFusion = value;
             }
         }
 
 
-        private HObjectModel3D _HModel3D_Camera_Unio = new HObjectModel3D();
+        private List<HObjectModel3D> _HModel3D_Camera_Unio = new List<HObjectModel3D>();
 
-        public HObjectModel3D HModel3D_Camera_Unio
+        public List<HObjectModel3D> HModel3D_Camera_Unio
         {
             get { return _HModel3D_Camera_Unio; }
             set
             {
-                _HModel3D_Camera_Unio.ClearObjectModel3d();
-                _HModel3D_Camera_Unio.Dispose();
+                foreach (var item in _HModel3D_Camera_Unio)
+                {
+                    item.ClearObjectModel3d();
+                    item.Dispose();
+                }
                 _HModel3D_Camera_Unio = value;
             }
         }
 
-        private HObjectModel3D _HModel3D_Camera_Unio_XYZ = new HObjectModel3D();
+        private List<HObjectModel3D >_HModel3D_Camera_Unio_XYZ = new List<HObjectModel3D>();
 
-        public HObjectModel3D HModel3D_Camera_Unio_XYZ
+        public List<HObjectModel3D> HModel3D_Camera_Unio_XYZ
         {
             get { return _HModel3D_Camera_Unio_XYZ; }
             set
             {
-                _HModel3D_Camera_Unio_XYZ.ClearObjectModel3d();
-                _HModel3D_Camera_Unio_XYZ.Dispose();
+                foreach (var item in _HModel3D_Camera_Unio_XYZ)
+                {
+                    item.ClearObjectModel3d();
+                    item. Dispose();
+                }
                 _HModel3D_Camera_Unio_XYZ = value;
             }
         }
@@ -806,14 +819,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
             //HImage _Rest = new HImage();
 
-            HModel3D_Camera_Unio_XYZ.IsInitialized().Throw("三维模型未生成。请生成后重试！").IfFalse();
+            HModel3D_Camera_Unio_XYZ.Count.Throw("三维模型未生成。请生成后重试！").IfNotEquals(0);
 
-           HModel3D_Camera_Unio_XYZ.GetObjectModel3dParams("has_triangles").Throw("三维模型不含三角化参数！").IfEquals("false");
+           //HModel3D_Camera_Unio_XYZ.GetObjectModel3dParams("has_triangles").Throw("三维模型不含三角化参数！").IfEquals("false");
 
+            HObjectModel3D.UnionObjectModel3d(HModel3D_Camera_Unio_XYZ.ToArray(), "points_surface").WriteObjectModel3d("om3", "T3", new HTuple(), new HTuple());
 
-            HModel3D_Camera_Unio_XYZ.WriteObjectModel3d("om3", "T3", new HTuple(), new HTuple());
+      
 
-            HImage _x = HModel3D_Camera_Unio_XYZ.ObjectModel3dToXyz(out HImage _y, out HImage _z, "cartesian_faces", _Camera_Par, _Pose.HPose);
+            HImage _x = HObjectModel3D.UnionObjectModel3d(HModel3D_Camera_Unio_XYZ.ToArray(), "points_surface").ObjectModel3dToXyz(out HImage _y, out HImage _z, "cartesian_faces", _Camera_Par, _Pose.HPose);
 
 
             HModel3D_XYZ_Image = _x.Compose3(_y, _z);

@@ -1454,9 +1454,9 @@ namespace HanGao.ViewModel
 
 
 
-                        HObjectModel3D[] Get=  Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(new List<HObjectModel3D>([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Clone()]).ToArray(), Select_Vision_Value.Camera_3DModel_Process_List);
+                        Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ =new  List <HObjectModel3D> (Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(    Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Select(_=>_.Clone()).ToArray(), Select_Vision_Value.Camera_3DModel_Process_List));
 
-                        Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ = Get[0];
+                        
                         //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
 
 
@@ -1464,7 +1464,7 @@ namespace HanGao.ViewModel
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>([Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ])));
+                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ.Select(_ => _.Clone()).ToList()));
 
                         });
 
@@ -4337,7 +4337,7 @@ namespace HanGao.ViewModel
                               );
 
 
-                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>() { Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio }));
+                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model( Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio));
 
 
 
