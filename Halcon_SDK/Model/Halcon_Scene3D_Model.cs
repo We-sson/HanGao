@@ -195,7 +195,7 @@ namespace Halcon_SDK_DLL.Model
         /// 原始
         /// </summary>
         [StringValue("primitive")]
-        原始,
+        基元模型,
         /// <summary>
         /// 点云
         /// </summary>

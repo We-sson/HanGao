@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
-using System.Xml.Linq;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
 namespace Halcon_SDK_DLL.Halcon_Examples_Method
@@ -39,6 +38,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             Scene3D_Param.PropertyChanged += (e, o) =>
             {
                 While_ResetEvent.Set();
+
+                While_SetEvent.WaitOne();
+
                 //属性修改设置显示
                 Set_Scene3D_Param(hv_Scene3D, (Halcon_Scene3D_Param_Model)e!);
                 //通知显示更新画面
@@ -48,8 +50,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             Scene3D_Instance.PropertyChanged += (e, o) =>
            {
                While_ResetEvent.Set();
+
+               While_SetEvent.WaitOne();
                //属性修改设置显示
-               if (hv_AllInstances > 0)
+               if (hv_ObjectModel3D.Count > 0)
                {
 
                    Set_Scene3D_Instance_Param(hv_Scene3D, (Halcon_Scene3D_Instance_Model)e!);
@@ -165,7 +169,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
             ///居中 模型
-             Centred_model();
+            Centred_model();
         }
 
 
@@ -188,7 +192,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
 
-        private HPose _hv_PoseIn = new (0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
+        private HPose _hv_PoseIn = new(0, 0, 0, 0, 0, 0, "Rp+T", "gba", "point");
         /// <summary>
         /// 当前可视化显示位置
         /// </summary>
@@ -209,11 +213,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// UI可视化当前位置平移坐标
         /// </summary>
-        public Point3D UI_PoseIn_Tr { set; get; } = new (0, 0, 0);
+        public Point3D UI_PoseIn_Tr { set; get; } = new(0, 0, 0);
         /// <summary>
         /// UI可视化当前位置旋转坐标
         /// </summary>
-        public Point3D UI_PoseIn_Ro { set; get; } = new (0, 0, 0);
+        public Point3D UI_PoseIn_Ro { set; get; } = new(0, 0, 0);
 
         /// <summary>
         /// 可视化显示控件
@@ -231,7 +235,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 三维模型场景参数
         /// </summary>
-        private Halcon_Scene3D_Param_Model _Scene3D_Param = new ();
+        private Halcon_Scene3D_Param_Model _Scene3D_Param = new();
 
         public Halcon_Scene3D_Param_Model Scene3D_Param
         {
@@ -248,7 +252,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 三维模型显示属性
         /// </summary>
-        private Halcon_Scene3D_Instance_Model _Scene3D_Instance = new ();
+        private Halcon_Scene3D_Instance_Model _Scene3D_Instance = new();
 
         public Halcon_Scene3D_Instance_Model Scene3D_Instance
         {
@@ -274,32 +278,32 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 缓存图像
         /// </summary>
-        private HImage ho_ImageDump = new ();
+        private HImage ho_ImageDump = new();
 
 
         /// <summary>
         /// 控件显示句柄
         /// </summary>
-        private HWindow hv_WindowHandle = new ();
+        private HWindow hv_WindowHandle = new();
 
 
 
         /// <summary>
         /// 可视化显示模型
         /// </summary>
-        public ObservableCollection<HObjectModel3D> hv_ObjectModel3D { set; get; } = new ObservableCollection<HObjectModel3D> ();
+        public ObservableCollection<HObjectModel3D> hv_ObjectModel3D { set; get; } = new ObservableCollection<HObjectModel3D>();
 
 
         /// <summary>
         /// 可视化模型数量
         /// </summary>
-        private HTuple hv_NumModels = new (0);
+        private HTuple hv_NumModels = new(0);
 
 
         /// <summary>
         /// 用于可视化场景属性
         /// </summary>
-        private HScene3D hv_Scene3D { set; get; } = new ();
+        private HScene3D hv_Scene3D { set; get; } = new();
 
 
         /// <summary>
@@ -313,46 +317,46 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 缓冲窗口
         /// </summary>
-        private HWindow hv_WindowHandleBuffer = new ();
+        private HWindow hv_WindowHandleBuffer = new();
         /// <summary>
         /// 多个模型选中状态(兼容变量)
         /// </summary>
-        private HTuple hv_SelectedObject = new ();
+        private HTuple hv_SelectedObject = new();
 
 
         /// <summary>
         /// 模型在图像像素居中位置
         /// </summary>
-        private HTuple hv_Center = new ();
+        private HTuple hv_Center = new();
 
 
         /// <summary>
         /// 模型在三维居中位置
         /// </summary>
-        private HTuple hv_TBCenter = new ();
+        private HTuple hv_TBCenter = new();
 
         /// <summary>
         /// 旋转模型大小
         /// </summary>
-        private HTuple hv_TBSize = new ();
+        private HTuple hv_TBSize = new();
 
 
 
         /// <summary>
         /// 图像最小尺寸
         /// </summary>
-        private HTuple hv_MinImageSize = new ();
+        private HTuple hv_MinImageSize = new();
 
 
 
         /// <summary>
         /// 缩放数据
         /// </summary>
-        private HTuple hv_TranslateZ = new (0);
+        private HTuple hv_TranslateZ = new(0);
         /// <summary>
         ///  //shall be used ('shoemake' or 'bell').
         /// </summary>
-        private HTuple hv_VirtualTrackball = new ("shoemake");
+        private HTuple hv_VirtualTrackball = new("shoemake");
 
         /// <summary>
         ///     TrackballSize defines the diameter of the trackball in
@@ -360,7 +364,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         ///      轨迹球尺寸定义了图像中轨迹球的直径。
         ///     图像中的轨迹球直径。
         /// </summary>
-        private HTuple hv_TrackballSize = new (0.8);
+        private HTuple hv_TrackballSize = new(0.8);
 
         /// <summary>
         /// 可视乎渲染保持
@@ -370,25 +374,25 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         ///  可视化旋转速度比
         /// </summary>
-        private HTuple hv_SensFactor = new (0.8);
+        private HTuple hv_SensFactor = new(0.8);
 
         /// <summary>
         /// 旋转中心像素
         /// </summary>
-        private HTuple hv_TrackballRadiusPixel = new ();
+        private HTuple hv_TrackballRadiusPixel = new();
         /// <summary>
         /// 旋转中心Y坐标
         /// </summary>
-        private HTuple hv_TrackballCenterRow = new ();
+        private HTuple hv_TrackballCenterRow = new();
         /// <summary>
         /// 旋转中心X坐标
         /// </summary>
-        private HTuple hv_TrackballCenterCol = new ();
+        private HTuple hv_TrackballCenterCol = new();
 
         /// <summary>
         /// 三维场景相机序号
         /// </summary>
-        private HTuple hv_CameraIndex = new ();
+        private HTuple hv_CameraIndex = new();
 
 
         /// <summary>
@@ -406,6 +410,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// </summary>
         private ManualResetEvent While_ResetEvent { set; get; } = new ManualResetEvent(false);
 
+        private AutoResetEvent While_SetEvent { set; get; } = new AutoResetEvent(false);
+
         #endregion
 
 
@@ -420,7 +426,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         private void Calibration_3D_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
-            if (e.ButtonState == MouseButtonState.Pressed && e.ChangedButton== MouseButton.Left)
+            if (e.ButtonState == MouseButtonState.Pressed && e.ChangedButton == MouseButton.Left)
             {
 
                 Centred_model();
@@ -436,13 +442,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         {
 
 
-            HTuple hv_HomMat3DIn = new ();
-            HTuple hv_HomMat3DOut = new ();
-            HTuple hv_PoseMatch = new ();
-            HTuple hv_DRow = new ();
-            HTuple hv_Dist = new ();
-            HTuple hv_MRow1 = new ();
-            HTuple hv_MRow2 = new ();
+            HTuple hv_HomMat3DIn = new();
+            HTuple hv_HomMat3DOut = new();
+            HTuple hv_PoseMatch = new();
+            HTuple hv_DRow = new();
+            HTuple hv_Dist = new();
+            HTuple hv_MRow1 = new();
+            HTuple hv_MRow2 = new();
 
 
             try
@@ -523,18 +529,18 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     //Debug.WriteLine((int)e.GetPosition(e.Source as FrameworkElement).X + "," + (int)e.GetPosition(e.Source as FrameworkElement).Y + ",进入");
 
                     //局部变量初始化
-                    HQuaternion hv_RelQuaternion = new ();
-                    HHomMat3D hv_HomMat3DRotRel = new ();
-                    HHomMat3D hv_HomMat3DIn = new ();
-                    HHomMat3D hv_HomMat3DOut = new (); ;
-                    HTuple hv_MRow1 = new ();
-                    HTuple hv_MCol1 = new ();
-                    HTuple hv_MRow2 = new ();
-                    HTuple hv_MCol2 = new ();
-                    HTuple hv_MX1 = new ();
-                    HTuple hv_MY1 = new ();
-                    HTuple hv_MX2 = new ();
-                    HTuple hv_MY2 = new ();
+                    HQuaternion hv_RelQuaternion = new();
+                    HHomMat3D hv_HomMat3DRotRel = new();
+                    HHomMat3D hv_HomMat3DIn = new();
+                    HHomMat3D hv_HomMat3DOut = new(); ;
+                    HTuple hv_MRow1 = new();
+                    HTuple hv_MCol1 = new();
+                    HTuple hv_MRow2 = new();
+                    HTuple hv_MCol2 = new();
+                    HTuple hv_MX1 = new();
+                    HTuple hv_MY1 = new();
+                    HTuple hv_MX2 = new();
+                    HTuple hv_MY2 = new();
 
                     try
                     {
@@ -545,10 +551,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //获得鼠标点击位置和移动位置
-                        hv_MRow1 = new (hv_HMouseDowm.Y);
-                        hv_MCol1 = new (hv_HMouseDowm.X);
-                        hv_MRow2 = new (e.GetPosition(_Window.Halcon_UserContol).Y);
-                        hv_MCol2 = new (e.GetPosition(_Window.Halcon_UserContol).X);
+                        hv_MRow1 = new(hv_HMouseDowm.Y);
+                        hv_MCol1 = new(hv_HMouseDowm.X);
+                        hv_MRow2 = new(e.GetPosition(_Window.Halcon_UserContol).Y);
+                        hv_MCol2 = new(e.GetPosition(_Window.Halcon_UserContol).X);
 
 
                         //计算四元组坐标
@@ -598,7 +604,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //设置模型显示位置
-                        for (int hv_i = 0; hv_i < hv_AllInstances+1; hv_i++)
+                        for (int hv_i = 0; hv_i < hv_ObjectModel3D.Count; hv_i++)
                         {
 
                             //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
@@ -669,32 +675,32 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //e.Handled = true;
                 lock (e)
                 {
-          
+
                     //局部变量初始化
-                    HTuple hv_RelQuaternion = new ();
-                    HTuple hv_HomMat3DRotRel = new ();
-                    HHomMat3D hv_HomMat3DIn = new ();
-                    HHomMat3D hv_HomMat3DOut = new (); ;
-                    HTuple hv_MRow1 = new ();
-                    HTuple hv_MCol1 = new ();
-                    HTuple hv_MRow2 = new ();
-                    HTuple hv_MCol2 = new ();
-                    HTuple hv_PX = new ();
-                    HTuple hv_PY = new ();
-                    HTuple hv_PZ = new ();
-                    HTuple hv_QX1 = new ();
-                    HTuple hv_QX2 = new ();
-                    HTuple hv_QY1 = new ();
-                    HTuple hv_QY2 = new ();
-                    HTuple hv_QZ1 = new ();
-                    HTuple hv_QZ2 = new ();
-                    HTuple hv_Len = new ();
-                    HTuple hv_Dist = new ();
-                    HTuple hv_Translate = new ();
+                    HTuple hv_RelQuaternion = new();
+                    HTuple hv_HomMat3DRotRel = new();
+                    HHomMat3D hv_HomMat3DIn = new();
+                    HHomMat3D hv_HomMat3DOut = new(); ;
+                    HTuple hv_MRow1 = new();
+                    HTuple hv_MCol1 = new();
+                    HTuple hv_MRow2 = new();
+                    HTuple hv_MCol2 = new();
+                    HTuple hv_PX = new();
+                    HTuple hv_PY = new();
+                    HTuple hv_PZ = new();
+                    HTuple hv_QX1 = new();
+                    HTuple hv_QX2 = new();
+                    HTuple hv_QY1 = new();
+                    HTuple hv_QY2 = new();
+                    HTuple hv_QZ1 = new();
+                    HTuple hv_QZ2 = new();
+                    HTuple hv_Len = new();
+                    HTuple hv_Dist = new();
+                    HTuple hv_Translate = new();
 
                     try
                     {
-                 
+
 
                         //平移速度(默认)
                         hv_SensFactor = 1;
@@ -704,10 +710,10 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //获得鼠标点击位置和移动位置
-                        hv_MRow1 = new (hv_HMouseDowm.Y);
-                        hv_MCol1 = new (hv_HMouseDowm.X);
-                        hv_MRow2 = new (hv_MRow1 + ((e.GetPosition(_Window.Halcon_UserContol).Y - hv_MRow1) * hv_SensFactor));
-                        hv_MCol2 = new (hv_MCol1 + ((e.GetPosition(_Window.Halcon_UserContol).X - hv_MCol1) * hv_SensFactor));
+                        hv_MRow1 = new(hv_HMouseDowm.Y);
+                        hv_MCol1 = new(hv_HMouseDowm.X);
+                        hv_MRow2 = new(hv_MRow1 + ((e.GetPosition(_Window.Halcon_UserContol).Y - hv_MRow1) * hv_SensFactor));
+                        hv_MCol2 = new(hv_MCol1 + ((e.GetPosition(_Window.Halcon_UserContol).X - hv_MCol1) * hv_SensFactor));
 
                         //计算与图像中鼠标点对应的视线
                         //HOperatorSet.GetLineOfSight(hv_MRow1, hv_MCol1, hv_CamParam, out hv_PX, out hv_PY, out hv_PZ, out hv_QX1, out hv_QY1, out hv_QZ1);
@@ -735,7 +741,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //设置模型显示位置
-                        for (int hv_i = 0; hv_i < hv_AllInstances+1; hv_i++)
+                        for (int hv_i = 0; hv_i < hv_ObjectModel3D.Count ; hv_i++)
                         {
 
                             //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
@@ -749,7 +755,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         //hv_PoseIn = hv_PoseOut;
                         hv_HMouseDowm = e.GetPosition(_Window.Halcon_UserContol);
 
-      
+
 
                     }
                     catch (Exception _he)
@@ -804,7 +810,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <param name="e"></param>
         private void Calibration_3D_Results_MouseDown(object sender, MouseButtonEventArgs e)
         {
-          
+
 
             if (e.ButtonState == MouseButtonState.Pressed)
             {
@@ -869,13 +875,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         {
 
 
-            HHomMat3D hv_HomMat3DIn = new ();
-            HHomMat3D hv_HomMat3DOut = new ();
-            HTuple hv_PoseMatch = new ();
-            HTuple hv_DRow = new ();
-            HTuple hv_Dist = new ();
-            HTuple hv_MRow1 = new ();
-            HTuple hv_MRow2 = new ();
+            HHomMat3D hv_HomMat3DIn = new();
+            HHomMat3D hv_HomMat3DOut = new();
+            HTuple hv_PoseMatch = new();
+            HTuple hv_DRow = new();
+            HTuple hv_Dist = new();
+            HTuple hv_MRow1 = new();
+            HTuple hv_MRow2 = new();
 
 
             try
@@ -884,7 +890,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 HSmartWindowControlWPF _HWindow = (e.Source as HSmartWindowControlWPF)!;
 
-           
+
                 //缩放前获得图像中心位置
                 Event_Int((int)_HWindow.ActualWidth, (int)_HWindow.ActualHeight);
 
@@ -998,14 +1004,14 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             //HTuple hv_RowNotUsed = new ();
             //HTuple hv_ColumnNotUsed = new ();
-            HTuple hv_WPRow1 = new ();
-            HTuple hv_WPColumn1 = new ();
-            HTuple hv_WPRow2 = new ();
-            HTuple hv_WPColumn2 = new ();
-            HTuple hv_Qx = new ();
-            HTuple hv_Qy = new ();
-            HTuple hv_Qz = new ();
-            HHomMat3D hv_HomMat3D = new ();
+            HTuple hv_WPRow1 = new();
+            HTuple hv_WPColumn1 = new();
+            HTuple hv_WPRow2 = new();
+            HTuple hv_WPColumn2 = new();
+            HTuple hv_Qx = new();
+            HTuple hv_Qy = new();
+            HTuple hv_Qz = new();
+            HHomMat3D hv_HomMat3D = new();
 
             try
             {
@@ -1090,22 +1096,22 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         }
 
         //首次初始化设置
-        private  void Display_Ini()
+        private void Display_Ini()
         {
 
             //HTuple hv_RowNotUsed;
             //HTuple hv_ColumnNotUsed;
-            HTuple hv_Width = new ((int)_Window.Halcon_UserContol.ActualWidth);
-            HTuple hv_Height = new ((int)_Window.Halcon_UserContol.ActualHeight);
-            HTuple hv_WPRow1 = new ();
-            HTuple hv_WPColumn1 = new ();
-            HTuple hv_WPRow2 = new ();
-            HTuple hv_WPColumn2 = new ();
-            HHomMat3D hv_HomMat3D = new ();
-            HTuple hv_Qx = new ();
-            HTuple hv_Qy = new ();
-            HTuple hv_Qz = new ();
-            HTuple hv_OpenGLInfo = new ();
+            HTuple hv_Width = new((int)_Window.Halcon_UserContol.ActualWidth);
+            HTuple hv_Height = new((int)_Window.Halcon_UserContol.ActualHeight);
+            HTuple hv_WPRow1 = new();
+            HTuple hv_WPColumn1 = new();
+            HTuple hv_WPRow2 = new();
+            HTuple hv_WPColumn2 = new();
+            HHomMat3D hv_HomMat3D = new();
+            HTuple hv_Qx = new();
+            HTuple hv_Qy = new();
+            HTuple hv_Qz = new();
+            HTuple hv_OpenGLInfo = new();
             //HTuple hv_DummyObjectModel3D;
             //HTuple hv_Scene3DTest;
             //HTuple hv_CameraIndexTest;
@@ -1126,7 +1132,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 //设置窗口尺寸
 
-                _Window.HWindow.SetPart(new (0), new (0), hv_Height - 1, hv_Width - 1);
+                _Window.HWindow.SetPart(new(0), new(0), hv_Height - 1, hv_Width - 1);
 
 
 
@@ -1141,7 +1147,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, hv_Height - 1, hv_Width - 1);
                 //HOperatorSet.SetWindowParam(hv_WindowHandleBuffer, "background_color", "#334C66");
                 hv_WindowHandleBuffer.OpenWindow(0, 0, hv_Width, hv_Height, "", "buffer", "");
-                hv_WindowHandleBuffer.SetPart(new (0), new (0), hv_Height - 1, hv_Width - 1);
+                hv_WindowHandleBuffer.SetPart(new(0), new(0), hv_Height - 1, hv_Width - 1);
                 hv_WindowHandleBuffer.SetWindowParam("background_color", "#334C66");
 
 
@@ -1231,7 +1237,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 计算模型大小
         /// </summary>
-        private  void Model_Auto_Math()
+        private void Model_Auto_Math()
         {
             //计算对象合适大小
             hv_Center = get_object_models_center();
@@ -1300,7 +1306,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         HOperatorSet.WaitSeconds(0.01);
 
 
-
+                        While_SetEvent.Set();
                     } while (While_ResetEvent.WaitOne());
 
 
@@ -1363,7 +1369,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 ////缩放前获得图像中心位置
                 Event_Int((int)_Window.Halcon_UserContol.ActualWidth, (int)_Window.Halcon_UserContol.ActualHeight);
-               
+
                 Model_Auto_Math();
 
                 //设置模型显示位置
@@ -1400,24 +1406,29 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <param name="_3DModel"></param>
         public void SetDisplay3DModel(Display3DModel_Model _3DModel)
         {
+            //暂停渲染
+            While_ResetEvent.Set();
 
+            //等待线程暂停
+            While_SetEvent.WaitOne();
             lock (_3DModel)
             {
 
-                While_ResetEvent.Set();
 
                 //foreach (var _mod in hv_ObjectModel3D)
                 //{
                 //    _mod.Dispose();
                 //}
 
-                for (int i = 0; i < hv_ObjectModel3D .Count; i++)
+                for (int i = 0; i < hv_ObjectModel3D.Count; i++)
                 {
                     hv_Scene3D.RemoveScene3dInstance(i);
 
                 }
 
-                hv_ObjectModel3D.Clear ();
+                hv_ObjectModel3D.Clear();
+                hv_AllInstances = 0;
+                //hv_ObjectModel3D = new ObservableCollection<HObjectModel3D>(_3DModel._ObjectModel3D);
 
                 //设置可视化视角
                 if (_3DModel._PoseIn != null)
@@ -1428,7 +1439,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 foreach (var _model in _3DModel._ObjectModel3D)
                 {
-                    hv_AllInstances = hv_Scene3D.AddScene3dInstance(_model, hv_PoseIn);
+                    hv_AllInstances = hv_Scene3D.AddScene3dInstance(_model, hv_PoseIn)+1;
 
                     hv_ObjectModel3D.Add(_model);
                 }
@@ -1457,7 +1468,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         public void Set_Scene3D_Instance_Param(HScene3D _Scene3D, Halcon_Scene3D_Instance_Model _Param)
         {
 
-            object? _Par_Val = new ();
+            object? _Par_Val = new();
 
             //遍历三维模型属性设置
             foreach (PropertyInfo? _Val in _Param.GetType().GetProperties())
@@ -1467,9 +1478,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 _Par_Val = new object();
                 _Par_Val = _Val.PropertyType switch
                 {
-                Type _T when _T == typeof(double) => (double)_Val.GetValue(_Param)!,
-                Type _T when _T == typeof(int) => (int)_Val?.GetValue(_Param)!,
-                Type _T when _T.BaseType == typeof(Enum) => ((Enum)_Val.GetValue(_Param)!).GetStringValue(),
+                    Type _T when _T == typeof(double) => (double)_Val.GetValue(_Param)!,
+                    Type _T when _T == typeof(int) => (int)_Val?.GetValue(_Param)!,
+                    Type _T when _T.BaseType == typeof(Enum) => ((Enum)_Val.GetValue(_Param)!).GetStringValue(),
 
                     _ => _Val.GetValue(_Param)?.ToString()?.ToLower() ?? string.Empty,
                 };
@@ -1479,7 +1490,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 if (_Par_Val != null)
                 {
                     ///设置三维场景全部模型参数
-                    for (int i = 0; i <= hv_AllInstances; i++)
+                    for (int i = 0; i <= hv_ObjectModel3D.Count-1; i++)
                     {
 
 
@@ -1515,7 +1526,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <param name="_Param"></param>
         public void Set_Scene3D_Param(HScene3D _Scene3D, Halcon_Scene3D_Param_Model _Param)
         {
-            object _Par_Val = new ();
+            object _Par_Val = new();
 
             ///遍历属性参数设置
             foreach (PropertyInfo? _Val in _Param.GetType().GetProperties())
@@ -1557,16 +1568,16 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             // Local iconic variables 
 
             HObject ho_Rectangle = new();
-                HObject ho_Image=new ();
+            HObject ho_Image = new();
 
             // Local control variables 
 
-            HTuple hv_WindowHandleBuffer = new ();
-            HTuple hv_Exception = new ();
+            HTuple hv_WindowHandleBuffer = new();
+            HTuple hv_Exception = new();
             // Initialize local and output iconic variables 
             HOperatorSet.GenEmptyObj(out ho_Rectangle);
             HOperatorSet.GenEmptyObj(out ho_Image);
-            hv_RGB = new ();
+            hv_RGB = new();
             hv_WindowHandleBuffer.Dispose();
             HOperatorSet.OpenWindow(0, 0, 1, 1, 0, "buffer", "", out hv_WindowHandleBuffer);
             HOperatorSet.SetPart(hv_WindowHandleBuffer, 0, 0, -1, -1);
@@ -1577,7 +1588,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 HOperatorSet.SetColor(hv_WindowHandleBuffer, hv_Color);
             }
             // catch (Exception) 
-            catch (Exception )
+            catch (Exception)
             {
                 //HDevExpDefaultException1.ToHTuple(out hv_Exception);
                 //hv_Exception.Dispose();
@@ -1590,7 +1601,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HOperatorSet.CloseWindow(hv_WindowHandleBuffer);
             hv_RGB.Dispose();
             HOperatorSet.GetGrayval(ho_Image, 0, 0, out hv_RGB);
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 {
                     HTuple
@@ -1627,27 +1638,27 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_Rows = new (), hv_Cols = new ();
-            HTuple hv_MinMinZ = new (), hv_BB = new ();
-            HTuple hv_Index = new (), hv_CurrBB = new ();
-            HTuple hv_Exception = new (), hv_Seq = new ();
+            HTuple hv_Rows = new(), hv_Cols = new();
+            HTuple hv_MinMinZ = new(), hv_BB = new();
+            HTuple hv_Index = new(), hv_CurrBB = new();
+            HTuple hv_Exception = new(), hv_Seq = new();
             HTuple hv_DXMax = new(), hv_DYMax = new();
-            HTuple hv_DZMax = new (), hv_Diameter = new ();
-            HTuple hv_ZAdd = new (), hv_BBX0 = new ();
-            HTuple hv_BBX1 = new (), hv_BBY0 = new ();
-            HTuple hv_BBY1 = new (), hv_BBZ0 = new ();
-            HTuple hv_BBZ1 = new (), hv_X = new (), hv_Y = new ();
-            HTuple hv_Z = new (), hv_HomMat3DIn = new ();
-            HTuple hv_QX_In = new (), hv_QY_In = new ();
-            HTuple hv_QZ_In = new (), hv_PoseInter = new ();
-            HTuple hv_HomMat3D = new (), hv_QX = new ();
-            HTuple hv_QY = new (), hv_QZ = new (), hv_Cx = new ();
-            HTuple hv_Cy = new (), hv_DR = new (), hv_DC = new ();
-            HTuple hv_MaxDist = new (), hv_HomMat3DRotate = new ();
-            HTuple hv_ImageWidth = new (), hv_ImageHeight = new ();
-            HTuple hv_MinImageSize = new (), hv_Zs = new ();
-            HTuple hv_ZDiff = new (), hv_ScaleZ = new ();
-            HTuple hv_ZNew = new ();
+            HTuple hv_DZMax = new(), hv_Diameter = new();
+            HTuple hv_ZAdd = new(), hv_BBX0 = new();
+            HTuple hv_BBX1 = new(), hv_BBY0 = new();
+            HTuple hv_BBY1 = new(), hv_BBZ0 = new();
+            HTuple hv_BBZ1 = new(), hv_X = new(), hv_Y = new();
+            HTuple hv_Z = new(), hv_HomMat3DIn = new();
+            HTuple hv_QX_In = new(), hv_QY_In = new();
+            HTuple hv_QZ_In = new(), hv_PoseInter = new();
+            HTuple hv_HomMat3D = new(), hv_QX = new();
+            HTuple hv_QY = new(), hv_QZ = new(), hv_Cx = new();
+            HTuple hv_Cy = new(), hv_DR = new(), hv_DC = new();
+            HTuple hv_MaxDist = new(), hv_HomMat3DRotate = new();
+            HTuple hv_ImageWidth = new(), hv_ImageHeight = new();
+            HTuple hv_MinImageSize = new(), hv_Zs = new();
+            HTuple hv_ZDiff = new(), hv_ScaleZ = new();
+            HTuple hv_ZNew = new();
             // Initialize local and output iconic variables 
             //hv_PoseOut = new ();
             //Determine the optimum distance of the object to obtain
@@ -1657,25 +1668,25 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             try
             {
                 hv_Rows.Dispose();
-                hv_Rows = new ();
+                hv_Rows = new();
                 hv_Cols.Dispose();
-                hv_Cols = new ();
+                hv_Cols = new();
                 hv_MinMinZ.Dispose();
                 hv_MinMinZ = 1e30;
                 hv_BB.Dispose();
-                hv_BB = new ();
+                hv_BB = new();
                 for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_ObjectModel3DID.TupleLength()
                     )) - 1); hv_Index = (int)hv_Index + 1)
                 {
                     try
                     {
-                        using (HDevDisposeHelper dh = new ())
+                        using (HDevDisposeHelper dh = new())
                         {
                             hv_CurrBB.Dispose();
                             HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3DID.TupleSelect(hv_Index),
                                 "bounding_box1", out hv_CurrBB);
                         }
-                        using (HDevDisposeHelper dh = new ())
+                        using (HDevDisposeHelper dh = new())
                         {
                             {
                                 HTuple
@@ -1687,7 +1698,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         }
                     }
                     // catch (Exception) 
-                    catch (Exception )
+                    catch (Exception)
                     {
                         //HDevExpDefaultException1.ToHTuple(out hv_Exception);
                         //3D object model is empty / has no bounding box -> ignore it
@@ -1706,31 +1717,31 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
                 //Calculate diameter over all objects to be visualized
                 hv_Seq.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_Seq = HTuple.TupleGenSequence(
                         0, (new HTuple(hv_BB.TupleLength())) - 1, 6);
                 }
                 hv_DXMax.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_DXMax = (((hv_BB.TupleSelect(
                         hv_Seq + 3))).TupleMax()) - (((hv_BB.TupleSelect(hv_Seq))).TupleMin());
                 }
                 hv_DYMax.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_DYMax = (((hv_BB.TupleSelect(
                         hv_Seq + 4))).TupleMax()) - (((hv_BB.TupleSelect(hv_Seq + 1))).TupleMin());
                 }
                 hv_DZMax.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_DZMax = (((hv_BB.TupleSelect(
                         hv_Seq + 5))).TupleMax()) - (((hv_BB.TupleSelect(hv_Seq + 2))).TupleMin());
                 }
                 hv_Diameter.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_Diameter = ((((hv_DXMax * hv_DXMax) + (hv_DYMax * hv_DYMax)) + (hv_DZMax * hv_DZMax))).TupleSqrt()
                         ;
@@ -1758,57 +1769,57 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
                 //Move all points in front of the camera
                 hv_BBX0.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_BBX0 = hv_BB.TupleSelect(
                         hv_Seq + 0);
                 }
                 hv_BBX1.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_BBX1 = hv_BB.TupleSelect(
                         hv_Seq + 3);
                 }
                 hv_BBY0.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_BBY0 = hv_BB.TupleSelect(
                         hv_Seq + 1);
                 }
                 hv_BBY1.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_BBY1 = hv_BB.TupleSelect(
                         hv_Seq + 4);
                 }
                 hv_BBZ0.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_BBZ0 = hv_BB.TupleSelect(
                         hv_Seq + 2);
                 }
                 hv_BBZ1.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_BBZ1 = hv_BB.TupleSelect(
                         hv_Seq + 5);
                 }
                 hv_X.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
-                    hv_X = new ();
+                    hv_X = new();
                     hv_X = hv_X.TupleConcat(hv_BBX0, hv_BBX0, hv_BBX0, hv_BBX0, hv_BBX1, hv_BBX1, hv_BBX1, hv_BBX1);
                 }
                 hv_Y.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
-                    hv_Y = new ();
+                    hv_Y = new();
                     hv_Y = hv_Y.TupleConcat(hv_BBY0, hv_BBY0, hv_BBY1, hv_BBY1, hv_BBY0, hv_BBY0, hv_BBY1, hv_BBY1);
                 }
                 hv_Z.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
-                    hv_Z = new ();
+                    hv_Z = new();
                     hv_Z = hv_Z.TupleConcat(hv_BBZ0, hv_BBZ1, hv_BBZ0, hv_BBZ1, hv_BBZ0, hv_BBZ1, hv_BBZ0, hv_BBZ1);
                 }
                 hv_HomMat3DIn.Dispose();
@@ -1816,7 +1827,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_QX_In.Dispose(); hv_QY_In.Dispose(); hv_QZ_In.Dispose();
                 HOperatorSet.AffineTransPoint3d(hv_HomMat3DIn, hv_X, hv_Y, hv_Z, out hv_QX_In,
                     out hv_QY_In, out hv_QZ_In);
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_PoseInter.Dispose();
                     HOperatorSet.PoseCompose(((((new HTuple(0)).TupleConcat(0)).TupleConcat((-(hv_QZ_In.TupleMin()
@@ -1832,7 +1843,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_Rows.Dispose(); hv_Cols.Dispose();
                 HOperatorSet.Project3dPoint(hv_QX, hv_QY, hv_QZ, hv_CamParam, out hv_Rows, out hv_Cols);
                 hv_MinMinZ.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_MinMinZ = hv_QZ.TupleMin()
                         ;
@@ -1842,16 +1853,16 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_Cy.Dispose();
                 get_cam_par_data(hv_CamParam, "cy", out hv_Cy);
                 hv_DR.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_DR = hv_Rows - hv_Cy;
                 }
                 hv_DC.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_DC = hv_Cols - hv_Cx;
                 }
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     {
                         HTuple
@@ -1861,7 +1872,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_DR = ExpTmpLocalVar_DR;
                     }
                 }
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     {
                         HTuple
@@ -1872,7 +1883,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     }
                 }
                 hv_MaxDist.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_MaxDist = (((hv_DR * hv_DR) + (hv_DC * hv_DC))).TupleSqrt()
                         ;
@@ -1882,7 +1893,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 {
                     //If the object has no extension in the above projection (looking along
                     //a line), we determine the extension of the object in a rotated view
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         hv_HomMat3DRotate.Dispose();
                         HOperatorSet.HomMat3dRotateLocal(hv_HomMat3D, (new HTuple(90)).TupleRad(),
@@ -1895,16 +1906,16 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     HOperatorSet.Project3dPoint(hv_QX, hv_QY, hv_QZ, hv_CamParam, out hv_Rows,
                         out hv_Cols);
                     hv_DR.Dispose();
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         hv_DR = hv_Rows - hv_Cy;
                     }
                     hv_DC.Dispose();
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         hv_DC = hv_Cols - hv_Cx;
                     }
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -1914,7 +1925,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             hv_DR = ExpTmpLocalVar_DR;
                         }
                     }
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -1924,7 +1935,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             hv_DC = ExpTmpLocalVar_DC;
                         }
                     }
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -1941,14 +1952,14 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_ImageHeight.Dispose();
                 get_cam_par_data(hv_CamParam, "image_height", out hv_ImageHeight);
                 hv_MinImageSize.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_MinImageSize = ((hv_ImageWidth.TupleConcat(
                         hv_ImageHeight))).TupleMin();
                 }
                 //
                 hv_Z.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_Z = hv_PoseInter.TupleSelect(
                         2);
@@ -1956,22 +1967,22 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_Zs.Dispose();
                 hv_Zs = new HTuple(hv_MinMinZ);
                 hv_ZDiff.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_ZDiff = hv_Z - hv_Zs;
                 }
                 hv_ScaleZ.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_ScaleZ = hv_MaxDist / (((0.5 * hv_MinImageSize) * hv_ImageCoverage) * 2.0);
                 }
                 hv_ZNew.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_ZNew = ((hv_ScaleZ * hv_Zs) + hv_ZDiff) + hv_ZAdd;
                 }
                 //hv_PoseOut.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     return new HPose(hv_PoseInter.TupleReplace(2, hv_ZNew));
                 }
@@ -1981,7 +1992,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
             }
-            catch (Exception )
+            catch (Exception)
             {
 
                 //HDevExpDefaultException.ToHTuple(out hv_Exception);
@@ -2068,29 +2079,29 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             // Local control variables 
 
             HTuple hv_Red = new(), hv_Green = new();
-            HTuple hv_Blue = new (), hv_Row1Part = new ();
-            HTuple hv_Column1Part = new (), hv_Row2Part = new ();
-            HTuple hv_Column2Part = new (), hv_RowWin = new ();
-            HTuple hv_ColumnWin = new (), hv_WidthWin = new ();
-            HTuple hv_HeightWin = new (), hv_RGB = new ();
-            HTuple hv_Exception = new (), hv_Fac = new ();
-            HTuple hv_RGBL = new (), hv_RGBD = new ();
-            HTuple hv_ButtonColorBorderL = new (), hv_ButtonColorBorderD = new ();
-            HTuple hv_MaxAscent = new (), hv_MaxDescent = new ();
-            HTuple hv_MaxWidth = new (), hv_MaxHeight = new ();
-            HTuple hv_R1 = new (), hv_C1 = new (), hv_FactorRow = new ();
-            HTuple hv_FactorColumn = new (), hv_Width = new ();
-            HTuple hv_Index = new (), hv_Ascent = new ();
-            HTuple hv_Descent = new (), hv_W = new ();
-            HTuple hv_H = new (), hv_FrameHeight = new ();
-            HTuple hv_FrameWidth = new (), hv_R2 = new ();
-            HTuple hv_C2 = new (), hv_ClipRegion = new ();
-            HTuple hv_DrawMode = new (), hv_BorderWidth = new ();
-            HTuple hv_CurrentColor = new ();
-            HTuple hv_Column_COPY_INP_TMP = new (hv_Column);
-            HTuple hv_Row_COPY_INP_TMP = new (hv_Row);
-            HTuple hv_String_COPY_INP_TMP = new (hv_String);
-            HTuple hv_TextColor_COPY_INP_TMP = new (hv_TextColor);
+            HTuple hv_Blue = new(), hv_Row1Part = new();
+            HTuple hv_Column1Part = new(), hv_Row2Part = new();
+            HTuple hv_Column2Part = new(), hv_RowWin = new();
+            HTuple hv_ColumnWin = new(), hv_WidthWin = new();
+            HTuple hv_HeightWin = new(), hv_RGB = new();
+            HTuple hv_Exception = new(), hv_Fac = new();
+            HTuple hv_RGBL = new(), hv_RGBD = new();
+            HTuple hv_ButtonColorBorderL = new(), hv_ButtonColorBorderD = new();
+            HTuple hv_MaxAscent = new(), hv_MaxDescent = new();
+            HTuple hv_MaxWidth = new(), hv_MaxHeight = new();
+            HTuple hv_R1 = new(), hv_C1 = new(), hv_FactorRow = new();
+            HTuple hv_FactorColumn = new(), hv_Width = new();
+            HTuple hv_Index = new(), hv_Ascent = new();
+            HTuple hv_Descent = new(), hv_W = new();
+            HTuple hv_H = new(), hv_FrameHeight = new();
+            HTuple hv_FrameWidth = new(), hv_R2 = new();
+            HTuple hv_C2 = new(), hv_ClipRegion = new();
+            HTuple hv_DrawMode = new(), hv_BorderWidth = new();
+            HTuple hv_CurrentColor = new();
+            HTuple hv_Column_COPY_INP_TMP = new(hv_Column);
+            HTuple hv_Row_COPY_INP_TMP = new(hv_Row);
+            HTuple hv_String_COPY_INP_TMP = new(hv_String);
+            HTuple hv_TextColor_COPY_INP_TMP = new(hv_TextColor);
 
             // Initialize local and output iconic variables 
             HOperatorSet.GenEmptyObj(out HObject ho_UpperLeft);
@@ -2126,7 +2137,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_RowWin.Dispose(); hv_ColumnWin.Dispose(); hv_WidthWin.Dispose(); hv_HeightWin.Dispose();
             HOperatorSet.GetWindowExtents(hv_WindowHandle, out hv_RowWin, out hv_ColumnWin,
                 out hv_WidthWin, out hv_HeightWin);
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 HOperatorSet.SetPart(hv_WindowHandle, 0, 0, hv_HeightWin - 1, hv_WidthWin - 1);
             }
@@ -2142,7 +2153,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_Column_COPY_INP_TMP.Dispose();
                 hv_Column_COPY_INP_TMP = 12;
             }
-            if ((int)(new HTuple(hv_TextColor_COPY_INP_TMP.TupleEqual(new ()))) != 0)
+            if ((int)(new HTuple(hv_TextColor_COPY_INP_TMP.TupleEqual(new()))) != 0)
             {
                 hv_TextColor_COPY_INP_TMP.Dispose();
                 hv_TextColor_COPY_INP_TMP = "";
@@ -2154,7 +2165,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 color_string_to_rgb(hv_ButtonColor, out hv_RGB);
             }
             // catch (Exception) 
-            catch (Exception )
+            catch (Exception)
             {
                 //HDevExpDefaultException1.ToHTuple(out hv_Exception);
                 //hv_Exception.Dispose();
@@ -2164,31 +2175,31 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_Fac.Dispose();
             hv_Fac = 0.4;
             hv_RGBL.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_RGBL = hv_RGB + (((((255.0 - hv_RGB) * hv_Fac) + 0.5)).TupleInt()
                     );
             }
             hv_RGBD.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_RGBD = hv_RGB - ((((hv_RGB * hv_Fac) + 0.5)).TupleInt()
                     );
             }
             hv_ButtonColorBorderL.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_ButtonColorBorderL = "#" + ((("" + (hv_RGBL.TupleString(
                     "02x")))).TupleSum());
             }
             hv_ButtonColorBorderD.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_ButtonColorBorderD = "#" + ((("" + (hv_RGBD.TupleString(
                     "02x")))).TupleSum());
             }
             //
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 {
                     HTuple
@@ -2214,22 +2225,22 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
                 //Transform image to window coordinates.
                 hv_FactorRow.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_FactorRow = (1.0 * hv_HeightWin) / ((hv_Row2Part - hv_Row1Part) + 1);
                 }
                 hv_FactorColumn.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_FactorColumn = (1.0 * hv_WidthWin) / ((hv_Column2Part - hv_Column1Part) + 1);
                 }
                 hv_R1.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_R1 = ((hv_Row_COPY_INP_TMP - hv_Row1Part) + 0.5) * hv_FactorRow;
                 }
                 hv_C1.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_C1 = ((hv_Column_COPY_INP_TMP - hv_Column1Part) + 0.5) * hv_FactorColumn;
                 }
@@ -2238,7 +2249,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             //Display text box depending on text size.
             //
             //Calculate box extents.
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 {
                     HTuple
@@ -2248,17 +2259,17 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
             }
             hv_Width.Dispose();
-            hv_Width = new ();
+            hv_Width = new();
             for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_String_COPY_INP_TMP.TupleLength()
                 )) - 1); hv_Index = (int)hv_Index + 1)
             {
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_Ascent.Dispose(); hv_Descent.Dispose(); hv_W.Dispose(); hv_H.Dispose();
                     HOperatorSet.GetStringExtents(hv_WindowHandle, hv_String_COPY_INP_TMP.TupleSelect(
                         hv_Index), out hv_Ascent, out hv_Descent, out hv_W, out hv_H);
                 }
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     {
                         HTuple
@@ -2270,24 +2281,24 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
             }
             hv_FrameHeight.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_FrameHeight = hv_MaxHeight * (new HTuple(hv_String_COPY_INP_TMP.TupleLength()
                     ));
             }
             hv_FrameWidth.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_FrameWidth = (((new HTuple(0)).TupleConcat(
                     hv_Width))).TupleMax();
             }
             hv_R2.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_R2 = hv_R1 + hv_FrameHeight;
             }
             hv_C2.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_C2 = hv_C1 + hv_FrameWidth;
             }
@@ -2300,7 +2311,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HOperatorSet.SetDraw(hv_WindowHandle, "fill");
             hv_BorderWidth.Dispose();
             hv_BorderWidth = 2;
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 ho_UpperLeft.Dispose();
                 HOperatorSet.GenRegionPolygonFilled(out ho_UpperLeft, ((((((((hv_R1 - hv_BorderWidth)).TupleConcat(
@@ -2308,7 +2319,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_R2 + hv_BorderWidth), ((((((((hv_C1 - hv_BorderWidth)).TupleConcat(hv_C2 + hv_BorderWidth))).TupleConcat(
                     hv_C2))).TupleConcat(hv_C1))).TupleConcat(hv_C1 - hv_BorderWidth));
             }
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 ho_LowerRight.Dispose();
                 HOperatorSet.GenRegionPolygonFilled(out ho_LowerRight, ((((((((hv_R2 + hv_BorderWidth)).TupleConcat(
@@ -2331,7 +2342,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 )) - 1); hv_Index = (int)hv_Index + 1)
             {
                 hv_CurrentColor.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_CurrentColor = hv_TextColor_COPY_INP_TMP.TupleSelect(
                         hv_Index % (new HTuple(hv_TextColor_COPY_INP_TMP.TupleLength())));
@@ -2346,11 +2357,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     HOperatorSet.SetRgb(hv_WindowHandle, hv_Red, hv_Green, hv_Blue);
                 }
                 hv_Row_COPY_INP_TMP.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_Row_COPY_INP_TMP = hv_R1 + (hv_MaxHeight * hv_Index);
                 }
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     HOperatorSet.DispText(hv_WindowHandle, hv_String_COPY_INP_TMP.TupleSelect(hv_Index),
                         "window", hv_Row_COPY_INP_TMP, hv_C1, hv_CurrentColor, "box", "false");
@@ -2429,11 +2440,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_Diameters = new ();
-            HTuple hv_Diameter = new (), hv_C = new ();
-            HTuple hv_Exception = new (), hv_MD = new ();
-            HTuple hv_Weight = new (), hv_SumW = new ();
-            HTuple hv_ObjectModel3DID = new (), hv_InvSum = new ();
+            HTuple hv_Diameters = new();
+            HTuple hv_Diameter = new(), hv_C = new();
+            HTuple hv_Exception = new(), hv_MD = new();
+            HTuple hv_Weight = new(), hv_SumW = new();
+            HTuple hv_ObjectModel3DID = new(), hv_InvSum = new();
             // Initialize local and output iconic variables 
             //Compute the mean of all model centers (weighted by the diameter of the object models)
             //* 计算所有模型中心的平均值（按物体模型直径加权计算）
@@ -2442,7 +2453,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
 
 
-                hv_Center = new ();
+                hv_Center = new();
                 hv_Center[0] = 0;
                 hv_Center[1] = 0;
                 hv_Center[2] = 0;
@@ -2463,7 +2474,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_Diameters[hv_Index] = hv_Diameter;
                     }
                     // catch (Exception) 
-                    catch (Exception )
+                    catch (Exception)
                     {
                         //HDevExpDefaultException1.ToHTuple(out hv_Exception);
                         //Object model is empty, has no center etc. -> ignore it by leaving its diameter at zero
@@ -2585,15 +2596,15 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_Diameter = new ();
-            HTuple hv_Center = new ();
-            HTuple hv_NumPoint = new ();
-            HTuple hv_CurrDiameter = new (), hv_Exception = new ();
-            HTuple hv_MD = new (), hv_Weight = new ();
-            HTuple hv_SumW = new (), hv_PoseSelected = new ();
-            HTuple hv_HomMat3D = new (), hv_TBCenterCamX = new ();
-            HTuple hv_TBCenterCamY = new (), hv_TBCenterCamZ = new ();
-            HTuple hv_InvSum = new ();
+            HTuple hv_Diameter = new();
+            HTuple hv_Center = new();
+            HTuple hv_NumPoint = new();
+            HTuple hv_CurrDiameter = new(), hv_Exception = new();
+            HTuple hv_MD = new(), hv_Weight = new();
+            HTuple hv_SumW = new(), hv_PoseSelected = new();
+            HTuple hv_HomMat3D = new(), hv_TBCenterCamX = new();
+            HTuple hv_TBCenterCamY = new(), hv_TBCenterCamZ = new();
+            HTuple hv_InvSum = new();
 
 
             try
@@ -2603,8 +2614,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                 // Initialize local and output iconic variables 
-                hv_TBCenter = new ();
-                hv_TBSize = new ();
+                hv_TBCenter = new();
+                hv_TBSize = new();
 
                 hv_SelectedObject = HTuple.TupleGenConst(hv_ObjectModel3D.Length, 1);
 
@@ -2636,7 +2647,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                         hv_Diameter[hv_Index] = hv_CurrDiameter;
                     }
                     // catch (Exception) 
-                    catch (Exception )
+                    catch (Exception)
                     {
                         //HDevExpDefaultException1.ToHTuple(out hv_Exception);
                         //3D object model is empty or otherwise malformed -> ignore
@@ -2717,7 +2728,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 else
                 {
                     hv_TBCenter.Dispose();
-                    hv_TBCenter = new ();
+                    hv_TBCenter = new();
                     hv_TBSize.Dispose();
                     hv_TBSize = 0;
                 }
@@ -2773,22 +2784,22 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_NumModels = new (), hv_Width = new ();
-            HTuple hv_Height = new (), hv_SelectPose = new ();
-            HTuple hv_Index1 = new (), hv_Rows = new ();
-            HTuple hv_Columns = new (), hv_Grayval = new ();
-            HTuple hv_IndicesG = new (), hv_Value = new ();
-            HTuple hv_Pos = new ();
+            HTuple hv_NumModels = new(), hv_Width = new();
+            HTuple hv_Height = new(), hv_SelectPose = new();
+            HTuple hv_Index1 = new(), hv_Rows = new();
+            HTuple hv_Columns = new(), hv_Grayval = new();
+            HTuple hv_IndicesG = new(), hv_Value = new();
+            HTuple hv_Pos = new();
             // Initialize local and output iconic variables 
             HOperatorSet.GenEmptyObj(out HObject ho_RegionCenter);
             HOperatorSet.GenEmptyObj(out HObject ho_DistanceImage);
             HOperatorSet.GenEmptyObj(out HObject ho_Domain);
-            hv_TBCenter = new ();
-            hv_TBSize = new ();
+            hv_TBCenter = new();
+            hv_TBSize = new();
             //
             //Determine the trackball center for the fixed trackball
             hv_NumModels.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_NumModels = new HTuple(hv_ObjectModel3DID.TupleLength()
                     );
@@ -2800,11 +2811,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             //
             //Project the selected objects
             hv_SelectPose.Dispose();
-            hv_SelectPose = new ();
+            hv_SelectPose = new();
             for (hv_Index1 = 0; (int)hv_Index1 <= (int)((new HTuple(hv_SelectedObject.TupleLength()
                 )) - 1); hv_Index1 = (int)hv_Index1 + 1)
             {
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     {
                         HTuple
@@ -2839,13 +2850,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             HOperatorSet.GetGrayval(ho_DistanceImage, hv_Rows, hv_Columns, out hv_Grayval);
             hv_IndicesG.Dispose();
             HOperatorSet.TupleSortIndex(hv_Grayval, out hv_IndicesG);
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_Value.Dispose();
                 HOperatorSet.GetDisplayScene3dInfo(hv_WindowHandleBuffer, hv_Scene3D, hv_Rows.TupleSelect(
                     hv_IndicesG), hv_Columns.TupleSelect(hv_IndicesG), "depth", out hv_Value);
             }
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_Pos.Dispose();
                 HOperatorSet.TupleFind(hv_Value.TupleSgn(), 1, out hv_Pos);
@@ -2871,7 +2882,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 //if the object is not visible in the image, set the z coordinate to -1
                 //to indicate, that the previous z value should be used instead
                 hv_TBCenter.Dispose();
-                hv_TBCenter = new ();
+                hv_TBCenter = new();
                 hv_TBCenter[0] = 0;
                 hv_TBCenter[1] = 0;
                 hv_TBCenter[2] = -1;
@@ -2887,7 +2898,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             else
             {
                 hv_TBCenter.Dispose();
-                hv_TBCenter = new ();
+                hv_TBCenter = new();
                 hv_TBSize.Dispose();
                 hv_TBSize = 0;
             }
@@ -2921,23 +2932,23 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_Index = new (), hv_Ascent = new ();
-            HTuple hv_Descent = new (), hv_LineWidth = new ();
-            HTuple hv_LineHeight = new ();
+            HTuple hv_Index = new(), hv_Ascent = new();
+            HTuple hv_Descent = new(), hv_LineWidth = new();
+            HTuple hv_LineHeight = new();
             // Initialize local and output iconic variables 
-            hv_MaxWidth = new ();
+            hv_MaxWidth = new();
             //
             hv_MaxWidth.Dispose();
             hv_MaxWidth = 0;
             for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_Lines.TupleLength())) - 1); hv_Index = (int)hv_Index + 1)
             {
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_Ascent.Dispose(); hv_Descent.Dispose(); hv_LineWidth.Dispose(); hv_LineHeight.Dispose();
                     HOperatorSet.GetStringExtents(hv_WindowHandle, hv_Lines.TupleSelect(hv_Index),
                         out hv_Ascent, out hv_Descent, out hv_LineWidth, out hv_LineHeight);
                 }
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     {
                         HTuple
@@ -2977,16 +2988,16 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_R = new (), hv_XP = new ();
-            HTuple hv_YP = new (), hv_ZP = new ();
+            HTuple hv_R = new(), hv_XP = new();
+            HTuple hv_YP = new(), hv_ZP = new();
             // Initialize local and output iconic variables 
-            hv_V = new ();
+            hv_V = new();
             //
             if ((int)(new HTuple(hv_VirtualTrackball.TupleEqual("shoemake"))) != 0)
             {
                 //Virtual Trackball according to Shoemake
                 hv_R.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_R = (((hv_X * hv_X) + (hv_Y * hv_Y))).TupleSqrt()
                         ;
@@ -2994,9 +3005,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 if ((int)(new HTuple(hv_R.TupleLessEqual(hv_TrackballSize))) != 0)
                 {
                     hv_XP.Dispose();
-                    hv_XP = new (hv_X);
+                    hv_XP = new(hv_X);
                     hv_YP.Dispose();
-                    hv_YP = new (hv_Y);
+                    hv_YP = new(hv_Y);
                     hv_ZP.Dispose();
                     using HDevDisposeHelper dh = new();
                     hv_ZP = (((hv_TrackballSize * hv_TrackballSize) - (hv_R * hv_R))).TupleSqrt()
@@ -3005,12 +3016,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 else
                 {
                     hv_XP.Dispose();
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         hv_XP = (hv_X * hv_TrackballSize) / hv_R;
                     }
                     hv_YP.Dispose();
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         hv_YP = (hv_Y * hv_TrackballSize) / hv_R;
                     }
@@ -3022,7 +3033,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
                 //Virtual Trackball according to Bell
                 hv_R.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_R = (((hv_X * hv_X) + (hv_Y * hv_Y))).TupleSqrt()
                         ;
@@ -3035,7 +3046,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_YP = new HTuple(hv_Y);
                     hv_ZP.Dispose();
                     using HDevDisposeHelper dh = new();
-                    hv_ZP = (((hv_TrackballSize * hv_TrackballSize) - (hv_R * hv_R))).TupleSqrt() ;
+                    hv_ZP = (((hv_TrackballSize * hv_TrackballSize) - (hv_R * hv_R))).TupleSqrt();
                 }
                 else
                 {
@@ -3049,9 +3060,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 }
             }
             hv_V.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
-                hv_V = new ();
+                hv_V = new();
                 hv_V = hv_V.TupleConcat(hv_XP, hv_YP, hv_ZP);
             }
 
@@ -3085,12 +3096,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_P1 = new (), hv_P2 = new ();
-            HTuple hv_RotAxis = new (), hv_D = new ();
-            HTuple hv_T = new (), hv_RotAngle = new ();
-            HTuple hv_Len = new ();
+            HTuple hv_P1 = new(), hv_P2 = new();
+            HTuple hv_RotAxis = new(), hv_D = new();
+            HTuple hv_T = new(), hv_RotAngle = new();
+            HTuple hv_Len = new();
             // Initialize local and output iconic variables 
-            HTuple hv_QuatRotation = new ();
+            HTuple hv_QuatRotation = new();
             //
             //Compute the 3D rotation from the mouse movement
             //根据鼠标移动计算 3D 旋转
@@ -3098,7 +3109,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_MY2)))) != 0)
             {
                 hv_QuatRotation.Dispose();
-                hv_QuatRotation = new ();
+                hv_QuatRotation = new();
                 hv_QuatRotation[0] = 1;
                 hv_QuatRotation[1] = 0;
                 hv_QuatRotation[2] = 0;
@@ -3127,12 +3138,12 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             tuple_vector_cross_product(hv_P1, hv_P2, out hv_RotAxis);
             //Compute the rotation angle
             hv_D.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_D = hv_P2 - hv_P1;
             }
             hv_T.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_T = (((((hv_D * hv_D)).TupleSum()
                     )).TupleSqrt()) / (2.0 * hv_TrackballSize);
@@ -3148,13 +3159,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_T = -1.0;
             }
             hv_RotAngle.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_RotAngle = (2.0 * (hv_T.TupleAsin()
                     )) * hv_SensFactor;
             }
             hv_Len.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_Len = ((((hv_RotAxis * hv_RotAxis)).TupleSum()
                     )).TupleSqrt();
@@ -3169,7 +3180,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_RotAxis = ExpTmpLocalVar_RotAxis;
                 }
             }
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_QuatRotation.Dispose();
                 HOperatorSet.AxisAngleToQuat(hv_RotAxis.TupleSelect(0), hv_RotAxis.TupleSelect(
@@ -3197,15 +3208,15 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local iconic variables 
             // Initialize local and output iconic variables 
-            hv_VC = new ();
+            hv_VC = new();
             //The caller must ensure that the length of both input vectors is 3
             hv_VC.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 hv_VC = ((hv_V1.TupleSelect(
                     1)) * (hv_V2.TupleSelect(2))) - ((hv_V1.TupleSelect(2)) * (hv_V2.TupleSelect(1)));
             }
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 {
                     HTuple
@@ -3216,7 +3227,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_VC = ExpTmpLocalVar_VC;
                 }
             }
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
                 {
                     HTuple
@@ -3255,14 +3266,14 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local iconic variables 
             // Initialize local and output iconic variables 
-            HTuple hv_CameraParam = new ();
+            HTuple hv_CameraParam = new();
             //Generate a camera parameter tuple for an area scan camera
             //with distortions modeled by the division model.
             //
             //hv_CameraParam.Dispose();
-            using (HDevDisposeHelper dh = new ())
+            using (HDevDisposeHelper dh = new())
             {
-                hv_CameraParam = new ();
+                hv_CameraParam = new();
                 hv_CameraParam[0] = "area_scan_division";
                 hv_CameraParam = hv_CameraParam.TupleConcat(hv_Focus, hv_Kappa, hv_Sx, hv_Sy, hv_Cx, hv_Cy, hv_ImageWidth, hv_ImageHeight);
             }
@@ -3288,11 +3299,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_CameraType = new (), hv_CameraParamNames = new ();
-            HTuple hv_Index = new (), hv_ParamNameInd = new ();
-            HTuple hv_I = new ();
+            HTuple hv_CameraType = new(), hv_CameraParamNames = new();
+            HTuple hv_Index = new(), hv_ParamNameInd = new();
+            HTuple hv_I = new();
             // Initialize local and output iconic variables 
-            hv_ParamValue = new ();
+            hv_ParamValue = new();
             //get_cam_par_data returns in ParamValue the value of the
             //parameter that is given in ParamName from the tuple of
             //camera parameters that is given in CameraParam.
@@ -3305,11 +3316,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             //Find the index of the requested camera data and return
             //the corresponding value.
             hv_ParamValue.Dispose();
-            hv_ParamValue = new ();
+            hv_ParamValue = new();
             for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_ParamName.TupleLength())) - 1); hv_Index = (int)hv_Index + 1)
             {
                 hv_ParamNameInd.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_ParamNameInd = hv_ParamName.TupleSelect(
                         hv_Index);
@@ -3327,7 +3338,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     continue;
                 }
                 hv_I.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_I = hv_CameraParamNames.TupleFind(
                         hv_ParamNameInd);
@@ -3376,33 +3387,33 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_CameraParamAreaScanDivision = new ();
-            HTuple hv_CameraParamAreaScanPolynomial = new ();
-            HTuple hv_CameraParamAreaScanTelecentricDivision = new ();
-            HTuple hv_CameraParamAreaScanTelecentricPolynomial = new ();
-            HTuple hv_CameraParamAreaScanTiltDivision = new ();
-            HTuple hv_CameraParamAreaScanTiltPolynomial = new ();
-            HTuple hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new ();
-            HTuple hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new ();
-            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new ();
-            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new ();
-            HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new ();
-            HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new ();
-            HTuple hv_CameraParamAreaScanHypercentricDivision = new ();
-            HTuple hv_CameraParamAreaScanHypercentricPolynomial = new ();
-            HTuple hv_CameraParamLinesScanDivision = new ();
-            HTuple hv_CameraParamLinesScanPolynomial = new ();
-            HTuple hv_CameraParamLinesScanTelecentricDivision = new ();
-            HTuple hv_CameraParamLinesScanTelecentricPolynomial = new ();
-            HTuple hv_CameraParamAreaScanTiltDivisionLegacy = new ();
-            HTuple hv_CameraParamAreaScanTiltPolynomialLegacy = new ();
-            HTuple hv_CameraParamAreaScanTelecentricDivisionLegacy = new ();
-            HTuple hv_CameraParamAreaScanTelecentricPolynomialLegacy = new ();
-            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new ();
-            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new ();
+            HTuple hv_CameraParamAreaScanDivision = new();
+            HTuple hv_CameraParamAreaScanPolynomial = new();
+            HTuple hv_CameraParamAreaScanTelecentricDivision = new();
+            HTuple hv_CameraParamAreaScanTelecentricPolynomial = new();
+            HTuple hv_CameraParamAreaScanTiltDivision = new();
+            HTuple hv_CameraParamAreaScanTiltPolynomial = new();
+            HTuple hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new();
+            HTuple hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new();
+            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new();
+            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new();
+            HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new();
+            HTuple hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new();
+            HTuple hv_CameraParamAreaScanHypercentricDivision = new();
+            HTuple hv_CameraParamAreaScanHypercentricPolynomial = new();
+            HTuple hv_CameraParamLinesScanDivision = new();
+            HTuple hv_CameraParamLinesScanPolynomial = new();
+            HTuple hv_CameraParamLinesScanTelecentricDivision = new();
+            HTuple hv_CameraParamLinesScanTelecentricPolynomial = new();
+            HTuple hv_CameraParamAreaScanTiltDivisionLegacy = new();
+            HTuple hv_CameraParamAreaScanTiltPolynomialLegacy = new();
+            HTuple hv_CameraParamAreaScanTelecentricDivisionLegacy = new();
+            HTuple hv_CameraParamAreaScanTelecentricPolynomialLegacy = new();
+            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new();
+            HTuple hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new();
             // Initialize local and output iconic variables 
-            hv_CameraType = new ();
-            hv_ParamNames = new ();
+            hv_CameraType = new();
+            hv_ParamNames = new();
             //get_cam_par_names returns for each element in the camera
             //parameter tuple that is passed in CameraParam the name
             //of the respective camera parameter. The parameter names
@@ -3428,7 +3439,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             //  - 'line_scan_telecentric_polynomial'
             //
             hv_CameraParamAreaScanDivision.Dispose();
-            hv_CameraParamAreaScanDivision = new ();
+            hv_CameraParamAreaScanDivision = new();
             hv_CameraParamAreaScanDivision[0] = "focus";
             hv_CameraParamAreaScanDivision[1] = "kappa";
             hv_CameraParamAreaScanDivision[2] = "sx";
@@ -3438,7 +3449,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanDivision[6] = "image_width";
             hv_CameraParamAreaScanDivision[7] = "image_height";
             hv_CameraParamAreaScanPolynomial.Dispose();
-            hv_CameraParamAreaScanPolynomial = new ();
+            hv_CameraParamAreaScanPolynomial = new();
             hv_CameraParamAreaScanPolynomial[0] = "focus";
             hv_CameraParamAreaScanPolynomial[1] = "k1";
             hv_CameraParamAreaScanPolynomial[2] = "k2";
@@ -3452,7 +3463,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanPolynomial[10] = "image_width";
             hv_CameraParamAreaScanPolynomial[11] = "image_height";
             hv_CameraParamAreaScanTelecentricDivision.Dispose();
-            hv_CameraParamAreaScanTelecentricDivision = new ();
+            hv_CameraParamAreaScanTelecentricDivision = new();
             hv_CameraParamAreaScanTelecentricDivision[0] = "magnification";
             hv_CameraParamAreaScanTelecentricDivision[1] = "kappa";
             hv_CameraParamAreaScanTelecentricDivision[2] = "sx";
@@ -3462,7 +3473,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanTelecentricDivision[6] = "image_width";
             hv_CameraParamAreaScanTelecentricDivision[7] = "image_height";
             hv_CameraParamAreaScanTelecentricPolynomial.Dispose();
-            hv_CameraParamAreaScanTelecentricPolynomial = new ();
+            hv_CameraParamAreaScanTelecentricPolynomial = new();
             hv_CameraParamAreaScanTelecentricPolynomial[0] = "magnification";
             hv_CameraParamAreaScanTelecentricPolynomial[1] = "k1";
             hv_CameraParamAreaScanTelecentricPolynomial[2] = "k2";
@@ -3476,7 +3487,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanTelecentricPolynomial[10] = "image_width";
             hv_CameraParamAreaScanTelecentricPolynomial[11] = "image_height";
             hv_CameraParamAreaScanTiltDivision.Dispose();
-            hv_CameraParamAreaScanTiltDivision = new ();
+            hv_CameraParamAreaScanTiltDivision = new();
             hv_CameraParamAreaScanTiltDivision[0] = "focus";
             hv_CameraParamAreaScanTiltDivision[1] = "kappa";
             hv_CameraParamAreaScanTiltDivision[2] = "image_plane_dist";
@@ -3489,7 +3500,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanTiltDivision[9] = "image_width";
             hv_CameraParamAreaScanTiltDivision[10] = "image_height";
             hv_CameraParamAreaScanTiltPolynomial.Dispose();
-            hv_CameraParamAreaScanTiltPolynomial = new ();
+            hv_CameraParamAreaScanTiltPolynomial = new();
             hv_CameraParamAreaScanTiltPolynomial[0] = "focus";
             hv_CameraParamAreaScanTiltPolynomial[1] = "k1";
             hv_CameraParamAreaScanTiltPolynomial[2] = "k2";
@@ -3506,7 +3517,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanTiltPolynomial[13] = "image_width";
             hv_CameraParamAreaScanTiltPolynomial[14] = "image_height";
             hv_CameraParamAreaScanImageSideTelecentricTiltDivision.Dispose();
-            hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new ();
+            hv_CameraParamAreaScanImageSideTelecentricTiltDivision = new();
             hv_CameraParamAreaScanImageSideTelecentricTiltDivision[0] = "focus";
             hv_CameraParamAreaScanImageSideTelecentricTiltDivision[1] = "kappa";
             hv_CameraParamAreaScanImageSideTelecentricTiltDivision[2] = "tilt";
@@ -3518,7 +3529,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanImageSideTelecentricTiltDivision[8] = "image_width";
             hv_CameraParamAreaScanImageSideTelecentricTiltDivision[9] = "image_height";
             hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial.Dispose();
-            hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new ();
+            hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial = new();
             hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[0] = "focus";
             hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[1] = "k1";
             hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[2] = "k2";
@@ -3534,7 +3545,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[12] = "image_width";
             hv_CameraParamAreaScanImageSideTelecentricTiltPolynomial[13] = "image_height";
             hv_CameraParamAreaScanBilateralTelecentricTiltDivision.Dispose();
-            hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new ();
+            hv_CameraParamAreaScanBilateralTelecentricTiltDivision = new();
             hv_CameraParamAreaScanBilateralTelecentricTiltDivision[0] = "magnification";
             hv_CameraParamAreaScanBilateralTelecentricTiltDivision[1] = "kappa";
             hv_CameraParamAreaScanBilateralTelecentricTiltDivision[2] = "tilt";
@@ -3546,7 +3557,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanBilateralTelecentricTiltDivision[8] = "image_width";
             hv_CameraParamAreaScanBilateralTelecentricTiltDivision[9] = "image_height";
             hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial.Dispose();
-            hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new ();
+            hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial = new();
             hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[0] = "magnification";
             hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[1] = "k1";
             hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[2] = "k2";
@@ -3562,7 +3573,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[12] = "image_width";
             hv_CameraParamAreaScanBilateralTelecentricTiltPolynomial[13] = "image_height";
             hv_CameraParamAreaScanObjectSideTelecentricTiltDivision.Dispose();
-            hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new ();
+            hv_CameraParamAreaScanObjectSideTelecentricTiltDivision = new();
             hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[0] = "magnification";
             hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[1] = "kappa";
             hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[2] = "image_plane_dist";
@@ -3575,7 +3586,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[9] = "image_width";
             hv_CameraParamAreaScanObjectSideTelecentricTiltDivision[10] = "image_height";
             hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial.Dispose();
-            hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new ();
+            hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial = new();
             hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[0] = "magnification";
             hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[1] = "k1";
             hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[2] = "k2";
@@ -3592,7 +3603,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[13] = "image_width";
             hv_CameraParamAreaScanObjectSideTelecentricTiltPolynomial[14] = "image_height";
             hv_CameraParamAreaScanHypercentricDivision.Dispose();
-            hv_CameraParamAreaScanHypercentricDivision = new ();
+            hv_CameraParamAreaScanHypercentricDivision = new();
             hv_CameraParamAreaScanHypercentricDivision[0] = "focus";
             hv_CameraParamAreaScanHypercentricDivision[1] = "kappa";
             hv_CameraParamAreaScanHypercentricDivision[2] = "sx";
@@ -3602,7 +3613,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanHypercentricDivision[6] = "image_width";
             hv_CameraParamAreaScanHypercentricDivision[7] = "image_height";
             hv_CameraParamAreaScanHypercentricPolynomial.Dispose();
-            hv_CameraParamAreaScanHypercentricPolynomial = new ();
+            hv_CameraParamAreaScanHypercentricPolynomial = new();
             hv_CameraParamAreaScanHypercentricPolynomial[0] = "focus";
             hv_CameraParamAreaScanHypercentricPolynomial[1] = "k1";
             hv_CameraParamAreaScanHypercentricPolynomial[2] = "k2";
@@ -3616,7 +3627,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanHypercentricPolynomial[10] = "image_width";
             hv_CameraParamAreaScanHypercentricPolynomial[11] = "image_height";
             hv_CameraParamLinesScanDivision.Dispose();
-            hv_CameraParamLinesScanDivision = new ();
+            hv_CameraParamLinesScanDivision = new();
             hv_CameraParamLinesScanDivision[0] = "focus";
             hv_CameraParamLinesScanDivision[1] = "kappa";
             hv_CameraParamLinesScanDivision[2] = "sx";
@@ -3629,7 +3640,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamLinesScanDivision[9] = "vy";
             hv_CameraParamLinesScanDivision[10] = "vz";
             hv_CameraParamLinesScanPolynomial.Dispose();
-            hv_CameraParamLinesScanPolynomial = new ();
+            hv_CameraParamLinesScanPolynomial = new();
             hv_CameraParamLinesScanPolynomial[0] = "focus";
             hv_CameraParamLinesScanPolynomial[1] = "k1";
             hv_CameraParamLinesScanPolynomial[2] = "k2";
@@ -3646,7 +3657,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamLinesScanPolynomial[13] = "vy";
             hv_CameraParamLinesScanPolynomial[14] = "vz";
             hv_CameraParamLinesScanTelecentricDivision.Dispose();
-            hv_CameraParamLinesScanTelecentricDivision = new ();
+            hv_CameraParamLinesScanTelecentricDivision = new();
             hv_CameraParamLinesScanTelecentricDivision[0] = "magnification";
             hv_CameraParamLinesScanTelecentricDivision[1] = "kappa";
             hv_CameraParamLinesScanTelecentricDivision[2] = "sx";
@@ -3659,7 +3670,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamLinesScanTelecentricDivision[9] = "vy";
             hv_CameraParamLinesScanTelecentricDivision[10] = "vz";
             hv_CameraParamLinesScanTelecentricPolynomial.Dispose();
-            hv_CameraParamLinesScanTelecentricPolynomial = new ();
+            hv_CameraParamLinesScanTelecentricPolynomial = new();
             hv_CameraParamLinesScanTelecentricPolynomial[0] = "magnification";
             hv_CameraParamLinesScanTelecentricPolynomial[1] = "k1";
             hv_CameraParamLinesScanTelecentricPolynomial[2] = "k2";
@@ -3677,7 +3688,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamLinesScanTelecentricPolynomial[14] = "vz";
             //Legacy parameter names
             hv_CameraParamAreaScanTiltDivisionLegacy.Dispose();
-            hv_CameraParamAreaScanTiltDivisionLegacy = new ();
+            hv_CameraParamAreaScanTiltDivisionLegacy = new();
             hv_CameraParamAreaScanTiltDivisionLegacy[0] = "focus";
             hv_CameraParamAreaScanTiltDivisionLegacy[1] = "kappa";
             hv_CameraParamAreaScanTiltDivisionLegacy[2] = "tilt";
@@ -3689,7 +3700,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanTiltDivisionLegacy[8] = "image_width";
             hv_CameraParamAreaScanTiltDivisionLegacy[9] = "image_height";
             hv_CameraParamAreaScanTiltPolynomialLegacy.Dispose();
-            hv_CameraParamAreaScanTiltPolynomialLegacy = new ();
+            hv_CameraParamAreaScanTiltPolynomialLegacy = new();
             hv_CameraParamAreaScanTiltPolynomialLegacy[0] = "focus";
             hv_CameraParamAreaScanTiltPolynomialLegacy[1] = "k1";
             hv_CameraParamAreaScanTiltPolynomialLegacy[2] = "k2";
@@ -3705,7 +3716,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanTiltPolynomialLegacy[12] = "image_width";
             hv_CameraParamAreaScanTiltPolynomialLegacy[13] = "image_height";
             hv_CameraParamAreaScanTelecentricDivisionLegacy.Dispose();
-            hv_CameraParamAreaScanTelecentricDivisionLegacy = new ();
+            hv_CameraParamAreaScanTelecentricDivisionLegacy = new();
             hv_CameraParamAreaScanTelecentricDivisionLegacy[0] = "focus";
             hv_CameraParamAreaScanTelecentricDivisionLegacy[1] = "kappa";
             hv_CameraParamAreaScanTelecentricDivisionLegacy[2] = "sx";
@@ -3715,7 +3726,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanTelecentricDivisionLegacy[6] = "image_width";
             hv_CameraParamAreaScanTelecentricDivisionLegacy[7] = "image_height";
             hv_CameraParamAreaScanTelecentricPolynomialLegacy.Dispose();
-            hv_CameraParamAreaScanTelecentricPolynomialLegacy = new ();
+            hv_CameraParamAreaScanTelecentricPolynomialLegacy = new();
             hv_CameraParamAreaScanTelecentricPolynomialLegacy[0] = "focus";
             hv_CameraParamAreaScanTelecentricPolynomialLegacy[1] = "k1";
             hv_CameraParamAreaScanTelecentricPolynomialLegacy[2] = "k2";
@@ -3729,7 +3740,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanTelecentricPolynomialLegacy[10] = "image_width";
             hv_CameraParamAreaScanTelecentricPolynomialLegacy[11] = "image_height";
             hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy.Dispose();
-            hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new ();
+            hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy = new();
             hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[0] = "focus";
             hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[1] = "kappa";
             hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[2] = "tilt";
@@ -3741,7 +3752,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[8] = "image_width";
             hv_CameraParamAreaScanBilateralTelecentricTiltDivisionLegacy[9] = "image_height";
             hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy.Dispose();
-            hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new ();
+            hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy = new();
             hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[0] = "focus";
             hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[1] = "k1";
             hv_CameraParamAreaScanBilateralTelecentricTiltPolynomialLegacy[2] = "k2";
@@ -3763,7 +3774,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 if ((int)(((hv_CameraParam.TupleSelect(0))).TupleIsString()) != 0)
                 {
                     hv_CameraType.Dispose();
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         hv_CameraType = hv_CameraParam.TupleSelect(
                             0);
@@ -4052,7 +4063,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
                 //Format of camera parameters since HALCON 13
                 hv_CameraType.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_CameraType = hv_CameraParam.TupleSelect(
                         0);
@@ -4275,7 +4286,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     }
                     hv_ParamNames.Dispose();
                     using HDevDisposeHelper dh = new();
-                    hv_ParamNames = new ();
+                    hv_ParamNames = new();
                     hv_ParamNames[0] = "camera_type";
                     hv_ParamNames = hv_ParamNames.TupleConcat(hv_CameraParamLinesScanTelecentricDivision);
                 }
@@ -4345,11 +4356,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_CameraType = new (), hv_CameraParamNames = new ();
-            HTuple hv_Index = new (), hv_ParamNameInd = new ();
-            HTuple hv_I = new (), hv_IsTelecentric = new ();
+            HTuple hv_CameraType = new(), hv_CameraParamNames = new();
+            HTuple hv_Index = new(), hv_ParamNameInd = new();
+            HTuple hv_I = new(), hv_IsTelecentric = new();
             // Initialize local and output iconic variables 
-            hv_CameraParamOut = new ();
+            hv_CameraParamOut = new();
             //set_cam_par_data sets the value of the parameter that
             //is given in ParamName in the tuple of camera parameters
             //given in CameraParamIn. The modified camera parameters
@@ -4373,20 +4384,20 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_ParamName.TupleLength())) - 1); hv_Index = (int)hv_Index + 1)
             {
                 hv_ParamNameInd.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_ParamNameInd = hv_ParamName.TupleSelect(
                         hv_Index);
                 }
                 hv_I.Dispose();
-                using (HDevDisposeHelper dh = new ())
+                using (HDevDisposeHelper dh = new())
                 {
                     hv_I = hv_CameraParamNames.TupleFind(
                         hv_ParamNameInd);
                 }
                 if ((int)(new HTuple(hv_I.TupleNotEqual(-1))) != 0)
                 {
-                    hv_CameraParamOut ??= new ();
+                    hv_CameraParamOut ??= new();
                     hv_CameraParamOut[hv_I] = hv_ParamValue.TupleSelect(hv_Index);
                 }
                 else
@@ -4397,7 +4408,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 if ((int)(new HTuple(hv_ParamNameInd.TupleEqual("focus"))) != 0)
                 {
                     hv_IsTelecentric.Dispose();
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         hv_IsTelecentric = (new HTuple(((hv_CameraType.TupleStrstr(
                             "telecentric"))).TupleNotEqual(-1))).TupleAnd(new HTuple(((hv_CameraType.TupleStrstr(
@@ -4437,11 +4448,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             // Local control variables 
 
-            HTuple hv_GenParamName = new (), hv_GenParamValue = new ();
-            HTuple hv_Color_COPY_INP_TMP = new (hv_Color);
-            HTuple hv_Column_COPY_INP_TMP = new (hv_Column);
-            HTuple hv_CoordSystem_COPY_INP_TMP = new (hv_CoordSystem);
-            HTuple hv_Row_COPY_INP_TMP = new (hv_Row);
+            HTuple hv_GenParamName = new(), hv_GenParamValue = new();
+            HTuple hv_Color_COPY_INP_TMP = new(hv_Color);
+            HTuple hv_Column_COPY_INP_TMP = new(hv_Column);
+            HTuple hv_CoordSystem_COPY_INP_TMP = new(hv_CoordSystem);
+            HTuple hv_Row_COPY_INP_TMP = new(hv_Row);
 
             // Initialize local and output iconic variables 
             //This procedure displays text in a graphics window.
@@ -4499,8 +4510,8 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             //
             //
             //Convert the parameters for disp_text.
-            if ((int)((new HTuple(hv_Row_COPY_INP_TMP.TupleEqual(new ()))).TupleOr(
-                new HTuple(hv_Column_COPY_INP_TMP.TupleEqual(new ())))) != 0)
+            if ((int)((new HTuple(hv_Row_COPY_INP_TMP.TupleEqual(new()))).TupleOr(
+                new HTuple(hv_Column_COPY_INP_TMP.TupleEqual(new())))) != 0)
             {
 
                 hv_Color_COPY_INP_TMP.Dispose();
@@ -4525,15 +4536,15 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             //
             //Convert the parameter Box to generic parameters.
             hv_GenParamName.Dispose();
-            hv_GenParamName = new ();
+            hv_GenParamName = new();
             hv_GenParamValue.Dispose();
-            hv_GenParamValue = new ();
+            hv_GenParamValue = new();
             if ((int)(new HTuple((new HTuple(hv_Box.TupleLength())).TupleGreater(0))) != 0)
             {
                 if ((int)(new HTuple(((hv_Box.TupleSelect(0))).TupleEqual("false"))) != 0)
                 {
                     //Display no box
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -4543,7 +4554,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             hv_GenParamName = ExpTmpLocalVar_GenParamName;
                         }
                     }
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -4557,7 +4568,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 else if ((int)(new HTuple(((hv_Box.TupleSelect(0))).TupleNotEqual("true"))) != 0)
                 {
                     //Set a color other than the default.
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -4567,7 +4578,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             hv_GenParamName = ExpTmpLocalVar_GenParamName;
                         }
                     }
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -4584,7 +4595,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 if ((int)(new HTuple(((hv_Box.TupleSelect(1))).TupleEqual("false"))) != 0)
                 {
                     //Display no shadow.
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -4594,7 +4605,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             hv_GenParamName = ExpTmpLocalVar_GenParamName;
                         }
                     }
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -4608,7 +4619,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 else if ((int)(new HTuple(((hv_Box.TupleSelect(1))).TupleNotEqual("true"))) != 0)
                 {
                     //Set a shadow color other than the default.
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -4618,7 +4629,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                             hv_GenParamName = ExpTmpLocalVar_GenParamName;
                         }
                     }
-                    using (HDevDisposeHelper dh = new ())
+                    using (HDevDisposeHelper dh = new())
                     {
                         {
                             HTuple
@@ -4641,7 +4652,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             {
                 //disp_text does not accept an empty string for Color.
                 hv_Color_COPY_INP_TMP.Dispose();
-                hv_Color_COPY_INP_TMP = new ();
+                hv_Color_COPY_INP_TMP = new();
             }
             //
             HOperatorSet.DispText(hv_WindowHandle, hv_String, hv_CoordSystem_COPY_INP_TMP,

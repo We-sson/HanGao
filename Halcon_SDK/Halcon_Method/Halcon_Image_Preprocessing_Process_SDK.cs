@@ -387,7 +387,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-                _OldModel =  item.Get_23DResults_Method(_OldModel);
+                _OldModel = item.Get_23DResults_Method(_OldModel);
 
 
 
@@ -407,7 +407,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             GC.Collect();
 
-            return _OldModel.ToArray();
+            return _OldModel;
 
 
 
@@ -1084,7 +1084,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             }
             finally
             {
-                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
 
@@ -1160,7 +1160,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
         }
@@ -1217,7 +1217,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
         }
@@ -1290,7 +1290,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
 
@@ -1368,7 +1368,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
 
@@ -1523,7 +1523,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public bool greedy_suppress_timeout_error { set; get; } = false;
 
-        public bool greedy_output_all_points { set; get; } = false;
+        public bool greedy_output_all_points { set; get; } = true;
 
         public TriangulateObjectModel3d_Information_Enum information { set; get; } = TriangulateObjectModel3d_Information_Enum.verbose;
 
@@ -1648,7 +1648,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+                foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
 
@@ -1694,57 +1694,57 @@ namespace Halcon_SDK_DLL.Halcon_Method
             try
             {
 
-            switch (primitive_type)
-            {
-                case FitPrimitivesObjectModel3d_Primitive_Type_Enum.cylinder or FitPrimitivesObjectModel3d_Primitive_Type_Enum.sphere or FitPrimitivesObjectModel3d_Primitive_Type_Enum.all:
+                switch (primitive_type)
+                {
+                    case FitPrimitivesObjectModel3d_Primitive_Type_Enum.cylinder or FitPrimitivesObjectModel3d_Primitive_Type_Enum.sphere or FitPrimitivesObjectModel3d_Primitive_Type_Enum.all:
 
-                    return HObjectModel3D.FitPrimitivesObjectModel3d(_Model3D, new HTuple(
-                          nameof(primitive_type),
-                          nameof(fitting_algorithm),
-                          nameof(min_radius),
-                          nameof(max_radius),
-                          nameof(output_point_coord),
-                          nameof(output_xyz_mapping)
-
-
-                          ),
-                          new HTuple(
-                          primitive_type.ToString(),
-                          fitting_algorithm.ToString(),
-                          min_radius,
-                          max_radius,
-                          output_point_coord.ToString().ToLower(),
-                          output_xyz_mapping.ToString().ToLower()
-                          ));
+                        return HObjectModel3D.FitPrimitivesObjectModel3d(_Model3D, new HTuple(
+                              nameof(primitive_type),
+                              nameof(fitting_algorithm),
+                              nameof(min_radius),
+                              nameof(max_radius),
+                              nameof(output_point_coord),
+                              nameof(output_xyz_mapping)
 
 
-
-
-                case FitPrimitivesObjectModel3d_Primitive_Type_Enum.plane:
-
-
-                    return HObjectModel3D.FitPrimitivesObjectModel3d(_Model3D, new HTuple(
-                        nameof(primitive_type),
-                        nameof(fitting_algorithm),
-
-                        nameof(output_point_coord),
-                        nameof(output_xyz_mapping)
-
-
-                        ),
-                        new HTuple(
-                        primitive_type.ToString(),
-                        fitting_algorithm.ToString(),
-
-                        output_point_coord.ToString().ToLower(),
-                        output_xyz_mapping.ToString().ToLower()
-                        ));
+                              ),
+                              new HTuple(
+                              primitive_type.ToString(),
+                              fitting_algorithm.ToString(),
+                              min_radius,
+                              max_radius,
+                              output_point_coord.ToString().ToLower(),
+                              output_xyz_mapping.ToString().ToLower()
+                              ));
 
 
 
-                default: throw new ArgumentException("参数错误！");
 
-            }
+                    case FitPrimitivesObjectModel3d_Primitive_Type_Enum.plane:
+
+
+                        return HObjectModel3D.FitPrimitivesObjectModel3d(_Model3D, new HTuple(
+                            nameof(primitive_type),
+                            nameof(fitting_algorithm),
+
+                            nameof(output_point_coord),
+                            nameof(output_xyz_mapping)
+
+
+                            ),
+                            new HTuple(
+                            primitive_type.ToString(),
+                            fitting_algorithm.ToString(),
+
+                            output_point_coord.ToString().ToLower(),
+                            output_xyz_mapping.ToString().ToLower()
+                            ));
+
+
+
+                    default: throw new ArgumentException("参数错误！");
+
+                }
 
 
 
@@ -1765,6 +1765,156 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
     }
 
+    [Serializable]
+
+    [AddINotifyPropertyChangedInterface]
+    public class PrimitiveToObjectModel3d_Function_Model
+    {
+
+        public FitPrimitivesObjectModel3d_Primitive_Type_Enum primitive_type { set; get; } = FitPrimitivesObjectModel3d_Primitive_Type_Enum.plane;
+
+
+
+
+        public FitPrimitivesObjectModel3d_Fitting_Algorithm_Enum fitting_algorithm { set; get; } = FitPrimitivesObjectModel3d_Fitting_Algorithm_Enum.least_squares;
+
+
+        public PrepareObjectModel3d_Method_Enum method { set; get; } = PrepareObjectModel3d_Method_Enum.auto;
+
+
+
+
+        public double min_radius { set; get; } = 0.01;
+
+        public double max_radius { set; get; } = 0.2;
+
+        public bool output_point_coord { set; get; } = true;
+
+        public bool output_xyz_mapping { set; get; } = false;
+
+
+
+        public HObjectModel3D[] Get_Results(HObjectModel3D[] _Model3D)
+        {
+
+            try
+            {
+                List<HObjectModel3D> Ru_Model3D = new();
+
+                //检查内部
+                foreach (HObjectModel3D _3D in _Model3D)
+                {
+                    _3D.GetObjectModel3dParams("primitive_type").ToString().Throw("模型内部不存在基元模型，请重新生成！").IfEquals("none");
+                }
+
+                //复制基元模型
+                foreach (HObjectModel3D _3D in _Model3D)
+                {
+                    Ru_Model3D.Add(_3D.CopyObjectModel3d("primitives_all"));
+
+                }
+
+                foreach (HObjectModel3D _3D in Ru_Model3D)
+                {
+
+                    switch (Enum.Parse<FitPrimitivesObjectModel3d_Primitive_Type_Enum>(_3D.GetObjectModel3dParams("primitive_type").ToString()))
+                    {
+                        case FitPrimitivesObjectModel3d_Primitive_Type_Enum.cylinder:
+
+                            break;
+
+                        case FitPrimitivesObjectModel3d_Primitive_Type_Enum.sphere:
+
+                            break;
+
+                        case FitPrimitivesObjectModel3d_Primitive_Type_Enum.plane:
+
+
+                            HTuple _Primitive_parameter = _3D.GetObjectModel3dParams("primitive_parameter");
+                            HTuple _primitive_pose = _3D.GetObjectModel3dParams("primitive_pose");
+
+                            HObjectModel3D _plane = new HObjectModel3D();
+
+                            _plane.GenPlaneObjectModel3d(new HPose(_primitive_pose),)
+                            break;
+
+
+
+                    }
+
+                }
+
+
+                //switch (primitive_type)
+                //{
+                //    case FitPrimitivesObjectModel3d_Primitive_Type_Enum.cylinder or FitPrimitivesObjectModel3d_Primitive_Type_Enum.sphere or FitPrimitivesObjectModel3d_Primitive_Type_Enum.all:
+
+                //        return HObjectModel3D.FitPrimitivesObjectModel3d(_Model3D, new HTuple(
+                //              nameof(primitive_type),
+                //              nameof(fitting_algorithm),
+                //              nameof(min_radius),
+                //              nameof(max_radius),
+                //              nameof(output_point_coord),
+                //              nameof(output_xyz_mapping)
+
+
+                //              ),
+                //              new HTuple(
+                //              primitive_type.ToString(),
+                //              fitting_algorithm.ToString(),
+                //              min_radius,
+                //              max_radius,
+                //              output_point_coord.ToString().ToLower(),
+                //              output_xyz_mapping.ToString().ToLower()
+                //              ));
+
+
+
+
+                //    case FitPrimitivesObjectModel3d_Primitive_Type_Enum.plane:
+
+
+                //        return HObjectModel3D.FitPrimitivesObjectModel3d(_Model3D, new HTuple(
+                //            nameof(primitive_type),
+                //            nameof(fitting_algorithm),
+
+                //            nameof(output_point_coord),
+                //            nameof(output_xyz_mapping)
+
+
+                //            ),
+                //            new HTuple(
+                //            primitive_type.ToString(),
+                //            fitting_algorithm.ToString(),
+
+                //            output_point_coord.ToString().ToLower(),
+                //            output_xyz_mapping.ToString().ToLower()
+                //            ));
+
+
+
+                //    default: throw new ArgumentException("参数错误！");
+
+                //}
+
+
+
+            }
+            finally
+            {
+
+                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+
+            }
+
+
+
+
+
+
+        }
+
+    }
 
 
 

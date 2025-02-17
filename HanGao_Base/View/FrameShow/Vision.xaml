@@ -1576,7 +1576,7 @@
                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                            FontSize="14"
                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI_1" Grid.Column=" 1"
+                                <!--<ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI_1" Grid.Column=" 1"
                                           Width=" 80"
                                           HorizontalContentAlignment="Center"
                                           VerticalContentAlignment="Center"
@@ -1632,9 +1632,28 @@
                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </ComboBoxItem>
+                                </ComboBox>-->
+
+                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="ShapeModel_UI_1" Grid.Column=" 1"
+                                          Width=" 90"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          ItemsSource="{Enum_Converter:EnumBindingSource Halcon_Enum:Attribute_Val_Enum}"
+                                          SelectedValue="{Binding Halcon_Window_Display.HDisplay_3D.Scene3D_Instance.Attribute, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}"
+                                                       TextWrapping="Wrap"
+                                                       Padding="0,4,0,4"
+                                                       FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                       FontSize="13"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+
                                 </ComboBox>
-
-
 
                                 <!--<TextBlock Text="透明度"
                                            Margin="4,0,4,0"
@@ -8732,7 +8751,7 @@ PassEventArgsToCommand="True" />
 
                                                 </Grid.ColumnDefinitions>
 
-                                                <TextBlock Text="生成特征"
+                                                <TextBlock Text="基元特征"
                                                            HorizontalAlignment="Left"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -8745,13 +8764,13 @@ PassEventArgsToCommand="True" />
 
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Click">
-                                                            <i:InvokeCommandAction Command="{Binding}"
+                                                            <i:InvokeCommandAction Command="{Binding Check_ModelPrimitives_Comm}"
                                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                    PassEventArgsToCommand="True" />
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
 
-                                                    <TextBlock Text="生成深度图"
+                                                    <TextBlock Text="获取基元"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -13141,7 +13160,7 @@ PassEventArgsToCommand="True" />
                                                                             </Grid.ColumnDefinitions>
 
                                                                             <TextBlock Grid.Column=" 0"
-                                                                                       Text="采样距离"
+                                                                                       Text="最小采样"
                                                                                        TextWrapping="Wrap"
                                                                                        HorizontalAlignment="Left"
                                                                                        VerticalAlignment="Center"
@@ -13199,7 +13218,7 @@ PassEventArgsToCommand="True" />
                                                                             </Grid.ColumnDefinitions>
 
                                                                             <TextBlock Grid.Column=" 0"
-                                                                                       Text="采样距离"
+                                                                                       Text="最大采样"
                                                                                        TextWrapping="Wrap"
                                                                                        HorizontalAlignment="Left"
                                                                                        VerticalAlignment="Center"

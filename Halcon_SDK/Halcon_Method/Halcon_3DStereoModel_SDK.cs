@@ -819,7 +819,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
             //HImage _Rest = new HImage();
 
-            HModel3D_Camera_Unio_XYZ.Count.Throw("三维模型未生成。请生成后重试！").IfNotEquals(0);
+            HModel3D_Camera_Unio_XYZ.Count.Throw("三维模型未生成。请生成后重试！").IfEquals(0);
 
            //HModel3D_Camera_Unio_XYZ.GetObjectModel3dParams("has_triangles").Throw("三维模型不含三角化参数！").IfEquals("false");
 
