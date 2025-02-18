@@ -619,6 +619,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     case H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d:
                         Result = FitPrimitivesObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
                         break;
+                    case H3DObjectModel_Features_Enum.PrimitiveToObjectModel3d:
+                        Result = PrimitiveToObjectModel3d?.Get_Results(_HObjectModel3D) ?? _HObjectModel3D;
+                        break;
+
                     default:
                         throw new ArgumentException("无效的预处理过程枚举值。", nameof(Preprocessing_Process_3DModel_Method));
 
@@ -793,6 +797,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     FitPrimitivesObjectModel3d = new FitPrimitivesObjectModel3d_Function_Model() { };
 
                     break;
+
+                case H3DObjectModel_Features_Enum.PrimitiveToObjectModel3d:
+
+                    PrimitiveToObjectModel3d = new PrimitiveToObjectModel3d_Function_Model();
+
+                    break;
+
+
+
+
             }
 
         }
@@ -838,6 +852,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
         public FitPrimitivesObjectModel3d_Function_Model? FitPrimitivesObjectModel3d { set; get; }
 
+        public PrimitiveToObjectModel3d_Function_Model? PrimitiveToObjectModel3d { set; get; }
 
         //public Action? Action_Method { set; get; }
 
@@ -1776,21 +1791,6 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-        public FitPrimitivesObjectModel3d_Fitting_Algorithm_Enum fitting_algorithm { set; get; } = FitPrimitivesObjectModel3d_Fitting_Algorithm_Enum.least_squares;
-
-
-        public PrepareObjectModel3d_Method_Enum method { set; get; } = PrepareObjectModel3d_Method_Enum.auto;
-
-
-
-
-        public double min_radius { set; get; } = 0.01;
-
-        public double max_radius { set; get; } = 0.2;
-
-        public bool output_point_coord { set; get; } = true;
-
-        public bool output_xyz_mapping { set; get; } = false;
 
 
 
@@ -1800,6 +1800,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             try
             {
                 List<HObjectModel3D> Ru_Model3D = new();
+                List<HObjectModel3D> Rt_Model3D = new();
 
                 //检查内部
                 foreach (HObjectModel3D _3D in _Model3D)
@@ -1817,7 +1818,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 foreach (HObjectModel3D _3D in Ru_Model3D)
                 {
 
-                    switch (Enum.Parse<FitPrimitivesObjectModel3d_Primitive_Type_Enum>(_3D.GetObjectModel3dParams("primitive_type").ToString()))
+                    string a = _3D.GetObjectModel3dParams("primitive_type");
+                    switch (Enum.Parse<FitPrimitivesObjectModel3d_Primitive_Type_Enum>(a))
                     {
                         case FitPrimitivesObjectModel3d_Primitive_Type_Enum.cylinder:
 
@@ -1830,12 +1832,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         case FitPrimitivesObjectModel3d_Primitive_Type_Enum.plane:
 
 
-                            HTuple _Primitive_parameter = _3D.GetObjectModel3dParams("primitive_parameter");
+                            //HTuple _Primitive_parameter = _3D.GetObjectModel3dParams("primitive_parameter");
                             HTuple _primitive_pose = _3D.GetObjectModel3dParams("primitive_pose");
 
                             HObjectModel3D _plane = new HObjectModel3D();
+                            _plane.GenPlaneObjectModel3d(new HPose(_primitive_pose), new HTuple(), new HTuple());
+                            Rt_Model3D.Add(_plane);
 
-                            _plane.GenPlaneObjectModel3d(new HPose(_primitive_pose),)
+                          
                             break;
 
 
@@ -1844,6 +1848,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                 }
 
+
+                return Rt_Model3D.ToArray();
 
                 //switch (primitive_type)
                 //{
@@ -1903,7 +1909,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             finally
             {
 
-                //foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
+               // foreach (var item in _Model3D) { item.ClearObjectModel3d(); item.Dispose(); };
 
             }
 
@@ -1954,8 +1960,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
         PrepareObjectModel3d,
         [Description("三角化3D模型_Triangulate")]
         TriangulateObjectModel3d,
-        [Description("拟合3D模型_Triangulate")]
-        FitPrimitivesObjectModel3d
+        [Description("拟合3D模型_ FitPrimitives")]
+        FitPrimitivesObjectModel3d,
+        [Description("基元模型转换_PrimitiveTo")]
+
+        PrimitiveToObjectModel3d,
     }
 
 
