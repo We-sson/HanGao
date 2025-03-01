@@ -1465,7 +1465,17 @@ namespace HanGao.ViewModel
                         Application.Current.Dispatcher.Invoke(() =>
                         {
 
+
+                            if (Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep)
+                            {
+                                Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ)));
+
+                            }
+                            else
+                            {
                             Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ))));
+
+                            }
 
 
                             //if (Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ.Count!=0)
@@ -4351,8 +4361,11 @@ namespace HanGao.ViewModel
                               );
 
 
-                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio));
-
+                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(
+                            [
+                                .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DPoint,
+                                .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DFusion,
+                            ]));
 
 
 
