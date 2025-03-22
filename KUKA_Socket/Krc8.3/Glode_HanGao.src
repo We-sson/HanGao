@@ -11,6 +11,28 @@ DEF Glode_HanGao( )
 END
 
 
+
+GLOBAL DEF Vision_Path(PATH_POS:OUT,POS_OFFSET:IN)
+DECL E6POS PATH_POS,POS_OFFSET
+
+Halt
+PATH_POS=PATH_POS:POS_OFFSET
+
+
+
+END
+GLOBAL DEF Vision_EndPath(PATH_POS:OUT,POS_OFFSET:IN)
+DECL E6POS PATH_POS,POS_OFFSET
+
+
+PATH_POS=PATH_POS:INV_Pos(POS_OFFSET)
+
+
+
+END
+
+
+
 GLOBAL DEF Vision_Results_Pos(Vision_PATH:IN,Result_Pos:IN,POS_Offset:OUT)
 DECL E6POS POS_Offset,Result_Pos,Offset,Error_Offset,Result_Pos_Inv
 DECL Vision_PATH_Enum Vision_PATH
