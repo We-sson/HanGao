@@ -1,8 +1,8 @@
 &ACCESS RVO1
-&REL 502
+&REL 506
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
-&PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
+&PARAM DISKPATH = KRC:\R1\Program\HG
 DEFDAT  GLODE_HANGAO PUBLIC
 
 
@@ -279,7 +279,7 @@ DECL GLOBAL Vision_Type_Enum Vision_Type=#Vision_Text
 ;DECL GLOBAL MODEL_TYPE $N_1
 ;DECL GLOBAL MODEL_TYPE $N_2
 ;DECL GLOBAL INT $MY_Work_Number=-1
-
+DECL GLOBAL BOOL Vision_OFFSET_STATE=TRUE
 
 
 ;----------------------------------

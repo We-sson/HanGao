@@ -1,0 +1,68 @@
+&ACCESS RVP
+&REL 94
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM SUPPRESS = HiddenModuleOnly HiddenModuleOnly
+&PARAM DISKPATH = KRC:\R1\Program\HG
+DEF A154( )
+;FOLD INI;%{PE}
+  ;FOLD BASISTECH INI
+    GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+    INTERRUPT ON 3 
+    BAS (#INITMOV,0 )
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+
+  ;ENDFOLD (USER INI)
+;ENDFOLD (INI)
+
+
+;FOLD PTP P4 CONT Vel=100 % PDAT1 Tool[1] Base[0];%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=True; Kuka.MoveDataPtpName=PDAT1; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT1
+FDAT_ACT = FP4
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XP4 C_Dis
+;ENDFOLD
+
+
+ INTERRUPT DECL 20 WHEN $PRO_MOVE==FALSE DO Vision_ENDPath (XP7,{X 50,Y 0,Z 0,A 0,B 0,C 0} )
+INTERRUPT ON 20
+VISION_OFFSET_STATE=FALSE
+Vision_Path (XP7,{X 50,Y 0,Z 0,A 0,B 0,C 0} )
+
+
+;FOLD LIN P7 CONT Vel=2 m/s CPDAT5 Tool[1] Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P7; Kuka.BlendingEnabled=True; Kuka.MoveDataName=CPDAT5; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT5
+FDAT_ACT = FP7
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP7 C_Dis C_Dis
+;ENDFOLD
+;FOLD LIN P8 CONT Vel=2 m/s CPDAT9 Tool[1] Base[0] ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=P8; Kuka.BlendingEnabled=True; Kuka.MoveDataName=CPDAT9; Kuka.VelocityPath=2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT9
+FDAT_ACT = FP8
+BAS(#CP_PARAMS, 2.0)
+SET_CD_PARAMS (0)
+LIN XP8 C_Dis C_Dis
+;ENDFOLD
+
+;ON_ERROR_PROCEED
+;Vision_EndPath(XP7,{X 30,Y 0,Z 0,A 0,B 0,C 0}) 
+
+
+halt
+END
