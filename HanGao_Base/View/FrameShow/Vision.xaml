@@ -13677,7 +13677,7 @@ PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
 
-                                                <TextBlock Text="相机内参"
+                                                <TextBlock Text="相机标定"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
