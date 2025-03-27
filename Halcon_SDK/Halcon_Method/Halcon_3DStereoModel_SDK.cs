@@ -677,8 +677,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Camera_1_Parameters = new Halcon_Camera_Calibration_Parameters_Model(new HCamPar(TwoCamera_HCameraSetup.GetCameraSetupParam(1, "params")));
 
 
-                Camera_0_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期：" + Fold.CreationTime, "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_0_Parameters.Camera_Parameter_Info_List));
-                Camera_1_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期：" + Fold.CreationTime, "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString() }.Concat(Camera_1_Parameters.Camera_Parameter_Info_List));
+                Camera_0_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期 = " + Fold.LastWriteTime, "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString()}.Concat(Camera_0_Parameters.Camera_Parameter_Info_List));
+                Camera_1_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期 = " + Fold.LastWriteTime, "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString()}.Concat(Camera_1_Parameters.Camera_Parameter_Info_List));
 
 
 
