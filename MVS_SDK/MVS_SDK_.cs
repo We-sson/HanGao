@@ -29,11 +29,11 @@ namespace MVS_SDK
         /// <summary>
         /// 相机0信息
         /// </summary>
-        public MVS_Camera_Info_Model Select_3DCamera_0 { set; get; }
+        public MVS_Camera_Info_Model Select_3DCamera_0 { set; get; } = new MVS_Camera_Info_Model();
         /// <summary>
         /// 相机1信息
         /// </summary>
-        public MVS_Camera_Info_Model Select_3DCamera_1 { set; get; }
+        public MVS_Camera_Info_Model Select_3DCamera_1 { set; get; }= new MVS_Camera_Info_Model();
 
 
         /// <summary>

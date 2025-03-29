@@ -1037,9 +1037,23 @@ namespace Halcon_SDK_DLL.Model
             public int Image_Height { set; get; } = 500;
         }
 
+        /// <summary>
+        /// Halcon标定参数信息
+        /// </summary>
+        [AddINotifyPropertyChangedInterface]
+        public class Halcon_Camera_Calibration_Info
+        {
+
+            public ObservableCollection<String> Info_List { set; get; } = new ObservableCollection<string>();
+
+            public override string ToString()
+            {
 
 
 
+                return base.ToString()!;
+            }
+        }
 
 
 

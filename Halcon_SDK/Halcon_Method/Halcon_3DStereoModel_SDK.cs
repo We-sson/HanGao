@@ -654,6 +654,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public ObservableCollection<String> Camera_1_CameraSetup_Info { set; get; } = [];
 
 
+        public double Camera_Calib_Error { set; get; } = 0;
+
 
 
         public TwoCamera_Drive_State_Enum Camera_0_State { set; get; } = TwoCamera_Drive_State_Enum.unknown;
@@ -669,7 +671,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             if (Fold != null)
             {
 
-
+                TwoCamera_HCameraSetup.ClearCameraSetupModel();
 
                 TwoCamera_HCameraSetup.ReadCameraSetupModel(Fold.FullName);
 
@@ -677,8 +679,16 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 Camera_1_Parameters = new Halcon_Camera_Calibration_Parameters_Model(new HCamPar(TwoCamera_HCameraSetup.GetCameraSetupParam(1, "params")));
 
 
-                Camera_0_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期 = " + Fold.LastWriteTime, "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString()}.Concat(Camera_0_Parameters.Camera_Parameter_Info_List));
-                Camera_1_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期 = " + Fold.LastWriteTime, "标定误差 = " + TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error").ToString()}.Concat(Camera_1_Parameters.Camera_Parameter_Info_List));
+                //提前误差数据
+                Camera_Calib_Error = TwoCamera_HCameraSetup.GetCameraSetupParam("general", "camera_calib_error");
+
+
+                Camera_0_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期 = " + Fold.LastWriteTime, "标定误差 = " + Camera_Calib_Error.ToString()}.Concat(Camera_0_Parameters.Camera_Parameter_Info_List));
+                Camera_1_CameraSetup_Info = new ObservableCollection<string>(new[] { "标定日期 = " + Fold.LastWriteTime, "标定误差 = " + Camera_Calib_Error.ToString()}.Concat(Camera_1_Parameters.Camera_Parameter_Info_List));
+
+
+
+
 
 
 

@@ -700,7 +700,7 @@ namespace MVS_SDK_Base.Model
             /// </summary>
             public Camera_Calibration_Info_Model Camera_Calibration { set; get; } = new Camera_Calibration_Info_Model();
 
-
+            
 
 
 

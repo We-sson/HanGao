@@ -411,7 +411,7 @@
                         </Trigger>
 
                         <Trigger Property="Text" Value="Null">
-                            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_红颜色}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
 
