@@ -1313,12 +1313,12 @@ namespace HanGao.ViewModel
                             case Camera_Connect_Control_Type_Enum.Camera_0:
 
                                 _Select_Model = Camera_Device_List.Select_3DCamera_0.Camera_Calibration;
-                                Camera_Device_List.Select_3DCamera_0 = null;
+                                //Camera_Device_List.Select_3DCamera_0 = null;
                                 break;
                             case Camera_Connect_Control_Type_Enum.Camera_1:
 
                                 _Select_Model = Camera_Device_List.Select_3DCamera_1.Camera_Calibration;
-                                Camera_Device_List.Select_3DCamera_1 = null;
+                                //Camera_Device_List.Select_3DCamera_1 = null;
 
 
                                 break;
