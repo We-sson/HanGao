@@ -431,6 +431,17 @@
 
 
                                         <Grid Height=" 35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.HaneEye_Calibration_Diver_Model}" Value="{x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
@@ -544,10 +555,10 @@
                                         <Grid Height=" 35" Margin="8">
                                             <Grid.Style>
                                                 <Style TargetType="Grid">
-                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Setter Property="Visibility" Value="Visible" />
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.HaneEye_Calibration_Diver_Model}" Value="{x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}">
-                                                            <Setter Property="IsEnabled" Value="True" />
+                                                            <Setter Property="Visibility" Value="Collapsed" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -1696,7 +1707,16 @@
                                         <Grid Height=" 35"
                                               Margin="8"
                                               IsEnabled="False">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
@@ -1709,7 +1729,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <ComboBox x:Name="Camera_1" Grid.Column=" 1"
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="Camera_1" Grid.Column=" 1"
                                                       HorizontalContentAlignment="Left"
                                                       VerticalContentAlignment="Center"
                                                       BorderThickness="2"
@@ -1718,17 +1738,7 @@
                                                       ItemsSource="{Binding Camera_Calibration_Info_List}"
                                                       SelectedIndex=" -1"
                                                       SelectedValue="{Binding Camera_Device_List.Select_3DCamera_1}">
-                                                <ComboBox.Style>
-                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                        <Style.Triggers>
 
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ComboBox.Style>
 
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="SelectionChanged">

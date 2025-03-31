@@ -2086,6 +2086,34 @@ namespace Halcon_SDK_DLL.Model
         }
     }
 
+
+    [AddINotifyPropertyChangedInterface]
+    public class HandEye_Results_Model
+    {
+        /// <summary>
+        /// 相机标定结果属性
+        /// </summary>
+        public Calibration_Camera_Data_Results_Model HandEye_Camera_0_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
+        /// <summary>
+        ///相机标定结果属性
+        /// </summary>
+        public Calibration_Camera_Data_Results_Model HandEye_Camera_1_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
+
+        /// <summary>
+        /// 手眼标定坐标结果
+        /// </summary>
+        public Calibration_Camera_Data_Results_Model HandEye_Results_Pos { set; get; } = new Calibration_Camera_Data_Results_Model();
+
+    }
+
+
+
+
+
+
+
+
+
     /// <summary>
     /// 创建模型类型显示属性
     /// </summary>
