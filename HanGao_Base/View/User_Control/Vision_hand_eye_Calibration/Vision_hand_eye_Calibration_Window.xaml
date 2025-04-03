@@ -463,6 +463,7 @@
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Halcon_3DStereoModel.TwoCamera_Calibration_HCameraSetupModel_List}"
+                                                      SelectedIndex="0"
                                                       SelectedValue="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
@@ -552,13 +553,14 @@
                                                    FontSize=" 14" />
                                         </Grid>
 
+
                                         <Grid Height=" 35" Margin="8">
                                             <Grid.Style>
                                                 <Style TargetType="Grid">
-                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.HaneEye_Calibration_Diver_Model}" Value="{x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
+                                                            <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -659,6 +661,80 @@
 
 
                                         </Grid>
+
+
+                                        <Grid Margin="8" ShowGridLines="False">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
+                                            </Grid.ColumnDefinitions>
+
+
+
+                                            <TextBlock Text="双目状态"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+
+
+
+                                            <Border x:Name="Camera_0_State_Info_UI" Grid.Row=" 0" Grid.Column="1"
+                                                    Height=" 40"
+                                                    Margin="0,0,0,0"
+                                                    BorderBrush="{DynamicResource 全局_按钮_深蓝颜色}"
+                                                    BorderThickness="2"
+                                                    CornerRadius="4">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+                                                        <Setter Property="BorderThickness" Value="2" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Error}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Run}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Ready}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_青颜色}" />
+                                                            </DataTrigger>
+                                                            <!--<DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}" Value="false">
+    <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+</DataTrigger>-->
+                                                        </Style.Triggers>
+
+
+
+                                                    </Style>
+                                                </Border.Style>
+
+                                                <TextBlock Grid.Column=" 0"
+                                                           Text="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key, TargetNullValue=...}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+
+                                            </Border>
+
+
+
+
+                                        </Grid>
+
+
 
 
                                         <Grid Height=" 35" Margin="8">
@@ -1704,15 +1780,13 @@
                                         </Grid>
 
 
-                                        <Grid Height=" 35"
-                                              Margin="8"
-                                              IsEnabled="False">
+                                        <Grid Height=" 35" Margin="8">
                                             <Grid.Style>
                                                 <Style TargetType="Grid">
-                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -1801,7 +1875,72 @@
 
                                         </Grid>
 
+                                        <Grid Margin="8" ShowGridLines="False">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=" 90" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width=" 35" />
 
+                                            </Grid.ColumnDefinitions>
+
+
+
+                                            <TextBlock Grid.RowSpan=" 2"
+                                                       Text="双目状态"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                       FontSize="16"
+                                                       Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+
+
+
+
+                                            <Border x:Name="Camera_1_State_Info_UI" Grid.Column="1"
+                                                    Height=" 40"
+                                                    Margin="0,0,0,0"
+                                                    BorderBrush="{DynamicResource 全局_按钮_深蓝颜色}"
+                                                    BorderThickness="2"
+                                                    CornerRadius="4">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+                                                        <Setter Property="BorderThickness" Value="2" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Error}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Run}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State, Mode=TwoWay}" Value="{x:Static Process_Enum:TwoCamera_Drive_State_Enum.Ready}">
+                                                                <Setter Property="Background" Value="{DynamicResource 全局_按钮_青颜色}" />
+                                                            </DataTrigger>
+                                                            <!--<DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}" Value="false">
+                                              <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_深灰颜色}" />
+                                          </DataTrigger>-->
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+
+
+
+                                                <TextBlock Grid.Column=" 0"
+                                                           Text="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key, TargetNullValue=...}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="14"
+                                                           Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+                                            </Border>
+
+
+                                        </Grid>
 
                                         <Grid Height=" 35" Margin="8">
 
@@ -2646,6 +2785,18 @@
                                         </Grid>
 
                                         <Grid Height=" 35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="true">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
@@ -2658,7 +2809,7 @@
                                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                            <ComboBox Grid.Column=" 1"
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
                                                       HorizontalContentAlignment="Center"
                                                       VerticalContentAlignment="Center"
                                                       FontSize="16"
@@ -2666,17 +2817,7 @@
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Source={StaticResource Robot_Enum}}"
                                                       SelectedValue="{Binding Socket_Robot_Model_Parameters.Socket_Robot_Model}">
-                                                <ComboBox.Style>
-                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                        <Style.Triggers>
 
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ComboBox.Style>
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
@@ -2698,6 +2839,17 @@
 
 
                                         <Grid Height="35" Margin="8">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="true">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
@@ -2712,24 +2864,14 @@
                                                        FontSize="16"
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
-                                            <ComboBox Grid.Column=" 1"
+                                            <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" Grid.Column=" 1"
                                                       HorizontalContentAlignment="Center"
                                                       VerticalContentAlignment="Center"
                                                       FontSize="24"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Socket_Robot_Model_Parameters.Local_IP_UI, Mode=TwoWay}">
-                                                <ComboBox.Style>
-                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                        <Style.Triggers>
 
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ComboBox.Style>
 
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
@@ -2755,6 +2897,16 @@
 
                                         <Grid Height="35" Margin="8">
 
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="true">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
 
@@ -2769,31 +2921,28 @@
                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                            <TextBox Grid.Column=" 1"
+                                            <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
                                                      Text="{Binding Socket_Robot_Model_Parameters.Sever_Socket_Port}"
                                                      HorizontalContentAlignment="Center"
                                                      VerticalContentAlignment="Center"
                                                      Background="Transparent"
                                                      BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                      BorderThickness="2"
-                                                     FontSize="16">
-                                                <TextBox.Style>
-                                                    <Style BasedOn="{StaticResource Vision_TextBoxStyle}" TargetType="TextBox">
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                        <Style.Triggers>
-
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                            </TextBox>
+                                                     FontSize="16" />
 
                                         </Grid>
 
                                         <Grid Height="40" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="true">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition Width=" *" />
@@ -2807,7 +2956,7 @@
 
 
 
-                                            <ToggleButton x:Name="Robot_Server_State" Grid.Column=" 1"
+                                            <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Robot_Server_State" Grid.Column=" 1"
                                                           IsChecked="False"
                                                           Padding="0"
                                                           HorizontalContentAlignment="Stretch"
@@ -2815,17 +2964,6 @@
                                                           BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                                                           BorderThickness="2">
 
-                                                <ToggleButton.Style>
-                                                    <Style BasedOn="{StaticResource Window_ToggleButtonStyle}" TargetType="ToggleButton">
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                        <Style.Triggers>
-
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="false">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ToggleButton.Style>
 
 
                                                 <Grid>
@@ -3380,6 +3518,7 @@
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding HandEye_Camera_Parameters.Calibration_Plate_List}"
+                                                      SelectedIndex="0"
                                                       SelectedValue="{Binding HandEye_Camera_Parameters.Selected_Calibration_Pate_Address}">
                                                 <!--<ComboBox.Style>
                                                     <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
@@ -4628,7 +4767,7 @@
                                                     CornerRadius="1"
                                                     Opacity=" 0.5" />
 
-                                            <Grid Height=" 35" Margin="0,5,0,5">
+                                            <!--<Grid Height=" 35" Margin="0,5,0,5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=" 90" />
                                                     <ColumnDefinition />
@@ -4669,7 +4808,7 @@
 
 
                                                 </Button>
-                                            </Grid>
+                                            </Grid>-->
 
 
 
@@ -4781,7 +4920,7 @@
                                 <Grid>
                                     <Grid.Style>
                                         <Style TargetType="Grid">
-                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Setter Property="Visibility" Value="Visible" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.双目相机}">
                                                     <Setter Property="Visibility" Value="Visible" />
@@ -4972,6 +5111,7 @@
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition />
                                                                 <ColumnDefinition />
+                                                                <ColumnDefinition />
                                                             </Grid.ColumnDefinitions>
 
                                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DPoint_Type" Grid.Column=" 0"
@@ -4986,7 +5126,12 @@
                                                                          FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                          FontSize="16"
                                                                          GroupName="3D_Type_Switch" />
-
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_All3D_Type" Grid.Column=" 2"
+                                                                         Content="融合"
+                                                                         IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
+                                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                         FontSize="16"
+                                                                         GroupName="3D_Type_Switch" />
                                                         </Grid>
 
                                                     </Border>
@@ -4997,7 +5142,7 @@
                                                 </Grid>
 
 
-                                                <Grid Height=" 38 " Margin="0,8,0,8">
+                                                <!--<Grid Height=" 38 " Margin="0,8,0,8">
 
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width=" 90" />
@@ -5044,17 +5189,19 @@
                                                                        Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                         </Grid>
 
-                                                        <!--<i:Interaction.Triggers>
+                                                -->
+                                                <!--<i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
                                                         <i:InvokeCommandAction Command="{Binding}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>-->
+                                                <!--
 
                                                     </ToggleButton>
 
-                                                </Grid>
+                                                </Grid>-->
 
 
 

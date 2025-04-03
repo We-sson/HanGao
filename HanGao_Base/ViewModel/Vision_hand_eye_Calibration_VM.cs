@@ -68,10 +68,15 @@ namespace HanGao.ViewModel
 
 
 
-
+        /// <summary>
+        /// 手眼标定结果
+        /// </summary>
         public HandEye_Results_Model HandEye_Results { set; get; } = new();
 
-
+        /// <summary>
+        /// 3D成像参数
+        /// </summary>
+        public Vision_Xml_Models Vision_3D_Value { set; get; } = new Vision_Xml_Models();
 
 
 
@@ -183,8 +188,8 @@ namespace HanGao.ViewModel
                         Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Load_CameraDive_Parameters();
 
 
-                        Camera_Device_List.Select_3DCamera_0 = UC_Visal_Function_VM.MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
-                        Camera_Device_List.Select_3DCamera_1 = UC_Visal_Function_VM.MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
+                        //Camera_Device_List.Select_3DCamera_0 = UC_Visal_Function_VM.MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key)??new MVS_Camera_Info_Model();
+                        //Camera_Device_List.Select_3DCamera_1 = UC_Visal_Function_VM.MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key)??new MVS_Camera_Info_Model();
                    
                     
                     }
