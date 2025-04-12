@@ -588,15 +588,7 @@
                                                       ItemsSource="{Binding Camera_Calibration_Info_List}"
                                                       SelectedValue="{Binding Camera_Device_List.Select_3DCamera_0}">
                                                 <ComboBox.Style>
-                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
-                                                        <Setter Property="IsEnabled" Value="True" />
-                                                        <Style.Triggers>
-
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
-                                                                <Setter Property="IsEnabled" Value="False" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox" />
                                                 </ComboBox.Style>
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="SelectionChanged">
@@ -664,6 +656,17 @@
 
 
                                         <Grid Margin="8" ShowGridLines="False">
+
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -738,7 +741,16 @@
 
 
                                         <Grid Height=" 35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
@@ -761,14 +773,7 @@
                                                       IsSynchronizedWithCurrentItem="True"
                                                       SelectedIndex="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Camera_Calibration_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
                                                 <ComboBox.Style>
-                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
-                                                        <Setter Property="IsEnabled" Value="False" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
-                                                                <Setter Property="IsEnabled" Value="True" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox" />
                                                 </ComboBox.Style>
 
                                                 <ComboBoxItem>
@@ -801,7 +806,16 @@
 
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -823,7 +837,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Focus}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.Focus}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Focus_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -844,7 +858,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -866,7 +889,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Kappa}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.Kappa}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Camera_Kappa_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -887,7 +910,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -909,7 +941,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.K1}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.K1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K1_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -930,7 +962,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -952,7 +993,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.K2}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.K2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K2_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -973,7 +1014,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -1016,7 +1066,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -1038,7 +1097,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters .P1}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters .P1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P1_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -1059,7 +1118,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -1081,7 +1149,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.P2}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.P2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P2_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -1102,7 +1170,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -1124,7 +1201,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Sx}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.Sx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Width_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -1145,7 +1222,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -1167,7 +1253,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Sy}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.Sy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Height_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -1188,7 +1274,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -1210,7 +1305,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Cx}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.Cx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Width_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -1231,7 +1326,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -1253,7 +1357,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Cy}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.Cy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Height_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -1274,7 +1378,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -1296,7 +1409,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Image_Width}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.Image_Width}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Width_UI_0, Path=Value}"
@@ -1317,7 +1430,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -1339,7 +1461,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Image_Height}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.Image_Height}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Heigth_UI_0, Path=Value}"
@@ -1675,7 +1797,16 @@
                                         <Grid Height=" 35"
                                               Margin="8"
                                               IsEnabled="False">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
@@ -1876,6 +2007,16 @@
                                         </Grid>
 
                                         <Grid Margin="8" ShowGridLines="False">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -1943,7 +2084,16 @@
                                         </Grid>
 
                                         <Grid Height=" 35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90" />
                                                 <ColumnDefinition />
@@ -1964,15 +2114,7 @@
                                                       IsSynchronizedWithCurrentItem="True"
                                                       SelectedIndex="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.Camera_Calibration_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
                                                 <ComboBox.Style>
-                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
-                                                        <Setter Property="IsEnabled" Value="False" />
-                                                        <Style.Triggers>
-
-                                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="false">
-                                                                <Setter Property="IsEnabled" Value="True" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
+                                                    <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox" />
                                                 </ComboBox.Style>
                                                 <ComboBoxItem>
 
@@ -2003,7 +2145,16 @@
 
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2025,7 +2176,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.Focus}">
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.Focus}">
                                                 <!--<i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseUp">
                                             <i:InvokeCommandAction Command="{Binding}"
@@ -2054,7 +2205,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2076,7 +2236,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.Kappa}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.Kappa}" />
 
                                             <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
                                                      Text="{Binding ElementName=Camera_Kappa_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -2097,7 +2257,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2119,7 +2288,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.K1}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.K1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K1_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -2140,7 +2309,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2162,7 +2340,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.K2}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.K2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K2_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -2183,7 +2361,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2205,7 +2392,7 @@
                                                     Maximum="9999999999999"
                                                     Minimum="-9999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.K3}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.K3}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K3_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -2226,7 +2413,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2248,7 +2444,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters .P1}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters .P1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P1_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -2269,7 +2465,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2291,7 +2496,7 @@
                                                     Maximum="999999999"
                                                     Minimum="-999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.P2}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.P2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_P2_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -2312,7 +2517,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2334,7 +2548,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.Sx}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.Sx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Width_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -2355,7 +2569,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2377,7 +2600,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.Sy}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.Sy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Pixel_Height_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -2398,7 +2621,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2420,7 +2652,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.Cx}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.Cx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Width_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -2441,7 +2673,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2463,7 +2704,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.Cy}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.Cy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Middle_Height_UI_1, Path=Value, StringFormat={}{0:F4}}"
@@ -2484,7 +2725,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2506,7 +2756,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.Image_Width}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.Image_Width}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Width_UI_1, Path=Value}"
@@ -2527,7 +2777,16 @@
                                         </Grid>
 
                                         <Grid Height="35" Margin="8">
-
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="IsEnabled" Value="True" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_1_Diver}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
                                                 <ColumnDefinition />
@@ -2549,7 +2808,7 @@
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters.Image_Height}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Parameters.Image_Height}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_Max_Heigth_UI_1, Path=Value}"
@@ -4162,7 +4421,7 @@
 
 
                                                 <TextBlock Grid.Column=" 0"
-                                                           Text="控制相机"
+                                                           Text="相机参数"
                                                            HorizontalAlignment="Left"
                                                            VerticalAlignment="Center"
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -4178,7 +4437,7 @@
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition />
                                                             <ColumnDefinition />
-                                                            <ColumnDefinition />
+
                                                         </Grid.ColumnDefinitions>
 
                                                         <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
@@ -4191,11 +4450,11 @@
                                                                      IsChecked="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}}"
                                                                      FontSize="14"
                                                                      GroupName="Camera_Control" />
-                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
+                                                        <!--<RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
                                                                      Content="双目相机"
                                                                      IsChecked="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.双目相机}}"
                                                                      FontSize="14"
-                                                                     GroupName="Camera_Control" />
+                                                                     GroupName="Camera_Control" />-->
                                                     </Grid>
 
                                                 </Border>
@@ -4207,7 +4466,7 @@
 
 
 
-                                            <Grid Margin="0,5,0,5">
+                                            <!--<Grid Margin="0,5,0,5">
                                                 <Grid.Style>
                                                     <Style TargetType="Grid">
                                                         <Setter Property="Visibility" Value="Visible" />
@@ -4327,7 +4586,7 @@
 
                                                 </Button>
 
-                                            </Grid>
+                                            </Grid>-->
 
 
 
@@ -4813,92 +5072,6 @@
 
 
 
-                                            <Grid Margin="0,5,0,5">
-
-
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width=" 90" />
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition />
-                                                </Grid.ColumnDefinitions>
-
-
-
-                                                <TextBlock Grid.Column=" 0"
-                                                           Text="相机操作"
-                                                           HorizontalAlignment="Left"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="16"
-                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                <!--<CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
-                                                                  Content="闪光灯"
-                                                                  IsChecked="{Binding Camera_Parameter_Val.LineInverter}"
-                                                                  Margin="0"
-                                                                  HorizontalAlignment="Left"
-                                                                  VerticalAlignment="Center"
-                                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                                  FontSize="16"
-                                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}" />-->
-
-                                                <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
-                                                          IsChecked="{Binding HandEye_Camera_Parameters.Halcon_Find_Calib_Model}"
-                                                          Height=" 38"
-                                                          Margin="0,0,10,0"
-                                                          HorizontalContentAlignment="Center"
-                                                          VerticalContentAlignment="Center"
-                                                          Background="{DynamicResource 全局_按钮_蓝颜色}"
-                                                          FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                          FontSize=" 26">
-                                                    <TextBlock Text="实时检测"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-
-
-
-                                                    <i:Interaction.Triggers>
-
-                                                        <i:EventTrigger EventName="Click">
-                                                            <i:InvokeCommandAction Command="{Binding HandEye_Check_LiveImage_Comm}"
-                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                                   PassEventArgsToCommand="True" />
-                                                        </i:EventTrigger>
-                                                    </i:Interaction.Triggers>
-                                                </CheckBox>
-
-
-
-
-
-
-                                                <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Camera_OneImage" Grid.Column=" 2"
-                                                        Height=" 38"
-                                                        Margin="10,0,0,0"
-                                                        Background="{DynamicResource 全局_按钮_蓝颜色}">
-
-
-                                                    <TextBlock Text="检测一帧"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
-
-                                                    <i:Interaction.Triggers>
-
-                                                        <i:EventTrigger EventName="Click">
-                                                            <i:InvokeCommandAction Command="{Binding HandEye_Check_OneImage_Comm}"
-                                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                                   PassEventArgsToCommand="True" />
-                                                        </i:EventTrigger>
-                                                    </i:Interaction.Triggers>
-
-                                                </Button>
-
-                                            </Grid>
 
 
                                         </StackPanel>
@@ -9075,6 +9248,94 @@ PassEventArgsToCommand="True" />
 
                                                 </Grid>
 
+
+
+                                                <Grid Margin="0,5,0,5">
+
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width=" 90" />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+
+
+
+                                                    <TextBlock Grid.Column=" 0"
+                                                               Text="相机操作"
+                                                               HorizontalAlignment="Left"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="16"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                                    <!--<CheckBox Style="{DynamicResource Button_List_Style}" Grid.Row="0" Grid.Column=" 0"
+                                                                  Content="闪光灯"
+                                                                  IsChecked="{Binding Camera_Parameter_Val.LineInverter}"
+                                                                  Margin="0"
+                                                                  HorizontalAlignment="Left"
+                                                                  VerticalAlignment="Center"
+                                                                  FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                  FontSize="16"
+                                                                  Foreground="{DynamicResource 全局_按钮_黑颜色}" />-->
+
+                                                    <CheckBox Style="{DynamicResource CheckBoxStyle1}" x:Name="Live_Camera" Grid.Column=" 1"
+                                                              IsChecked="{Binding HandEye_Camera_Parameters.Halcon_Find_Calib_Model}"
+                                                              Height=" 38"
+                                                              Margin="0,0,10,0"
+                                                              HorizontalContentAlignment="Center"
+                                                              VerticalContentAlignment="Center"
+                                                              Background="{DynamicResource 全局_按钮_蓝颜色}"
+                                                              FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                              FontSize=" 26">
+                                                        <TextBlock Text="实时检测"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+
+
+                                                        <i:Interaction.Triggers>
+
+                                                            <i:EventTrigger EventName="Click">
+                                                                <i:InvokeCommandAction Command="{Binding HandEye_Check_LiveImage_Comm}"
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                       PassEventArgsToCommand="True" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </CheckBox>
+
+
+
+
+
+
+                                                    <Button Style="{DynamicResource Halcon_Window_Button}" x:Name="Camera_OneImage" Grid.Column=" 2"
+                                                            Height=" 38"
+                                                            Margin="10,0,0,0"
+                                                            Background="{DynamicResource 全局_按钮_蓝颜色}">
+
+
+                                                        <TextBlock Text="检测一帧"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                                   FontSize="16"
+                                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+
+                                                        <i:Interaction.Triggers>
+
+                                                            <i:EventTrigger EventName="Click">
+                                                                <i:InvokeCommandAction Command="{Binding HandEye_Check_OneImage_Comm}"
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                                       PassEventArgsToCommand="True" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+
+                                                    </Button>
+
+                                                </Grid>
                                             </StackPanel>
                                         </Grid>
                                     </Expander>

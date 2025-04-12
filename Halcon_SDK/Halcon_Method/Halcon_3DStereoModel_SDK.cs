@@ -11,6 +11,7 @@ using System.Xml.Serialization;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
 
+
 namespace Halcon_SDK_DLL.Halcon_Method
 {
     [AddINotifyPropertyChangedInterface]
@@ -688,7 +689,13 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
+                Task.Run(() =>
+                {
 
+
+
+
+                });
 
 
 
@@ -710,6 +717,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         }
 
 
+
+
+   
     }
 
 
