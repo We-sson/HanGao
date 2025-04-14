@@ -69,6 +69,10 @@ namespace HanGao.ViewModel
 
 
 
+
+
+
+
         /// <summary>
         /// 手眼标定结果
         /// </summary>
@@ -179,20 +183,20 @@ namespace HanGao.ViewModel
                 do
                 {
                     //双目相机模式下,处理相机状态显示
-                    if (Camera_Device_List.Select_3DCamera_0.Camera_Calibration.HaneEye_Calibration_Diver_Model == Image_Diver_Model_Enum.Online || Camera_Device_List.Select_3DCamera_1.Camera_Calibration.HaneEye_Calibration_Diver_Model == Image_Diver_Model_Enum.Online)
+                    if (Camera_Device_List.Camera_Diver_Model == Image_Diver_Model_Enum.Online)
                     {
 
-                        var _camera_0_Sata = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
-                        var _camera_1_Sata = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
+                        Camera_Device_List.Select_3DCamera_0 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
+                        Camera_Device_List.Select_3DCamera_1 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
 
-                        if (_camera_0_Sata == null)
+                        if (Camera_Device_List.Select_3DCamera_0 == null)
                         {
                             Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State = TwoCamera_Drive_State_Enum.unknown;
                         }
                         else
                         {
 
-                            Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State = _camera_0_Sata.Camer_Status switch
+                            Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_State = Camera_Device_List.Select_3DCamera_0.Camer_Status switch
                             {
                                 MV_CAM_Device_Status_Enum.Null => TwoCamera_Drive_State_Enum.Ready,
                                 MV_CAM_Device_Status_Enum.Possess => TwoCamera_Drive_State_Enum.Error,
@@ -203,14 +207,14 @@ namespace HanGao.ViewModel
                             };
 
                         }
-                        if (_camera_1_Sata == null)
+                        if (Camera_Device_List.Select_3DCamera_1== null)
                         {
                             Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State = TwoCamera_Drive_State_Enum.unknown;
 
                         }
                         else
                         {
-                            Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State = _camera_1_Sata.Camer_Status switch
+                            Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_State = Camera_Device_List.Select_3DCamera_1.Camer_Status switch
                             {
                                 MV_CAM_Device_Status_Enum.Null => TwoCamera_Drive_State_Enum.Ready,
                                 MV_CAM_Device_Status_Enum.Possess => TwoCamera_Drive_State_Enum.Error,
@@ -227,7 +231,7 @@ namespace HanGao.ViewModel
 
                     Thread.Sleep(100);
 
-                } while (Camera_Device_List.Select_3DCamera_0.Camera_Calibration.HaneEye_Calibration_Diver_Model == Image_Diver_Model_Enum.Online || Camera_Device_List.Select_3DCamera_1.Camera_Calibration.HaneEye_Calibration_Diver_Model == Image_Diver_Model_Enum.Online);
+                } while (Camera_Device_List.Camera_Diver_Model== Image_Diver_Model_Enum.Online);
 
 
             });
@@ -1369,9 +1373,10 @@ namespace HanGao.ViewModel
             {
                 RadioButton E = Sm.Source as RadioButton;
 
-                string _DatFile = string.Empty;
+                string _DatFile_Camera_0 = string.Empty;
+                string _DatFile_Camera_1 = string.Empty;
 
-                Camera_Calibration_Info_Model _Select_Model = new();
+                //Camera_Calibration_Info_Model _Select_Model = new();
 
 
                 if ((bool)E.IsChecked)
@@ -1380,56 +1385,102 @@ namespace HanGao.ViewModel
                     try
                     {
 
-                        switch (Enum.Parse<Camera_Connect_Control_Type_Enum>((string)E.Tag))
+                        //switch (Enum.Parse<Camera_Connect_Control_Type_Enum>((string)E.Tag))
+                        //{
+                        //    case Camera_Connect_Control_Type_Enum.Camera_0:
+
+                        //        Camera_Device_List.Select_3DCamera_0 ??= new MVS_Camera_Info_Model();
+                        //        _Select_Model = Camera_Device_List.Select_3DCamera_0.Camera_Calibration;
+                        //        //Camera_Device_List.Select_3DCamera_0 = null;
+                        //        break;
+                        //    case Camera_Connect_Control_Type_Enum.Camera_1:
+                        //        Camera_Device_List.Select_3DCamera_1 ??= new MVS_Camera_Info_Model();
+                        //        _Select_Model = Camera_Device_List.Select_3DCamera_1.Camera_Calibration;
+                        //        //Camera_Device_List.Select_3DCamera_1 = null;
+
+
+                        //        break;
+                        //}
+
+
+
+
+                        VistaOpenFileDialog _Open_Camera_0_File = new()
                         {
-                            case Camera_Connect_Control_Type_Enum.Camera_0:
-
-                                _Select_Model = Camera_Device_List.Select_3DCamera_0.Camera_Calibration;
-                                //Camera_Device_List.Select_3DCamera_0 = null;
-                                break;
-                            case Camera_Connect_Control_Type_Enum.Camera_1:
-
-                                _Select_Model = Camera_Device_List.Select_3DCamera_1.Camera_Calibration;
-                                //Camera_Device_List.Select_3DCamera_1 = null;
-
-
-                                break;
-                        }
-
-
-
-
-                        VistaOpenFileDialog _OpenFile = new()
+                            Filter = "相机内参文件 (*.dat*)|*.dat*",
+                            
+                            Title="Camera_0 相机内参文件",
+                            InitialDirectory = Directory.GetCurrentDirectory(),
+                        };
+                        VistaOpenFileDialog _Open_Camera_1_File = new()
                         {
                             Filter = "相机内参文件 (*.dat*)|*.dat*",
 
-
+                            Title = "Camera_1 相机内参文件",
                             InitialDirectory = Directory.GetCurrentDirectory(),
                         };
-                        if ((bool)_OpenFile.ShowDialog())
+
+
+
+                        if ((bool)_Open_Camera_0_File.ShowDialog())
                         {
 
-                            _DatFile = _OpenFile.FileName;
+                            _DatFile_Camera_0 = _Open_Camera_0_File.FileName;
+
+                        }
+
+                        if ((bool)_Open_Camera_1_File.ShowDialog())
+                        {
+
+                            _DatFile_Camera_1 = _Open_Camera_1_File.FileName;
 
                         }
 
 
-                        if (_DatFile != string.Empty)
+
+                        Camera_Device_List.Select_3DCamera_0 ??= new MVS_Camera_Info_Model();
+
+                        if (_DatFile_Camera_0 != string.Empty)
                         {
 
 
                             HCamPar _CamPar = new();
-                            _CamPar.ReadCamPar(_DatFile);
-                            _Select_Model.Camera_Calibration_Paramteters = new(_CamPar);
+                            _CamPar.ReadCamPar(_DatFile_Camera_0);
+                            Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters = new(_CamPar);
 
                         }
                         else
                         {
-                            _Select_Model.Camera_Calibration_Paramteters = new();
+                            Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters = new();
 
-                            User_Log_Add((string)E.Tag + "：没有相机内参文件，请手动输入！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Exclamation);
+                            User_Log_Add((string)E.Tag + "：没有Camera_0 内参文件，请手动输入！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Exclamation);
 
                         }
+
+
+
+
+                        Camera_Device_List.Select_3DCamera_1 ??= new MVS_Camera_Info_Model();
+
+                        if (_DatFile_Camera_1 != string.Empty)
+                        {
+
+
+                            HCamPar _CamPar = new();
+                            _CamPar.ReadCamPar(_DatFile_Camera_1);
+                            Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters = new(_CamPar);
+
+                        }
+                        else
+                        {
+                            Camera_Device_List.Select_3DCamera_1.Camera_Calibration.Camera_Calibration_Paramteters = new();
+
+                            User_Log_Add((string)E.Tag + "：没有Camera_1 内参文件，请手动输入！", Log_Show_Window_Enum.HandEye, MessageBoxImage.Exclamation);
+
+                        }
+
+
+
 
                     }
                     catch (Exception _e)

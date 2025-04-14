@@ -1,13 +1,13 @@
 ﻿using Halcon_SDK_DLL;
+using Halcon_SDK_DLL.Halcon_Method;
 using Halcon_SDK_DLL.Model;
 using HalconDotNet;
 using MvCamCtrl.NET;
+using MvCamCtrl.NET.CameraParams;
 using MVS_SDK_Base.Model;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using static MVS_SDK_Base.Model.MVS_Model;
 
@@ -33,7 +33,7 @@ namespace MVS_SDK
         /// <summary>
         /// 相机1信息
         /// </summary>
-        public MVS_Camera_Info_Model Select_3DCamera_1 { set; get; }= new MVS_Camera_Info_Model();
+        public MVS_Camera_Info_Model Select_3DCamera_1 { set; get; } = new MVS_Camera_Info_Model();
 
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace MVS_SDK
         /// 双目相机取图方法
         /// </summary>
         /// <returns></returns>
-        public (HImage, HImage) Get_TwoCamera_ImageFrame( int _Timeout = 10000)
+        public (HImage, HImage) Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum ImageType, int _Timeout = 10000)
         {
             HImage _HImage_0 = new();
             HImage _HImage_1 = new();
@@ -67,43 +67,76 @@ namespace MVS_SDK
             MVS_Image_Mode _MVS_Image_1 = new MVS_Image_Mode();
             MVS_Image_Mode _MVS_Image_0 = new MVS_Image_Mode();
 
-   
+
+
+
+            switch (ImageType)
+            {
+                case H3DStereo_Image_Type_Enum.点云图像:
+                    Select_3DCamera_0.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
+                    Select_3DCamera_0.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), false);
+                    ///Camera 1设置
+
+
+                    Select_3DCamera_1.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
+                    Select_3DCamera_1.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), true );
+
+
+
+                    break;
+                case H3DStereo_Image_Type_Enum.深度图像:
+
+                    Select_3DCamera_0.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
+                    Select_3DCamera_0.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), true );
+                    ///Camera 1设置
+
+
+                    Select_3DCamera_1.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
+                    Select_3DCamera_1.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), false );
+
+
+
+                    break;
+        
+           
+            }
+
 
 
             Task task = Task.Run(() =>
             {
-               // DateTime now = DateTime.Now;
-  
+                // DateTime now = DateTime.Now;
+
 
 
                 _MVS_Image_1 = Select_3DCamera_1.MSV_GetImageCallback();
 
-               // Debug.WriteLine($"0采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
-              //   now = DateTime.Now;
+                // Debug.WriteLine($"0采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
+                //   now = DateTime.Now;
 
                 _HImage_1 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_1.Callback_pFrameInfo.nWidth, _MVS_Image_1.Callback_pFrameInfo.nHeight, _MVS_Image_1.PData);
 
-              //  Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
+                //  Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
             });
 
             Task task1 = Task.Run(() =>
             {
 
-              //  DateTime now = DateTime.Now;
+                //  DateTime now = DateTime.Now;
 
                 _MVS_Image_0 = Select_3DCamera_0.MSV_GetImageCallback(true);
-           //     Debug.WriteLine($"1采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
-            //     now = DateTime.Now;
+                //     Debug.WriteLine($"1采集耗时：{(DateTime.Now - now).TotalMilliseconds}");
+                //     now = DateTime.Now;
 
                 _HImage_0 = new Halcon_External_Method_Model().Mvs_To_Halcon_Image(_MVS_Image_0.Callback_pFrameInfo.nWidth, _MVS_Image_0.Callback_pFrameInfo.nHeight, _MVS_Image_0.PData);
-               
-                
-            //    Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
+
+
+                //    Debug.WriteLine($"0采集转换：{(DateTime.Now - now).TotalMilliseconds}");
 
             });
- 
 
-            
+
+
 
             if (!Task.WaitAll([task, task1], _Timeout))
             {
@@ -118,6 +151,93 @@ namespace MVS_SDK
         }
 
 
+
+        public void Set_TwoCamera_Devices_Parm(MVS_Camera_Parameter_Model Camera_0_Pam, MVS_Camera_Parameter_Model Camera_1_Pam, H3DStereo_Image_Type_Enum _ImageType)
+        {
+            switch (_ImageType)
+            {
+                case H3DStereo_Image_Type_Enum.点云图像:
+
+                    ///Camera 0设置
+                    Camera_0_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                    Camera_0_Pam.StrobeEnable = false;
+                    Select_3DCamera_0.Set_Camrea_Parameters_List(Camera_0_Pam);
+
+                    Camera_0_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
+                    Camera_0_Pam.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
+                    Camera_0_Pam.StrobeEnable = true;
+                    Camera_0_Pam.TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON;
+                    Camera_0_Pam.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE;
+                    Select_3DCamera_0.Set_Camrea_Parameters_List(Camera_0_Pam);
+
+
+
+                    ///Camera 1设置
+                    Camera_1_Pam.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
+                    Camera_1_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                    Camera_1_Pam.StrobeEnable = true;
+                    Camera_1_Pam.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
+                    Select_3DCamera_1.Set_Camrea_Parameters_List(Camera_1_Pam);
+                    break;
+                case H3DStereo_Image_Type_Enum.深度图像:
+                    ///Camera 0设置
+                    Camera_0_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                    Camera_0_Pam.StrobeEnable = false;
+                    Select_3DCamera_0.Set_Camrea_Parameters_List(Camera_0_Pam);
+
+                    Camera_0_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
+                    Camera_0_Pam.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
+                    Camera_0_Pam.StrobeEnable = true;
+                    Camera_0_Pam.TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON;
+                    Camera_0_Pam.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE;
+                    Select_3DCamera_0.Set_Camrea_Parameters_List(Camera_0_Pam);
+
+
+
+                    ///Camera 1设置
+                    Camera_1_Pam.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
+                    Camera_1_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                    Camera_1_Pam.StrobeEnable = false;
+                    Camera_1_Pam.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
+                    Select_3DCamera_1.Set_Camrea_Parameters_List(Camera_1_Pam);
+
+                    break;
+                case H3DStereo_Image_Type_Enum.融合图像:
+
+
+
+                    ///Camera 0设置
+                    Camera_0_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                    Camera_0_Pam.StrobeEnable = false;
+                    Select_3DCamera_0.Set_Camrea_Parameters_List(Camera_0_Pam);
+
+                    Camera_0_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin2;
+                    Camera_0_Pam.LineMode = MV_CAM_LINEMODE_MODE.Strobe;
+                    Camera_0_Pam.StrobeEnable = true;
+                    Camera_0_Pam.TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON;
+                    Camera_0_Pam.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE;
+                    Select_3DCamera_0.Set_Camrea_Parameters_List(Camera_0_Pam);
+
+
+
+                    ///Camera 1设置
+                    Camera_1_Pam.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;
+                    Camera_1_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
+                    Camera_1_Pam.StrobeEnable = true;
+                    Camera_1_Pam.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
+                    Select_3DCamera_1.Set_Camrea_Parameters_List(Camera_1_Pam);
+
+
+
+
+
+                    break;
+
+            }
+
+
+
+        }
 
         /// <summary>
         /// 查找相机对象驱动
@@ -134,11 +254,11 @@ namespace MVS_SDK
             //获得设备枚举
             nRet = CSystem.EnumDevices(CSystem.MV_GIGE_DEVICE, ref _CCamera_List);
 
-                //if (_CCamera_List.Count==0 && nRet == CErrorDefine.MV_OK)
-                //{
-                //    nRet = CSystem.EnumDevices(CSystem.MV_VIR_GIGE_DEVICE, ref _CCamera_List);
+            //if (_CCamera_List.Count==0 && nRet == CErrorDefine.MV_OK)
+            //{
+            //    nRet = CSystem.EnumDevices(CSystem.MV_VIR_GIGE_DEVICE, ref _CCamera_List);
 
-                //}
+            //}
             if (nRet == CErrorDefine.MV_OK)
             {
                 CGCamera_List.Clear();

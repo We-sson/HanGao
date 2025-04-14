@@ -311,13 +311,13 @@
 
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="Camera_0_Diver" Grid.Column=" 0"
                                                                  Content="在线设备"
-                                                                 IsChecked="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
+                                                                 IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
                                                                  FontSize=" 14"
                                                                  GroupName="Camera_0_Diver"
                                                                  Tag="Camera_0" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                  Content="本地模式"
-                                                                 IsChecked="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
+                                                                 IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
                                                                  FontSize="14"
                                                                  GroupName="Camera_0_Diver"
                                                                  Tag="Camera_0">
@@ -435,7 +435,7 @@
                                                 <Style TargetType="Grid">
                                                     <Setter Property="Visibility" Value="Visible" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.HaneEye_Calibration_Diver_Model}" Value="{x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}">
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Camera_0_Diver}" Value="false">
                                                             <Setter Property="Visibility" Value="Collapsed" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -1645,7 +1645,9 @@
 
 
                                         </Grid>-->
-                                        <Grid Height="40" Margin="8">
+                                        <Grid Height="40"
+                                              Margin="8"
+                                              IsEnabled="False">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width=" 90" />
@@ -1677,23 +1679,23 @@
 
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="Camera_1_Diver" Grid.Column=" 0"
                                                                  Content="在线设备"
-                                                                 IsChecked="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
+                                                                 IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Online}}"
                                                                  FontSize=" 14"
                                                                  GroupName="Camera_1_Diver"
                                                                  Tag="Camera_1" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
                                                                  Content="本地模式"
-                                                                 IsChecked="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Calibration.HaneEye_Calibration_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
+                                                                 IsChecked="{Binding Camera_Device_List.Camera_Diver_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Halcon_Enum:Image_Diver_Model_Enum.Local}}"
                                                                  FontSize="14"
                                                                  GroupName="Camera_1_Diver"
                                                                  Tag="Camera_1">
-                                                        <i:Interaction.Triggers>
+                                                        <!--<i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="Checked">
                                                                 <i:InvokeCommandAction Command="{Binding HandEye_Diver_Model_Select_Comm}"
                                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                        PassEventArgsToCommand="True" />
                                                             </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
+                                                        </i:Interaction.Triggers>-->
                                                     </RadioButton>
 
                                                 </Grid>
@@ -4611,7 +4613,7 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_ExposureTime_UI" Grid.Column=" 1"
+                                                <Slider x:Name="Camera_ExposureTime_UI" Grid.Column=" 1"
                                                         Margin="5"
                                                         VerticalAlignment="Center"
                                                         HorizontalContentAlignment="Stretch"
@@ -4619,8 +4621,21 @@
                                                         IsSnapToTickEnabled="True"
                                                         Maximum="50000"
                                                         Minimum="1"
-                                                        SmallChange="10"
-                                                        Value="{Binding Camera_Parameter_Val.ExposureTime, Mode=TwoWay}">
+                                                        SmallChange="10">
+                                                    <Slider.Style>
+                                                        <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                                    <Setter Property="Value" Value="{Binding Camera_0_Parameter.ExposureTime, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                                    <Setter Property="Value" Value="{Binding Camera_1_Parameter.ExposureTime, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Slider.Style>
+
+
                                                     <!--<i:Interaction.Triggers>
 
                                 <i:EventTrigger EventName="PreviewMouseUp">
@@ -4665,7 +4680,7 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Camera_Gain_UI" Grid.Column=" 1"
+                                                <Slider x:Name="Camera_Gain_UI" Grid.Column=" 1"
                                                         Margin="5"
                                                         VerticalAlignment="Center"
                                                         HorizontalContentAlignment="Stretch"
@@ -4674,9 +4689,19 @@
                                                         Maximum="19"
                                                         Minimum="0"
                                                         SmallChange="0.1"
-                                                        TickFrequency="0.01"
-                                                        Value="{Binding Camera_Parameter_Val.Gain, Mode=TwoWay}">
-
+                                                        TickFrequency="0.01">
+                                                    <Slider.Style>
+                                                        <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                                    <Setter Property="Value" Value="{Binding Camera_0_Parameter.Gain, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                                    <Setter Property="Value" Value="{Binding Camera_1_Parameter.Gain, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Slider.Style>
                                                     <!--<i:Interaction.Triggers>
 
                                 <i:EventTrigger EventName="PreviewMouseUp">
@@ -4711,7 +4736,7 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="DigitalShift" Grid.Column=" 1"
+                                                <Slider x:Name="DigitalShift" Grid.Column=" 1"
                                                         Margin="5"
                                                         VerticalAlignment="Center"
                                                         HorizontalContentAlignment="Stretch"
@@ -4720,16 +4745,19 @@
                                                         Maximum="6"
                                                         Minimum="-6"
                                                         SmallChange="0.1"
-                                                        TickFrequency="0.1"
-                                                        Value="{Binding Camera_Parameter_Val.DigitalShift, Mode=TwoWay}">
-                                                    <!--<i:Interaction.Triggers>
-
-                                <i:EventTrigger EventName="PreviewMouseUp">
-                                    <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>-->
+                                                        TickFrequency="0.1">
+                                                    <Slider.Style>
+                                                        <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                                    <Setter Property="Value" Value="{Binding Camera_0_Parameter.DigitalShift, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                                    <Setter Property="Value" Value="{Binding Camera_1_Parameter.DigitalShift, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Slider.Style>
                                                 </Slider>
 
                                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -4756,7 +4784,7 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="Gamma" Grid.Column=" 1"
+                                                <Slider x:Name="Gamma" Grid.Column=" 1"
                                                         Margin="5"
                                                         VerticalAlignment="Center"
                                                         HorizontalContentAlignment="Stretch"
@@ -4765,16 +4793,19 @@
                                                         Maximum="4"
                                                         Minimum="0"
                                                         SmallChange="0.1"
-                                                        TickFrequency="0.1"
-                                                        Value="{Binding Camera_Parameter_Val.Gamma, Mode=TwoWay}">
-                                                    <!--<i:Interaction.Triggers>
-
-                                <i:EventTrigger EventName="PreviewMouseUp">
-                                    <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>-->
+                                                        TickFrequency="0.1">
+                                                    <Slider.Style>
+                                                        <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                                    <Setter Property="Value" Value="{Binding Camera_0_Parameter.Gamma, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                                    <Setter Property="Value" Value="{Binding Camera_1_Parameter.Gamma, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Slider.Style>
                                                 </Slider>
 
                                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -4845,7 +4876,7 @@
                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                            FontSize="16"
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                                <Slider Style="{DynamicResource Vision_SliderStyle}" x:Name="BlackLevel" Grid.Column=" 1"
+                                                <Slider x:Name="BlackLevel" Grid.Column=" 1"
                                                         Margin="5"
                                                         VerticalAlignment="Center"
                                                         HorizontalContentAlignment="Stretch"
@@ -4853,16 +4884,19 @@
                                                         IsSnapToTickEnabled="True"
                                                         Maximum="4095"
                                                         Minimum="0"
-                                                        SmallChange="1"
-                                                        Value="{Binding Camera_Parameter_Val.BlackLevel, Mode=TwoWay}">
-                                                    <!--<i:Interaction.Triggers>
-
-                                <i:EventTrigger EventName="PreviewMouseUp">
-                                    <i:InvokeCommandAction Command="{Binding Set_Camera_Int_Val_Comm}"
-                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                           PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>-->
+                                                        SmallChange="1">
+                                                    <Slider.Style>
+                                                        <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                                    <Setter Property="Value" Value="{Binding Camera_0_Parameter.BlackLevel, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                                    <Setter Property="Value" Value="{Binding Camera_1_Parameter.BlackLevel, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Slider.Style>
                                                 </Slider>
 
                                                 <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 2"
@@ -4918,9 +4952,14 @@
 
                                                             <RadioButton.Style>
                                                                 <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
-
-                                                                    <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
-
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                                            <Setter Property="IsChecked" Value="{Binding Camera_0_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                                            <Setter Property="IsChecked" Value="{Binding Camera_1_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
                                                                 </Style>
 
                                                             </RadioButton.Style>
@@ -4935,9 +4974,14 @@
 
                                                             <RadioButton.Style>
                                                                 <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
-
-                                                                    <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
-
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                                            <Setter Property="IsChecked" Value="{Binding Camera_0_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                                            <Setter Property="IsChecked" Value="{Binding Camera_1_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
                                                                 </Style>
 
                                                             </RadioButton.Style>
@@ -4952,8 +4996,14 @@
 
                                                             <RadioButton.Style>
                                                                 <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
-
-                                                                    <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_Parameter_Data.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                                            <Setter Property="IsChecked" Value="{Binding Camera_0_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                                            <Setter Property="IsChecked" Value="{Binding Camera_1_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
 
                                                                 </Style>
 
@@ -4990,15 +5040,14 @@
                                                            Foreground="{DynamicResource 全局_按钮_黑颜色}" />
 
 
-                                                <ComboBox Style="{DynamicResource Data_ComboBoxStyle}" x:Name="AcquisitionMode" Grid.Column=" 1"
+                                                <ComboBox x:Name="AcquisitionMode" Grid.Column=" 1"
                                                           HorizontalContentAlignment="Left"
                                                           VerticalContentAlignment="Center"
                                                           BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                                           BorderThickness="2"
                                                           IsDropDownOpen="False"
                                                           IsSynchronizedWithCurrentItem="True"
-                                                          ItemsSource="{Enum_Converter:EnumBindingSource MVS:MV_CAM_ACQUISITION_MODE}"
-                                                          SelectedValue="{Binding Camera_Parameter_Val.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                          ItemsSource="{Enum_Converter:EnumBindingSource MVS:MV_CAM_ACQUISITION_MODE}">
                                                     <ComboBox.ItemTemplate>
                                                         <DataTemplate>
                                                             <TextBlock Text="{Binding}"
@@ -5010,7 +5059,18 @@
                                                                        TextTrimming="CharacterEllipsis" />
                                                         </DataTemplate>
                                                     </ComboBox.ItemTemplate>
-
+                                                    <ComboBox.Style>
+                                                        <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
+                                                                    <Setter Property="SelectedValue" Value="{Binding Camera_0_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
+                                                                    <Setter Property="SelectedValue" Value="{Binding Camera_1_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ComboBox.Style>
                                                 </ComboBox>
 
 

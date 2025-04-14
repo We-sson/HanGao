@@ -78,30 +78,12 @@ namespace Halcon_SDK_DLL
 
 
 
-        private Camera_Connect_Control_Type_Enum _Camera_Connect_Model = Camera_Connect_Control_Type_Enum.Camera_0;
 
         /// <summary>
         /// 相机连接控制类似
         /// </summary>
-        public Camera_Connect_Control_Type_Enum Camera_Connect_Model
-        {
-            get { return _Camera_Connect_Model; }
-            set
-            {
-                _Camera_Connect_Model = value;
-                switch (value)
-                {
-                    case Camera_Connect_Control_Type_Enum.双目相机:
-                        break;
-                    case Camera_Connect_Control_Type_Enum.Camera_0:
+        public Camera_Connect_Control_Type_Enum Camera_Connect_Model { set; get; } = Camera_Connect_Control_Type_Enum.Camera_0;
 
-                        break;
-                    case Camera_Connect_Control_Type_Enum.Camera_1:
-                        break;
-
-                }
-            }
-        }
 
 
 
