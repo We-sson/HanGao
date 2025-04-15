@@ -160,133 +160,108 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-            //通过双图像融合
-            if (_ParamData.Stereo_Image_3DFusion_Model)
-            {
+       
 
-
-
-                Task task1 = Task.Run(() =>
-                {
-                    HStereoModel _H3DStereoModel = new HStereoModel();
-                    ///初始化
-                    _H3DStereoModel.CreateStereoModel(Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup, _ParamData.H3DStereo_Method.ToString(), new HTuple(), new HTuple());
-
-                    ///应用双目为成像顺序
-                    _H3DStereoModel.SetStereoModelImagePairs(0, 1);
-
-                    Set_H3DStereo_Data(_H3DStereoModel, _ParamData);
-
-
-                    Image_3DPoint = new HImage(_Camera_0_0.ConcatObj(_Camera_0_1));
-
-                    H3DStereo_Results.HModel3D_Camera_3DPoint = new List<HObjectModel3D>([_H3DStereoModel.ReconstructSurfaceStereo(Image_3DPoint)]);
-
-
-
-
-                    ///调试模式下提取
-                    if (_ParamData.Persistence)
-                    {
-
-                        HObject _hObject1 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ToImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "to_image_rect"));
-                        HObject _hObject2 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.FromImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "from_image_rect"));
-                        HObject _hObject3 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.DisparityImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "disparity_image"));
-                        HObject _hObject4 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ScoreImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "score_image"));
-
-                    }
-
-                    _H3DStereoModel.ClearStereoModel();
-                    _H3DStereoModel.Dispose();
-
-                });
-
-                Task task2 = Task.Run(() =>
-                {
-
-                    HStereoModel _H3DStereoModel = new HStereoModel();
-                    ///初始化
-                    _H3DStereoModel.CreateStereoModel(Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup, _ParamData.H3DStereo_Method.ToString(), new HTuple(), new HTuple());
-
-                    ///应用双目为成像顺序
-                    _H3DStereoModel.SetStereoModelImagePairs(0, 1);
-
-                    Set_H3DStereo_Data(_H3DStereoModel, _ParamData);
-
-
-
-                    Image_3DFusion = new HImage(_Camera_1_0.ConcatObj(_Camera_1_1));
-
-
-                    H3DStereo_Results.HModel3D_Camera_3DFusion = new List<HObjectModel3D>([_H3DStereoModel.ReconstructSurfaceStereo(Image_3DFusion)]);
-
-
-                    ///调试模式下提取
-                    if (_ParamData.Persistence)
-                    {
-
-                        HObject _hObject1 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ToImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "to_image_rect"));
-                        HObject _hObject2 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.FromImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "from_image_rect"));
-                        HObject _hObject3 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.DisparityImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "disparity_image"));
-                        HObject _hObject4 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ScoreImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "score_image"));
-
-                    }
-
-
-                    _H3DStereoModel.ClearStereoModel();
-                    _H3DStereoModel.Dispose();
-                });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                Task.WaitAll([task1, task2]);
-
-
-
-                //HModel3D_Camera_All = new List<HObjectModel3D>() { H3DStereo_Results.HModel3D_Camera_3DPoint, H3DStereo_Results.HModel3D_Camera_3DFusion };
-
-
-
-
-
-                //合并模型
-
-
-                H3DStereo_Results.HModel3D_Camera_Unio =  new List<HObjectModel3D>([ HObjectModel3D.UnionObjectModel3d(  H3DStereo_Results.HModel3D_Camera_3DPoint.Concat(H3DStereo_Results.HModel3D_Camera_3DFusion).ToArray(), "points_surface")]);
-
-
-
-
-            }
-            else
-            {
-
+          
 
 
                 switch (_ParamData.H3DStereo_Image_Type)
                 {
+
+
+
+                case H3DStereo_Image_Type_Enum.融合图像:
+
+
+
+
+                    Task task1 = Task.Run(() =>
+                    {
+                        HStereoModel _H3DStereoModel = new HStereoModel();
+                        ///初始化
+                        _H3DStereoModel.CreateStereoModel(Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup, _ParamData.H3DStereo_Method.ToString(), new HTuple(), new HTuple());
+
+                        ///应用双目为成像顺序
+                        _H3DStereoModel.SetStereoModelImagePairs(0, 1);
+
+                        Set_H3DStereo_Data(_H3DStereoModel, _ParamData);
+
+
+                        Image_3DPoint = new HImage(_Camera_0_0.ConcatObj(_Camera_0_1));
+
+                        H3DStereo_Results.HModel3D_Camera_3DPoint = new List<HObjectModel3D>([_H3DStereoModel.ReconstructSurfaceStereo(Image_3DPoint)]);
+
+
+
+
+                        ///调试模式下提取
+                        if (_ParamData.Persistence)
+                        {
+
+                            HObject _hObject1 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ToImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "to_image_rect"));
+                            HObject _hObject2 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.FromImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "from_image_rect"));
+                            HObject _hObject3 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.DisparityImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "disparity_image"));
+                            HObject _hObject4 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ScoreImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "score_image"));
+
+                        }
+
+                        _H3DStereoModel.ClearStereoModel();
+                        _H3DStereoModel.Dispose();
+
+                    });
+
+                    Task task2 = Task.Run(() =>
+                    {
+
+                        HStereoModel _H3DStereoModel = new HStereoModel();
+                        ///初始化
+                        _H3DStereoModel.CreateStereoModel(Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup, _ParamData.H3DStereo_Method.ToString(), new HTuple(), new HTuple());
+
+                        ///应用双目为成像顺序
+                        _H3DStereoModel.SetStereoModelImagePairs(0, 1);
+
+                        Set_H3DStereo_Data(_H3DStereoModel, _ParamData);
+
+
+
+                        Image_3DFusion = new HImage(_Camera_1_0.ConcatObj(_Camera_1_1));
+
+
+                        H3DStereo_Results.HModel3D_Camera_3DFusion = new List<HObjectModel3D>([_H3DStereoModel.ReconstructSurfaceStereo(Image_3DFusion)]);
+
+
+                        ///调试模式下提取
+                        if (_ParamData.Persistence)
+                        {
+
+                            HObject _hObject1 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ToImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "to_image_rect"));
+                            HObject _hObject2 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.FromImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "from_image_rect"));
+                            HObject _hObject3 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.DisparityImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "disparity_image"));
+                            HObject _hObject4 = H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ScoreImage = new HImage(_H3DStereoModel.GetStereoModelObject(new HTuple(0, 1), "score_image"));
+
+                        }
+
+
+                        _H3DStereoModel.ClearStereoModel();
+                        _H3DStereoModel.Dispose();
+                    });
+
+
+                    Task.WaitAll([task1, task2]);
+
+
+
+                    //HModel3D_Camera_All = new List<HObjectModel3D>() { H3DStereo_Results.HModel3D_Camera_3DPoint, H3DStereo_Results.HModel3D_Camera_3DFusion };
+
+
+
+                    //合并模型
+
+                    H3DStereo_Results.HModel3D_Camera_Unio = new List<HObjectModel3D>([HObjectModel3D.UnionObjectModel3d(H3DStereo_Results.HModel3D_Camera_3DPoint.Concat(H3DStereo_Results.HModel3D_Camera_3DFusion).ToArray(), "points_surface")]);
+
+
+
+                    break;
                     case H3DStereo_Image_Type_Enum.点云图像:
 
 
@@ -356,6 +331,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         break;
 
+
+
+
+
                 }
 
 
@@ -366,7 +345,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-            }
+            
 
 
 
@@ -932,7 +911,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 点云重建融合模式
         /// </summary>
-        public bool Stereo_Image_3DFusion_Model { set; get; } = false;
+        //public bool Stereo_Image_3DFusion_Model { set; get; } = false;
 
 
 

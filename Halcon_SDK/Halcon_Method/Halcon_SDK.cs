@@ -1318,7 +1318,7 @@ namespace Halcon_SDK_DLL
         private  void HWindow_Clear_Dispose(Halcon_SDK _Window)
         {
 
-            _Window.HWindow.ClearWindow();
+            _Window.HWindow?.ClearWindow();
             _Window.DisplayImage?.Dispose();
             _Window.DisplayXLD?.Dispose();
             _Window.DisplayRegion?.Dispose();

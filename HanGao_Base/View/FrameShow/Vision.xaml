@@ -4671,61 +4671,6 @@
                                                     Background="{DynamicResource 全局_按钮_深蓝颜色}"
                                                     CornerRadius="1"
                                                     Opacity=" 0.5" />
-                                            <Grid Height=" 38" Margin="0,5,0,5">
-
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="90" />
-                                                    <ColumnDefinition />
-
-                                                </Grid.ColumnDefinitions>
-
-
-                                                <TextBlock Grid.Column=" 0"
-                                                           Text="点云类型"
-                                                           HorizontalAlignment="Left"
-                                                           VerticalAlignment="Center"
-                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                           FontSize="16"
-                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                                <Border Grid.Column=" 1"
-                                                        Margin="0,0,0,0"
-                                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                        BorderThickness="0,0,0,0">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition />
-                                                            <ColumnDefinition />
-                                                            <ColumnDefinition />
-
-                                                        </Grid.ColumnDefinitions>
-
-                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DPoint_Type" Grid.Column=" 0"
-                                                                     Content="结构图"
-                                                                     IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}}"
-                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                     FontSize=" 16"
-                                                                     GroupName="3D_Type_Switch" />
-                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DDepth_Type" Grid.Column=" 1"
-                                                                     Content="纯图像"
-                                                                     IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
-                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                     FontSize="16"
-                                                                     GroupName="3D_Type_Switch" />
-                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DAll_Type" Grid.Column=" 2"
-                                                                     Content="融合图"
-                                                                     IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.融合图像}}"
-                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                     FontSize="16"
-                                                                     GroupName="3D_Type_Switch" />
-                                                    </Grid>
-
-                                                </Border>
-
-
-
-
-                                            </Grid>
 
 
 
@@ -4779,6 +4724,55 @@
 
                                             </Grid>
 
+
+
+                                            <Grid Height=" 38" Margin="0,5,0,5">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="90" />
+                                                    <ColumnDefinition />
+
+                                                </Grid.ColumnDefinitions>
+
+
+                                                <TextBlock Grid.Column=" 0"
+                                                           Text="点云参数"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                <Border Grid.Column=" 1"
+                                                        Margin="0,0,0,0"
+                                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                        BorderThickness="0,0,0,0">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Camera_0_Pam_UI" Grid.Column=" 0"
+                                                                     Content="结构图"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="CameraDives_Pam_Switch" />
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Camera_1_Pam_UI" Grid.Column=" 1"
+                                                                     Content="纯图像"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="CameraDives_Pam_Switch" />
+
+                                                    </Grid>
+
+                                                </Border>
+
+
+
+
+                                            </Grid>
 
 
                                             <!--<Grid Height=" 38 " Margin="0,8,0,8">
@@ -4842,7 +4836,7 @@
 
                                             </Grid>-->
 
-                                            <Grid Height=" 38 " Margin="0,8,0,8">
+                                            <!--<Grid Height=" 38 " Margin="0,8,0,8">
 
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=" 90" />
@@ -4889,20 +4883,22 @@
                                                                    Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                     </Grid>
 
-                                                    <!--<i:Interaction.Triggers>
+                                            -->
+                                            <!--<i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
                                                         <i:InvokeCommandAction Command="{Binding}"
                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                                PassEventArgsToCommand="True" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>-->
+                                            <!--
 
                                                 </ToggleButton>
 
-                                            </Grid>
+                                            </Grid>-->
 
 
-                                            <Grid Height=" 38"
+                                            <!--<Grid Height=" 38"
                                                   Margin="0,5,0,5"
                                                   ShowGridLines="False">
 
@@ -4940,7 +4936,7 @@
                                                                FontSize="15"
                                                                Foreground="{DynamicResource 全局_按钮_白颜色}" />
                                                 </Button>
-                                            </Grid>
+                                            </Grid>-->
 
 
 
@@ -6313,6 +6309,64 @@
                                                                FontSize="14"
                                                                Foreground="{DynamicResource 全局_按钮_黑颜色}" />
                                                 </Grid>
+                                            </Grid>
+
+
+
+                                            <Grid Height=" 38" Margin="0,5,0,5">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="90" />
+                                                    <ColumnDefinition />
+
+                                                </Grid.ColumnDefinitions>
+
+
+                                                <TextBlock Grid.Column=" 0"
+                                                           Text="点云类型"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                <Border Grid.Column=" 1"
+                                                        Margin="0,0,0,0"
+                                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                        BorderThickness="0,0,0,0">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DPoint_Type" Grid.Column=" 0"
+                                                                     Content="结构图"
+                                                                     IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}}"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize=" 16"
+                                                                     GroupName="3D_Type_Switch" />
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DDepth_Type" Grid.Column=" 1"
+                                                                     Content="纯图像"
+                                                                     IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="3D_Type_Switch" />
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DAll_Type" Grid.Column=" 2"
+                                                                     Content="融合图"
+                                                                     IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.融合图像}}"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="3D_Type_Switch" />
+                                                    </Grid>
+
+                                                </Border>
+
+
+
+
                                             </Grid>
 
 

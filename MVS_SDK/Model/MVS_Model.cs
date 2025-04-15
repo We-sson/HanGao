@@ -342,7 +342,7 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             /// 控制所选触发器是否处于活动状态、枚举类型——默认Off，"MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF"
             /// </summary>
-            [Display(Order = 5)]
+            [Display(Order = 6)]
             [StringValue("设置控制所选触发器是否处于活动状态失败")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
             public MV_CAM_TRIGGER_MODE TriggerMode { set; get; } = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_OFF;
@@ -351,7 +351,7 @@ namespace MVS_SDK_Base.Model
             /// <summary>
             ///  指定用作触发源的内部信号或物理输入线路。所选触发器的触发模式必须设置为“开”。
             /// </summary>
-            [Display(Order = 6)]
+            [Display(Order = 5)]
             [StringValue("设置触发源路径失败")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
             public MV_CAM_TRIGGER_SOURCE TriggerSource { set; get; } = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_LINE0;

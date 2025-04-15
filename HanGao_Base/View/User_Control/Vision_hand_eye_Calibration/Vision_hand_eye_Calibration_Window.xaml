@@ -5361,7 +5361,7 @@
                                                                          GroupName="3D_Type_Switch" />
                                                             <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_All3D_Type" Grid.Column=" 2"
                                                                          Content="融合"
-                                                                         IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
+                                                                         IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.融合图像}}"
                                                                          FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                          FontSize="16"
                                                                          GroupName="3D_Type_Switch" />
