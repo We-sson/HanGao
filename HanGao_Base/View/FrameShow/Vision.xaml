@@ -3237,8 +3237,8 @@
                                                             </DataTrigger>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.ExposureTime}" />
@@ -4754,12 +4754,12 @@
 
                                                         </Grid.ColumnDefinitions>
 
-                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Camera_0_Pam_UI" Grid.Column=" 0"
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Scattered_Image_UI" Grid.Column=" 0"
                                                                      Content="结构图"
                                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                      FontSize="16"
                                                                      GroupName="CameraDives_Pam_Switch" />
-                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Camera_1_Pam_UI" Grid.Column=" 1"
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Flash_Image_UI" Grid.Column=" 1"
                                                                      Content="纯图像"
                                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                      FontSize="16"
