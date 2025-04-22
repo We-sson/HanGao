@@ -845,6 +845,8 @@ namespace Halcon_SDK_DLL
     {
         public Halcon_SDK HandEye_Window_1 { set; get; } = new Halcon_SDK();
         public Halcon_SDK HandEye_Window_2 { set; get; } = new Halcon_SDK();
+        public Halcon_SDK HandEye_Window_3 { set; get; } = new Halcon_SDK();
+        public Halcon_SDK HandEye_Window_4 { set; get; } = new Halcon_SDK();
         public Halcon_SDK HandEye_Results_Window_1 { set; get; } = new Halcon_SDK();
         public Halcon_SDK HandEye_Results_Window_2 { set; get; } = new Halcon_SDK();
         public Halcon_SDK HandEye_3D_Results { set; get; } = new Halcon_SDK();
@@ -1292,6 +1294,19 @@ namespace Halcon_SDK_DLL
                     HandEye_Window_2.HWindow.SetWindowParam("background_color", "#334C66");
 
                     break;
+
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_3)):
+                    //加载halcon图像属性
+                    HandEye_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    HandEye_Window_3.HWindow.SetWindowParam("background_color", "#334C66");
+
+                    break;
+                case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Window_4)):
+                    //加载halcon图像属性
+                    HandEye_Window_4 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
+                    HandEye_Window_4.HWindow.SetWindowParam("background_color", "#334C66");
+
+                    break;
                 case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_Results_Window_1)):
                     //加载halcon图像属性
                     HandEye_Results_Window_1 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
@@ -1484,6 +1499,28 @@ namespace Halcon_SDK_DLL
 
 
                     break;
+                case Window_Show_Name_Enum.HandEye_Window_3:
+                    //HandEye_Window_2.HWindow.ClearWindow();
+                    //HandEye_Window_2.DisplayImage?.Dispose();
+                    //HandEye_Window_2.DisplayXLD?.Dispose();
+                    //HandEye_Window_2.DisplayRegion?.Dispose();
+                    //HandEye_Window_2.Draw_XLD?.Dispose();
+                    //HandEye_Window_2.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(HandEye_Window_3);
+
+
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_4:
+                    //HandEye_Window_2.HWindow.ClearWindow();
+                    //HandEye_Window_2.DisplayImage?.Dispose();
+                    //HandEye_Window_2.DisplayXLD?.Dispose();
+                    //HandEye_Window_2.DisplayRegion?.Dispose();
+                    //HandEye_Window_2.Draw_XLD?.Dispose();
+                    //HandEye_Window_2.DisplayXYZImage?.Dispose();
+                    HWindow_Clear_Dispose(HandEye_Window_4);
+
+
+                    break;
 
                 case Window_Show_Name_Enum.HandEye_Results_Window_1:
                     //HandEye_Results_Window_1.HWindow.ClearWindow();
@@ -1657,7 +1694,14 @@ namespace Halcon_SDK_DLL
                     HandEye_Window_2.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
 
                     break;
+                case Window_Show_Name_Enum.HandEye_Window_3:
+                    HandEye_Window_3.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
 
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_4:
+                    HandEye_Window_4.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
+
+                    break;
                 case Window_Show_Name_Enum.HandEye_Results_Window_1:
                     HandEye_Results_Window_1.SetDisplay = new DisplayDrawColor_Model() { SetColor = HColor, SetDraw = HDraw };
 
@@ -1857,6 +1901,8 @@ namespace Halcon_SDK_DLL
 
             HandEye_Window_1?.Dispose();
             HandEye_Window_2?.Dispose();
+            HandEye_Window_3?.Dispose();
+            HandEye_Window_4?.Dispose();
             HandEye_Results_Window_1?.Dispose();
             HandEye_Results_Window_2?.Dispose();
             HandEye_3D_Results?.Dispose();

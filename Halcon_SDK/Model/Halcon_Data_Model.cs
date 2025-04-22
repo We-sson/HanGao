@@ -3300,6 +3300,8 @@ namespace Halcon_SDK_DLL.Model
         Calibration_3D_Results,
         HandEye_Window_1,
         HandEye_Window_2,
+        HandEye_Window_3,
+        HandEye_Window_4,
         HandEye_Results_Window_1,
         HandEye_Results_Window_2,
         HandEye_3D_Results

@@ -4251,10 +4251,14 @@
 
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
 
 
-
-                                    <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_1"
+                                    <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_1" Grid.Row=" 0" Grid.Column="0"
                                                                    MinWidth="400"
                                                                    MinHeight="400"
                                                                    HorizontalAlignment="Stretch"
@@ -4279,13 +4283,42 @@
                                     </Halcon:HSmartWindowControlWPF>
 
 
-                                    <Border Grid.Column=" 1"
+                                    <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_3" Grid.Row=" 2" Grid.Column="0"
+                                                                   MinWidth="400"
+                                                                   MinHeight="400"
+                                                                   HorizontalAlignment="Stretch"
+                                                                   VerticalAlignment="Stretch"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   VerticalContentAlignment="Center"
+                                                                   HDisableAutoResize="True"
+                                                                   SnapsToDevicePixels="True">
+                                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayImage}" />
+                                        <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_3.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                        HDraw="{Binding Halcon_Window_Display.HandEye_Window_3.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                        IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayRegion}" />
+                                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayXLD}" />
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Loaded">
+                                                <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+
+                                    </Halcon:HSmartWindowControlWPF>
+
+                                    <Border Grid.Row=" 0" Grid.Column=" 1"
+                                            Grid.RowSpan=" 3"
                                             Width=" 3"
                                             HorizontalAlignment="Stretch"
                                             Background="{DynamicResource 全局_按钮_深灰颜色}" />
+                                    <Border Grid.Row=" 1" Grid.Column=" 0"
+                                            Grid.ColumnSpan=" 3"
+                                            Height=" 3"
+                                            HorizontalAlignment="Stretch"
+                                            Background="{DynamicResource 全局_按钮_深灰颜色}" />
 
-
-                                    <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_2" Grid.Column=" 2"
+                                    <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_2" Grid.Row=" 0" Grid.Column=" 2"
                                                                    MinWidth="400"
                                                                    MinHeight="400"
                                                                    HorizontalAlignment="Stretch"
@@ -4309,7 +4342,29 @@
 
                                     </Halcon:HSmartWindowControlWPF>
 
+                                    <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_4" Grid.Row=" 2" Grid.Column=" 2"
+                                                                   MinWidth="400"
+                                                                   MinHeight="400"
+                                                                   HorizontalAlignment="Stretch"
+                                                                   VerticalAlignment="Stretch"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   VerticalContentAlignment="Center"
+                                                                   HDisableAutoResize="True"
+                                                                   SnapsToDevicePixels="True">
+                                        <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayImage}" />
+                                        <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_4.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                        HDraw="{Binding Halcon_Window_Display.HandEye_Window_4.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                        IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayRegion}" />
+                                        <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayXLD}" />
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Loaded">
+                                                <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
 
+                                    </Halcon:HSmartWindowControlWPF>
 
 
 
@@ -4442,12 +4497,12 @@
 
                                                         </Grid.ColumnDefinitions>
 
-                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 0"
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Camera_0_Type_UI" Grid.Column=" 0"
                                                                      Content="Camera_0"
                                                                      IsChecked="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}}"
                                                                      FontSize=" 14"
                                                                      GroupName="Camera_Control" />
-                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 1"
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Camera_1_Type_UI" Grid.Column=" 1"
                                                                      Content="Camera_1"
                                                                      IsChecked="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}}"
                                                                      FontSize="14"
@@ -4466,6 +4521,55 @@
 
                                             </Grid>
 
+                                            <Grid Height=" 38" Margin="0,5,0,5">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="90" />
+                                                    <ColumnDefinition />
+
+                                                </Grid.ColumnDefinitions>
+
+
+                                                <TextBlock Grid.Column=" 0"
+                                                           Text="点云参数"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                           FontSize="16"
+                                                           Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                <Border Grid.Column=" 1"
+                                                        Margin="0,0,0,0"
+                                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                        BorderThickness="2"
+                                                        CornerRadius=" 6">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Scattered_Image_UI" Grid.Column=" 0"
+                                                                     Content="结构图"
+                                                                     IsChecked="True"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="CameraDives_Pam_Switch" />
+                                                        <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Flash_Image_UI" Grid.Column=" 1"
+                                                                     Content="纯图像"
+                                                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                     FontSize="16"
+                                                                     GroupName="CameraDives_Pam_Switch" />
+
+                                                    </Grid>
+
+                                                </Border>
+
+
+
+
+                                            </Grid>
 
 
                                             <!--<Grid Margin="0,5,0,5">
@@ -4625,12 +4729,46 @@
                                                     <Slider.Style>
                                                         <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
-                                                                    <Setter Property="Value" Value="{Binding Camera_0_Parameter.ExposureTime, Mode=TwoWay}" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
-                                                                    <Setter Property="Value" Value="{Binding Camera_1_Parameter.ExposureTime, Mode=TwoWay}" />
-                                                                </DataTrigger>
+
+
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.ExposureTime}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.ExposureTime}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.ExposureTime}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.ExposureTime}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Slider.Style>
@@ -4693,12 +4831,48 @@
                                                     <Slider.Style>
                                                         <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
-                                                                    <Setter Property="Value" Value="{Binding Camera_0_Parameter.Gain, Mode=TwoWay}" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
-                                                                    <Setter Property="Value" Value="{Binding Camera_1_Parameter.Gain, Mode=TwoWay}" />
-                                                                </DataTrigger>
+
+
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Gain}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Gain}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Gain}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Gain}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+
+
+
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Slider.Style>
@@ -4749,12 +4923,48 @@
                                                     <Slider.Style>
                                                         <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
-                                                                    <Setter Property="Value" Value="{Binding Camera_0_Parameter.DigitalShift, Mode=TwoWay}" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
-                                                                    <Setter Property="Value" Value="{Binding Camera_1_Parameter.DigitalShift, Mode=TwoWay}" />
-                                                                </DataTrigger>
+
+
+
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.DigitalShift}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.DigitalShift}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.DigitalShift}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.DigitalShift}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+
+
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Slider.Style>
@@ -4797,12 +5007,49 @@
                                                     <Slider.Style>
                                                         <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
-                                                                    <Setter Property="Value" Value="{Binding Camera_0_Parameter.Gamma, Mode=TwoWay}" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
-                                                                    <Setter Property="Value" Value="{Binding Camera_1_Parameter.Gamma, Mode=TwoWay}" />
-                                                                </DataTrigger>
+
+
+
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Gamma}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Gamma}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Gamma}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Gamma}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+
+
+
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Slider.Style>
@@ -4888,12 +5135,50 @@
                                                     <Slider.Style>
                                                         <Style BasedOn="{StaticResource Vision_SliderStyle}" TargetType="Slider">
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
-                                                                    <Setter Property="Value" Value="{Binding Camera_0_Parameter.BlackLevel, Mode=TwoWay}" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
-                                                                    <Setter Property="Value" Value="{Binding Camera_1_Parameter.BlackLevel, Mode=TwoWay}" />
-                                                                </DataTrigger>
+
+
+
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.BlackLevel}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.BlackLevel}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.BlackLevel}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.BlackLevel}" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+
+
+
+
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Slider.Style>
@@ -4953,12 +5238,58 @@
                                                             <RadioButton.Style>
                                                                 <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
                                                                     <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
-                                                                            <Setter Property="IsChecked" Value="{Binding Camera_0_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
-                                                                            <Setter Property="IsChecked" Value="{Binding Camera_1_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
-                                                                        </DataTrigger>
+
+
+
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.关}}" />
+
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+
+
+
+
                                                                     </Style.Triggers>
                                                                 </Style>
 
@@ -4975,12 +5306,58 @@
                                                             <RadioButton.Style>
                                                                 <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
                                                                     <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
-                                                                            <Setter Property="IsChecked" Value="{Binding Camera_0_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
-                                                                            <Setter Property="IsChecked" Value="{Binding Camera_1_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
-                                                                        </DataTrigger>
+
+
+
+
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.开}}" />
+
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+
+
+
+
                                                                     </Style.Triggers>
                                                                 </Style>
 
@@ -4997,12 +5374,56 @@
                                                             <RadioButton.Style>
                                                                 <Style BasedOn="{StaticResource Function_ToggleButtonStyle}" TargetType="RadioButton">
                                                                     <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
-                                                                            <Setter Property="IsChecked" Value="{Binding Camera_0_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
-                                                                            <Setter Property="IsChecked" Value="{Binding Camera_1_Parameter.Camera_Lighting_Control, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
-                                                                        </DataTrigger>
+
+
+
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                                <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+
+
+                                                                                <Setter Property="IsChecked" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Camera_Lighting_Control, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static MVS_Enum:Camera_Lighting_Control_Type_Enum.自动}}" />
+
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+
+
+
                                                                     </Style.Triggers>
 
                                                                 </Style>
@@ -5062,12 +5483,56 @@
                                                     <ComboBox.Style>
                                                         <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox">
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}">
-                                                                    <Setter Property="SelectedValue" Value="{Binding Camera_0_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model}" Value="{x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}">
-                                                                    <Setter Property="SelectedValue" Value="{Binding Camera_1_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                                                                </DataTrigger>
+
+
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+
+                                                                        <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+
+
+
+
+
+
                                                             </Style.Triggers>
                                                         </Style>
                                                     </ComboBox.Style>
@@ -5319,61 +5784,6 @@
 
 
 
-                                                <Grid Height=" 38">
-
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="90" />
-                                                        <ColumnDefinition />
-
-                                                    </Grid.ColumnDefinitions>
-
-
-                                                    <TextBlock Grid.Column=" 0"
-                                                               Text="点云类型"
-                                                               HorizontalAlignment="Left"
-                                                               VerticalAlignment="Center"
-                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                               FontSize="16"
-                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-                                                    <Border Grid.Column=" 1"
-                                                            Margin="0,0,0,0"
-                                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                                            BorderThickness="0,0,0,0">
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition />
-                                                                <ColumnDefinition />
-                                                                <ColumnDefinition />
-                                                            </Grid.ColumnDefinitions>
-
-                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DPoint_Type" Grid.Column=" 0"
-                                                                         Content="散斑"
-                                                                         IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}}"
-                                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                         FontSize=" 16"
-                                                                         GroupName="3D_Type_Switch" />
-                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DDepth_Type" Grid.Column=" 1"
-                                                                         Content="纯图像"
-                                                                         IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
-                                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                         FontSize="16"
-                                                                         GroupName="3D_Type_Switch" />
-                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_All3D_Type" Grid.Column=" 2"
-                                                                         Content="融合"
-                                                                         IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.融合图像}}"
-                                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                                                         FontSize="16"
-                                                                         GroupName="3D_Type_Switch" />
-                                                        </Grid>
-
-                                                    </Border>
-
-
-
-
-                                                </Grid>
-
 
                                                 <!--<Grid Height=" 38 " Margin="0,8,0,8">
 
@@ -5489,13 +5899,10 @@
 
 
                                                                 <Style.Triggers>
-
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
                                                                             <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Process_List, Mode=OneWay}" />
@@ -5503,10 +5910,8 @@
                                                                     </MultiDataTrigger>
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
                                                                             <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Process_List, Mode=OneWay}" />
@@ -5515,9 +5920,8 @@
                                                                     </MultiDataTrigger>
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
                                                                             <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Process_List, Mode=OneWay}" />
@@ -5526,15 +5930,17 @@
                                                                     </MultiDataTrigger>
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
                                                                             <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Process_List, Mode=OneWay}" />
 
                                                                         </MultiDataTrigger.Setters>
                                                                     </MultiDataTrigger>
+
+
+
 
                                                                 </Style.Triggers>
 
@@ -6461,9 +6867,9 @@
                                                         <i:Interaction.Triggers>
 
                                                             <i:EventTrigger EventName="Click">
-                                                                <i:InvokeCommandAction Command="{Binding StereoImage_PreprocessingProcess_Start_Comm}"
+                                                                <!--<i:InvokeCommandAction Command="{Binding StereoImage_PreprocessingProcess_Start_Comm}"
                                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                                       PassEventArgsToCommand="True" />
+                                                                                       PassEventArgsToCommand="True" />-->
                                                             </i:EventTrigger>
                                                         </i:Interaction.Triggers>
                                                     </Button>
@@ -6491,12 +6897,22 @@
                                                               Margin="0,0,5,0"
                                                               Background="{DynamicResource 全局_按钮_青颜色}"
                                                               FontSize=" 26">
-                                                        <TextBlock Text="单步"
-                                                                   HorizontalAlignment="Center"
+                                                        <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                                    FontSize="14"
-                                                                   Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                                   Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Text" Value="单步" />
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep}" Value="True">
+                                                                            <Setter Property="Text" Value="自动" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
 
                                                         <i:Interaction.Triggers>
 
@@ -6846,6 +7262,61 @@
                                                         </ComboBox.ItemTemplate>
 
                                                     </ComboBox>
+                                                </Grid>
+
+                                                <Grid Height=" 38">
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="90" />
+                                                        <ColumnDefinition />
+
+                                                    </Grid.ColumnDefinitions>
+
+
+                                                    <TextBlock Grid.Column=" 0"
+                                                               Text="点云类型"
+                                                               HorizontalAlignment="Left"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                               FontSize="16"
+                                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+                                                    <Border Grid.Column=" 1"
+                                                            Margin="0,0,0,0"
+                                                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                                            BorderThickness="0,0,0,0">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DPoint_Type" Grid.Column=" 0"
+                                                                         Content="散斑"
+                                                                         IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}}"
+                                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                         FontSize=" 16"
+                                                                         GroupName="3D_Type_Switch" />
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DDepth_Type" Grid.Column=" 1"
+                                                                         Content="纯图像"
+                                                                         IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
+                                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                         FontSize="16"
+                                                                         GroupName="3D_Type_Switch" />
+                                                            <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_All3D_Type" Grid.Column=" 2"
+                                                                         Content="融合"
+                                                                         IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.融合图像}}"
+                                                                         FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                                         FontSize="16"
+                                                                         GroupName="3D_Type_Switch" />
+                                                        </Grid>
+
+                                                    </Border>
+
+
+
+
                                                 </Grid>
 
 
@@ -9063,7 +9534,7 @@ PassEventArgsToCommand="True" />
                                                       ShowGridLines="False">
                                                     <Grid.Style>
                                                         <Style TargetType="Grid">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Setter Property="Visibility" Value="Visible" />
                                                             <Style.Triggers>
 
                                                                 <DataTrigger Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.Persistence}" Value="true">
@@ -10879,7 +11350,7 @@ PassEventArgsToCommand="True" />
                                     <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                         <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding HandEye_Results_Pos.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibrationing}">
+                                            <DataTrigger Binding="{Binding HandEye_Results.HandEye_Results_Pos.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibrationing}">
                                                 <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
                                                 <Setter Property="IsEnabled" Value="False" />
                                             </DataTrigger>
@@ -11090,7 +11561,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Calib_Error}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Calib_Error}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Camera_0_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -11135,7 +11606,7 @@ PassEventArgsToCommand="True" />
                                                       IsEnabled="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Source={StaticResource Halocn_Camera_Calibration}}"
-                                                      SelectedValue="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.Camera_Calibration_Model}">
+                                                      SelectedValue="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.Camera_Calibration_Model}">
 
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
@@ -11181,7 +11652,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.Focus}">
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.Focus}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="PreviewMouseUp">
                                                         <i:InvokeCommandAction Command="{Binding}"
@@ -11233,7 +11704,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.Kappa}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.Kappa}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_Kappa_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -11277,7 +11748,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.K1}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.K1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_K1_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -11322,7 +11793,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.K2}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.K2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_K2_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -11367,7 +11838,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.K3}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.K3}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_K3_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -11412,7 +11883,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.P1}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.P1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_P1_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -11457,7 +11928,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.P2}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.P2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_P2_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -11502,7 +11973,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.Sx}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.Sx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_Pixel_Width_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -11547,7 +12018,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999"
                                                     Minimum="-999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.Sy}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.Sy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HaneEye_0_Pixel_Height_UI, Path=Value}"
@@ -11592,7 +12063,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.Cx}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.Cx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_Middle_Width_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -11637,7 +12108,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.Cy}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.Cy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_Middle_Height_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -11682,7 +12153,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.Image_Width}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.Image_Width}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_Max_Width_UI, Path=Value}"
@@ -11727,7 +12198,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_0_Results.Camera_Result_Pama.Image_Height}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Result_Pama.Image_Height}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_0_Max_Heigth_UI, Path=Value}"
@@ -11948,7 +12419,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Calib_Error}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Calib_Error}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Camera_1_Error_UI, Path=Value, StringFormat={}{0:N3}}"
@@ -11993,7 +12464,7 @@ PassEventArgsToCommand="True" />
                                                       IsEnabled="False"
                                                       IsSynchronizedWithCurrentItem="True"
                                                       ItemsSource="{Binding Source={StaticResource Halocn_Camera_Calibration}}"
-                                                      SelectedValue="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.Camera_Calibration_Model}">
+                                                      SelectedValue="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.Camera_Calibration_Model}">
 
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
@@ -12037,7 +12508,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.Focus}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.Focus}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_Focus_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12081,7 +12552,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.Kappa}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.Kappa}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_Kappa_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12125,7 +12596,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.K1}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.K1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_K1_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12169,7 +12640,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.K2}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.K2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_K2_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12213,7 +12684,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.K3}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.K3}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_K3_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12257,7 +12728,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.P1}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.P1}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_P1_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12301,7 +12772,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="99999999999999999"
                                                     Minimum="-99999999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.P2}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.P2}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_P2_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12346,7 +12817,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.Sx}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.Sx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_Pixel_Width_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12391,7 +12862,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="100"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.Sy}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.Sy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HaneEye_1_Pixel_Height_UI, Path=Value}"
@@ -12436,7 +12907,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.Cx}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.Cx}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_Middle_Width_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12481,7 +12952,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.Cy}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.Cy}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_Middle_Height_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12526,7 +12997,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.Image_Width}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.Image_Width}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_Max_Width_UI, Path=Value}"
@@ -12571,7 +13042,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Camera_1_Results.Camera_Result_Pama.Image_Height}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Camera_1_Results.Camera_Result_Pama.Image_Height}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_1_Max_Heigth_UI, Path=Value}"
@@ -12793,7 +13264,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Tool_Translation_Deviation}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_Translation_Deviation}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Tool_Translation_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12841,7 +13312,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Tool_Rotational_Deviation}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_Rotational_Deviation}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Tool_Rotational_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12906,7 +13377,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error.RMS_Translational}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Calib_Error.RMS_Translational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_RMSE_Translation_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12951,7 +13422,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error.RMS_Rotational}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Calib_Error.RMS_Rotational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_RMSE_Rotational_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -12996,7 +13467,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error.Maximum_Translational}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Calib_Error.Maximum_Translational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Max_Translation_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -13041,7 +13512,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error.Maximum_Rotational}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Calib_Error.Maximum_Rotational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Max_Rotational_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -13107,7 +13578,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.RMS_Translational}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.RMS_Translational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Corrected_RMSE_Translation_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -13152,7 +13623,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.RMS_Rotational}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.RMS_Rotational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Corrected_RMSE_Rotational_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -13197,7 +13668,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.Maximum_Translational}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.Maximum_Translational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Corrected_Max_Translation_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -13242,7 +13713,7 @@ PassEventArgsToCommand="True" />
                                                     Maximum="50000"
                                                     Minimum="0"
                                                     SmallChange="10"
-                                                    Value="{Binding HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.Maximum_Rotational}" />
+                                                    Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Calib_Error_Corrected_Tool.Maximum_Rotational}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=HandEye_Corrected_Max_Rotational_Error_UI, Path=Value, StringFormat={}{0:F4}}"
@@ -13321,13 +13792,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.X, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.X, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.X, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.X, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13342,13 +13813,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Y, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Y, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Y, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Y, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13362,13 +13833,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Z, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Z, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Z, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Z, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13382,13 +13853,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Rx, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Rx, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Rx, StringFormat={}{0:F4}°}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Rx, StringFormat={}{0:F4}°}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13402,13 +13873,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Ry, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Ry, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Ry, StringFormat={}{0:F4}°}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Ry, StringFormat={}{0:F4}°}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13422,13 +13893,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column="1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Rz, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pos.Rz, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Rz, StringFormat={}{0:F4}°}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_in_Cam_Pose_Deviations.Rz, StringFormat={}{0:F4}°}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13488,13 +13959,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.X, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.X, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 2" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.X, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.X, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13509,13 +13980,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Y, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Y, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 4" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Y, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Y, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13529,13 +14000,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Z, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Z, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 6" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Z, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Z, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13549,13 +14020,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Rx, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Rx, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 8" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Rx, StringFormat={}{0:F4}°}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Rx, StringFormat={}{0:F4}°}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13569,13 +14040,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Ry, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Ry, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 10" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Ry, StringFormat={}{0:F4}°}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Ry, StringFormat={}{0:F4}°}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13589,13 +14060,13 @@ PassEventArgsToCommand="True" />
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
                                                 <TextBlock Grid.Row=" 12" Grid.Column="1"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Rz, StringFormat={}{0:F4}}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose.Rz, StringFormat={}{0:F4}}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
 
                                                 <TextBlock Grid.Row=" 12" Grid.Column=" 2"
-                                                           Text="{Binding HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Rz, StringFormat={}{0:F4}°}"
+                                                           Text="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Obj_In_Base_Pose_Deviations.Rz, StringFormat={}{0:F4}°}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16" />
@@ -13771,7 +14242,7 @@ PassEventArgsToCommand="True" />
                                                     <Style BasedOn="{StaticResource Halcon_Window_Button}" TargetType="Button">
                                                         <Setter Property="Content" Value="{StaticResource Calibration_Results_Txt}" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding HandEye_Camera_0_Results.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibrationing}">
+                                                            <DataTrigger Binding="{Binding HandEye_Results.HandEye_Camera_0_Results.Camera_Calinration_Process_Type}" Value="{x:Static Halcon_Enum:Camera_Calinration_Process_Enum.Calibrationing}">
                                                                 <Setter Property="Content" Value="{StaticResource Calibration_PBar}" />
                                                                 <Setter Property="IsEnabled" Value="False" />
                                                             </DataTrigger>

@@ -3237,6 +3237,7 @@
                                                             </DataTrigger>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
                                                                     <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
                                                                     <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
@@ -3246,9 +3247,9 @@
                                                             </MultiDataTrigger>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.ExposureTime}" />
@@ -3256,9 +3257,9 @@
                                                             </MultiDataTrigger>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.ExposureTime}" />
@@ -3266,9 +3267,9 @@
                                                             </MultiDataTrigger>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.ExposureTime}" />
@@ -3345,8 +3346,8 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Gain}" />
@@ -3355,8 +3356,8 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Gain}" />
@@ -3365,8 +3366,9 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Gain}" />
@@ -3375,8 +3377,9 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Gain}" />
@@ -3432,9 +3435,8 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.DigitalShift}" />
@@ -3443,9 +3445,8 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.DigitalShift}" />
@@ -3454,9 +3455,9 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
 
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.DigitalShift}" />
@@ -3465,9 +3466,9 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
 
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.DigitalShift}" />
@@ -3523,9 +3524,8 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.Gamma}" />
@@ -3534,9 +3534,8 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.Gamma}" />
@@ -3545,9 +3544,8 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.Gamma}" />
@@ -3556,9 +3554,9 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
 
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.Gamma}" />
@@ -3614,9 +3612,8 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.BlackLevel}" />
@@ -3625,9 +3622,8 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Parameter.BlackLevel}" />
@@ -3636,9 +3632,9 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
 
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.BlackLevel}" />
@@ -3647,9 +3643,9 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
 
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="Value" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.BlackLevel}" />
@@ -3720,10 +3716,9 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
 
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
-
+                                                                            <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3732,9 +3727,9 @@
                                                                     </MultiDataTrigger>
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                            <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3744,9 +3739,9 @@
                                                                     </MultiDataTrigger>
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                            <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3756,9 +3751,9 @@
                                                                     </MultiDataTrigger>
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                            <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3791,10 +3786,8 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3804,9 +3797,8 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3817,9 +3809,8 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3830,9 +3821,8 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3865,9 +3855,8 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3877,9 +3866,8 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3890,9 +3878,8 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3903,9 +3890,8 @@
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
                                                                             <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                            <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                            <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                         </MultiDataTrigger.Conditions>
                                                                         <MultiDataTrigger.Setters>
 
@@ -3975,9 +3961,9 @@
 
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
@@ -3986,9 +3972,9 @@
                                                             </MultiDataTrigger>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                    <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
 
@@ -3998,9 +3984,9 @@
                                                             </MultiDataTrigger>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
@@ -4010,9 +3996,9 @@
                                                             </MultiDataTrigger>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                    <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                    <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                 </MultiDataTrigger.Conditions>
                                                                 <MultiDataTrigger.Setters>
                                                                     <Setter Property="SelectedValue" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Parameter.AcquisitionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
@@ -4756,6 +4742,7 @@
 
                                                         <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Scattered_Image_UI" Grid.Column=" 0"
                                                                      Content="结构图"
+                                                                     IsChecked="True"
                                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                      FontSize="16"
                                                                      GroupName="CameraDives_Pam_Switch" />
@@ -4991,10 +4978,9 @@
 
                                                                 <MultiDataTrigger>
                                                                     <MultiDataTrigger.Conditions>
-
-                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                     </MultiDataTrigger.Conditions>
                                                                     <MultiDataTrigger.Setters>
                                                                         <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_0_3DPoint_Process_List, Mode=OneWay}" />
@@ -5002,10 +4988,9 @@
                                                                 </MultiDataTrigger>
                                                                 <MultiDataTrigger>
                                                                     <MultiDataTrigger.Conditions>
-
-                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Scattered_Image_UI, Path=IsChecked}" Value="true" />
                                                                     </MultiDataTrigger.Conditions>
                                                                     <MultiDataTrigger.Setters>
                                                                         <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_1_3DPoint_Process_List, Mode=OneWay}" />
@@ -5014,9 +4999,9 @@
                                                                 </MultiDataTrigger>
                                                                 <MultiDataTrigger>
                                                                     <MultiDataTrigger.Conditions>
-                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_0}" />
-
-                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_0_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                     </MultiDataTrigger.Conditions>
                                                                     <MultiDataTrigger.Setters>
                                                                         <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_0_3DFusionImage_Process_List, Mode=OneWay}" />
@@ -5025,9 +5010,9 @@
                                                                 </MultiDataTrigger>
                                                                 <MultiDataTrigger>
                                                                     <MultiDataTrigger.Conditions>
-                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type}" Value="{x:Static Process_Enum:H3DStereo_CameraDrives_Type_Enum.Camera_1}" />
-
-                                                                        <Condition Binding="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type}" Value="{x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}" />
+                                                                        <Condition Binding="{Binding Select_Vision_Value.Camera_Devices_2D3D_Switch}" Value="false" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Camera_1_Type_UI, Path=IsChecked}" Value="true" />
+                                                                        <Condition Binding="{Binding ElementName=H3DStereo_Flash_Image_UI, Path=IsChecked}" Value="true" />
                                                                     </MultiDataTrigger.Conditions>
                                                                     <MultiDataTrigger.Setters>
                                                                         <Setter Property="ItemsSource" Value="{Binding Select_Vision_Value.Camera_1_3DFusionImage_Process_List, Mode=OneWay}" />
@@ -5990,12 +5975,22 @@
                                                           Margin="0,0,5,0"
                                                           Background="{DynamicResource 全局_按钮_青颜色}"
                                                           FontSize=" 26">
-                                                    <TextBlock Text="单步"
-                                                               HorizontalAlignment="Center"
+                                                    <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                                FontSize="14"
-                                                               Foreground="{DynamicResource 全局_按钮_白颜色}" />
+                                                               Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Text" Value="单步" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep}" Value="True">
+                                                                        <Setter Property="Text" Value="自动" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
 
                                                     <i:Interaction.Triggers>
 
