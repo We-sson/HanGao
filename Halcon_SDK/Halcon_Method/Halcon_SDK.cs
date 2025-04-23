@@ -1782,7 +1782,12 @@ namespace Halcon_SDK_DLL
                 case Window_Show_Name_Enum.HandEye_Window_2:
                     _WindowDisplay = HandEye_Window_2;
                     break;
-
+                case Window_Show_Name_Enum.HandEye_Window_3:
+                    _WindowDisplay = HandEye_Window_3;
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_4:
+                    _WindowDisplay = HandEye_Window_4;
+                    break;
                 case Window_Show_Name_Enum.HandEye_Results_Window_1:
                     _WindowDisplay = HandEye_Results_Window_1;
                     break;

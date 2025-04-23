@@ -904,7 +904,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 生产图像类型
         /// </summary>
-        public H3DStereo_Image_Type_Enum H3DStereo_Image_Type { set; get; } = H3DStereo_Image_Type_Enum.点云图像;
+        public H3DStereo_Image_Type_Enum H3DStereo_Image_Type { set; get; } = H3DStereo_Image_Type_Enum.融合图像;
 
 
 

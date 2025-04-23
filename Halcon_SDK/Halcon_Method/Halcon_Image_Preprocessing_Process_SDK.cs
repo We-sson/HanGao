@@ -199,7 +199,14 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
             ///流程状态复位
-            _Preprocessing_Process_List.ToList().ForEach(list => list.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Int);
+            //_Preprocessing_Process_List.ToList().ForEach(list => list.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Int);
+
+            foreach (var item in _Preprocessing_Process_List)
+            {
+                item.Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Int;
+            
+            }
+
 
 
             //计算总时间处理
@@ -305,7 +312,15 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         }
                         break;
+                    case H3DStereo_Image_Type_Enum.融合图像:
 
+                        _OldImage1 = Preprocessing_Process_Start(_OldImage1, _List1);
+                        _OldImage2 = Preprocessing_Process_Start(_OldImage2, _List2);
+                        _OldImage3 = Preprocessing_Process_Start(_OldImage3, _List3);
+                        _OldImage4 = Preprocessing_Process_Start(_OldImage4, _List4);
+
+
+                        break;
                 }
 
 
@@ -714,54 +729,54 @@ namespace Halcon_SDK_DLL.Halcon_Method
                 case Image_Preprocessing_Process_Enum.ScaleImageMax:
 
 
-                    ScaleImageMax = new ScaleImageMax_Function_Model();
+                    ScaleImageMax??= new ScaleImageMax_Function_Model();
 
                     break;
                 case Image_Preprocessing_Process_Enum.MedianRect:
 
 
-                    MedianRect = new MedianRect_Function_Model();
+                    MedianRect??= new MedianRect_Function_Model();
 
 
                     break;
                 case Image_Preprocessing_Process_Enum.GrayOpeningRect:
-                    GrayOpeningRect = new GrayOpeningRect_Function_Model();
+                    GrayOpeningRect ??= new GrayOpeningRect_Function_Model();
 
                     break;
                 case Image_Preprocessing_Process_Enum.MedianImage:
 
-                    MedianImage = new MedianImage_Function_Model();
+                    MedianImage ??= new MedianImage_Function_Model();
 
                     break;
                 case Image_Preprocessing_Process_Enum.Illuminate:
-                    Illuminate = new Illuminate_Function_Model();
+                    Illuminate ??= new Illuminate_Function_Model();
 
                     break;
                 case Image_Preprocessing_Process_Enum.Emphasize:
-                    Emphasize = new Emphasize_Function_Model();
+                    Emphasize ??= new Emphasize_Function_Model();
 
                     break;
                 case Image_Preprocessing_Process_Enum.GrayClosingRect:
-                    GrayClosingRect = new GrayClosingRect_Function_Model();
+                    GrayClosingRect ??= new GrayClosingRect_Function_Model();
 
                     break;
 
                 case H3DObjectModel_Features_Enum.ConnectionObjectModel3d:
 
-                    ConnectionObjectModel3d = new ConnectionObjectModel3d_Function_Model() { };
+                    ConnectionObjectModel3d ??= new ConnectionObjectModel3d_Function_Model() { };
 
 
                     break;
                 case H3DObjectModel_Features_Enum.SelectObjectModel3d:
 
-                    SelectObjectModel3d = new SelectObjectModel3d_Funtion_Model() { };
+                    SelectObjectModel3d ??= new SelectObjectModel3d_Funtion_Model() { };
 
 
 
                     break;
                 case H3DObjectModel_Features_Enum.SampleObjectModel3d:
 
-                    SampleObjectModel3d = new SampleObjectModel3d_Function_Model() { };
+                    SampleObjectModel3d ??= new SampleObjectModel3d_Function_Model() { };
 
 
 
@@ -769,38 +784,38 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                 case H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d:
 
-                    SurfaceNormalsObjectModel3d = new SurfaceNormalsObjectModel3d_Function_Model() { };
+                    SurfaceNormalsObjectModel3d ??= new SurfaceNormalsObjectModel3d_Function_Model() { };
 
                     break;
 
 
                 case H3DObjectModel_Features_Enum.SmoothObjectModel3d:
 
-                    SmoothObjectModel3d = new SmoothObjectModel3d_Function_Model() { };
+                    SmoothObjectModel3d ??= new SmoothObjectModel3d_Function_Model() { };
 
                     break;
 
 
                 case H3DObjectModel_Features_Enum.PrepareObjectModel3d:
 
-                    PrepareObjectModel3d = new PrepareObjectModel3d_Function_Model() { };
+                    PrepareObjectModel3d ??= new PrepareObjectModel3d_Function_Model() { };
 
                     break;
                 case H3DObjectModel_Features_Enum.TriangulateObjectModel3d:
 
-                    TriangulateObjectModel3d = new TriangulateObjectModel3d_Function_Model() { };
+                    TriangulateObjectModel3d ??= new TriangulateObjectModel3d_Function_Model() { };
 
                     break;
 
                 case H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d:
 
-                    FitPrimitivesObjectModel3d = new FitPrimitivesObjectModel3d_Function_Model() { };
+                    FitPrimitivesObjectModel3d ??= new FitPrimitivesObjectModel3d_Function_Model() { };
 
                     break;
 
                 case H3DObjectModel_Features_Enum.PrimitiveToObjectModel3d:
 
-                    PrimitiveToObjectModel3d = new PrimitiveToObjectModel3d_Function_Model();
+                    PrimitiveToObjectModel3d ??= new PrimitiveToObjectModel3d_Function_Model();
 
                     break;
 

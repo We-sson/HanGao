@@ -5750,6 +5750,7 @@
                                                                 <Style.Triggers>
                                                                     <MultiDataTrigger>
                                                                         <MultiDataTrigger.Conditions>
+                                                                            <Condition Binding="{Binding Halcon_3DStereoModel.TwoCamera_Connect_Sate}" Value="True" />
                                                                             <Condition Binding="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Work_State}" Value="{x:Static MVS_Enum:MV_CAM_Camera_Work_State_Enum.Camera_Ready}" />
                                                                             <Condition Binding="{Binding Camera_Device_List.Select_3DCamera_1.Camera_Work_State}" Value="{x:Static MVS_Enum:MV_CAM_Camera_Work_State_Enum.Camera_Ready}" />
                                                                         </MultiDataTrigger.Conditions>
@@ -5854,7 +5855,7 @@
 
                                                 <Border Height=" 2"
                                                         Margin="8,5,8,5"
-                                                        Background="{DynamicResource 全局_按钮_深蓝颜色}"
+                                                        Background="{DynamicResource 全局_按钮_红颜色}"
                                                         CornerRadius="1"
                                                         Opacity=" 0.5" />
 
@@ -6867,9 +6868,9 @@
                                                         <i:Interaction.Triggers>
 
                                                             <i:EventTrigger EventName="Click">
-                                                                <!--<i:InvokeCommandAction Command="{Binding StereoImage_PreprocessingProcess_Start_Comm}"
+                                                                <i:InvokeCommandAction Command="{Binding StereoImage_PreprocessingProcess_Start_Comm}"
                                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                                       PassEventArgsToCommand="True" />-->
+                                                                                       PassEventArgsToCommand="True" />
                                                             </i:EventTrigger>
                                                         </i:Interaction.Triggers>
                                                     </Button>
@@ -6904,10 +6905,10 @@
                                                                    Foreground="{DynamicResource 全局_按钮_白颜色}">
                                                             <TextBlock.Style>
                                                                 <Style TargetType="TextBlock">
-                                                                    <Setter Property="Text" Value="单步" />
+                                                                    <Setter Property="Text" Value="自动" />
                                                                     <Style.Triggers>
                                                                         <DataTrigger Binding="{Binding Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep}" Value="True">
-                                                                            <Setter Property="Text" Value="自动" />
+                                                                            <Setter Property="Text" Value="单步" />
                                                                         </DataTrigger>
                                                                     </Style.Triggers>
                                                                 </Style>
