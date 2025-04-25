@@ -894,8 +894,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public H3DStereo_CameraDrives_Type_Enum H3DStereo_CameraDrives_Type { set; get; } = H3DStereo_CameraDrives_Type_Enum.Camera_0;
       
-        
-        
+        public H3DStereo_Image_Type_Enum H3DStereo_Pamera_Type { set; get; } = H3DStereo_Image_Type_Enum.点云图像;
+
+
         /// <summary>
         /// 重建方法。
         /// </summary>
@@ -920,7 +921,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public double Min_BoundingBox_X { set; get; } = -0.5;
         public double Min_BoundingBox_Y { set; get; } = -0.5;
-        public double Min_BoundingBox_Z { set; get; } = 0.0;
+        public double Min_BoundingBox_Z { set; get; } = 0.3;
 
 
 

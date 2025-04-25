@@ -4499,12 +4499,12 @@
 
                                                         <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Camera_0_Type_UI" Grid.Column=" 0"
                                                                      Content="Camera_0"
-                                                                     IsChecked="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}}"
+                                                                     IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_0}}"
                                                                      FontSize=" 14"
                                                                      GroupName="Camera_Control" />
                                                         <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Camera_1_Type_UI" Grid.Column=" 1"
                                                                      Content="Camera_1"
-                                                                     IsChecked="{Binding Halcon_HandEye_Calibra.Camera_Connect_Model, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}}"
+                                                                     IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static EnumModel:Camera_Connect_Control_Type_Enum.Camera_1}}"
                                                                      FontSize="14"
                                                                      GroupName="Camera_Control" />
                                                         <!--<RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" Grid.Column=" 2"
@@ -4552,12 +4552,13 @@
 
                                                         <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Scattered_Image_UI" Grid.Column=" 0"
                                                                      Content="结构图"
-                                                                     IsChecked="True"
+                                                                     IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Pamera_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}}"
                                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                      FontSize="16"
                                                                      GroupName="CameraDives_Pam_Switch" />
                                                         <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Flash_Image_UI" Grid.Column=" 1"
                                                                      Content="纯图像"
+                                                                     IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Pamera_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
                                                                      FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                      FontSize="16"
                                                                      GroupName="CameraDives_Pam_Switch" />
@@ -10336,7 +10337,13 @@ PassEventArgsToCommand="True" />
                                                                         HDraw="{Binding Halcon_Window_Display.HandEye_3D_Results.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                         IconicObject="{Binding Halcon_Window_Display.HandEye_3D_Results.DisplayRegion}" />
                                         <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_3D_Results.DisplayXLD}" />
-
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Loaded">
+                                                <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                       PassEventArgsToCommand="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                     </Halcon:HSmartWindowControlWPF>
 
 

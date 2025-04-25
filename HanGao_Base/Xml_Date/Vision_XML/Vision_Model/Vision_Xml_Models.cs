@@ -69,6 +69,11 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
         public string Date_Last_Revise { get; set; } = DateTime.Now.ToString();
 
 
+
+        /// <summary>
+        /// 获得当前流程
+        /// </summary>
+        /// <returns></returns>
         public ObservableCollection<Preprocessing_Process_Lsit_Model> Get_H3DStereo_Preprocessing_Process()
         {
 
@@ -78,7 +83,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
             {
                 case H3DStereo_CameraDrives_Type_Enum.Camera_0:
 
-                    switch (H3DStereo_ParamData.H3DStereo_Image_Type)
+                    switch (H3DStereo_ParamData.H3DStereo_Pamera_Type)
                     {
                         case H3DStereo_Image_Type_Enum.点云图像:
 
@@ -95,7 +100,7 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 
                     
                 case H3DStereo_CameraDrives_Type_Enum.Camera_1:
-                    switch (H3DStereo_ParamData.H3DStereo_Image_Type)
+                    switch (H3DStereo_ParamData.H3DStereo_Pamera_Type)
                     {
                         case H3DStereo_Image_Type_Enum.点云图像:
 
