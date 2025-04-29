@@ -1045,12 +1045,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 匹配掩码宽度
         /// </summary>
-        public int Binocular_mask_width { set; get; } = 11;
+        public int Binocular_mask_width { set; get; } = 50;
 
         /// <summary>
         /// 匹配掩码高度
         /// </summary>
-        public int Binocular_mask_height { set; get; } = 11;
+        public int Binocular_mask_height { set; get; } = 50;
 
 
         /// <summary>

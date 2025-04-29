@@ -771,7 +771,7 @@
                                                       FontSize="20"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      SelectedIndex="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Camera_Calibration_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
+                                                      SelectedIndex="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.Camera_Calibration_Model, Converter={StaticResource Halcon_EnumConverter}, ConverterParameter={x:Type Halcon_Enum:Halocn_Camera_Calibration_Enum}}">
                                                 <ComboBox.Style>
                                                     <Style BasedOn="{StaticResource Data_ComboBoxStyle}" TargetType="ComboBox" />
                                                 </ComboBox.Style>
@@ -1045,7 +1045,7 @@
                                                     Maximum="9999999999999"
                                                     Minimum="-9999999999999"
                                                     SmallChange="10"
-                                                    Value="{Binding Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.K3}" />
+                                                    Value="{Binding Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.K3}" />
 
                                             <TextBox Grid.Column=" 2"
                                                      Text="{Binding ElementName=Calibration_K3_UI_0, Path=Value, StringFormat={}{0:F4}}"
@@ -4273,7 +4273,7 @@
                                                                         IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayRegion}" />
                                         <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayXLD}" />
                                         <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Loaded">
+                                            <i:EventTrigger EventName="Initialized">
                                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
@@ -4298,7 +4298,7 @@
                                                                         IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayRegion}" />
                                         <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayXLD}" />
                                         <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Loaded">
+                                            <i:EventTrigger EventName="Initialized">
                                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
@@ -4333,7 +4333,7 @@
                                                                         IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayRegion}" />
                                         <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayXLD}" />
                                         <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Loaded">
+                                            <i:EventTrigger EventName="Initialized">
                                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
@@ -4357,7 +4357,7 @@
                                                                         IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayRegion}" />
                                         <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayXLD}" />
                                         <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Loaded">
+                                            <i:EventTrigger EventName="Initialized">
                                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
@@ -10056,7 +10056,7 @@ PassEventArgsToCommand="True" />
                                             <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayXLD}" />
 
                                             <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Loaded">
+                                                <i:EventTrigger EventName="Initialized">
                                                     <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                            PassEventArgsToCommand="True" />
@@ -10086,7 +10086,7 @@ PassEventArgsToCommand="True" />
                                                                             IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_2.DisplayRegion}" />
                                             <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_2.DisplayXLD}" />
                                             <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Loaded">
+                                                <i:EventTrigger EventName="Initialized">
                                                     <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                            PassEventArgsToCommand="True" />
@@ -10338,7 +10338,7 @@ PassEventArgsToCommand="True" />
                                                                         IconicObject="{Binding Halcon_Window_Display.HandEye_3D_Results.DisplayRegion}" />
                                         <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_3D_Results.DisplayXLD}" />
                                         <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Loaded">
+                                            <i:EventTrigger EventName="Initialized">
                                                 <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                        PassEventArgsToCommand="True" />
