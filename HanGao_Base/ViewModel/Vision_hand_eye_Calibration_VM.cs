@@ -819,7 +819,7 @@ namespace HanGao.ViewModel
                               );
 
 
-                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(
+                            Halcon_Window_Display.HDisplay_3D?.SetDisplay3DModel(new Display3DModel_Model(
                             [
                                 .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DPoint,
                                 .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DFusion,

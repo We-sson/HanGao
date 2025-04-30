@@ -10488,7 +10488,7 @@ PassEventArgsToCommand="True" />
                                                                 IconicObject="{Binding Halcon_Window_Display.HandEye_3D_Results.DisplayRegion}" />
                                 <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_3D_Results.DisplayXLD}" />
                                 <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Initialized">
+                                    <i:EventTrigger EventName="Loaded">
                                         <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                PassEventArgsToCommand="True" />
