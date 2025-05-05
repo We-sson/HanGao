@@ -607,7 +607,7 @@ namespace HanGao.ViewModel
 
 
                     //显示模型
-                    Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_RobotTcp3D));
+                    Halcon_Window_Display.Features_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_RobotTcp3D));
 
 
 
@@ -1477,12 +1477,12 @@ namespace HanGao.ViewModel
 
                             if (Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep)
                             {
-                                Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ)));
+                                Halcon_Window_Display.Features_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ)));
 
                             }
                             else
                             {
-                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ))));
+                            Halcon_Window_Display.Features_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ))));
 
                             }
 
@@ -1892,7 +1892,7 @@ namespace HanGao.ViewModel
 
 
                         //显示模型
-                        Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_3D));
+                        Halcon_Window_Display.Features_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_3D));
 
                         ///保存创建模型
                         //if (Display_Status(_Halcon.ShapeModel_SaveFile(ShapeModel_Location, Halcon_Shape_Mode.Create_Shape_ModelXld)).GetResult())
@@ -4301,7 +4301,7 @@ namespace HanGao.ViewModel
                               );
 
 
-                            Halcon_Window_Display.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(
+                            Halcon_Window_Display.Features_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(
                             [
                                 .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DPoint,
                                 .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DFusion,

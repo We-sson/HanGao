@@ -90,7 +90,10 @@ namespace Halcon_SDK_DLL
 
 
 
-
+        /// <summary>
+        /// 三维可视乎属性
+        /// </summary>
+        public H3D_Model_Display? HDisplay_3D { set; get; }
 
 
         ///// <summary>
@@ -913,7 +916,7 @@ namespace Halcon_SDK_DLL
         /// <summary>
         /// 三维可视乎属性
         /// </summary>
-        public H3D_Model_Display? HDisplay_3D { set; get; }
+        //public H3D_Model_Display? HDisplay_3D { set; get; }
 
 
         /// <summary>
@@ -1254,20 +1257,20 @@ namespace Halcon_SDK_DLL
 
 
                     //可视化显示
-                    HDisplay_3D = new H3D_Model_Display(Calibration_3D_Results);
+                    Calibration_3D_Results.HDisplay_3D = new H3D_Model_Display(Calibration_3D_Results);
                     break;
                 case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.HandEye_3D_Results)):
                     //加载halcon图像属性
                     HandEye_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
 
 
-                    HDisplay_3D = new H3D_Model_Display(HandEye_3D_Results);
+                    HandEye_3D_Results.HDisplay_3D = new H3D_Model_Display(HandEye_3D_Results);
 
                     break;
                 case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Features_3D_Results)):
                     //加载halcon图像属性
                     Features_3D_Results = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
-                    HDisplay_3D = new H3D_Model_Display(Features_3D_Results);
+                    Features_3D_Results.HDisplay_3D = new H3D_Model_Display(Features_3D_Results);
 
                     break;
                 case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Calibration_Window_2)):

@@ -41,7 +41,7 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 三维可视化控件
         /// </summary>
-        public H3D_Model_Display HDisplay_3D { set; get; }
+        //public H3D_Model_Display HDisplay_3D { set; get; }
 
 
         /// <summary>
@@ -819,7 +819,7 @@ namespace HanGao.ViewModel
                               );
 
 
-                            Halcon_Window_Display.HDisplay_3D?.SetDisplay3DModel(new Display3DModel_Model(
+                            Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(
                             [
                                 .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DPoint,
                                 .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DFusion,
@@ -1481,7 +1481,7 @@ namespace HanGao.ViewModel
                             _Calib_Rotob_Model = _HandEye_3DModel.GenRobot_Tcp_Base_Model(_Robot_Pos.HPose);
 
                             //显示机器人坐标模型
-                            HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });
+                            Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });
 
                             //添加机器人坐标图像到集合
                             Cailbration_Load_Image(Halcon_HandEye_Calibra.Camera_Connect_Model, HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibXLD, HandEye_Check_LiveImage._CalibRegion, _Robot_Pos);
@@ -1800,7 +1800,7 @@ namespace HanGao.ViewModel
                     {
 
                         //清空三维可视化
-                        HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model());
+                        Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model());
 
                         ///清理数据
                         foreach (var _Model in HandEye_Calibration_List)
@@ -2321,7 +2321,7 @@ namespace HanGao.ViewModel
                                     _Camera_Model.AddRange(_Selected.Camera_1.Calibration_3D_Model);
                                 }
 
-                                HDisplay_3D.SetDisplay3DModel(new(_Camera_Model));
+                                Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new(_Camera_Model));
                             }
                         }
                     });
@@ -2561,75 +2561,75 @@ namespace HanGao.ViewModel
         /// <summary>
         /// 初始化窗口方法
         /// </summary>
-        public ICommand Initialization_HandEye_Window_Comm
-        {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
-            {
-                Vision_hand_eye_Calibration_Window E = Sm.Source as Vision_hand_eye_Calibration_Window;
+        //public ICommand Initialization_HandEye_Window_Comm
+        //{
+        //    get => new RelayCommand<RoutedEventArgs>((Sm) =>
+        //    {
+        //        Vision_hand_eye_Calibration_Window E = Sm.Source as Vision_hand_eye_Calibration_Window;
 
 
 
-                //复位相机选项
-                E.Camera_0.SelectedIndex = -1;
-                E.Camera_1.SelectedIndex = -1;
+        //        //复位相机选项
+        //        E.Camera_0.SelectedIndex = -1;
+        //        E.Camera_1.SelectedIndex = -1;
 
 
-                try
-                {
-
-
-
-                    E.Tab_Window.BeginInit();
-                    for (int index = 0;
-                        index < E.Tab_Window.Items.Count; index++)
-                    {
+        //        try
+        //        {
 
 
 
-                        E.Tab_Window.SelectedIndex = index;
-                        E.UpdateLayout();
-
-
-                        //HWindows_Initialization((HSmartWindowControlWPF)Window_UserContol.Items[index]);
-                        //Task.Delay(500);
-                    }
-                    // Reset to first tab
-                    E.Tab_Window.SelectedIndex = 0;
-                    E.Tab_Window.EndInit();
+        //            E.Tab_Window.BeginInit();
+        //            for (int index = 0;
+        //                index < E.Tab_Window.Items.Count; index++)
+        //            {
 
 
 
-
-                }
-                catch (Exception _e)
-                {
-
-                    User_Log_Add("手眼标定窗口初始化失败，重新打开！原因：" + _e, Log_Show_Window_Enum.HandEye);
-                    return;
-                }
+        //                E.Tab_Window.SelectedIndex = index;
+        //                E.UpdateLayout();
 
 
-                //初始化控件属性
-                Halcon_Window_Display.HandEye_Window_1 = new Halcon_SDK() { HWindow = E.HandEye_Window_1.HalconWindow, Halcon_UserContol = E.HandEye_Window_1 };
-                Halcon_Window_Display.HandEye_Window_2 = new Halcon_SDK() { HWindow = E.HandEye_Window_2.HalconWindow, Halcon_UserContol = E.HandEye_Window_2 };
-                Halcon_Window_Display.HandEye_Window_3 = new Halcon_SDK() { HWindow = E.HandEye_Window_3.HalconWindow, Halcon_UserContol = E.HandEye_Window_3 };
-                Halcon_Window_Display.HandEye_Window_4 = new Halcon_SDK() { HWindow = E.HandEye_Window_4.HalconWindow, Halcon_UserContol = E.HandEye_Window_4 };
-                Halcon_Window_Display.HandEye_Results_Window_1 = new Halcon_SDK() { HWindow = E.HandEye_Results_Window_1.HalconWindow, Halcon_UserContol = E.HandEye_Results_Window_1 };
-                Halcon_Window_Display.HandEye_Results_Window_2 = new Halcon_SDK() { HWindow = E.HandEye_Results_Window_2.HalconWindow, Halcon_UserContol = E.HandEye_Results_Window_2 };
-
-                Halcon_Window_Display.HandEye_3D_Results = new Halcon_SDK() { HWindow = E.HandEye_3D_Results.HalconWindow, Halcon_UserContol = E.HandEye_3D_Results };
-
-
-                //可视化显示
-                HDisplay_3D = new H3D_Model_Display(Halcon_Window_Display.HandEye_3D_Results);
+        //                //HWindows_Initialization((HSmartWindowControlWPF)Window_UserContol.Items[index]);
+        //                //Task.Delay(500);
+        //            }
+        //            // Reset to first tab
+        //            E.Tab_Window.SelectedIndex = 0;
+        //            E.Tab_Window.EndInit();
 
 
 
 
+        //        }
+        //        catch (Exception _e)
+        //        {
+
+        //            User_Log_Add("手眼标定窗口初始化失败，重新打开！原因：" + _e, Log_Show_Window_Enum.HandEye);
+        //            return;
+        //        }
 
 
-            });
-        }
+        //        //初始化控件属性
+        //        Halcon_Window_Display.HandEye_Window_1 = new Halcon_SDK() { HWindow = E.HandEye_Window_1.HalconWindow, Halcon_UserContol = E.HandEye_Window_1 };
+        //        Halcon_Window_Display.HandEye_Window_2 = new Halcon_SDK() { HWindow = E.HandEye_Window_2.HalconWindow, Halcon_UserContol = E.HandEye_Window_2 };
+        //        Halcon_Window_Display.HandEye_Window_3 = new Halcon_SDK() { HWindow = E.HandEye_Window_3.HalconWindow, Halcon_UserContol = E.HandEye_Window_3 };
+        //        Halcon_Window_Display.HandEye_Window_4 = new Halcon_SDK() { HWindow = E.HandEye_Window_4.HalconWindow, Halcon_UserContol = E.HandEye_Window_4 };
+        //        Halcon_Window_Display.HandEye_Results_Window_1 = new Halcon_SDK() { HWindow = E.HandEye_Results_Window_1.HalconWindow, Halcon_UserContol = E.HandEye_Results_Window_1 };
+        //        Halcon_Window_Display.HandEye_Results_Window_2 = new Halcon_SDK() { HWindow = E.HandEye_Results_Window_2.HalconWindow, Halcon_UserContol = E.HandEye_Results_Window_2 };
+
+        //        Halcon_Window_Display.HandEye_3D_Results = new Halcon_SDK() { HWindow = E.HandEye_3D_Results.HalconWindow, Halcon_UserContol = E.HandEye_3D_Results };
+
+
+        //        //可视化显示
+        //        Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D = new H3D_Model_Display(Halcon_Window_Display.HandEye_3D_Results);
+
+
+
+
+
+
+        //    });
+        //}
 
 
 

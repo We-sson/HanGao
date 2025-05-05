@@ -1341,6 +1341,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             // 设置线程优先级为最高
             highPriorityThread.Priority = ThreadPriority.Highest;
             highPriorityThread.IsBackground = true;
+            highPriorityThread.Name = "H3DThread_Window";
             highPriorityThread.Start();
 
             //});

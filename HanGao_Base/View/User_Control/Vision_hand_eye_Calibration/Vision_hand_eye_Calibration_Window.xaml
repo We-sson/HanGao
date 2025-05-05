@@ -69,11 +69,11 @@
     </Window.Resources>
 
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
+        <!--<i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding Initialization_HandEye_Window_Comm}"
                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                    PassEventArgsToCommand="True" />
-        </i:EventTrigger>
+        </i:EventTrigger>-->
 
         <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding Closed_HandEye_Window_Dsipos_Comm}"
@@ -10292,7 +10292,7 @@ PassEventArgsToCommand="True" />
                                                   HorizontalContentAlignment="Center"
                                                   VerticalContentAlignment="Center"
                                                   IsSynchronizedWithCurrentItem="True"
-                                                  SelectedIndex="{Binding HDisplay_3D.Scene3D_Instance.Attribute, ConverterParameter={x:Type Halcon_Enum:Attribute_Val_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
+                                                  SelectedIndex="{Binding Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.Scene3D_Instance.Attribute, ConverterParameter={x:Type Halcon_Enum:Attribute_Val_Enum}, Converter={StaticResource Halcon_EnumConverter}}">
                                             <ComboBoxItem>
                                                 <TextBlock Text="自动"
                                                            TextWrapping="Wrap"
@@ -10364,7 +10364,7 @@ PassEventArgsToCommand="True" />
                                                 Maximum="1"
                                                 Minimum="0.01"
                                                 TickFrequency=" 0.01"
-                                                Value="{Binding HDisplay_3D.Scene3D_Param.Alpha, UpdateSourceTrigger=PropertyChanged}" />
+                                                Value="{Binding Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.Scene3D_Param.Alpha, UpdateSourceTrigger=PropertyChanged}" />
 
                                         <TextBox Grid.Column=" 2"
                                                  Text="{Binding ElementName=Scene3D_Alpha_1, Path=Value, StringFormat={}{0:F2}}"
@@ -10378,7 +10378,7 @@ PassEventArgsToCommand="True" />
                                     </StackPanel>
 
                                     <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                  IsChecked="{Binding HDisplay_3D.Scene3D_Instance.Disp_pose}"
+                                                  IsChecked="{Binding Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.Scene3D_Instance.Disp_pose}"
                                                   Margin="4,0,4,0"
                                                   Padding="0,0,0,0"
                                                   FontSize=" 16">
@@ -10403,7 +10403,7 @@ PassEventArgsToCommand="True" />
                                     </ToggleButton>
 
                                     <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                  IsChecked="{Binding HDisplay_3D.Scene3D_Instance.Disp_normals}"
+                                                  IsChecked="{Binding Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.Scene3D_Instance.Disp_normals}"
                                                   Margin="4,0,4,0"
                                                   Padding="0,0,0,0"
                                                   FontSize=" 16">
@@ -10421,7 +10421,7 @@ PassEventArgsToCommand="True" />
                                         </StackPanel>
                                     </ToggleButton>
                                     <ToggleButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                                  IsChecked="{Binding HDisplay_3D.Scene3D_Instance.Disp_lines}"
+                                                  IsChecked="{Binding Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.Scene3D_Instance.Disp_lines}"
                                                   Margin="4,0,4,0"
                                                   Padding="0,0,0,0"
                                                   FontSize=" 16">
@@ -10513,12 +10513,12 @@ PassEventArgsToCommand="True" />
                                                FontSize="14">
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="坐标 : X: {0:N3}, Y: {1:N3} , Z: {2:N3} , Rx: {3:N3} , Ry: {4:N3} , Rz: {5:N3}">
-                                                <Binding Path="HDisplay_3D.UI_PoseIn_Tr.X" TargetNullValue="0" />
-                                                <Binding Path="HDisplay_3D.UI_PoseIn_Tr.Y" TargetNullValue="0" />
-                                                <Binding Path="HDisplay_3D.UI_PoseIn_Tr.Z" TargetNullValue="0" />
-                                                <Binding Path="HDisplay_3D.UI_PoseIn_Ro.X" TargetNullValue="0" />
-                                                <Binding Path="HDisplay_3D.UI_PoseIn_Ro.Y" TargetNullValue="0" />
-                                                <Binding Path="HDisplay_3D.UI_PoseIn_Ro.Z" TargetNullValue="0" />
+                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Tr.X" TargetNullValue="0" />
+                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Tr.Y" TargetNullValue="0" />
+                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Tr.Z" TargetNullValue="0" />
+                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Ro.X" TargetNullValue="0" />
+                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Ro.Y" TargetNullValue="0" />
+                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Ro.Z" TargetNullValue="0" />
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
