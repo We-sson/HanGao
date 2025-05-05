@@ -212,6 +212,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //计算总时间处理
             DateTime AllstartTime = DateTime.Now;
 
+
+
+
+
+
             foreach (var item in _Preprocessing_Process_List)
             {
                 //开始单个处理时间
@@ -329,15 +334,31 @@ namespace Halcon_SDK_DLL.Halcon_Method
             else
             {
 
+                switch (Image_Type)
+                {
+                    case H3DStereo_Image_Type_Enum.点云图像:
+                        _OldImage1 = Preprocessing_Process_Start(_OldImage1, _List1);
+                        _OldImage2 = Preprocessing_Process_Start(_OldImage2, _List2);
+   
+                        break;
+                    case H3DStereo_Image_Type_Enum.深度图像:
+
+           
+                        _OldImage3 = Preprocessing_Process_Start(_OldImage3, _List3);
+                        _OldImage4 = Preprocessing_Process_Start(_OldImage4, _List4);
+                        break;
+                    case H3DStereo_Image_Type_Enum.融合图像:
 
 
-                _OldImage1 = Preprocessing_Process_Start(_OldImage1, _List1);
-                _OldImage2 = Preprocessing_Process_Start(_OldImage2, _List2);
+                        _OldImage1 = Preprocessing_Process_Start(_OldImage1, _List1);
+                        _OldImage2 = Preprocessing_Process_Start(_OldImage2, _List2);
+                        _OldImage3 = Preprocessing_Process_Start(_OldImage3, _List3);
+                        _OldImage4 = Preprocessing_Process_Start(_OldImage4, _List4);
+                        break;
+              
+                }
 
-
-
-                _OldImage3 = Preprocessing_Process_Start(_OldImage3, _List3);
-                _OldImage4 = Preprocessing_Process_Start(_OldImage4, _List4);
+ 
 
 
             }
@@ -659,7 +680,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
         public HImage Get_23DResults_Method(HImage _HObjectModel2D)
-        {
+         {
 
             Preprocessing_Process_Run_State = Preprocessing_Process_Run_State_Enum.Runing;
 
@@ -893,7 +914,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
         public HImage Get_Results(HImage _Model3D)
         {
 
-            HImage _Results = new HImage(_Model3D.ScaleImageMax());
+
+
+            HImage _Results = new HImage(_Model3D .ScaleImageMax());
             _Model3D.Dispose();
 
             return _Results;

@@ -172,7 +172,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                 case H3DStereo_Image_Type_Enum.融合图像:
 
-
+                    _Camera_0_0.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机0的图像输入数据为空！").IfFalse();
+                    _Camera_0_1.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机0的图像输入数据为空！").IfFalse();
+                    _Camera_1_0.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机1的图像输入数据为空！").IfFalse();
+                    _Camera_1_0.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机1的图像输入数据为空！").IfFalse();
 
 
                     Task task1 = Task.Run(() =>
@@ -264,9 +267,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     break;
                     case H3DStereo_Image_Type_Enum.点云图像:
 
+                    _Camera_0_0.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机0的图像输入数据为空！").IfFalse();
+                    _Camera_0_1.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机0的图像输入数据为空！").IfFalse();
 
 
-                        HStereoModel H3DStereoModel_3DPoint = new HStereoModel();
+                    HStereoModel H3DStereoModel_3DPoint = new HStereoModel();
                         ///初始化
                         H3DStereoModel_3DPoint.CreateStereoModel(Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup, _ParamData.H3DStereo_Method.ToString(), new HTuple(), new HTuple());
 
@@ -298,8 +303,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
                     case H3DStereo_Image_Type_Enum.深度图像:
 
 
+                    _Camera_1_0.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机1的图像输入数据为空！").IfFalse();
+                    _Camera_1_0.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机1的图像输入数据为空！").IfFalse();
 
-                        HStereoModel H3DStereoModel_3DFusion = new HStereoModel();
+                    HStereoModel H3DStereoModel_3DFusion = new HStereoModel();
                         ///初始化
                         H3DStereoModel_3DFusion.CreateStereoModel(Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup, _ParamData.H3DStereo_Method.ToString(), new HTuple(), new HTuple());
 

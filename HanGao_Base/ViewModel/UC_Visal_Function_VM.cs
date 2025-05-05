@@ -968,11 +968,11 @@ namespace HanGao.ViewModel
                     }
                 }
             })
-            { IsBackground = true, Name="CameraListFold"}.Start();
+            { IsBackground = true, Name = "CameraListFold" }.Start();
 
             //Task.Run(() =>
             //{
-             
+
             //});
         }
 
@@ -1482,7 +1482,7 @@ namespace HanGao.ViewModel
                             }
                             else
                             {
-                            Halcon_Window_Display.Features_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ))));
+                                Halcon_Window_Display.Features_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ))));
 
                             }
 
@@ -3957,7 +3957,7 @@ namespace HanGao.ViewModel
                         Camera_Device_List.Select_3DCamera_1.Camera_Work_State = MV_CAM_Camera_Work_State_Enum.Camera_GetImage;
 
                         //(_GetImage_0, _GetImage_1, _GetImage_2, _GetImage_3) =  Get_CameraDives_HImage(Camera_Device_List.Camera_Diver_Model);
-                  
+
                         (_GetImage_0, _GetImage_1, _GetImage_2, _GetImage_3) = Camera_Device_List.Get_H3DStereo_HImage(Select_Vision_Value.Camera_Devices_2D3D_Switch,
                            Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type,
                            Select_Vision_Value.Camera_0_3DPoint_Parameter,
@@ -3966,11 +3966,13 @@ namespace HanGao.ViewModel
                            Select_Vision_Value.Camera_1_3DFusionImage_Parameter
                            );
 
-                        //写入结果
+
+                        //保存中间结果
                         Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0 = new HImage(_GetImage_0);
                         Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1 = new HImage(_GetImage_1);
                         Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_0 = new HImage(_GetImage_2);
                         Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_1 = new HImage(_GetImage_3);
+
 
 
 
@@ -4593,11 +4595,7 @@ namespace HanGao.ViewModel
 
 
 
-                        if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0.IsInitialized() &&
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1.IsInitialized() &&
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0.IsInitialized() &&
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1.IsInitialized())
-                        {
+              
 
 
 
@@ -4619,12 +4617,7 @@ namespace HanGao.ViewModel
                                });
 
 
-                        }
-                        else
-                        {
-                            User_Log_Add("未进行立体重建图像结果！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
-
-                        }
+           
 
 
                         User_Log_Add("查看原立体图像成功！", Log_Show_Window_Enum.Home);
@@ -4664,11 +4657,6 @@ namespace HanGao.ViewModel
 
 
 
-                        if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.FromImage.IsInitialized() &&
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ToImage.IsInitialized() &&
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.FromImage.IsInitialized() &&
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ToImage.IsInitialized())
-                        {
 
 
 
@@ -4689,13 +4677,6 @@ namespace HanGao.ViewModel
 
                             });
 
-
-                        }
-                        else
-                        {
-                            User_Log_Add("未进行立体重建图像结果！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
-
-                        }
 
 
                         User_Log_Add("查看立体校正图像成功！", Log_Show_Window_Enum.Home);
@@ -4735,11 +4716,7 @@ namespace HanGao.ViewModel
 
 
 
-                        if (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ScoreImage.IsInitialized() &&
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.DisparityImage.IsInitialized() &&
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.ScoreImage.IsInitialized() &&
-                            Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.DisparityImage.IsInitialized())
-                        {
+               
 
 
 
@@ -4760,13 +4737,6 @@ namespace HanGao.ViewModel
 
                             });
 
-
-                        }
-                        else
-                        {
-                            User_Log_Add("未进行立体重建图像结果！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
-
-                        }
 
 
                         User_Log_Add("查看立体视差分数图像成功！", Log_Show_Window_Enum.Home);

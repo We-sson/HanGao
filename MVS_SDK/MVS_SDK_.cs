@@ -254,7 +254,7 @@ namespace MVS_SDK
 
 
 
-                                    (_Camera_0_Himage, _Camera_1_Himage) = Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum.深度图像);
+                                    (_Camera_2_Himage, _Camera_3_Himage) = Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum.深度图像);
 
                                     //User_Log_Add($"采集时间：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
 
