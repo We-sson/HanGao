@@ -3116,8 +3116,8 @@ namespace HanGao.ViewModel
                 //if (_Point != null)
                 //{
 
-                Task.Run(() =>
-                {
+                //Task.Run(() =>
+                //{
 
 
 
@@ -3149,7 +3149,7 @@ namespace HanGao.ViewModel
 
                     //}
 
-                });
+                //});
 
             });
         }

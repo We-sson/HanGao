@@ -4271,263 +4271,391 @@
 
 
                 <Border Margin="0"
+                        Padding="2,0,2,2"
                         Background="{DynamicResource 全局_按钮_蓝颜色}"
-                        CornerRadius=" 10 10 0 0" />
+                        CornerRadius=" 10 10 0 0">
 
 
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
 
-                    <Grid Grid.Row=" 0" Grid.Column=" 0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column=" 0"
-                                   Text="相机窗口 0"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontSize="18"
-                                   Foreground="{DynamicResource 全局_背景_白颜色}" />
-
-                        <TextBlock Grid.Column=" 1"
-                                   Text="相机窗口 1"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontSize="18"
-                                   Foreground="{DynamicResource 全局_背景_白颜色}" />
-
-                    </Grid>
-
-
-                    <Grid Grid.Row="1" Margin="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                    <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="40" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <Border Grid.Row=" 0" Grid.Column=" 0"
-                                Grid.ColumnSpan=" 3"
-                                Height=" 40"
-                                Background="{DynamicResource 全局_背景_白颜色}">
-                            <StackPanel Margin="5,2,5,2" Orientation="Horizontal">
-
-
-                                <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                             IsChecked="{Binding Halcon_HandEye_Calibra.ShowMaxGray, Mode=TwoWay}"
-                                             Margin="5,0,5,0"
-                                             Padding="0,0,0,0"
-                                             HorizontalAlignment="Center"
-                                             VerticalAlignment="Center"
-                                             FontSize=" 16"
-                                             GroupName="Text_DisplayShow">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="&#xe636;"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="/Resources/#iconfont"
-                                               FontSize=" 20"
-                                               Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
-                                        <Label Content="过曝显示"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontSize=" 14" />
-                                    </StackPanel>
-                                </RadioButton>
-
-                                <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                             IsChecked="{Binding Halcon_HandEye_Calibra.ShowMinGray, Mode=TwoWay}"
-                                             Margin="5,0,5,0"
-                                             HorizontalAlignment="Center"
-                                             VerticalAlignment="Center"
-                                             FontSize=" 16"
-                                             GroupName="Text_DisplayShow">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="&#xe636;"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="/Resources/#iconfont"
-                                               FontSize=" 20"
-                                               Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
-                                        <Label Content="过暗显示"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontSize=" 14" />
-                                    </StackPanel>
-                                </RadioButton>
-
-                                <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
-                                             IsChecked="{Binding Halcon_HandEye_Calibra.ShowHObject, Mode=TwoWay}"
-                                             Margin="5,0,5,0"
-                                             Padding="0"
-                                             HorizontalContentAlignment="Center"
-                                             VerticalContentAlignment="Center"
-                                             FontSize=" 16"
-                                             GroupName="Text_DisplayShow">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Label Content="&#xe637;"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="/Resources/#iconfont"
-                                               FontSize=" 20"
-                                               Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
-                                        <Label Content="轮廓显示"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontSize=" 14" />
-                                    </StackPanel>
-                                </RadioButton>
-
-                            </StackPanel>
-                        </Border>
-
-                        <Grid Grid.Row=" 1" Grid.Column="0"
-                              Grid.ColumnSpan=" 3">
+                        <Grid Grid.Row=" 0" Grid.Column=" 0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width=" *" />
-
-                                <ColumnDefinition Width=" auto" />
-
+                                <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column=" 0"
+                                       Text="相机窗口 0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="18"
+                                       Foreground="{DynamicResource 全局_背景_白颜色}" />
+
+                            <TextBlock Grid.Column=" 1"
+                                       Text="相机窗口 1"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="18"
+                                       Foreground="{DynamicResource 全局_背景_白颜色}" />
+
+                        </Grid>
+
+
+                        <Grid Grid.Row="1" Margin="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-
-                            <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_1" Grid.Row=" 0" Grid.Column="0"
-                                                           MinWidth="400"
-                                                           MinHeight="400"
-                                                           HorizontalAlignment="Stretch"
-                                                           VerticalAlignment="Stretch"
-                                                           HorizontalContentAlignment="Center"
-                                                           VerticalContentAlignment="Center"
-                                                           HDisableAutoResize="True"
-                                                           SnapsToDevicePixels="True">
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayImage}" />
-                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                                HDraw="{Binding Halcon_Window_Display.HandEye_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                                IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayXLD}" />
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Loaded">
-                                        <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                               PassEventArgsToCommand="True" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
-                            </Halcon:HSmartWindowControlWPF>
-
-
-                            <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_3" Grid.Row=" 2" Grid.Column="0"
-                                                           MinWidth="400"
-                                                           MinHeight="400"
-                                                           HorizontalAlignment="Stretch"
-                                                           VerticalAlignment="Stretch"
-                                                           HorizontalContentAlignment="Center"
-                                                           VerticalContentAlignment="Center"
-                                                           HDisableAutoResize="True"
-                                                           SnapsToDevicePixels="True">
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayImage}" />
-                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_3.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                                HDraw="{Binding Halcon_Window_Display.HandEye_Window_3.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                                IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayXLD}" />
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Loaded">
-                                        <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                               PassEventArgsToCommand="True" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
-                            </Halcon:HSmartWindowControlWPF>
-
-                            <Border Grid.Row=" 0" Grid.Column=" 1"
-                                    Grid.RowSpan=" 3"
-                                    Width=" 3"
-                                    HorizontalAlignment="Stretch"
-                                    Background="{DynamicResource 全局_按钮_深灰颜色}" />
-                            <Border Grid.Row=" 1" Grid.Column=" 0"
+                            <Border Grid.Row=" 0" Grid.Column=" 0"
                                     Grid.ColumnSpan=" 3"
-                                    Height=" 3"
-                                    HorizontalAlignment="Stretch"
-                                    Background="{DynamicResource 全局_按钮_深灰颜色}" />
+                                    Height=" 40"
+                                    Background="{DynamicResource 全局_背景_白颜色}">
+                                <StackPanel Margin="5,2,5,2" Orientation="Horizontal">
 
-                            <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_2" Grid.Row=" 0" Grid.Column=" 2"
-                                                           MinWidth="400"
-                                                           MinHeight="400"
-                                                           HorizontalAlignment="Stretch"
-                                                           VerticalAlignment="Stretch"
-                                                           HorizontalContentAlignment="Center"
-                                                           VerticalContentAlignment="Center"
-                                                           HDisableAutoResize="True"
-                                                           SnapsToDevicePixels="True">
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayImage}" />
-                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                                HDraw="{Binding Halcon_Window_Display.HandEye_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                                IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayXLD}" />
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Loaded">
-                                        <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                               PassEventArgsToCommand="True" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
 
-                            </Halcon:HSmartWindowControlWPF>
+                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
+                                                 IsChecked="{Binding Halcon_HandEye_Calibra.ShowMaxGray, Mode=TwoWay}"
+                                                 Margin="5,0,5,0"
+                                                 Padding="0,0,0,0"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 FontSize=" 16"
+                                                 GroupName="Text_DisplayShow">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="&#xe636;"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="/Resources/#iconfont"
+                                                   FontSize=" 20"
+                                                   Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                                            <Label Content="过曝显示"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontSize=" 14" />
+                                        </StackPanel>
+                                    </RadioButton>
 
-                            <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_4" Grid.Row=" 2" Grid.Column=" 2"
-                                                           MinWidth="400"
-                                                           MinHeight="400"
-                                                           HorizontalAlignment="Stretch"
-                                                           VerticalAlignment="Stretch"
-                                                           HorizontalContentAlignment="Center"
-                                                           VerticalContentAlignment="Center"
-                                                           HDisableAutoResize="True"
-                                                           SnapsToDevicePixels="True">
-                                <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayImage}" />
-                                <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_4.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
-                                                                HDraw="{Binding Halcon_Window_Display.HandEye_Window_4.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                                IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayRegion}" />
-                                <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayXLD}" />
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Loaded">
-                                        <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
-                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                               PassEventArgsToCommand="True" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
+                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
+                                                 IsChecked="{Binding Halcon_HandEye_Calibra.ShowMinGray, Mode=TwoWay}"
+                                                 Margin="5,0,5,0"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 FontSize=" 16"
+                                                 GroupName="Text_DisplayShow">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="&#xe636;"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="/Resources/#iconfont"
+                                                   FontSize=" 20"
+                                                   Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                                            <Label Content="过暗显示"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontSize=" 14" />
+                                        </StackPanel>
+                                    </RadioButton>
 
-                            </Halcon:HSmartWindowControlWPF>
+                                    <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}"
+                                                 IsChecked="{Binding Halcon_HandEye_Calibra.ShowHObject, Mode=TwoWay}"
+                                                 Margin="5,0,5,0"
+                                                 Padding="0"
+                                                 HorizontalContentAlignment="Center"
+                                                 VerticalContentAlignment="Center"
+                                                 FontSize=" 16"
+                                                 GroupName="Text_DisplayShow">
+                                        <StackPanel Orientation="Horizontal">
+
+                                            <Label Content="&#xe637;"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="/Resources/#iconfont"
+                                                   FontSize=" 20"
+                                                   Foreground="{DynamicResource 全局_按钮_蓝颜色}" />
+                                            <Label Content="轮廓显示"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontSize=" 14" />
+                                        </StackPanel>
+                                    </RadioButton>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Grid Grid.Row=" 1" Grid.Column="0"
+                                  Grid.ColumnSpan=" 3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=" *" />
+
+                                    <ColumnDefinition Width=" auto" />
+
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition />
+                                    <RowDefinition Height=" auto" />
+                                </Grid.RowDefinitions>
+
+
+                                <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_1" Grid.Row=" 0" Grid.Column="0"
+                                                               MinWidth="400"
+                                                               MinHeight="400"
+                                                               HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               HorizontalContentAlignment="Center"
+                                                               VerticalContentAlignment="Center"
+                                                               HDisableAutoResize="True"
+                                                               SnapsToDevicePixels="True">
+                                    <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayImage}" />
+                                    <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayXYZImage}" />
+
+                                    <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                    HDraw="{Binding Halcon_Window_Display.HandEye_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                    IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayRegion}" />
+                                    <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_1.DisplayXLD}" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Loaded">
+                                            <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="HMouseMove">
+                                            <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding GetSmartWindowControl_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </Halcon:HSmartWindowControlWPF>
+
+
+                                <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_3" Grid.Row=" 2" Grid.Column="0"
+                                                               MinWidth="400"
+                                                               MinHeight="400"
+                                                               HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               HorizontalContentAlignment="Center"
+                                                               VerticalContentAlignment="Center"
+                                                               HDisableAutoResize="True"
+                                                               SnapsToDevicePixels="True">
+                                    <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayImage}" />
+                                    <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_3.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                    HDraw="{Binding Halcon_Window_Display.HandEye_Window_3.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                    IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayRegion}" />
+                                    <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayXLD}" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Loaded">
+                                            <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="HMouseMove">
+                                            <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding GetSmartWindowControl_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </Halcon:HSmartWindowControlWPF>
+
+                                <Border Grid.Row=" 0" Grid.Column=" 1"
+                                        Grid.RowSpan=" 3"
+                                        Width=" 3"
+                                        HorizontalAlignment="Stretch"
+                                        Background="{DynamicResource 全局_按钮_深灰颜色}" />
+                                <Border Grid.Row=" 1" Grid.Column=" 0"
+                                        Grid.ColumnSpan=" 3"
+                                        Height=" 3"
+                                        HorizontalAlignment="Stretch"
+                                        Background="{DynamicResource 全局_按钮_深灰颜色}" />
+
+                                <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_2" Grid.Row=" 0" Grid.Column=" 2"
+                                                               MinWidth="400"
+                                                               MinHeight="400"
+                                                               HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               HorizontalContentAlignment="Center"
+                                                               VerticalContentAlignment="Center"
+                                                               HDisableAutoResize="True"
+                                                               SnapsToDevicePixels="True">
+                                    <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayImage}" />
+                                    <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                    HDraw="{Binding Halcon_Window_Display.HandEye_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                    IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayRegion}" />
+                                    <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayXLD}" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Loaded">
+                                            <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="HMouseMove">
+                                            <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding GetSmartWindowControl_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </Halcon:HSmartWindowControlWPF>
+
+                                <Halcon:HSmartWindowControlWPF x:Name="HandEye_Window_4" Grid.Row=" 2" Grid.Column=" 2"
+                                                               MinWidth="400"
+                                                               MinHeight="400"
+                                                               HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               HorizontalContentAlignment="Center"
+                                                               VerticalContentAlignment="Center"
+                                                               HDisableAutoResize="True"
+                                                               SnapsToDevicePixels="True">
+                                    <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayImage}" />
+                                    <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_4.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
+                                                                    HDraw="{Binding Halcon_Window_Display.HandEye_Window_4.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
+                                                                    IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayRegion}" />
+                                    <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayXLD}" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Loaded">
+                                            <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="HMouseMove">
+                                            <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding GetSmartWindowControl_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </Halcon:HSmartWindowControlWPF>
+
+                                <Border Grid.Row=" 3" Grid.Column=" 0"
+                                        Grid.ColumnSpan=" 3"
+                                        Height=" 25"
+                                        VerticalAlignment="Bottom"
+                                        Background="{DynamicResource 全局_按钮_黑颜色}"
+                                        CornerRadius="0 0 0 0"
+                                        Opacity=" 0.8">
+                                    <StackPanel Grid.Column=" 0"
+                                                Margin="10,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                Orientation="Horizontal">
+                                        <TextBlock Margin="0,0,4,0"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="13"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="鼠标位置 X:{0:0000.000} Y:{1:0000.000}">
+                                                    <Binding Path="Halcon_Window_Display.Mouse_Pose.X" />
+                                                    <Binding Path="Halcon_Window_Display.Mouse_Pose.Y" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding Halcon_Window_Display.Mouse_Pose_Gray, StringFormat=灰度值: {0:0000.0000}}"
+                                                   Margin="0,0,4,0"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="13"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Halcon_Window_Display.Mouse_Pose_Gray}" Value="-1">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+
+
+                                        </TextBlock>
+                                        <TextBlock Margin="0,0,4,0"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                                   FontSize="13"
+                                                   Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_X}" Value="-1" />
+                                                                <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Y}" Value="-1" />
+                                                                <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Z}" Value="-1" />
+
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+
+                                                        </MultiDataTrigger>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_X}" Value="0" />
+                                                                <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Y}" Value="0" />
+                                                                <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Z}" Value="0" />
+
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="深度图像 X:{0:0.0000}m Y:{1:0.0000}m Z:{2:0.0000}m">
+                                                    <Binding Path="Halcon_Window_Display.Mouse_Pose_X" />
+                                                    <Binding Path="Halcon_Window_Display.Mouse_Pose_Y" />
+                                                    <Binding Path="Halcon_Window_Display.Mouse_Pose_Z" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Border>
+
+                            </Grid>
+
 
 
 
                         </Grid>
 
-
-
-
                     </Grid>
 
-                </Grid>
 
-
+                </Border>
 
             </Grid>
 
@@ -14807,7 +14935,7 @@ PassEventArgsToCommand="True" />
 
             <Grid Grid.Row=" 0">
                 <Border Margin="5"
-                        Padding="3,0,3,3"
+                        Padding="2,0,2,2"
                         Background="{DynamicResource 全局_按钮_蓝颜色}"
                         CornerRadius=" 10 10 0 0">
 
@@ -14821,6 +14949,7 @@ PassEventArgsToCommand="True" />
                         <Grid.RowDefinitions>
                             <RowDefinition Height=" 40" />
                             <RowDefinition />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row=" 0" Grid.Column=" 0"
@@ -14965,6 +15094,16 @@ PassEventArgsToCommand="True" />
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
+                                        <i:EventTrigger EventName="HMouseMove">
+                                            <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding GetSmartWindowControl_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Halcon:HSmartWindowControlWPF>
 
@@ -14992,6 +15131,16 @@ PassEventArgsToCommand="True" />
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Loaded">
                                             <i:InvokeCommandAction Command="{Binding Initialization_Camera_Window_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="HMouseMove">
+                                            <i:InvokeCommandAction Command="{Binding HMouseDown_Comm}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding GetSmartWindowControl_Comm}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                                    PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
@@ -15256,30 +15405,122 @@ PassEventArgsToCommand="True" />
                                     Width=" 3"
                                     Background="{DynamicResource 全局_按钮_深灰颜色}" />
 
-                            <Border Grid.Row=" 2" Grid.Column=" 1"
-                                    Grid.ColumnSpan=" 2"
-                                    Height=" 30"
-                                    Padding="2"
-                                    Background="{DynamicResource 全局_背景_白颜色}">
-                                <Grid>
-                                    <TextBlock HorizontalAlignment="Left"
-                                               VerticalAlignment="Center"
-                                               FontSize="14">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="坐标 : X: {0:N3}, Y: {1:N3} , Z: {2:N3} , Rx: {3:N3} , Ry: {4:N3} , Rz: {5:N3}">
-                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Tr.X" TargetNullValue="0" />
-                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Tr.Y" TargetNullValue="0" />
-                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Tr.Z" TargetNullValue="0" />
-                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Ro.X" TargetNullValue="0" />
-                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Ro.Y" TargetNullValue="0" />
-                                                <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Ro.Z" TargetNullValue="0" />
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </Grid>
-                            </Border>
 
                         </Grid>
+
+
+                        <Border Grid.Row=" 3" Grid.Column=" 0"
+                                Grid.ColumnSpan=" 3"
+                                Height=" 30"
+                                VerticalAlignment="Bottom"
+                                Background="{DynamicResource 全局_按钮_黑颜色}"
+                                CornerRadius="0 0 0 0"
+                                Opacity=" 0.8">
+                            <StackPanel Grid.Column=" 0"
+                                        Margin="10,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        Orientation="Horizontal">
+                                <TextBlock Margin="0,0,4,0"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="13"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="鼠标位置 X:{0:0000.000} Y:{1:0000.000}">
+                                            <Binding Path="Halcon_Window_Display.Mouse_Pose.X" />
+                                            <Binding Path="Halcon_Window_Display.Mouse_Pose.Y" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock Text="{Binding Halcon_Window_Display.Mouse_Pose_Gray, StringFormat=灰度值: {0:0000.0000}}"
+                                           Margin="0,0,4,0"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="13"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Halcon_Window_Display.Mouse_Pose_Gray}" Value="-1">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+
+
+                                </TextBlock>
+                                <TextBlock Margin="0,0,4,0"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="13"
+                                           Foreground="{DynamicResource 全局_按钮_白颜色}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_X}" Value="-1" />
+                                                        <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Y}" Value="-1" />
+                                                        <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Z}" Value="-1" />
+
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+
+                                                </MultiDataTrigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_X}" Value="0" />
+                                                        <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Y}" Value="0" />
+                                                        <Condition Binding="{Binding Halcon_Window_Display.Mouse_Pose_Z}" Value="0" />
+
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="深度图像 X:{0:0.0000}m Y:{1:0.0000}m Z:{2:0.0000}m">
+                                            <Binding Path="Halcon_Window_Display.Mouse_Pose_X" />
+                                            <Binding Path="Halcon_Window_Display.Mouse_Pose_Y" />
+                                            <Binding Path="Halcon_Window_Display.Mouse_Pose_Z" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+
+
+
+                        <Border Grid.Row=" 3" Grid.Column=" 2"
+                                Grid.ColumnSpan=" 2"
+                                Height=" 30"
+                                Padding="2"
+                                Background="{DynamicResource 全局_背景_白颜色}">
+                            <Grid>
+                                <TextBlock HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                           FontSize="13">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="坐标 : X: {0:0000.000}, Y: {1:0000.000} , Z: {2:0000.000} , Rx: {3:000.000} , Ry: {4:000.000} , Rz: {5:000.000}">
+                                            <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Tr.X" TargetNullValue="0" />
+                                            <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Tr.Y" TargetNullValue="0" />
+                                            <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Tr.Z" TargetNullValue="0" />
+                                            <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Ro.X" TargetNullValue="0" />
+                                            <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Ro.Y" TargetNullValue="0" />
+                                            <Binding Path=" Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.UI_PoseIn_Ro.Z" TargetNullValue="0" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+
+
+
 
                     </Grid>
                 </Border>

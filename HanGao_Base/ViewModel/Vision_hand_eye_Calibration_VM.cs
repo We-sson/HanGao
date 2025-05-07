@@ -212,6 +212,94 @@ namespace HanGao.ViewModel
 
 
 
+
+
+
+
+
+
+        /// <summary>
+        /// 读取Halcon控件鼠标图像位置
+        /// </summary>
+        public ICommand HMouseDown_Comm
+        {
+            get => new RelayCommand<EventArgs>((Sm) =>
+            {
+                HSmartWindowControlWPF.HMouseEventArgsWPF _E = Sm as HSmartWindowControlWPF.HMouseEventArgsWPF;
+                //Button E = Sm.Source as Button
+                //Point _Point= Sm.GetPosition(_E);
+
+                //if (_Point != null)
+                //{
+
+                //Task.Run(() =>
+                //{
+
+
+
+
+
+                try
+                {
+
+                    // 处理鼠标移动逻辑
+                    //获得点击图像位置
+                    //Halcon_Shape_Mode.Chick_Position = new Point(_E.Row, _E.Column);
+                    //Halcon_Shape_Mode.Get_Pos_Gray(new HImage(_Load_Image));
+                    Halcon_Window_Display.Mouse_Pose = new System.Windows.Point(_E.Row, _E.Column);
+
+
+
+
+                }
+                catch (Exception)
+                {
+
+                    //User_Log_Add("获取图像位置灰度失败！原因：" + e.Message, Log_Show_Window_Enum.Home);
+
+                }
+                //}
+                //else
+                //{
+                //    Halcon_Window_Display.Mouse_Pose = new Point(-1,-1);
+
+                //}
+
+                //});
+
+            });
+        }
+
+
+        /// <summary>
+        /// 鼠标移动到窗口或者图像
+        /// 
+        /// </summary>
+        public ICommand GetSmartWindowControl_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+
+                //Button E = Sm.Source as Button
+                HSmartWindowControlWPF _HWindow = (Sm.Source as HSmartWindowControlWPF)!;
+
+
+                Halcon_Window_Display.Get_HWindow_Image(Enum.Parse<Window_Show_Name_Enum>(_HWindow.Name));
+
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         public ICommand Stereo3D_PreprocessingProcess_New_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
@@ -669,12 +757,13 @@ namespace HanGao.ViewModel
                             {
 
                                 Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_1);
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_2);
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_3);
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_4);
+           
+                       
 
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
+                        
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
 
+                          
 
                             });
 
@@ -684,7 +773,7 @@ namespace HanGao.ViewModel
                         }
                         else
                         {
-                            User_Log_Add("相机采集图选或模型深度参数未生成！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
+                            User_Log_Add("相机采集图像或模型深度参数未生成！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
 
                         }
 
@@ -744,11 +833,6 @@ namespace HanGao.ViewModel
                         var Now = DateTime.Now;
 
 
-                        if (Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image.IsInitialized() &&
-                        Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0.IsInitialized() &&
-                         Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0.IsInitialized())
-
-                        {
 
 
 
@@ -756,24 +840,15 @@ namespace HanGao.ViewModel
                             Application.Current.Dispatcher.Invoke(() =>
                             {
 
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window);
+                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_1);
 
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.Features_Window_2);
+                                //Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_2);
 
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
-
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.Features_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), Image_AutoPart: true);
 
 
                             });
 
-
-                        }
-                        else
-                        {
-                            User_Log_Add("模型深度参数未生成！", Log_Show_Window_Enum.Home, MessageBoxImage.Error);
-
-                        }
 
 
 

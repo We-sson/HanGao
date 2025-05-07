@@ -1016,7 +1016,8 @@ namespace Halcon_SDK_DLL
         public Point Mouse_Pose
         {
             get { return _Mouse_Pose; }
-            set {
+            set
+            {
 
 
 
@@ -1086,12 +1087,12 @@ namespace Halcon_SDK_DLL
                 }
 
 
-                _Mouse_Pose = value; 
-            
-            
-            
-            
-            
+                _Mouse_Pose = value;
+
+
+
+
+
             }
         }
 
@@ -1105,7 +1106,7 @@ namespace Halcon_SDK_DLL
         /// </summary>
         /// <param name="_window"></param>
         /// <returns></returns>
-        public void  Get_HWindow_Image(Window_Show_Name_Enum _window)
+        public void Get_HWindow_Image(Window_Show_Name_Enum _window)
         {
 
 
@@ -1168,13 +1169,40 @@ namespace Halcon_SDK_DLL
                 case Window_Show_Name_Enum.Calibration_3D_Results:
                     break;
                 case Window_Show_Name_Enum.HandEye_Window_1:
+                    if (HandEye_Window_1.DisplayImage != null)
+                    {
+                        Mouse_Pose_Image = new HImage(HandEye_Window_1.DisplayImage);
+                        Mouse_Pose_XYZImage = new HImage(HandEye_Window_1.DisplayXYZImage);
+                    }
                     break;
                 case Window_Show_Name_Enum.HandEye_Window_2:
+
+                    if (HandEye_Window_2.DisplayImage != null)
+                    {
+                        Mouse_Pose_Image = new HImage(HandEye_Window_2.DisplayImage);
+                        Mouse_Pose_XYZImage = new HImage(HandEye_Window_2.DisplayXYZImage);
+                    }
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_3:
+                    if (HandEye_Window_3.DisplayImage != null)
+                    {
+                        Mouse_Pose_Image = new HImage(HandEye_Window_3.DisplayImage);
+                        Mouse_Pose_XYZImage = new HImage(HandEye_Window_3.DisplayXYZImage);
+                    }
+                    break;
+                case Window_Show_Name_Enum.HandEye_Window_4:
+                    if (HandEye_Window_4.DisplayImage != null)
+                    {
+                        Mouse_Pose_Image = new HImage(HandEye_Window_4.DisplayImage);
+                        Mouse_Pose_XYZImage = new HImage(HandEye_Window_4.DisplayXYZImage);
+                    }
                     break;
                 case Window_Show_Name_Enum.HandEye_Results_Window_1:
                     break;
                 case Window_Show_Name_Enum.HandEye_Results_Window_2:
                     break;
+
+
                 case Window_Show_Name_Enum.HandEye_3D_Results:
                     break;
 
@@ -1333,7 +1361,7 @@ namespace Halcon_SDK_DLL
             Window_UserContol.HalconWindow.SetFont(_Font.TupleSelect(0) + "-18");
         }
 
-        private  void HWindow_Clear_Dispose(Halcon_SDK _Window)
+        private void HWindow_Clear_Dispose(Halcon_SDK _Window)
         {
 
             _Window.HWindow?.ClearWindow();
@@ -1591,7 +1619,7 @@ namespace Halcon_SDK_DLL
                 SetWindowDisoplay(_XYZImage, Display_HObject_Type_Enum.XYZImage, _Show, Image_AutoPart);
 
             }
-            
+
 
             if (_Region != null)
             {
