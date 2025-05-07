@@ -4458,6 +4458,8 @@
                                                                HDisableAutoResize="True"
                                                                SnapsToDevicePixels="True">
                                     <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayImage}" />
+                                    <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayXYZImage}" />
+
                                     <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_3.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                     HDraw="{Binding Halcon_Window_Display.HandEye_Window_3.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                     IconicObject="{Binding Halcon_Window_Display.HandEye_Window_3.DisplayRegion}" />
@@ -4503,6 +4505,8 @@
                                                                HDisableAutoResize="True"
                                                                SnapsToDevicePixels="True">
                                     <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayImage}" />
+                                    <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayXYZImage}" />
+
                                     <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                     HDraw="{Binding Halcon_Window_Display.HandEye_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                     IconicObject="{Binding Halcon_Window_Display.HandEye_Window_2.DisplayRegion}" />
@@ -4537,6 +4541,8 @@
                                                                HDisableAutoResize="True"
                                                                SnapsToDevicePixels="True">
                                     <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayImage}" />
+                                    <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayXYZImage}" />
+
                                     <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Window_4.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                     HDraw="{Binding Halcon_Window_Display.HandEye_Window_4.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                     IconicObject="{Binding Halcon_Window_Display.HandEye_Window_4.DisplayRegion}" />
@@ -15083,6 +15089,7 @@ PassEventArgsToCommand="True" />
                                                                HDisableAutoResize="True"
                                                                SnapsToDevicePixels="True">
                                     <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayImage}" />
+                                    <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayXYZImage}" />
                                     <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Results_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                     HDraw="{Binding Halcon_Window_Display.HandEye_Results_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                     IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayRegion}" />
@@ -15124,6 +15131,8 @@ PassEventArgsToCommand="True" />
                                                                HDisableAutoResize="True"
                                                                SnapsToDevicePixels="True">
                                     <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_2.DisplayImage}" />
+                                    <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_2.DisplayXYZImage}" />
+
                                     <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Results_Window_2.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                     HDraw="{Binding Halcon_Window_Display.HandEye_Results_Window_2.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
                                                                     IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_2.DisplayRegion}" />

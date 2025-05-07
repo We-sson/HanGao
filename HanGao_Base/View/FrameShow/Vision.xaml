@@ -1415,20 +1415,20 @@
                                     <TextBlock Margin="0,0,4,0"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                               FontSize="12"
+                                               FontSize="13"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}">
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="鼠标位置 X:{0:F3} Y:{1:F3}">
+                                            <MultiBinding StringFormat="鼠标位置 X: {0:0000.000} Y: {1:0000.000}">
                                                 <Binding Path="Halcon_Window_Display.Mouse_Pose.X" />
                                                 <Binding Path="Halcon_Window_Display.Mouse_Pose.Y" />
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
-                                    <TextBlock Text="{Binding Halcon_Window_Display.Mouse_Pose_Gray, StringFormat=灰度值: {0:F4}}"
+                                    <TextBlock Text="{Binding Halcon_Window_Display.Mouse_Pose_Gray, StringFormat=灰度值: {0:0000.000}}"
                                                Margin="0,0,4,0"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                               FontSize="12"
+                                               FontSize="13"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -1445,7 +1445,7 @@
                                     <TextBlock Margin="0,0,4,0"
                                                VerticalAlignment="Center"
                                                FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                               FontSize="12"
+                                               FontSize="13"
                                                Foreground="{DynamicResource 全局_按钮_白颜色}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -1474,7 +1474,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="深度图像 X:{0:F4}m Y:{1:F4}m Z:{2:F4}m">
+                                            <MultiBinding StringFormat="深度图像 X:{0:0.0000}m Y:{1:0.0000}m Z:{2:0.0000}m">
                                                 <Binding Path="Halcon_Window_Display.Mouse_Pose_X" />
                                                 <Binding Path="Halcon_Window_Display.Mouse_Pose_Y" />
                                                 <Binding Path="Halcon_Window_Display.Mouse_Pose_Z" />
@@ -13626,9 +13626,9 @@ PassEventArgsToCommand="True" />
                                         </StackPanel>
                                     </Grid>
                                 </Expander>
-                           
-                            
-                            
+
+
+
                             </Grid>
 
                         </StackPanel>

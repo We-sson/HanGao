@@ -3167,6 +3167,20 @@ namespace HanGao.ViewModel
                         {
 
 
+
+
+                            Camera_Device_List.Select_3DCamera_0 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
+                            Camera_Device_List.Select_3DCamera_1 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
+
+
+                            Camera_Device_List.Select_3DCamera_0.Connect_Camera();
+                            Camera_Device_List.Select_3DCamera_1.Connect_Camera();
+
+
+
+
+
+
                             //Camera_0_Parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_SINGLE;
                             ///查找标定板结果
                             HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
