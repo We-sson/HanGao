@@ -160,12 +160,27 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
 
-       
 
-          
+            //清理旧数据
+            foreach (var item in H3DStereo_Results.HModel3D_Camera_3DFusion)
+            {
+                item.ClearObjectModel3d();
+                item.Dispose();
+            }
+            foreach (var item in H3DStereo_Results.HModel3D_Camera_Unio)
+            {
+                item.ClearObjectModel3d();
+                item.Dispose();
+            }
+            foreach (var item in H3DStereo_Results.HModel3D_Camera_3DPoint)
+            {
+                item.ClearObjectModel3d();
+                item.Dispose();
+            }
+            //清理旧数据
 
 
-                switch (_ParamData.H3DStereo_Image_Type)
+            switch (_ParamData.H3DStereo_Image_Type)
                 {
 
 
@@ -259,7 +274,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                     //合并模型
-
+                    foreach (var item in H3DStereo_Results.HModel3D_Camera_Unio)
+                    {
+                        item.ClearObjectModel3d();
+                        item.Dispose();
+                    }
                     H3DStereo_Results.HModel3D_Camera_Unio = new List<HObjectModel3D>([HObjectModel3D.UnionObjectModel3d(H3DStereo_Results.HModel3D_Camera_3DPoint.Concat(H3DStereo_Results.HModel3D_Camera_3DFusion).ToArray(), "points_surface")]);
 
 
@@ -282,7 +301,9 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         Image_3DPoint = new HImage(_Camera_0_0.ConcatObj(_Camera_0_1));
 
-                        H3DStereo_Results.HModel3D_Camera_3DPoint = new List<HObjectModel3D> ([H3DStereoModel_3DPoint.ReconstructSurfaceStereo(Image_3DPoint)]);
+
+
+                    H3DStereo_Results.HModel3D_Camera_3DPoint = new List<HObjectModel3D> ([H3DStereoModel_3DPoint.ReconstructSurfaceStereo(Image_3DPoint)]);
 
                         ///调试模式下提取
                         if (_ParamData.Persistence)
@@ -319,7 +340,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         Image_3DFusion = new HImage(_Camera_1_0.ConcatObj(_Camera_1_1));
 
-                        H3DStereo_Results.HModel3D_Camera_3DFusion = new List<HObjectModel3D>([H3DStereoModel_3DFusion.ReconstructSurfaceStereo(Image_3DFusion)]);
+
+                    H3DStereo_Results.HModel3D_Camera_3DFusion = new List<HObjectModel3D>([H3DStereoModel_3DFusion.ReconstructSurfaceStereo(Image_3DFusion)]);
 
 
                         if (_ParamData.Persistence)

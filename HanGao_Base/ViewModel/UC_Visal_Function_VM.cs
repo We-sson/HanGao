@@ -1067,7 +1067,7 @@ namespace HanGao.ViewModel
 
                 //断开选择中相机
                 Camera_Device_List.Select_Camera?.Stop_ImageCallback_delegate();
-                Camera_Device_List.Select_Camera.Close_Camera();
+                Camera_Device_List.Select_Camera?.Close_Camera();
 
                 ///程序正常退出关闭所有相机连接
                 foreach (var _Camer in MVS_Camera_Info_List)

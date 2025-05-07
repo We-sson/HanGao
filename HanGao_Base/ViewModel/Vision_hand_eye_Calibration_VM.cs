@@ -109,12 +109,16 @@ namespace HanGao.ViewModel
             Camera_3DModel_Process_List = 
             [
                 new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.ConnectionObjectModel3d, ConnectionObjectModel3d=new ConnectionObjectModel3d_Function_Model (){ Feature= ConnectionObjectModel3d_Feature_Enum.angle, Value=5 } ,Method_Num=0},
-                new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.SelectObjectModel3d,SelectObjectModel3d=new SelectObjectModel3d_Funtion_Model (){ Feature= SelectObjectModel3d_Feature_Enum.num_points, Operation = SelectObjectModel3d_Operation_Enum.and, minValue=500,Max=true}, Method_Num=1},
+                new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.SelectObjectModel3d,SelectObjectModel3d=new SelectObjectModel3d_Funtion_Model (){ Feature= SelectObjectModel3d_Feature_Enum.num_points, Operation = SelectObjectModel3d_Operation_Enum.and, minValue=500,Max=false,Min=true}, Method_Num=1},
                 new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.ConnectionObjectModel3d, ConnectionObjectModel3d=new ConnectionObjectModel3d_Function_Model (){ Feature= ConnectionObjectModel3d_Feature_Enum.distance_3d, Value=0.002}, Method_Num=2},
-                new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.SelectObjectModel3d,SelectObjectModel3d=new SelectObjectModel3d_Funtion_Model (){ Feature= SelectObjectModel3d_Feature_Enum.num_points, Operation = SelectObjectModel3d_Operation_Enum.and, minValue=2000,Max=true}, Method_Num=3},
+                new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.SelectObjectModel3d,SelectObjectModel3d=new SelectObjectModel3d_Funtion_Model (){ Feature= SelectObjectModel3d_Feature_Enum.num_points, Operation = SelectObjectModel3d_Operation_Enum.and, minValue=2000,Max=false,Min=true }, Method_Num=3},
                 new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.SampleObjectModel3d,SampleObjectModel3d=new SampleObjectModel3d_Function_Model(){ Method= SampleObjectModel3d_Method_Enum.xyz_mapping_compute_normals, SampleDistance=1   } , Method_Num=4},
-                new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d,SurfaceNormalsObjectModel3d=new SurfaceNormalsObjectModel3d_Function_Model (){ Method= SurfaceNormalsObjectModel3d_Method_Enum.mls, mls_kNN=100,  mls_order=1, mls_force_inwards=false,mls_abs_sigma=0.01,mls_relative_sigma=0.1  },Method_Num=5 }
-                
+                new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.SurfaceNormalsObjectModel3d,SurfaceNormalsObjectModel3d=new SurfaceNormalsObjectModel3d_Function_Model (){ Method= SurfaceNormalsObjectModel3d_Method_Enum.mls, mls_kNN=100,  mls_order=1, mls_force_inwards=false,mls_abs_sigma=0.01,mls_relative_sigma=0.1  },Method_Num=5 },
+                new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.SmoothObjectModel3d,SmoothObjectModel3d=new SmoothObjectModel3d_Function_Model (){ Method= SmoothObjectModel3d_Method_Enum.xyz_mapping_compute_normals, xyz_mapping_filter= SmoothObjectModel3d_Xyz_Mapping_Filter_Enum.median, xyz_mapping_mask_width=30  },Method_Num=6 },
+                new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.FitPrimitivesObjectModel3d,FitPrimitivesObjectModel3d=new FitPrimitivesObjectModel3d_Function_Model(){ primitive_type= FitPrimitivesObjectModel3d_Primitive_Type_Enum.plane, fitting_algorithm= FitPrimitivesObjectModel3d_Fitting_Algorithm_Enum.least_squares_tukey,  min_radius=0.01, max_radius=0.05,  output_point_coord =true, output_xyz_mapping=true   } ,Method_Num=7 },
+                new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.SampleObjectModel3d,SampleObjectModel3d=new SampleObjectModel3d_Function_Model(){ Method= SampleObjectModel3d_Method_Enum.accurate_use_normals, SampleDistance=0.003, min_num_points=5, max_angle_diff=180   } , Method_Num=8},
+                   new (){ Preprocessing_Process_3DModel_Method= H3DObjectModel_Features_Enum.TriangulateObjectModel3d,TriangulateObjectModel3d=new TriangulateObjectModel3d_Function_Model(){Method= TriangulateObjectModel3d_Method_Enum.greedy, greedy_kNN=25,greedy_radius_type= TriangulateObjectModel3d_Greedy_Radius_Type_Enum.Fixed,greedy_radius_value=0.1, greedy_neigh_orient_tol=30,greedy_neigh_orient_consistent=false,greedy_neigh_latitude_tol=30,greedy_neigh_vertical_tol=0.1,greedy_hole_filling=100,greedy_fix_flips=true,greedy_prefetch_neighbors=true,greedy_mesh_erosion=3,greedy_mesh_dilation=3,greedy_output_all_points=true}, Method_Num=9},
+
                 ]
         };
 
@@ -296,12 +300,12 @@ namespace HanGao.ViewModel
 
                             if (Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep)
                             {
-                                Halcon_Window_Display.Features_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ)));
+                                Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ)));
 
                             }
                             else
                             {
-                                Halcon_Window_Display.Features_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ))));
+                                Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ))));
 
                             }
 
