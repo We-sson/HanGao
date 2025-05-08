@@ -13689,7 +13689,7 @@ PassEventArgsToCommand="True" />
                                                        VerticalAlignment="Center"
                                                        Source="/Resources/Control_九点标定_ioc.png" />
                                             </Border>
-                                            <TextBlock Text="Camera 九点标定"
+                                            <TextBlock Text="Camera 立体标定"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        FontFamily="{DynamicResource 全局_文字_数字字体}"

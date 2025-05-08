@@ -9919,7 +9919,7 @@ PassEventArgsToCommand="True" />
                                         <Grid Height=" 38"
                                               Margin="0,5,0,5"
                                               ShowGridLines="False">
-                                            <Grid.Style>
+                                            <!--<Grid.Style>
                                                 <Style TargetType="Grid">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
@@ -9929,7 +9929,7 @@ PassEventArgsToCommand="True" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
-                                            </Grid.Style>
+                                            </Grid.Style>-->
 
 
 
