@@ -1427,7 +1427,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_Scene3D.RemoveScene3dInstance(i);
 
                 }
-
+                foreach (var  i in hv_ObjectModel3D)
+                {
+                    i.ClearObjectModel3d();
+                    i.Dispose();
+                }
                 hv_ObjectModel3D.Clear();
                 hv_AllInstances = 0;
                 //hv_ObjectModel3D = new ObservableCollection<HObjectModel3D>(_3DModel._ObjectModel3D);
@@ -1441,9 +1445,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 foreach (var _model in _3DModel._ObjectModel3D)
                 {
-                    hv_AllInstances = hv_Scene3D.AddScene3dInstance(_model, hv_PoseIn)+1;
+                    hv_AllInstances = hv_Scene3D.AddScene3dInstance(_model.CopyObjectModel3d("all"), hv_PoseIn)+1;
 
-                    hv_ObjectModel3D.Add(_model);
+                    hv_ObjectModel3D.Add(_model.CopyObjectModel3d("all"));
                 }
 
 

@@ -300,10 +300,10 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                     H3DStereo_Results.HModel3D_Camera_3DFusion = new List<HObjectModel3D>();
 
-                    H3DStereo_Results.HModel3D_Camera_Unio = H3DStereo_Results.HModel3D_Camera_3DPoint = new List<HObjectModel3D> ([H3DStereoModel_3DPoint.ReconstructSurfaceStereo(Image_3DPoint)]);
-
-                        ///调试模式下提取
-                        if (_ParamData.Persistence)
+                    H3DStereo_Results.HModel3D_Camera_Unio = (H3DStereo_Results.HModel3D_Camera_3DPoint = new List<HObjectModel3D> ([H3DStereoModel_3DPoint.ReconstructSurfaceStereo(Image_3DPoint)])).Select(_ => _.CopyObjectModel3d("all")).ToList();
+            
+                    ///调试模式下提取
+                    if (_ParamData.Persistence)
                         {
 
                             HObject _hObject1 = H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.ToImage = new HImage(H3DStereoModel_3DPoint.GetStereoModelObject(new HTuple(0, 1), "to_image_rect"));
@@ -337,7 +337,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         Image_3DFusion = new HImage(_Camera_1_0.ConcatObj(_Camera_1_1));
 
                     H3DStereo_Results.HModel3D_Camera_3DPoint = new List<HObjectModel3D>();
-                    H3DStereo_Results.HModel3D_Camera_Unio =H3DStereo_Results.HModel3D_Camera_3DFusion = new List<HObjectModel3D>([H3DStereoModel_3DFusion.ReconstructSurfaceStereo(Image_3DFusion)]);
+                    H3DStereo_Results.HModel3D_Camera_Unio =(H3DStereo_Results.HModel3D_Camera_3DFusion = new List<HObjectModel3D>([H3DStereoModel_3DFusion.ReconstructSurfaceStereo(Image_3DFusion)])).Select(_ => _.CopyObjectModel3d("all")).ToList();
 
 
                         if (_ParamData.Persistence)
@@ -839,7 +839,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
         public HImage GetModel3D_XYZMap(HCamPar _Camera_Par, Point_Model _Pose )
-        {
+        { 
             //HImage _Rest = new HImage();
 
             HModel3D_Camera_Unio_XYZ.Count.Throw("三维模型未生成。请生成后重试！").IfEquals(0);
