@@ -616,7 +616,7 @@ namespace Halcon_SDK_DLL
             }
             catch (Exception e)
             {
-                throw new Exception("获取图像指针转换失败！" + "原因：" + e.Message);
+                 throw new Exception("获取图像指针转换失败！" + "原因：" + e.Message);
             }
         }
 

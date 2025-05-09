@@ -160,18 +160,26 @@ namespace HanGao.ViewModel
                     case Log_Show_Window_Enum.Home:
 
 
+                            UI_Home_Log.User_Log = Log;
 
-                        StrongReferenceMessenger.Default.Send<string, string>(Log, nameof(Meg_Value_Eunm.UI_Log_Home));
+                            //StrongReferenceMessenger.Default.Send<string, string>(Log, nameof(Meg_Value_Eunm.UI_Log_Home));
 
 
                         break;
                     case Log_Show_Window_Enum.Calibration:
-                        StrongReferenceMessenger.Default.Send<string, string>(Log, nameof(Meg_Value_Eunm.UI_Log_Calibration));
+                            //StrongReferenceMessenger.Default.Send<string, string>(Log, nameof(Meg_Value_Eunm.UI_Log_Calibration));
+
+                            UI_Calibration_Log.User_Log = Log;
 
 
+                            break;
+                        case Log_Show_Window_Enum.HandEye:
 
-                        break;
-                }
+
+                            UI_HandEye_Log.User_Log = Log;
+
+                            break;
+                    }
 
 
                 Application.Current.Dispatcher.Invoke(() => {  MessageBox.Show(Log, "操作提示....", MessageBoxButton.OK, _MessType); });

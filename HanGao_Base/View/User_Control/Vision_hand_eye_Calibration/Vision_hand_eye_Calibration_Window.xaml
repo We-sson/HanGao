@@ -16462,7 +16462,7 @@ PassEventArgsToCommand="True" />
                                  Padding="40,8,40,8"
                                  FontSize=" 16"
                                  Header="标定日志">
-                            <UC_Working:User_Control_Log DataContext="{Binding Source={StaticResource Locator}, Path=User_Log.UI_Calibration_Log}" />
+                            <UC_Working:User_Control_Log DataContext="{Binding Source={StaticResource Locator}, Path=User_Log.UI_HandEye_Log}" />
 
 
 

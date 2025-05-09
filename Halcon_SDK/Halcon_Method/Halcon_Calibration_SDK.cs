@@ -211,7 +211,7 @@ namespace Halcon_SDK_DLL
 
             //HCalibData.Clone();
             HCalibData.ClearCalibData();
-
+           
             //HCalibData.Dispose();
         }
 
