@@ -17,28 +17,37 @@ namespace HanGao.ViewModel
 
 
             //接收其他地方传送数据
-            StrongReferenceMessenger.Default.Register<string, string>(this, nameof(Meg_Value_Eunm.UI_Log_Home), (O, _S) =>
-             {
+            //StrongReferenceMessenger.Default.Register<string, string>(this, nameof(Meg_Value_Eunm.UI_Log_Home), (O, _S) =>
+            // {
 
 
-                 UI_Home_Log.User_Log = _S;
-
-
-
-             });
-
-
-            //接收其他地方传送数据
-            StrongReferenceMessenger.Default.Register<string, string>(this, nameof(Meg_Value_Eunm.UI_Log_Calibration), (O, _S) =>
-            {
-
-                UI_Calibration_Log.User_Log = _S;
+            //     UI_Home_Log.User_Log = _S;
 
 
 
+            // });
 
-            });
 
+            ////接收其他地方传送数据
+            //StrongReferenceMessenger.Default.Register<string, string>(this, nameof(Meg_Value_Eunm.UI_Log_Calibration), (O, _S) =>
+            //{
+
+            //    UI_Calibration_Log.User_Log = _S;
+
+
+
+
+            //});
+            ////接收其他地方传送数据
+            //StrongReferenceMessenger.Default.Register<string, string>(this, nameof(Meg_Value_Eunm.UI_Log_HanEye), (O, _S) =>
+            //{
+
+            //    UI_HandEye_Log.User_Log = _S;
+
+
+
+
+            //});
 
         }
         /// <summary>
@@ -110,6 +119,12 @@ namespace HanGao.ViewModel
 
                         UI_Calibration_Log.User_Log = Log;
 
+
+                        break;
+                    case Log_Show_Window_Enum.HandEye:
+
+
+                        UI_HandEye_Log.User_Log = Log;
 
                         break;
                 }

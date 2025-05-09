@@ -4,6 +4,7 @@ using HalconDotNet;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Common;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -1673,6 +1674,33 @@ namespace Halcon_SDK_DLL.Model
                 Rz = _Pose[5];
             }
         }
+
+        /// <summary>
+        /// 获得相机参数得图像位置点
+        /// </summary>
+        /// <param name="_CameraParm"></param>
+        /// <returns></returns>
+        public (double ,double ) Get_Image_Point(Halcon_Camera_Calibration_Parameters_Model _CameraParm)
+        {
+            HTuple Row=0, Column = 0;
+
+
+
+         HHomMat3D _HPoint_3D =  HPose.PoseToHomMat3d();
+
+            double _x=  _HPoint_3D.AffineTransPoint3d(0,0,0,out double _y,out double _z);
+
+
+            _CameraParm.HCamPar.Project3dPoint(_x, _y, _z, out Row, out Column);
+
+
+
+
+            return (Row, Column);
+        }
+
+
+
 
         /// <summary>
         /// 获得对应机器人的位姿

@@ -3299,6 +3299,25 @@ namespace HanGao.ViewModel
                             HandEye_Check_LiveImage = Halcon_HandEye_Calibra.Check_CalibObject_Features(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion, HandEye_Camera_Parameters);
 
 
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+
+                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_1);
+
+                                //Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_2);
+
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image),_XLD: HandEye_Check_LiveImage._CalibXLD, Image_AutoPart: true);
+
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0),_XLD: HandEye_Check_LiveImage._CalibXLD, Image_AutoPart: true);
+                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
+
+                            });
+
+
+
+
+                            User_Log_Add("标定板："+new Point_Model(new HPose( HandEye_Check_LiveImage.hv_Pose)).ToString(), Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
+
 
 
 

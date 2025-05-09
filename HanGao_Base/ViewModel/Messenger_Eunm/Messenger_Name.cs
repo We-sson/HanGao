@@ -318,6 +318,11 @@ namespace HanGao.ViewModel.Messenger_Eunm
             /// </summary>
             UI_Log_Calibration,
 
+
+            /// <summary>
+            /// 日志消息标定窗口显示
+            /// </summary>
+            UI_Log_HanEye,
             /// <summary>
             /// 显示控件
             /// </summary>
