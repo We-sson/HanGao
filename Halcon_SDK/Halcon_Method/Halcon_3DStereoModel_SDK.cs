@@ -223,8 +223,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                         }
 
-                        _H3DStereoModel.ClearStereoModel();
-                        _H3DStereoModel.Dispose();
+                        //_H3DStereoModel.ClearStereoModel();
+                        //_H3DStereoModel.Dispose();
 
                     });
 
@@ -260,8 +260,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         }
 
 
-                        _H3DStereoModel.ClearStereoModel();
-                        _H3DStereoModel.Dispose();
+                        //_H3DStereoModel.ClearStereoModel();
+                        //_H3DStereoModel.Dispose();
                     });
 
 
