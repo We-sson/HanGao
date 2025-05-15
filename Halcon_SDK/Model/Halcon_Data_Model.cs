@@ -3360,6 +3360,11 @@ namespace Halcon_SDK_DLL.Model
         Local
     }
 
+
+
+
+
+
     /// <summary>
     /// 相机内参标定状态，用来判断保存文件
     /// </summary>

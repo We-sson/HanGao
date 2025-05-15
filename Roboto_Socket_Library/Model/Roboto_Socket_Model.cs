@@ -402,6 +402,12 @@ namespace Roboto_Socket_Library.Model
 
 
 
+            /// <summary>
+            /// 通讯状态
+            /// </summary>
+            public Socket_Robot_Type_Enum Socket_Robot_Type_State { set; get; } = Socket_Robot_Type_Enum.Default;
+
+
 
             public void Server_List_End()
             {
@@ -442,7 +448,28 @@ namespace Roboto_Socket_Library.Model
     }
 
 
+    public enum Socket_Robot_Type_Enum
+    {
+        /// <summary>
+        /// 默认状态
+        /// </summary>
+        Default, 
+        /// <summary>
+        /// 开启服务准备连接
+        /// </summary>
+        Ready,
+        /// <summary>
+        /// 数据交换中
+        /// </summary>
+        Working,
+        /// <summary>
+        /// 通讯错误
+        /// </summary>
+        Error
 
+
+
+    }
 
 
 }

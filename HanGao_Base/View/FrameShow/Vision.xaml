@@ -19416,7 +19416,7 @@ PassEventArgsToCommand="True" />
                                                       FontSize="24"
                                                       IsDropDownOpen="False"
                                                       IsSynchronizedWithCurrentItem="True"
-                                                      ItemsSource="{Binding Vision_Socket_Robot_Parameters.Local_IP_UI, Mode=TwoWay}">
+                                                      ItemsSource="{Binding Vision_Socket_Robot_Parameters.Local_IP_UI, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
 

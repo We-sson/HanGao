@@ -1557,9 +1557,13 @@ namespace HanGao.ViewModel
                 _Sock.Sever_End();
             }
 
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                
             ///关闭通讯清理IP显示
             Socket_Robot_Model_Parameters.Receive_List.Clear();
-
+            Socket_Robot_Model_Parameters.Local_IP_UI.Clear();
+            });
 
 
         }
@@ -1815,12 +1819,17 @@ namespace HanGao.ViewModel
             {
                 ToggleButton E = Sm.Source as ToggleButton;
 
+                Task.Run(() => 
+                {
+
+
+
                 try
                 {
 
 
 
-                    if ((bool)E.IsChecked)
+                    if (Socket_Robot_Model_Parameters.Sever_IsRuning)
                     {
 
                         HandEye_Calib_Sever_Start();
@@ -1837,11 +1846,12 @@ namespace HanGao.ViewModel
                 }
                 catch (Exception _e)
                 {
-                    E.IsChecked = false;
+                        Socket_Robot_Model_Parameters.Sever_IsRuning = false;
                     User_Log_Add(_e.Message, Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
 
                 }
 
+                });
             });
         }
 

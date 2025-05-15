@@ -3194,9 +3194,13 @@
                                     <Grid.Style>
                                         <Style TargetType="Grid">
                                             <Setter Property="Visibility" Value="Collapsed" />
+                                            <Setter Property="IsEnabled" Value="True" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="true">
                                                     <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Socket_Robot_Model_Parameters.Sever_IsRuning}" Value="true">
+                                                    <Setter Property="IsEnabled" Value="False" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -3244,6 +3248,49 @@
                                 </Grid>
 
 
+
+
+                                <Grid Height="35" Margin="8">
+
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Setter Property="IsEnabled" Value="True" />
+
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="true">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Socket_Robot_Model_Parameters.Sever_IsRuning}" Value="true">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width=" 90" />
+
+                                        <ColumnDefinition Width=" *" />
+
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="设备端口"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+
+
+                                    <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
+                                             Text="{Binding Socket_Robot_Model_Parameters.Sever_Socket_Port}"
+                                             HorizontalContentAlignment="Center"
+                                             VerticalContentAlignment="Center"
+                                             Background="Transparent"
+                                             BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                             BorderThickness="2"
+                                             FontSize="16" />
+
+                                </Grid>
                                 <Grid Height="35" Margin="8">
                                     <Grid.Style>
                                         <Style TargetType="Grid">
@@ -3300,44 +3347,6 @@
 
                                 </Grid>
 
-
-                                <Grid Height="35" Margin="8">
-
-                                    <Grid.Style>
-                                        <Style TargetType="Grid">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsChecked, ElementName=Robot_Diver}" Value="true">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Grid.Style>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width=" 90" />
-
-                                        <ColumnDefinition Width=" *" />
-
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="设备端口"
-                                               HorizontalAlignment="Left"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-
-
-                                    <TextBox Style="{DynamicResource Vision_TextBoxStyle}" Grid.Column=" 1"
-                                             Text="{Binding Socket_Robot_Model_Parameters.Sever_Socket_Port}"
-                                             HorizontalContentAlignment="Center"
-                                             VerticalContentAlignment="Center"
-                                             Background="Transparent"
-                                             BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                             BorderThickness="2"
-                                             FontSize="16" />
-
-                                </Grid>
-
                                 <Grid Height="40" Margin="8">
                                     <Grid.Style>
                                         <Style TargetType="Grid">
@@ -3363,7 +3372,7 @@
 
 
                                     <ToggleButton Style="{DynamicResource Window_ToggleButtonStyle}" x:Name="Robot_Server_State" Grid.Column=" 1"
-                                                  IsChecked="False"
+                                                  IsChecked="{Binding Socket_Robot_Model_Parameters.Sever_IsRuning}"
                                                   Padding="0"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Center"
