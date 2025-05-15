@@ -7,7 +7,9 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
+using System.Collections.Concurrent;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
+using System.Collections.Generic;
 
 namespace Halcon_SDK_DLL.Halcon_Examples_Method
 {
@@ -291,8 +293,14 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
         /// <summary>
         /// 可视化显示模型
         /// </summary>
-        public ObservableCollection<HObjectModel3D> hv_ObjectModel3D { set; get; } = new ObservableCollection<HObjectModel3D>();
+        //public ConcurrentQueue<HObjectModel3D> hv_ObjectModel3D { set; get; } = new ConcurrentQueue<HObjectModel3D>();
 
+
+        public ConcurrentDictionary<int,HObjectModel3D> hv_ObjectModel3D { set; get; } =new ConcurrentDictionary<int, HObjectModel3D>();
+
+
+
+        //public ConcurrentQueue<HObjectModel3D> _TFModel3D { set; get } = new ConcurrentQueue<HObjectModel3D>();
 
         /// <summary>
         /// 可视化模型数量
@@ -741,7 +749,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
 
                         //设置模型显示位置
-                        for (int hv_i = 0; hv_i < hv_ObjectModel3D.Count ; hv_i++)
+                        for (int hv_i = 0; hv_i < hv_ObjectModel3D.Count; hv_i++)
                         {
 
                             //HOperatorSet.SetScene3dInstancePose(hv_Scene3D, hv_i, hv_PoseOut);
@@ -1059,7 +1067,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 {
 
                     //计算当前模型的中间位置大小
-                    get_trackball_center(hv_TrackballRadiusPixel, hv_ObjectModel3D.ToArray(), hv_PoseIn, out hv_TBCenter, out hv_TBSize);
+                    get_trackball_center(hv_TrackballRadiusPixel, hv_ObjectModel3D.Values.ToArray(), hv_PoseIn, out hv_TBCenter, out hv_TBSize);
 
                 }
                 else
@@ -1249,13 +1257,13 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 hv_PoseIn = new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
                 //hv_PoseIn.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point");
                 //HOperatorSet.CreatePose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), 0, 0, 0, "Rp+T", "gba", "point", out hv_PoseOut);
-                hv_PoseIn = determine_optimum_pose_distance(hv_ObjectModel3D.ToArray(), hv_CamParam, 0.9, hv_PoseIn);
+                hv_PoseIn = determine_optimum_pose_distance(hv_ObjectModel3D.Values.ToArray(), hv_CamParam, 0.9, hv_PoseIn);
                 //hv_PoseIn = new HPose(hv_PoseEstimated);
             }
             else
             {
                 hv_PoseIn = new HPose(-(hv_Center.TupleSelect(0)), -(hv_Center.TupleSelect(1)), -(hv_Center.TupleSelect(2)), hv_PoseIn[3], hv_PoseIn[4], hv_PoseIn[5], "Rp+T", "gba", "point");
-                hv_PoseIn = determine_optimum_pose_distance(hv_ObjectModel3D.ToArray(), hv_CamParam, 0.9, hv_PoseIn);
+                hv_PoseIn = determine_optimum_pose_distance(hv_ObjectModel3D.Values.ToArray(), hv_CamParam, 0.9, hv_PoseIn);
             }
 
         }
@@ -1278,6 +1286,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             // 创建新线程，线程内运行的代码可以替换为你的逻辑
             Thread highPriorityThread = new Thread(() =>
             {
+                Thread.CurrentThread.Priority = ThreadPriority.Lowest;
 
 
                 try
@@ -1286,7 +1295,6 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                     do
                     {
-
 
 
                         if (hv_Disply_Keep)
@@ -1321,7 +1329,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 {
                     foreach (var _Model in hv_ObjectModel3D)
                     {
-                        _Model.ClearObjectModel3d();
+                        _Model.Value.ClearObjectModel3d();
                     }
 
                     hv_Scene3D.ClearScene3d();
@@ -1339,7 +1347,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
             });
 
             // 设置线程优先级为最高
-            highPriorityThread.Priority = ThreadPriority.Highest;
+
             highPriorityThread.IsBackground = true;
             highPriorityThread.Name = "H3DThread_Window";
             highPriorityThread.Start();
@@ -1427,11 +1435,11 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                     hv_Scene3D.RemoveScene3dInstance(i);
 
                 }
-                foreach (var  i in hv_ObjectModel3D)
-                {
-                    i.ClearObjectModel3d();
-                    i.Dispose();
-                }
+                //foreach (var i in hv_ObjectModel3D)
+                //{
+                //    i.Value.ClearObjectModel3d();
+                //    i.Value.Dispose();
+                //}
                 hv_ObjectModel3D.Clear();
                 hv_AllInstances = 0;
                 //hv_ObjectModel3D = new ObservableCollection<HObjectModel3D>(_3DModel._ObjectModel3D);
@@ -1445,9 +1453,9 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                 foreach (var _model in _3DModel._ObjectModel3D)
                 {
-                    hv_AllInstances = hv_Scene3D.AddScene3dInstance(_model.CopyObjectModel3d("all"), hv_PoseIn)+1;
+                    hv_AllInstances = hv_Scene3D.AddScene3dInstance(_model, hv_PoseIn) + 1;
 
-                    hv_ObjectModel3D.Add(_model.CopyObjectModel3d("all"));
+                    hv_ObjectModel3D.TryAdd(hv_ObjectModel3D.Count, _model);
                 }
 
 
@@ -1496,7 +1504,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
                 if (_Par_Val != null)
                 {
                     ///设置三维场景全部模型参数
-                    for (int i = 0; i <= hv_ObjectModel3D.Count-1; i++)
+                    for (int i = 0; i <= hv_ObjectModel3D.Count - 1; i++)
                     {
 
 
@@ -2474,7 +2482,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
                     try
                     {
-
+                     
                         HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D[hv_Index], "diameter_axis_aligned_bounding_box", out hv_Diameter);
                         HOperatorSet.GetObjectModel3dParams(hv_ObjectModel3D[hv_Index], "center", out hv_C);
                         hv_Diameters[hv_Index] = hv_Diameter;

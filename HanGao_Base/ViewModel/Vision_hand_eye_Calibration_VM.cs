@@ -249,7 +249,7 @@ namespace HanGao.ViewModel
                         Camera_Device_List.Select_3DCamera_0.Connect_Camera();
                         Camera_Device_List.Select_3DCamera_1.Connect_Camera();
 
-
+                        //Halcon_3DStereoModel.TwoCamera_Connect_Sate = true;
                         //Camera_Device_List.Set_TwoCamera_Devices_Parm(Camera_0_Parameter, Camera_1_Parameter, Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type);
 
 
@@ -491,7 +491,7 @@ namespace HanGao.ViewModel
 
 
 
-                        Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ = new List<HObjectModel3D>(Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Select(_ => _.Clone()).ToList(), Select_Vision_Value.Camera_3DModel_Process_List));
+                        Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ = new List<HObjectModel3D>(Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Select(_ => _.CopyObjectModel3d("all")).ToList(), Select_Vision_Value.Camera_3DModel_Process_List));
 
 
                         //Vision_Xml_Method.Save_Xml(Vision_Auto_Cofig);
@@ -3172,8 +3172,17 @@ namespace HanGao.ViewModel
             {
                 Button E = Sm.Source as Button;
 
-                Task.Run(() =>
+
+                //Task.Factory.StartNew(() =>
+                //{
+
+                //});
+
+                var _Thread = new Thread(() =>
                 {
+
+
+
 
 
                     HImage _GetImage_0 = new();
@@ -3185,147 +3194,8 @@ namespace HanGao.ViewModel
                     try
                     {
 
-                        ///单帧模式
-                        //HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
 
-                        if (HandEye_Camera_Parameters.Halcon_Find_Calib_Model)
-                        {
-
-
-
-
-
-
-                            ///加载图像到标定列表
-                            Cailbration_Load_Image(Halcon_HandEye_Calibra.Camera_Connect_Model, HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibXLD, HandEye_Check_LiveImage._CalibRegion, new Point_Model());
-                            //单个图像
-
-
-
-
-                        }
-                        else
-                        {
-
-
-                            //for (global::System.Int32 i = 0; i < 10; i++)
-                            //{
-
-                            if (Camera_Device_List.Select_3DCamera_0.Camer_Status != MV_CAM_Device_Status_Enum.Connecting && Camera_Device_List.Select_3DCamera_1.Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
-                            {
-
-                            Camera_Device_List.Select_3DCamera_0 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
-                            Camera_Device_List.Select_3DCamera_1 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
-
-                                Camera_Device_List.Select_3DCamera_0.Connect_Camera();
-                                Camera_Device_List.Select_3DCamera_1.Connect_Camera();
-             
-                            }
-
-                                
-
-                            //相机采集
-                            (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0,
-                             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1,
-                             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_0,
-                             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_1) = Camera_Device_List.Get_H3DStereo_HImage(false,
-                              Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type,
-                              Select_Vision_Value.Camera_0_3DPoint_Parameter,
-                              Select_Vision_Value.Camera_1_3DPoint_Parameter,
-                              Select_Vision_Value.Camera_0_3DFusionImage_Parameter,
-                              Select_Vision_Value.Camera_1_3DFusionImage_Parameter
-                               );
-
-
-
-                            //图像预处理,强制自动
-                            Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep = false;
-                            (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0,
-                             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1,
-                             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0,
-                             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1) = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(
-                                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0),
-                                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1),
-                                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_0),
-                                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_1),
-                                  Select_Vision_Value.Camera_0_3DPoint_Process_List,
-                                  Select_Vision_Value.Camera_1_3DPoint_Process_List,
-                                  Select_Vision_Value.Camera_0_3DFusionImage_Process_List,
-                                  Select_Vision_Value.Camera_1_3DFusionImage_Process_List,
-                                  Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type,
-                                  Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type);
-
-
-                            //图像立体重建
-                            Halcon_3DStereoModel.Get_TwoCamera_3DModel
-                            (
-                            new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0),
-                            new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1),
-                            new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0),
-                            new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1),
-                            Select_Vision_Value.H3DStereo_ParamData
-                            );
-
-
-                            //}
-
-                            ///流程处理强制自动
-                            Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep = false;
-                            Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ = new List<HObjectModel3D>(Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Select(_ => _.CopyObjectModel3d("all")).ToList(), Select_Vision_Value.Camera_3DModel_Process_List));
-
-
-                            //生产深度图像
-                            Halcon_3DStereoModel.H3DStereo_Results.GetModel3D_XYZMap(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.HCamPar, new Point_Model(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup.GetCameraSetupParam(0, "pose")));
-
-
-                            ///显示点云和基元板
-                            //Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ))));
-
-
-
-                            Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.HCamPar);
-                            ///识别结果
-                            HandEye_Check_LiveImage = Halcon_HandEye_Calibra.Check_CalibObject_Features(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion, HandEye_Camera_Parameters);
-
-
-
-
-
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_1);
-
-                          
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), _XLD:new HObject ( HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
-
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XLD: new HObject ( HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
-
-                            });
-
-
-                            (double _row, double _col) = new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose)).Get_Image_Point(Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters);
-
-                  
-                          HTuple aa=  Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image.GetGrayval(_row, _col);
-
-
-                            Point_Model _XYZImage_Point = new Point_Model(new HPose( HandEye_Check_LiveImage.hv_Pose.TupleReplace(new HTuple([0,1,2]),aa)));
-
-       
-
-
-                            User_Log_Add("标定板：" + new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose)).ToString(), Log_Show_Window_Enum.HandEye);
-
-                            User_Log_Add("立体深度数据：" + _XYZImage_Point.ToString(), Log_Show_Window_Enum.HandEye);
-
-                            User_Log_Add("标定差值数据：" + new Point_Model(new HPose( HandEye_Check_LiveImage.hv_Pose).PoseInvert().PoseCompose(_XYZImage_Point.HPose)), Log_Show_Window_Enum.HandEye, MessageBoxImage.Error);
-                     
-                        }
-
-
-
+                        HandEye_CheckFind_Fun();
 
 
 
@@ -3338,9 +3208,14 @@ namespace HanGao.ViewModel
                     }
 
 
+                    //})
+                    //{ IsBackground = true, Name = "ThreadPool" }.Start();
 
 
                 });
+                _Thread.Priority = ThreadPriority.Highest;
+                _Thread.IsBackground = true;
+                _Thread.Start();
             });
         }
 
@@ -3357,26 +3232,59 @@ namespace HanGao.ViewModel
                 ///单帧模式
 
 
-                if ((bool)(E.IsChecked == true))
+                if (HandEye_Camera_Parameters.Halcon_Find_Calib_Model)
                 {
 
-                    Task.Run(() =>
-                    {
-                        try
+                    var _Thread = new Thread(() =>
                         {
 
-                            HandEye_Camera_Parameters.Halcon_Find_Calib_Model = true;
-                            //Camera_1_Parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
-                            HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
-                        }
-                        catch (Exception _e)
-                        {
 
-                            Application.Current.Dispatcher.Invoke(() => { E.IsChecked = false; });
-                            User_Log_Add(_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
-                        }
-                    });
 
+                            try
+                            {
+
+
+
+
+                                do
+                                {
+
+
+
+
+
+
+
+
+
+
+
+                                    HandEye_CheckFind_Fun();
+
+
+
+                                } while (HandEye_Camera_Parameters.Halcon_Find_Calib_Model);
+
+
+
+
+
+
+
+                                //HandEye_Camera_Parameters.Halcon_Find_Calib_Model = true;
+                                //Camera_1_Parameter.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
+                                //HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Checked_Model);
+                            }
+                            catch (Exception _e)
+                            {
+                                HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
+                                //Application.Current.Dispatcher.Invoke(() => { E.IsChecked = false; });
+                                User_Log_Add(_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
+                            }
+                        });
+                    _Thread.Priority = ThreadPriority.Highest;
+                    _Thread.IsBackground = true;
+                    _Thread.Start();
                 }
 
 
@@ -3385,6 +3293,150 @@ namespace HanGao.ViewModel
 
             });
         }
+
+
+
+
+
+
+        /// <summary>
+        /// 手眼查找标定方法
+        /// </summary>
+        public void HandEye_CheckFind_Fun()
+        {
+
+
+
+            //相机连接取流
+            if (Camera_Device_List.Select_3DCamera_0.Camer_Status != MV_CAM_Device_Status_Enum.Connecting && Camera_Device_List.Select_3DCamera_1.Camer_Status != MV_CAM_Device_Status_Enum.Connecting)
+            {
+
+                Camera_Device_List.Select_3DCamera_0 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Key);
+                Camera_Device_List.Select_3DCamera_1 = MVS_Camera_Info_List.FirstOrDefault(_ => _.Camera_Info.SerialNumber == Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_1_Key);
+
+                Camera_Device_List.Select_3DCamera_0.Connect_Camera();
+                Camera_Device_List.Select_3DCamera_1.Connect_Camera();
+                Halcon_3DStereoModel.TwoCamera_Connect_Sate = true;
+            }
+
+
+
+            //相机采集
+            (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0,
+             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1,
+             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_0,
+             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_1) = Camera_Device_List.Get_H3DStereo_HImage(false,
+              Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type,
+              Select_Vision_Value.Camera_0_3DPoint_Parameter,
+              Select_Vision_Value.Camera_1_3DPoint_Parameter,
+              Select_Vision_Value.Camera_0_3DFusionImage_Parameter,
+              Select_Vision_Value.Camera_1_3DFusionImage_Parameter
+               );
+
+
+
+            //图像预处理,强制自动
+            Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep = false;
+            (Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0,
+             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1,
+             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0,
+             Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1) = Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(
+                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_0),
+                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.Camera_Image_1),
+                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_0),
+                  new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.Camera_Image_1),
+                  Select_Vision_Value.Camera_0_3DPoint_Process_List,
+                  Select_Vision_Value.Camera_1_3DPoint_Process_List,
+                  Select_Vision_Value.Camera_0_3DFusionImage_Process_List,
+                  Select_Vision_Value.Camera_1_3DFusionImage_Process_List,
+                  Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type,
+                  Select_Vision_Value.H3DStereo_ParamData.H3DStereo_CameraDrives_Type);
+
+
+            //图像立体重建
+            Halcon_3DStereoModel.Get_TwoCamera_3DModel
+            (
+            new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0),
+            new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1),
+            new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0),
+            new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1),
+            Select_Vision_Value.H3DStereo_ParamData
+            );
+
+
+            //}
+
+            ///流程处理强制自动
+            Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep = false;
+            Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ = new List<HObjectModel3D>(Halcon_3DStereoModel.Stereo_Preprocessing_Process.Preprocessing_Process_Start(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Select(_ => _.CopyObjectModel3d("all")).ToList(), Select_Vision_Value.Camera_3DModel_Process_List));
+
+
+            //生产深度图像
+            Halcon_3DStereoModel.H3DStereo_Results.GetModel3D_XYZMap(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.HCamPar, new Point_Model(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.TwoCamera_HCameraSetup.GetCameraSetupParam(0, "pose")));
+
+
+            ///显示点云和基元板
+            Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat
+                (Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ.Select(_=>_.CopyObjectModel3d("all")).ToList()).Select(_ => _.CopyObjectModel3d("all")).ToList())));
+
+
+
+            Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.HCamPar);
+            ///识别结果
+            HandEye_Check_LiveImage = Halcon_HandEye_Calibra.Check_CalibObject_Features(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion, HandEye_Camera_Parameters);
+
+
+
+
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+
+                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_1);
+
+
+                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
+
+                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
+                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
+
+            });
+
+
+            (double _row, double _col) = new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose)).Get_Image_Point(Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters);
+
+
+            HTuple aa = Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image.GetGrayval(_row, _col);
+
+
+            Point_Model _XYZImage_Point = new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose.TupleReplace(new HTuple([0, 1, 2]), aa)));
+
+
+
+
+            User_Log_Add("标定板：" + new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose)).ToString(), Log_Show_Window_Enum.HandEye);
+
+            User_Log_Add("立体深度数据：" + _XYZImage_Point.ToString(), Log_Show_Window_Enum.HandEye);
+
+            User_Log_Add("标定差值数据：" + new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose).PoseInvert().PoseCompose(_XYZImage_Point.HPose)), Log_Show_Window_Enum.HandEye);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// 手眼标定结果保存

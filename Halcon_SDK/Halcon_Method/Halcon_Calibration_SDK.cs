@@ -211,7 +211,7 @@ namespace Halcon_SDK_DLL
 
             //HCalibData.Clone();
             HCalibData.ClearCalibData();
-           
+            HCalibData.Dispose();
             //HCalibData.Dispose();
         }
 
@@ -923,7 +923,11 @@ namespace Halcon_SDK_DLL
             FindCalibObject_Results _Results = new FindCalibObject_Results();
 
 
+            lock (HCalibData)
+            {
 
+                try
+                {
 
 
             Creation_Calibration(_Calibration_Param);
@@ -934,6 +938,14 @@ namespace Halcon_SDK_DLL
 
             Clear_HandEye_Calibration();
 
+                }
+                catch (Exception _e)
+                {
+
+                    throw new Exception("标定板检查失败！" + " 原因：" + _e.Message);
+
+                }
+            }
 
 
 

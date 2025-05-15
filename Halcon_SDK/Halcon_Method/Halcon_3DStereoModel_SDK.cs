@@ -777,11 +777,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
             get { return _HModel3D_Camera_3DPoint; }
             set
             {
-                foreach (var item in _HModel3D_Camera_3DPoint)
-                {
-                    item.ClearObjectModel3d();
-                    item.Dispose();
-                }
+                //foreach (var item in _HModel3D_Camera_3DPoint)
+                //{
+                //    item.ClearObjectModel3d();
+                //    item.Dispose();
+                //}
                 _HModel3D_Camera_3DPoint = value;
             }
         }
@@ -792,11 +792,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
             get { return _HModel3D_Camera_3DFusion; }
             set
             {
-                foreach (var item in _HModel3D_Camera_3DFusion)
-                {
-                    item.ClearObjectModel3d();
-                    item.Dispose();
-                }
+                //foreach (var item in _HModel3D_Camera_3DFusion)
+                //{
+                //    item.ClearObjectModel3d();
+                //    item.Dispose();
+                //}
                 _HModel3D_Camera_3DFusion = value;
             }
         }
@@ -809,11 +809,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
             get { return _HModel3D_Camera_Unio; }
             set
             {
-                foreach (var item in _HModel3D_Camera_Unio)
-                {
-                    item.ClearObjectModel3d();
-                    item.Dispose();
-                }
+                //foreach (var item in _HModel3D_Camera_Unio)
+                //{
+                //    item.ClearObjectModel3d();
+                //    item.Dispose();
+                //}
                 _HModel3D_Camera_Unio = value;
             }
         }
@@ -825,11 +825,11 @@ namespace Halcon_SDK_DLL.Halcon_Method
             get { return _HModel3D_Camera_Unio_XYZ; }
             set
             {
-                foreach (var item in _HModel3D_Camera_Unio_XYZ)
-                {
-                    item.ClearObjectModel3d();
-                    item. Dispose();
-                }
+                //foreach (var item in _HModel3D_Camera_Unio_XYZ)
+                //{
+                //    item.ClearObjectModel3d();
+                //    item. Dispose();
+                //}
                 _HModel3D_Camera_Unio_XYZ = value;
             }
         }
