@@ -505,12 +505,12 @@ namespace HanGao.ViewModel
 
                             if (Halcon_3DStereoModel.Stereo_Preprocessing_Process.IsSingleStep)
                             {
-                                Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ)));
+                                Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ.Select(_ => _.CopyObjectModel3d("all")).ToList())));
 
                             }
                             else
                             {
-                                Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ))));
+                                Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ.Select(_ => _.CopyObjectModel3d("all")).ToList()).Select(_ => _.CopyObjectModel3d("all")).ToList())));
 
                             }
 
@@ -1112,8 +1112,8 @@ namespace HanGao.ViewModel
 
                         Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(
                         [
-                            .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DPoint,
-                                .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DFusion,
+                            .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DPoint.Select(_=>_.CopyObjectModel3d("all")).ToList(),
+                                .. Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_3DFusion.Select(_=>_.CopyObjectModel3d("all")).ToList(),
                             ]));
 
 
@@ -1668,7 +1668,7 @@ namespace HanGao.ViewModel
                             _Calib_Rotob_Model = _HandEye_3DModel.GenRobot_Tcp_Base_Model(_Robot_Pos.HPose);
 
                             //显示机器人坐标模型
-                            Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model });
+                            Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model.Select(_ => _.CopyObjectModel3d("all")).ToList() });
 
                             //添加机器人坐标图像到集合
                             Cailbration_Load_Image(Halcon_HandEye_Calibra.Camera_Connect_Model, HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibXLD, HandEye_Check_LiveImage._CalibRegion, _Robot_Pos);
@@ -2508,7 +2508,7 @@ namespace HanGao.ViewModel
                                     _Camera_Model.AddRange(_Selected.Camera_1.Calibration_3D_Model);
                                 }
 
-                                Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new(_Camera_Model));
+                                Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new(_Camera_Model.Select(_ => _.CopyObjectModel3d("all")).ToList()));
                             }
                         }
                     });
@@ -3376,8 +3376,11 @@ namespace HanGao.ViewModel
 
 
             ///显示点云和基元板
-            Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(new List<HObjectModel3D>(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Concat
-                (Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ.Select(_=>_.CopyObjectModel3d("all")).ToList()).Select(_ => _.CopyObjectModel3d("all")).ToList())));
+            Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(
+                [
+                ..Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio.Select(_ => _.CopyObjectModel3d("all")).ToList(),
+                ..Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ.Select(_=>_.CopyObjectModel3d("all")).ToList()
+                ]));
 
 
 

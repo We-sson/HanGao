@@ -167,7 +167,7 @@ namespace Halcon_SDK_DLL.Halcon_Examples_Method
 
             //默认显示坐标
             List<HObjectModel3D> _RobotBase3D = new Reconstruction_3d().gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
-            SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _RobotBase3D });
+            SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _RobotBase3D.Select(_=>_.CopyObjectModel3d("all")).ToList() });
 
 
             ///居中 模型

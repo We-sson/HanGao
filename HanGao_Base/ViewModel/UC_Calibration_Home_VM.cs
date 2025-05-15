@@ -1308,7 +1308,7 @@ namespace HanGao.ViewModel
                                 _Camera_Model.AddRange(_Selected.Camera_1.Calibration_3D_Model);
 
 
-                                HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_Model));
+                                HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model(_Camera_Model.Select(_ => _.CopyObjectModel3d("all")).ToList()));
                             }
                         }
                     });

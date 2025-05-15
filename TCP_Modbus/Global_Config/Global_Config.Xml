@@ -1,0 +1,21 @@
+<Vision_Auto_Config_Model>
+  <Global_Robot_SDK_Config>
+    <Robot_SDK_IP_Port>7000</Robot_SDK_IP_Port>
+    <Robot_SDK_IP>192.168.0.1</Robot_SDK_IP>
+    <Robot_SDK_Auto_Connect>true</Robot_SDK_Auto_Connect>
+  </Global_Robot_SDK_Config>
+  <Vision_Global_Parameters>
+    <Vision_Run_Number>3</Vision_Run_Number>
+    <Find_TimeOut_Millisecond>3000</Find_TimeOut_Millisecond>
+    <Vision_Translation_Max_Offset>20</Vision_Translation_Max_Offset>
+    <Vision_Rotation_Max_Offset>5</Vision_Rotation_Max_Offset>
+    <Vision_Scope>20</Vision_Scope>
+    <Auto_Connect_Selected_Camera>false</Auto_Connect_Selected_Camera>
+  </Vision_Global_Parameters>
+  <Local_Network_Config>
+    <Local_Network_Port>5000</Local_Network_Port>
+    <Local_Network_Auto_Connect>true</Local_Network_Auto_Connect>
+    <Local_Network_IP_List />
+    <Local_Network_Robot_Model>KUKA</Local_Network_Robot_Model>
+  </Local_Network_Config>
+</Vision_Auto_Config_Model>
