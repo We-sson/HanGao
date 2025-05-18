@@ -1626,8 +1626,19 @@ namespace HanGao.ViewModel
 
 
 
+
+
+
+
+
+
+
                         ///查找标定板结果
-                        HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Robot_Model);
+                        //HandEye_Find_Calibration(HandEye_Calibration_Model_Enum.Robot_Model);
+
+
+
+
 
 
                         //创建对应机器人角度旋转方式
