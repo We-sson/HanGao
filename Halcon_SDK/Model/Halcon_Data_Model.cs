@@ -1409,6 +1409,17 @@ namespace Halcon_SDK_DLL.Model
 
         public Point_Model HandEye_Robot_Pos { set; get; } = new Point_Model();
 
+
+
+
+
+        /// <summary>
+        /// 多目匹配点云模型
+        /// </summary>
+        public HObjectModel3D H3DStereo_Model { set; get; } = new HObjectModel3D();
+
+
+
         /// <summary>
         /// 相机控制类型
         /// </summary>
@@ -2286,7 +2297,7 @@ namespace Halcon_SDK_DLL.Model
 
 
 
-
+        public HObject? HModel3D_XYZImage { set; get; }
 
 
 
