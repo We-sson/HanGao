@@ -1669,6 +1669,14 @@ namespace HanGao.ViewModel
                         HandEye_CheckFind_Fun();
 
 
+                        Cailbration_Load_Image(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion,
+                                                                Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image,
+                                                                 HandEye_Check_LiveImage._CalibXLD,
+                                                                HandEye_Check_LiveImage._CalibRegion,
+                                                                Halcon_3DStereoModel.H3DStereo_Results.HModel3D_Camera_Unio_XYZ.Select(_ => _.CopyObjectModel3d("all")).ToList(),
+                                                                _Robot_Pos,
+                                                                HandEye_Check_LiveImage._Calib_XYZImage_Point
+                                                                );
 
                         ///识别生产添加到标定列表
 
@@ -1683,7 +1691,7 @@ namespace HanGao.ViewModel
                             _Calib_Rotob_Model = _HandEye_3DModel.GenRobot_Tcp_Base_Model(_Robot_Pos.HPose);
 
                             //显示机器人坐标模型
-                            Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model.Select(_ => _.CopyObjectModel3d("all")).ToList() });
+                            //Halcon_Window_Display.HandEye_3D_Results.HDisplay_3D.SetDisplay3DModel(new Display3DModel_Model() { _ObjectModel3D = _Calib_Rotob_Model.Select(_ => _.CopyObjectModel3d("all")).ToList() });
 
                             //添加机器人坐标图像到集合
                             //Cailbration_Load_Image(Halcon_HandEye_Calibra.Camera_Connect_Model, HandEye_Check_LiveImage._Image, HandEye_Check_LiveImage._CalibXLD, HandEye_Check_LiveImage._CalibRegion, _Robot_Pos);
@@ -1877,7 +1885,7 @@ namespace HanGao.ViewModel
 
 
                 //切换模式
-                HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
+                //HandEye_Camera_Parameters.Halcon_Find_Calib_Model = false;
 
                 Task.Run(() =>
                 {
@@ -3433,16 +3441,16 @@ namespace HanGao.ViewModel
             HTuple aa = Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image.GetGrayval(_row, _col);
 
 
-            Point_Model _XYZImage_Point = new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose.TupleReplace(new HTuple([0, 1, 2]), aa)));
+            HandEye_Check_LiveImage._Calib_XYZImage_Point = new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose.TupleReplace(new HTuple([0, 1, 2]), aa)));
 
 
 
 
             User_Log_Add("标定板：" + new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose)).ToString(), Log_Show_Window_Enum.HandEye);
 
-            User_Log_Add("立体深度数据：" + _XYZImage_Point.ToString(), Log_Show_Window_Enum.HandEye);
+            User_Log_Add("立体深度数据：" + HandEye_Check_LiveImage._Calib_XYZImage_Point.ToString(), Log_Show_Window_Enum.HandEye);
 
-            User_Log_Add("标定差值数据：" + new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose).PoseInvert().PoseCompose(_XYZImage_Point.HPose)), Log_Show_Window_Enum.HandEye);
+            User_Log_Add("标定差值数据：" + new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose).PoseInvert().PoseCompose(HandEye_Check_LiveImage._Calib_XYZImage_Point.HPose)), Log_Show_Window_Enum.HandEye);
 
 
 
@@ -3513,7 +3521,7 @@ namespace HanGao.ViewModel
         /// <param name="_CalibXLD"></param>
         /// <param name="_CalibRegion"></param>
         /// <param name="_Name"></param>
-        public void Cailbration_Load_Image(Camera_Connect_Control_Type_Enum _Camera_Enum, HObject _Image, HObject _XYZImage, HObject _CalibXLD, HObject _CalibRegion, HObjectModel3D _H3DStereo_Model, Point_Model _Robot_pos)
+        public void Cailbration_Load_Image( HObject _Image, HObject _XYZImage, HObject _CalibXLD, HObject _CalibRegion, List< HObjectModel3D >_H3DStereo_Model, Point_Model _Robot_pos, Point_Model _CalibFind_pos)
         {
 
 
@@ -3560,10 +3568,11 @@ namespace HanGao.ViewModel
             //标定列表集合模型
             Calibration_Image_List_Model _Calib_Iamge = new()
             {
-                Camera_No = _Camera_Enum,
+                Camera_No =   Camera_Connect_Control_Type_Enum.双目相机,
                 Image_No = HandEye_Calibration_List.Count,
                 HandEye_Robot_Pos = new Point_Model(_Robot_pos),
-                 H3DStereo_Model= _H3DStereo_Model,
+                Calibration_Plate_Pos=new Point_Model (_CalibFind_pos),
+                 H3DStereo_Model = _H3DStereo_Model,
                 Camera_0 = new Calibration_Image_Camera_Model()
                 {
                     Calibration_Image = _Image,
@@ -3575,6 +3584,7 @@ namespace HanGao.ViewModel
                 Camera_1 = new Calibration_Image_Camera_Model()
                 {
                     Carme_Name = Camera_Device_List.Select_3DCamera_0?.Camera_Info.SerialNumber,
+                    Calibration_State = Camera_Calibration_Image_State_Enum.Image_Loading,
                 }
             };
 
@@ -3786,6 +3796,60 @@ namespace HanGao.ViewModel
         {
 
             Calibration_Camera_Data_Results_Model _Selected_Results = new();
+
+
+
+
+
+
+
+
+            if (HandEye_Calibration_List.Where((_w) => _w.Camera_0.Calibration_Image != null).ToList().Count > 10)
+            {
+                //正在标定状态
+                HandEye_Results.HandEye_Results_Pos.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibrationing;
+                ///进行标定得到结果
+
+                try
+                {
+                    ////获得手眼标定设备名称
+
+                    if ((_Selected_Results.Calibration_Name = Camera_Device_List.Select_3DCamera_0?.Camera_Info.SerialNumber) == null)
+                    {
+                        _Selected_Results.Calibration_Name = Halcon_HandEye_Calibra.Camera_Connect_Model.ToString();
+                    }
+
+                    ///拷贝设备相机标定的内参初始值
+                    Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Get_HCamPar());
+
+                    _Selected_Results = HandEye_Results.HandEye_Results_Pos = HandEye_Results.HandEye_Camera_0_Results = Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters);
+
+
+
+
+                }
+                catch (Exception _e)
+                {
+                    HandEye_Results.HandEye_Results_Pos.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Uncalibrated;
+                    HandEye_Results.HandEye_Camera_0_Results.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Uncalibrated;
+
+                    throw new Exception(_e.Message);
+
+                }
+
+
+            }
+            else
+            {
+
+                throw new Exception(Halcon_HandEye_Calibra.Camera_Connect_Model + "：手眼标定图像少于10张！");
+
+            }
+
+
+
+
+
 
             //对应标定钱检测可标定状态
             switch (Halcon_HandEye_Calibra.Camera_Connect_Model)

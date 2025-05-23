@@ -25,7 +25,7 @@
         <Border Grid.RowSpan="3"
                 Background="{DynamicResource 全局_背景_白颜色}"
                 BorderBrush="Transparent"
-                CornerRadius="5"
+                CornerRadius="0"
                 Effect="{DynamicResource 全局背景阴影}" />
 
         <Border Grid.Row="0"

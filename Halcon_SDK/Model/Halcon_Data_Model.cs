@@ -1113,6 +1113,12 @@ namespace Halcon_SDK_DLL.Model
             hv_Pose = _Results.hv_Pose;
         }
 
+
+
+
+        public Point_Model _Calib_XYZImage_Point { set; get; } =new Point_Model();
+
+
         public HObject _Image { set; get; } = new HObject();
 
 
@@ -1416,7 +1422,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 多目匹配点云模型
         /// </summary>
-        public HObjectModel3D H3DStereo_Model { set; get; } = new HObjectModel3D();
+        public List< HObjectModel3D >H3DStereo_Model { set; get; } = new List<HObjectModel3D>();
 
 
 

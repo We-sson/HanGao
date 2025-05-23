@@ -546,7 +546,7 @@ namespace Halcon_SDK_DLL
 
             Reconstruction_3d _HandEye_3DModel = new Reconstruction_3d();
 
-            int _Checked_imageNum = 0;
+            //int _Checked_imageNum = 0;
 
 
             try
@@ -562,7 +562,17 @@ namespace Halcon_SDK_DLL
 
 
                 //创建手眼标定
-                Creation_Calibration(_CalibParam);
+                //Creation_Calibration(_CalibParam);
+
+
+
+                //创建手眼表达
+                 HCalibData HCalibData= new HCalibData();
+
+                HCalibData = new HCalibData(_CalibParam.Calibration_Setup_Model.ToString(),0, 0);
+
+                HCalibData.SetCalibData("model", "general", "optimization_method", _CalibParam.Optimization_Method.ToString());
+
 
 
 
@@ -576,86 +586,95 @@ namespace Halcon_SDK_DLL
                     Calibration_Image_Camera_Model _Selected_camera = new Calibration_Image_Camera_Model();
 
 
+
+                    HCalibData.SetCalibDataObservPose(0, 0, i, _ImageList[i].Calibration_Plate_Pos.HPose);
+                    HCalibData.SetCalibData("tool", i, "tool_in_base_pose", _ImageList[i].HandEye_Robot_Pos.HPose);
+
+                    _ImageList[i].Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Detectioning;
+                    _ImageList[i].Camera_1.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Detectioning;
+
+
+
                     //根据选择相机对象获取标定数据
-                    switch (Camera_Connect_Model)
-                    {
-                        case Camera_Connect_Control_Type_Enum.双目相机:
+                    //switch (Camera_Connect_Model)
+                    //{
+                    //    case Camera_Connect_Control_Type_Enum.双目相机:
 
-                            throw new Exception("双目手眼标定未开发！");
-
-
-
-                        case Camera_Connect_Control_Type_Enum.Camera_0:
-                            _Selected_camera = _ImageList[i].Camera_0;
+                    //        throw new Exception("双目手眼标定未开发！");
 
 
 
-
-                            break;
-                        case Camera_Connect_Control_Type_Enum.Camera_1:
-
-                            _Selected_camera = _ImageList[i].Camera_1;
+                    //    case Camera_Connect_Control_Type_Enum.Camera_0:
+                    //        _Selected_camera = _ImageList[i].Camera_0;
 
 
 
 
-                            break;
-                    }
+                    //        break;
+                    //    case Camera_Connect_Control_Type_Enum.Camera_1:
+
+                    //        _Selected_camera = _ImageList[i].Camera_1;
 
 
-                    FindCalibObject_Results _Res = new FindCalibObject_Results();
+
+
+                    //        break;
+                    //}
+
+
+                    //FindCalibObject_Results _Res = new FindCalibObject_Results();
 
                     //开始检测状态
-                    _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Detectioning;
+                    //_Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Detectioning;
 
 
                     //查找标定板流程
-                    _Res = Find_Calibration_Workflows(_Selected_camera.Calibration_Image!, _CalibParam, i);
+                    //_Res = Find_Calibration_Workflows(_Selected_camera.Calibration_Image!, _CalibParam, i);
 
 
 
                     //检测图像标定板识别情况
-                    if (_Res._CalibXLD.IsInitialized() && _Res._CalibRegion.IsInitialized())
-                    {
+                    //if (_Res._CalibXLD.IsInitialized() && _Res._CalibRegion.IsInitialized())
+                    //{
 
 
 
-                        ///标定设置TCP拍照位置
-                        HCalibData.SetCalibData("tool", (HTuple)i, "tool_in_base_pose", _ImageList[i].HandEye_Robot_Pos.HPose);
+                    //    ///标定设置TCP拍照位置
+                    //    HCalibData.SetCalibData("tool", (HTuple)i, "tool_in_base_pose", _ImageList[i].HandEye_Robot_Pos.HPose);
 
-                        //生产机器人坐标模型
-                        List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.GenRobot_Tcp_Base_Model(_ImageList[i].HandEye_Robot_Pos.HPose);
-
-
-                        //结果赋值
-
-                        _Selected_camera.Calibration_3D_Model = _RobotTcp3D;
-                        _Selected_camera.Calibration_Image = _Res._Image;
-                        _Selected_camera.Calibration_Region = _Res._CalibRegion;
-                        _Selected_camera.Calibration_XLD = _Res._CalibXLD;
-                        _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
-
-                        _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_Res.hv_Pose));
-
-                        //检测图像与坐标是否一致
-                        _Checked_imageNum++;
+                    //    //生产机器人坐标模型
+                    //    List<HObjectModel3D> _RobotTcp3D = _HandEye_3DModel.GenRobot_Tcp_Base_Model(_ImageList[i].HandEye_Robot_Pos.HPose);
 
 
+                    //    //结果赋值
 
-                        //_ResList.Add(_Calib_Res);
+                    //    _Selected_camera.Calibration_3D_Model = _RobotTcp3D;
+                    //    _Selected_camera.Calibration_Image = _Res._Image;
+                    //    _Selected_camera.Calibration_Region = _Res._CalibRegion;
+                    //    _Selected_camera.Calibration_XLD = _Res._CalibXLD;
+                    //    _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Successful;
 
-                    }
-                    else
-                    {
-                        _Selected_camera.Calibration_3D_Model = new List<HObjectModel3D>();
-                        _Selected_camera.Calibration_Image = _Res._Image;
-                        _Selected_camera.Calibration_Region = _Res._CalibRegion;
-                        _Selected_camera.Calibration_XLD = _Res._CalibXLD;
-                        //识别错误作法
-                        _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
-                        _ImageList[i].Calibration_Plate_Pos.HPose = new HPose();
+                    //    _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_Res.hv_Pose));
 
-                    }
+                    //    //检测图像与坐标是否一致
+                    //    _Checked_imageNum++;
+
+
+
+                    //    //_ResList.Add(_Calib_Res);
+
+                    //}
+                    //else
+                    //{
+                    //    _Selected_camera.Calibration_3D_Model = new List<HObjectModel3D>();
+                    //    _Selected_camera.Calibration_Image = _Res._Image;
+                    //    _Selected_camera.Calibration_Region = _Res._CalibRegion;
+                    //    _Selected_camera.Calibration_XLD = _Res._CalibXLD;
+                    //    //识别错误作法
+                    //    _Selected_camera.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+                    //    _ImageList[i].Calibration_Plate_Pos.HPose = new HPose();
+
+                    //}
 
                 }
 
@@ -690,8 +709,8 @@ namespace Halcon_SDK_DLL
                 _Results.HandEye_Calib_Error.Set_Data(_HandEyeVal);
 
                 //获得内参数据
-                _CamParam = HCalibData.GetCalibData("camera", 0, "params");
-                _Results.Camera_Result_Pama = new Halcon_Camera_Calibration_Parameters_Model(_CamParam);
+                //_CamParam = HCalibData.GetCalibData("camera", 0, "params");
+                //_Results.Camera_Result_Pama = new Halcon_Camera_Calibration_Parameters_Model(_CamParam);
 
 
                 //根据标定类型读取结果参数
@@ -770,22 +789,22 @@ namespace Halcon_SDK_DLL
 
                     Calibration_Image_Camera_Model _Selected_camera = new Calibration_Image_Camera_Model();
                     //根据选择相机对象获取标定数据
-                    switch (Camera_Connect_Model)
-                    {
-                        case Camera_Connect_Control_Type_Enum.双目相机:
+                    //switch (Camera_Connect_Model)
+                    //{
+                    //    case Camera_Connect_Control_Type_Enum.双目相机:
 
-                            throw new Exception("双目手眼标定未开发！");
+                    //        throw new Exception("双目手眼标定未开发！");
 
-                        case Camera_Connect_Control_Type_Enum.Camera_0:
-                            _Selected_camera = _ImageList[i].Camera_0;
+                    //    case Camera_Connect_Control_Type_Enum.Camera_0:
+                    //        _Selected_camera = _ImageList[i].Camera_0;
 
-                            break;
-                        case Camera_Connect_Control_Type_Enum.Camera_1:
+                    //        break;
+                    //    case Camera_Connect_Control_Type_Enum.Camera_1:
 
-                            _Selected_camera = _ImageList[i].Camera_1;
+                    //        _Selected_camera = _ImageList[i].Camera_1;
 
-                            break;
-                    }
+                    //        break;
+                    //}
 
                     //生成结果手眼模型
                     List<HObjectModel3D> _Tool_Moving_Cam_model = _HandEye_3DModel.gen_camera_and_tool_moving_cam_object_model_3d(HCalibData, i, 0.05, 0.3);
