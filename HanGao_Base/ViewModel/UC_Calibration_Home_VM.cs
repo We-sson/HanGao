@@ -693,89 +693,99 @@ namespace HanGao.ViewModel
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
                 Button E = Sm.Source as Button;
-
-                Task.Run(() =>
+                Thread _CheckImage_Thread = new (() =>
                 {
 
-
-                    try
-                    {
+                  
 
 
-
-                        ///连续采图这存储图像数据
-                        if (Camera_0_Select_Val.Camera_Live || Camera_1_Select_Val.Camera_Live)
+                        try
                         {
 
 
 
-                            switch (Halcon_Camera_Calibra.Camera_Connect_Model)
+                            ///连续采图这存储图像数据
+                            if (Camera_0_Select_Val.Camera_Live || Camera_1_Select_Val.Camera_Live)
                             {
-                                case Camera_Connect_Control_Type_Enum.双目相机:
 
 
 
-                                    if (Camera_0_Select_Val.Camera_Live && Camera_1_Select_Val.Camera_Live)
-                                    {
-
-
-                                        Cailbration_Load_Image(Halcon_Camera_Calibra.Camera_Connect_Model, Camera_0_Check_Result, Camera_1_Check_Result);
-
-                                    }
+                                switch (Halcon_Camera_Calibra.Camera_Connect_Model)
+                                {
+                                    case Camera_Connect_Control_Type_Enum.双目相机:
 
 
 
-                                    break;
-                                case Camera_Connect_Control_Type_Enum.Camera_0:
-
-                                    if (Camera_0_Select_Val.Camera_Live)
-                                    {
-                                        Cailbration_Load_Image(Halcon_Camera_Calibra.Camera_Connect_Model, Camera_0_Check_Result, null);
-
-                                    }
+                                        if (Camera_0_Select_Val.Camera_Live && Camera_1_Select_Val.Camera_Live)
+                                        {
 
 
-                                    break;
-                                case Camera_Connect_Control_Type_Enum.Camera_1:
+                                            Cailbration_Load_Image(Halcon_Camera_Calibra.Camera_Connect_Model, Camera_0_Check_Result, Camera_1_Check_Result);
+
+                                        }
 
 
-                                    if (Camera_1_Select_Val.Camera_Live)
-                                    {
-                                        Cailbration_Load_Image(Halcon_Camera_Calibra.Camera_Connect_Model, null, Camera_1_Check_Result);
 
-                                    }
+                                        break;
+                                    case Camera_Connect_Control_Type_Enum.Camera_0:
 
-                                    break;
+                                        if (Camera_0_Select_Val.Camera_Live)
+                                        {
+                                            Cailbration_Load_Image(Halcon_Camera_Calibra.Camera_Connect_Model, Camera_0_Check_Result, null);
 
+                                        }
+
+
+                                        break;
+                                    case Camera_Connect_Control_Type_Enum.Camera_1:
+
+
+                                        if (Camera_1_Select_Val.Camera_Live)
+                                        {
+                                            Cailbration_Load_Image(Halcon_Camera_Calibra.Camera_Connect_Model, null, Camera_1_Check_Result);
+
+                                        }
+
+                                        break;
+
+                                }
                             }
+                            else
+                            {
+
+
+
+
+                                ///查找标定板结果
+                                HandEye_Find_Calibration();
+                            }
+
+
+
+
+
+
+
+
+
                         }
-                        else
+                        catch (Exception _e)
                         {
+                            User_Log_Add(_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
 
-
-
-
-                            ///查找标定板结果
-                            HandEye_Find_Calibration();
                         }
 
 
-
-
-
-
-
-
-
-                    }
-                    catch (Exception _e)
-                    {
-                        User_Log_Add(_e.Message, Log_Show_Window_Enum.Calibration, MessageBoxImage.Error);
-
-                    }
 
 
                 });
+                _CheckImage_Thread.IsBackground = true;
+                _CheckImage_Thread.Name = Halcon_Camera_Calibra.Camera_Connect_Model+" : Check_Image_Thead";
+                _CheckImage_Thread.Priority = ThreadPriority.Highest;
+                _CheckImage_Thread.Start();
+
+               
+
             });
         }
 
