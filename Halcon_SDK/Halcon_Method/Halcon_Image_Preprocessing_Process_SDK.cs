@@ -285,7 +285,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                 switch (Image_Type)
                 {
-                    case H3DStereo_Image_Type_Enum.点云图像:
+                    case H3DStereo_Image_Type_Enum.散斑图像:
 
                         switch (CameraDrives_Type)
                         {
@@ -302,7 +302,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
                         }
 
                         break;
-                    case H3DStereo_Image_Type_Enum.深度图像:
+                    case H3DStereo_Image_Type_Enum.视差图像:
 
                         switch (CameraDrives_Type)
                         {
@@ -336,12 +336,12 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
                 switch (Image_Type)
                 {
-                    case H3DStereo_Image_Type_Enum.点云图像:
+                    case H3DStereo_Image_Type_Enum.散斑图像:
                         _OldImage1 = Preprocessing_Process_Start(_OldImage1, _List1);
                         _OldImage2 = Preprocessing_Process_Start(_OldImage2, _List2);
    
                         break;
-                    case H3DStereo_Image_Type_Enum.深度图像:
+                    case H3DStereo_Image_Type_Enum.视差图像:
 
            
                         _OldImage3 = Preprocessing_Process_Start(_OldImage3, _List3);

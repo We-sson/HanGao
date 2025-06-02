@@ -74,27 +74,27 @@ namespace MVS_SDK
 
             switch (ImageType)
             {
-                case H3DStereo_Image_Type_Enum.点云图像:
+                case H3DStereo_Image_Type_Enum.散斑图像:
                     Select_3DCamera_0.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
-                    Select_3DCamera_0.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), false);
-                    ///Camera 1设置
-
-
-                    Select_3DCamera_1.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
-                    Select_3DCamera_1.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), true );
-
-
-
-                    break;
-                case H3DStereo_Image_Type_Enum.深度图像:
-
-                    Select_3DCamera_0.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
-                    Select_3DCamera_0.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), true );
+                    Select_3DCamera_0.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), true);
                     ///Camera 1设置
 
 
                     Select_3DCamera_1.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
                     Select_3DCamera_1.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), false );
+
+
+
+                    break;
+                case H3DStereo_Image_Type_Enum.视差图像:
+
+                    Select_3DCamera_0.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
+                    Select_3DCamera_0.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), false );
+                    ///Camera 1设置
+
+
+                    Select_3DCamera_1.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
+                    Select_3DCamera_1.Camera.SetBoolValue(nameof(MVS_Camera_Parameter_Model.StrobeEnable), true );
 
 
 
@@ -228,7 +228,7 @@ namespace MVS_SDK
 
                             switch (Stereo_Type)
                             {
-                                case H3DStereo_Image_Type_Enum.点云图像:
+                                case H3DStereo_Image_Type_Enum.散斑图像:
 
 
                                     Set_TwoCamera_Devices_Parm(Image_0_Pam, Image_1_Pam, Stereo_Type);
@@ -237,13 +237,13 @@ namespace MVS_SDK
 
 
 
-                                    (_Camera_0_Himage, _Camera_1_Himage) = Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum.点云图像);
+                                    (_Camera_0_Himage, _Camera_1_Himage) = Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum.散斑图像);
 
                                     //User_Log_Add($"采集时间：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
 
 
                                     break;
-                                case H3DStereo_Image_Type_Enum.深度图像:
+                                case H3DStereo_Image_Type_Enum.视差图像:
 
 
 
@@ -254,7 +254,7 @@ namespace MVS_SDK
 
 
 
-                                    (_Camera_2_Himage, _Camera_3_Himage) = Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum.深度图像);
+                                    (_Camera_2_Himage, _Camera_3_Himage) = Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum.视差图像);
 
                                     //User_Log_Add($"采集时间：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
 
@@ -269,11 +269,11 @@ namespace MVS_SDK
 
 
                                     Now = DateTime.Now;
-                                    Set_TwoCamera_Devices_Parm(Image_0_Pam, Image_1_Pam, H3DStereo_Image_Type_Enum.点云图像);
+                                    Set_TwoCamera_Devices_Parm(Image_0_Pam, Image_1_Pam, H3DStereo_Image_Type_Enum.散斑图像);
 
 
 
-                                    (_Camera_0_Himage, _Camera_1_Himage) = Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum.点云图像);
+                                    (_Camera_0_Himage, _Camera_1_Himage) = Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum.散斑图像);
 
 
                                     //User_Log_Add($"0采集时间：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
@@ -289,7 +289,7 @@ namespace MVS_SDK
                                     ///Camera 0设置
                                     Now = DateTime.Now;
 
-                                    Set_TwoCamera_Devices_Parm(Image_2_Pam, Image_3_Pam, H3DStereo_Image_Type_Enum.深度图像);
+                                    Set_TwoCamera_Devices_Parm(Image_2_Pam, Image_3_Pam, H3DStereo_Image_Type_Enum.视差图像);
 
 
                                     //Camera_Device_List.Select_3DCamera_0.Camera.SetEnumValue(nameof(MVS_Camera_Parameter_Model.LineSelector), Convert.ToUInt32(MV_CAM_LINESELECTOR_MODE.Lin1));
@@ -309,7 +309,7 @@ namespace MVS_SDK
 
 
 
-                                    (_Camera_2_Himage, _Camera_3_Himage) = Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum.深度图像);
+                                    (_Camera_2_Himage, _Camera_3_Himage) = Get_TwoCamera_ImageFrame(H3DStereo_Image_Type_Enum.视差图像);
 
 
                                     //User_Log_Add($"1采集时间：{(DateTime.Now - Now).TotalMilliseconds} 毫秒", Log_Show_Window_Enum.Home);
@@ -382,7 +382,7 @@ namespace MVS_SDK
         {
             switch (_ImageType)
             {
-                case H3DStereo_Image_Type_Enum.点云图像:
+                case H3DStereo_Image_Type_Enum.散斑图像:
 
                     ///Camera 0设置
                     Camera_0_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
@@ -406,7 +406,7 @@ namespace MVS_SDK
                     Camera_1_Pam.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
                     Select_3DCamera_1.Set_Camrea_Parameters_List(Camera_1_Pam);
                     break;
-                case H3DStereo_Image_Type_Enum.深度图像:
+                case H3DStereo_Image_Type_Enum.视差图像:
                     ///Camera 0设置
                     Camera_0_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
                     Camera_0_Pam.StrobeEnable = false;
@@ -418,6 +418,7 @@ namespace MVS_SDK
                     Camera_0_Pam.StrobeEnable = true;
                     Camera_0_Pam.TriggerMode = MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON;
                     Camera_0_Pam.TriggerSource = MV_CAM_TRIGGER_SOURCE.MV_TRIGGER_SOURCE_SOFTWARE;
+                    Camera_0_Pam.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
                     Select_3DCamera_0.Set_Camrea_Parameters_List(Camera_0_Pam);
 
 
@@ -427,6 +428,7 @@ namespace MVS_SDK
                     Camera_1_Pam.LineSelector = MV_CAM_LINESELECTOR_MODE.Lin1;
                     Camera_1_Pam.StrobeEnable = false;
                     Camera_1_Pam.TriggerActivation = MV_CAM_TRIGGER_ACTIVATION.LevelHigh;
+                    Camera_1_Pam.AcquisitionMode = MV_CAM_ACQUISITION_MODE.MV_ACQ_MODE_CONTINUOUS;
                     Select_3DCamera_1.Set_Camrea_Parameters_List(Camera_1_Pam);
 
                     break;

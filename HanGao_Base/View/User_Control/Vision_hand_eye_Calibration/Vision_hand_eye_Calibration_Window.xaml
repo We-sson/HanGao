@@ -4844,14 +4844,14 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Scattered_Image_UI" Grid.Column=" 0"
-                                                             Content="结构图"
-                                                             IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Pamera_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}}"
+                                                             Content="散斑图"
+                                                             IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Pamera_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.散斑图像}}"
                                                              FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                              FontSize="16"
                                                              GroupName="CameraDives_Pam_Switch" />
                                                 <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Flash_Image_UI" Grid.Column=" 1"
-                                                             Content="纯图像"
-                                                             IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Pamera_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
+                                                             Content="视差图"
+                                                             IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Pamera_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.视差图像}}"
                                                              FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                              FontSize="16"
                                                              GroupName="CameraDives_Pam_Switch" />
@@ -7589,13 +7589,13 @@
 
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DPoint_Type" Grid.Column=" 0"
                                                                  Content="散斑"
-                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.点云图像}}"
+                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.散斑图像}}"
                                                                  FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                  FontSize=" 16"
                                                                  GroupName="3D_Type_Switch" />
                                                     <RadioButton Style="{DynamicResource Function_ToggleButtonStyle}" x:Name="H3DStereo_Image_3DDepth_Type" Grid.Column=" 1"
-                                                                 Content="纯图像"
-                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.深度图像}}"
+                                                                 Content="视差"
+                                                                 IsChecked="{Binding Select_Vision_Value.H3DStereo_ParamData.H3DStereo_Image_Type, Mode=TwoWay, Converter={StaticResource Radio_CheckedToEnum}, ConverterParameter={x:Static Process_Enum:H3DStereo_Image_Type_Enum.视差图像}}"
                                                                  FontFamily="{DynamicResource 全局_文字_数字字体}"
                                                                  FontSize="16"
                                                                  GroupName="3D_Type_Switch" />

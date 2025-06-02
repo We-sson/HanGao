@@ -505,13 +505,18 @@ namespace MVS_SDK_Base.Model
             /// 最大采集帧速率
             /// </summary>
             [Display(Order = 24)]
-
             [StringValue("获得允许的最大采集帧速率的“绝对”值~失败!")]
             [Camera_ReadWrite(Camera_Parameter_RW_Type.Read)]
             public double ResultingFrameRate { set; get; } = 0;
 
 
-
+            /// <summary>
+            /// 最大采集帧速率
+            /// </summary>
+            [Display(Order = 25)]
+            [StringValue("获得网络通讯最大速率的值（Mbps单位）~失败!")]
+            [Camera_ReadWrite(Camera_Parameter_RW_Type.Write)]
+            public int GevSCPD { set; get; } = 9080;
 
 
         }

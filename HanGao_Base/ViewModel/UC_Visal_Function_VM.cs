@@ -856,8 +856,8 @@ namespace HanGao.ViewModel
                         {
                             CGigECameraInfo _info = _ECameraInfo_List.Where(_W => _W.chSerialNumber == MVS_Camera_Info_List[i].Camera_Info.SerialNumber).FirstOrDefault();
 
-                            if (_info == null)
-                            {
+                            if (_info == null && MVS_Camera_Info_List[i].Camer_Status!= MV_CAM_Device_Status_Enum.Connecting)
+                             {
                                 Application.Current.Dispatcher.Invoke(() => { MVS_Camera_Info_List.Remove(MVS_Camera_Info_List[i]); });
 
                                 //MVS_Camera_Info_List.Remove(MVS_Camera_Info_List[i]);

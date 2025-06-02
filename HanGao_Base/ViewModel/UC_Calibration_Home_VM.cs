@@ -804,10 +804,10 @@ namespace HanGao.ViewModel
 
                 if ((bool)(E.IsChecked == true))
                 {
-
-
-                    Task.Run(() =>
+                    Thread _CheckImage_Thread = new (() => 
                     {
+                    
+                  
 
                         try
                         {
@@ -836,8 +836,17 @@ namespace HanGao.ViewModel
 
                         }
 
+                  
+                    
+                    
                     });
 
+
+
+                    _CheckImage_Thread.IsBackground = true;
+                    _CheckImage_Thread.Name = Halcon_Camera_Calibra.Camera_Connect_Model + " : Check_Image_Thead";
+                    _CheckImage_Thread.Priority = ThreadPriority.Highest;
+                    _CheckImage_Thread.Start();
                 }
             });
         }
@@ -2133,7 +2142,7 @@ namespace HanGao.ViewModel
                                 case Camera_Connect_Control_Type_Enum.Camera_0:
 
 
-                                    Camera_0_Check_Result = Check_Calib.Find_Calibration_Workflows(_Image, Camera_Interna_Parameters);
+                                    Camera_0_Check_Result = Check_Calib.Find_Calibration_Workflows(new HObject( _Image), Camera_Interna_Parameters);
 
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {

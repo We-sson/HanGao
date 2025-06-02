@@ -96,10 +96,10 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Calibration_File\DA0651570_DA0651475.csm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Calibration_File\DA0651573_DA0651471.csm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Calibration_File\HandEyeToolinCam_Local_Camera.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

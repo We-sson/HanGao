@@ -280,7 +280,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                     break;
-                    case H3DStereo_Image_Type_Enum.点云图像:
+                    case H3DStereo_Image_Type_Enum.散斑图像:
 
                     _Camera_0_0.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机0的图像输入数据为空！").IfFalse();
                     _Camera_0_1.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机0的图像输入数据为空！").IfFalse();
@@ -317,7 +317,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
 
                         break;
-                    case H3DStereo_Image_Type_Enum.深度图像:
+                    case H3DStereo_Image_Type_Enum.视差图像:
 
 
                     _Camera_1_0.IsInitialized().Throw($"{_ParamData.H3DStereo_Image_Type}模式下，相机1的图像输入数据为空！").IfFalse();
@@ -918,7 +918,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// </summary>
         public H3DStereo_CameraDrives_Type_Enum H3DStereo_CameraDrives_Type { set; get; } = H3DStereo_CameraDrives_Type_Enum.Camera_0;
       
-        public H3DStereo_Image_Type_Enum H3DStereo_Pamera_Type { set; get; } = H3DStereo_Image_Type_Enum.点云图像;
+        public H3DStereo_Image_Type_Enum H3DStereo_Pamera_Type { set; get; } = H3DStereo_Image_Type_Enum.散斑图像;
 
 
         /// <summary>
@@ -1495,8 +1495,8 @@ namespace Halcon_SDK_DLL.Halcon_Method
     public enum H3DStereo_Image_Type_Enum
     {
 
-        点云图像,
-        深度图像,
+        散斑图像,
+        视差图像,
         融合图像
 
 

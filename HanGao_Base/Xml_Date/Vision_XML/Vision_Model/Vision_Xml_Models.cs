@@ -85,10 +85,10 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
 
                     switch (H3DStereo_ParamData.H3DStereo_Pamera_Type)
                     {
-                        case H3DStereo_Image_Type_Enum.点云图像:
+                        case H3DStereo_Image_Type_Enum.散斑图像:
 
                             return Camera_0_3DPoint_Process_List;
-                        case H3DStereo_Image_Type_Enum.深度图像:
+                        case H3DStereo_Image_Type_Enum.视差图像:
 
                             return Camera_0_3DFusionImage_Process_List;
                         default: return Find_Preprocessing_Process_List;
@@ -102,10 +102,10 @@ namespace HanGao.Xml_Date.Vision_XML.Vision_Model
                 case H3DStereo_CameraDrives_Type_Enum.Camera_1:
                     switch (H3DStereo_ParamData.H3DStereo_Pamera_Type)
                     {
-                        case H3DStereo_Image_Type_Enum.点云图像:
+                        case H3DStereo_Image_Type_Enum.散斑图像:
 
                             return Camera_1_3DPoint_Process_List;
-                        case H3DStereo_Image_Type_Enum.深度图像:
+                        case H3DStereo_Image_Type_Enum.视差图像:
 
                             return Camera_1_3DFusionImage_Process_List;
                         default: return Find_Preprocessing_Process_List;

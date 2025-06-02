@@ -3441,7 +3441,7 @@ namespace HanGao.ViewModel
             HTuple aa = Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image.GetGrayval(_row, _col);
 
 
-            HandEye_Check_LiveImage._Calib_XYZImage_Point = new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose.TupleReplace(new HTuple(new int[0, 1,2]), aa)));
+            HandEye_Check_LiveImage._Calib_XYZImage_Point = new Point_Model(new HPose(HandEye_Check_LiveImage.hv_Pose.TupleReplace(new HTuple(new object[0, 1,2]), aa)));
 
 
 
