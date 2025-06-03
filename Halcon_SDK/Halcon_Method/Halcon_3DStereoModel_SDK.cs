@@ -734,6 +734,21 @@ namespace Halcon_SDK_DLL.Halcon_Method
         {
 
         }
+        public H3DStereo_Persistence_Results_Model(H3DStereo_Persistence_Results_Model _Copy)
+        {
+            Camera_Image_0 = new HObject(_Copy.Camera_Image_0);
+            Camera_Image_1 = new HObject(_Copy.Camera_Image_1);
+            New_Image_0 = new HObject(_Copy.New_Image_0);
+            New_Image_1 = new HObject(_Copy.New_Image_1);
+            ToImage = new HObject(_Copy.ToImage);
+            FromImage = new HObject(_Copy.FromImage);
+            DisparityImage = new HObject(_Copy.DisparityImage);
+            ScoreImage = new HObject(_Copy.ScoreImage);
+
+
+
+
+        }
 
         public HObject Camera_Image_0 { set; get; } = new HObject();
         public HObject Camera_Image_1 { set; get; } = new HObject();
@@ -929,7 +944,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
         /// <summary>
         /// 生产图像类型
         /// </summary>
-        public H3DStereo_Image_Type_Enum H3DStereo_Image_Type { set; get; } = H3DStereo_Image_Type_Enum.融合图像;
+        public H3DStereo_Image_Type_Enum H3DStereo_Image_Type { set; get; } = H3DStereo_Image_Type_Enum.视差图像;
 
 
 

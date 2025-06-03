@@ -1,4 +1,5 @@
 ﻿using Generic_Extension;
+using Halcon_SDK_DLL.Halcon_Method;
 using HalconDotNet;
 
 using PropertyChanged;
@@ -1416,6 +1417,9 @@ namespace Halcon_SDK_DLL.Model
         public Point_Model HandEye_Robot_Pos { set; get; } = new Point_Model();
 
 
+        public H3DStereo_Persistence_Results_Model H3DStereo_3DPoint_Results { set; get; } = new H3DStereo_Persistence_Results_Model();
+        public H3DStereo_Persistence_Results_Model H3DStereo_3DFusion_Results { set; get; } = new H3DStereo_Persistence_Results_Model();
+
 
 
 
@@ -2290,6 +2294,8 @@ namespace Halcon_SDK_DLL.Model
 
         }
 
+
+  
 
         /// <summary>
         /// 标定精度
