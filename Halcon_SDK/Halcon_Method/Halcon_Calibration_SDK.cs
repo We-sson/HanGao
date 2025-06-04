@@ -211,7 +211,7 @@ namespace Halcon_SDK_DLL
 
             //HCalibData.Clone();
             HCalibData.ClearCalibData();
-            HCalibData.Dispose();
+            //HCalibData.Dispose();
             //HCalibData.Dispose();
         }
 
@@ -853,7 +853,7 @@ namespace Halcon_SDK_DLL
         /// <param name="_Image"></param>
         /// <param name="_Calibration_Param"></param>
         /// <param name="_CalibPos_No"></param>
-        public FindCalibObject_Results Find_Calibration_Workflows(HObject _Image, Halcon_Camera_Calibration_Model _Calibration_Param, int _CalibPos_No = 0)
+        public FindCalibObject_Results Find_Calibration_Workflows(HImage _Image, Halcon_Camera_Calibration_Model _Calibration_Param, int _CalibPos_No = 0)
         {
             Halcon_Method_Model _Halcon_method = new Halcon_Method_Model();
             FindCalibObject_Results _Results = new FindCalibObject_Results();
@@ -864,7 +864,7 @@ namespace Halcon_SDK_DLL
                 {
                     //HRegion _Region = new HRegion();
 
-                    _Results._CalibRegion = _Halcon_method.Get_Image_MaxThreshold((HImage)_Image);
+                    _Results._CalibRegion = _Halcon_method.Get_Image_MaxThreshold(_Image);
 
                     _Results._DrawColor = KnownColor.Red.ToString();
                     //Display_HObject(null, _Region, new HObject(), KnownColor.Red.ToString());
@@ -875,7 +875,7 @@ namespace Halcon_SDK_DLL
                 if (ShowMinGray)
                 {
 
-                    _Results._CalibRegion = _Halcon_method.Get_Image_MinThreshold((HImage)_Image);
+                    _Results._CalibRegion = _Halcon_method.Get_Image_MinThreshold(_Image);
 
                     _Results._DrawColor = KnownColor.Blue.ToString();
 
@@ -910,12 +910,12 @@ namespace Halcon_SDK_DLL
 
 
             }
-            catch (Exception)
+            catch (Exception _e)
             {
 
                 //throw new Exception("标定板检测失败！" + " 原因：" + _e.Message);
 
-
+                _Results._Calib_Error_Info += _e.Message;
 
                 ///UI显示标定状态
                 //User_Log_Add(e.Message, Log_Show_Window_Enum.Calibration);
@@ -961,7 +961,7 @@ namespace Halcon_SDK_DLL
                 catch (Exception _e)
                 {
 
-                    throw new Exception("标定板检查失败！" + " 原因：" + _e.Message);
+                    throw new Exception("标定板检查失败！" + _Results ._Calib_Error_Info+ " 原因：" + _e.Message);
 
                 }
             }
@@ -1045,9 +1045,9 @@ namespace Halcon_SDK_DLL
             }
 
 
-            catch (Exception)
+            catch (Exception _e)
             {
-
+                _Results._Calib_Error_Info = _e.Message;
                 //throw new Exception("识别标定板失败！" + " 原因：" + _e.Message);
 
             }

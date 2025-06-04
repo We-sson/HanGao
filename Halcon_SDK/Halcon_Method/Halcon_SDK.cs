@@ -1269,7 +1269,7 @@ namespace Halcon_SDK_DLL
                     //加载halcon图像属性
                     Results_Window_3 = new Halcon_SDK() { HWindow = Window_UserContol.HalconWindow, Halcon_UserContol = Window_UserContol };
                     Results_Window_3.HWindow.SetWindowParam("background_color", "#334C66");
-
+                   
                     break;
 
                 case string when (Window_UserContol.Name == nameof(Window_Show_Name_Enum.Results_Window_4)):

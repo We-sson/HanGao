@@ -1114,7 +1114,7 @@ namespace Halcon_SDK_DLL.Model
             hv_Pose = _Results.hv_Pose;
         }
 
-
+        public string _Calib_Error_Info { set; get; } = string.Empty;
 
 
         public Point_Model _Calib_XYZImage_Point { set; get; } =new Point_Model();
@@ -1414,6 +1414,10 @@ namespace Halcon_SDK_DLL.Model
         /// </summary>
         public Point_Model Calibration_Plate_Pos { set; get; } = new Point_Model();
 
+        public Point_Model Calibration_XYZPlate_Pos { set; get; } = new Point_Model();
+
+     
+
         public Point_Model HandEye_Robot_Pos { set; get; } = new Point_Model();
 
 
@@ -1423,11 +1427,16 @@ namespace Halcon_SDK_DLL.Model
 
 
 
+        public HImage HModel3D_XYZ_Image { set; get; } = new HImage();
+
+
+
         /// <summary>
         /// 多目匹配点云模型
         /// </summary>
         public List< HObjectModel3D >H3DStereo_Model { set; get; } = new List<HObjectModel3D>();
 
+        public List<HObjectModel3D> H3DStereo_Model_XYZ { set; get; } = new List<HObjectModel3D>();
 
 
         /// <summary>
@@ -1596,6 +1605,10 @@ namespace Halcon_SDK_DLL.Model
         {
             HPose = new HPose(_Pose);
         }
+        public Point_Model(HTuple _Pose)
+        {
+            HPose = new HPose(_Pose);
+        }
 
         private double _x;
 
@@ -1714,7 +1727,11 @@ namespace Halcon_SDK_DLL.Model
 
             _CameraParm.HCamPar.Project3dPoint(_x, _y, _z, out Row, out Column);
 
+            if (Row> _CameraParm.Image_Height || Column> _CameraParm.Image_Width)
+            {
+                throw new Exception($"标定板中心点映射的坐标 Row: {Row}, Column: {Column} ,超出图像最大坐标！请修改采集位置。" );
 
+            }
 
 
             return (Row, Column);
@@ -2300,7 +2317,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定精度
         /// </summary>
-        public double Calibration_Accuracy { set; get; } = 0;
+        public Point_Model? Calibration_Accuracy { set; get; } 
 
         /// <summary>
         /// 标定Camera0图像

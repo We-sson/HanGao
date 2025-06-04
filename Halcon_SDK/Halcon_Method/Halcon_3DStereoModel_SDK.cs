@@ -146,7 +146,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
             List<HObjectModel3D> HModel3D_Camera_All = [];
 
-
+            H3DStereo_Work_State = H3DStereo_Work_State_Enum.Start;
 
             ///存储原图
             //H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0 = new HObject(_Camera_0_0);
@@ -388,7 +388,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
             //H3DStereoModel.ClearStereoModel();
 
             //H3DStereoModel.Dispose();
-
+            H3DStereo_Work_State = H3DStereo_Work_State_Enum.End;
 
             return H3DStereo_Results;
         }

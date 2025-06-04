@@ -2142,7 +2142,7 @@ namespace HanGao.ViewModel
                                 case Camera_Connect_Control_Type_Enum.Camera_0:
 
 
-                                    Camera_0_Check_Result = Check_Calib.Find_Calibration_Workflows(new HObject( _Image), Camera_Interna_Parameters);
+                                    Camera_0_Check_Result = Check_Calib.Find_Calibration_Workflows(new HImage( _Image), Camera_Interna_Parameters);
 
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
