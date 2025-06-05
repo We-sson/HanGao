@@ -4,6 +4,7 @@ using MVS_SDK_Base.Model;
 using Ookii.Dialogs.Wpf;
 using Roboto_Socket_Library;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Controls.Primitives;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -2013,8 +2014,56 @@ namespace HanGao.ViewModel
                         }
 
 
+                        int _Error_Acc = 0;
+
+                        foreach (var _handEye in HandEye_Calibration_List)
+                        {
+                            //List<double> _AccList = new  List<double>( new HTuple(_handEye.Camera_0.Calibration_Accuracy.HPose).TupleSelectRange(0, 2).ToDArr());
+
+                            if (Math.Abs(_handEye.Camera_0.Calibration_Accuracy.X)>0.5 || Math.Abs(_handEye.Camera_0.Calibration_Accuracy.Y) > 0.5 || Math.Abs(_handEye.Camera_0.Calibration_Accuracy.Z) > 0.5)
+                            {
+                                _Error_Acc += 1;
+                                _handEye.Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+                                break;
+                            }
+                   
+
+
+                        }
+
+                        //int errorCount = 0;
+                        //const double threshold = 0.5;
+
+                        //// 遍历 HandEye_Calibration_List
+                        //foreach (var handEye in HandEye_Calibration_List)
+                        //{
+                        //    // 直接从 HTuple 中取出 0~2 索引范围内的数值数组
+                        //    double[] accArray = new HTuple(handEye.Camera_0.Calibration_Accuracy)
+                        //                            .TupleSelectRange(0, 2)
+                        //                            .ToDArr();
+
+                        //    // 用 Any 判断有没有 |value| > 0.5
+                        //    bool hasLargeError = accArray.Any(val => Math.Abs(val) > threshold);
+                        //    if (hasLargeError)
+                        //    {
+                        //        errorCount++;
+                        //        handEye.Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+                        //    }
+                        //}
+
+
+                        if (_Error_Acc > 0)
+                        {
+                            throw new Exception("标定深度误差大于0.5图像存在，请调整位置！");
+
+                        }
+
                         ///等待相机完全断开
                         //Thread.Sleep(100);
+
+
+
+
 
                         HandEye_Calibration_ImageList_Data();
                     }
@@ -4023,7 +4072,7 @@ namespace HanGao.ViewModel
 
 
 
-            if (HandEye_Calibration_List.Where((_w) => _w.Camera_0.Calibration_Image != null).ToList().Count > 10)
+            if (HandEye_Calibration_List.ToList().Count > 10)
             {
                 //正在标定状态
                 HandEye_Results.HandEye_Results_Pos.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibrationing;
@@ -4041,6 +4090,8 @@ namespace HanGao.ViewModel
                     ///拷贝设备相机标定的内参初始值
                     Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Camera_Device_List.Select_3DCamera_0.Camera_Calibration.Camera_Calibration_Paramteters.Get_HCamPar());
 
+
+                    HandEye_Camera_Parameters.Calibration_Setup_Model = Halcon_Calibration_Setup_Model_Enum.hand_eye_moving_cam;
                     _Selected_Results = HandEye_Results.HandEye_Results_Pos = HandEye_Results.HandEye_Camera_0_Results = Halcon_HandEye_Calibra.HandEye_Calibration_Results(HandEye_Calibration_List, HandEye_Camera_Parameters);
 
 

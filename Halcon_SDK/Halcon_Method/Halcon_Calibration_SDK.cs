@@ -571,6 +571,8 @@ namespace Halcon_SDK_DLL
 
                 HCalibData = new HCalibData(_CalibParam.Calibration_Setup_Model.ToString(),0, 0);
 
+
+                _CalibParam.Optimization_Method = HandEye_Optimization_Method_Enum.nonlinear;
                 HCalibData.SetCalibData("model", "general", "optimization_method", _CalibParam.Optimization_Method.ToString());
 
 
@@ -587,11 +589,11 @@ namespace Halcon_SDK_DLL
 
 
 
-                    HCalibData.SetCalibDataObservPose(0, 0, i, _ImageList[i].Calibration_Plate_Pos.HPose);
+                    HCalibData.SetCalibDataObservPose(0, 0, i, _ImageList[i].Calibration_XYZPlate_Pos.HPose);
                     HCalibData.SetCalibData("tool", i, "tool_in_base_pose", _ImageList[i].HandEye_Robot_Pos.HPose);
 
                     _ImageList[i].Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Detectioning;
-                    _ImageList[i].Camera_1.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Detectioning;
+                    //_ImageList[i].Camera_1.Calibration_State = Camera_Calibration_Image_State_Enum.Image_Detectioning;
 
 
 
