@@ -76,8 +76,10 @@ namespace Halcon_SDK_DLL
         public Robot_Type_Enum HandEye_Robot { set; get; } = Robot_Type_Enum.KUKA;
 
 
-
-
+        /// <summary>
+        /// 机器人位置
+        /// </summary>
+        public Point_Model Robot_Point { set; get; } = new Point_Model();
 
         /// <summary>
         /// 相机连接控制类似
@@ -210,7 +212,7 @@ namespace Halcon_SDK_DLL
 
 
             //HCalibData.Clone();
-            HCalibData.ClearCalibData();
+            HCalibData?.ClearCalibData();
             //HCalibData.Dispose();
             //HCalibData.Dispose();
         }
@@ -706,6 +708,11 @@ namespace Halcon_SDK_DLL
                 HTuple tool_rotation_deviation = new();
 
 
+                Point_Model Tool_In_Cam_Pose = new();
+                Point_Model Obj_In_Base_Pose = new();
+                
+
+
                 //标定手眼误差
                 _HandEyeVal = HCalibData.CalibrateHandEye();
                 _Results.HandEye_Calib_Error.Set_Data(_HandEyeVal);
@@ -716,40 +723,45 @@ namespace Halcon_SDK_DLL
 
 
                 //根据标定类型读取结果参数
-                switch (_CalibParam.Optimization_Method)
-                {
-                    case HandEye_Optimization_Method_Enum.linear:
+                //switch (_CalibParam.Optimization_Method)
+                //{
+                //    case HandEye_Optimization_Method_Enum.linear:
 
 
-                        break;
-                    case HandEye_Optimization_Method_Enum.nonlinear:
+                //        break;
+                //    case HandEye_Optimization_Method_Enum.nonlinear:
+
+               
 
 
+                //        break;
+                //    case HandEye_Optimization_Method_Enum.stochastic:
 
-                        break;
-                    case HandEye_Optimization_Method_Enum.stochastic:
+                //        //获得误差数据
+                //        //tool_translation_deviation = HCalibData.GetCalibData("tool", "general", "tool_translation_deviation");
+                //        //tool_rotation_deviation = HCalibData.GetCalibData("tool", "general", "tool_rotation_deviation");
 
-                        //获得误差数据
-                        tool_translation_deviation = HCalibData.GetCalibData("tool", "general", "tool_translation_deviation");
-                        tool_rotation_deviation = HCalibData.GetCalibData("tool", "general", "tool_rotation_deviation");
+                //        //_Results.HandEye_Tool_Translation_Deviation = tool_translation_deviation * 1000;
+                //        //_Results.HandEye_Tool_Rotational_Deviation = tool_rotation_deviation;
 
-                        _Results.HandEye_Tool_Translation_Deviation = tool_translation_deviation * 1000;
-                        _Results.HandEye_Tool_Rotational_Deviation = tool_rotation_deviation;
+                //        ////获得误差数据
+                //        //camera_calib_error_corrected_tool = HCalibData.GetCalibData("model", "general", "camera_calib_error_corrected_tool");
+                //        //hand_eye_calib_error_corrected_tool = HCalibData.GetCalibData("model", "general", "hand_eye_calib_error_corrected_tool");
 
-                        //获得误差数据
-                        camera_calib_error_corrected_tool = HCalibData.GetCalibData("model", "general", "camera_calib_error_corrected_tool");
-                        hand_eye_calib_error_corrected_tool = HCalibData.GetCalibData("model", "general", "hand_eye_calib_error_corrected_tool");
+                //        //_Results.Camera_Calib_Error_Corrected_Tool = camera_calib_error_corrected_tool;
+                //        //_Results.HandEye_Calib_Error_Corrected_Tool.Set_Data(hand_eye_calib_error_corrected_tool);
+                //        break;
 
-                        _Results.Camera_Calib_Error_Corrected_Tool = camera_calib_error_corrected_tool;
-                        _Results.HandEye_Calib_Error_Corrected_Tool.Set_Data(hand_eye_calib_error_corrected_tool);
-                        break;
+                //}
 
-                }
+                //Tool_In_Cam_Pose = new Point_Model(new HTuple(HCalibData.GetCalibData("camera", 0, "tool_in_cam_pose")));
+                //Obj_In_Base_Pose = new Point_Model(new HTuple(HCalibData.GetCalibData("calib_obj", 0, "obj_in_base_pose")));
+
 
 
                 //获得相机标定误差
-                _CamCalibError = HCalibData.GetCalibData("model", "general", "camera_calib_error");
-                _Results.Camera_Calib_Error = _CamCalibError;
+                //_CamCalibError = HCalibData.GetCalibData("model", "general", "camera_calib_error");
+                //_Results.Camera_Calib_Error = _CamCalibError;
 
 
                 //获得相机在工具的位置
@@ -808,17 +820,17 @@ namespace Halcon_SDK_DLL
                     //        break;
                     //}
 
-                    //生成结果手眼模型
-                    List<HObjectModel3D> _Tool_Moving_Cam_model = _HandEye_3DModel.gen_camera_and_tool_moving_cam_object_model_3d(HCalibData, i, 0.05, 0.3);
+                    ////生成结果手眼模型
+                    //List<HObjectModel3D> _Tool_Moving_Cam_model = _HandEye_3DModel.gen_camera_and_tool_moving_cam_object_model_3d(HCalibData, i, 0.05, 0.3);
 
 
-                    _Selected_camera.Calibration_3D_Model = _Tool_Moving_Cam_model;
+                    //_Selected_camera.Calibration_3D_Model = _Tool_Moving_Cam_model;
 
                     //获得标定后标定板的实际位置
-                    HTuple _calibObj_Pos = HCalibData.GetCalibData("calib_obj_pose", (new HTuple(0)).TupleConcat(i), new HTuple("pose"));
+                    //HTuple _calibObj_Pos = HCalibData.GetCalibData("calib_obj_pose", (new HTuple(0)).TupleConcat(i), new HTuple("pose"));
 
                     //设置到标定列表中
-                    _ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_calibObj_Pos));
+                    //_ImageList[i].Calibration_Plate_Pos.HPose = (new HPose(_calibObj_Pos));
                 }
 
 
@@ -859,6 +871,8 @@ namespace Halcon_SDK_DLL
         {
             Halcon_Method_Model _Halcon_method = new Halcon_Method_Model();
             FindCalibObject_Results _Results = new FindCalibObject_Results();
+            Reconstruction_3d _Creation_3DModel = new Reconstruction_3d();
+
             try
             {
 
@@ -897,6 +911,11 @@ namespace Halcon_SDK_DLL
                     //查找标定板
                     if (_Results._CalibRegion != null && _Results._CalibXLD != null)
                     {
+
+                        //生成结果手眼模型
+
+                 
+                       
 
                         //HRegion _Coord = new HRegion(_CalibCoord);
                         //显示标定板特征
@@ -950,6 +969,7 @@ namespace Halcon_SDK_DLL
                 try
                 {
 
+            Clear_HandEye_Calibration();
 
             Creation_Calibration(_Calibration_Param);
 
@@ -957,7 +977,6 @@ namespace Halcon_SDK_DLL
             _Results = Find_Calibration_Workflows(_Image, _Calibration_Param);
 
 
-            Clear_HandEye_Calibration();
 
                 }
                 catch (Exception _e)

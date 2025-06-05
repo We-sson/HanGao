@@ -3057,7 +3057,7 @@ public class Reconstruction_3d
         try
         {
 
-            List<HObjectModel3D> _RobotTcp3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Tool);
+            List<HObjectModel3D> _RobotTcp3D = gen_robot_tool_and_base_object_model_3d(0.008, 0.2, Get_Robot_tool_base_Type_Enum.Robot_Tool);
 
 
             /// 偏移模式到TCP坐标坐标
@@ -3068,7 +3068,7 @@ public class Reconstruction_3d
 
 
             ////生产机器人坐标模型
-            _RobotBase3D = gen_robot_tool_and_base_object_model_3d(0.005, 0.1, Reconstruction_3d.Get_Robot_tool_base_Type_Enum.Robot_Base);
+            _RobotBase3D = gen_robot_tool_and_base_object_model_3d(0.008, 0.2, Get_Robot_tool_base_Type_Enum.Robot_Base);
 
 
             _RobotBase3D.AddRange(_RobotTcp3D);
@@ -4922,6 +4922,7 @@ public class Reconstruction_3d
             hv_OM3DObjectOrig.GenObjectModel3dFromPoints(hv_PX, hv_PY, hv_PZ);
 
             //获得标定板位置
+            //_CalObjInBasePose = HCalibData_Model.GetCalibData("calib_obj", 0, "obj_in_base_pose");
             _CalObjInBasePose = HCalibData_Model.GetCalibData("calib_obj", 0, "obj_in_base_pose");
 
             //得到移动到标定位置

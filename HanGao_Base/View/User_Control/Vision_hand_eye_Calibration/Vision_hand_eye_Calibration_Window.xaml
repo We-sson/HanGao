@@ -3562,7 +3562,7 @@
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
                                         <TextBlock Grid.Row=" 2" Grid.Column=" 1"
-                                                   Text="1234.1234"
+                                                   Text="{Binding Halcon_HandEye_Calibra.Robot_Point.X, StringFormat={}{0:F4}}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
@@ -3576,7 +3576,7 @@
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
                                         <TextBlock Grid.Row=" 4" Grid.Column=" 1"
-                                                   Text="1234.1234"
+                                                   Text="{Binding Halcon_HandEye_Calibra.Robot_Point.Y, StringFormat={}{0:F4}}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
@@ -3591,7 +3591,7 @@
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
                                         <TextBlock Grid.Row=" 6" Grid.Column=" 1"
-                                                   Text="1234.1234"
+                                                   Text="{Binding Halcon_HandEye_Calibra.Robot_Point.Z, StringFormat={}{0:F4}}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
@@ -3605,7 +3605,7 @@
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
                                         <TextBlock Grid.Row=" 8" Grid.Column=" 1"
-                                                   Text="368.368"
+                                                   Text="{Binding Halcon_HandEye_Calibra.Robot_Point.Rx, StringFormat={}{0:F4}}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
@@ -3619,7 +3619,7 @@
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
                                         <TextBlock Grid.Row=" 10" Grid.Column=" 1"
-                                                   Text="368.368"
+                                                   Text="{Binding Halcon_HandEye_Calibra.Robot_Point.Ry, StringFormat={}{0:F4}}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
@@ -3633,7 +3633,7 @@
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
                                         <TextBlock Grid.Row=" 12" Grid.Column="1"
-                                                   Text="368.368"
+                                                   Text="{Binding Halcon_HandEye_Calibra.Robot_Point.Rz, StringFormat={}{0:F4}}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontSize="16" />
@@ -18649,7 +18649,7 @@ PassEventArgsToCommand="True" />
                                             Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_Translation_Deviation}" />
 
                                     <TextBox Grid.Column=" 2"
-                                             Text="{Binding ElementName=HandEye_Tool_Translation_UI, Path=Value, StringFormat={}{0:F4}}"
+                                             Text="{Binding ElementName=HandEye_Tool_Translation_UI, Path=Value, StringFormat={}{0:F5}}"
                                              Width="100"
                                              HorizontalContentAlignment="Center"
                                              VerticalContentAlignment="Center"
@@ -18697,7 +18697,7 @@ PassEventArgsToCommand="True" />
                                             Value="{Binding HandEye_Results.HandEye_Results_Pos.HandEye_Tool_Rotational_Deviation}" />
 
                                     <TextBox Grid.Column=" 2"
-                                             Text="{Binding ElementName=HandEye_Tool_Rotational_UI, Path=Value, StringFormat={}{0:F4}}"
+                                             Text="{Binding ElementName=HandEye_Tool_Rotational_UI, Path=Value, StringFormat={}{0:F5}}"
                                              Width="100"
                                              HorizontalContentAlignment="Center"
                                              VerticalContentAlignment="Center"

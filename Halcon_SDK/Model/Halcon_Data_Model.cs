@@ -1117,7 +1117,7 @@ namespace Halcon_SDK_DLL.Model
         public string _Calib_Error_Info { set; get; } = string.Empty;
 
 
-        public Point_Model _Calib_XYZImage_Point { set; get; } =new Point_Model();
+        public Point_Model _Calib_XYZImage_Point { set; get; } = new Point_Model();
 
 
         public HObject _Image { set; get; } = new HObject();
@@ -1125,6 +1125,9 @@ namespace Halcon_SDK_DLL.Model
 
         public HObject _CalibXLD { set; get; } = new HObject();
         public HObject _CalibRegion { set; get; } = new HObject();
+
+
+        public List<HObjectModel3D> _CalibModel3D { set; get; } = new List<HObjectModel3D>();
 
         //public HRegion ShowGray { set; get; } = new HRegion();
 
@@ -1437,6 +1440,8 @@ namespace Halcon_SDK_DLL.Model
         public List< HObjectModel3D >H3DStereo_Model { set; get; } = new List<HObjectModel3D>();
 
         public List<HObjectModel3D> H3DStereo_Model_XYZ { set; get; } = new List<HObjectModel3D>();
+
+        public List<HObjectModel3D> CalibPlan_Model { set; get; } = new List<HObjectModel3D>();
 
 
         /// <summary>
@@ -2159,11 +2164,11 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 相机标定结果属性
         /// </summary>
-        public Calibration_Camera_Data_Results_Model HandEye_Camera_0_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
+        //public Calibration_Camera_Data_Results_Model HandEye_Camera_0_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
         /// <summary>
         ///相机标定结果属性
         /// </summary>
-        public Calibration_Camera_Data_Results_Model HandEye_Camera_1_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
+        //public Calibration_Camera_Data_Results_Model HandEye_Camera_1_Results { set; get; } = new Calibration_Camera_Data_Results_Model();
 
         /// <summary>
         /// 手眼标定坐标结果
