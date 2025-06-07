@@ -3999,11 +3999,25 @@ namespace HanGao.ViewModel
         {
 
             Calibration_Camera_Data_Results_Model _Selected_Results = new();
+            int _Error_Acc = 0;
+
+
+            ///清空误差值
+            foreach (var _state in HandEye_Calibration_List)
+            {
+                _state.Camera_0.Calibration_Accuracy = null;
+                _state.Camera_0.Calibration_Accuracy_X_State = Calibration_Accuracy_State_Eunm.Default;
+                _state.Camera_0.Calibration_Accuracy_Y_State = Calibration_Accuracy_State_Eunm.Default;
+                _state.Camera_0.Calibration_Accuracy_Z_State = Calibration_Accuracy_State_Eunm.Default;
+            }
+            
 
 
 
+            if (HandEye_Calibration_List.ToList().Count > 15)
+            {
 
-            foreach (var _List in HandEye_Calibration_List)
+                foreach (var _List in HandEye_Calibration_List)
             {
 
 
@@ -4065,6 +4079,52 @@ namespace HanGao.ViewModel
 
                 //坐标误差
                 _List.Camera_0.Calibration_Accuracy = new Point_Model(_List.Calibration_Plate_Pos.HPose.PoseInvert().PoseCompose(_List.Calibration_XYZPlate_Pos.HPose));
+
+
+
+                    if (Math.Abs(_List.Camera_0.Calibration_Accuracy.X) > 0.5)
+                    {
+                        _Error_Acc += 1;
+                        _List.Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+                        _List.Camera_0.Calibration_Accuracy_X_State = Calibration_Accuracy_State_Eunm.Error;
+                        break;
+                    }
+                    else
+                    {
+                        _List.Camera_0.Calibration_Accuracy_X_State = Calibration_Accuracy_State_Eunm.OK;
+
+                    }
+                    if (Math.Abs(_List.Camera_0.Calibration_Accuracy.Y) > 0.5)
+                    {
+                        _Error_Acc += 1;
+                        _List.Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+                        _List.Camera_0.Calibration_Accuracy_Y_State = Calibration_Accuracy_State_Eunm.Error;
+                        break;
+                    }
+                    else
+                    {
+                        _List.Camera_0.Calibration_Accuracy_Y_State = Calibration_Accuracy_State_Eunm.OK;
+
+                    }
+                    if (Math.Abs(_List.Camera_0.Calibration_Accuracy.Z) > 0.5)
+                    {
+                        _Error_Acc += 1;
+                        _List.Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
+                        _List.Camera_0.Calibration_Accuracy_Z_State = Calibration_Accuracy_State_Eunm.Error;
+                        break;
+                    }
+                    else
+                    {
+
+
+                    _List.Camera_0.Calibration_Accuracy_Z_State = Calibration_Accuracy_State_Eunm.OK;
+                    }
+
+
+                
+
+
+
                 //_List.Camera_0.Calibration_Accuracy =( new HTuple(_List.Calibration_Plate_Pos.HPose).TupleSelectRange(0,2) - new HTuple(_List.Calibration_XYZPlate_Pos.HPose).TupleSelectRange(0,2)).ToString();
 
                 //显示结果
@@ -4137,28 +4197,6 @@ namespace HanGao.ViewModel
 
 
             //检查预备误差
-            int _Error_Acc = 0;
-
-            foreach (var _handEye in HandEye_Calibration_List)
-            {
-                //List<double> _AccList = new  List<double>( new HTuple(_handEye.Camera_0.Calibration_Accuracy.HPose).TupleSelectRange(0, 2).ToDArr());
-
-                if (Math.Abs(_handEye.Camera_0.Calibration_Accuracy.X) > 0.5 || Math.Abs(_handEye.Camera_0.Calibration_Accuracy.Y) > 0.5 || Math.Abs(_handEye.Camera_0.Calibration_Accuracy.Z) > 0.5)
-                {
-                    _Error_Acc += 1;
-                    _handEye.Camera_0.Calibration_State = Camera_Calibration_Image_State_Enum.Image_UnSuccessful;
-                    break;
-                }
-
-
-
-            }
-
-            //int errorCount = 0;
-            //const double threshold = 0.5;
-
-    
-
             if (_Error_Acc > 0)
             {
                 throw new Exception("标定深度误差大于0.5图像存在，请调整位置！");
@@ -4173,8 +4211,7 @@ namespace HanGao.ViewModel
 
 
 
-            if (HandEye_Calibration_List.ToList().Count > 15)
-            {
+          
                 //正在标定状态
                 HandEye_Results.HandEye_Results_Pos.Camera_Calinration_Process_Type = Camera_Calinration_Process_Enum.Calibrationing;
                 ///进行标定得到结果

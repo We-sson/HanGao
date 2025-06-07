@@ -2317,7 +2317,9 @@ namespace Halcon_SDK_DLL.Model
         }
 
 
-        public Calibration_Accuracy_State_Eunm Calibration_Accuracy_State { set; get; } = Calibration_Accuracy_State_Eunm.Default;
+        public Calibration_Accuracy_State_Eunm Calibration_Accuracy_X_State { set; get; } = Calibration_Accuracy_State_Eunm.Default;
+        public Calibration_Accuracy_State_Eunm Calibration_Accuracy_Y_State { set; get; } = Calibration_Accuracy_State_Eunm.Default;
+        public Calibration_Accuracy_State_Eunm Calibration_Accuracy_Z_State { set; get; } = Calibration_Accuracy_State_Eunm.Default;
 
         /// <summary>
         /// 标定精度

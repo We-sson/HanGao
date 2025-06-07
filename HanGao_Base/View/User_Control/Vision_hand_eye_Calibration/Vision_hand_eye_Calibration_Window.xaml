@@ -15940,17 +15940,17 @@ PassEventArgsToCommand="True" />
                                             <Border.Style>
                                                 <Style TargetType="Border">
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Camera_1.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_UnSuccessful}">
+                                                        <DataTrigger Binding="{Binding Camera_0.Calibration_State, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_UnSuccessful}">
                                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_青红颜色}" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Camera_1.Calibration_State}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_Successful}">
+                                                        <DataTrigger Binding="{Binding Camera_0.Calibration_State, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static Halcon_Enum:Camera_Calibration_Image_State_Enum.Image_Successful}">
                                                             <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </Border.Style>
                                             <Label Grid.Row=" 0"
-                                                   Content="{Binding Camera_1.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
+                                                   Content="{Binding Camera_0.Calibration_State, Converter={StaticResource Enum_DescriptionConverter}}"
                                                    Padding="2"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
@@ -16089,6 +16089,7 @@ PassEventArgsToCommand="True" />
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
+
                                                     <TextBox Text="{Binding Calibration_Plate_Pos.X, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
                                                              HorizontalAlignment="Stretch"
                                                              VerticalAlignment="Stretch"
@@ -16098,6 +16099,7 @@ PassEventArgsToCommand="True" />
                                                              BorderThickness="0"
                                                              FontSize="14"
                                                              IsReadOnly="True" />
+
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
 
@@ -16125,6 +16127,7 @@ PassEventArgsToCommand="True" />
                                                              BorderThickness="0"
                                                              FontSize="14"
                                                              IsReadOnly="True" />
+
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
 
@@ -16144,6 +16147,7 @@ PassEventArgsToCommand="True" />
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
 
+
                                                     <TextBox Text="{Binding Calibration_Plate_Pos.Z, StringFormat={}{0:F4}}"
                                                              HorizontalAlignment="Stretch"
                                                              VerticalAlignment="Stretch"
@@ -16153,6 +16157,7 @@ PassEventArgsToCommand="True" />
                                                              BorderThickness="0"
                                                              FontSize="14"
                                                              IsReadOnly="True" />
+
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
 
@@ -16606,15 +16611,30 @@ PassEventArgsToCommand="True" />
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBox Text="{Binding Camera_0.Calibration_Accuracy.X, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
-                                                             HorizontalAlignment="Stretch"
-                                                             VerticalAlignment="Stretch"
-                                                             HorizontalContentAlignment="Center"
-                                                             VerticalContentAlignment="Center"
-                                                             Background="Transparent"
-                                                             BorderThickness="0"
-                                                             FontSize="14"
-                                                             IsReadOnly="True" />
+                                                    <Border>
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Camera_0.Calibration_Accuracy_X_State}" Value="{x:Static Halcon_Enum:Calibration_Accuracy_State_Eunm.Error}">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_青红颜色}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Camera_0.Calibration_Accuracy_X_State}" Value="{x:Static Halcon_Enum:Calibration_Accuracy_State_Eunm.OK}">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+
+                                                        <TextBox Text="{Binding Camera_0.Calibration_Accuracy.X, StringFormat={}{0:F4}, UpdateSourceTrigger=LostFocus}"
+                                                                 HorizontalAlignment="Stretch"
+                                                                 VerticalAlignment="Stretch"
+                                                                 HorizontalContentAlignment="Center"
+                                                                 VerticalContentAlignment="Center"
+                                                                 Background="Transparent"
+                                                                 BorderThickness="0"
+                                                                 FontSize="14"
+                                                                 IsReadOnly="True" />
+                                                    </Border>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
 
@@ -16632,16 +16652,29 @@ PassEventArgsToCommand="True" />
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-
-                                                    <TextBox Text="{Binding Camera_0.Calibration_Accuracy.Y, StringFormat={}{0:F4}, UpdateSourceTrigger=PropertyChanged}"
-                                                             HorizontalAlignment="Stretch"
-                                                             VerticalAlignment="Stretch"
-                                                             HorizontalContentAlignment="Center"
-                                                             VerticalContentAlignment="Center"
-                                                             Background="Transparent"
-                                                             BorderThickness="0"
-                                                             FontSize="14"
-                                                             IsReadOnly="True" />
+                                                    <Border>
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Camera_0.Calibration_Accuracy_Y_State}" Value="{x:Static Halcon_Enum:Calibration_Accuracy_State_Eunm.Error}">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_青红颜色}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Camera_0.Calibration_Accuracy_Y_State}" Value="{x:Static Halcon_Enum:Calibration_Accuracy_State_Eunm.OK}">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBox Text="{Binding Camera_0.Calibration_Accuracy.Y, StringFormat={}{0:F4}, UpdateSourceTrigger=PropertyChanged}"
+                                                                 HorizontalAlignment="Stretch"
+                                                                 VerticalAlignment="Stretch"
+                                                                 HorizontalContentAlignment="Center"
+                                                                 VerticalContentAlignment="Center"
+                                                                 Background="Transparent"
+                                                                 BorderThickness="0"
+                                                                 FontSize="14"
+                                                                 IsReadOnly="True" />
+                                                    </Border>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
 
@@ -16660,16 +16693,30 @@ PassEventArgsToCommand="True" />
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
+                                                    <Border>
 
-                                                    <TextBox Text="{Binding Camera_0.Calibration_Accuracy.Z, StringFormat={}{0:F4}}"
-                                                             HorizontalAlignment="Stretch"
-                                                             VerticalAlignment="Stretch"
-                                                             HorizontalContentAlignment="Center"
-                                                             VerticalContentAlignment="Center"
-                                                             Background="Transparent"
-                                                             BorderThickness="0"
-                                                             FontSize="14"
-                                                             IsReadOnly="True" />
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Camera_0.Calibration_Accuracy_Z_State}" Value="{x:Static Halcon_Enum:Calibration_Accuracy_State_Eunm.Error}">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_青红颜色}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Camera_0.Calibration_Accuracy_Z_State}" Value="{x:Static Halcon_Enum:Calibration_Accuracy_State_Eunm.OK}">
+                                                                        <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBox Text="{Binding Camera_0.Calibration_Accuracy.Z, StringFormat={}{0:F4}}"
+                                                                 HorizontalAlignment="Stretch"
+                                                                 VerticalAlignment="Stretch"
+                                                                 HorizontalContentAlignment="Center"
+                                                                 VerticalContentAlignment="Center"
+                                                                 Background="Transparent"
+                                                                 BorderThickness="0"
+                                                                 FontSize="14"
+                                                                 IsReadOnly="True" />
+                                                    </Border>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
 
