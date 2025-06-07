@@ -15101,8 +15101,8 @@ PassEventArgsToCommand="True" />
                                     <Halcon:HIconicDisplayObjectWPF IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayXYZImage}" />
                                     <Halcon:HIconicDisplayObjectWPF HColor="{Binding Halcon_Window_Display.HandEye_Results_Window_1.SetDisplay.SetColor, UpdateSourceTrigger=PropertyChanged}"
                                                                     HDraw="{Binding Halcon_Window_Display.HandEye_Results_Window_1.SetDisplay.SetDraw, UpdateSourceTrigger=PropertyChanged}"
-                                                                    IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayRegion}" />
-                                    <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayXLD}" />
+                                                                    IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayRegion, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Halcon:HIconicDisplayObjectWPF HColored="3" IconicObject="{Binding Halcon_Window_Display.HandEye_Results_Window_1.DisplayXLD, UpdateSourceTrigger=PropertyChanged}" />
 
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Loaded">
@@ -15686,7 +15686,31 @@ PassEventArgsToCommand="True" />
 
 
 
-                            <DataGridTemplateColumn Width="120">
+
+
+                            <DataGridTemplateColumn Width="*">
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="Camera_1 图像名"
+                                               Margin="4"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding Camera_1.Carme_Name}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="14" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+
+                            <DataGridTemplateColumn Width="200">
                                 <DataGridTemplateColumn.Header>
 
 
@@ -15730,31 +15754,7 @@ PassEventArgsToCommand="True" />
 
                             </DataGridTemplateColumn>
 
-
-                            <DataGridTemplateColumn Width="*">
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="Camera_1 图像名"
-                                               Margin="4"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                               FontSize="16"
-                                               Foreground="{DynamicResource 全局_按钮_黑颜色}" />
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Label Content="{Binding Camera_1.Carme_Name}"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontSize="14" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-
-                            </DataGridTemplateColumn>
-
-
-
-                            <DataGridTemplateColumn Width="120">
+                            <!--<DataGridTemplateColumn Width="120">
                                 <DataGridTemplateColumn.Header>
 
 
@@ -15793,7 +15793,7 @@ PassEventArgsToCommand="True" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
 
-                            </DataGridTemplateColumn>
+                            </DataGridTemplateColumn>-->
 
 
 
@@ -15802,6 +15802,10 @@ PassEventArgsToCommand="True" />
 
 
                         </DataGrid.Columns>
+
+
+
+
                     </DataGrid>
                 </Grid>
                 <Grid Grid.Column="1"

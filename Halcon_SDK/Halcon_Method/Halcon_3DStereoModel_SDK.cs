@@ -1869,7 +1869,7 @@ namespace Halcon_SDK_DLL.Halcon_Method
 
     }
 
-
+ 
 
 
 }

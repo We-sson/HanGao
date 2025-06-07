@@ -559,6 +559,7 @@ namespace Halcon_SDK_DLL
                 //    throw new Exception("手眼标定图像和坐标数据缺失！");
 
                 //}
+                Clear_HandEye_Calibration();
 
 
 
@@ -569,7 +570,7 @@ namespace Halcon_SDK_DLL
 
 
                 //创建手眼表达
-                 HCalibData HCalibData= new HCalibData();
+                HCalibData HCalibData = new HCalibData();
 
                 HCalibData = new HCalibData(_CalibParam.Calibration_Setup_Model.ToString(),0, 0);
 
@@ -841,7 +842,6 @@ namespace Halcon_SDK_DLL
 
 
 
-                Clear_HandEye_Calibration();
 
                 return _Results;
 
@@ -1564,5 +1564,20 @@ namespace Halcon_SDK_DLL
         stochastic
     }
 
+
+   public enum HandEye_Calib_Check_Type_Enum
+    {
+        /// <summary>
+        /// 机器人检查
+        /// </summary>
+        Robot,
+        /// <summary>
+        /// 手动检查
+        /// </summary>
+        beta
+
+
+
+    }
 
 }

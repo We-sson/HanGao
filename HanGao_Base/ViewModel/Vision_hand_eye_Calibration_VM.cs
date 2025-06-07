@@ -1668,24 +1668,9 @@ namespace HanGao.ViewModel
 
 
                         //HandEye_CheckFind_Fun();
-                        HandEye_CameraImage_Find();
+                        HandEye_CameraImage_Find(HandEye_Calib_Check_Type_Enum.Robot);
 
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-
-                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_1);
-                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_2);
-                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_3);
-                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_4);
-
-
-                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), Image_AutoPart: true);
-                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1), Image_AutoPart: true);
-
-                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), Image_AutoPart: true);
-                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
-
-                        });
+           
                         ///识别生产添加到标定列表
 
                         if (HandEye_Check_LiveImage._CalibRegion.IsInitialized() && HandEye_Check_LiveImage._CalibXLD.IsInitialized())
@@ -1699,20 +1684,11 @@ namespace HanGao.ViewModel
                                                                      HandEye_Check_LiveImage._CalibXLD,
                                                                     HandEye_Check_LiveImage._CalibRegion,
                                                                     Halcon_HandEye_Calibra.Robot_Point,
-                                                                    new Point_Model(HandEye_Check_LiveImage.hv_Pose)
-                                                                    
+                                                                    new Point_Model(HandEye_Check_LiveImage.hv_Pose),
+                                                                    HandEye_Calib_Check_Type_Enum.Robot
                                                                     );
 
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-
-                                Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_3);
-                                Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0),  _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD),_Region: new HObject(HandEye_Check_LiveImage._CalibRegion), _DrawColor: KnownColor.Green.ToString(), Image_AutoPart: true);
-
-                      
-
-                                 
-                            });
+                  
 
                             ///生成对应机器人的模型
                             _Calib_Rotob_Model = _HandEye_3DModel.GenRobot_Tcp_Base_Model(Halcon_HandEye_Calibra.Robot_Point.HPose);
@@ -1760,7 +1736,25 @@ namespace HanGao.ViewModel
 
 
                         //进行标定业务
-                        Calibration_Camera_Data_Results_Model _Results_Pos = HandEye_Calibration_ImageList_Data();
+                        Calibration_Camera_Data_Results_Model _Results_Pos = HandEye_Calibration_ImageList_Data(HandEye_Calib_Check_Type_Enum.Robot);
+
+
+
+
+                        //Application.Current.Dispatcher.Invoke(() =>
+                        //{
+
+                        //    Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Results_Window_1);
+                        //    Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Results_Window_2);
+
+
+                        //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Results_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
+                        //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Results_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
+
+                        //    //Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
+                        //    //Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
+
+                        //});
 
 
                         //需要把机器人和手动标定合并
@@ -1931,7 +1925,7 @@ namespace HanGao.ViewModel
                 
 
 
-                        HandEye_Calibration_ImageList_Data();
+                        HandEye_Calibration_ImageList_Data( HandEye_Calib_Check_Type_Enum.beta);
                     }
                     catch (Exception _e)
                     {
@@ -3376,7 +3370,7 @@ namespace HanGao.ViewModel
 
 
 
-        public void HandEye_CameraImage_Find()
+        public void HandEye_CameraImage_Find(HandEye_Calib_Check_Type_Enum HandEye_Calib_Check_Type)
         {
             try
             {
@@ -3434,9 +3428,56 @@ namespace HanGao.ViewModel
                 ///识别结果
                 HandEye_Camera_Parameters.Calibration_Setup_Model = Halcon_Calibration_Setup_Model_Enum.calibration_object;
                 HandEye_Check_LiveImage = Halcon_HandEye_Calibra.Check_CalibObject_Features(new HImage( Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), HandEye_Camera_Parameters);
-          
-            
-            
+
+
+
+                switch (HandEye_Calib_Check_Type)
+                {
+                    case HandEye_Calib_Check_Type_Enum.Robot:
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Results_Window_1);
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Results_Window_2);
+    
+
+
+                            //Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), Image_AutoPart: true);
+                            //Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1), Image_AutoPart: true);
+
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Results_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), Image_AutoPart: true);
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Results_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
+
+                        });
+
+                        break;
+                    case HandEye_Calib_Check_Type_Enum.beta:
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_1);
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_2);
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_3);
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_4);
+
+
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_0), Image_AutoPart: true);
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DPoint_Results.New_Image_1), Image_AutoPart: true);
+
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), Image_AutoPart: true);
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
+
+                        });
+                        break;
+               
+                }
+
+
+
+
+
+
             }
             catch (Exception)
             {
@@ -3651,7 +3692,7 @@ namespace HanGao.ViewModel
         /// <param name="_CalibXLD"></param>
         /// <param name="_CalibRegion"></param>
         /// <param name="_Name"></param>
-        public void Cailbration_Load_Image(H3DStereo_Persistence_Results_Model _3DPoint_Results, H3DStereo_Persistence_Results_Model _3DFusion_Results, HObject _CalibXLD, HObject _CalibRegion, Point_Model _Robot_pos, Point_Model _CalibFind_pos)
+        public void Cailbration_Load_Image(H3DStereo_Persistence_Results_Model _3DPoint_Results, H3DStereo_Persistence_Results_Model _3DFusion_Results, HObject _CalibXLD, HObject _CalibRegion, Point_Model _Robot_pos, Point_Model _CalibFind_pos, HandEye_Calib_Check_Type_Enum HandEye_Calib_Check_Type)
         {
 
 
@@ -3735,9 +3776,35 @@ namespace HanGao.ViewModel
 
                 HandEye_Calibration_List.Add(_Calib_Iamge);
 
+                switch (HandEye_Calib_Check_Type)
+                {
+                    case HandEye_Calib_Check_Type_Enum.Robot:
+                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Results_Window_1);
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Results_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), _Region: new HObject(HandEye_Check_LiveImage._CalibRegion), _DrawColor: KnownColor.Green.ToString(), Image_AutoPart: true);
 
+
+                        break;
+                    case HandEye_Calib_Check_Type_Enum.beta:
+                        Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_3);
+                        Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), _Region: new HObject(HandEye_Check_LiveImage._CalibRegion), _DrawColor: KnownColor.Green.ToString(), Image_AutoPart: true);
+
+
+                        break;
+
+                }
 
             });
+
+
+
+
+      
+
+
+
+
+
+
 
         }
 
@@ -3928,7 +3995,7 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_Camera_Enum"></param>
         /// <exception cref="Exception"></exception>
-        public Calibration_Camera_Data_Results_Model HandEye_Calibration_ImageList_Data()
+        public Calibration_Camera_Data_Results_Model HandEye_Calibration_ImageList_Data(HandEye_Calib_Check_Type_Enum HandEye_Calib_Check_Type)
         {
 
             Calibration_Camera_Data_Results_Model _Selected_Results = new();
@@ -3985,19 +4052,6 @@ namespace HanGao.ViewModel
 
 
 
-                //Application.Current.Dispatcher.Invoke(() =>
-                //{
-
-                //    Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_1);
-
-
-                //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
-
-                //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
-                //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
-
-                //});
-
                 Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters = new Halcon_Camera_Calibration_Parameters_Model(Halcon_3DStereoModel.Select_TwoCamera_Calibration_HCameraSetupMode.Camera_0_Parameters.HCamPar);
 
                 (double _row, double _col) = new Point_Model(_List.Calibration_Plate_Pos.HPose).Get_Image_Point(Halcon_HandEye_Calibra.Camera_0_Calibration_Paramteters);
@@ -4013,6 +4067,58 @@ namespace HanGao.ViewModel
                 _List.Camera_0.Calibration_Accuracy = new Point_Model(_List.Calibration_Plate_Pos.HPose.PoseInvert().PoseCompose(_List.Calibration_XYZPlate_Pos.HPose));
                 //_List.Camera_0.Calibration_Accuracy =( new HTuple(_List.Calibration_Plate_Pos.HPose).TupleSelectRange(0,2) - new HTuple(_List.Calibration_XYZPlate_Pos.HPose).TupleSelectRange(0,2)).ToString();
 
+                //显示结果
+                switch (HandEye_Calib_Check_Type)
+                {
+                    case HandEye_Calib_Check_Type_Enum.Robot:
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Results_Window_1);
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Results_Window_2);
+
+
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Results_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), _XLD: new HObject(_List.Camera_0.Calibration_XLD), Image_AutoPart: true);
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Results_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XLD: new HObject(_List.Camera_0.Calibration_XLD), Image_AutoPart: true);
+
+                            //Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
+                            //Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
+
+                        });
+                        break;
+                    case HandEye_Calib_Check_Type_Enum.beta:
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_3);
+                            Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Window_4);
+
+
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), _XLD: new HObject(_List.Camera_0.Calibration_XLD), Image_AutoPart: true);
+                            Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XLD: new HObject(_List.Camera_0.Calibration_XLD), Image_AutoPart: true);
+
+                            //Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
+                            //Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
+
+                        });
+                        break;
+                  
+                }
+
+                //Application.Current.Dispatcher.Invoke(() =>
+                //{
+
+                //    Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Results_Window_1);
+                //    Halcon_Window_Display.HWindow_Clear(Window_Show_Name_Enum.HandEye_Results_Window_2);
+
+
+                //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Results_Window_1, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XYZImage: new HObject(Halcon_3DStereoModel.H3DStereo_Results.HModel3D_XYZ_Image), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
+                //    Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Results_Window_2, new HImage(Halcon_3DStereoModel.H3DStereo_Results.Image_3DFusion), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
+
+                //    //Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_3, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_0), _XLD: new HObject(HandEye_Check_LiveImage._CalibXLD), Image_AutoPart: true);
+                //    //Halcon_Window_Display.Display_HObject(Window_Show_Name_Enum.HandEye_Window_4, new HImage(Halcon_3DStereoModel.H3DStereo_Results.H3DStereo_Persistence_3DFusion_Results.New_Image_1), Image_AutoPart: true);
+
+                //});
 
 
                 User_Log_Add("标定板：" + _List.Calibration_Plate_Pos.ToString(), Log_Show_Window_Enum.HandEye);

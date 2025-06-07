@@ -1207,7 +1207,7 @@ namespace Halcon_SDK_DLL.Model
         /// <summary>
         /// 标定板识别滤波
         /// </summary>
-        public double Halcon_Calibretion_Sigma { set; get; } = 1;
+        public double Halcon_Calibretion_Sigma { set; get; } = 2;
 
         /// <summary>
         /// 查找标定板模式：False-单帧模式
@@ -2317,7 +2317,7 @@ namespace Halcon_SDK_DLL.Model
         }
 
 
-  
+        public Calibration_Accuracy_State_Eunm Calibration_Accuracy_State { set; get; } = Calibration_Accuracy_State_Eunm.Default;
 
         /// <summary>
         /// 标定精度
@@ -3504,6 +3504,15 @@ namespace Halcon_SDK_DLL.Model
     }
 
 
+    /// <summary>
+    /// 标定板检测误差状态
+    /// </summary>
+    public enum Calibration_Accuracy_State_Eunm
+    {
+        Default ,
+        Error,
+        OK
+    }
 
     public enum Robot_Type_Enum
     {
