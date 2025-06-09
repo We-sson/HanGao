@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ABB_Socket", "..\ABB_Socket
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roboto_Socket_Library", "..\Roboto_Socket_Library\Roboto_Socket_Library.csproj", "{A493D3BE-3478-4902-B61D-4FA0DA6B4D08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robot_Info_Mes", "..\Robot_Info_Mes\Robot_Info_Mes.csproj", "{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,6 +126,18 @@ Global
 		{A493D3BE-3478-4902-B61D-4FA0DA6B4D08}.Release|x64.Build.0 = Release|Any CPU
 		{A493D3BE-3478-4902-B61D-4FA0DA6B4D08}.Release|x86.ActiveCfg = Release|Any CPU
 		{A493D3BE-3478-4902-B61D-4FA0DA6B4D08}.Release|x86.Build.0 = Release|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Debug|x64.Build.0 = Debug|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Debug|x86.Build.0 = Debug|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Release|x64.ActiveCfg = Release|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Release|x64.Build.0 = Release|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Release|x86.ActiveCfg = Release|Any CPU
+		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

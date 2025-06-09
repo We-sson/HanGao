@@ -1,0 +1,61 @@
+﻿<Application
+    x:Class="Robot_Info_Mes.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Robot_Info_Mes"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="View\Effect_Resources\Global_Effect.xaml" />
+                <ResourceDictionary Source="View\Style\RadioButton_Style.xaml" />
+                <ResourceDictionary Source="view\Style\Title_Font_Size.xaml" />
+                <ResourceDictionary Source="View\Style\Title_button.xaml" />
+                <ResourceDictionary Source="View\Style\Search_Style.xaml" />
+                <ResourceDictionary Source="View\Style\CheckBox_List_Style.xaml" />
+                <ResourceDictionary Source="View\Style\ListBox.xaml" />
+                <ResourceDictionary Source="View\Style\ScrollViewer.xaml" />
+                <ResourceDictionary Source="View\Style\Ver_ScrollBar.xaml" />
+                <ResourceDictionary Source="View\Style\ScrollViewer.xaml" />
+                <ResourceDictionary Source="View\Style\Grid_function_Style.xaml" />
+                <ResourceDictionary Source="View\Style\Button_message.xaml" />
+                <ResourceDictionary Source="View\Style\Window_Button.xaml" />
+                <ResourceDictionary Source="View\Style\Vision_From_Styles.xaml" />
+                <ResourceDictionary Source="View\Style\Right_Function_Button.xaml" />
+                <ResourceDictionary Source="View\Style\Button_List.xaml" />
+                <ResourceDictionary Source="View\Style\ScrollViewer_List.xaml" />
+                <ResourceDictionary Source="View\Style\Socket_ListView_Style.xaml" />
+                <ResourceDictionary Source="View\Style\Sidebar_Button_Style.xaml" />
+                <ResourceDictionary Source="View\Style\UC_Loading_Style.xaml" />
+                <ResourceDictionary Source="View\User_Control\Pop_Ups\Style\Pop_Ups_Style.xaml" />
+                <ResourceDictionary Source="View\User_Control\Program_Editing\Program_Style.xaml" />
+                <ResourceDictionary Source="View\User_Control\Program_Editing\Point_UI\Point_UI_Style.xaml" />
+                <ResourceDictionary Source="View\User_Control\Program_Editing\Point_info\UC_Point_Style.xaml" />
+                <ResourceDictionary Source="View\Vision_Control\Vision_UserControl_Style.xaml" />
+                <ResourceDictionary Source="View\Style\Global_Color_Style.xaml" />
+                <ResourceDictionary Source="View\Style\Vision_From2_Style.xaml" />
+                <ResourceDictionary Source=" View\User_Control\Vision_Calibration\Style\Vision_Calibration_Style.xaml" />
+                <ResourceDictionary Source=" View/User_Control/Vision_Calibration/Style/Vision_Menu_Style.xaml" />
+                <ResourceDictionary Source=" View/User_Control/Vision_hand_eye_Calibration/Style/hand_eye_Style.xaml" />-->
+
+
+
+
+
+
+
+            </ResourceDictionary.MergedDictionaries>
+
+            <vm:ViewModelLocator xmlns:vm="clr-namespace:Robot_Info_Mes.ViewModel" x:Key="Locator" />
+
+
+
+
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>
