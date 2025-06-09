@@ -813,6 +813,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    <!--  下拉选项按钮样式  -->
     <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
@@ -840,7 +843,7 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z"
-                                      Fill="{DynamicResource ComboBox.Static.Glyph}" />
+                                      Fill="#FF606060" />
                                 <Image x:Name="ioc"
                                        Height="auto"
                                        Margin="3"
@@ -898,13 +901,20 @@
                                 <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true" />
                                 <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource ComboBox.MouseOver.Editable.Background}" />
-                            <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource ComboBox.MouseOver.Editable.Border}" />
-                            <Setter TargetName="splitBorder" Property="Background" Value="{DynamicResource ComboBox.MouseOver.Editable.Button.Background}" />
-                            <Setter TargetName="splitBorder" Property="BorderBrush" Value="{DynamicResource ComboBox.MouseOver.Editable.Button.Border}" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="#FFFFFFFF" />
+                            <Setter TargetName="templateRoot" Property="BorderBrush" Value="#FF7EB4EA" />
+                            <Setter TargetName="splitBorder" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0.0" Color="#FFEBF4FC" />
+                                        <GradientStop Offset="1.0" Color="#FFDCECFC" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="splitBorder" Property="BorderBrush" Value="#FF7EB4EA" />
                         </MultiDataTrigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="arrow" Property="Fill" Value="{DynamicResource ComboBox.Pressed.Glyph}" />
+                            <Setter TargetName="arrow" Property="Fill" Value="#FF000000" />
                         </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -919,10 +929,17 @@
                                 <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true" />
                                 <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource ComboBox.Pressed.Editable.Background}" />
-                            <Setter TargetName="templateRoot" Property="BorderBrush" Value="{DynamicResource ComboBox.Pressed.Editable.Border}" />
-                            <Setter TargetName="splitBorder" Property="Background" Value="{DynamicResource ComboBox.Pressed.Editable.Button.Background}" />
-                            <Setter TargetName="splitBorder" Property="BorderBrush" Value="{DynamicResource ComboBox.Pressed.Editable.Button.Border}" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="#FFFFFFFF" />
+                            <Setter TargetName="templateRoot" Property="BorderBrush" Value="#FF569DE5" />
+                            <Setter TargetName="splitBorder" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0.0" Color="#FFDAEBFC" />
+                                        <GradientStop Offset="1.0" Color="#FFC4E0FC" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="splitBorder" Property="BorderBrush" Value="#FF569DE5" />
                         </MultiDataTrigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <!--<Setter TargetName="arrow" Property="Fill" Value="{DynamicResource ComboBox.Disabled.Glyph}" />-->
@@ -1001,7 +1018,7 @@
                           BorderThickness="{TemplateBinding BorderThickness}" />
             <Border x:Name="border"
                     Margin="{TemplateBinding BorderThickness}"
-                    Background="{DynamicResource TextBox.Static.Background}">
+                    Background="#FFFFFFFF">
                 <TextBox Style="{StaticResource ComboBoxEditableTextBox}" x:Name="PART_EditableTextBox"
                          Margin="{TemplateBinding Padding}"
                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"

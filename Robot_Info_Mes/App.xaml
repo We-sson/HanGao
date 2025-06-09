@@ -41,7 +41,8 @@
                 <ResourceDictionary Source=" View/User_Control/Vision_Calibration/Style/Vision_Menu_Style.xaml" />
                 <ResourceDictionary Source=" View/User_Control/Vision_hand_eye_Calibration/Style/hand_eye_Style.xaml" />-->
 
-
+                <ResourceDictionary Source="View\Global_Color.xaml" />
+                <ResourceDictionary Source="View\Window_UserConect.xaml" />
 
 
 

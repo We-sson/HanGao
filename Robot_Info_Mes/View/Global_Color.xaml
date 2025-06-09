@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+
+
+    <SolidColorBrush x:Key="全局_背景_白颜色" Color="#E6e6e6" />
+    <SolidColorBrush x:Key="全局_背景_蓝颜色" Color="#2a3c55" />
+
+    <SolidColorBrush x:Key="全局_按钮_白颜色" Color="#ffffff" />
+    <SolidColorBrush x:Key="全局_按钮_红颜色" Color="#ff5e58" />
+    <SolidColorBrush x:Key="全局_按钮_蓝颜色" Color="#FF4B6587" />
+    <SolidColorBrush x:Key="全局_按钮_青绿颜色" Color="#ced89e" />
+    <SolidColorBrush x:Key="全局_按钮_深青颜色" Color="#adcf9f" />
+    <SolidColorBrush x:Key="全局_按钮_深青黄颜色" Color="#f4d06f" />
+    <SolidColorBrush x:Key="全局_按钮_棕色颜色" Color="#ca955c" />
+    <SolidColorBrush x:Key="全局_按钮_深棕色颜色" Color="#876445" />
+    <SolidColorBrush x:Key="全局_按钮_浅棕色颜色" Color="#eddfb3" />
+
+    <SolidColorBrush x:Key="全局_按钮_黑绿颜色" Color="#06623b" />
+
+    <SolidColorBrush x:Key="全局_按钮_深蓝颜色" Color="#022340" />
+    <SolidColorBrush x:Key="全局_按钮_黄颜色" Color="#FEDD6C" />
+    <SolidColorBrush x:Key="全局_按钮_深黄颜色" Color="#E09603" />
+    <SolidColorBrush x:Key="全局_按钮_灰白颜色" Color="#A4B0BF" />
+    <SolidColorBrush x:Key="全局_按钮_绿颜色" Color="#76BA99" />
+    <SolidColorBrush x:Key="全局_按钮_青颜色" Color="#4C7087" />
+    <SolidColorBrush x:Key="全局_按钮_深绿颜色" Color="#4E874C" />
+    <SolidColorBrush x:Key="全局_按钮_灰颜色" Color="#bfbfbf" />
+    <SolidColorBrush x:Key="全局_按钮_深灰颜色" Color="#AAAAAA" />
+    <SolidColorBrush x:Key="全局_按钮_黑颜色" Color="#434343" />
+    <SolidColorBrush x:Key="全局_按钮_青红颜色" Color="#F2856D" />
+
+    <FontFamily x:Key="全局_文字_数字字体">Microsoft JhengHei UI</FontFamily>
+    <FontFamily x:Key="全局_文字_中文字体">Microsoft JhengHei UI</FontFamily>
+    <FontFamily x:Key="全局_文字_英文字体">Calibri</FontFamily>
+
+
+
+
+    <DropShadowEffect
+        x:Key="全局背景阴影"
+        BlurRadius="10"
+        Direction="-90"
+        Opacity="0.3"
+        ShadowDepth="2" />
+
+    <!--  全局图标路径  -->
+    <FontFamily x:Key="全局_图标库">
+        /Resources/#iconfont
+    </FontFamily>
+
+</ResourceDictionary>
