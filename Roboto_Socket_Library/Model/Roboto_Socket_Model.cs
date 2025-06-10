@@ -1,6 +1,7 @@
-﻿using Halcon_SDK_DLL.Model;
+﻿
 using PropertyChanged;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Xml.Serialization;
 using Throw;
 
@@ -257,7 +258,7 @@ namespace Roboto_Socket_Library.Model
 
             }
 
-            public void Set_Pos_List(List<Point_Model> _List)
+            public void Set_Pos_List(List<Point_Models> _List)
             {
 
                 _List.Count.Throw("坐标返回数量错误！").IfNotEquals(8);
@@ -393,7 +394,7 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 通讯设备图像来源设置
             /// </summary>
-            public Image_Diver_Model_Enum Socket_Diver_Model { get; set; } = Image_Diver_Model_Enum.Online;
+            //public Image_Diver_Model_Enum Socket_Diver_Model { get; set; } = Image_Diver_Model_Enum.Online;
 
             /// <summary>
             /// 接受服务器运行状态
@@ -424,15 +425,93 @@ namespace Roboto_Socket_Library.Model
 
 
 
+
+    }
+
+
+    /// <summary>
+    /// 手眼标定机器人通讯参数模型
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class Socket_Robot_Info_Parameters_Model
+    {
+
+
+
+        /// <summary>
+        /// 电脑网口设备IP网址
+        /// </summary>
+        public ObservableCollection<string> Local_IP_UI { set; get; } = new ObservableCollection<string>();
+
+        /// <summary>
+        /// 通讯服务器属性
+        /// </summary>
+        public List<Socket_Receive> Receive_List { set; get; } = new List<Socket_Receive>();
+
+        /// <summary>
+        /// 手眼标定通讯协议机器人
+        /// </summary>
+        public Socket_Robot_Protocols_Enum Socket_Robot_Model { set; get; } = Socket_Robot_Protocols_Enum.KUKA;
+        /// <summary>
+        /// 本机标定通讯端口
+        /// </summary>
+        public int Sever_Socket_Port { set; get; } = 6000;
+
+        /// <summary>
+        /// 通讯设备图像来源设置
+        /// </summary>
+        public double Socket_Polling_Time { get; set; } =5;
+
+        /// <summary>
+        /// 接受服务器运行状态
+        /// </summary>
+        public bool Sever_IsRuning { set; get; } = false;
+
+
+
+        /// <summary>
+        /// 通讯状态
+        /// </summary>
+        public Socket_Robot_Type_Enum Socket_Robot_Type_State { set; get; } = Socket_Robot_Type_Enum.Default;
+
+
+
+        public void Server_List_End()
+        {
+            foreach (var _Sock in Receive_List)
+            {
+                _Sock.Sever_End();
+                Sever_IsRuning = false;
+            }
+            Local_IP_UI.Clear();
+        }
+
     }
 
 
 
-    /// <summary>
-    /// 泛型类型委托声明
-    /// </summary>
-    /// <param name="_Connect_State"></param>
-    public delegate void Socket_T_delegate<T>(T _T);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/// <summary>
+/// 泛型类型委托声明
+/// </summary>
+/// <param name="_Connect_State"></param>
+public delegate void Socket_T_delegate<T>(T _T);
 
 
     /// <summary>
@@ -446,6 +525,11 @@ namespace Roboto_Socket_Library.Model
         川崎,
         通用
     }
+
+
+
+
+
 
 
     public enum Socket_Robot_Type_Enum
@@ -471,5 +555,45 @@ namespace Roboto_Socket_Library.Model
 
     }
 
+    /// <summary>
+    /// 视觉识别功能
+    /// </summary>
+    public enum Vision_Model_Enum
+    {
+        Calibration_New,
+        Calibration_Text,
+        Calibration_Add,
+        Find_Model,
+        Vision_Ini_Data,
+        HandEye_Calib_Date,
+        Vision_Creation_Model,
+    }
+
+
+    /// <summary>
+    /// 手眼标定过程状态枚举
+    /// </summary>
+    public enum HandEye_Calibration_Type_Enum
+    {
+        Calibration_Start,
+        Calibration_Progress,
+        Calibration_End
+    }
+
+
+
+    public enum Robot_Type_Enum
+    {
+        [Description("KUKA")]
+        KUKA,
+
+        [Description("ABB")]
+        ABB,
+        [Description("川崎)")]
+        川崎,
+        [Description("通用")]
+
+        通用
+    }
 
 }

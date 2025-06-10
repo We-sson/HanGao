@@ -4,7 +4,7 @@
 
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{DynamicResource OptionMark.Static.Background}" />
+        <Setter Property="Background" Value="#FFFFFFFF" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Effect" Value="{DynamicResource 全局背景阴影}" />

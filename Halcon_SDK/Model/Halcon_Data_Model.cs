@@ -3472,15 +3472,7 @@ namespace Halcon_SDK_DLL.Model
         abg = 2,
     }
 
-    /// <summary>
-    /// 手眼标定过程状态枚举
-    /// </summary>
-    public enum HandEye_Calibration_Type_Enum
-    {
-        Calibration_Start,
-        Calibration_Progress,
-        Calibration_End
-    }
+
 
     /// <summary>
     /// 创建模型带你类型
@@ -3491,19 +3483,7 @@ namespace Halcon_SDK_DLL.Model
         Model_Pos,
     }
 
-    /// <summary>
-    /// 视觉识别功能
-    /// </summary>
-    public enum Vision_Model_Enum
-    {
-        Calibration_New,
-        Calibration_Text,
-        Calibration_Add,
-        Find_Model,
-        Vision_Ini_Data,
-        HandEye_Calib_Date,
-        Vision_Creation_Model,
-    }
+
 
 
     /// <summary>
@@ -3515,6 +3495,7 @@ namespace Halcon_SDK_DLL.Model
         Error,
         OK
     }
+
 
     public enum Robot_Type_Enum
     {

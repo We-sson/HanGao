@@ -19376,7 +19376,7 @@ PassEventArgsToCommand="True" />
                                                 </ComboBox.Style>
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding Converter={StaticResource Enum_DescriptionConverter}}"
+                                                        <TextBlock Text="{Binding}"
                                                                    TextWrapping="Wrap"
                                                                    Padding="0,4,0,4"
                                                                    FontFamily="{DynamicResource 全局_文字_数字字体}"

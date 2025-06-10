@@ -344,7 +344,7 @@ namespace HanGao.ViewModel
             HImage _Image = new();
 
             ///读取机器人当前工具到banse位置
-            Halcon_Shape_Mode.Tool_In_BasePos = new Point_Model(double.Parse(_Receive.Camera_Pos.X), double.Parse(_Receive.Camera_Pos.Y), double.Parse(_Receive.Camera_Pos.Z), double.Parse(_Receive.Camera_Pos.Rx), double.Parse(_Receive.Camera_Pos.Ry), double.Parse(_Receive.Camera_Pos.Rz), _Receive.Robot_Type);
+            Halcon_Shape_Mode.Tool_In_BasePos = new Point_Model(double.Parse(_Receive.Camera_Pos.X), double.Parse(_Receive.Camera_Pos.Y), double.Parse(_Receive.Camera_Pos.Z), double.Parse(_Receive.Camera_Pos.Rx), double.Parse(_Receive.Camera_Pos.Ry), double.Parse(_Receive.Camera_Pos.Rz), (Robot_Type_Enum)(Enum)_Receive.Robot_Type);
 
 
 
@@ -464,7 +464,8 @@ namespace HanGao.ViewModel
 
                         _Find_Data_Send.IsStatus = 1;
                         _Find_Data_Send.Message_Error = $" Matching Template OK !";
-                        _Find_Data_Send.Result_Pos.Set_Pos_List(_Find_Result.Results_PathInBase_Pos.ToList());
+                        //类型有问题
+                        //_Find_Data_Send.Result_Pos.Set_Pos_List(_Find_Result.Results_PathInBase_Pos.ToList());
 
 
 
@@ -558,12 +559,12 @@ namespace HanGao.ViewModel
 
 
                 ///相机采集位置
-                Halcon_Shape_Mode.Tool_In_BasePos = new Point_Model(double.Parse(_Receive.Camera_Pos.X), double.Parse(_Receive.Camera_Pos.Y), double.Parse(_Receive.Camera_Pos.Z), double.Parse(_Receive.Camera_Pos.Rx), double.Parse(_Receive.Camera_Pos.Ry), double.Parse(_Receive.Camera_Pos.Rz), _Receive.Robot_Type);
+                Halcon_Shape_Mode.Tool_In_BasePos = new Point_Model(double.Parse(_Receive.Camera_Pos.X), double.Parse(_Receive.Camera_Pos.Y), double.Parse(_Receive.Camera_Pos.Z), double.Parse(_Receive.Camera_Pos.Rx), double.Parse(_Receive.Camera_Pos.Ry), double.Parse(_Receive.Camera_Pos.Rz), (Robot_Type_Enum)_Receive.Robot_Type);
 
                 //把标定模式下把位置点添加到创建模型列表
 
                 //标定平面坐标
-                Halcon_Shape_Mode.Plane_In_BasePose = new Point_Model(double.Parse(_Receive.Plan_Pos.X), double.Parse(_Receive.Plan_Pos.Y), double.Parse(_Receive.Plan_Pos.Z), double.Parse(_Receive.Plan_Pos.Rx), double.Parse(_Receive.Plan_Pos.Ry), double.Parse(_Receive.Plan_Pos.Rz), _Receive.Robot_Type);
+                Halcon_Shape_Mode.Plane_In_BasePose = new Point_Model(double.Parse(_Receive.Plan_Pos.X), double.Parse(_Receive.Plan_Pos.Y), double.Parse(_Receive.Plan_Pos.Z), double.Parse(_Receive.Plan_Pos.Rx), double.Parse(_Receive.Plan_Pos.Ry), double.Parse(_Receive.Plan_Pos.Rz), (Robot_Type_Enum)_Receive.Robot_Type);
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -573,12 +574,12 @@ namespace HanGao.ViewModel
                     foreach (var _Pos in _Receive.Path_Pos.Get_Pos_List())
                     {
 
-                        Halcon_Shape_Mode.Calib_PathInBase_List.Add(new Point_Model(double.Parse(_Pos.X), double.Parse(_Pos.Y), double.Parse(_Pos.Z), double.Parse(_Pos.Rx), double.Parse(_Pos.Ry), double.Parse(_Pos.Rz), _Receive.Robot_Type));
+                        Halcon_Shape_Mode.Calib_PathInBase_List.Add(new Point_Model(double.Parse(_Pos.X), double.Parse(_Pos.Y), double.Parse(_Pos.Z), double.Parse(_Pos.Rx), double.Parse(_Pos.Ry), double.Parse(_Pos.Rz), (Robot_Type_Enum)_Receive.Robot_Type));
 
                     }
 
                     ///设置接受得机器人类型，后续姿态转换有用
-                    Halcon_Shape_Mode.Robot_Type = _Receive.Robot_Type;
+                    Halcon_Shape_Mode.Robot_Type = (Robot_Type_Enum)_Receive.Robot_Type;
 
 
 

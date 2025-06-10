@@ -1,4 +1,4 @@
-﻿using Halcon_SDK_DLL.Model;
+﻿
 using Roboto_Socket_Library.Model;
 using System.Net;
 using System.Net.Sockets;

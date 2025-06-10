@@ -43,7 +43,7 @@ namespace Robot_Info_Mes.ViewModel
         }
 
 
-        public static Robot_Info_VM? Robot_Info_VM => Ioc.Default.GetService<Robot_Info_VM>();
+        public static Robot_Info_VM Robot_Info_VM => Ioc.Default.GetService<Robot_Info_VM>();
 
         //public static MainWindow? MainWindow => Ioc.Default.GetService<MainWindow>();
 
@@ -56,4 +56,11 @@ namespace Robot_Info_Mes.ViewModel
             // TODO Clear the ViewModels
         }
     }
+
+
+
+
+
+
+
 }

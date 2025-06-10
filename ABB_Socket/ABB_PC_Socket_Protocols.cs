@@ -10,55 +10,55 @@ namespace ABB_Socket
 
         }
 
-        public byte[] ABB_PC_Socket<T1>(byte[] Receice_byte)
-        {
+        //public byte[] ABB_PC_Socket<T1>(byte[] Receice_byte)
+        //{
 
-            Vision_Model_Enum _Model =  Vision_Model_Enum.HandEye_Calib_Date;
+        //    Vision_Model_Enum _Model =  Vision_Model_Enum.HandEye_Calib_Date;
 
 
-            switch (_Model)
-            {
-                case Vision_Model_Enum.Calibration_New:
+        //    switch (_Model)
+        //    {
+        //        case Vision_Model_Enum.Calibration_New:
         
 
-                    break;
-                case Vision_Model_Enum.Calibration_Text:
+        //            break;
+        //        case Vision_Model_Enum.Calibration_Text:
     
-                    break;
+        //            break;
 
-                case Vision_Model_Enum.Find_Model:
+        //        case Vision_Model_Enum.Find_Model:
 
     
-                    break;
+        //            break;
 
-                case Vision_Model_Enum.Vision_Ini_Data:
+        //        case Vision_Model_Enum.Vision_Ini_Data:
 
            
 
 
 
-                    break;
+        //            break;
 
-                case Vision_Model_Enum.HandEye_Calib_Date:
-
-
-                    //HandEye_Calibration_Receive _HandEye_Calib_Rece = new HandEye_Calibration_Receive();
+        //        case Vision_Model_Enum.HandEye_Calib_Date:
 
 
+        //            //HandEye_Calibration_Receive _HandEye_Calib_Rece = new HandEye_Calibration_Receive();
 
 
 
 
 
-                    break;
 
 
-            }
+        //            break;
+
+
+        //    }
 
 
 
-            return Array.Empty<byte>();
-        }
+        //    return Array.Empty<byte>();
+        //}
 
 
     }

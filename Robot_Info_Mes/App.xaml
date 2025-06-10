@@ -5,6 +5,7 @@
     xmlns:Sys="clr-namespace:System;assembly=mscorlib"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Robot_Info_Mes"
+    xmlns:vm="clr-namespace:Robot_Info_Mes.ViewModel"
     StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -43,6 +44,7 @@
 
                 <ResourceDictionary Source="View\Global_Color.xaml" />
                 <ResourceDictionary Source="View\Window_UserConect.xaml" />
+                <ResourceDictionary Source="View\UserControl_Style.xaml" />
 
 
 
@@ -50,9 +52,9 @@
 
             </ResourceDictionary.MergedDictionaries>
 
-            <vm:ViewModelLocator xmlns:vm="clr-namespace:Robot_Info_Mes.ViewModel" x:Key="Locator" />
+            <vm:ViewModelLocator x:Key="Locator" />
 
-
+     
 
 
 

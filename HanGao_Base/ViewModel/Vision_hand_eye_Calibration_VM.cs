@@ -3,6 +3,7 @@ using KUKA_Socket;
 using MVS_SDK_Base.Model;
 using Ookii.Dialogs.Wpf;
 using Roboto_Socket_Library;
+using Roboto_Socket_Library.Model;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Controls.Primitives;
@@ -1644,19 +1645,19 @@ namespace HanGao.ViewModel
                         //创建对应机器人角度旋转方式
                         switch (Halcon_HandEye_Calibra.HandEye_Robot)
                         {
-                            case Robot_Type_Enum.KUKA:
+                            case Halcon_SDK_DLL.Model.Robot_Type_Enum.KUKA:
                                 //设置机器人当前位置
 
                                 Halcon_HandEye_Calibra. Robot_Point = new Point_Model() { X = double.Parse(_S.ACT_Point.X), Y = double.Parse(_S.ACT_Point.Y), Z = double.Parse(_S.ACT_Point.Z), Rx = double.Parse(_S.ACT_Point.Rz), Ry = double.Parse(_S.ACT_Point.Ry), Rz = double.Parse(_S.ACT_Point.Rx), HType = Halcon_Pose_Type_Enum.abg };
 
                                 break;
-                            case Robot_Type_Enum.ABB:
+                            case Halcon_SDK_DLL.Model.Robot_Type_Enum.ABB:
                                 Halcon_HandEye_Calibra.Robot_Point = new Point_Model() { X = double.Parse(_S.ACT_Point.X), Y = double.Parse(_S.ACT_Point.Y), Z = double.Parse(_S.ACT_Point.Z), Rx = double.Parse(_S.ACT_Point.Rx), Ry = double.Parse(_S.ACT_Point.Ry), Rz = double.Parse(_S.ACT_Point.Rz), HType = Halcon_Pose_Type_Enum.abg };
 
                                 break;
-                            case Robot_Type_Enum.川崎:
+                            case Halcon_SDK_DLL.Model.Robot_Type_Enum.川崎:
                                 break;
-                            case Robot_Type_Enum.通用:
+                            case Halcon_SDK_DLL.Model.Robot_Type_Enum.通用:
                                 break;
 
                         }
