@@ -15,7 +15,7 @@
         MinWidth="1024"
         MinHeight="900"
         d:DesignHeight="900"
-        d:DesignWidth="1024"
+        d:DesignWidth="1424"
         Background="Gray"
         DataContext="{Binding FrameShow, Source={StaticResource Locator}}"
         ResizeMode="CanMinimize"

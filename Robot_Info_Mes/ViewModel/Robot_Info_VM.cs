@@ -1,19 +1,17 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Robot_Info_Mes.ViewModel
 {
@@ -103,7 +101,7 @@ namespace Robot_Info_Mes.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                ToggleButton _Contol = Sm.Source as ToggleButton;
+                ToggleButton? _Contol = Sm!.Source as ToggleButton;
                 try
                 {
 
@@ -127,7 +125,7 @@ namespace Robot_Info_Mes.ViewModel
                 catch (Exception _e)
                 {
                     Robot_Info_Parameters.Sever_IsRuning = false;
-                    _Contol.IsChecked = false;
+                    _Contol!.IsChecked = false;
                     User_Log_Add("开启服务器接受失败！原因：" + _e.Message, MessageBoxImage.Error);
 
                 }
@@ -156,7 +154,7 @@ namespace Robot_Info_Mes.ViewModel
 
                     User_Log.User_Log = Log;
 
-                    Application.Current.Dispatcher.Invoke(() => { MessageBox.Show(Log, "操作提示....", MessageBoxButton.OK, _MessType); });
+               Application.Current.Dispatcher.Invoke(() => { MessageBox.Show(Log, "操作提示....", MessageBoxButton.OK, _MessType); });
 
                 }
                 catch (Exception e)

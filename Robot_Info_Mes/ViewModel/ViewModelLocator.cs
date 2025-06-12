@@ -12,10 +12,13 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
+//using CommunityToolkit.Mvvm.DependencyInjection;
+//using Microsoft.Extensions.DependencyInjection;
 //using Microsoft.Extensions.DependencyInjection;
 
+
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Robot_Info_Mes.ViewModel
 {
@@ -43,7 +46,7 @@ namespace Robot_Info_Mes.ViewModel
         }
 
 
-        public static Robot_Info_VM Robot_Info_VM => Ioc.Default.GetService<Robot_Info_VM>();
+        public static Robot_Info_VM? Robot_Info_VM => Ioc.Default.GetService<Robot_Info_VM>();
 
         //public static MainWindow? MainWindow => Ioc.Default.GetService<MainWindow>();
 

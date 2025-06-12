@@ -211,6 +211,45 @@ namespace Roboto_Socket_Library.Model
 
         }
 
+
+        /// <summary>
+        /// 机器人信息接收协议格式
+        /// </summary>
+        [Serializable]
+        [XmlType("Robot_Receive")]
+        public class Robot_Mes_Info_Data_Receive
+        {
+
+
+
+
+
+
+
+
+
+        }
+        /// <summary>
+        /// 机器人信息发送协议格式
+        /// </summary>
+        [Serializable]
+        [XmlType("Robot_Send")]
+        public class Robot_Mes_Info_Data_Send
+        {
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
         /// <summary>
         /// 相机标定发送协议格式
         /// </summary>
@@ -457,6 +496,11 @@ namespace Roboto_Socket_Library.Model
         /// </summary>
         public int Sever_Socket_Port { set; get; } = 6000;
 
+
+
+        public string Socket_Mes_Info_IP { set; get; } = "10.30.128.100";
+
+
         /// <summary>
         /// 通讯设备图像来源设置
         /// </summary>
@@ -567,6 +611,10 @@ public delegate void Socket_T_delegate<T>(T _T);
         Vision_Ini_Data,
         HandEye_Calib_Date,
         Vision_Creation_Model,
+        Robot_Mes_Info
+
+
+
     }
 
 

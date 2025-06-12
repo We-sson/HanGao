@@ -4,14 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Enum_Converter="clr-namespace:Robot_Info_Mes.View"
     xmlns:Robot="clr-namespace:Roboto_Socket_Library.Model;assembly=Roboto_Socket_Library"
+    xmlns:View="clr-namespace:Robot_Info_Mes.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:Robot_Info_Mes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:view="clr-namespace:Robot_Info_Mes.View"
     Width="1000"
     Height="500"
-    DataContext="{Binding Robot_Info_VM, Source={StaticResource Locator}}"
+    DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
     mc:Ignorable="d">
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
@@ -195,7 +195,7 @@
                             FontFamily="{DynamicResource 全局_文字_数字字体}"
                             FontSize="18"
                             Style="{DynamicResource Vision_TextBoxStyle}"
-                            Text="10.31.128.100" />
+                            Text="{Binding Robot_Info_Parameters.Socket_Mes_Info_IP}" />
                     </Grid>
 
                     <Grid Height=" 35" Margin="0,8,0,8">
@@ -409,7 +409,7 @@
                             IsSelected="True"
                             Style="{DynamicResource Vision_TabItemStyle}">
 
-                            <view:Control_Log DataContext="{Binding User_Log}" />
+                            <View:Control_Log DataContext="{Binding User_Log}" />
                         </TabItem>
 
                     </TabControl>
