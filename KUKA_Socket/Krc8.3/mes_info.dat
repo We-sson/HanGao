@@ -1,5 +1,5 @@
-&ACCESS RVP
-&REL 140
+&ACCESS RVO
+&REL 150
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -10,10 +10,10 @@ GLOBAL ENUM Robot_Process_Name_Enum R_Side_7,R_Side_8,R_Side_9,Panel_Surround_7,
 GLOBAL INT T1_Time=0
 GLOBAL INT Aut_Time=0
 
-GLOBAL INT Work_A_Run_Cycle_Time=17160
-GLOBAL INT Work_A_Run_All_Time=17160
-GLOBAL INT Work_B_Run_Cycle_Time=5184
-GLOBAL INT Work_B_Run_All_Time=5184
+GLOBAL INT Work_A_Run_Cycle_Time=0
+GLOBAL INT Work_A_Run_All_Time=0
+GLOBAL INT Work_B_Run_Cycle_Time=0
+GLOBAL INT Work_B_Run_All_Time=0
 GLOBAL INT Work_C_Run_Cycle_Time=0
 GLOBAL INT Work_C_Run_All_Time=0
 GLOBAL INT Work_D_Run_Cycle_Time=0
@@ -22,8 +22,8 @@ GLOBAL INT Work_D_Run_All_Time=0
 
 GLOBAL INT Socket_Cycle_Time=5000
 
-GLOBAL INT Work_A_Run_Nunber=1
-GLOBAL INT Work_B_Run_Nunber=1
+GLOBAL INT Work_A_Run_Nunber=0
+GLOBAL INT Work_B_Run_Nunber=0
 GLOBAL INT Work_C_Run_Nunber=0
 GLOBAL INT Work_D_Run_Nunber=0
 GLOBAL INT Work_All_Run_Nunber=0

@@ -9,8 +9,8 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:Robot_Info_Mes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="1000"
-    Height="500"
+    Width="1200"
+    Height="630"
     DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
     mc:Ignorable="d">
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
@@ -21,7 +21,8 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
-            <RowDefinition />
+            <RowDefinition Height=" 350" />
+            <RowDefinition Height=" 180" />
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -394,14 +395,36 @@
                         <TabItem
                             Padding="20,8,20,8"
                             FontSize=" 16"
-                            Header="通讯读取"
-                            Style="{DynamicResource Vision_TabItemStyle}" />
+                            Header="通讯接收"
+                            Style="{DynamicResource Vision_TabItemStyle}">
+                            <TextBox
+                                Grid.Column=" 2"
+                                MinHeight=" 300"
+                                Background="{DynamicResource 全局_背景_白颜色}"
+                                BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                BorderThickness="0"
+                                FontSize="16"
+                                IsReadOnly="True"
+                                Text="{Binding Robot_Info_Parameters.Receive_information.Data_Converts_Str, UpdateSourceTrigger=PropertyChanged}"
+                                TextWrapping="Wrap" />
+                        </TabItem>
 
                         <TabItem
                             Padding="20,8,20,8"
                             FontSize=" 16"
-                            Header="通讯写入"
-                            Style="{DynamicResource Vision_TabItemStyle}" />
+                            Header="通讯发送"
+                            Style="{DynamicResource Vision_TabItemStyle}">
+                            <TextBox
+                                Grid.Column=" 2"
+                                MinHeight=" 300"
+                                Background="{DynamicResource 全局_背景_白颜色}"
+                                BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                BorderThickness="0"
+                                FontSize="16"
+                                IsReadOnly="True"
+                                Text="{Binding Robot_Info_Parameters.Send_information.Data_Converts_Str, UpdateSourceTrigger=PropertyChanged}"
+                                TextWrapping="Wrap" />
+                        </TabItem>
                         <TabItem
                             Padding="20,8,20,8"
                             FontSize=" 16"
@@ -424,7 +447,75 @@
 
         </Grid>
 
+        <Grid
+            Grid.Row="2"
+            Grid.Column=" 0"
+            Margin="5">
+            <Border
+                Background="{DynamicResource 全局_背景_白颜色}"
+                BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                BorderThickness="3"
+                CornerRadius="10"
+                Effect="{DynamicResource 全局背景阴影}" />
+            <StackPanel Orientation="Horizontal">
+                <Border
+                    Width=" 200"
+                    Margin="10"
+                    CornerRadius=" 10 "
+                    Effect="{DynamicResource 全局背景阴影}">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Resources/1楼面板.png" Stretch="UniformToFill" />
+                    </Border.Background>
 
+                </Border>
+
+                <Border
+                    Width="3"
+                    Margin="0,15,0,15"
+                    Background="{DynamicResource 全局_按钮_深灰颜色}"
+                    CornerRadius=" 1.5" />
+
+
+                <Grid Width=" 250" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=" 50" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                        Text="当前生产程序" />
+                    <Border
+                        Grid.Row=" 2"
+                        BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                        BorderThickness="2"
+                        CornerRadius="10">
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="20"
+                            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                            Text="/R1/HG_EKRL.SRC" />
+
+
+                    </Border>
+                </Grid>
+
+
+            </StackPanel>
+
+
+
+        </Grid>
 
 
 

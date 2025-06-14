@@ -30,6 +30,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\1楼面板.png" />
+    <None Remove="Resources\7线R边.png" />
+    <None Remove="Resources\7线围边.png" />
+    <None Remove="Resources\8线R边.png" />
+    <None Remove="Resources\8线围边.png" />
+    <None Remove="Resources\9线R边.png" />
+    <None Remove="Resources\9线围边.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Fody" Version="6.9.1">
       <PrivateAssets>all</PrivateAssets>
@@ -47,6 +57,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\1楼面板.png" />
+    <Resource Include="Resources\7线R边.png" />
+    <Resource Include="Resources\7线围边.png" />
+    <Resource Include="Resources\8线R边.png" />
+    <Resource Include="Resources\8线围边.png" />
+    <Resource Include="Resources\9线R边.png" />
+    <Resource Include="Resources\9线围边.png" />
     <Resource Include="Resources\iconfont.ttf" />
     <Resource Include="Resources\Vision_下拉选择_ioc.png" />
   </ItemGroup>

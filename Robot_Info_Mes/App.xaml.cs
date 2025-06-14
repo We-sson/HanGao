@@ -1,4 +1,5 @@
 ﻿
+using System.Windows;
 using Application = System.Windows.Application;
 
 namespace Robot_Info_Mes
@@ -16,7 +17,15 @@ namespace Robot_Info_Mes
         }
 
 
+        private void Application_Startup(object sender, StartupEventArgs e)
 
+        {
+
+            //Application currApp = Application.Current;
+
+            //currApp.StartupUri = new Uri("SysSetup.xaml", UriKind.RelativeOrAbsolute);
+
+        }
 
     }
 

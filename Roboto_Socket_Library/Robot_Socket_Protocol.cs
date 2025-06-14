@@ -144,6 +144,9 @@ namespace Roboto_Socket_Library
 
                     return (T1)(Object)Vision_Creation_Model_Receive_Protocol();
 
+                case Vision_Model_Enum.Mes_Info_Data:
+
+                    return (T1)(Object)Mes_Robot_Info_Receive_Protocol();
 
 
                 default:
@@ -191,7 +194,12 @@ namespace Roboto_Socket_Library
                 case Vision_Model_Enum.Vision_Creation_Model:
                     return Vision_Creation_Model_Send_Procotol((_Propertie as Vision_Creation_Model_Send)!);
 
+                case Vision_Model_Enum.Mes_Info_Data:
 
+
+                    return Mes_Robot_Info_Send_Procotol((_Propertie as Robot_Mes_Info_Data_Send)!);
+
+                 
                 default:
                     throw new Exception("现有通讯协议无法解析，请联系开发者！");
 
@@ -569,6 +577,46 @@ namespace Roboto_Socket_Library
 
         }
 
+        /// <summary>
+        /// 机器人信息接受协议解析
+        /// </summary>
+        /// <returns></returns>
+        private Robot_Mes_Info_Data_Receive Mes_Robot_Info_Receive_Protocol()
+        {
+            Robot_Mes_Info_Data_Receive _Mes_Robot_Data_Receive = new();
+            switch (Socket_Robot)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+
+                    _Mes_Robot_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Robot_Mes_Info_Data_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.ABB:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.川崎:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.通用:
+
+
+
+
+                default:
+                    throw new Exception("发送协议错误！");
+
+
+            }
+
+            return _Mes_Robot_Data_Receive;
+
+
+        }
 
 
 
@@ -645,6 +693,48 @@ namespace Roboto_Socket_Library
 
             return _byte_List.ToArray();
         }
+
+
+     
+
+        private byte[]? Mes_Robot_Info_Send_Procotol(Robot_Mes_Info_Data_Send _Propertie)
+        {
+
+            List<byte> _byte_List = new();
+
+            switch (Socket_Robot)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+
+                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Robot_Mes_Info_Data_Send>(_Propertie)));
+
+                    break;
+                case Socket_Robot_Protocols_Enum.ABB:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.川崎:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.通用:
+
+
+
+                    break;
+                default:
+
+                    throw new Exception("标定发送协议错误！");
+
+
+            }
+
+            return _byte_List.ToArray();
+        }
+
+
 
         /// <summary>
         /// 视觉查找数据接收解析

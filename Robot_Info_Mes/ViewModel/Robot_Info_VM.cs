@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 
@@ -28,7 +29,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-        public Texte_Model  Model {set;get;}=new  ();
+        public Texte_Model Model { set; get; } = new();
 
 
 
@@ -36,6 +37,10 @@ namespace Robot_Info_Mes.ViewModel
 
 
         public Socket_Robot_Info_Parameters_Model Robot_Info_Parameters { set; get; } = new Socket_Robot_Info_Parameters_Model() { };
+
+
+
+
 
 
 
@@ -50,11 +55,11 @@ namespace Robot_Info_Mes.ViewModel
         public void Initialization_Local_Network_Robot_Socket()
         {
 
-         
-                Initialization_Sever_Start();
-                User_Log_Add("开启所有IP服务器连接：" + Robot_Info_Parameters.Sever_Socket_Port.ToString());
 
-            
+            Initialization_Sever_Start();
+            User_Log_Add("开启所有IP服务器连接：" + Robot_Info_Parameters.Sever_Socket_Port.ToString());
+
+
         }
 
 
@@ -79,9 +84,10 @@ namespace Robot_Info_Mes.ViewModel
                         //Vision_Ini_Data_Delegate = Robot_Info_Parameters,
 
                         //Vision_Find_Model_Delegate = Vision_Find_Shape_Receive_Method,
-                        //Socket_ErrorInfo_delegate = Socket_Log_Show,
-                        //Socket_Receive_Meg = Vision_Socked_Receive_information.Data_Converts_Str_Method,
-                        //Socket_Send_Meg = Vision_Socked_Send_information.Data_Converts_Str_Method,
+                        Mes_Info_Model_Data_Delegate= Robot_Mes_Info_Receive_Method,
+                        Socket_ErrorInfo_delegate = Socket_Log_Show,
+                        Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
+                        Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
                     });
                 }
 
@@ -135,6 +141,30 @@ namespace Robot_Info_Mes.ViewModel
             });
         }
 
+        public Robot_Mes_Info_Data_Send Robot_Mes_Info_Receive_Method(Robot_Mes_Info_Data_Receive _Receive)
+        {
+            Robot_Mes_Info_Data_Send _Send = new ();
+
+
+
+            _Send.Socket_Polling_Time =(int)(Robot_Info_Parameters.Socket_Polling_Time*1000);
+            _Send.IsStatus = 1;
+            //if (Convert.ToBoolean(_Receive.Calibration))
+            //{
+
+
+            //    _Send = Vision_Calibration_Model_Receive_Method(_Receive);
+
+            //}
+            //else
+            //{
+            //    _Send = Vision_Find_Data_Receive_Method(_Receive);
+            //}
+
+
+
+            return _Send;
+        }
 
 
 
@@ -142,7 +172,7 @@ namespace Robot_Info_Mes.ViewModel
         /// <summary>
         /// 全局使用输出方法
         /// </summary>
-        public void User_Log_Add(string Log, MessageBoxImage _MessType= MessageBoxImage.None)
+        public void User_Log_Add(string Log, MessageBoxImage _MessType = MessageBoxImage.None)
         {
 
             Task.Run(() =>
@@ -154,7 +184,13 @@ namespace Robot_Info_Mes.ViewModel
 
                     User_Log.User_Log = Log;
 
-               Application.Current.Dispatcher.Invoke(() => { MessageBox.Show(Log, "操作提示....", MessageBoxButton.OK, _MessType); });
+
+                    if (_MessType != MessageBoxImage.None)
+                    {
+
+
+                        Application.Current.Dispatcher.Invoke(() => { MessageBox.Show(Log, "操作提示....", MessageBoxButton.OK, _MessType); });
+                    }
 
                 }
                 catch (Exception e)
@@ -174,7 +210,10 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-
+        public  void Socket_Log_Show(string _log)
+        {
+            User_Log_Add(_log);
+        }
 
 
 

@@ -72,6 +72,14 @@ namespace Roboto_Socket_Library
         public ReceiveMessage_delegate<Vision_Creation_Model_Receive, Vision_Creation_Model_Send>? Vision_Creation_Model_Data_Delegate { set; get; }
 
 
+        /// <summary>
+        /// 视觉创建模型接受协议委托
+        /// </summary>
+        public ReceiveMessage_delegate<Robot_Mes_Info_Data_Receive, Robot_Mes_Info_Data_Send>? Mes_Info_Model_Data_Delegate { set; get; }
+
+
+        
+
         public Message_Byte_delegate<byte[]>? Socket_Receive_Meg { set; get; }
         public Message_Byte_delegate<byte[]>? Socket_Send_Meg { set; get; }
 
@@ -334,6 +342,19 @@ namespace Roboto_Socket_Library
                             Vision_Creation_Model_Send? __Vision_Creation_Send = Vision_Creation_Model_Data_Delegate?.Invoke(_Vision_Creation_Rece!);
 
                             Send_byte = _Socket_Protocol.Socket_Send_Set_Data(__Vision_Creation_Send ?? new Vision_Creation_Model_Send()) ?? Array.Empty<byte>();
+
+                            break;
+
+                        case Vision_Model_Enum.Mes_Info_Data:
+
+
+                            Robot_Mes_Info_Data_Receive? _Mes_Info_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Robot_Mes_Info_Data_Receive>();
+
+                            Robot_Mes_Info_Data_Send? _Mes_Info_Send = Mes_Info_Model_Data_Delegate?.Invoke(_Mes_Info_Rece!);
+
+                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Mes_Info_Send ?? new Robot_Mes_Info_Data_Send()) ?? Array.Empty<byte>();
+
+
 
                             break;
 

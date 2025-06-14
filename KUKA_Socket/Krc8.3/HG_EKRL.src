@@ -64,7 +64,7 @@ RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Camera_Pos", $POS_ACT)
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Origin_Pos", BASE_DATA[Plan_Base_No])
 RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
 
-Message_Wait("Wait Vision Send!",2)
+Message_Wait("Wait Vision Send!",2,FALSE)
 
 RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
 RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
@@ -129,7 +129,7 @@ RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","HandEye_Calib_Date"
 RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/ACT_Point", $POS_ACT)
 RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
 
-Message_Wait("Wait Camera Calib!",2)
+Message_Wait("Wait Camera Calib!",2,FALSE)
 
 RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
 RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
@@ -177,7 +177,7 @@ DECL State_t _State
 
 
 
-
+IsStatus=FALSE
 OPFFSET=0
 DATAPATH[]=" "
 ;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
@@ -186,7 +186,8 @@ DATAPATH[]=" "
 
 EKRL_Connect(EKRL_NAME[],FALSE)
 ;HALT
-
+RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
+RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Mes_Info_Data")
 DATAPATH_NAME[]=$PRO_IP.NAME[]
 ;SWRITE(DATAPATH[],_State,OPFFSET,"%s",)
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
@@ -218,17 +219,30 @@ RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_CD_Cycle_Time",Mes_Work_CD_Cy
 
 
 OPFFSET=0
-SWRITE(Robot_Process_Int[],_State,OPFFSET,"%d",Robot_Process_Name)
+SWITCH Robot_Process_Name
+   CASE #R_Side_7
+   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_7")
+   CASE #R_Side_8
+   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_8")
+   CASE #R_Side_9      
+   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_9")   
+   CASE #Panel_Surround_7
+   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_7")     
+   CASE #Panel_Surround_8
+   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_8")  
+   CASE #Panel_Surround_9
+   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_9")      
+ENDSWITCH
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Int[])
 
 
 
 RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
+HALT
+Message_Wait("Wait Mes Data!",2,TRUE)
 
-;Message_Wait("Wait Camera Calib!",2)
-
-;RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
-;RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
+RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
+RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_Cycle_Time)
 ;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
 RET=EKI_Close(EKRL_NAME[])
 RET=EKI_Clear(EKRL_NAME[])
@@ -291,7 +305,7 @@ RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Vision_Ini_Data")
 RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
 
 
-Message_Wait("Wait Vision Int Data!",2)
+Message_Wait("Wait Vision Int Data!",2,FALSE)
 
 
 RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
@@ -421,7 +435,7 @@ RET=EKI_Send(EKRL_NAME[],"Robot_Receive")
 
 
 
-Message_Wait("Wait Vision Find Data!",2)
+Message_Wait("Wait Vision Find Data!",2,FALSE)
 
 
 RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
@@ -588,7 +602,7 @@ RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", $POS_ACT)
 RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
 
 
-Message_Wait("Find Model Data Sending",2)
+Message_Wait("Find Model Data Sending",2,FALSE)
 
 RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,Calculation_Status)
 RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
@@ -667,17 +681,17 @@ RET=EKI_Clear(EKRL_NAME[])
 End
 
 
-GLOBAL DEF  Message_Wait(Msg_String:IN,Flag_No:IN)
+GLOBAL DEF  Message_Wait(Msg_String:IN,Flag_No:IN,Wait_NO:IN)
 DECL CHAR Msg_String[]
 DECL INT Flag_No
 DECL INT Mess_INT
-DECL BOOL Mess_Del
+DECL BOOL Mess_Del,Wait_NO
 Mess_INT=-1
 
 REPEAT
 ;halt
-IF NOT Exists_KrlMsg(Mess_INT) THEN
-Msg_Wait(Msg_String[],false,Mess_INT,Flag_No)
+IF ((NOT Exists_KrlMsg(Mess_INT) AND (Wait_NO==FALSE))) THEN
+Msg_Wait(Msg_String[],FALSE,Mess_INT,Flag_No)
 ;halt
 ENDIF
 
@@ -837,7 +851,7 @@ RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
 
 
 
-Message_Wait("Calibration Data Sending",2)
+Message_Wait("Calibration Data Sending",2,FALSE)
 
 
 

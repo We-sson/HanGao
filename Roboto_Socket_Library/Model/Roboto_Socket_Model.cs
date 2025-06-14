@@ -207,7 +207,7 @@ namespace Roboto_Socket_Library.Model
             /// 标定模式
             /// </summary>
             [XmlAttribute]
-            public int  Calibration { set; get; } = 0;
+            public int Calibration { set; get; } = 0;
 
         }
 
@@ -220,13 +220,50 @@ namespace Roboto_Socket_Library.Model
         public class Robot_Mes_Info_Data_Receive
         {
 
+            /// <summary>
+            /// 接收点位类型的机器人
+            /// </summary>
+            [XmlAttribute]
+            public Robot_Type_Enum Robot_Type { set; get; }
+            /// <summary>
+            /// 视觉模式
+            /// </summary>
+            [XmlAttribute]
+            public Vision_Model_Enum Vision_Model { set; get; }
 
 
+            /// <summary>
+            /// 程序名称
+            /// </summary>
+            public string Mes_Programs_Name { set; get; } = string.Empty;
+
+            /// <summary>
+            /// kuka机器人模式
+            /// </summary>
+            public KUKA_Mode_OP_Enum Mes_Robot_Mode { set; get; } = KUKA_Mode_OP_Enum.T1;
 
 
+            /// <summary>
+            /// 工站作业数量
+            /// </summary>
+            public int Mes_Work_Number { set;get; } = 0;
 
 
+            /// <summary>
+            /// 工位周期时间，毫秒
+            /// </summary>
+            public int Mes_Work_AB_Cycle_Time { set; get; } = 0;
 
+            /// <summary>
+            /// 工位周期时间，毫秒
+            /// </summary>
+            public int Mes_Work_CD_Cycle_Time { set; get; } = 0;
+
+
+            /// <summary>
+            /// 机器人工艺机器人
+            /// </summary>
+            public Robot_Process_Int_Enum Robot_Process_Int = Robot_Process_Int_Enum.R_Side_7;
 
         }
         /// <summary>
@@ -238,7 +275,12 @@ namespace Roboto_Socket_Library.Model
         {
 
 
-
+            /// <summary>
+            /// 通讯轮询时间
+            /// </summary>
+            public int Socket_Polling_Time { set; get; } =5000;
+            [XmlAttribute]
+            public int  IsStatus { set; get; } = 0;
 
 
 
@@ -315,7 +357,7 @@ namespace Roboto_Socket_Library.Model
 
 
             }
-            
+
         }
 
 
@@ -504,13 +546,26 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 通讯设备图像来源设置
         /// </summary>
-        public double Socket_Polling_Time { get; set; } =5;
+        public double Socket_Polling_Time { get; set; } = 5;
 
         /// <summary>
         /// 接受服务器运行状态
         /// </summary>
         public bool Sever_IsRuning { set; get; } = false;
 
+
+
+
+        /// <summary>
+        /// 通信接受内容详细显示
+        /// </summary>
+        public Socket_Data_Converts Receive_information { set; get; } = new Socket_Data_Converts();
+
+
+        /// <summary>
+        /// 通信发送内容详细显示
+        /// </summary>
+        public Socket_Data_Converts Send_information { set; get; } = new Socket_Data_Converts();
 
 
         /// <summary>
@@ -551,11 +606,11 @@ namespace Roboto_Socket_Library.Model
 
 
 
-/// <summary>
-/// 泛型类型委托声明
-/// </summary>
-/// <param name="_Connect_State"></param>
-public delegate void Socket_T_delegate<T>(T _T);
+    /// <summary>
+    /// 泛型类型委托声明
+    /// </summary>
+    /// <param name="_Connect_State"></param>
+    public delegate void Socket_T_delegate<T>(T _T);
 
 
     /// <summary>
@@ -581,7 +636,7 @@ public delegate void Socket_T_delegate<T>(T _T);
         /// <summary>
         /// 默认状态
         /// </summary>
-        Default, 
+        Default,
         /// <summary>
         /// 开启服务准备连接
         /// </summary>
@@ -611,7 +666,7 @@ public delegate void Socket_T_delegate<T>(T _T);
         Vision_Ini_Data,
         HandEye_Calib_Date,
         Vision_Creation_Model,
-        Robot_Mes_Info
+        Mes_Info_Data
 
 
 
@@ -642,6 +697,45 @@ public delegate void Socket_T_delegate<T>(T _T);
         [Description("通用")]
 
         通用
+    }
+
+
+    public enum KUKA_Mode_OP_Enum
+    {
+        [Description("#T1")]
+        T1,
+        [Description("#T2")]
+        T2,
+        [Description("#AUT")]
+        AUT,
+        [Description("#EX")]
+        EX
+
+
+    }
+
+
+    public enum Robot_Process_Int_Enum
+    {
+
+        [Description("7线激光R边")]
+        R_Side_7,
+        [Description("8线激光R边")]
+
+        R_Side_8,
+        [Description("9线激光R边")]
+
+        R_Side_9,
+        [Description("7线激光围边")]
+
+        Panel_Surround_7,
+        [Description("8线激光围边")]
+
+        Panel_Surround_8,
+        [Description("9线激光围边")]
+
+        Panel_Surround_9,
+
     }
 
 }
