@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 356
+&ACCESS RVO
+&REL 383
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -22,7 +22,7 @@ DECL EKI_STATUS RET
 
 ;ENDFOLD (INI)
 ;------------
-EKRL_CONNECT()
+;EKRL_CONNECT()
 
 
 
@@ -55,7 +55,7 @@ Camera_Pos=$POS_ACT
 
 
 
-EKRL_Connect(EKRL_NAME[])
+EKRL_Connect(EKRL_NAME[],TRUE)
 
 
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
@@ -121,7 +121,7 @@ HandEye_Type_String[]="Calibration_End"
 endswitch
 
 
-EKRL_Connect(EKRL_NAME[])
+EKRL_Connect(EKRL_NAME[],TRUE)
 
 
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Calibration_Model",HandEye_Type_String[])
@@ -166,6 +166,107 @@ ENDIF
 END
 
 
+GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN)
+DECL CHAR EKRL_NAME[],MODE_OP[1024],Robot_Process_Name_Str[1024],DATAPATH[1024],Robot_Process_Int[1024]
+DECL EKI_STATUS RET
+
+DECL  BOOL IsStatus
+DECL INT HandEye_ID,OPFFSET,Work_Number,Mes_Work_AB_Cycle_Time,Mes_Work_CD_Cycle_Time
+DECL State_t _State
+
+
+
+
+
+OPFFSET=0
+DATAPATH[]=" "
+;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
+
+
+
+EKRL_Connect(EKRL_NAME[],FALSE)
+;HALT
+
+DATAPATH_NAME[]=$PRO_IP.NAME[]
+;SWRITE(DATAPATH[],_State,OPFFSET,"%s",)
+RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
+
+
+ SWITCH $MODE_OP
+    CASE #T1
+      SWRITE(MODE_OP[],_State,OPFFSET,"%s","T1")
+    CASE #AUT
+      SWRITE(MODE_OP[],_State,OPFFSET,"%s","AUT")
+  ENDSWITCH 
+
+
+
+;SWRITE(MODE_OP[],_State,OPFFSET,"%g",$MODE_OP)
+  
+RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Robot_Mode",MODE_OP[])
+
+
+Work_Number=Work_A_Run_Nunber+Work_B_Run_Nunber
+RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_Number",Work_Number)
+
+
+Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
+RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_AB_Cycle_Time",Mes_Work_AB_Cycle_Time)
+
+Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
+RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_CD_Cycle_Time",Mes_Work_CD_Cycle_Time)
+
+
+OPFFSET=0
+SWRITE(Robot_Process_Int[],_State,OPFFSET,"%d",Robot_Process_Name)
+RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Int[])
+
+
+
+RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
+
+;Message_Wait("Wait Camera Calib!",2)
+
+;RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
+;RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
+;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
+RET=EKI_Close(EKRL_NAME[])
+RET=EKI_Clear(EKRL_NAME[])
+
+;IF  IsStatus THEN
+
+;MSGNOTIFY(Message_Error[])
+
+;switch HandEye_Type
+;case #Calibration_Start
+
+;-----
+;case #Calibration_Progress
+;-----
+;case #Calibration_End
+
+
+;HandEye_Result_Pos.X=Result_Pos.X
+;HandEye_Result_Pos.Y=Result_Pos.Y
+;HandEye_Result_Pos.Z=Result_Pos.Z
+;endswitch
+
+
+;else
+
+;MsgQuit(Message_Error[], "HanGao")
+;halt
+;ENDIF
+
+
+
+
+
+
+
+END
+
+
 
 
 GLOBAL DEF EKRL_Vision_Int_Data(EKRL_NAME:IN)
@@ -183,7 +284,7 @@ return
 ENDIF
 
 
-EKRL_Connect(EKRL_NAME[])
+EKRL_Connect(EKRL_NAME[],TRUE)
 
 
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Vision_Ini_Data")
@@ -247,7 +348,7 @@ ENDIF
 
 
 
-EKRL_Connect(EKRL_NAME[])
+EKRL_Connect(EKRL_NAME[],TRUE)
 
 
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Find_Model")
@@ -437,7 +538,7 @@ Message_Show[]=" "
 
 
 
-EKRL_Connect(EKRL_NAME[])
+EKRL_Connect(EKRL_NAME[],TRUE)
 
 
 switch Find_Area
@@ -612,7 +713,7 @@ LastPos8={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 LastPos9={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
 ;-----INI--------
 
-EKRL_Connect(EKRL_NAME[])
+EKRL_Connect(EKRL_NAME[],TRUE)
 
 
 switch Work_Area
@@ -798,12 +899,13 @@ End
 
 
 
-GLOBAL DEF EKRL_Connect(EKRL_NAME:IN)
+GLOBAL DEF EKRL_Connect(EKRL_NAME:IN,Msg_Err:IN)
 DECL EKI_STATUS RET
 DECL INT Mess_INT
-DECL BOOL Mess_Del
+DECL BOOL Mess_Del,Msg_Err
 DECL CHAR EKRL_NAME[]
 ;EKRL_NAME[]="HanGaoEkrl"
+
 Mess_INT=-1
 WAIT SEC 0.02
 RET=EKI_Init(EKRL_NAME[])
@@ -816,6 +918,9 @@ EKI_CHECK(RET,#Quit,EKRL_NAME[])
 wait sec 0.024
 
 ;MSGNOTIFY("HanGao:Socket Connecting!")
+
+IF Msg_Err THEN
+ 
 
 
 REPEAT
@@ -835,9 +940,12 @@ wait sec 2
 ENDIF
 
 UNTIL  $Flag[Connect_Falg]
-Mess_Del=Clear_KrlMsg(Mess_INT)
+
 MSGNOTIFY("HanGao:Socket Connecting OK!")
 
+ENDIF
+
+Mess_Del=Clear_KrlMsg(Mess_INT)
 
 End
 GLOBAL DEF EKRL_Close(EKRL_NAME:IN)

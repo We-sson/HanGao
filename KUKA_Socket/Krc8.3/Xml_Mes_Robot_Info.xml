@@ -1,0 +1,31 @@
+<ETHERNETKRL>
+	<CONFIGURATION>
+		<EXTERNAL>
+		   <IP>192.168.0.50</IP>
+			<PORT>6000</PORT>
+		</EXTERNAL>
+		<INTERNAL>
+			<ALIVE Set_Flag="1"/>
+		</INTERNAL>
+	</CONFIGURATION>
+	<RECEIVE>
+		<XML>
+		 <ELEMENT Tag="Robot_Send/@IsStatus" Type="BOOL"/> 
+       <ELEMENT Tag="Robot_Send/Message_Error" Type="STRING"/>
+		 <ELEMENT Tag="Robot_Send/Result_Pos" Type="FRAME"/>
+       <ELEMENT Tag="Robot_Send" Set_Flag="2"/>
+		</XML>
+	</RECEIVE>
+	<SEND>
+		<XML>
+		 <ELEMENT Tag="Robot_Receive/@Vision_Model" Type="STRING"/>
+         <ELEMENT Tag="Robot_Receive/@Calibration_Model" Type="STRING"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@X" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@Y" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@Z" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@A" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@B" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/ACT_Point/@C" Type="REAL"/>
+		</XML>
+	</SEND>
+</ETHERNETKRL>

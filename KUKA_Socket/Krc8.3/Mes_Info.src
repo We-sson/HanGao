@@ -1,0 +1,167 @@
+&ACCESS RVP
+&REL 140
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\Program\HG
+DEF Mes_Info( )
+Mes_Info_Int()
+
+LOOP
+Mes_Info_Main()
+
+ENDLOOP
+;# DATE:2025-6-12
+END
+
+GLOBAL DEF Mes_InFo_Main()
+
+;DECL bool _Work_A_Stat,_Work_B_Stat,_Work_C_Stat,_Work_D_Stat
+ 
+
+;_Work_A_Stat=FALSE
+;_Work_B_Stat=FALSE
+;_Work_C_Stat=FALSE
+;_Work_D_Stat=FALSE
+
+
+  
+
+;Mes_Mode_Info(Aut_Time,_Aut_Stat,10,#AUT)
+;Mes_Mode_Info(T1_Time,_T1_Stat,11,#T1)
+
+
+Mes_Work_Info(Work_A,_Work_A_Stat,12,Work_A_Run_Nunber,Work_A_Run_Cycle_Time,Work_A_Run_All_Time)
+Mes_Work_Info(Work_B,_Work_B_Stat,13,Work_B_Run_Nunber,Work_B_Run_Cycle_Time,Work_B_Run_All_Time)
+Mes_Work_Info(Work_C,_Work_C_Stat,14,Work_C_Run_Nunber,Work_C_Run_Cycle_Time,Work_C_Run_All_Time)
+Mes_Work_Info(Work_D,_Work_D_Stat,15,Work_D_Run_Nunber,Work_D_Run_Cycle_Time,Work_D_Run_All_Time)
+
+
+Mes_Info_Send(_EKRL_Send_Stat,9)
+
+
+
+
+END
+
+DEF Mes_Work_Info( _Work:IN,_Work_State:OUT, _Time_No:IN,_Work_A_Run_Nunber:OUT,_Work_A_Run_Cycle_Time:OUT,_Work_A_Run_All_Time :OUT)
+
+DECL BOOL _Work,_Work_State
+DECL INT _Time_No,_Work_A_Run_Nunber,_Work_A_Run_Cycle_Time,_Work_A_Run_All_Time
+
+
+
+
+IF ((_Work==TRUE) AND (_Work_State==FALSE)) THEN
+_Work_State=TRUE
+$TIMER_STOP[_Time_No]=false
+
+
+ENDIF
+
+
+
+IF  ((_Work==FALSE )AND( _Work_State==TRUE) )  THEN
+_Work_A_Run_Nunber=_Work_A_Run_Nunber+1
+$TIMER_STOP[_Time_No]=true
+
+_Work_A_Run_All_Time=_Work_A_Run_All_Time+$TIMER[_Time_No]
+$TIMER[_Time_No]=0
+_Work_State=FALSE
+ENDIF
+
+
+
+IF ((_Work==TRUE) AND (_Work_State==TRUE)) THEN
+_Work_A_Run_Cycle_Time=$TIMER[_Time_No]
+ENDIF
+
+
+
+END
+
+
+
+
+DEF Mes_Mode_Info(_Aut_Time:OUT,_Stat:OUT,_Time_No:IN,_Mode:IN)
+DECL INT _Aut_Time,_Time_No
+DECL MODE_OP _Mode
+DECL BOOL _Stat
+
+IF (($Mode_OP==_Mode) AND (_Stat==false)) THEN
+$TIMER_STOP[_Time_No]=false
+_Stat=true
+ENDIF
+
+if (($Mode_OP<>_Mode) AND (_Stat==TRUE)) THEN
+;wait sec 0
+$TIMER_STOP[_Time_No]=true
+_Aut_Time=_Aut_Time+$TIMER[_Time_No]
+$TIMER[_Time_No]=0
+_Stat=FALSE
+endif
+
+
+END
+
+
+DEF Mes_Info_Send(_EKRL_Send_Stat:IN,_Time_No:IN)
+DECL BOOL _EKRL_Send_Stat
+DECL INT _Time_No
+
+
+IF _EKRL_Send_Stat==FALSE THEN
+$TIMER_STOP[_Time_No]=false
+_EKRL_Send_Stat=TRUE
+ 
+ENDIF
+
+IF ((_EKRL_Send_Stat==TRUE) AND ($TIMER[_Time_No]>Socket_Cycle_Time))  THEN
+$TIMER_STOP[_Time_No]=TRUE
+$TIMER[_Time_No]=0
+Mes_EKRL_Info_Send("Xml_Mes_Robot_Info")
+ 
+ 
+ENDIF
+
+
+
+END
+
+
+
+GLOBAL DEF Mes_InFo_Int()
+DECL int i
+;{DATE:CSEC 0,SEC 0,MIN 0,HOUR 0,DAY 0,MONTH 0,YEAR 0}
+Robot_Run_Time=$DATE
+T1_Time=0
+Aut_Time=0
+Work_A_Run_Cycle_Time=0
+Work_A_Run_All_Time=0
+Work_B_Run_Cycle_Time=0
+Work_B_Run_All_Time=0
+Work_C_Run_Cycle_Time=0
+Work_C_Run_All_Time=0
+Work_D_Run_Cycle_Time=0
+Work_D_Run_All_Time=0
+
+Work_A_Run_Nunber=0
+Work_B_Run_Nunber=0
+Work_C_Run_Nunber=0
+Work_D_Run_Nunber=0
+Work_All_Run_Nunber=0
+
+_Work_A_Stat=FALSE
+_Work_B_Stat=FALSE
+_Work_C_Stat=FALSE
+_Work_D_Stat=FALSE
+
+
+for i=9 to 20
+$TIMER_STOP[i]=true
+$TIMER[i]=0
+
+ENDFOR
+
+
+END
+
