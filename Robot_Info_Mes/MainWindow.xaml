@@ -10,7 +10,7 @@
     xmlns:local="clr-namespace:Robot_Info_Mes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="1200"
-    Height="630"
+    Height="650"
     DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
     mc:Ignorable="d">
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="80" />
+            <RowDefinition Height="60" />
             <RowDefinition Height=" 350" />
             <RowDefinition Height=" 180" />
         </Grid.RowDefinitions>
