@@ -3,11 +3,15 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
+using SkiaSharp;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -27,6 +31,8 @@ namespace Robot_Info_Mes.ViewModel
             ///初始化
             ///
             Initialization_Local_Network_Robot_Socket();
+
+            Welding_Power_Series = new ObservableCollection<ISeries>(Welding_Power_Data.AddValue(Weding_Power_Val, "%").BuildSeries());
         }
 
 
@@ -40,11 +46,19 @@ namespace Robot_Info_Mes.ViewModel
 
         public Socket_Robot_Info_Parameters_Model Robot_Info_Parameters { set; get; } = new Socket_Robot_Info_Parameters_Model() { };
 
+        public GaugeBuilder Welding_Power_Data { get; set; } =
+new GaugeBuilder()
+{
+    LabelsSize = 25,
+    InnerRadius = 55,
+    BackgroundInnerRadius = 55,
+    LabelsPosition = PolarLabelsPosition.ChartCenter,
+    Background = new SolidColorPaint(new SKColor(222, 222, 222)),
+}.WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}");
 
+        public ObservableCollection<ISeries> Welding_Power_Series { get; set; }  
 
-        public ObservableCollection<ISeries> Welding_Power_Series { get; set; } = new ObservableCollection<ISeries>() { };
-
-
+        public ObservableValue Weding_Power_Val { set; get; } = new ObservableValue { Value = 50 };
 
         /// <summary>
         /// 消息显示
