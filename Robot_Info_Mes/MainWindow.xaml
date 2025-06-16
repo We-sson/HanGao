@@ -8,9 +8,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:Robot_Info_Mes"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="1200"
-    Height="650"
+    Width="auto"
+    Height="auto"
+    d:Height="auto"
+    d:Width="1920"
     DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
     mc:Ignorable="d">
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
@@ -457,7 +460,9 @@
                 BorderThickness="3"
                 CornerRadius="10"
                 Effect="{DynamicResource 全局背景阴影}" />
-            <StackPanel Orientation="Horizontal">
+            <DockPanel>
+
+
                 <Border
                     Width=" 200"
                     Margin="10"
@@ -475,12 +480,132 @@
                     Background="{DynamicResource 全局_按钮_深灰颜色}"
                     CornerRadius=" 1.5" />
 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid
+                        Grid.Column=" 0"
+                        Width=" 200"
+                        Margin="10,10,5,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=" 50" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                            Text="当前生产程序" />
+                        <Border
+                            Grid.Row=" 2"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="2"
+                            CornerRadius="10">
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="18"
+                                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                Text="/R1/HG_EKRL.SRC" />
 
-                <Grid Width=" 250" Margin="10">
+
+                        </Border>
+                    </Grid>
+                    <Grid
+                        Grid.Column=" 1"
+                        Width=" 100"
+                        Margin="5,10,5,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=" 50" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                            Text="生产节拍" />
+                        <Border
+                            Grid.Row=" 2"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="2"
+                            CornerRadius="10">
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="20"
+                                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                Text="63s" />
+
+
+                        </Border>
+                    </Grid>
+                    <Grid
+                        Grid.Column=" 2"
+                        Width=" 100"
+                        Margin="5,10,10,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=" 50" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                            Text="生产数量" />
+                        <Border
+                            Grid.Row=" 2"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="2"
+                            CornerRadius="10">
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="20"
+                                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                Text="432 Psc" />
+
+
+                        </Border>
+                    </Grid>
+                </Grid>
+
+                <Border
+                    Width="3"
+                    Margin="0,15,0,15"
+                    Background="{DynamicResource 全局_按钮_深灰颜色}"
+                    CornerRadius=" 1.5" />
+
+
+                <Grid Margin="10">
+
                     <Grid.RowDefinitions>
-                        <RowDefinition Height=" 50" />
+                        <RowDefinition Height="50" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
+
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="0"
@@ -490,28 +615,195 @@
                         FontSize="20"
                         FontWeight="Bold"
                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                        Text="当前生产程序" />
-                    <Border
-                        Grid.Row=" 2"
-                        BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                        BorderThickness="2"
-                        CornerRadius="10">
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontFamily="{DynamicResource 全局_文字_中文字体}"
-                            FontSize="20"
-                            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                            Text="/R1/HG_EKRL.SRC" />
+                        Text="设备运行状态" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
 
-
-                    </Border>
+                        <Border
+                            Width=" 100"
+                            Margin="5,0,5,0"
+                            Background="{DynamicResource 全局_按钮_绿颜色}"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="3"
+                            CornerRadius=" 10"
+                            Effect="{DynamicResource 全局背景阴影}">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="20"
+                                Text="运行" />
+                        </Border>
+                        <Border
+                            Width=" 100"
+                            Margin="5,0,5,0"
+                            Background="{DynamicResource 全局_按钮_黄颜色}"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="3"
+                            CornerRadius=" 10"
+                            Effect="{DynamicResource 全局背景阴影}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Opacity" Value="0.5" />
+                                    <Style.Triggers />
+                                </Style>
+                            </Border.Style>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="20"
+                                Text="调试" />
+                        </Border>
+                        <Border
+                            Width=" 100"
+                            Margin="5,0,5,0"
+                            Background="{DynamicResource 全局_按钮_红颜色}"
+                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                            BorderThickness="3"
+                            CornerRadius=" 10"
+                            Effect="{DynamicResource 全局背景阴影}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Opacity" Value="0.5" />
+                                    <Style.Triggers />
+                                </Style>
+                            </Border.Style>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="20"
+                                Text="错误" />
+                        </Border>
+                    </StackPanel>
                 </Grid>
 
+                <Border
+                    Width="3"
+                    Margin="0,15,0,15"
+                    Background="{DynamicResource 全局_按钮_深灰颜色}"
+                    CornerRadius=" 1.5" />
+                <Grid Margin="10">
 
-            </StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                        Text="设备运行状态" />
+
+
+
+                    <Grid Grid.Row=" 1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column=" 0"
+                            Margin="5"
+                            Orientation="Vertical">
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="18"
+                                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                Text="运行总时间：756 min" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="18"
+                                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                Text="作业总时间：756 min" />
+
+                        </StackPanel>
+
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column=" 1"
+                            Margin="5"
+                            Orientation="Vertical">
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="20"
+                                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                Text="累计运行总时间：756 min" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="20"
+                                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                Text="累计作业总时间：756 min" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="18"
+                                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                Text="累计生产数量：1567 Psc" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <Border
+                    Width="3"
+                    Margin="0,15,0,15"
+                    Background="{DynamicResource 全局_按钮_深灰颜色}"
+                    CornerRadius=" 1.5" />
+
+
+                <Grid Grid.Column="1">
+
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=" auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <lvc:PieChart
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        InitialRotation="-225"
+                        MaxAngle="270"
+                        Series="{Binding Welding_Power_Series}"
+                        TooltipPosition="Hidden"
+                        Total="100" />
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Margin="6,12,6,6"
+                        HorizontalAlignment="Center"
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="20"
+                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                        Text="焊接功率" />
+
+                </Grid>
+
+            </DockPanel>
 
 
 

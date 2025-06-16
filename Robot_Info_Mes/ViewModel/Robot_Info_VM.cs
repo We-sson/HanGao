@@ -2,6 +2,8 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
@@ -40,7 +42,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-
+        public ObservableCollection<ISeries> Welding_Power_Series { get; set; } = new ObservableCollection<ISeries>() { };
 
 
 
