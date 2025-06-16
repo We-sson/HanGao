@@ -18,7 +18,7 @@
     <DebugType>embedded</DebugType>
     <WarningLevel>8</WarningLevel>
     <Deterministic>False</Deterministic>
-    <NoWarn>1701;1702;1416</NoWarn>
+    <NoWarn>1701;1702;1416;DV2001</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -26,7 +26,7 @@
     <DebugType>embedded</DebugType>
     <WarningLevel>8</WarningLevel>
     <Deterministic>False</Deterministic>
-    <NoWarn>1701;1702;1416</NoWarn>
+    <NoWarn>1701;1702;1416;DV2001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

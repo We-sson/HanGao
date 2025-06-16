@@ -15,15 +15,19 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>embedded</DebugType>
+    <NoWarn>1701;1702;DV2001</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebugType>embedded</DebugType>
+    <NoWarn>1701;1702;DV2001</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>embedded</DebugType>
+    <NoWarn>1701;1702;DV2001</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>embedded</DebugType>
+    <NoWarn>1701;1702;DV2001</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <None Include="KUKA_KRL\8.3\EthernetKRL.kop" />
