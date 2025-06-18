@@ -8,8 +8,7 @@
     xmlns:local="clr-namespace:Robot_Info_Mes"
     xmlns:vm="clr-namespace:Robot_Info_Mes.ViewModel"
     d1p1:Ignorable="d"
-    Startup="Application_Startup"
-    StartupUri="Client_Window.xaml">
+    Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
 

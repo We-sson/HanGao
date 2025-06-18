@@ -220,6 +220,28 @@ namespace Roboto_Socket_Library.Model
         public class Robot_Mes_Info_Data_Receive
         {
 
+
+            public Robot_Mes_Info_Data_Receive()
+            {
+
+            }
+            public Robot_Mes_Info_Data_Receive(Robot_Mes_Info_Data_Receive _)
+            {
+                Robot_Type=_.Robot_Type;
+                Vision_Model=_.Vision_Model;
+                Mes_Programs_Name = _.Mes_Programs_Name;
+                Mes_Robot_Mode=_.Mes_Robot_Mode;
+                Mes_Work_Number=_.Mes_Work_Number;
+                Mes_Work_AB_Cycle_Time = _.Mes_Work_AB_Cycle_Time;
+                Mes_Work_CD_Cycle_Time = _.Mes_Work_CD_Cycle_Time;
+                Robot_Process_Int = _.Robot_Process_Int;
+
+            }
+
+
+
+
+
             /// <summary>
             /// 接收点位类型的机器人
             /// </summary>
@@ -647,7 +669,12 @@ namespace Roboto_Socket_Library.Model
 
 
 
+    public enum Socket_Robot_Connect_State_Enum
+    {
+        Connected,
+        Disconnected,
 
+    }
 
 
 

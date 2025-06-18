@@ -1,14 +1,21 @@
-﻿using System;
+﻿using PropertyChanged;
+using Roboto_Socket_Library.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Xml.Serialization;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
+using Timer = System.Timers.Timer;
 
 namespace Robot_Info_Mes.Model
 {
-   public  class Mes_Robot_Info_Model
+
+    [Serializable]
+    [AddINotifyPropertyChangedInterface]
+    public class Mes_Robot_Info_Model
     {
 
         public Robot_Mes_Info_Data_Receive Robot_Info_Data { set; get; } = new();
@@ -16,12 +23,14 @@ namespace Robot_Info_Mes.Model
 
 
 
-  
+        [XmlIgnore]
+        public Socket_Robot_Connect_State_Enum Socket_Robot_Connect_State { set; get; } = Socket_Robot_Connect_State_Enum.Disconnected;
 
 
-		private string _Image_Source = string.Empty;
+        private string _Image_Source = string.Empty;
 
-		public  string Image_Source
+        [XmlIgnore]
+        public  string Image_Source
 		{
 			get {
                 switch (Robot_Info_Data.Robot_Process_Int)
@@ -81,38 +90,57 @@ namespace Robot_Info_Mes.Model
         public int Robot_Work_Number { set; get; }
 
 
+
+
+
+        public Timer Robot_Debug_Time_Data { set; get; }=new Timer ();
+
+
+
+
         /// <summary>
         /// 机器人当天调试时间
         /// </summary>
-        public DateTime Robot_Debug_Time { set; get; }
+        public TimeSpan Robot_Debug_Time { set; get; }
         /// <summary>
         /// 机器人累计调试时间
         /// </summary>
-        public DateTime Robot_Debug_All_Time { set; get; }
+        public TimeSpan Robot_Debug_All_Time { set; get; }
 
         /// <summary>
         /// 机器人当天作业时间
         /// </summary>
-        public DateTime Robot_Work_Time { set; get; }
+        public TimeSpan Robot_Work_Time { set; get; }
        /// <summary>
         /// 机器人累计作业时间
         /// </summary>
-        public DateTime Robot_Work_All_Time { set; get; }
+        public TimeSpan Robot_Work_All_Time { set; get; }
 
         /// <summary>
         /// 机器人当天运行时间
         /// </summary>
-        public DateTime Robot_Run_Time { set; get; }
+        public TimeSpan Robot_Run_Time { set; get; }
+
+
+        [XmlIgnore]
+        public Timer Robot_Run_Time_Data { set; get; } = new Timer() { AutoReset=false };
+
+
 
         /// <summary>
         /// 机器人累计运行时间
         /// </summary>
-        public DateTime Robot_Run_All_Time { set; get; }
+        public TimeSpan Robot_Run_All_Time { set; get; }
 
 
 
-
+        /// <summary>
+        /// 机器人稼动率
+        /// </summary>
         public int Robot_Crop_Rate { set; get; } = 0;
+
+
+
 
 
     }

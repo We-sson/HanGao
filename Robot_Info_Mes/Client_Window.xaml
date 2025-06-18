@@ -628,9 +628,10 @@
                             Effect="{DynamicResource 全局背景阴影}">
                             <Border.Style>
                                 <Style TargetType="Border">
+                                    <Setter Property="Opacity" Value="0.5" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode}" Value="{x:Static Robot:KUKA_Mode_OP_Enum.AUT}">
-                                            <Setter Property="Opacity" Value="0.5" />
+                                            <Setter Property="Opacity" Value="1" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -652,9 +653,10 @@
                             Effect="{DynamicResource 全局背景阴影}">
                             <Border.Style>
                                 <Style TargetType="Border">
+                                    <Setter Property="Opacity" Value="0.5" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode}" Value="{x:Static Robot:KUKA_Mode_OP_Enum.T1}">
-                                            <Setter Property="Opacity" Value="0.5" />
+                                            <Setter Property="Opacity" Value="1" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -876,7 +878,28 @@
 
             </DockPanel>
 
-
+            <Border
+                d:Visibility="Collapsed"
+                Background="{DynamicResource 全局_按钮_黑颜色}"
+                Opacity="0.8 ">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State}" Value="{x:Static Robot:Socket_Robot_Connect_State_Enum.Disconnected}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="{DynamicResource 全局_文字_中文字体}"
+                    FontSize="50"
+                    Foreground="{DynamicResource 全局_按钮_白颜色}"
+                    Text="设备离线时间.... 15 min" />
+            </Border>
 
         </Grid>
 

@@ -19,6 +19,7 @@ using System.Windows.Input;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
+using Timer = System.Threading.Timer;
 
 namespace Robot_Info_Mes.ViewModel
 {
@@ -31,8 +32,15 @@ namespace Robot_Info_Mes.ViewModel
             ///初始化
             ///
             Initialization_Local_Network_Robot_Socket();
+            Initialization_File_Info();
+
+
 
             Welding_Power_Series = new ObservableCollection<ISeries>(Welding_Power_Data.AddValue(Weding_Power_Val, "%").BuildSeries());
+        
+        
+        
+        
         }
 
 
@@ -48,7 +56,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-
+       
 
 
 
@@ -77,7 +85,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-
+        public File_Int_Model File_Int_Parameters { set; get; }=new ();
 
 
 
@@ -105,6 +113,34 @@ namespace Robot_Info_Mes.ViewModel
 
         }
 
+
+
+        public void Int_Run_TIme()
+        {
+      
+
+             Mes_Robot_Info_Model_Data.Robot_Run_Time_Data.Start();
+
+
+
+            
+
+        }
+
+        /// <summary>
+        /// 初始化文件读取
+        /// </summary>
+        public void Initialization_File_Info()
+        {
+
+
+            Mes_Robot_Info_Model_Data= new File_Xml_Model().Read_Xml_File<Mes_Robot_Info_Model>();
+            File_Int_Parameters=new File_Xml_Model().Read_Xml_File<File_Int_Model>();
+            User_Log_Add("已读取本机设备信息文件！"+new File_Xml_Model().GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
+            User_Log_Add("已经初始化软件！"+new File_Xml_Model().GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
+
+
+        }
 
 
 
@@ -189,26 +225,39 @@ namespace Robot_Info_Mes.ViewModel
             Robot_Mes_Info_Data_Send _Send = new();
 
 
+            Set_Robot_Info_Data(_Receive);
+
+
+
+      
+
+
+
 
             _Send.Socket_Polling_Time = (int)(Mes_Run_Parameters.Socket_Polling_Time * 1000);
             _Send.IsStatus = 1;
-            //if (Convert.ToBoolean(_Receive.Calibration))
-            //{
-
-
-            //    _Send = Vision_Calibration_Model_Receive_Method(_Receive);
-
-            //}
-            //else
-            //{
-            //    _Send = Vision_Find_Data_Receive_Method(_Receive);
-            //}
-
-
+ 
 
             return _Send;
         }
 
+
+
+        public void Set_Robot_Info_Data(Robot_Mes_Info_Data_Receive _Data)
+        {
+
+            Mes_Robot_Info_Model_Data.Robot_Info_Data=new Robot_Mes_Info_Data_Receive(_Data);
+
+            Mes_Robot_Info_Model_Data.Robot_Work_Number = _Data.Mes_Work_Number;
+            Mes_Robot_Info_Model_Data.Robot_Work_Cycle = Math.Max(_Data.Mes_Work_AB_Cycle_Time, _Data.Mes_Work_CD_Cycle_Time);
+            Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Connected;
+
+            //Mes_Robot_Info_Model_Data.Robot_Work_Time= Mes_Robot_Info_Model_Data.Robot_Work_Time+new DateTime(TimeSpan.FromMilliseconds())
+
+
+
+                TimeSpan _work_time = TimeSpan.FromMicroseconds((_Data.Mes_Work_AB_Cycle_Time + _Data.Mes_Work_CD_Cycle_Time));
+        }
 
 
 

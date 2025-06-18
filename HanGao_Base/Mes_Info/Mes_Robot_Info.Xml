@@ -1,0 +1,21 @@
+<Mes_Robot_Info_Model>
+  <Robot_Info_Data Robot_Type="KUKA" Vision_Model="Calibration_New">
+    <Robot_Process_Int>R_Side_7</Robot_Process_Int>
+    <Mes_Programs_Name />
+    <Mes_Robot_Mode>T1</Mes_Robot_Mode>
+    <Mes_Work_Number>0</Mes_Work_Number>
+    <Mes_Work_AB_Cycle_Time>0</Mes_Work_AB_Cycle_Time>
+    <Mes_Work_CD_Cycle_Time>0</Mes_Work_CD_Cycle_Time>
+  </Robot_Info_Data>
+  <Image_Source>/Resources/7线R边.png</Image_Source>
+  <Robot_Program_Name />
+  <Robot_Work_Cycle>0</Robot_Work_Cycle>
+  <Robot_Work_Number>0</Robot_Work_Number>
+  <Robot_Debug_Time>0001-01-01T00:00:00</Robot_Debug_Time>
+  <Robot_Debug_All_Time>0001-01-01T00:00:00</Robot_Debug_All_Time>
+  <Robot_Work_Time>0001-01-01T00:00:00</Robot_Work_Time>
+  <Robot_Work_All_Time>0001-01-01T00:00:00</Robot_Work_All_Time>
+  <Robot_Run_Time>0001-01-01T00:00:00</Robot_Run_Time>
+  <Robot_Run_All_Time>0001-01-01T00:00:00</Robot_Run_All_Time>
+  <Robot_Crop_Rate>0</Robot_Crop_Rate>
+</Mes_Robot_Info_Model>

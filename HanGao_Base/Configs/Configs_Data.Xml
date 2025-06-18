@@ -1,0 +1,9 @@
+<File_Int_Model>
+  <Window_Startup_Type>Client</Window_Startup_Type>
+  <Mes_Run_Parameters>
+    <Socket_Robot_Model>KUKA</Socket_Robot_Model>
+    <Sever_Socket_Port>6000</Sever_Socket_Port>
+    <Socket_Mes_Info_IP>10.30.128.100</Socket_Mes_Info_IP>
+    <Socket_Polling_Time>5</Socket_Polling_Time>
+  </Mes_Run_Parameters>
+</File_Int_Model>
