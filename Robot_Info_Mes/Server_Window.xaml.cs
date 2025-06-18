@@ -14,9 +14,9 @@ namespace Robot_Info_Mes
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Server_Window : Window
     {
-        public MainWindow()
+        public Server_Window()
         {
             InitializeComponent();
         }

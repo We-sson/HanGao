@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 150
+&ACCESS RVP
+&REL 223
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -34,7 +34,8 @@ DECL BOOL _Work_B_Stat=FALSE
 DECL BOOL _Work_C_Stat=FALSE
 DECL BOOL _Work_D_Stat=FALSE
 DECL BOOL _EKRL_Send_Stat=FALSE
-
+DECL BOOL _EKRL_Server_Stat=FALSE
+DECL BOOL _EKRL_Server_Connt_Stat=FALSE
 
 GLOBAL CONST Robot_Process_Name_Enum Robot_Process_Name=#R_Side_8
 

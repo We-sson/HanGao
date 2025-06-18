@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 383
+&ACCESS RVO1
+&REL 387
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -238,39 +238,15 @@ RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_In
 
 
 RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
-HALT
-Message_Wait("Wait Mes Data!",2,TRUE)
+;HALT
+;Message_Wait("Wait Mes Data!",2,TRUE)
 
-RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
-RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_Cycle_Time)
+;RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
+;RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_Cycle_Time)
 ;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
 RET=EKI_Close(EKRL_NAME[])
 RET=EKI_Clear(EKRL_NAME[])
 
-;IF  IsStatus THEN
-
-;MSGNOTIFY(Message_Error[])
-
-;switch HandEye_Type
-;case #Calibration_Start
-
-;-----
-;case #Calibration_Progress
-;-----
-;case #Calibration_End
-
-
-;HandEye_Result_Pos.X=Result_Pos.X
-;HandEye_Result_Pos.Y=Result_Pos.Y
-;HandEye_Result_Pos.Z=Result_Pos.Z
-;endswitch
-
-
-;else
-
-;MsgQuit(Message_Error[], "HanGao")
-;halt
-;ENDIF
 
 
 
@@ -912,6 +888,39 @@ RET=EKI_Clear(EKRL_NAME[])
 End
 
 
+GLOBAL DEF EKRL_Mes_Server(EKRL_NAME:IN,_Server_Stat:OUT)
+DECL EKI_STATUS RET
+DECL INT Mess_INT
+DECL BOOL Mess_Del,Msg_Err,_Server_Stat
+DECL CHAR EKRL_NAME[]
+;EKRL_NAME[]="HanGaoEkrl"
+
+;HALT
+WAIT SEC 0.02
+RET=EKI_Init(EKRL_NAME[])
+;EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
+
+;HALT
+RET=EKI_OPEN(EKRL_NAME[])
+EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
+
+IF RET.Msg_No<>0 THEN
+ _Server_Stat=FALSE
+ RET=EKI_Close(EKRL_NAME[])
+RET=EKI_Clear(EKRL_NAME[])
+ EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
+ENDIF
+
+wait sec 0.024
+
+;MSGNOTIFY("HanGao:Socket Connecting!")
+
+
+
+End
+
+
+
 
 GLOBAL DEF EKRL_Connect(EKRL_NAME:IN,Msg_Err:IN)
 DECL EKI_STATUS RET
@@ -956,10 +965,12 @@ ENDIF
 UNTIL  $Flag[Connect_Falg]
 
 MSGNOTIFY("HanGao:Socket Connecting OK!")
+Mess_Del=Clear_KrlMsg(Mess_INT)
+
 
 ENDIF
 
-Mess_Del=Clear_KrlMsg(Mess_INT)
+
 
 End
 GLOBAL DEF EKRL_Close(EKRL_NAME:IN)

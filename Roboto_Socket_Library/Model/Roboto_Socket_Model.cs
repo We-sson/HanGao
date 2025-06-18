@@ -510,24 +510,19 @@ namespace Roboto_Socket_Library.Model
     }
 
 
+
+
     /// <summary>
     /// 手眼标定机器人通讯参数模型
     /// </summary>
+    [Serializable]
     [AddINotifyPropertyChangedInterface]
-    public class Socket_Robot_Info_Parameters_Model
+    public class Mes_Run_Parameters_Model
     {
 
 
 
-        /// <summary>
-        /// 电脑网口设备IP网址
-        /// </summary>
-        public ObservableCollection<string> Local_IP_UI { set; get; } = new ObservableCollection<string>();
 
-        /// <summary>
-        /// 通讯服务器属性
-        /// </summary>
-        public List<Socket_Receive> Receive_List { set; get; } = new List<Socket_Receive>();
 
         /// <summary>
         /// 手眼标定通讯协议机器人
@@ -547,6 +542,31 @@ namespace Roboto_Socket_Library.Model
         /// 通讯设备图像来源设置
         /// </summary>
         public double Socket_Polling_Time { get; set; } = 5;
+
+
+
+    }
+
+
+    /// <summary>
+    /// 手眼标定机器人通讯参数模型
+    /// </summary>
+    [AddINotifyPropertyChangedInterface]
+    public class Socket_Robot_Info_Parameters_Model
+    {
+
+
+
+        /// <summary>
+        /// 电脑网口设备IP网址
+        /// </summary>
+        public ObservableCollection<string> Local_IP_UI { set; get; } = new ObservableCollection<string>();
+
+        /// <summary>
+        /// 通讯服务器属性
+        /// </summary>
+        public List<Socket_Receive> Receive_List { set; get; } = new List<Socket_Receive>();
+
 
         /// <summary>
         /// 接受服务器运行状态
@@ -735,6 +755,9 @@ namespace Roboto_Socket_Library.Model
         [Description("9线激光围边")]
 
         Panel_Surround_9,
+        [Description("1楼激光面板")]
+
+        Panel_Welding_1
 
     }
 

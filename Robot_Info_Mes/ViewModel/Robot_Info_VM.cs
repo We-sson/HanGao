@@ -41,24 +41,51 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-
+        public Mes_Run_Parameters_Model Mes_Run_Parameters { set; get; }= new();
 
 
         public Socket_Robot_Info_Parameters_Model Robot_Info_Parameters { set; get; } = new Socket_Robot_Info_Parameters_Model() { };
 
-        public GaugeBuilder Welding_Power_Data { get; set; } =
-new GaugeBuilder()
-{
-    LabelsSize = 25,
-    InnerRadius = 55,
-    BackgroundInnerRadius = 55,
-    LabelsPosition = PolarLabelsPosition.ChartCenter,
-    Background = new SolidColorPaint(new SKColor(222, 222, 222)),
-}.WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}");
 
-        public ObservableCollection<ISeries> Welding_Power_Series { get; set; }  
+
+
+
+
+
+        public GaugeBuilder Welding_Power_Data { get; set; } =
+                                                    new GaugeBuilder()
+                                                    {
+                                                        LabelsSize = 25,
+                                                        InnerRadius = 55,
+                                                        BackgroundInnerRadius = 55,
+                                                        LabelsPosition = PolarLabelsPosition.ChartCenter,
+                                                        Background = new SolidColorPaint(new SKColor(222, 222, 222)),
+                                                    }.WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}");
+
+        public ObservableCollection<ISeries> Welding_Power_Series { get; set; }
 
         public ObservableValue Weding_Power_Val { set; get; } = new ObservableValue { Value = 50 };
+
+
+
+
+
+
+
+
+        public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } =new();
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// 消息显示
@@ -73,7 +100,7 @@ new GaugeBuilder()
 
 
             Initialization_Sever_Start();
-            User_Log_Add("开启所有IP服务器连接：" + Robot_Info_Parameters.Sever_Socket_Port.ToString());
+            User_Log_Add("开启所有IP服务器连接：" + Mes_Run_Parameters.Sever_Socket_Port.ToString());
 
 
         }
@@ -94,13 +121,13 @@ new GaugeBuilder()
                 ///启动服务器添加接收事件
                 foreach (var _Sever in Robot_Info_Parameters.Local_IP_UI)
                 {
-                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, Robot_Info_Parameters.Sever_Socket_Port.ToString())
+                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, Mes_Run_Parameters.Sever_Socket_Port.ToString())
                     {
-                        Socket_Robot = Robot_Info_Parameters.Socket_Robot_Model,
+                        Socket_Robot = Mes_Run_Parameters.Socket_Robot_Model,
                         //Vision_Ini_Data_Delegate = Robot_Info_Parameters,
 
                         //Vision_Find_Model_Delegate = Vision_Find_Shape_Receive_Method,
-                        Mes_Info_Model_Data_Delegate= Robot_Mes_Info_Receive_Method,
+                        Mes_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
                         Socket_ErrorInfo_delegate = Socket_Log_Show,
                         Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
                         Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
@@ -133,7 +160,7 @@ new GaugeBuilder()
                     if (Robot_Info_Parameters.Sever_IsRuning)
                     {
                         Initialization_Sever_Start();
-                        User_Log_Add("开启所有IP服务器连接：" + Robot_Info_Parameters.Sever_Socket_Port.ToString());
+                        User_Log_Add("开启所有IP服务器连接：" + Mes_Run_Parameters.Sever_Socket_Port.ToString());
 
                     }
                     else
@@ -159,11 +186,11 @@ new GaugeBuilder()
 
         public Robot_Mes_Info_Data_Send Robot_Mes_Info_Receive_Method(Robot_Mes_Info_Data_Receive _Receive)
         {
-            Robot_Mes_Info_Data_Send _Send = new ();
+            Robot_Mes_Info_Data_Send _Send = new();
 
 
 
-            _Send.Socket_Polling_Time =(int)(Robot_Info_Parameters.Socket_Polling_Time*1000);
+            _Send.Socket_Polling_Time = (int)(Mes_Run_Parameters.Socket_Polling_Time * 1000);
             _Send.IsStatus = 1;
             //if (Convert.ToBoolean(_Receive.Calibration))
             //{
@@ -226,7 +253,7 @@ new GaugeBuilder()
 
 
 
-        public  void Socket_Log_Show(string _log)
+        public void Socket_Log_Show(string _log)
         {
             User_Log_Add(_log);
         }

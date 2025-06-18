@@ -9,7 +9,7 @@
     xmlns:vm="clr-namespace:Robot_Info_Mes.ViewModel"
     d1p1:Ignorable="d"
     Startup="Application_Startup"
-    StartupUri="MainWindow.xaml">
+    StartupUri="Client_Window.xaml">
     <Application.Resources>
         <ResourceDictionary>
 
