@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 224
+&REL 227
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -51,7 +51,7 @@ DECL INT _Time_No,_Work_A_Run_Nunber,_Work_A_Run_Cycle_Time,_Work_A_Run_All_Time
 
 
 
-IF ((_Work==TRUE) AND (_Work_State==FALSE)) THEN
+IF ((_Work==TRUE) AND (_Work_State==FALSE)  AND ($MODE_OP==#AUT) ) THEN
 _Work_State=TRUE
 $TIMER_STOP[_Time_No]=false
 
@@ -60,7 +60,7 @@ ENDIF
 
 
 
-IF  ((_Work==FALSE )AND( _Work_State==TRUE) )  THEN
+IF  ((_Work==FALSE )AND( _Work_State==TRUE) AND ($MODE_OP==#AUT) )  THEN
 _Work_A_Run_Nunber=_Work_A_Run_Nunber+1
 $TIMER_STOP[_Time_No]=true
 
@@ -71,7 +71,7 @@ ENDIF
 
 
 
-IF ((_Work==TRUE) AND (_Work_State==TRUE)) THEN
+IF ((_Work==TRUE) AND (_Work_State==TRUE) AND ($MODE_OP==#AUT)) THEN
 _Work_A_Run_Cycle_Time=$TIMER[_Time_No]
 ENDIF
 

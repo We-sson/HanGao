@@ -1,4 +1,4 @@
-&ACCESS RVO
+&ACCESS RVO1
 &REL 506
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
@@ -41,10 +41,10 @@ GLOBAL STRUC Surr_Welding_Craft_Type CHAR Welding_Name[20],E6POS Welding_Pos,REA
 
 
 
-GLOBAL BOOl WORK_A=false
-GLOBAL BOOl WORK_B=false
-GLOBAL BOOl WORK_C=false
-GLOBAL BOOl WORK_D=false
+GLOBAL BOOL WORK_A=FALSE
+GLOBAL BOOL WORK_B=FALSE
+GLOBAL BOOL WORK_C=FALSE
+GLOBAL BOOL WORK_D=FALSE
 ;-------------------------------------
 
 
