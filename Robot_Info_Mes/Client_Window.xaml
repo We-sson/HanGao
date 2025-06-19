@@ -142,11 +142,11 @@
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
                             IsSnapToTickEnabled="True"
-                            Maximum="10"
-                            Minimum="0.1"
-                            SmallChange="0.1"
+                            Maximum="10000"
+                            Minimum="1"
+                            SmallChange="1"
                             Style="{DynamicResource Vision_SliderStyle}"
-                            TickFrequency="0.1"
+                            TickFrequency="1"
                             Value="{Binding Mes_Run_Parameters.Socket_Polling_Time}">
                             <!--<i:Interaction.Triggers>
 
@@ -169,7 +169,7 @@
                             FontFamily="{DynamicResource 全局_文字_数字字体}"
                             FontSize="18"
                             Style="{DynamicResource Vision_TextBoxStyle}"
-                            Text="{Binding ElementName=Polling_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}s}" />
+                            Text="{Binding ElementName=Polling_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}ms}" />
                     </Grid>
 
                     <Grid Height="35" Margin="0,8,0,8">
@@ -517,7 +517,7 @@
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
                                 FontSize="18"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Program_Name, FallbackValue=....}" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Programs_Name, FallbackValue=....}" />
 
 
                         </Border>
@@ -551,7 +551,7 @@
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
                                 FontSize="20"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_Cycle, FallbackValue=....}" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_Cycle, FallbackValue=...., StringFormat={}{0:F1}s}" />
 
 
                         </Border>
@@ -737,7 +737,7 @@
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
                                 FontSize="18"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="运行总时间：756 min" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Run_Time_Data.Timer_UI, StringFormat='{}生产运行时间：{0:hh\\:mm\\:ss}'}" />
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
@@ -881,6 +881,7 @@
             <Border
                 d:Visibility="Collapsed"
                 Background="{DynamicResource 全局_按钮_黑颜色}"
+                CornerRadius=" 10"
                 Opacity="0.8 ">
                 <Border.Style>
                     <Style TargetType="Border">

@@ -37,10 +37,11 @@ namespace Robot_Info_Mes.ViewModel
 
 
             Welding_Power_Series = new ObservableCollection<ISeries>(Welding_Power_Data.AddValue(Weding_Power_Val, "%").BuildSeries());
-        
-        
-        
-        
+
+
+            Int_Run_TIme();
+
+
         }
 
 
@@ -117,13 +118,31 @@ namespace Robot_Info_Mes.ViewModel
 
         public void Int_Run_TIme()
         {
-      
 
-             Mes_Robot_Info_Model_Data.Robot_Run_Time_Data.Start();
+            Mes_Robot_Info_Model_Data.Robot_Run_Time_Data.Timer.Stop();
+             Mes_Robot_Info_Model_Data.Robot_Run_Time_Data.Timer.Start();
+
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.AutoReset = true;
+
+
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = Mes_Run_Parameters.Socket_Polling_Time;
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Elapsed += (s, e) =>
+            {
+
+
+                //检查最后更新时间是否大于轮询时间
+                if ( Math.Abs( (Mes_Robot_Info_Model_Data.Socket_Last_Update_Time- DateTime.Now ).TotalMilliseconds )> Mes_Run_Parameters.Socket_Polling_Time)
+                {
+                    Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+                }
 
 
 
-            
+                User_Log_Add("轮询时间：" + Mes_Run_Parameters.Socket_Polling_Time + "ms已到。检查设备更新情况！");
+
+
+            };
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Start();
 
         }
 
@@ -140,6 +159,9 @@ namespace Robot_Info_Mes.ViewModel
             User_Log_Add("已经初始化软件！"+new File_Xml_Model().GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
 
 
+
+
+            
         }
 
 
@@ -246,10 +268,12 @@ namespace Robot_Info_Mes.ViewModel
         public void Set_Robot_Info_Data(Robot_Mes_Info_Data_Receive _Data)
         {
 
+            Mes_Robot_Info_Model_Data.Socket_Last_Update_Time = DateTime.Now;
+
             Mes_Robot_Info_Model_Data.Robot_Info_Data=new Robot_Mes_Info_Data_Receive(_Data);
 
             Mes_Robot_Info_Model_Data.Robot_Work_Number = _Data.Mes_Work_Number;
-            Mes_Robot_Info_Model_Data.Robot_Work_Cycle = Math.Max(_Data.Mes_Work_AB_Cycle_Time, _Data.Mes_Work_CD_Cycle_Time);
+            Mes_Robot_Info_Model_Data.Robot_Work_Cycle = Math.Max(_Data.Mes_Work_AB_Cycle_Time, _Data.Mes_Work_CD_Cycle_Time)/1000;
             Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Connected;
 
             //Mes_Robot_Info_Model_Data.Robot_Work_Time= Mes_Robot_Info_Model_Data.Robot_Work_Time+new DateTime(TimeSpan.FromMilliseconds())
@@ -257,6 +281,11 @@ namespace Robot_Info_Mes.ViewModel
 
 
                 TimeSpan _work_time = TimeSpan.FromMicroseconds((_Data.Mes_Work_AB_Cycle_Time + _Data.Mes_Work_CD_Cycle_Time));
+
+            Mes_Robot_Info_Model_Data.Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time + _work_time;
+
+            
+
         }
 
 

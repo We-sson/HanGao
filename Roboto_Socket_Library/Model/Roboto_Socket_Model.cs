@@ -217,6 +217,7 @@ namespace Roboto_Socket_Library.Model
         /// </summary>
         [Serializable]
         [XmlType("Robot_Receive")]
+        [AddINotifyPropertyChangedInterface]
         public class Robot_Mes_Info_Data_Receive
         {
 
@@ -240,7 +241,7 @@ namespace Roboto_Socket_Library.Model
 
 
 
-
+      
 
             /// <summary>
             /// 接收点位类型的机器人
@@ -561,9 +562,9 @@ namespace Roboto_Socket_Library.Model
 
 
         /// <summary>
-        /// 通讯设备图像来源设置
+        /// 通讯轮询时间、毫秒
         /// </summary>
-        public double Socket_Polling_Time { get; set; } = 5;
+        public double Socket_Polling_Time { get; set; } = 5000;
 
 
 

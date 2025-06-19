@@ -6,8 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Threading;
 using System.Xml.Serialization;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using Timer = System.Timers.Timer;
 
 namespace Robot_Info_Mes.Model
@@ -18,6 +20,15 @@ namespace Robot_Info_Mes.Model
     public class Mes_Robot_Info_Model
     {
 
+
+        public Mes_Robot_Info_Model()
+        {
+
+
+            
+
+        }
+
         public Robot_Mes_Info_Data_Receive Robot_Info_Data { set; get; } = new();
 
 
@@ -25,6 +36,15 @@ namespace Robot_Info_Mes.Model
 
         [XmlIgnore]
         public Socket_Robot_Connect_State_Enum Socket_Robot_Connect_State { set; get; } = Socket_Robot_Connect_State_Enum.Disconnected;
+
+
+
+
+        public DateTime Socket_Last_Update_Time { set; get; } = new DateTime();
+
+
+        [XmlIgnore]
+        public Timer Socket_Cycle_Check_Update { set; get; } = new Timer();
 
 
         private string _Image_Source = string.Empty;
@@ -74,13 +94,13 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 机器人程序名称
         /// </summary>
-        public string Robot_Program_Name { set; get; } = string.Empty;
+        //public string Robot_Program_Name { set; get; } = string.Empty;
 
 
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
-        public int Robot_Work_Cycle { set; get; }
+        public double  Robot_Work_Cycle { set; get; }
 
 
 
@@ -92,7 +112,7 @@ namespace Robot_Info_Mes.Model
 
 
 
-
+        [XmlIgnore]
         public Timer Robot_Debug_Time_Data { set; get; }=new Timer ();
 
 
@@ -122,9 +142,20 @@ namespace Robot_Info_Mes.Model
         public TimeSpan Robot_Run_Time { set; get; }
 
 
-        [XmlIgnore]
-        public Timer Robot_Run_Time_Data { set; get; } = new Timer() { AutoReset=false };
+      
 
+
+       
+        public Time_Model Robot_Run_Time_Data { set; get; } = new ();
+
+
+        
+
+
+
+
+        [XmlIgnore]
+        public Time_Model Robot_Offline_Time_Data { set; get; } = new ();
 
 
         /// <summary>
@@ -144,4 +175,47 @@ namespace Robot_Info_Mes.Model
 
 
     }
+
+
+
+
+
+
+
+
+    [AddINotifyPropertyChangedInterface]
+    public class Time_Model
+    {
+        public Time_Model()
+        {
+            Timer.Interval = new TimeSpan(0, 0, 1);
+
+
+            Timer.Tick += (s, e) =>
+            {
+                Timer_UI = Timer_UI.Add(TimeSpan.FromSeconds(1));
+            };
+
+        }
+
+
+        [XmlIgnore]
+        public DispatcherTimer Timer { set; get; } = new();
+
+        //private TimeSpan Time_Cycls=new TimeSpan(0,0,1);
+
+
+        public TimeSpan Timer_UI { set; get; } =new TimeSpan ();
+
+
+  
+
+
+    }
+
+
+
+
+
+
 }

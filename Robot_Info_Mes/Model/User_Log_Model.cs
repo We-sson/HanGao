@@ -95,7 +95,7 @@ namespace Robot_Info_Mes.Model
 
                 //_User_Log = value;
 
-                _User_Log += User_Log_Number.ToString("D3") + " | " + DateTime.Now.ToShortTimeString().ToString() + "——" + value + HttpUtility.HtmlDecode("&#x000A;");
+                _User_Log += User_Log_Number.ToString("D3") + " | " + DateTime.Now.ToLongTimeString().ToString() + "——" + value + HttpUtility.HtmlDecode("&#x000A;");
 
             }
         }
