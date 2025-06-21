@@ -7,6 +7,7 @@ using LiveChartsCore.Defaults;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using Microsoft.VisualBasic;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
@@ -119,26 +120,39 @@ namespace Robot_Info_Mes.ViewModel
         public void Int_Run_TIme()
         {
 
-            Mes_Robot_Info_Model_Data.Robot_Run_Time_Data.Timer.Stop();
-             Mes_Robot_Info_Model_Data.Robot_Run_Time_Data.Timer.Start();
+            Mes_Robot_Info_Model_Data.Robot_Run_Time.Start ();
+            Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Start();
+            Mes_Robot_Info_Model_Data.Robot_Offline_Time.Reset();
 
-            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.AutoReset = true;
 
 
-            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = Mes_Run_Parameters.Socket_Polling_Time;
-            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Elapsed += (s, e) =>
+
+
+
+            //Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.AutoReset = true;
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval =   TimeSpan.FromSeconds(Mes_Run_Parameters.Socket_Polling_Time);
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Tick += (s, e) =>
             {
-
+               
 
                 //检查最后更新时间是否大于轮询时间
-                if ( Math.Abs( (Mes_Robot_Info_Model_Data.Socket_Last_Update_Time- DateTime.Now ).TotalMilliseconds )> Mes_Run_Parameters.Socket_Polling_Time)
+                if ( Math.Abs( (Mes_Robot_Info_Model_Data.Socket_Last_Update_Time- DateTime.Now ).TotalSeconds )> Mes_Run_Parameters.Socket_Polling_Time)
                 {
                     Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+
                 }
 
+                //添加累计时间
+                //Mes_Robot_Info_Model_Data.Robot_Debug_All_Time = Mes_Robot_Info_Model_Data.Robot_Debug_All_Time + Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI;
+                //Mes_Robot_Info_Model_Data.Robot_Work_All_Time = Mes_Robot_Info_Model_Data.Robot_Work_All_Time + Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI;
 
 
-                User_Log_Add("轮询时间：" + Mes_Run_Parameters.Socket_Polling_Time + "ms已到。检查设备更新情况！");
+                //Mes_Robot_Info_Model_Data.Robot_Run_All_Time = Mes_Robot_Info_Model_Data.Robot_Run_All_Time + (DateTime.Now- Mes_Robot_Info_Model_Data.Robot_Run_Time.LastTime );
+
+                File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
+
+
+                User_Log_Add("轮询时间：" + Mes_Run_Parameters.Socket_Polling_Time + "s已到。检查设备更新情况！");
 
 
             };
@@ -153,10 +167,10 @@ namespace Robot_Info_Mes.ViewModel
         {
 
 
-            Mes_Robot_Info_Model_Data= new File_Xml_Model().Read_Xml_File<Mes_Robot_Info_Model>();
-            File_Int_Parameters=new File_Xml_Model().Read_Xml_File<File_Int_Model>();
-            User_Log_Add("已读取本机设备信息文件！"+new File_Xml_Model().GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
-            User_Log_Add("已经初始化软件！"+new File_Xml_Model().GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
+            Mes_Robot_Info_Model_Data=  File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
+            File_Int_Parameters= File_Xml_Model.Read_Xml_File<File_Int_Model>();
+            User_Log_Add("已读取本机设备信息文件！"+ File_Xml_Model.GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
+            User_Log_Add("已经初始化软件！"+ File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
 
 
 
@@ -282,7 +296,7 @@ namespace Robot_Info_Mes.ViewModel
 
                 TimeSpan _work_time = TimeSpan.FromMicroseconds((_Data.Mes_Work_AB_Cycle_Time + _Data.Mes_Work_CD_Cycle_Time));
 
-            Mes_Robot_Info_Model_Data.Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time + _work_time;
+            //Mes_Robot_Info_Model_Data.Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI + _work_time;
 
             
 

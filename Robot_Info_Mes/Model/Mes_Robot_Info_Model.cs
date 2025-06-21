@@ -1,15 +1,8 @@
 ﻿using PropertyChanged;
 using Roboto_Socket_Library.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 using System.Windows.Threading;
 using System.Xml.Serialization;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using Timer = System.Timers.Timer;
 
 namespace Robot_Info_Mes.Model
@@ -25,18 +18,71 @@ namespace Robot_Info_Mes.Model
         {
 
 
-            
 
         }
 
-        public Robot_Mes_Info_Data_Receive Robot_Info_Data { set; get; } = new();
+
+        private Robot_Mes_Info_Data_Receive _Robot_Info_Data = new();
+
+        public Robot_Mes_Info_Data_Receive Robot_Info_Data
+        {
+            get { return _Robot_Info_Data; }
+            set
+            {
+
+                switch (value.Mes_Robot_Mode)
+                {
+                    case KUKA_Mode_OP_Enum.T1:
+                        Robot_Debug_Time.Start();
+                        Robot_Debug_All_Time.Start();
+
+                        Robot_Work_Time.Stop();
+                        Robot_Work_All_Time.Stop();
+                        break;
+                    case KUKA_Mode_OP_Enum.AUT:
+                        Robot_Debug_Time.Stop();
+                        Robot_Debug_All_Time.Stop();
+
+                        Robot_Work_Time.Start();
+                        Robot_Work_All_Time.Start();
+
+                        break;
+
+                }
+
+
+                _Robot_Info_Data = value;
+            }
+        }
 
 
 
+
+        private Socket_Robot_Connect_State_Enum _Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
 
         [XmlIgnore]
-        public Socket_Robot_Connect_State_Enum Socket_Robot_Connect_State { set; get; } = Socket_Robot_Connect_State_Enum.Disconnected;
+        public Socket_Robot_Connect_State_Enum Socket_Robot_Connect_State
+        {
+            get { return _Socket_Robot_Connect_State; }
+            set
+            {
+                switch (value)
+                {
+                    case Socket_Robot_Connect_State_Enum.Connected:
+                        Robot_Offline_Time.Stop();
+                        break;
+                    case Socket_Robot_Connect_State_Enum.Disconnected:
+                        Robot_Offline_Time.Reset();
 
+
+                        break;
+
+                }
+
+
+                _Socket_Robot_Connect_State = value;
+            }
+        }
 
 
 
@@ -44,51 +90,56 @@ namespace Robot_Info_Mes.Model
 
 
         [XmlIgnore]
-        public Timer Socket_Cycle_Check_Update { set; get; } = new Timer();
+        public DispatcherTimer Socket_Cycle_Check_Update { set; get; } = new DispatcherTimer();
+        [XmlIgnore]
+        public DateTime Socket_Cycle_Check_LastTime { set; get; } = new DateTime();
+
 
 
         private string _Image_Source = string.Empty;
 
         [XmlIgnore]
-        public  string Image_Source
-		{
-			get {
+        public string Image_Source
+        {
+            get
+            {
                 switch (Robot_Info_Data.Robot_Process_Int)
                 {
-                    case Roboto_Socket_Library.Model.Robot_Process_Int_Enum.R_Side_7:
+                    case Robot_Process_Int_Enum.R_Side_7:
 
 
                         _Image_Source = "/Resources/7线R边.png";
 
                         break;
-                    case Roboto_Socket_Library.Model.Robot_Process_Int_Enum.R_Side_8:
+                    case Robot_Process_Int_Enum.R_Side_8:
 
                         _Image_Source = "/Resources/8线R边.png";
 
                         break;
-                    case Roboto_Socket_Library.Model.Robot_Process_Int_Enum.R_Side_9:
+                    case Robot_Process_Int_Enum.R_Side_9:
                         _Image_Source = "/Resources/9线R边.png";
 
                         break;
-                    case Roboto_Socket_Library.Model.Robot_Process_Int_Enum.Panel_Surround_7:
-                     
+                    case Robot_Process_Int_Enum.Panel_Surround_7:
+
                         _Image_Source = "/Resources/7线围边.png";
 
                         break;
-                    case Roboto_Socket_Library.Model.Robot_Process_Int_Enum.Panel_Surround_8:
+                    case Robot_Process_Int_Enum.Panel_Surround_8:
                         _Image_Source = "/Resources/8线围边.png";
 
                         break;
-                    case Roboto_Socket_Library.Model.Robot_Process_Int_Enum.Panel_Surround_9:
+                    case Robot_Process_Int_Enum.Panel_Surround_9:
                         _Image_Source = "/Resources/9线围边.png";
 
                         break;
 
                 }
 
-                return _Image_Source; }
-			set {_Image_Source = value; }
-		}
+                return _Image_Source;
+            }
+            set { _Image_Source = value; }
+        }
 
 
         /// <summary>
@@ -100,7 +151,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
-        public double  Robot_Work_Cycle { set; get; }
+        public double Robot_Work_Cycle { set; get; }
 
 
 
@@ -113,7 +164,8 @@ namespace Robot_Info_Mes.Model
 
 
         [XmlIgnore]
-        public Timer Robot_Debug_Time_Data { set; get; }=new Timer ();
+        public Time_Model Robot_Offline_Time { set; get; } = new();
+
 
 
 
@@ -121,47 +173,44 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 机器人当天调试时间
         /// </summary>
-        public TimeSpan Robot_Debug_Time { set; get; }
-        /// <summary>
-        /// 机器人累计调试时间
-        /// </summary>
-        public TimeSpan Robot_Debug_All_Time { set; get; }
+        [XmlIgnore]
+        public Time_Model Robot_Debug_Time { set; get; } = new();
+
 
         /// <summary>
         /// 机器人当天作业时间
         /// </summary>
-        public TimeSpan Robot_Work_Time { set; get; }
-       /// <summary>
+        [XmlIgnore]
+        public Time_Model Robot_Work_Time { set; get; } = new();
+        /// <summary>
         /// 机器人累计作业时间
         /// </summary>
-        public TimeSpan Robot_Work_All_Time { set; get; }
 
         /// <summary>
         /// 机器人当天运行时间
         /// </summary>
-        public TimeSpan Robot_Run_Time { set; get; }
-
-
-      
-
-
-       
-        public Time_Model Robot_Run_Time_Data { set; get; } = new ();
-
-
-        
-
-
-
-
         [XmlIgnore]
-        public Time_Model Robot_Offline_Time_Data { set; get; } = new ();
+        public Time_Model Robot_Run_Time { set; get; } = new();
 
+
+        public Time_Model Robot_Work_All_Time { set; get; } = new();
 
         /// <summary>
         /// 机器人累计运行时间
         /// </summary>
-        public TimeSpan Robot_Run_All_Time { set; get; }
+        public Time_Model Robot_Run_All_Time { set; get; } = new();
+
+
+
+        /// <summary>
+        /// 机器人累计调试时间
+        /// </summary>
+        public Time_Model Robot_Debug_All_Time { set; get; } = new();
+
+
+
+
+
 
 
 
@@ -182,33 +231,65 @@ namespace Robot_Info_Mes.Model
 
 
 
-
+    [Serializable]
     [AddINotifyPropertyChangedInterface]
     public class Time_Model
     {
         public Time_Model()
         {
-            Timer.Interval = new TimeSpan(0, 0, 1);
+            Timer.Interval = new TimeSpan(0, 0, 0, 0, UpdateInterval);
 
 
             Timer.Tick += (s, e) =>
             {
-                Timer_UI = Timer_UI.Add(TimeSpan.FromSeconds(1));
+                Timer_UI = Timer_UI.Add(TimeSpan.FromMilliseconds(UpdateInterval));
             };
 
         }
 
 
+
+
+
+        // UI刷新间隔（毫秒）
+        private const int UpdateInterval = 500;
+        //private Stopwatch Time { set; get; } = new();
+
         [XmlIgnore]
-        public DispatcherTimer Timer { set; get; } = new();
+        public DateTime LastTime { set; get; }
+
+        [XmlIgnore]
+        private DispatcherTimer Timer { set; get; } = new();
 
         //private TimeSpan Time_Cycls=new TimeSpan(0,0,1);
 
 
-        public TimeSpan Timer_UI { set; get; } =new TimeSpan ();
+        public TimeSpan Timer_UI { set; get; } = TimeSpan.Zero;
 
 
-  
+        public void Start()
+        {
+            Timer.Start();
+            LastTime = DateTime.Now;
+        }
+
+        public void Stop()
+        {
+            Timer.Stop();
+
+        }
+
+
+
+        public void Reset()
+        {
+            Timer.Stop();
+            Timer_UI = TimeSpan.Zero;
+            Timer.Start();
+            LastTime = DateTime.Now;
+
+
+        }
 
 
     }

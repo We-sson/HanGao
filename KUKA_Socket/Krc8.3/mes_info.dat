@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 227
+&REL 939
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -20,7 +20,7 @@ GLOBAL INT Work_D_Run_Cycle_Time=0
 GLOBAL INT Work_D_Run_All_Time=0
 
 
-GLOBAL INT Socket_Cycle_Time=4500
+GLOBAL INT Socket_Cycle_Time=4000
 
 GLOBAL INT Work_A_Run_Nunber=0
 GLOBAL INT Work_B_Run_Nunber=0

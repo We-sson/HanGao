@@ -22,7 +22,7 @@ namespace Robot_Info_Mes
 
         {
             File_Int_Model File_Int = new File_Int_Model();
-            File_Int=  new File_Xml_Model().Read_Xml_File<File_Int_Model>();
+            File_Int=   File_Xml_Model.Read_Xml_File<File_Int_Model>();
             Application currApp = Application.Current;
 
 

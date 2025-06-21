@@ -252,7 +252,7 @@ namespace Roboto_Socket_Library.Model
             /// 视觉模式
             /// </summary>
             [XmlAttribute]
-            public Vision_Model_Enum Vision_Model { set; get; }
+            public Vision_Model_Enum Vision_Model { set; get; } = Vision_Model_Enum.Unknown;
 
 
             /// <summary>
@@ -564,7 +564,7 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 通讯轮询时间、毫秒
         /// </summary>
-        public double Socket_Polling_Time { get; set; } = 5000;
+        public double  Socket_Polling_Time { get; set; } = 6;
 
 
 
@@ -714,8 +714,8 @@ namespace Roboto_Socket_Library.Model
         Vision_Ini_Data,
         HandEye_Calib_Date,
         Vision_Creation_Model,
-        Mes_Info_Data
-
+        Mes_Info_Data,
+            Unknown
 
 
     }

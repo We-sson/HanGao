@@ -142,11 +142,11 @@
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
                             IsSnapToTickEnabled="True"
-                            Maximum="10000"
-                            Minimum="1"
-                            SmallChange="1"
+                            Maximum="10"
+                            Minimum="0.1"
+                            SmallChange="0.1"
                             Style="{DynamicResource Vision_SliderStyle}"
-                            TickFrequency="1"
+                            TickFrequency="0.1"
                             Value="{Binding Mes_Run_Parameters.Socket_Polling_Time}">
                             <!--<i:Interaction.Triggers>
 
@@ -169,7 +169,7 @@
                             FontFamily="{DynamicResource 全局_文字_数字字体}"
                             FontSize="18"
                             Style="{DynamicResource Vision_TextBoxStyle}"
-                            Text="{Binding ElementName=Polling_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}ms}" />
+                            Text="{Binding ElementName=Polling_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}s}" />
                     </Grid>
 
                     <Grid Height="35" Margin="0,8,0,8">
@@ -697,7 +697,7 @@
                     Margin="0,15,0,15"
                     Background="{DynamicResource 全局_按钮_深灰颜色}"
                     CornerRadius=" 1.5" />
-                <Grid Margin="10">
+                <Grid Margin="0">
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
@@ -737,44 +737,57 @@
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
                                 FontSize="18"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Run_Time_Data.Timer_UI, StringFormat='{}生产运行时间：{0:hh\\:mm\\:ss}'}" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_UI, StringFormat='{}生产时间：{0:hh\\:mm\\:ss}'}" />
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
                                 FontSize="18"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="作业总时间：756 min" />
-
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI, StringFormat='{}作业时间：{0:hh\\:mm\\:ss}'}" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="18"
+                                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI, StringFormat='{}调试时间：{0:hh\\:mm\\:ss}'}" />
                         </StackPanel>
 
 
                         <StackPanel
                             Grid.Row="1"
                             Grid.Column=" 1"
-                            Margin="5"
+                            Margin="10,5,10,5"
                             Orientation="Vertical">
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                FontSize="20"
+                                FontSize="16"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="累计运行总时间：756 min" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI, StringFormat='{}累计生产时间：{0:hh\\:mm\\:ss}'}" />
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                FontSize="20"
+                                FontSize="16"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="累计作业总时间：756 min" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_UI, StringFormat='{}累计作业时间：{0:hh\\:mm\\:ss}'}" />
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                FontSize="18"
+                                FontSize="16"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="累计生产数量：1567 Psc" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Timer_UI, StringFormat='{}累计调试时间：{0:hh\\:mm\\:ss}'}" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="16"
+                                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Timer_UI, StringFormat='{}累计调试时间：{0:hh\\:mm\\:ss}'}" />
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -801,7 +814,7 @@
                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                         FontSize="20"
                         Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                        Text="设备稼动率" />
+                        Text="时间稼动率" />
                     <lvc:PieChart
                         Grid.Row="1"
                         HorizontalAlignment="Stretch"
@@ -831,7 +844,7 @@
                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                         FontSize="20"
                         Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                        Text="设备稼动率" />
+                        Text="性能稼动率" />
                     <lvc:PieChart
                         Grid.Row="1"
                         InitialRotation="-225"
@@ -899,7 +912,7 @@
                     FontFamily="{DynamicResource 全局_文字_中文字体}"
                     FontSize="50"
                     Foreground="{DynamicResource 全局_按钮_白颜色}"
-                    Text="设备离线时间.... 15 min" />
+                    Text="{Binding Mes_Robot_Info_Model_Data.Robot_Offline_Time.Timer_UI, StringFormat='{}设备离线时间....{0:hh\\:mm\\:ss}'}" />
             </Border>
 
         </Grid>

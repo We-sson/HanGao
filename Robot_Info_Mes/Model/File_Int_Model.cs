@@ -75,7 +75,7 @@ namespace Robot_Info_Mes.Model
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Vale"></param>
         /// <returns></returns>
-        public T1 Read_Xml_File<T1>() where T1 : new()
+        public static  T1 Read_Xml_File<T1>() where T1 : new()
         {
             string _Path = "";
 
@@ -248,7 +248,7 @@ namespace Robot_Info_Mes.Model
         /// <returns></returns>
 
 
-        public string GetXml_Path<T1>(Get_Xml_File_Enum Get_Xml_File)
+        public static  string GetXml_Path<T1>(Get_Xml_File_Enum Get_Xml_File)
         {
             string _Path = "";
             Type T = typeof(T1);
@@ -399,7 +399,7 @@ namespace Robot_Info_Mes.Model
         /// 保存修改后的水槽尺寸
         /// </summary>
         /// <param name="sink"></param>
-        public void Save_Xml<T1>(T1 _Data)
+        public static  void Save_Xml<T1>(T1 _Data)
         {
 
             XmlSerializer Xml = new XmlSerializer(typeof(T1));
@@ -457,7 +457,7 @@ namespace Robot_Info_Mes.Model
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public T1 Read_Xml<T1>() where T1 : new()
+        public static  T1 Read_Xml<T1>() where T1 : new()
         {
             T1 _Val = new();
 
