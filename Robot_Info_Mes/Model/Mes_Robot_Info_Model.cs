@@ -23,7 +23,7 @@ namespace Robot_Info_Mes.Model
 
 
         private Robot_Mes_Info_Data_Receive _Robot_Info_Data = new();
-
+        [XmlIgnore]
         public Robot_Mes_Info_Data_Receive Robot_Info_Data
         {
             get { return _Robot_Info_Data; }
@@ -33,21 +33,43 @@ namespace Robot_Info_Mes.Model
                 switch (value.Mes_Robot_Mode)
                 {
                     case KUKA_Mode_OP_Enum.T1:
+
+                        Robot_Error_Time.Stop();
+                        Robot_Error_All_Time.Stop();
+                        Robot_Work_Time.Stop();
+                        Robot_Work_All_Time.Stop();
+
+
+
                         Robot_Debug_Time.Start();
                         Robot_Debug_All_Time.Start();
 
-                        Robot_Work_Time.Stop();
-                        Robot_Work_All_Time.Stop();
                         break;
-                    case KUKA_Mode_OP_Enum.AUT:
+                    case KUKA_Mode_OP_Enum.Run:
                         Robot_Debug_Time.Stop();
                         Robot_Debug_All_Time.Stop();
+                         Robot_Error_Time.Stop();
+                        Robot_Error_All_Time.Stop();
+
+
 
                         Robot_Work_Time.Start();
                         Robot_Work_All_Time.Start();
 
                         break;
+                    case KUKA_Mode_OP_Enum.Error:
+                        Robot_Debug_Time.Stop();
+                        Robot_Debug_All_Time.Stop();
+                        Robot_Work_Time.Stop();
+                        Robot_Work_All_Time.Stop();
 
+
+                        Robot_Error_Time.Start();
+                        Robot_Error_All_Time.Start();
+
+
+
+                        break;
                 }
 
 
@@ -167,7 +189,11 @@ namespace Robot_Info_Mes.Model
         public Time_Model Robot_Offline_Time { set; get; } = new();
 
 
-
+        /// <summary>
+        /// 机器人当天调试时间
+        /// </summary>
+        [XmlIgnore]
+        public Time_Model Robot_Error_Time { set; get; } = new();
 
 
         /// <summary>
@@ -209,6 +235,7 @@ namespace Robot_Info_Mes.Model
 
 
 
+        public Time_Model Robot_Error_All_Time { set; get; } = new();
 
 
 

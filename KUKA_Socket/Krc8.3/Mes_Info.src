@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 939
+&ACCESS RVO
+&REL 2232
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -30,10 +30,10 @@ GLOBAL DEF Mes_InFo_Main()
 ;Mes_Mode_Info(T1_Time,_T1_Stat,11,#T1)
 
 
-Mes_Work_Info(Work_A,_Work_A_Stat,12,Work_A_Run_Nunber,Work_A_Run_Cycle_Time,Work_A_Run_All_Time)
-Mes_Work_Info(Work_B,_Work_B_Stat,13,Work_B_Run_Nunber,Work_B_Run_Cycle_Time,Work_B_Run_All_Time)
-Mes_Work_Info(Work_C,_Work_C_Stat,14,Work_C_Run_Nunber,Work_C_Run_Cycle_Time,Work_C_Run_All_Time)
-Mes_Work_Info(Work_D,_Work_D_Stat,15,Work_D_Run_Nunber,Work_D_Run_Cycle_Time,Work_D_Run_All_Time)
+Mes_Work_Info(Work_A,_Work_A_Stat,12,Work_A_Run_Nunber,Work_A_Run_Cycle_Time)
+Mes_Work_Info(Work_B,_Work_B_Stat,13,Work_B_Run_Nunber,Work_B_Run_Cycle_Time)
+Mes_Work_Info(Work_C,_Work_C_Stat,14,Work_C_Run_Nunber,Work_C_Run_Cycle_Time)
+Mes_Work_Info(Work_D,_Work_D_Stat,15,Work_D_Run_Nunber,Work_D_Run_Cycle_Time)
 
 
 Mes_Info_Send(_EKRL_Send_Stat,9)
@@ -43,10 +43,10 @@ Mes_Info_Send(_EKRL_Send_Stat,9)
 
 END
 
-DEF Mes_Work_Info( _Work:IN,_Work_State:OUT, _Time_No:IN,_Work_A_Run_Nunber:OUT,_Work_A_Run_Cycle_Time:OUT,_Work_A_Run_All_Time :OUT)
+DEF Mes_Work_Info( _Work:IN,_Work_State:OUT, _Time_No:IN,_Work_Run_Nunber:OUT,_Work_Run_Cycle_Time:OUT)
 
 DECL BOOL _Work,_Work_State
-DECL INT _Time_No,_Work_A_Run_Nunber,_Work_A_Run_Cycle_Time,_Work_A_Run_All_Time
+DECL INT _Time_No,_Work_Run_Nunber,_Work_Run_Cycle_Time,_Work_Run_All_Time
 
 
 
@@ -61,24 +61,28 @@ ENDIF
 
 
 IF  ((_Work==FALSE )AND( _Work_State==TRUE) AND ($MODE_OP==#AUT) )  THEN
-_Work_A_Run_Nunber=_Work_A_Run_Nunber+1
+_Work_Run_Nunber=_Work_Run_Nunber+1
 $TIMER_STOP[_Time_No]=true
 
-_Work_A_Run_All_Time=_Work_A_Run_All_Time+$TIMER[_Time_No]
+_Work_Run_All_Time=$TIMER[_Time_No]
 $TIMER[_Time_No]=0
 _Work_State=FALSE
+
+
+
+
+
 ENDIF
 
 
 
 IF ((_Work==TRUE) AND (_Work_State==TRUE) AND ($MODE_OP==#AUT)) THEN
-_Work_A_Run_Cycle_Time=$TIMER[_Time_No]
+_Work_Run_Cycle_Time=$TIMER[_Time_No]
 ENDIF
 
 
 
 END
-
 
 
 
@@ -218,7 +222,7 @@ DATAPATH[]=" "
 ;HALT
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Mes_Info_Data")
-DATAPATH_NAME[]=$PRO_IP.NAME[]
+DATAPATH_NAME[]=$DATAPATH[]
 ;SWRITE(DATAPATH[],_State,OPFFSET,"%s",)
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
 

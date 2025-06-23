@@ -1,5 +1,5 @@
 &ACCESS RVO1
-&REL 387
+&REL 392
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -167,7 +167,7 @@ END
 
 
 GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN)
-DECL CHAR EKRL_NAME[],MODE_OP[1024],Robot_Process_Name_Str[1024],DATAPATH[1024],Robot_Process_Int[1024]
+DECL CHAR EKRL_NAME[],MODE_OP[1024],Robot_Process_Name_Str[1024],DATAPATH[1024],Robot_Process_Int[1024],DATAPATH_NAME[1024]
 DECL EKI_STATUS RET
 
 DECL  BOOL IsStatus
@@ -178,28 +178,38 @@ DECL State_t _State
 
 
 IsStatus=FALSE
-OPFFSET=0
-DATAPATH[]=" "
+
+DATAPATH_NAME[]=" "
 ;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
 
 
 
 EKRL_Connect(EKRL_NAME[],FALSE)
-;HALT
+
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Mes_Info_Data")
-DATAPATH_NAME[]=$PRO_IP.NAME[]
+DATAPATH_NAME[]=$PROg_info[1].PRO_IP_NAME[]
+;HALT
 ;SWRITE(DATAPATH[],_State,OPFFSET,"%s",)
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
 
 
- SWITCH $MODE_OP
-    CASE #T1
-      SWRITE(MODE_OP[],_State,OPFFSET,"%s","T1")
-    CASE #AUT
-      SWRITE(MODE_OP[],_State,OPFFSET,"%s","AUT")
-  ENDSWITCH 
+OPFFSET=0
+IF $STOPMESS==TRUE THEN
+   
+    SWRITE(MODE_OP[],_State,OPFFSET,"%s","Error")
+ ELSE
 
+IF ($MODE_OP==#AUT)  AND ($PROg_info[1].P_STATE==#P_ACTIVE)   THEN
+ 
+    SWRITE(MODE_OP[],_State,OPFFSET,"%s","Run")
+ 
+ELSE
+    SWRITE(MODE_OP[],_State,OPFFSET,"%s","T1")
+ENDIF
+
+
+ENDIF
 
 
 ;SWRITE(MODE_OP[],_State,OPFFSET,"%g",$MODE_OP)
@@ -207,14 +217,28 @@ RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Robot_Mode",MODE_OP[])
 
 
-Work_Number=Work_A_Run_Nunber+Work_B_Run_Nunber
+;HALT
+SWITCH Robot_Process_Name
+   CASE #R_Side_7 , #R_Side_8,#R_Side_9
+      
+      Work_Number=Work_B_Run_Nunber+Work_D_Run_Nunber
+      Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
+      Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
+   CASE #Panel_Surround_7,#Panel_Surround_8,#Panel_Surround_9
+      
+      Work_Number=Work_A_Run_Nunber+Work_C_Run_Nunber
+      Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time
+      Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time
+      
+ENDSWITCH
+
+
+
+
 RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_Number",Work_Number)
 
-
-Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
 RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_AB_Cycle_Time",Mes_Work_AB_Cycle_Time)
 
-Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
 RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_CD_Cycle_Time",Mes_Work_CD_Cycle_Time)
 
 

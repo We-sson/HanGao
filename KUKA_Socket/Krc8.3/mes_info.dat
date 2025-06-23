@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 939
+&ACCESS RVO
+&REL 2232
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -7,12 +7,13 @@ DEFDAT  MES_INFO PUBLIC
 
 DECL DATE Robot_Run_Time
 GLOBAL ENUM Robot_Process_Name_Enum R_Side_7,R_Side_8,R_Side_9,Panel_Surround_7,Panel_Surround_8,Panel_Surround_9
+
 GLOBAL INT T1_Time=0
 GLOBAL INT Aut_Time=0
 
-GLOBAL INT Work_A_Run_Cycle_Time=0
+GLOBAL INT Work_A_Run_Cycle_Time=22152
 GLOBAL INT Work_A_Run_All_Time=0
-GLOBAL INT Work_B_Run_Cycle_Time=0
+GLOBAL INT Work_B_Run_Cycle_Time=19188
 GLOBAL INT Work_B_Run_All_Time=0
 GLOBAL INT Work_C_Run_Cycle_Time=0
 GLOBAL INT Work_C_Run_All_Time=0
@@ -20,7 +21,7 @@ GLOBAL INT Work_D_Run_Cycle_Time=0
 GLOBAL INT Work_D_Run_All_Time=0
 
 
-GLOBAL INT Socket_Cycle_Time=4000
+GLOBAL INT Socket_Cycle_Time=1000
 
 GLOBAL INT Work_A_Run_Nunber=0
 GLOBAL INT Work_B_Run_Nunber=0
@@ -29,8 +30,8 @@ GLOBAL INT Work_D_Run_Nunber=0
 GLOBAL INT Work_All_Run_Nunber=0
 GLOBAL CHAR DATAPATH_NAME[1024]
 
-DECL BOOL _Work_A_Stat=FALSE
-DECL BOOL _Work_B_Stat=FALSE
+DECL BOOL _Work_A_Stat=TRUE
+DECL BOOL _Work_B_Stat=TRUE
 DECL BOOL _Work_C_Stat=FALSE
 DECL BOOL _Work_D_Stat=FALSE
 DECL BOOL _EKRL_Send_Stat=FALSE

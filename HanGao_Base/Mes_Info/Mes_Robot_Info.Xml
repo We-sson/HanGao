@@ -1,26 +1,18 @@
 <Mes_Robot_Info_Model>
-  <Robot_Info_Data Robot_Type="KUKA" Vision_Model="Mes_Info_Data">
-    <Robot_Process_Int>R_Side_8</Robot_Process_Int>
-    <Mes_Programs_Name>/R1/HG_EKRL.SRC</Mes_Programs_Name>
-    <Mes_Robot_Mode>T1</Mes_Robot_Mode>
-    <Mes_Work_Number>0</Mes_Work_Number>
-    <Mes_Work_AB_Cycle_Time>0</Mes_Work_AB_Cycle_Time>
-    <Mes_Work_CD_Cycle_Time>0</Mes_Work_CD_Cycle_Time>
-  </Robot_Info_Data>
-  <Socket_Last_Update_Time>2025-06-21T21:59:26.7814516+08:00</Socket_Last_Update_Time>
+  <Socket_Last_Update_Time>2025-06-23T19:37:49.7630719+08:00</Socket_Last_Update_Time>
   <Robot_Work_Cycle>0</Robot_Work_Cycle>
   <Robot_Work_Number>0</Robot_Work_Number>
-  <Robot_Debug_All_Time>
-    <Timer_UI>PT2M26.5S</Timer_UI>
-  </Robot_Debug_All_Time>
   <Robot_Work_All_Time>
-    <Timer_UI>PT0S</Timer_UI>
+    <Timer_UI>PT3H48M56S</Timer_UI>
   </Robot_Work_All_Time>
-  <Robot_Run_Time>
-    <Timer_UI>PT49.5S</Timer_UI>
-  </Robot_Run_Time>
   <Robot_Run_All_Time>
-    <Timer_UI>PT49.5S</Timer_UI>
+    <Timer_UI>PT4H19M44S</Timer_UI>
   </Robot_Run_All_Time>
+  <Robot_Debug_All_Time>
+    <Timer_UI>PT14M24.5S</Timer_UI>
+  </Robot_Debug_All_Time>
+  <Robot_Error_All_Time>
+    <Timer_UI>PT2M4S</Timer_UI>
+  </Robot_Error_All_Time>
   <Robot_Crop_Rate>0</Robot_Crop_Rate>
 </Mes_Robot_Info_Model>

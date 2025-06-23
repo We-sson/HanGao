@@ -65,9 +65,9 @@ namespace Robot_Info_Mes.ViewModel
         public GaugeBuilder Welding_Power_Data { get; set; } =
                                                     new GaugeBuilder()
                                                     {
-                                                        LabelsSize = 25,
-                                                        InnerRadius = 55,
-                                                        BackgroundInnerRadius = 55,
+                                                        LabelsSize = 20,
+                                                        InnerRadius = 50,
+                                                        BackgroundInnerRadius = 50,
                                                         LabelsPosition = PolarLabelsPosition.ChartCenter,
                                                         Background = new SolidColorPaint(new SKColor(222, 222, 222)),
                                                     }.WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}");
