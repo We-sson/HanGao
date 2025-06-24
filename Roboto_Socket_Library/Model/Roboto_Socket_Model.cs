@@ -232,9 +232,12 @@ namespace Roboto_Socket_Library.Model
                 Vision_Model=_.Vision_Model;
                 Mes_Programs_Name = _.Mes_Programs_Name;
                 Mes_Robot_Mode=_.Mes_Robot_Mode;
-                Mes_Work_Number=_.Mes_Work_Number;
-                Mes_Work_AB_Cycle_Time = _.Mes_Work_AB_Cycle_Time;
-                Mes_Work_CD_Cycle_Time = _.Mes_Work_CD_Cycle_Time;
+
+                Mes_Work_A_State = _.Mes_Work_A_State;
+                Mes_Work_B_State = _.Mes_Work_B_State;
+                Mes_Work_C_State= _.Mes_Work_C_State;
+                Mes_Work_D_State = _.Mes_Work_D_State;
+
                 Robot_Process_Int = _.Robot_Process_Int;
 
             }
@@ -269,18 +272,26 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 工站作业数量
             /// </summary>
-            public int Mes_Work_Number { set;get; } = 0;
+            //public int Mes_Work_Number { set;get; } = 0;
+
+
+
+
 
 
             /// <summary>
             /// 工位周期时间，毫秒
             /// </summary>
-            public int Mes_Work_AB_Cycle_Time { set; get; } = 0;
+            public bool Mes_Work_A_State { set; get; } 
 
             /// <summary>
             /// 工位周期时间，毫秒
             /// </summary>
-            public int Mes_Work_CD_Cycle_Time { set; get; } = 0;
+            public bool Mes_Work_B_State { set; get; }
+
+            public bool Mes_Work_C_State { set; get; }
+            public bool Mes_Work_D_State { set; get; }
+
 
 
             /// <summary>
@@ -565,6 +576,10 @@ namespace Roboto_Socket_Library.Model
         /// 通讯轮询时间、毫秒
         /// </summary>
         public double  Socket_Polling_Time { get; set; } = 6;
+
+
+
+
 
 
 

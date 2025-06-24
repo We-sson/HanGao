@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 392
+&ACCESS RVO
+&REL 395
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -184,7 +184,7 @@ DATAPATH_NAME[]=" "
 
 
 
-EKRL_Connect(EKRL_NAME[],FALSE)
+
 
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Mes_Info_Data")
@@ -218,28 +218,30 @@ RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Robot_Mode",MODE_OP[])
 
 
 ;HALT
-SWITCH Robot_Process_Name
-   CASE #R_Side_7 , #R_Side_8,#R_Side_9
-      
-      Work_Number=Work_B_Run_Nunber+Work_D_Run_Nunber
-      Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
-      Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
-   CASE #Panel_Surround_7,#Panel_Surround_8,#Panel_Surround_9
-      
-      Work_Number=Work_A_Run_Nunber+Work_C_Run_Nunber
-      Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time
-      Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time
-      
-ENDSWITCH
+;SWITCH Robot_Process_Name
+   ;CASE #R_Side_7 , #R_Side_8,#R_Side_9
+      ;
+      ;Work_Number=Work_B_Run_Nunber+Work_D_Run_Nunber
+      ;Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
+      ;Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
+   ;CASE #Panel_Surround_7,#Panel_Surround_8,#Panel_Surround_9
+      ;
+      ;Work_Number=Work_A_Run_Nunber+Work_C_Run_Nunber
+      ;Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time
+      ;Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time
+      ;
+;ENDSWITCH
 
 
 
 
-RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_Number",Work_Number)
+;RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_Number",Work_Number)
 
-RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_AB_Cycle_Time",Mes_Work_AB_Cycle_Time)
+RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_A_State",Work_A_State)
+RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_B_State",Work_B_State)
+RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_C_State",Work_C_State)
+RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_D_State",Work_D_State)
 
-RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_CD_Cycle_Time",Mes_Work_CD_Cycle_Time)
 
 
 OPFFSET=0
@@ -260,16 +262,19 @@ ENDSWITCH
 RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Int[])
 
 
-
+;HALT
+;wait sec 0.2
 RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
+RET = EKI_ClearBuffer(EKRL_NAME[],"Robot_Send")
+
 ;HALT
 ;Message_Wait("Wait Mes Data!",2,TRUE)
 
 ;RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
 ;RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_Cycle_Time)
 ;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
-RET=EKI_Close(EKRL_NAME[])
-RET=EKI_Clear(EKRL_NAME[])
+;RET=EKI_Close(EKRL_NAME[])
+;RET=EKI_Clear(EKRL_NAME[])
 
 
 
@@ -962,7 +967,7 @@ EKI_CHECK(RET,#Quit,EKRL_NAME[])
 RET=EKI_OPEN(EKRL_NAME[])
 EKI_CHECK(RET,#Quit,EKRL_NAME[])
 
-wait sec 0.024
+wait sec 0.02
 
 ;MSGNOTIFY("HanGao:Socket Connecting!")
 

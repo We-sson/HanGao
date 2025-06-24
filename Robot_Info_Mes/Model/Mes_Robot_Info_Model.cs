@@ -48,7 +48,7 @@ namespace Robot_Info_Mes.Model
                     case KUKA_Mode_OP_Enum.Run:
                         Robot_Debug_Time.Stop();
                         Robot_Debug_All_Time.Stop();
-                         Robot_Error_Time.Stop();
+                        Robot_Error_Time.Stop();
                         Robot_Error_All_Time.Stop();
 
 
@@ -71,6 +71,44 @@ namespace Robot_Info_Mes.Model
 
                         break;
                 }
+
+
+
+                switch (value.Robot_Process_Int)
+                {
+                    case Robot_Process_Int_Enum.R_Side_7 or Robot_Process_Int_Enum.R_Side_8 or Robot_Process_Int_Enum.R_Side_9:
+
+
+
+
+
+                        Robot_Work_AB_Cycle.Timer_UI = Robot_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
+
+                        Robot_Work_CD_Cycle.Timer_UI = Robot_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, ref Robot_Work_C_Cycle, ref Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
+
+
+
+
+
+                        Robot_Work_ABCD_Number = Robot_Work_AB_Number + Robot_Work_CD_Number;
+
+
+
+
+
+                        break;
+
+                    case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9:
+
+
+
+                        break;
+
+                    case Robot_Process_Int_Enum.Panel_Welding_1:
+                        break;
+
+                }
+
 
 
                 _Robot_Info_Data = value;
@@ -173,16 +211,44 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
-        public double Robot_Work_Cycle { set; get; }
+        [XmlIgnore]
+
+        public Time_Model Robot_Work_A_Cycle  = new();
+
+        [XmlIgnore]
+
+        public Time_Model Robot_Work_B_Cycle = new();
+        [XmlIgnore]
+
+        public Time_Model Robot_Work_C_Cycle = new();
+        [XmlIgnore]
+
+        public Time_Model Robot_Work_D_Cycle  = new();
+
+        [XmlIgnore]
+
+        public Time_Model Robot_Work_AB_Cycle { set; get; }=new();
+        [XmlIgnore]
+
+        public Time_Model Robot_Work_CD_Cycle { set; get; } = new();
+
+
+
+        private bool Robot_Work_A_Cycle_State = false;
+        private bool Robot_Work_B_Cycle_State = false;
+        private bool Robot_Work_C_Cycle_State = false;
+        private bool Robot_Work_D_Cycle_State = false;
+
 
 
 
         /// <summary>
         /// 机器人作业数量、秒
         /// </summary>
-        public int Robot_Work_Number { set; get; }
+        private int Robot_Work_AB_Number = 0;
+        private int Robot_Work_CD_Number = 0;
 
-
+        public int Robot_Work_ABCD_Number { set; get; } = 0;
 
 
         [XmlIgnore]
@@ -247,7 +313,74 @@ namespace Robot_Info_Mes.Model
         public int Robot_Crop_Rate { set; get; } = 0;
 
 
+        public TimeSpan Robot_Work_State_Update(bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State, ref Time_Model _Robot_Work_A_Cycle, ref Time_Model _Robot_Work_B_Cycle,ref int _Robot_Work_AB_Number)
+        {
+            TimeSpan _Robot_Work_AB_Cycle = new();
 
+            if (_Mes_Work_A_State || _Mes_Work_B_State)
+            {
+
+
+
+                if (_Mes_Work_A_State)
+                {
+                    if (_Robot_Work_B_Cycle_State == false)
+                    {
+                        _Robot_Work_B_Cycle.Stop();
+                        _Robot_Work_B_Cycle.Timer_UI = TimeSpan.Zero;
+                    }
+                    if (_Robot_Work_A_Cycle_State == false)
+                    {
+
+                        _Robot_Work_A_Cycle.Reset();
+                        _Robot_Work_A_Cycle_State = true;
+                    }
+                }
+                if (_Mes_Work_B_State)
+                {
+                    if (_Robot_Work_A_Cycle_State == false)
+                    {
+
+                        _Robot_Work_A_Cycle.Stop();
+                        _Robot_Work_A_Cycle.Timer_UI = TimeSpan.Zero;
+                    }
+                    if (_Robot_Work_B_Cycle_State == false)
+                    {
+
+                        _Robot_Work_B_Cycle.Reset();
+                        _Robot_Work_B_Cycle_State = true;
+                    }
+
+                }
+
+
+
+
+            }
+            else
+            {
+
+                _Robot_Work_A_Cycle.Stop();
+                _Robot_Work_B_Cycle.Stop();
+
+
+            }
+
+
+            if (_Robot_Work_A_Cycle_State && _Robot_Work_B_Cycle_State && !_Mes_Work_A_State && !_Mes_Work_B_State)
+            {
+                _Robot_Work_AB_Number++;
+                _Robot_Work_B_Cycle_State = false;
+                _Robot_Work_A_Cycle_State = false;
+      
+            }
+
+
+            _Robot_Work_AB_Cycle = _Robot_Work_A_Cycle.Timer_UI + _Robot_Work_B_Cycle.Timer_UI;
+
+            return _Robot_Work_AB_Cycle;
+
+        }
 
 
     }
@@ -270,6 +403,7 @@ namespace Robot_Info_Mes.Model
             Timer.Tick += (s, e) =>
             {
                 Timer_UI = Timer_UI.Add(TimeSpan.FromMilliseconds(UpdateInterval));
+
             };
 
         }
@@ -279,7 +413,7 @@ namespace Robot_Info_Mes.Model
 
 
         // UI刷新间隔（毫秒）
-        private const int UpdateInterval = 500;
+        private const int UpdateInterval = 100;
         //private Stopwatch Time { set; get; } = new();
 
         [XmlIgnore]
@@ -291,7 +425,31 @@ namespace Robot_Info_Mes.Model
         //private TimeSpan Time_Cycls=new TimeSpan(0,0,1);
 
 
-        public TimeSpan Timer_UI { set; get; } = TimeSpan.Zero;
+
+        private TimeSpan _Timer_UI = TimeSpan.Zero;
+
+        public TimeSpan Timer_UI
+        {
+            get { return _Timer_UI; }
+            set
+            {
+
+                Timer_Sec = value.TotalSeconds;
+                Timer_Millisecond = value.TotalMilliseconds;
+                Timer_Minute = value.TotalMinutes;
+
+                _Timer_UI = value;
+            }
+        }
+
+
+
+        [XmlIgnore]
+        public double Timer_Sec { set; get; }
+        [XmlIgnore]
+        public double Timer_Millisecond { set; get; }
+        [XmlIgnore]
+        public double Timer_Minute { set; get; }
 
 
         public void Start()

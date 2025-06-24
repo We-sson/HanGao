@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 2232
+&ACCESS RVP
+&REL 3143
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -26,14 +26,11 @@ GLOBAL DEF Mes_InFo_Main()
 
   
 
-;Mes_Mode_Info(Aut_Time,_Aut_Stat,10,#AUT)
-;Mes_Mode_Info(T1_Time,_T1_Stat,11,#T1)
 
-
-Mes_Work_Info(Work_A,_Work_A_Stat,12,Work_A_Run_Nunber,Work_A_Run_Cycle_Time)
-Mes_Work_Info(Work_B,_Work_B_Stat,13,Work_B_Run_Nunber,Work_B_Run_Cycle_Time)
-Mes_Work_Info(Work_C,_Work_C_Stat,14,Work_C_Run_Nunber,Work_C_Run_Cycle_Time)
-Mes_Work_Info(Work_D,_Work_D_Stat,15,Work_D_Run_Nunber,Work_D_Run_Cycle_Time)
+;Mes_Work_Info(WORK_A_State,_Work_A_Stat,12,Work_A_Run_Nunber,Work_A_Run_Cycle_Time)
+;Mes_Work_Info(WORK_B_State,_Work_B_Stat,13,Work_B_Run_Nunber,Work_B_Run_Cycle_Time)
+;Mes_Work_Info(WORK_C_State,_Work_C_Stat,14,Work_C_Run_Nunber,Work_C_Run_Cycle_Time)
+;Mes_Work_Info(WORK_D_State,_Work_D_Stat,15,Work_D_Run_Nunber,Work_D_Run_Cycle_Time)
 
 
 Mes_Info_Send(_EKRL_Send_Stat,9)
@@ -66,6 +63,7 @@ $TIMER_STOP[_Time_No]=true
 
 _Work_Run_All_Time=$TIMER[_Time_No]
 $TIMER[_Time_No]=0
+
 _Work_State=FALSE
 
 
@@ -177,24 +175,33 @@ ENDIF
 END
 
 
-DEF Mes_Info_Send(_EKRL_Send_Stat:IN,_Time_No:IN)
-DECL BOOL _EKRL_Send_Stat
+DEF Mes_Info_Send(_EKRL_Connt_Stat:OUT,_Time_No:IN)
+DECL BOOL _EKRL_Connt_Stat
 DECL INT _Time_No
 
-
-IF _EKRL_Send_Stat==FALSE THEN
+;strat
+IF (_EKRL_Connt_Stat==FALSE) THEN
 $TIMER_STOP[_Time_No]=false
-_EKRL_Send_Stat=TRUE
- 
+_EKRL_Connt_Stat=TRUE
+;HALT
+ EKRL_Connect("Xml_Mes_Robot_Info",FALSE)
 ENDIF
 
-IF ((_EKRL_Send_Stat==TRUE) AND ($TIMER[_Time_No]>Socket_Cycle_Time))  THEN
+;send
+IF ((_EKRL_Connt_Stat==TRUE) AND ($TIMER[_Time_No]>Socket_Cycle_Time)) and ($FLAG[1]==TRUE) THEN
 $TIMER_STOP[_Time_No]=TRUE
 $TIMER[_Time_No]=0
 Mes_EKRL_Info_Send("Xml_Mes_Robot_Info")
-
+$TIMER_STOP[_Time_No]=FALSE
 ENDIF
 
+;Rest
+IF (_EKRL_Connt_Stat==TRUE) AND ($FLAG[1]==false) THEN
+ EKRL_Close("Xml_Mes_Robot_Info")
+_EKRL_Connt_Stat=FALSE
+ $TIMER_STOP[_Time_No]=TRUE
+$TIMER[_Time_No]=0
+ENDIF
 
 
 
@@ -246,7 +253,7 @@ RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_Number",Work_Number)
 
 
 Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
-RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_AB_Cycle_Time",Mes_Work_AB_Cycle_Time)
+RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_A_State",Mes_Work_AB_Cycle_Time)
 
 Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
 RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_CD_Cycle_Time",Mes_Work_CD_Cycle_Time)

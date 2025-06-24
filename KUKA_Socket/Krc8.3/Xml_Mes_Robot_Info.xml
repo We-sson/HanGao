@@ -9,7 +9,7 @@
          <IP>192.168.0.2</IP>
 			<PORT>54602</PORT>
 			<ALIVE Set_Flag="1"/>
-         <ENVIRONMENT>Program</ENVIRONMENT>
+         <ENVIRONMENT>Submit</ENVIRONMENT>
          <MESSAGES Logging="disabled" Display="disabled"/>
          <TIMEOUT Connect="0"/>
 
@@ -29,9 +29,11 @@
        <ELEMENT Tag="Robot_Receive/@Vision_Model" Type="STRING"/>
 		 <ELEMENT Tag="Robot_Receive/Mes_Programs_Name" Type="STRING"/>
          <ELEMENT Tag="Robot_Receive/Mes_Robot_Mode" Type="STRING"/>
-         <ELEMENT Tag="Robot_Receive/Mes_Work_Number" Type="INT"/>
-         <ELEMENT Tag="Robot_Receive/Mes_Work_AB_Cycle_Time" Type="INT"/>
-         <ELEMENT Tag="Robot_Receive/Mes_Work_CD_Cycle_Time" Type="INT"/>
+     
+         <ELEMENT Tag="Robot_Receive/Mes_Work_A_State" Type="BOOL"/>
+         <ELEMENT Tag="Robot_Receive/Mes_Work_B_State" Type="BOOL"/>
+         <ELEMENT Tag="Robot_Receive/Mes_Work_C_State" Type="BOOL"/>
+         <ELEMENT Tag="Robot_Receive/Mes_Work_D_State" Type="BOOL"/>
          <ELEMENT Tag="Robot_Receive/Robot_Process_Int" Type="STRING"/>
     
 		</XML>

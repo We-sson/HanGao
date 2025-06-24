@@ -6,13 +6,17 @@ using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Drawing;
+using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.Painting;
-using Microsoft.VisualBasic;
+using LiveChartsCore.SkiaSharpView.VisualElements;
+using LiveChartsCore.VisualElements;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
 using SkiaSharp;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -20,12 +24,11 @@ using System.Windows.Input;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
-using Timer = System.Threading.Timer;
 
 namespace Robot_Info_Mes.ViewModel
 {
     [AddINotifyPropertyChangedInterface]
-    public class Robot_Info_VM : ObservableRecipient
+    public partial class Robot_Info_VM : ObservableRecipient
     {
 
         public Robot_Info_VM()
@@ -37,12 +40,67 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-            Welding_Power_Series = new ObservableCollection<ISeries>(Welding_Power_Data.AddValue(Weding_Power_Val, "%").BuildSeries());
+            //Welding_Power_Series = new ObservableCollection<ISeries>(Welding_Power_Data
+            //   . AddValue(Weding_Power_Val, "%", new SolidColorPaint(new SKColor(75, 101, 153)))
 
+            //    .BuildSeries());
+
+
+            Welding_Power_Series = GaugeGenerator.BuildSolidGauge(
+                   new GaugeItem(Weding_Power_Val, SetStyle),
+
+
+                   new GaugeItem(GaugeItem.Background, SetBackgroundStyle));
 
             Int_Run_TIme();
 
 
+
+    
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private void SetStyle(PieSeries<ObservableValue> series)
+        {
+            series.OuterRadiusOffset = 10;
+            series.MaxRadialColumnWidth=10;
+            series.Name = "%";
+            series.InnerRadius = 50;
+            series.RelativeInnerRadius = 0;
+            series.RelativeOuterRadius = 0;
+            series.DataLabelsFormatter = point => $"{point.Coordinate.PrimaryValue} {point.Context.Series.Name}";
+            series.DataLabelsPosition = PolarLabelsPosition.ChartCenter;
+            series.DataLabelsSize = 20;
+            series.Fill = new SolidColorPaint(new SKColor(75, 101, 153));
+            series.DataLabelsPaint = new SolidColorPaint(new SKColor(75, 101, 153));
+
+
+
+        }
+
+        private void SetBackgroundStyle(PieSeries<ObservableValue> series)
+        {
+
+
+            series.Fill = new SolidColorPaint(new SKColor(0, 0, 0, 10));
+            series.InnerRadius = 50;
+            series.RelativeInnerRadius = 0;
+            series.RelativeOuterRadius = 0;
         }
 
 
@@ -51,43 +109,64 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-        public Mes_Run_Parameters_Model Mes_Run_Parameters { set; get; }= new();
+        public Mes_Run_Parameters_Model Mes_Run_Parameters { set; get; } = new();
+
+
+
 
 
         public Socket_Robot_Info_Parameters_Model Robot_Info_Parameters { set; get; } = new Socket_Robot_Info_Parameters_Model() { };
 
 
 
-       
 
 
 
-        public GaugeBuilder Welding_Power_Data { get; set; } =
-                                                    new GaugeBuilder()
-                                                    {
-                                                        LabelsSize = 20,
-                                                        InnerRadius = 50,
-                                                        BackgroundInnerRadius = 50,
-                                                        LabelsPosition = PolarLabelsPosition.ChartCenter,
-                                                        Background = new SolidColorPaint(new SKColor(222, 222, 222)),
-                                                    }.WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}");
-
-        public ObservableCollection<ISeries> Welding_Power_Series { get; set; }
-
-        public ObservableValue Weding_Power_Val { set; get; } = new ObservableValue { Value = 50 };
+        public IEnumerable<ISeries> Welding_Power_Series { get; set; }
 
 
 
+        //public GaugeGenerator Welding_Power_Data { get; set; } = GaugeGenerator.BuildAngularGaugeSections
+        //                                            new GaugeGenerator()
+        //                                             {
+        //                                                  LabelsSize = 20,
+        //                                                InnerRadius = 50,
+        //                                                BackgroundInnerRadius = 50,
+        //                                                LabelsPosition = PolarLabelsPosition.ChartCenter,
+        //                                               CornerRadius = 5,
+
+        //                                                Background = new SolidColorPaint(new SKColor(222, 222, 222)),
+
+        //                                            }.WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}");
 
 
 
 
 
-        public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } =new();
+
+        //public IEnumerable<ISeries> Welding_Power_Series { get; set; }
 
 
 
-        public File_Int_Model File_Int_Parameters { set; get; }=new ();
+
+        public double Weding_Power_Val { set; get; } = 50;
+
+
+
+
+
+        public SolidColorPaint Weding_Power_Val_Background = new SolidColorPaint(new SKColor(222, 222, 222));
+
+
+
+
+
+
+        public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
+
+
+
+        public File_Int_Model File_Int_Parameters { set; get; } = new();
 
 
 
@@ -120,7 +199,7 @@ namespace Robot_Info_Mes.ViewModel
         public void Int_Run_TIme()
         {
 
-            Mes_Robot_Info_Model_Data.Robot_Run_Time.Start ();
+            Mes_Robot_Info_Model_Data.Robot_Run_Time.Start();
             Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Start();
             Mes_Robot_Info_Model_Data.Robot_Offline_Time.Reset();
 
@@ -130,17 +209,17 @@ namespace Robot_Info_Mes.ViewModel
 
 
             //Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.AutoReset = true;
-            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval =   TimeSpan.FromSeconds(Mes_Run_Parameters.Socket_Polling_Time);
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = TimeSpan.FromSeconds(Mes_Run_Parameters.Socket_Polling_Time);
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Tick += (s, e) =>
             {
-               
+
 
                 //检查最后更新时间是否大于轮询时间
-                if ( Math.Abs( (Mes_Robot_Info_Model_Data.Socket_Last_Update_Time- DateTime.Now ).TotalSeconds )> Mes_Run_Parameters.Socket_Polling_Time)
-                {
-                    Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+                //if ( Math.Abs( (Mes_Robot_Info_Model_Data.Socket_Last_Update_Time- DateTime.Now ).TotalSeconds )> Mes_Run_Parameters.Socket_Polling_Time)
+                //{
+                //    Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
 
-                }
+                //}
 
                 //添加累计时间
                 //Mes_Robot_Info_Model_Data.Robot_Debug_All_Time = Mes_Robot_Info_Model_Data.Robot_Debug_All_Time + Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI;
@@ -152,7 +231,7 @@ namespace Robot_Info_Mes.ViewModel
                 File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
 
 
-                User_Log_Add("轮询时间：" + Mes_Run_Parameters.Socket_Polling_Time + "s已到。检查设备更新情况！");
+                User_Log_Add("信息文件定时：" + Mes_Run_Parameters.Socket_Polling_Time + "s保存！");
 
 
             };
@@ -167,15 +246,15 @@ namespace Robot_Info_Mes.ViewModel
         {
 
 
-            Mes_Robot_Info_Model_Data=  File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
-            File_Int_Parameters= File_Xml_Model.Read_Xml_File<File_Int_Model>();
-            User_Log_Add("已读取本机设备信息文件！"+ File_Xml_Model.GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
-            User_Log_Add("已经初始化软件！"+ File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
+            Mes_Robot_Info_Model_Data = File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
+            File_Int_Parameters = File_Xml_Model.Read_Xml_File<File_Int_Model>();
+            User_Log_Add("已读取本机设备信息文件！" + File_Xml_Model.GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
+            User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
 
 
 
 
-            
+
         }
 
 
@@ -200,7 +279,8 @@ namespace Robot_Info_Mes.ViewModel
 
                         //Vision_Find_Model_Delegate = Vision_Find_Shape_Receive_Method,
                         Mes_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
-                        Socket_ErrorInfo_delegate = Socket_Log_Show,
+                        Socket_ErrorInfo_delegate = Socket_ErrorLog_Show,
+                        Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
                         Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
                         Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
                     });
@@ -265,14 +345,14 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-      
+
 
 
 
 
             _Send.Socket_Polling_Time = (int)(Mes_Run_Parameters.Socket_Polling_Time * 1000);
             _Send.IsStatus = 1;
- 
+
 
             return _Send;
         }
@@ -284,21 +364,21 @@ namespace Robot_Info_Mes.ViewModel
 
             Mes_Robot_Info_Model_Data.Socket_Last_Update_Time = DateTime.Now;
 
-            Mes_Robot_Info_Model_Data.Robot_Info_Data=new Robot_Mes_Info_Data_Receive(_Data);
+            Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data);
 
-            Mes_Robot_Info_Model_Data.Robot_Work_Number = _Data.Mes_Work_Number;
-            Mes_Robot_Info_Model_Data.Robot_Work_Cycle = Math.Max(_Data.Mes_Work_AB_Cycle_Time, _Data.Mes_Work_CD_Cycle_Time)/1000;
+            //Mes_Robot_Info_Model_Data.Robot_Work_Number = _Data.Mes_Work_Number;
+            //Mes_Robot_Info_Model_Data.Robot_Work_Cycle = Math.Max(_Data.Mes_Work_AB_Cycle_Time, _Data.Mes_Work_CD_Cycle_Time)/1000;
             Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Connected;
 
             //Mes_Robot_Info_Model_Data.Robot_Work_Time= Mes_Robot_Info_Model_Data.Robot_Work_Time+new DateTime(TimeSpan.FromMilliseconds())
 
 
 
-                TimeSpan _work_time = TimeSpan.FromMicroseconds((_Data.Mes_Work_AB_Cycle_Time + _Data.Mes_Work_CD_Cycle_Time));
+            //TimeSpan _work_time = TimeSpan.FromMicroseconds((_Data.Mes_Work_AB_Cycle_Time + _Data.Mes_Work_CD_Cycle_Time));
 
             //Mes_Robot_Info_Model_Data.Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI + _work_time;
 
-            
+
 
         }
 
@@ -344,12 +424,29 @@ namespace Robot_Info_Mes.ViewModel
         }
 
 
-
-        public void Socket_Log_Show(string _log)
+        /// <summary>
+        /// 通讯错误信息
+        /// </summary>
+        /// <param name="_log"></param>
+        public void Socket_ErrorLog_Show(string _log)
         {
+
+
+            Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+
+
             User_Log_Add(_log);
         }
+        /// <summary>
+        /// 通讯连接信息
+        /// </summary>
+        /// <param name="_log"></param>
+        public void Socket_ConnectLog_Show(string _log)
+        {
 
+
+            User_Log_Add(_log);
+        }
 
 
     }

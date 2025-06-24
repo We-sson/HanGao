@@ -1,4 +1,5 @@
-﻿using Roboto_Socket_Library.Model;
+﻿using PropertyChanged;
+using Roboto_Socket_Library.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +15,9 @@ namespace Robot_Info_Mes.Model
 
 
     [Serializable]
-    public   class File_Int_Model
+    [AddINotifyPropertyChangedInterface]
+
+    public class File_Int_Model
     {
 
 
@@ -25,12 +28,29 @@ namespace Robot_Info_Mes.Model
 
 
 
+        public Mes_Standard_Time_Model Mes_Standard_Time { set; get; } = new();
 
 
 
 
 
 
+
+
+    }
+
+    [Serializable]
+    [AddINotifyPropertyChangedInterface]
+
+    public class Mes_Standard_Time_Model
+    {
+        public Mes_Standard_Time_Model()
+        {
+
+        }
+
+
+        public double Work_Standard_Time { set; get; } = 60;
 
 
 
