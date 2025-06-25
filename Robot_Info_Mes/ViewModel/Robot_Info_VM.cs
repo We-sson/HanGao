@@ -47,8 +47,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
             Welding_Power_Series = GaugeGenerator.BuildSolidGauge(
-                   new GaugeItem(Weding_Power_Val, SetStyle),
-
+                   new GaugeItem(Work_Cycle_Load_Factor, SetStyle),
 
                    new GaugeItem(GaugeItem.Background, SetBackgroundStyle));
 
@@ -56,7 +55,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-    
+            
 
 
         }
@@ -68,7 +67,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-
+        private SolidColorPaint _valuePaint = new SolidColorPaint(new SKColor(75, 101, 153));
 
 
 
@@ -77,8 +76,9 @@ namespace Robot_Info_Mes.ViewModel
 
         private void SetStyle(PieSeries<ObservableValue> series)
         {
-            series.OuterRadiusOffset = 10;
-            series.MaxRadialColumnWidth=10;
+           
+            series.OuterRadiusOffset = 00;
+            series.MaxRadialColumnWidth=0;
             series.Name = "%";
             series.InnerRadius = 50;
             series.RelativeInnerRadius = 0;
@@ -86,9 +86,9 @@ namespace Robot_Info_Mes.ViewModel
             series.DataLabelsFormatter = point => $"{point.Coordinate.PrimaryValue} {point.Context.Series.Name}";
             series.DataLabelsPosition = PolarLabelsPosition.ChartCenter;
             series.DataLabelsSize = 20;
-            series.Fill = new SolidColorPaint(new SKColor(75, 101, 153));
+            series.Fill = _valuePaint;
             series.DataLabelsPaint = new SolidColorPaint(new SKColor(75, 101, 153));
-
+            
 
 
         }
@@ -149,7 +149,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-        public double Weding_Power_Val { set; get; } = 50;
+        public ObservableValue Work_Cycle_Load_Factor { set; get; } = new ObservableValue { Value = 0 }; 
 
 
 
@@ -373,7 +373,7 @@ namespace Robot_Info_Mes.ViewModel
             //Mes_Robot_Info_Model_Data.Robot_Work_Time= Mes_Robot_Info_Model_Data.Robot_Work_Time+new DateTime(TimeSpan.FromMilliseconds())
 
 
-
+            Work_Cycle_Load_Factor.Value =(int) ((Math.Max(Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_Sec, Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_Sec)/ (File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time))*100);
             //TimeSpan _work_time = TimeSpan.FromMicroseconds((_Data.Mes_Work_AB_Cycle_Time + _Data.Mes_Work_CD_Cycle_Time));
 
             //Mes_Robot_Info_Model_Data.Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI + _work_time;

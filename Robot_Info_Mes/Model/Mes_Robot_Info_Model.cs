@@ -233,6 +233,7 @@ namespace Robot_Info_Mes.Model
         public Time_Model Robot_Work_CD_Cycle { set; get; } = new();
 
 
+        
 
         private bool Robot_Work_A_Cycle_State = false;
         private bool Robot_Work_B_Cycle_State = false;
