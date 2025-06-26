@@ -1,5 +1,5 @@
-&ACCESS RVO
-&REL 395
+&ACCESS RVO2
+&REL 398
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -205,6 +205,7 @@ IF ($MODE_OP==#AUT)  AND ($PROg_info[1].P_STATE==#P_ACTIVE)   THEN
     SWRITE(MODE_OP[],_State,OPFFSET,"%s","Run")
  
 ELSE
+;halt
     SWRITE(MODE_OP[],_State,OPFFSET,"%s","T1")
 ENDIF
 

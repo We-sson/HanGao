@@ -141,7 +141,7 @@ namespace Robot_Info_Mes.ViewModel
                 File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
 
 
-                User_Log_Add("信息文件定时：" + Mes_Run_Parameters.Socket_Polling_Time + "s保存！");
+                User_Log_Add("信息文件定时已到：" + Mes_Run_Parameters.Socket_Polling_Time + "s，进行文件保存！");
 
 
             };
@@ -245,6 +245,43 @@ namespace Robot_Info_Mes.ViewModel
 
             });
         }
+
+
+        /// <summary>
+        ///服务器启动停止按钮
+        /// </summary>
+        public ICommand Save_Date_File_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+             Button? _Contol = Sm!.Source as Button;
+                try
+                {
+
+
+
+                    File_Xml_Model.Save_Xml(File_Int_Parameters);
+
+
+                    User_Log_Add("保存设置参数成功！");
+
+
+
+
+                }
+                catch (Exception _e)
+                {
+             
+                    User_Log_Add("保存设置参数失败！原因：" + _e.Message, MessageBoxImage.Error);
+
+                }
+
+
+
+            });
+        }
+
+
 
         public Robot_Mes_Info_Data_Send Robot_Mes_Info_Receive_Method(Robot_Mes_Info_Data_Receive _Receive)
         {
