@@ -11,6 +11,7 @@
     <AnalysisLevel>preview</AnalysisLevel>
     <UseWindowsForms>True</UseWindowsForms>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <ApplicationIcon>Resources\软件图标.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -37,6 +38,11 @@
     <None Remove="Resources\8线围边.png" />
     <None Remove="Resources\9线R边.png" />
     <None Remove="Resources\9线围边.png" />
+    <None Remove="Resources\软件图标.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\软件图标.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,6 +73,7 @@
     <Resource Include="Resources\9线围边.png" />
     <Resource Include="Resources\iconfont.ttf" />
     <Resource Include="Resources\Vision_下拉选择_ioc.png" />
+    <Resource Include="Resources\软件图标.ico" />
   </ItemGroup>
 
 </Project>

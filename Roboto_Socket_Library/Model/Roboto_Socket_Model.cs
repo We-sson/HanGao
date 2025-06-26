@@ -775,7 +775,7 @@ namespace Roboto_Socket_Library.Model
         EX,
         [Description("#Error")]
         Error,
-        [Description("#Error")]
+        [Description("#Run")]
         Run
 
     }

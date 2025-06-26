@@ -46,62 +46,18 @@ namespace Robot_Info_Mes.ViewModel
             //    .BuildSeries());
 
 
-            Welding_Power_Series = GaugeGenerator.BuildSolidGauge(
-                   new GaugeItem(Work_Cycle_Load_Factor, SetStyle),
 
-                   new GaugeItem(GaugeItem.Background, SetBackgroundStyle));
 
             Int_Run_TIme();
 
 
-
-            
-
-
         }
 
 
 
 
 
-
-
-
-        private SolidColorPaint _valuePaint = new SolidColorPaint(new SKColor(75, 101, 153));
-
-
-
-
-
-
-        private void SetStyle(PieSeries<ObservableValue> series)
-        {
-           
-            series.OuterRadiusOffset = 00;
-            series.MaxRadialColumnWidth=0;
-            series.Name = "%";
-            series.InnerRadius = 50;
-            series.RelativeInnerRadius = 0;
-            series.RelativeOuterRadius = 0;
-            series.DataLabelsFormatter = point => $"{point.Coordinate.PrimaryValue} {point.Context.Series.Name}";
-            series.DataLabelsPosition = PolarLabelsPosition.ChartCenter;
-            series.DataLabelsSize = 20;
-            series.Fill = _valuePaint;
-            series.DataLabelsPaint = new SolidColorPaint(new SKColor(75, 101, 153));
-            
-
-
-        }
-
-        private void SetBackgroundStyle(PieSeries<ObservableValue> series)
-        {
-
-
-            series.Fill = new SolidColorPaint(new SKColor(0, 0, 0, 10));
-            series.InnerRadius = 50;
-            series.RelativeInnerRadius = 0;
-            series.RelativeOuterRadius = 0;
-        }
+        public Work_Factor_Seried_Model Work_Factor_Seried { set; get; }=new Work_Factor_Seried_Model();
 
 
 
@@ -120,57 +76,11 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-
-
-        public IEnumerable<ISeries> Welding_Power_Series { get; set; }
-
-
-
-        //public GaugeGenerator Welding_Power_Data { get; set; } = GaugeGenerator.BuildAngularGaugeSections
-        //                                            new GaugeGenerator()
-        //                                             {
-        //                                                  LabelsSize = 20,
-        //                                                InnerRadius = 50,
-        //                                                BackgroundInnerRadius = 50,
-        //                                                LabelsPosition = PolarLabelsPosition.ChartCenter,
-        //                                               CornerRadius = 5,
-
-        //                                                Background = new SolidColorPaint(new SKColor(222, 222, 222)),
-
-        //                                            }.WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}");
-
-
-
-
-
-
-        //public IEnumerable<ISeries> Welding_Power_Series { get; set; }
-
-
-
-
-        public ObservableValue Work_Cycle_Load_Factor { set; get; } = new ObservableValue { Value = 0 }; 
-
-
-
-
-
-        public SolidColorPaint Weding_Power_Val_Background = new SolidColorPaint(new SKColor(222, 222, 222));
-
-
-
-
-
-
         public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
 
 
 
         public File_Int_Model File_Int_Parameters { set; get; } = new();
-
-
-
-
 
 
 
@@ -214,20 +124,20 @@ namespace Robot_Info_Mes.ViewModel
             {
 
 
-                //检查最后更新时间是否大于轮询时间
-                //if ( Math.Abs( (Mes_Robot_Info_Model_Data.Socket_Last_Update_Time- DateTime.Now ).TotalSeconds )> Mes_Run_Parameters.Socket_Polling_Time)
-                //{
-                //    Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
-
-                //}
-
-                //添加累计时间
-                //Mes_Robot_Info_Model_Data.Robot_Debug_All_Time = Mes_Robot_Info_Model_Data.Robot_Debug_All_Time + Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI;
-                //Mes_Robot_Info_Model_Data.Robot_Work_All_Time = Mes_Robot_Info_Model_Data.Robot_Work_All_Time + Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI;
+                ///计算可用稼动率
+                //var _Work_Availability = (Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours / File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours);
+                //Work_Factor_Seried.Work_Availability_Factor.Value = Math.Round(double.IsNaN(_Work_Availability) ? 0 : (_Work_Availability <= 100 ? _Work_Availability : 100), 1);
+                Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours, File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours);
 
 
-                //Mes_Robot_Info_Model_Data.Robot_Run_All_Time = Mes_Robot_Info_Model_Data.Robot_Run_All_Time + (DateTime.Now- Mes_Robot_Info_Model_Data.Robot_Run_Time.LastTime );
+                //计算性能稼动率
+                //var _time = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time * Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number;
+                //var  _Work_Performance = (_time / (int)Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Sec);
 
+                //Work_Factor_Seried.Work_Performance_Factor.Value = Math.Round(double.IsNaN(_Work_Performance) ? 0 : (_Work_Performance <= 100 ? _Work_Performance : 100),1);
+
+                Work_Factor_Seried.Work_Performance_Factor.Value = Work_Factor_Seried.Get_Work_Performance_Factor(File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number, Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Sec);
+                ///保存时间文件
                 File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
 
 
@@ -373,7 +283,11 @@ namespace Robot_Info_Mes.ViewModel
             //Mes_Robot_Info_Model_Data.Robot_Work_Time= Mes_Robot_Info_Model_Data.Robot_Work_Time+new DateTime(TimeSpan.FromMilliseconds())
 
 
-            Work_Cycle_Load_Factor.Value =(int) ((Math.Max(Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_Sec, Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_Sec)/ (File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time))*100);
+            // var  _Facyor=   ((Math.Max(Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_Sec, Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_Sec)/ (File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time))*100)  ;
+            //Work_Factor_Seried.Work_Cycle_Load_Factor.Value = Math.Round(double.IsNaN(_Facyor) ? 0 : (_Facyor <= 120 ? _Facyor : 120), 1);
+
+            Work_Factor_Seried.Work_Cycle_Load_Factor.Value = Work_Factor_Seried. Get_Work_Cycle_Load_Factor(Math.Max(Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_Sec, Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_Sec), File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time);
+
             //TimeSpan _work_time = TimeSpan.FromMicroseconds((_Data.Mes_Work_AB_Cycle_Time + _Data.Mes_Work_CD_Cycle_Time));
 
             //Mes_Robot_Info_Model_Data.Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI + _work_time;

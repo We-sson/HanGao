@@ -36,8 +36,8 @@ namespace Robot_Info_Mes.Model
 
                         Robot_Error_Time.Stop();
                         Robot_Error_All_Time.Stop();
-                        Robot_Work_Time.Stop();
-                        Robot_Work_All_Time.Stop();
+                        //Robot_Work_Time.Stop();
+                        //Robot_Work_All_Time.Stop();
 
 
 
@@ -53,15 +53,15 @@ namespace Robot_Info_Mes.Model
 
 
 
-                        Robot_Work_Time.Start();
-                        Robot_Work_All_Time.Start();
+                        //Robot_Work_Time.Start();
+                        //Robot_Work_All_Time.Start();
 
                         break;
                     case KUKA_Mode_OP_Enum.Error:
                         Robot_Debug_Time.Stop();
                         Robot_Debug_All_Time.Stop();
-                        Robot_Work_Time.Stop();
-                        Robot_Work_All_Time.Stop();
+                        //Robot_Work_Time.Stop();
+                        //Robot_Work_All_Time.Stop();
 
 
                         Robot_Error_Time.Start();
@@ -81,13 +81,17 @@ namespace Robot_Info_Mes.Model
 
 
 
+                        if (value.Mes_Robot_Mode == KUKA_Mode_OP_Enum.Run )
+                        {
 
                         Robot_Work_AB_Cycle.Timer_UI = Robot_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
 
                         Robot_Work_CD_Cycle.Timer_UI = Robot_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, ref Robot_Work_C_Cycle, ref Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
+                        }
 
 
 
+                       
 
 
                         Robot_Work_ABCD_Number = Robot_Work_AB_Number + Robot_Work_CD_Number;
@@ -106,6 +110,23 @@ namespace Robot_Info_Mes.Model
 
                     case Robot_Process_Int_Enum.Panel_Welding_1:
                         break;
+
+                }
+
+
+
+                if (value.Mes_Robot_Mode== KUKA_Mode_OP_Enum.Run && ( value.Mes_Work_A_State || value.Mes_Work_B_State|| value.Mes_Work_C_State|| value.Mes_Work_D_State))
+                {
+
+
+                    Robot_Work_Time.Start();
+                    Robot_Work_All_Time.Start();
+
+                }
+                else
+                {
+                    Robot_Work_Time.Stop();
+                    Robot_Work_All_Time.Stop();
 
                 }
 
@@ -438,6 +459,8 @@ namespace Robot_Info_Mes.Model
                 Timer_Sec = value.TotalSeconds;
                 Timer_Millisecond = value.TotalMilliseconds;
                 Timer_Minute = value.TotalMinutes;
+                Timer_Hours= value.TotalHours;
+
 
                 _Timer_UI = value;
             }
@@ -451,7 +474,9 @@ namespace Robot_Info_Mes.Model
         public double Timer_Millisecond { set; get; }
         [XmlIgnore]
         public double Timer_Minute { set; get; }
-
+        [XmlIgnore]
+        public double Timer_Hours { set; get; }
+        
 
         public void Start()
         {

@@ -49,10 +49,16 @@ namespace Robot_Info_Mes.Model
 
         }
 
-
+        /// <summary>
+        /// 标准节拍周期、秒
+        /// </summary>
         public double Work_Standard_Time { set; get; } = 60;
 
 
+        /// <summary>
+        /// 每天作业总时间、小时
+        /// </summary>
+        public double Work_Standard_Hours { set; get; } = 8;
 
     }
 
