@@ -1,4 +1,4 @@
-&ACCESS RVO2
+&ACCESS RVO1
 &REL 398
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
@@ -195,7 +195,7 @@ RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
 
 
 OPFFSET=0
-IF $STOPMESS==TRUE THEN
+IF $ERR.NUMBER<>0 THEN
    
     SWRITE(MODE_OP[],_State,OPFFSET,"%s","Error")
  ELSE
