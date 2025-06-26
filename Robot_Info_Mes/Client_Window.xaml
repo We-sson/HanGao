@@ -15,6 +15,7 @@
     d:Height="900"
     d:Width="1440"
     DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
+    WindowState="Maximized"
     mc:Ignorable="d">
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
