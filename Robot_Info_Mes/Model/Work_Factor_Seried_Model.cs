@@ -61,7 +61,7 @@ namespace Robot_Info_Mes.Model
         {
 
             var _Work_Availability = (_Work_Time / _Work_Standard_Hours);
-           return Math.Round(double.IsNaN(_Work_Availability) ? 0 : (_Work_Availability <= 100 ? _Work_Availability : 100), 1);
+           return Math.Round(double.IsNaN(_Work_Availability) ? 0 : (_Work_Availability <= 120 ? _Work_Availability : 120), 1);
 
 
 
@@ -85,9 +85,9 @@ namespace Robot_Info_Mes.Model
         {
 
             var _time = _Work_Standard_Time * _Robot_Work_ABCD_Number;
-            var _Work_Performance = (_time / _Robot_Work_Time);
+            var _Work_Performance = (_time / _Robot_Work_Time)*100;
 
-            return Math.Round(double.IsNaN(_Work_Performance) ? 0 : (_Work_Performance <= 100 ? _Work_Performance : 100), 1);
+            return Math.Round(double.IsNaN(_Work_Performance) ? 0 : (_Work_Performance <= 120 ? _Work_Performance : 120), 1);
 
 
 

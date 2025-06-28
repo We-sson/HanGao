@@ -144,6 +144,7 @@
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 50" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock
                                     HorizontalAlignment="Left"
@@ -165,16 +166,7 @@
                                     SmallChange="0.1"
                                     Style="{DynamicResource Vision_SliderStyle}"
                                     TickFrequency="0.1"
-                                    Value="{Binding Mes_Run_Parameters.Socket_Polling_Time}">
-                                    <!--<i:Interaction.Triggers>
-
-    <i:EventTrigger EventName="PreviewMouseUp">
-        <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
-                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                               PassEventArgsToCommand="True" />
-    </i:EventTrigger>
-</i:Interaction.Triggers>-->
-                                </Slider>
+                                    Value="{Binding Mes_Run_Parameters.Socket_Polling_Time}" />
 
                                 <TextBox
                                     Grid.Column=" 2"
@@ -187,7 +179,16 @@
                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
                                     FontSize="18"
                                     Style="{DynamicResource Vision_TextBoxStyle}"
-                                    Text="{Binding ElementName=Polling_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}s}" />
+                                    Text="{Binding ElementName=Polling_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}" />
+
+                                <TextBlock
+                                    Grid.Column=" 3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                    FontSize="16"
+                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                    Text="秒" />
                             </Grid>
 
                             <Grid Height="35" Margin="0,8,0,8">
@@ -402,6 +403,7 @@
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width="50" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock
                                     HorizontalAlignment="Left"
@@ -423,16 +425,7 @@
                                     SmallChange="0.1"
                                     Style="{DynamicResource Vision_SliderStyle}"
                                     TickFrequency="0.1"
-                                    Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time}">
-                                    <!--<i:Interaction.Triggers>
-
-    <i:EventTrigger EventName="PreviewMouseUp">
-        <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
-                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                               PassEventArgsToCommand="True" />
-    </i:EventTrigger>
-</i:Interaction.Triggers>-->
-                                </Slider>
+                                    Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time}" />
 
                                 <TextBox
                                     Grid.Column=" 2"
@@ -445,7 +438,17 @@
                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
                                     FontSize="18"
                                     Style="{DynamicResource Vision_TextBoxStyle}"
-                                    Text="{Binding ElementName=Standard_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}s}" />
+                                    Text="{Binding ElementName=Standard_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}" />
+
+                                <TextBlock
+                                    Grid.Column=" 3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                    FontSize="16"
+                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                    Text="秒" />
+
                             </Grid>
 
 
@@ -456,6 +459,7 @@
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width="50" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock
                                     HorizontalAlignment="Left"
@@ -477,16 +481,7 @@
                                     SmallChange="0.1"
                                     Style="{DynamicResource Vision_SliderStyle}"
                                     TickFrequency="0.1"
-                                    Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours}">
-                                    <!--<i:Interaction.Triggers>
-
-    <i:EventTrigger EventName="PreviewMouseUp">
-        <i:InvokeCommandAction Command="{Binding Set_Camera_Float_Val_Comm}"
-                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                               PassEventArgsToCommand="True" />
-    </i:EventTrigger>
-</i:Interaction.Triggers>-->
-                                </Slider>
+                                    Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours}" />
 
                                 <TextBox
                                     Grid.Column=" 2"
@@ -499,7 +494,15 @@
                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
                                     FontSize="18"
                                     Style="{DynamicResource Vision_TextBoxStyle}"
-                                    Text="{Binding ElementName=Work_Standard_Hours, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}H}" />
+                                    Text="{Binding ElementName=Work_Standard_Hours, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}" />
+                                <TextBlock
+                                    Grid.Column=" 3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                    FontSize="16"
+                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                    Text="小时" />
                             </Grid>
 
 
@@ -1058,13 +1061,14 @@
                         Text="时间稼动率" />
                     <lvc:PieChart
                         Grid.Row="1"
+                        Width="100"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InitialRotation="-225"
                         MaxAngle="270"
-                        MaxValue="100"
+                        MaxValue="120"
                         Series="{Binding Work_Factor_Seried.Work_Availability_Factor_Series}"
                         TooltipPosition="Hidden" />
 
@@ -1090,9 +1094,10 @@
                         Text="性能稼动率" />
                     <lvc:PieChart
                         Grid.Row="1"
+                        Width="100"
                         InitialRotation="-225"
                         MaxAngle="270"
-                        MaxValue="100"
+                        MaxValue="120"
                         Series="{Binding Work_Factor_Seried.Work_Performance_Factor_Series}"
                         TooltipPosition="Hidden" />
 

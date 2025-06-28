@@ -81,41 +81,56 @@ namespace Robot_Info_Mes.Model
 
 
 
-                        if (value.Mes_Robot_Mode == KUKA_Mode_OP_Enum.Run )
+                        if (value.Mes_Robot_Mode == KUKA_Mode_OP_Enum.Run)
                         {
 
-                        Robot_Work_AB_Cycle.Timer_UI = Robot_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
+                            Robot_Work_AB_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
 
-                        Robot_Work_CD_Cycle.Timer_UI = Robot_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, ref Robot_Work_C_Cycle, ref Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
+                            Robot_Work_CD_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, ref Robot_Work_C_Cycle, ref Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
+
+
+
+
+                        }
+
+
+                        Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number + Robot_Work_CD_Number;
+
+                        Robot_Work_AB_Number = 0;
+                        Robot_Work_CD_Number = 0;
+
+
+                        break;
+
+                    case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9  or Robot_Process_Int_Enum.Panel_Welding_1:
+
+
+                        if (value.Mes_Robot_Mode == KUKA_Mode_OP_Enum.Run)
+                        {
+
+                            Robot_Work_AB_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
+
+                            Robot_Work_CD_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, ref Robot_Work_C_Cycle, ref Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
                         }
 
 
 
-                       
 
 
-                        Robot_Work_ABCD_Number = Robot_Work_AB_Number + Robot_Work_CD_Number;
-
-
-
-
-
-                        break;
-
-                    case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9:
-
+                        Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number + Robot_Work_CD_Number;
+                        Robot_Work_AB_Number = 0;
+                        Robot_Work_CD_Number = 0;
 
 
                         break;
 
-                    case Robot_Process_Int_Enum.Panel_Welding_1:
-                        break;
+         
 
                 }
 
 
 
-                if (value.Mes_Robot_Mode== KUKA_Mode_OP_Enum.Run && ( value.Mes_Work_A_State || value.Mes_Work_B_State|| value.Mes_Work_C_State|| value.Mes_Work_D_State))
+                if (value.Mes_Robot_Mode == KUKA_Mode_OP_Enum.Run && (value.Mes_Work_A_State || value.Mes_Work_B_State || value.Mes_Work_C_State || value.Mes_Work_D_State))
                 {
 
 
@@ -166,8 +181,17 @@ namespace Robot_Info_Mes.Model
         }
 
 
-
+        /// <summary>
+        /// 通讯更新最后的时间
+        /// </summary>
         public DateTime Socket_Last_Update_Time { set; get; } = new DateTime();
+
+
+
+        /// <summary>
+        /// 文件更新最后时间
+        /// </summary>
+        public DateTime File_Update_Time { set; get; } = new DateTime();
 
 
         [XmlIgnore]
@@ -179,6 +203,9 @@ namespace Robot_Info_Mes.Model
 
         private string _Image_Source = string.Empty;
 
+        /// <summary>
+        /// 图像显示属性
+        /// </summary>
         [XmlIgnore]
         public string Image_Source
         {
@@ -234,27 +261,36 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         [XmlIgnore]
 
-        public Time_Model Robot_Work_A_Cycle  = new();
-
+        public Time_Model Robot_Work_A_Cycle = new();
+        /// <summary>
+        /// 机器人作业周期、秒
+        /// </summary>
         [XmlIgnore]
 
         public Time_Model Robot_Work_B_Cycle = new();
+        /// <summary>
+        /// 机器人作业周期、秒
+        /// </summary>
         [XmlIgnore]
-
         public Time_Model Robot_Work_C_Cycle = new();
+        /// <summary>
+        /// 机器人作业周期、秒
+        /// </summary>
         [XmlIgnore]
-
-        public Time_Model Robot_Work_D_Cycle  = new();
-
+        public Time_Model Robot_Work_D_Cycle = new();
+        /// <summary>
+        /// 机器人作业周期、秒
+        /// </summary>
         [XmlIgnore]
-
-        public Time_Model Robot_Work_AB_Cycle { set; get; }=new();
+        public Time_Model Robot_Work_AB_Cycle { set; get; } = new();
+        /// <summary>
+        /// 机器人作业周期、秒
+        /// </summary>
         [XmlIgnore]
-
         public Time_Model Robot_Work_CD_Cycle { set; get; } = new();
 
 
-        
+
 
         private bool Robot_Work_A_Cycle_State = false;
         private bool Robot_Work_B_Cycle_State = false;
@@ -270,9 +306,16 @@ namespace Robot_Info_Mes.Model
         private int Robot_Work_AB_Number = 0;
         private int Robot_Work_CD_Number = 0;
 
+
+
+        /// <summary>
+        /// 机器人工作加工数量
+        /// </summary>
         public int Robot_Work_ABCD_Number { set; get; } = 0;
 
-
+        /// <summary>
+        /// 机器人通讯离线时间、秒
+        /// </summary>
         [XmlIgnore]
         public Time_Model Robot_Offline_Time { set; get; } = new();
 
@@ -280,21 +323,21 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 机器人当天调试时间
         /// </summary>
-        [XmlIgnore]
+
         public Time_Model Robot_Error_Time { set; get; } = new();
 
 
         /// <summary>
         /// 机器人当天调试时间
         /// </summary>
-        [XmlIgnore]
+
         public Time_Model Robot_Debug_Time { set; get; } = new();
 
 
         /// <summary>
         /// 机器人当天作业时间
         /// </summary>
-        [XmlIgnore]
+
         public Time_Model Robot_Work_Time { set; get; } = new();
         /// <summary>
         /// 机器人累计作业时间
@@ -303,7 +346,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 机器人当天运行时间
         /// </summary>
-        [XmlIgnore]
+
         public Time_Model Robot_Run_Time { set; get; } = new();
 
 
@@ -322,20 +365,24 @@ namespace Robot_Info_Mes.Model
         public Time_Model Robot_Debug_All_Time { set; get; } = new();
 
 
-
+        /// <summary>
+        /// 机器人累计错误时间
+        /// </summary>
         public Time_Model Robot_Error_All_Time { set; get; } = new();
 
 
-
-
-
         /// <summary>
-        /// 机器人稼动率
+        /// 机器人工作区域状态更新
         /// </summary>
-        public int Robot_Crop_Rate { set; get; } = 0;
-
-
-        public TimeSpan Robot_Work_State_Update(bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State, ref Time_Model _Robot_Work_A_Cycle, ref Time_Model _Robot_Work_B_Cycle,ref int _Robot_Work_AB_Number)
+        /// <param name="_Mes_Work_A_State"></param>
+        /// <param name="_Mes_Work_B_State"></param>
+        /// <param name="_Robot_Work_A_Cycle_State"></param>
+        /// <param name="_Robot_Work_B_Cycle_State"></param>
+        /// <param name="_Robot_Work_A_Cycle"></param>
+        /// <param name="_Robot_Work_B_Cycle"></param>
+        /// <param name="_Robot_Work_AB_Number"></param>
+        /// <returns></returns>
+        public TimeSpan Robot_R_Process_Work_State_Update(bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State, ref Time_Model _Robot_Work_A_Cycle, ref Time_Model _Robot_Work_B_Cycle, ref int _Robot_Work_AB_Number)
         {
             TimeSpan _Robot_Work_AB_Cycle = new();
 
@@ -394,13 +441,82 @@ namespace Robot_Info_Mes.Model
                 _Robot_Work_AB_Number++;
                 _Robot_Work_B_Cycle_State = false;
                 _Robot_Work_A_Cycle_State = false;
-      
+
             }
 
 
             _Robot_Work_AB_Cycle = _Robot_Work_A_Cycle.Timer_UI + _Robot_Work_B_Cycle.Timer_UI;
 
             return _Robot_Work_AB_Cycle;
+
+        }
+
+
+
+        public TimeSpan Robot_Surrounding_Process_Work_State_Update(bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State, ref Time_Model _Robot_Work_A_Cycle, ref Time_Model _Robot_Work_B_Cycle, ref int _Robot_Work_AB_Number)
+        {
+            //TimeSpan _Robot_Work_AB_Cycle = new();
+
+            if (_Mes_Work_A_State )
+            {
+
+
+
+             
+            
+                    if (_Robot_Work_A_Cycle_State == false)
+                    {
+
+                        _Robot_Work_A_Cycle.Reset();
+                        _Robot_Work_A_Cycle_State = true;
+                    }
+                
+      
+
+
+            }
+            else
+            {
+
+                _Robot_Work_A_Cycle.Stop();
+        
+
+
+            }
+
+
+            if (_Robot_Work_A_Cycle_State  && !_Mes_Work_A_State )
+            {
+                _Robot_Work_AB_Number++;
+                _Robot_Work_A_Cycle_State = false;
+
+            }
+
+
+            return _Robot_Work_A_Cycle.Timer_UI;
+
+         
+
+        }
+
+
+
+        /// <summary>
+        /// 检查是否当天数据时间
+        /// </summary>
+        public void Check_Day_Int_Time()
+        {
+            if (File_Update_Time.Day!= DateTime.Now.Day)
+            {
+                Robot_Error_Time.Timer_UI = TimeSpan.Zero;
+                Robot_Debug_Time.Timer_UI = TimeSpan.Zero;
+                Robot_Work_Time.Timer_UI = TimeSpan.Zero;
+                Robot_Run_Time.Timer_UI = TimeSpan.Zero;
+
+
+            }
+
+
 
         }
 
@@ -459,7 +575,7 @@ namespace Robot_Info_Mes.Model
                 Timer_Sec = value.TotalSeconds;
                 Timer_Millisecond = value.TotalMilliseconds;
                 Timer_Minute = value.TotalMinutes;
-                Timer_Hours= value.TotalHours;
+                Timer_Hours = value.TotalHours;
 
 
                 _Timer_UI = value;
@@ -476,7 +592,7 @@ namespace Robot_Info_Mes.Model
         public double Timer_Minute { set; get; }
         [XmlIgnore]
         public double Timer_Hours { set; get; }
-        
+
 
         public void Start()
         {

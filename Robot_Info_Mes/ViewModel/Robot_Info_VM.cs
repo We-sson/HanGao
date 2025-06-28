@@ -122,22 +122,17 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = TimeSpan.FromSeconds(Mes_Run_Parameters.Socket_Polling_Time);
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Tick += (s, e) =>
             {
-
-
+                ///记录文件保存时间
+                Mes_Robot_Info_Model_Data.File_Update_Time = DateTime.Now;
                 ///计算可用稼动率
-                //var _Work_Availability = (Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours / File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours);
-                //Work_Factor_Seried.Work_Availability_Factor.Value = Math.Round(double.IsNaN(_Work_Availability) ? 0 : (_Work_Availability <= 100 ? _Work_Availability : 100), 1);
-                Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours, File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours);
+               Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours, File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours);
 
 
                 //计算性能稼动率
-                //var _time = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time * Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number;
-                //var  _Work_Performance = (_time / (int)Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Sec);
-
-                //Work_Factor_Seried.Work_Performance_Factor.Value = Math.Round(double.IsNaN(_Work_Performance) ? 0 : (_Work_Performance <= 100 ? _Work_Performance : 100),1);
-
                 Work_Factor_Seried.Work_Performance_Factor.Value = Work_Factor_Seried.Get_Work_Performance_Factor(File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number, Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Sec);
                 ///保存时间文件
+               
+                
                 File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
 
 
@@ -158,9 +153,13 @@ namespace Robot_Info_Mes.ViewModel
 
             Mes_Robot_Info_Model_Data = File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
             File_Int_Parameters = File_Xml_Model.Read_Xml_File<File_Int_Model>();
+
+            ///检查数据是否当天有效
+            Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
+
+
             User_Log_Add("已读取本机设备信息文件！" + File_Xml_Model.GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
             User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
-
 
 
 
@@ -263,7 +262,7 @@ namespace Robot_Info_Mes.ViewModel
                     File_Xml_Model.Save_Xml(File_Int_Parameters);
 
 
-                    User_Log_Add("保存设置参数成功！");
+                    User_Log_Add("保存设置参数成功！重启软件生效。");
 
 
 

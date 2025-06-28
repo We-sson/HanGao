@@ -575,7 +575,7 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 通讯轮询时间、毫秒
         /// </summary>
-        public double  Socket_Polling_Time { get; set; } = 6;
+        public double  Socket_Polling_Time { get; set; } = 5;
 
 
 
