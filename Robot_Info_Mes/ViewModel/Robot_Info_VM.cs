@@ -2,21 +2,10 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LiveChartsCore;
-using LiveChartsCore.Defaults;
-using LiveChartsCore.Measure;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Drawing;
-using LiveChartsCore.SkiaSharpView.Extensions;
-using LiveChartsCore.SkiaSharpView.Painting;
-using LiveChartsCore.SkiaSharpView.VisualElements;
-using LiveChartsCore.VisualElements;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
-using SkiaSharp;
-using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -35,8 +24,24 @@ namespace Robot_Info_Mes.ViewModel
         {
             ///初始化
             ///
-            Initialization_Local_Network_Robot_Socket();
             Initialization_File_Info();
+
+            switch (File_Int_Parameters.Window_Startup_Type)
+            {
+                case Window_Startup_Type_Enum.Server:
+
+
+
+                    break;
+                case Window_Startup_Type_Enum.Client:
+                    Initialization_Local_Network_Robot_Socket();
+
+                    Int_Run_TIme();
+
+
+                    break;
+
+            }
 
 
 
@@ -48,7 +53,6 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-            Int_Run_TIme();
 
 
         }
@@ -57,11 +61,11 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-        public Work_Factor_Seried_Model Work_Factor_Seried { set; get; }=new Work_Factor_Seried_Model();
+        public Work_Factor_Seried_Model Work_Factor_Seried { set; get; } = new Work_Factor_Seried_Model();
 
 
 
-        public Texte_Model Model { set; get; } = new();
+
 
 
 
@@ -86,6 +90,72 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
+        public ObservableCollection<Mes_Server_Info_List_Model> Mes_Server_Model_List { set; get; } =
+            new ObservableCollection<Mes_Server_Info_List_Model>()
+            {
+            new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.R_Side_7,
+                    },
+                      
+                }
+            },
+                      new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.R_Side_8,
+                    },
+                       
+                }
+            },
+                new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.R_Side_9,
+                    },
+                           
+                }
+            },
+             new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Surround_7,
+                    },
+                        
+                }
+            },
+            new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Surround_8,
+                    },
+                           
+                }
+            },
+             new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Surround_9,
+                    },
+                      
+                }
+            },
+
+            };
+
+
+
+
+
+
+
         /// <summary>
         /// 消息显示
         /// </summary>
@@ -98,7 +168,7 @@ namespace Robot_Info_Mes.ViewModel
         {
 
 
-            Initialization_Sever_Start();
+            Initialization_Robot_Sever_Start();
             User_Log_Add("开启所有IP服务器连接：" + Mes_Run_Parameters.Sever_Socket_Port.ToString());
 
 
@@ -125,14 +195,14 @@ namespace Robot_Info_Mes.ViewModel
                 ///记录文件保存时间
                 Mes_Robot_Info_Model_Data.File_Update_Time = DateTime.Now;
                 ///计算可用稼动率
-               Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours, File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours);
+                Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours, File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours);
 
 
                 //计算性能稼动率
                 Work_Factor_Seried.Work_Performance_Factor.Value = Work_Factor_Seried.Get_Work_Performance_Factor(File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number, Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Sec);
                 ///保存时间文件
-               
-                
+
+
                 File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
 
 
@@ -171,7 +241,37 @@ namespace Robot_Info_Mes.ViewModel
         /// <summary>
         /// 初始化服务器全部ip启动
         /// </summary>
-        public void Initialization_Sever_Start()
+        public void Initialization_Robot_Sever_Start()
+        {
+            List<string> _List = [];
+            if (Socket_Receive.GetLocalIP(ref _List))
+            {
+                Robot_Info_Parameters.Local_IP_UI = new ObservableCollection<string>(_List) { };
+
+                ///启动服务器添加接收事件
+                foreach (var _Sever in Robot_Info_Parameters.Local_IP_UI)
+                {
+                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, Mes_Run_Parameters.Sever_Socket_Port.ToString())
+                    {
+                        Socket_Robot = Mes_Run_Parameters.Socket_Robot_Model,
+                        //Vision_Ini_Data_Delegate = Robot_Info_Parameters,
+
+                        //Vision_Find_Model_Delegate = Vision_Find_Shape_Receive_Method,
+                        Mes_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
+                        Socket_ErrorInfo_delegate = Socket_ErrorLog_Show,
+                        Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
+                        Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
+                        Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
+                    });
+                }
+
+                //KUKA_Receive.Server_Strat(Local_IP_UI[IP_UI_Select].ToString(), Local_Port_UI.ToString());
+                Robot_Info_Parameters.Sever_IsRuning = true;
+            }
+
+        }
+
+        public void Initialization_Mes_Sever_Start()
         {
             List<string> _List = [];
             if (Socket_Receive.GetLocalIP(ref _List))
@@ -202,8 +302,6 @@ namespace Robot_Info_Mes.ViewModel
         }
 
 
-
-
         /// <summary>
         ///服务器启动停止按钮
         /// </summary>
@@ -220,7 +318,7 @@ namespace Robot_Info_Mes.ViewModel
 
                     if (Robot_Info_Parameters.Sever_IsRuning)
                     {
-                        Initialization_Sever_Start();
+                        Initialization_Robot_Sever_Start();
                         User_Log_Add("开启所有IP服务器连接：" + Mes_Run_Parameters.Sever_Socket_Port.ToString());
 
                     }
@@ -253,7 +351,7 @@ namespace Robot_Info_Mes.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-             Button? _Contol = Sm!.Source as Button;
+                Button? _Contol = Sm!.Source as Button;
                 try
                 {
 
@@ -270,7 +368,7 @@ namespace Robot_Info_Mes.ViewModel
                 }
                 catch (Exception _e)
                 {
-             
+
                     User_Log_Add("保存设置参数失败！原因：" + _e.Message, MessageBoxImage.Error);
 
                 }
@@ -312,21 +410,20 @@ namespace Robot_Info_Mes.ViewModel
 
             Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data);
 
-            //Mes_Robot_Info_Model_Data.Robot_Work_Number = _Data.Mes_Work_Number;
-            //Mes_Robot_Info_Model_Data.Robot_Work_Cycle = Math.Max(_Data.Mes_Work_AB_Cycle_Time, _Data.Mes_Work_CD_Cycle_Time)/1000;
+
+
+
             Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Connected;
 
-            //Mes_Robot_Info_Model_Data.Robot_Work_Time= Mes_Robot_Info_Model_Data.Robot_Work_Time+new DateTime(TimeSpan.FromMilliseconds())
 
 
-            // var  _Facyor=   ((Math.Max(Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_Sec, Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_Sec)/ (File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time))*100)  ;
-            //Work_Factor_Seried.Work_Cycle_Load_Factor.Value = Math.Round(double.IsNaN(_Facyor) ? 0 : (_Facyor <= 120 ? _Facyor : 120), 1);
 
-            Work_Factor_Seried.Work_Cycle_Load_Factor.Value = Work_Factor_Seried. Get_Work_Cycle_Load_Factor(Math.Max(Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_Sec, Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_Sec), File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time);
-
-            //TimeSpan _work_time = TimeSpan.FromMicroseconds((_Data.Mes_Work_AB_Cycle_Time + _Data.Mes_Work_CD_Cycle_Time));
-
-            //Mes_Robot_Info_Model_Data.Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI + _work_time;
+            Work_Factor_Seried.Work_Cycle_Load_Factor.Value = Work_Factor_Seried.Get_Work_Cycle_Load_Factor(_Data.Robot_Process_Int,
+                                                                                                                                                                                 Mes_Robot_Info_Model_Data.Robot_Work_A_Cycle,
+                                                                                                                                                                                 Mes_Robot_Info_Model_Data.Robot_Work_B_Cycle,
+                                                                                                                                                                                 Mes_Robot_Info_Model_Data.Robot_Work_C_Cycle,
+                                                                                                                                                                                 Mes_Robot_Info_Model_Data.Robot_Work_D_Cycle,
+                                                                                                                                                                                 File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time);
 
 
 

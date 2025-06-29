@@ -19,7 +19,6 @@
     mc:Ignorable="d">
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
-
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 

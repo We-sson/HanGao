@@ -17,7 +17,7 @@ namespace Robot_Info_Mes.Model
         public Mes_Robot_Info_Model()
         {
 
-
+            Robot_Offline_Time.Start();
 
         }
 
@@ -524,8 +524,23 @@ namespace Robot_Info_Mes.Model
     }
 
 
+    [AddINotifyPropertyChangedInterface]
+    public class Mes_Server_Info_List_Model
+    {
+        public Mes_Server_Info_List_Model()
+        {
+
+        }
 
 
+        public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
+
+
+        public Work_Factor_Seried_Model Work_Factor_Seried { set; get; } = new Work_Factor_Seried_Model();
+
+
+
+    }
 
 
 
@@ -558,7 +573,7 @@ namespace Robot_Info_Mes.Model
         public DateTime LastTime { set; get; }
 
         [XmlIgnore]
-        private DispatcherTimer Timer { set; get; } = new();
+        public  DispatcherTimer Timer { set; get; } = new();
 
         //private TimeSpan Time_Cycls=new TimeSpan(0,0,1);
 
