@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
+using System.Windows.Shell;
 using System.Xml;
 using System.Xml.Serialization;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -428,38 +430,74 @@ namespace Robot_Info_Mes.Model
         public static  void Save_Xml<T1>(T1 _Data)
         {
 
-            XmlSerializer Xml = new XmlSerializer(typeof(T1));
-            //string _Path = "";
-            //去除xml声明
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-            ns.Add("", "");
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.OmitXmlDeclaration = true;
-            settings.Encoding = Encoding.Default;
-            settings.Indent = true;
-            settings.WriteEndDocumentOnClose = false;
-            //读取文件操作
-
-
-
 
             try
             {
 
-
-
-
                 string _Path = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path);
+                string tempPath = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path) +".tmp";
 
+                // 如果临时文件意外存在，先删掉
+                if (File.Exists(tempPath))
+                    File.Delete(tempPath);
 
-
-                using (FileStream _File = new FileStream(_Path, FileMode.Create))
+                // 打开临时文件流
+                using (var fs = new FileStream(
+                    tempPath,
+                    FileMode.Create,
+                    FileAccess.Write,
+                    FileShare.None,
+                    bufferSize: 4096,
+                    options: FileOptions.WriteThrough))
                 {
-                    var xmlWriter = XmlWriter.Create(_File, settings);
-                    //反序列化
-                    Xml.Serialize(xmlWriter, _Data, ns);
+                    // XmlWriter 设置
+                    var settings = new XmlWriterSettings
+                    {
+                        OmitXmlDeclaration = true,
+                        Encoding = new UTF8Encoding(false), // 无 BOM
+                        Indent = true,
+                        WriteEndDocumentOnClose = false
+                    };
 
+                    // 空命名空间（不生成 xmlns）
+                    var ns = new XmlSerializerNamespaces();
+                    ns.Add("", "");
+
+                    // 用 XmlWriter 包裹 FileStream
+                    using (var writer = XmlWriter.Create(fs, settings))
+                    {
+                        var serializer = new XmlSerializer(typeof(T1));
+                        serializer.Serialize(writer, _Data, ns);
+                    }
+
+                    // fs.Flush(true); // 不需要显式 flush，using 已自动 flush & dispose
                 }
+
+                // 5. 原子性地用临时文件替换目标文件
+                //    如果目标不存在，File.Replace 会抛异常，我们这里用 File.Move 来“伪替换”
+                if (File.Exists(_Path))
+                {
+                    File.Replace(tempPath, _Path, null);
+                }
+                else
+                {
+                    File.Move(tempPath, _Path);
+                }
+
+
+
+
+
+
+
+
+                //using (FileStream _File = new FileStream(_Path, FileMode.Create))
+                //{
+                //    var xmlWriter = XmlWriter.Create(_File, settings);
+                //    //反序列化
+                //    Xml.Serialize(xmlWriter, _Data, ns);
+
+                //}
 
                 //User_Log_Add("保存文件成功: " + _Path, Log_Show_Window_Enum.Home);
 
