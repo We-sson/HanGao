@@ -72,7 +72,7 @@ namespace Roboto_Socket_Library
         public ReceiveMessage_delegate<Robot_Mes_Info_Data_Receive, Robot_Mes_Info_Data_Send>? Mes_Info_Model_Data_Delegate { set; get; }
 
 
-
+        public ReceiveMessage_delegate<Mes_Server_Info_Data_Receive, Mes_Server_Info_Data_Send>? Mes_Server_Info_Data_Delegate { set; get; }
 
         public Message_Byte_delegate<byte[]>? Socket_Receive_Meg { set; get; }
         public Message_Byte_delegate<byte[]>? Socket_Send_Meg { set; get; }

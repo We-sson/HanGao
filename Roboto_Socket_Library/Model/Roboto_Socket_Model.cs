@@ -324,6 +324,55 @@ namespace Roboto_Socket_Library.Model
         }
 
 
+        /// <summary>
+        /// 看板信息发送协议格式
+        /// </summary>
+        [Serializable]
+        [AddINotifyPropertyChangedInterface]
+
+        public class Mes_Server_Info_Data_Receive
+        {
+
+
+            /// <summary>
+            /// 通讯轮询时间
+            /// </summary>
+            public DateTime Socket_Update_Time { set; get; }
+
+
+            public Robot_Mes_Info_Data_Receive Robot_Mes_Info_Data { set; get; } = new Robot_Mes_Info_Data_Receive();
+
+
+            public Mes_Server_Date_Model Mes_Server_Date { set; get; } = new Mes_Server_Date_Model();
+
+        }
+
+
+        /// <summary>
+        /// 看板信息发送协议格式
+        /// </summary>
+        [Serializable]
+        [AddINotifyPropertyChangedInterface]
+        public class Mes_Server_Info_Data_Send
+        {
+
+            public Mes_Server_Info_Data_Send()
+            {
+                Socket_Update_Time = DateTime.Now;
+            }
+
+
+            /// <summary>
+            /// 通讯轮询时间
+            /// </summary>
+            public DateTime Socket_Update_Time { set; get; } 
+  
+
+
+
+        }
+
+
 
 
         /// <summary>
@@ -650,8 +699,95 @@ namespace Roboto_Socket_Library.Model
 
 
 
+    [Serializable]
+    [AddINotifyPropertyChangedInterface]
+    public class Mes_Server_Date_Model
+    {
 
 
+
+
+        /// <summary>
+        /// 机器人作业周期、秒
+        /// </summary>
+   
+        public DateTime Robot_Work_AB_Cycle { set; get; } = new();
+        /// <summary>
+        /// 机器人作业周期、秒
+        /// </summary>
+  
+        public DateTime Robot_Work_CD_Cycle { set; get; } = new();
+
+
+
+        /// <summary>
+        /// 节拍负荷率
+        /// </summary>
+        public double Work_Cycle_Load_Factor { set; get; }
+        /// <summary>
+        /// OEE指标中的可用率
+        /// </summary>
+        public double Work_Availability_Factor { set; get; }
+        public double Work_Performance_Factor { set; get; }
+
+        /// <summary>
+        /// 机器人当天调试时间
+        /// </summary>
+
+        public DateTime Robot_Error_Time { set; get; } = new();
+
+
+        /// <summary>
+        /// 机器人当天调试时间
+        /// </summary>
+
+        public DateTime Robot_Debug_Time { set; get; } = new();
+
+
+        /// <summary>
+        /// 机器人当天作业时间
+        /// </summary>
+
+        public DateTime Robot_Work_Time { set; get; } = new();
+        /// <summary>
+        /// 机器人累计作业时间
+        /// </summary>
+
+        /// <summary>
+        /// 机器人当天运行时间
+        /// </summary>
+
+        public DateTime Robot_Run_Time { set; get; } = new();
+
+
+        public DateTime Robot_Work_All_Time { set; get; } = new();
+
+        /// <summary>
+        /// 机器人累计运行时间
+        /// </summary>
+        public DateTime Robot_Run_All_Time { set; get; } = new();
+
+
+
+        /// <summary>
+        /// 机器人累计调试时间
+        /// </summary>
+        public DateTime Robot_Debug_All_Time { set; get; } = new();
+
+
+        /// <summary>
+        /// 机器人累计错误时间
+        /// </summary>
+        public DateTime Robot_Error_All_Time { set; get; } = new();
+
+
+
+
+
+
+
+
+    }
 
 
 
@@ -730,6 +866,7 @@ namespace Roboto_Socket_Library.Model
         HandEye_Calib_Date,
         Vision_Creation_Model,
         Mes_Info_Data,
+        Mes_Server_Info_Data,
             Unknown
 
 

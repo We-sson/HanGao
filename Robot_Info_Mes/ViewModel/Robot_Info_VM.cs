@@ -271,6 +271,11 @@ namespace Robot_Info_Mes.ViewModel
 
         }
 
+
+
+
+
+
         public void Initialization_Mes_Sever_Start()
         {
             List<string> _List = [];
@@ -287,7 +292,8 @@ namespace Robot_Info_Mes.ViewModel
                         //Vision_Ini_Data_Delegate = Robot_Info_Parameters,
 
                         //Vision_Find_Model_Delegate = Vision_Find_Shape_Receive_Method,
-                        Mes_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
+                        //Mes_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
+                        Mes_Server_Info_Data_Delegate= Mes_Server_Info_Data_Method,
                         Socket_ErrorInfo_delegate = Socket_ErrorLog_Show,
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
                         Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
@@ -379,7 +385,11 @@ namespace Robot_Info_Mes.ViewModel
         }
 
 
-
+        /// <summary>
+        /// 接受机器人得信息进行处理
+        /// </summary>
+        /// <param name="_Receive"></param>
+        /// <returns></returns>
         public Robot_Mes_Info_Data_Send Robot_Mes_Info_Receive_Method(Robot_Mes_Info_Data_Receive _Receive)
         {
             Robot_Mes_Info_Data_Send _Send = new();
@@ -403,6 +413,36 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
+        /// <summary>
+        /// 看板接受个个上位机的机器人信息进行更新显示
+        /// </summary>
+        /// <param name="_Receive"></param>
+        /// <returns></returns>
+        public Mes_Server_Info_Data_Send Mes_Server_Info_Data_Method(Mes_Server_Info_Data_Receive _Receive)
+        {
+            Mes_Server_Info_Data_Send _Send=new ();
+
+
+
+
+
+
+
+
+
+            return _Send;
+
+
+        }
+
+
+
+
+
+        /// <summary>
+        /// 设置机器人信息数据
+        /// </summary>
+        /// <param name="_Data"></param>
         public void Set_Robot_Info_Data(Robot_Mes_Info_Data_Receive _Data)
         {
 
