@@ -200,6 +200,13 @@ namespace Robot_Info_Mes.Model
         public DateTime Socket_Cycle_Check_LastTime { set; get; } = new DateTime();
 
 
+        /// <summary>
+        /// 软件发送信息到看板软件
+        /// </summary>
+        [XmlIgnore]
+        public DispatcherTimer Server_Cycle_Update_Data { set; get; } = new DispatcherTimer();
+
+
 
         private string _Image_Source = string.Empty;
 
@@ -281,12 +288,12 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
-        [XmlIgnore]
+ 
         public Time_Model Robot_Work_AB_Cycle { set; get; } = new();
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
-        [XmlIgnore]
+    
         public Time_Model Robot_Work_CD_Cycle { set; get; } = new();
 
 

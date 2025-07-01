@@ -190,6 +190,60 @@
                                     Text="秒" />
                             </Grid>
 
+
+                            <Grid Height="35" Margin="0,8,0,8">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width=" auto" />
+                                    <ColumnDefinition Width=" 50" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                    FontSize="16"
+                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                    Text="看板更新" />
+                                <Slider
+                                    x:Name="Sever_Cycle_Update_Time_UI"
+                                    Grid.Column=" 1"
+                                    Margin="5"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    IsSnapToTickEnabled="True"
+                                    Maximum="10"
+                                    Minimum="0.1"
+                                    SmallChange="0.1"
+                                    Style="{DynamicResource Vision_SliderStyle}"
+                                    TickFrequency="0.1"
+                                    Value="{Binding Mes_Run_Parameters.Sever_Cycle_Update_Time}" />
+
+                                <TextBox
+                                    Grid.Column=" 2"
+                                    Width=" 200"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Background="Transparent"
+                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                    BorderThickness="2"
+                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                    FontSize="18"
+                                    Style="{DynamicResource Vision_TextBoxStyle}"
+                                    Text="{Binding ElementName=Sever_Cycle_Update_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}" />
+
+                                <TextBlock
+                                    Grid.Column=" 3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                    FontSize="16"
+                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                    Text="秒" />
+                            </Grid>
+
                             <Grid Height="35" Margin="0,8,0,8">
 
                                 <Grid.ColumnDefinitions>
@@ -217,7 +271,7 @@
                                     FontFamily="{DynamicResource 全局_文字_数字字体}"
                                     FontSize="18"
                                     Style="{DynamicResource Vision_TextBoxStyle}"
-                                    Text="{Binding Mes_Run_Parameters.Socket_Mes_Info_IP}" />
+                                    Text="{Binding Mes_Run_Parameters.Sever_Mes_Info_IP}" />
                             </Grid>
 
                             <Grid Height=" 35" Margin="0,8,0,8">

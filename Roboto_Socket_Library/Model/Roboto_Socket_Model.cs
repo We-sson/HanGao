@@ -618,11 +618,18 @@ namespace Roboto_Socket_Library.Model
 
 
 
-        public string Socket_Mes_Info_IP { set; get; } = "10.30.128.100";
+        public string Sever_Mes_Info_IP { set; get; } = "10.30.128.100";
+
+        /// <summary>
+        /// 上床板报更新时间
+        /// </summary>
+        public double Sever_Cycle_Update_Time { set; get; } = 1;
+
+
 
 
         /// <summary>
-        /// 通讯轮询时间、毫秒
+        /// 本地文件保存时间
         /// </summary>
         public double  Socket_Polling_Time { get; set; } = 5;
 
@@ -711,12 +718,12 @@ namespace Roboto_Socket_Library.Model
         /// 机器人作业周期、秒
         /// </summary>
    
-        public DateTime Robot_Work_AB_Cycle { set; get; } = new();
+        public TimeSpan Robot_Work_AB_Cycle { set; get; } = new();
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
   
-        public DateTime Robot_Work_CD_Cycle { set; get; } = new();
+        public TimeSpan Robot_Work_CD_Cycle { set; get; } = new();
 
 
 
@@ -734,21 +741,21 @@ namespace Roboto_Socket_Library.Model
         /// 机器人当天调试时间
         /// </summary>
 
-        public DateTime Robot_Error_Time { set; get; } = new();
+        public TimeSpan Robot_Error_Time { set; get; } = new();
 
 
         /// <summary>
         /// 机器人当天调试时间
         /// </summary>
 
-        public DateTime Robot_Debug_Time { set; get; } = new();
+        public TimeSpan Robot_Debug_Time { set; get; } = new();
 
 
         /// <summary>
         /// 机器人当天作业时间
         /// </summary>
 
-        public DateTime Robot_Work_Time { set; get; } = new();
+        public TimeSpan Robot_Work_Time { set; get; } = new();
         /// <summary>
         /// 机器人累计作业时间
         /// </summary>
@@ -757,31 +764,33 @@ namespace Roboto_Socket_Library.Model
         /// 机器人当天运行时间
         /// </summary>
 
-        public DateTime Robot_Run_Time { set; get; } = new();
+        public TimeSpan Robot_Run_Time { set; get; } = new();
 
 
-        public DateTime Robot_Work_All_Time { set; get; } = new();
+        public TimeSpan Robot_Work_All_Time { set; get; } = new();
 
         /// <summary>
         /// 机器人累计运行时间
         /// </summary>
-        public DateTime Robot_Run_All_Time { set; get; } = new();
+        public TimeSpan Robot_Run_All_Time { set; get; } = new();
 
 
 
         /// <summary>
         /// 机器人累计调试时间
         /// </summary>
-        public DateTime Robot_Debug_All_Time { set; get; } = new();
+        public TimeSpan Robot_Debug_All_Time { set; get; } = new();
 
 
         /// <summary>
         /// 机器人累计错误时间
         /// </summary>
-        public DateTime Robot_Error_All_Time { set; get; } = new();
+        public TimeSpan Robot_Error_All_Time { set; get; } = new();
 
-
-
+        /// <summary>
+        /// 机器人加工数量
+        /// </summary>
+        public int Robot_Work_ABCD_Number { set; get; } = 0;
 
 
 
