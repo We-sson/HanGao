@@ -70,6 +70,11 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
+
+        public Socket_Mes_Info_Parameters_Model Mes_Info_Parameters { set; get; } = new Socket_Mes_Info_Parameters_Model();
+
+
+
         public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
 
 
@@ -207,13 +212,13 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Interval = TimeSpan.FromSeconds(Mes_Run_Parameters.Sever_Cycle_Update_Time);
             Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Tick += (s, e) =>
             {
-            
 
 
 
+                Mes_Info_Parameters.Socket_Client.Connect(Mes_Run_Parameters.Sever_Mes_Info_IP, Mes_Run_Parameters.Sever_Socket_Port);
 
 
-
+                 Mes_Info_Parameters.Socket_Client
 
 
 
@@ -270,7 +275,7 @@ namespace Robot_Info_Mes.ViewModel
                         //Vision_Ini_Data_Delegate = Robot_Info_Parameters,
 
                         //Vision_Find_Model_Delegate = Vision_Find_Shape_Receive_Method,
-                        Mes_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
+                        Robot_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
                         Socket_ErrorInfo_delegate = Socket_ErrorLog_Show,
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
                         Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,

@@ -614,7 +614,7 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 本机标定通讯端口
         /// </summary>
-        public int Sever_Socket_Port { set; get; } = 6000;
+        public string Sever_Socket_Port { set; get; } = "6000";
 
 
 
@@ -641,6 +641,51 @@ namespace Roboto_Socket_Library.Model
 
     }
 
+    [AddINotifyPropertyChangedInterface]
+    public class Socket_Mes_Info_Parameters_Model
+    {
+
+         
+
+
+        public Socket_Receive Socket_Client { set; get; } = new Socket_Receive();
+
+
+
+        /// <summary>
+        /// 接受服务器运行状态
+        /// </summary>
+        public bool Client_IsRuning { set; get; } = false;
+
+
+
+
+        /// <summary>
+        /// 通信接受内容详细显示
+        /// </summary>
+        public Socket_Data_Converts Receive_information { set; get; } = new Socket_Data_Converts();
+
+
+        /// <summary>
+        /// 通信发送内容详细显示
+        /// </summary>
+        public Socket_Data_Converts Send_information { set; get; } = new Socket_Data_Converts();
+
+
+        /// <summary>
+        /// 通讯状态
+        /// </summary>
+        public Socket_Robot_Type_Enum Socket_Client_Type_State { set; get; } = Socket_Robot_Type_Enum.Default;
+
+
+
+
+
+
+
+
+
+    }
 
 
 
