@@ -18,11 +18,11 @@ namespace Roboto_Socket_Library
             Receice_byte = new List<byte>(_receive);
             Vision_Model_Type = Socket_Get_Vision_Model();
         }
-        public Robot_Socket_Protocol(Socket_Robot_Protocols_Enum _robo)
+        public Robot_Socket_Protocol(Socket_Robot_Protocols_Enum _robo, Vision_Model_Enum _model)
         {
             ///通讯解析必备参数
             Socket_Robot = _robo;
-   
+            Vision_Model_Type = _model;
         }
         //private KUKA_EKL_Socket_Protocols KUKA_Socket_Protocols { get; set; } = new KUKA_EKL_Socket_Protocols();
 
@@ -204,7 +204,11 @@ namespace Roboto_Socket_Library
 
                     return Mes_Robot_Info_Send_Procotol((_Propertie as Robot_Mes_Info_Data_Send)!);
 
-                 
+                case Vision_Model_Enum.Mes_Server_Info_Data:
+
+
+                    return Mes_Server_Info_Send_Procotol((_Propertie as Mes_Server_Info_Data_Receive)!);
+
                 default:
                     throw new Exception("现有通讯协议无法解析，请联系开发者！");
 
@@ -745,6 +749,48 @@ namespace Roboto_Socket_Library
         }
 
 
+        /// <summary>
+        /// Mes看板信息发送协议解析
+        /// </summary>
+        /// <param name="_Propertie"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private byte[]? Mes_Server_Info_Send_Procotol(Mes_Server_Info_Data_Receive _Propertie)
+        {
+
+            List<byte> _byte_List = new();
+
+            switch (Socket_Robot)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+
+                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Mes_Server_Info_Data_Receive>(_Propertie)));
+
+                    break;
+                case Socket_Robot_Protocols_Enum.ABB:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.川崎:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.通用:
+
+
+
+                    break;
+                default:
+
+                    throw new Exception("标定发送协议错误！");
+
+
+            }
+
+            return _byte_List.ToArray();
+        }
 
         /// <summary>
         /// 视觉查找数据接收解析

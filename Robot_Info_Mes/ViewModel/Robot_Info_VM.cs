@@ -218,56 +218,62 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.Sever_Cycle_Update_Time);
             Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Tick += (s, e) =>
             {
-
-
-
-
-                if (!Mes_Info_Parameters.Socket_Client.Client_Connect)
+                Task.Run(() =>
                 {
 
-                    if (Mes_Info_Parameters.Socket_Client.Connect(File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP, "6001"))
+
+                    lock (Mes_Info_Parameters)
                     {
 
-
-                        Mes_Server_Info_Data_Receive _Send = new Mes_Server_Info_Data_Receive()
+                        if ((Mes_Info_Parameters.Socket_Client.Socket_Client) == null || (!(bool?)(Mes_Info_Parameters.Socket_Client.Socket_Client?.Connected) ?? false))
                         {
-                            Robot_Mes_Info_Data = Mes_Robot_Info_Model_Data.Robot_Info_Data,
-                            Mes_Server_Date = new Mes_Server_Date_Model()
+
+                            Mes_Info_Parameters.Socket_Client.Connect(File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP, "6001");
+
+
+                        }
+                        if ((bool?)(Mes_Info_Parameters.Socket_Client.Socket_Client?.Connected) ?? false)
+                        {
+
+
+                            Mes_Server_Info_Data_Receive _Send = new Mes_Server_Info_Data_Receive()
                             {
-                                Robot_Debug_All_Time = Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI,
-                                Robot_Error_All_Time = Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Timer_UI,
-                                Robot_Run_All_Time = Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI,
-                                Robot_Work_All_Time = Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_UI,
+                                Socket_Update_Time = DateTime.Now,
+                                Robot_Mes_Info_Data = Mes_Robot_Info_Model_Data.Robot_Info_Data,
+                                Mes_Server_Date = new Mes_Server_Date_Model()
+                                {
+                                    Robot_Debug_All_Time = Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI,
+                                    Robot_Error_All_Time = Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Timer_UI,
+                                    Robot_Run_All_Time = Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI,
+                                    Robot_Work_All_Time = Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_UI,
 
-                                Robot_Debug_Time = Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI,
-                                Robot_Error_Time = Mes_Robot_Info_Model_Data.Robot_Error_Time.Timer_UI,
-                                Robot_Run_Time = Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_UI,
-                                Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI,
+                                    Robot_Debug_Time = Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI,
+                                    Robot_Error_Time = Mes_Robot_Info_Model_Data.Robot_Error_Time.Timer_UI,
+                                    Robot_Run_Time = Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_UI,
+                                    Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI,
 
-                                Robot_Work_ABCD_Number = Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number,
-                                Robot_Work_AB_Cycle = Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_UI,
-                                Robot_Work_CD_Cycle = Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_UI,
+                                    Robot_Work_ABCD_Number = Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number,
+                                    Robot_Work_AB_Cycle = Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_UI,
+                                    Robot_Work_CD_Cycle = Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_UI,
 
-                                Work_Availability_Factor = Work_Factor_Seried.Work_Availability_Factor.Value ?? 0,
-                                Work_Cycle_Load_Factor = Work_Factor_Seried.Work_Cycle_Load_Factor.Value ?? 0,
-                                Work_Performance_Factor = Work_Factor_Seried.Work_Performance_Factor.Value ?? 0,
+                                    Work_Availability_Factor = Work_Factor_Seried.Work_Availability_Factor.Value ?? 0,
+                                    Work_Cycle_Load_Factor = Work_Factor_Seried.Work_Cycle_Load_Factor.Value ?? 0,
+                                    Work_Performance_Factor = Work_Factor_Seried.Work_Performance_Factor.Value ?? 0,
 
-                            }
-
-
-                        };
+                                }
 
 
-                        Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>(File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model, _Send);
+                            };
 
+
+                            Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>(File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model, Vision_Model_Enum.Mes_Server_Info_Data, _Send);
+
+                        }
 
 
                     }
 
-                }
-
-
-
+                });
 
                 //User_Log_Add("信息文件定时已到：" + Mes_Run_Parameters.Socket_Polling_Time + "s，进行文件保存！");
 
@@ -276,6 +282,12 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Start();
 
 
+
+            Mes_Info_Parameters.Socket_Client.Socket_ErrorInfo_delegate = Socket_ErrorLog_Show;
+            Mes_Info_Parameters.Socket_Client.Socket_ErrorInfo_delegate = Socket_ErrorLog_Show;
+            Mes_Info_Parameters.Socket_Client.Socket_ConnectInfo_delegate = Socket_ConnectLog_Show;
+            Mes_Info_Parameters.Socket_Client.Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method;
+            Mes_Info_Parameters.Socket_Client.Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method;
         }
 
         /// <summary>

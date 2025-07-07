@@ -102,7 +102,7 @@ namespace Roboto_Socket_Library
 
 
 
-        public SendMessage_delegate<Mes_Server_Info_Data_Send, Mes_Server_Info_Data_Receive>? Mes_Client_Info_Data_Delegate { set; get; }
+        public ReceiveMessage_delegate<Mes_Server_Info_Data_Receive, Mes_Server_Info_Data_Send>? Mes_Client_Info_Data_Delegate { set; get; }
 
 
 
@@ -136,7 +136,7 @@ namespace Roboto_Socket_Library
 
         public Socket? Socket_Client { set; get; }
 
-        public bool Client_Connect { set; get; }
+        //public bool Client_Connect { set; get; }
 
         private static byte[] buffer = new byte[1024 * 1024];
         private static int ConnectNumber = 0;
@@ -164,31 +164,35 @@ namespace Roboto_Socket_Library
         /// <param name="_Port"></param>
         /// <param name="TimeOut"></param>
         /// <returns></returns>
-        public bool Connect(string _IP, string _Port,int TimeOut=500)
+        public bool Connect(string _IP, string _Port, int TimeOut = 500)
         {
             try
             {
-
+                Timeout_Event.Reset();
                 //创建套接字
                 IPEndPoint ipe = new(IPAddress.Parse(_IP), int.Parse(_Port));
 
                 Socket_Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);        //创建与远程主机的连接
                 //Socket_Client.Connect(ipe);
-                Socket_Client.BeginConnect(ipe, new AsyncCallback(Client_Inf), Socket_Client);
+                Socket_Client?.BeginConnect(ipe, new AsyncCallback(Client_Inf), Socket_Client);
 
-                if (Timeout_Event.WaitOne(TimeOut, false))
+                if (Timeout_Event.WaitOne(TimeOut))
                 {
 
 
                     Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器成功！");
-                    return Client_Connect = true;
+                    return true;
 
                 }
                 else
                 {
+                    //Socket_Client?.Shutdown(SocketShutdown.Both);
+                    Socket_Client?.Close();
+                    Socket_Client?.Dispose();
+
                     Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器超时退出！");
 
-                    return Client_Connect = false;
+                    return false;
 
                 }
 
@@ -197,8 +201,9 @@ namespace Roboto_Socket_Library
             {
 
                 Socket_Client?.Close();
+                Socket_Client?.Dispose();
                 Socket_ErrorInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message);
-                return Client_Connect = false;
+                return false;
 
             }
 
@@ -226,15 +231,17 @@ namespace Roboto_Socket_Library
                 //异步接收客户端
                 //Socket_Client?.BeginAccept(new AsyncCallback(ClienAppcet), Socket_Client);
 
-                Client_Connect = true;
+                //Client_Connect = true;
                 Timeout_Event.Set();
 
             }
             catch (Exception e)
             {
 
-                Client_Connect = false;
+                //Client_Connect = false;
                 Socket_Client?.Close();
+                Socket_Client?.Dispose();
+
                 //Socket_Client?.Shutdown(SocketShutdown.Both);
 
                 Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message);
@@ -249,17 +256,17 @@ namespace Roboto_Socket_Library
 
 
 
-        public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, T1 _val)
+        public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val)
         {
-            Robot_Socket_Protocol _Socket_Protoco = new Robot_Socket_Protocol(_Robot_Protocols);
+            Robot_Socket_Protocol _Socket_Protoco = new Robot_Socket_Protocol(_Robot_Protocols, _Model);
             Byte[] Send_byte = Array.Empty<byte>();
 
-            _Socket_Protoco.Socket_Send_Set_Data(_val);
+            //_Socket_Protoco.Socket_Send_Set_Data(_val);
 
             Send_byte = _Socket_Protoco.Socket_Send_Set_Data(_val ?? new object()) ?? Array.Empty<byte>();
 
 
-            if (Send_byte != Array.Empty<byte>())
+            if (Send_byte != Array.Empty<byte>() && ((bool?)Socket_Client?.Connected ?? false))
             {
 
                 //委托显示发送数据
@@ -440,9 +447,9 @@ namespace Roboto_Socket_Library
             //客户端对象
             if (ar!.AsyncState is Socket client)
             {
-                IPEndPoint clientipe = (IPEndPoint)client.RemoteEndPoint!;
                 try
                 {
+                    IPEndPoint clientipe = (IPEndPoint)client.RemoteEndPoint!;
                     int length = client.EndReceive(ar);
                     string _S = string.Empty;
 
@@ -454,6 +461,8 @@ namespace Roboto_Socket_Library
 
                     if (length == 0)
                     {
+                        client.Close();
+                        //Client_Connect = false;
                         Socket_ErrorInfo_delegate?.Invoke($"{clientipe}: 断开连接! ");
                         return;
                     }
@@ -531,6 +540,18 @@ namespace Roboto_Socket_Library
 
                             break;
 
+
+                        case Vision_Model_Enum.Mes_Server_Info_Data:
+
+
+                            Mes_Server_Info_Data_Receive? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Receive>();
+
+                            Mes_Server_Info_Data_Send? _Mes_Server_Send = Mes_Server_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!);
+
+                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Mes_Server_Send ?? new Mes_Server_Info_Data_Send()) ?? Array.Empty<byte>();
+
+
+                            break;
                     }
 
 
