@@ -21,7 +21,7 @@ namespace Robot_Info_Mes.ViewModel
     {
 
         public Robot_Info_VM()
-        {
+      {
             ///初始化
             ///
             Initialization_File_Info();
@@ -238,6 +238,7 @@ namespace Robot_Info_Mes.ViewModel
 
                             Mes_Server_Info_Data_Receive _Send = new Mes_Server_Info_Data_Receive()
                             {
+                                 Vision_Model=  Vision_Model_Enum.Mes_Server_Info_Send_Data,
                                 Socket_Update_Time = DateTime.Now,
                                 Robot_Mes_Info_Data = Mes_Robot_Info_Model_Data.Robot_Info_Data,
                                 Mes_Server_Date = new Mes_Server_Date_Model()
@@ -266,7 +267,7 @@ namespace Robot_Info_Mes.ViewModel
                             };
 
 
-                            Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>(File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model, Vision_Model_Enum.Mes_Server_Info_Data, _Send);
+                            Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>(File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model, Vision_Model_Enum.Mes_Server_Info_Send_Data, _Send);
 
                         }
 
@@ -283,8 +284,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-            Mes_Info_Parameters.Socket_Client.Socket_ErrorInfo_delegate = Socket_ErrorLog_Show;
-            Mes_Info_Parameters.Socket_Client.Socket_ErrorInfo_delegate = Socket_ErrorLog_Show;
+            Mes_Info_Parameters.Socket_Client.Socket_ErrorInfo_delegate = Socket_Mes_ErrorLog_Show;
             Mes_Info_Parameters.Socket_Client.Socket_ConnectInfo_delegate = Socket_ConnectLog_Show;
             Mes_Info_Parameters.Socket_Client.Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method;
             Mes_Info_Parameters.Socket_Client.Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method;
@@ -334,7 +334,7 @@ namespace Robot_Info_Mes.ViewModel
 
                         //Vision_Find_Model_Delegate = Vision_Find_Shape_Receive_Method,
                         Robot_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
-                        Socket_ErrorInfo_delegate = Socket_ErrorLog_Show,
+                        Socket_ErrorInfo_delegate = Socket_Robot_ErrorLog_Show,
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
                         Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
                         Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
@@ -362,7 +362,7 @@ namespace Robot_Info_Mes.ViewModel
                 ///启动服务器添加接收事件
                 foreach (var _Sever in Robot_Info_Parameters.Local_IP_UI)
                 {
-                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port.ToString())
+                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port.ToString())
                     {
                         Socket_Robot = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model,
                         //Vision_Ini_Data_Delegate = Robot_Info_Parameters,
@@ -370,7 +370,7 @@ namespace Robot_Info_Mes.ViewModel
                         //Vision_Find_Model_Delegate = Vision_Find_Shape_Receive_Method,
                         //Mes_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
                         Mes_Server_Info_Data_Delegate = Mes_Server_Info_Data_Method,
-                        Socket_ErrorInfo_delegate = Socket_ErrorLog_Show,
+                        Socket_ErrorInfo_delegate = Socket_Mes_ErrorLog_Show,
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
                         Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
                         Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
@@ -529,6 +529,9 @@ namespace Robot_Info_Mes.ViewModel
 
                     _Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode = _Receive.Robot_Mes_Info_Data.Mes_Robot_Mode;
 
+
+                    _Server.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Connected;
+
                 }
 
 
@@ -625,7 +628,7 @@ namespace Robot_Info_Mes.ViewModel
         /// 通讯错误信息
         /// </summary>
         /// <param name="_log"></param>
-        public void Socket_ErrorLog_Show(string _log)
+        public void Socket_Robot_ErrorLog_Show(string _log)
         {
 
 
@@ -634,6 +637,18 @@ namespace Robot_Info_Mes.ViewModel
 
             User_Log_Add(_log);
         }
+
+
+        public void Socket_Mes_ErrorLog_Show(string _log)
+        {
+
+
+
+
+            User_Log_Add(_log);
+        }
+
+
         /// <summary>
         /// 通讯连接信息
         /// </summary>

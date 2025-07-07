@@ -273,7 +273,7 @@ namespace Roboto_Socket_Library
                 Socket_Send_Meg?.Invoke(Send_byte);
                 Socket_Client?.Send(Send_byte);
                 //通过递归不停的接收该客户端的消息
-                Socket_Client?.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), Socket_Client);
+                Socket_Client?.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(Client_ReceiveMessage), Socket_Client);
             }
             else
             {
@@ -282,6 +282,81 @@ namespace Roboto_Socket_Library
         }
 
 
+
+
+        /// <summary>
+        /// 异步消息接收
+        /// </summary>
+        /// <param name="ar"></param>
+        private void Client_ReceiveMessage(IAsyncResult ar)
+        {
+            //客户端对象
+            if (ar!.AsyncState is Socket client)
+            {
+                try
+                {
+                    IPEndPoint clientipe = (IPEndPoint)client.RemoteEndPoint!;
+                    int length = client.EndReceive(ar);
+                    string _S = string.Empty;
+
+                    Byte[] Send_byte = Array.Empty<byte>();
+                    //WriteLine(clientipe + " ：" + message, ConsoleColor.White);
+                    //每当服务器收到消息就会给客户端返回一个Server received data
+
+
+
+                    if (length == 0)
+                    {
+                        client.Close();
+                        client.Dispose();
+                        //Client_Connect = false;
+                        Socket_ErrorInfo_delegate?.Invoke($"{clientipe}: 断开连接! ");
+                        return;
+                    }
+
+
+                    //接触数据长度
+                    byte[] _Reveice_Meg = buffer.Skip(0).Take(length).ToArray();
+                    //委托显示接受数据
+                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
+
+
+                    //创建协议处理类型,处理协议头部解析类型
+                    Robot_Socket_Protocol _Socket_Protocol = new(Socket_Robot, _Reveice_Meg);
+
+                    ///根据协议类型处理对应内容
+                    switch (_Socket_Protocol.Vision_Model_Type)
+                    {
+               
+
+                        case Vision_Model_Enum.Mes_Server_Info_Rece_Data:
+
+
+                            Mes_Server_Info_Data_Send? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Send>();
+
+
+
+                            break;
+                
+
+                    }
+
+                }
+                catch (Exception e)
+                {
+
+                    //设置计数器
+                    //ConnectNumber--;
+                    //client.Close();
+                    //client.Dispose();
+                    Socket_ErrorInfo_delegate?.Invoke(e.Message);
+
+                    //断开连接
+                    //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);
+                }
+            }
+
+        }
 
 
 
@@ -462,6 +537,7 @@ namespace Roboto_Socket_Library
                     if (length == 0)
                     {
                         client.Close();
+                        client.Dispose();
                         //Client_Connect = false;
                         Socket_ErrorInfo_delegate?.Invoke($"{clientipe}: 断开连接! ");
                         return;
@@ -541,7 +617,7 @@ namespace Roboto_Socket_Library
                             break;
 
 
-                        case Vision_Model_Enum.Mes_Server_Info_Data:
+                        case Vision_Model_Enum.Mes_Server_Info_Send_Data:
 
 
                             Mes_Server_Info_Data_Receive? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Receive>();
@@ -552,6 +628,10 @@ namespace Roboto_Socket_Library
 
 
                             break;
+
+            
+
+
                     }
 
 

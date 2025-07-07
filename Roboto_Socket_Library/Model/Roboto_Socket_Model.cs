@@ -243,8 +243,7 @@ namespace Roboto_Socket_Library.Model
             }
 
 
-
-      
+ 
 
             /// <summary>
             /// 接收点位类型的机器人
@@ -349,6 +348,13 @@ namespace Roboto_Socket_Library.Model
             public DateTime Socket_Update_Time { set; get; }
 
 
+
+            /// <summary>
+            /// 视觉接收协议模式
+            /// </summary>
+            [XmlAttribute]
+            public Vision_Model_Enum Vision_Model { set; get; }
+
             public Robot_Mes_Info_Data_Receive Robot_Mes_Info_Data { set; get; } = new Robot_Mes_Info_Data_Receive();
 
 
@@ -374,10 +380,14 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 通讯轮询时间
             /// </summary>
-            public DateTime Socket_Update_Time { set; get; } 
-  
+            public DateTime Socket_Update_Time { set; get; }
 
 
+            /// <summary>
+            /// 视觉接收协议模式
+            /// </summary>
+            [XmlAttribute]
+            public Vision_Model_Enum Vision_Model { set; get; } = Vision_Model_Enum.Mes_Server_Info_Rece_Data;
 
         }
 
@@ -947,7 +957,8 @@ namespace Roboto_Socket_Library.Model
         HandEye_Calib_Date,
         Vision_Creation_Model,
         Mes_Info_Data,
-        Mes_Server_Info_Data,
+        Mes_Server_Info_Send_Data,
+        Mes_Server_Info_Rece_Data,
         Unknown
 
 
