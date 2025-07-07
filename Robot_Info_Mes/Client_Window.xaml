@@ -278,6 +278,37 @@
                                         Text="{Binding File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
+                                <Grid Height="35" Margin="0,8,0,8">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width=" auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="看板端口" />
+
+
+                                    <TextBox
+                                        Grid.Column=" 2"
+                                        Width=" 200"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                        BorderThickness="2"
+                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                        FontSize="18"
+                                        Style="{DynamicResource Vision_TextBoxStyle}"
+                                        Text="{Binding File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port, UpdateSourceTrigger=PropertyChanged}" />
+                                </Grid>
+
+
                                 <Grid Height=" 35" Margin="0,8,0,8">
 
                                     <Grid.ColumnDefinitions>
@@ -342,7 +373,7 @@
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                                         FontSize="16"
                                         Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                        Text="通讯端口" />
+                                        Text="服务端口" />
 
 
                                     <TextBox

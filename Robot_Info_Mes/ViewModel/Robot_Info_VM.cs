@@ -228,7 +228,7 @@ namespace Robot_Info_Mes.ViewModel
                         if ((Mes_Info_Parameters.Socket_Client.Socket_Client) == null || (!(bool?)(Mes_Info_Parameters.Socket_Client.Socket_Client?.Connected) ?? false))
                         {
 
-                            Mes_Info_Parameters.Socket_Client.Connect(File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP, "6001");
+                            Mes_Info_Parameters.Socket_Client.Connect(File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port);
 
 
                         }
@@ -327,7 +327,7 @@ namespace Robot_Info_Mes.ViewModel
                 ///启动服务器添加接收事件
                 foreach (var _Sever in Robot_Info_Parameters.Local_IP_UI)
                 {
-                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port.ToString())
+                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port)
                     {
                         Socket_Robot = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model,
                         //Vision_Ini_Data_Delegate = Robot_Info_Parameters,

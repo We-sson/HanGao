@@ -627,7 +627,8 @@ namespace Roboto_Socket_Library.Model
 
 
 
-        public string Sever_Mes_Info_IP { set; get; } = string.Empty;
+        public string Sever_Mes_Info_IP { set; get; } = "10.30.128.101";
+        public string Sever_Mes_Info_Port { set; get; } = "6005";
 
         /// <summary>
         /// 上床板报更新时间
