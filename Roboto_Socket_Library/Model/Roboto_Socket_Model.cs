@@ -332,7 +332,16 @@ namespace Roboto_Socket_Library.Model
 
         public class Mes_Server_Info_Data_Receive
         {
+            public Mes_Server_Info_Data_Receive()
+            {
 
+            }
+            public Mes_Server_Info_Data_Receive(Mes_Server_Info_Data_Receive _Val)
+            {
+                Socket_Update_Time = DateTime.Now;
+                Robot_Mes_Info_Data = _Val.Robot_Mes_Info_Data;
+                Mes_Server_Date = _Val.Mes_Server_Date;
+            }
 
             /// <summary>
             /// 通讯轮询时间
@@ -618,7 +627,7 @@ namespace Roboto_Socket_Library.Model
 
 
 
-        public string Sever_Mes_Info_IP { set; get; } = "10.30.128.100";
+        public string Sever_Mes_Info_IP { set; get; } = string.Empty;
 
         /// <summary>
         /// 上床板报更新时间

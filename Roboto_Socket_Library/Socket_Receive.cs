@@ -154,10 +154,17 @@ namespace Roboto_Socket_Library
 
 
 
+        private readonly ManualResetEvent Timeout_Event = new ManualResetEvent(false);
 
 
-
-        public void Connect(string _IP, string _Port)
+        /// <summary>
+        /// 带有超时连接时间服务器连接方法
+        /// </summary>
+        /// <param name="_IP"></param>
+        /// <param name="_Port"></param>
+        /// <param name="TimeOut"></param>
+        /// <returns></returns>
+        public bool Connect(string _IP, string _Port,int TimeOut=500)
         {
             try
             {
@@ -168,23 +175,39 @@ namespace Roboto_Socket_Library
                 Socket_Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);        //创建与远程主机的连接
                 //Socket_Client.Connect(ipe);
                 Socket_Client.BeginConnect(ipe, new AsyncCallback(Client_Inf), Socket_Client);
-                Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器成功！");
 
+                if (Timeout_Event.WaitOne(TimeOut, false))
+                {
+
+
+                    Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器成功！");
+                    return Client_Connect = true;
+
+                }
+                else
+                {
+                    Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器超时退出！");
+
+                    return Client_Connect = false;
+
+                }
 
             }
             catch (Exception e)
             {
 
                 Socket_Client?.Close();
-                Client_Connect = false;
-                Socket_Client?.Shutdown(SocketShutdown.Both);
                 Socket_ErrorInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message);
-
+                return Client_Connect = false;
 
             }
 
 
         }
+
+
+
+
 
 
 
@@ -204,7 +227,7 @@ namespace Roboto_Socket_Library
                 //Socket_Client?.BeginAccept(new AsyncCallback(ClienAppcet), Socket_Client);
 
                 Client_Connect = true;
-
+                Timeout_Event.Set();
 
             }
             catch (Exception e)
@@ -212,8 +235,8 @@ namespace Roboto_Socket_Library
 
                 Client_Connect = false;
                 Socket_Client?.Close();
-                Socket_Client?.Shutdown(SocketShutdown.Both);
-     
+                //Socket_Client?.Shutdown(SocketShutdown.Both);
+
                 Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message);
 
 
@@ -222,6 +245,36 @@ namespace Roboto_Socket_Library
 
 
         }
+
+
+
+
+        public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, T1 _val)
+        {
+            Robot_Socket_Protocol _Socket_Protoco = new Robot_Socket_Protocol(_Robot_Protocols);
+            Byte[] Send_byte = Array.Empty<byte>();
+
+            _Socket_Protoco.Socket_Send_Set_Data(_val);
+
+            Send_byte = _Socket_Protoco.Socket_Send_Set_Data(_val ?? new object()) ?? Array.Empty<byte>();
+
+
+            if (Send_byte != Array.Empty<byte>())
+            {
+
+                //委托显示发送数据
+                Socket_Send_Meg?.Invoke(Send_byte);
+                Socket_Client?.Send(Send_byte);
+                //通过递归不停的接收该客户端的消息
+                Socket_Client?.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), Socket_Client);
+            }
+            else
+            {
+                throw new Exception("现有通讯协议无法解析，请联系开发者！");
+            }
+        }
+
+
 
 
 

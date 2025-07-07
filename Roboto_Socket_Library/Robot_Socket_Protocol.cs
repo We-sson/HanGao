@@ -18,7 +18,12 @@ namespace Roboto_Socket_Library
             Receice_byte = new List<byte>(_receive);
             Vision_Model_Type = Socket_Get_Vision_Model();
         }
-
+        public Robot_Socket_Protocol(Socket_Robot_Protocols_Enum _robo)
+        {
+            ///通讯解析必备参数
+            Socket_Robot = _robo;
+   
+        }
         //private KUKA_EKL_Socket_Protocols KUKA_Socket_Protocols { get; set; } = new KUKA_EKL_Socket_Protocols();
 
         //private ABB_PC_Socket_Protocols ABB_Socket_Protocols { set; get; } = new ABB_PC_Socket_Protocols();
@@ -696,7 +701,12 @@ namespace Roboto_Socket_Library
 
 
      
-
+        /// <summary>
+        /// Mes信息发送协议解析
+        /// </summary>
+        /// <param name="_Propertie"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private byte[]? Mes_Robot_Info_Send_Procotol(Robot_Mes_Info_Data_Send _Propertie)
         {
 
