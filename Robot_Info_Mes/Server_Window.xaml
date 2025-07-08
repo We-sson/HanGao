@@ -1117,7 +1117,7 @@
                         </WrapPanel>
 
                         <Border
-                            d:Visibility="Visible"
+                            d:Visibility="Collapsed"
                             Background="{DynamicResource 全局_按钮_黑颜色}"
                             CornerRadius=" 10"
                             Opacity="0.8 ">

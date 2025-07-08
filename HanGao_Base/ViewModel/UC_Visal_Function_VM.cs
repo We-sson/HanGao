@@ -5,6 +5,7 @@ using HanGao.Xml_Date.Vision_XML.Vision_WriteRead;
 using Microsoft.Win32;
 using MVS_SDK_Base.Model;
 using Roboto_Socket_Library;
+using System.Net.Sockets;
 using System.Windows.Controls.Primitives;
 using Throw;
 using static Halcon_SDK_DLL.Model.Halcon_Data_Model;
@@ -262,7 +263,7 @@ namespace HanGao.ViewModel
         /// 网络通讯日志显示
         /// </summary>
         /// <param name="_log"></param>
-        public static void Socket_Log_Show(string _log)
+        public static void Socket_Log_Show(string _log,Socket _Socket)
         {
             User_Log_Add(_log, Log_Show_Window_Enum.Home);
         }
@@ -308,7 +309,7 @@ namespace HanGao.ViewModel
 
         }
 
-        public Vision_Find_Data_Send Vision_Find_Shape_Receive_Method(Vision_Find_Data_Receive _Receive)
+        public Vision_Find_Data_Send Vision_Find_Shape_Receive_Method(Vision_Find_Data_Receive _Receive, Socket  _Socket)
         {
             Vision_Find_Data_Send _Send = new Vision_Find_Data_Send();
 
@@ -509,7 +510,7 @@ namespace HanGao.ViewModel
         /// </summary>
         /// <param name="_Receive"></param>
         /// <returns></returns>
-        public Vision_Ini_Data_Send Vision_Ini_Data_Receive_Method(Vision_Ini_Data_Receive _Receive)
+        public Vision_Ini_Data_Send Vision_Ini_Data_Receive_Method(Vision_Ini_Data_Receive _Receive,Socket _Socket)
         {
             Vision_Ini_Data_Send _Ini_Data_Send = new();
 

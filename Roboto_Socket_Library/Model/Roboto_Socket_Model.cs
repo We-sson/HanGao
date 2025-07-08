@@ -2,6 +2,7 @@
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net.Sockets;
 using System.Xml.Serialization;
 using Throw;
 
@@ -265,7 +266,7 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// kuka机器人模式
             /// </summary>
-            public KUKA_Mode_OP_Enum Mes_Robot_Mode { set; get; } = KUKA_Mode_OP_Enum.T1;
+            public KUKA_Mode_OP_Enum Mes_Robot_Mode { set; get; } = KUKA_Mode_OP_Enum.Unknown;
 
 
             /// <summary>
@@ -895,7 +896,7 @@ namespace Roboto_Socket_Library.Model
     /// 泛型类型委托声明
     /// </summary>
     /// <param name="_Connect_State"></param>
-    public delegate void Socket_T_delegate<T>(T _T);
+    public delegate void Socket_T_delegate<T>(T _T, Socket? _Socket=null);
 
 
     /// <summary>
@@ -1008,7 +1009,9 @@ namespace Roboto_Socket_Library.Model
         [Description("#Error")]
         Error,
         [Description("#Run")]
-        Run
+        Run,
+        [Description("#Unknown")]
+        Unknown
 
     }
 

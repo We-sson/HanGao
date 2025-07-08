@@ -58,16 +58,16 @@ namespace Roboto_Socket_Library
                 IsConnect = true;
 
 
-                Socket_ConnectInfo_delegate?.Invoke($"IP：{IP}，Port：{Port}，连接服务器成功！");
+                Socket_ConnectInfo_delegate?.Invoke($"IP：{IP}，Port：{Port}，连接服务器成功！", Socket_Client);
                 return true;
 
             }
             catch (Exception e)
             {
 
+                Socket_ErrorInfo_delegate?.Invoke($"IP：{IP}，Port：{Port}，开启服务失败！原因：" + e.Message, Socket_Client);
                 Socket_Client?.Close();
                 IsConnect = false;
-                Socket_ErrorInfo_delegate?.Invoke($"IP：{IP}，Port：{Port}，开启服务失败！原因：" + e.Message);
                 return false;
 
             }

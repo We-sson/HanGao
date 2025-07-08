@@ -53,10 +53,10 @@ namespace Robot_Info_Mes.Model
         public IEnumerable<ISeries> Work_Performance_Factor_Series { get; set; }
 
 
-        public double Get_Work_Availability_Factor(double _Work_Time, double _Work_Standard_Hours)
+        public double Get_Work_Availability_Factor(double _Work_Time, double _Work_Run_Time)
         {
 
-            var _Work_Availability = ((_Work_Standard_Hours-_Work_Time )/ _Work_Standard_Hours)*100;
+            var _Work_Availability = (_Work_Time / _Work_Run_Time) *100;
             return Math.Round(double.IsNaN(_Work_Availability) ? 0 : (_Work_Availability <= 120 ? _Work_Availability : 120), 1);
 
 

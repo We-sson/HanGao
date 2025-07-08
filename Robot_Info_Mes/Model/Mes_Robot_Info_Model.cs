@@ -1,6 +1,7 @@
 ﻿using PropertyChanged;
 using Roboto_Socket_Library.Model;
 using System.Diagnostics;
+using System.Net;
 using System.Windows.Threading;
 using System.Xml.Serialization;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
@@ -30,6 +31,8 @@ namespace Robot_Info_Mes.Model
             get { return _Robot_Info_Data; }
             set
             {
+                if (Socket_Robot_Connect_State== Socket_Robot_Connect_State_Enum.Connected)
+                {
 
                 switch (value.Mes_Robot_Mode)
                 {
@@ -147,6 +150,7 @@ namespace Robot_Info_Mes.Model
                 }
 
 
+                }
 
                 _Robot_Info_Data = value;
             }
@@ -523,7 +527,21 @@ namespace Robot_Info_Mes.Model
 
 
             }
+            else
+            {
+                //累计时间
+                Robot_Error_Time.Time_Offset = Robot_Error_Time.Timer_UI;
+                Robot_Debug_Time.Time_Offset = Robot_Debug_Time.Timer_UI;
+                Robot_Work_Time.Time_Offset = Robot_Work_Time.Timer_UI;
+                Robot_Run_Time.Time_Offset = Robot_Run_Time.Timer_UI;
 
+            }
+
+
+            Robot_Debug_All_Time.Time_Offset = Robot_Debug_All_Time.Timer_UI;
+            Robot_Error_All_Time.Time_Offset = Robot_Error_All_Time.Timer_UI;
+            Robot_Run_All_Time.Time_Offset = Robot_Run_All_Time.Timer_UI;
+            Robot_Work_All_Time.Time_Offset = Robot_Work_All_Time.Timer_UI;
 
 
         }
@@ -539,6 +557,8 @@ namespace Robot_Info_Mes.Model
         {
 
         }
+
+        public IPEndPoint? Connetc_Mes_IP { set; get; } = null;
 
 
         public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
@@ -565,7 +585,7 @@ namespace Robot_Info_Mes.Model
             Time_Update.Tick += (s, e) =>
             {
 
-                Timer_UI = Timer.Elapsed;
+                Timer_UI = Time_Offset+ Timer.Elapsed;
 
 
             };
@@ -609,6 +629,11 @@ namespace Robot_Info_Mes.Model
             }
         }
 
+        /// <summary>
+        /// 累计偏移值
+        /// </summary>
+        [XmlIgnore]
+        public  TimeSpan Time_Offset { set; get; } = TimeSpan.Zero;
 
 
         [XmlIgnore]

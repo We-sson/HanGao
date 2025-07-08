@@ -1,6 +1,6 @@
 <Mes_Robot_Info_Model>
-  <Socket_Last_Update_Time>2025-06-29T17:12:41.0576281+08:00</Socket_Last_Update_Time>
-  <File_Update_Time>2025-07-07T15:58:14.3510147+08:00</File_Update_Time>
+  <Socket_Last_Update_Time>2025-07-08T21:43:03.4610947+08:00</Socket_Last_Update_Time>
+  <File_Update_Time>2025-07-08T21:43:03.6879119+08:00</File_Update_Time>
   <Robot_Work_AB_Cycle>
     <Timer_UI>PT0S</Timer_UI>
   </Robot_Work_AB_Cycle>
@@ -12,22 +12,22 @@
     <Timer_UI>PT0S</Timer_UI>
   </Robot_Error_Time>
   <Robot_Debug_Time>
-    <Timer_UI>PT0S</Timer_UI>
+    <Timer_UI>PT6M25.5767215S</Timer_UI>
   </Robot_Debug_Time>
   <Robot_Work_Time>
     <Timer_UI>PT0S</Timer_UI>
   </Robot_Work_Time>
   <Robot_Run_Time>
-    <Timer_UI>PT3H17M6S</Timer_UI>
+    <Timer_UI>PT6M26.7226417S</Timer_UI>
   </Robot_Run_Time>
   <Robot_Work_All_Time>
     <Timer_UI>PT5H19M42S</Timer_UI>
   </Robot_Work_All_Time>
   <Robot_Run_All_Time>
-    <Timer_UI>P1DT15H45M53.4S</Timer_UI>
+    <Timer_UI>P1DT15H52M20.1226407S</Timer_UI>
   </Robot_Run_All_Time>
   <Robot_Debug_All_Time>
-    <Timer_UI>PT1H11M6.1S</Timer_UI>
+    <Timer_UI>PT1H17M31.6960367S</Timer_UI>
   </Robot_Debug_All_Time>
   <Robot_Error_All_Time>
     <Timer_UI>PT2M4S</Timer_UI>

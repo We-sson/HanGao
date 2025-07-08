@@ -41,7 +41,7 @@ namespace Roboto_Socket_Library
         /// <param name="_T"></param>
         /// <param name="_S"></param>
         /// <returns></returns>
-        public delegate T2 ReceiveMessage_delegate<T1, T2>(T1 _T);
+        public delegate T2 ReceiveMessage_delegate<T1, T2>(T1 _T,Socket? _socket=null);
 
 
         public delegate void ClientMessage_delegate<T1>(T1 _T);
@@ -189,17 +189,17 @@ namespace Roboto_Socket_Library
                 {
 
 
-                    Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器成功！");
+                    Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器成功！", Socket_Client);
                     return true;
 
                 }
                 else
                 {
+                    Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器超时退出！", Socket_Client);
                     //Socket_Client?.Shutdown(SocketShutdown.Both);
                     Socket_Client?.Close();
                     Socket_Client?.Dispose();
 
-                    Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器超时退出！");
 
                     return false;
 
@@ -209,9 +209,9 @@ namespace Roboto_Socket_Library
             catch (Exception e)
             {
 
+                Socket_ErrorInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message, Socket_Client);
                 Socket_Client?.Close();
                 Socket_Client?.Dispose();
-                Socket_ErrorInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message);
                 return false;
 
             }
@@ -247,13 +247,13 @@ namespace Roboto_Socket_Library
             catch (Exception e)
             {
 
+                Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message, Socket_Client);
                 //Client_Connect = false;
                 Socket_Client?.Close();
                 Socket_Client?.Dispose();
 
                 //Socket_Client?.Shutdown(SocketShutdown.Both);
 
-                Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message);
 
 
                 return;
@@ -316,10 +316,10 @@ namespace Roboto_Socket_Library
 
                     if (length == 0)
                     {
+                        Socket_ErrorInfo_delegate?.Invoke($"{clientipe}: 断开连接! ",client);
                         client.Close();
                         client.Dispose();
                         //Client_Connect = false;
-                        Socket_ErrorInfo_delegate?.Invoke($"{clientipe}: 断开连接! ");
                         return;
                     }
 
@@ -357,9 +357,9 @@ namespace Roboto_Socket_Library
 
                     //设置计数器
                     //ConnectNumber--;
-                    //client.Close();
-                    //client.Dispose();
-                    Socket_ErrorInfo_delegate?.Invoke(e.Message);
+                    Socket_ErrorInfo_delegate?.Invoke(e.Message, client);
+                    client.Close();
+                    client.Dispose();
 
                     //断开连接
                     //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);
@@ -407,7 +407,12 @@ namespace Roboto_Socket_Library
             catch (Exception e)
             {
 
-                Socket_ErrorInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message);
+                Socket_ErrorInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message, Socket_Sever);
+
+                //Socket_Sever.Close();
+                //Socket_Sever.Dispose();
+
+
             }
 
 
@@ -489,23 +494,23 @@ namespace Roboto_Socket_Library
             if (null != ServerSocket)
             {
 
+                    Socket client = ServerSocket.EndAccept(ar);
                 try
                 {
 
                     //得到接受进来的socket客户端
-                    Socket client = ServerSocket.EndAccept(ar);
                     //开始异步接收客户端数据
                     client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
                 }
                 catch (Exception e)
                 {
+                    Socket_ErrorInfo_delegate?.Invoke(e.Message, client);
                     ServerSocket.Close();
-                    Socket_ErrorInfo_delegate?.Invoke(e.Message);
-
+                    ServerSocket.Dispose();
                     return;
                 }
 
-                Socket_ConnectInfo_delegate?.Invoke($"{ServerSocket.LocalEndPoint}:连接进来了");
+                Socket_ConnectInfo_delegate?.Invoke($"{ServerSocket.LocalEndPoint}:连接进来了", client);
 
                 Console.WriteLine("第" + ConnectNumber + "连接进来了");
 
@@ -546,10 +551,10 @@ namespace Roboto_Socket_Library
 
                     if (length == 0)
                     {
+                        Socket_ErrorInfo_delegate?.Invoke($"{clientipe}: 断开连接! ", client);
                         client.Close();
                         client.Dispose();
                         //Client_Connect = false;
-                        Socket_ErrorInfo_delegate?.Invoke($"{clientipe}: 断开连接! ");
                         return;
                     }
 
@@ -632,7 +637,7 @@ namespace Roboto_Socket_Library
 
                             Mes_Server_Info_Data_Receive? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Receive>();
 
-                            Mes_Server_Info_Data_Send? _Mes_Server_Send = Mes_Server_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!);
+                            Mes_Server_Info_Data_Send? _Mes_Server_Send = Mes_Server_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!, client);
 
                             Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Mes_Server_Send ?? new Mes_Server_Info_Data_Send()) ?? Array.Empty<byte>();
 
@@ -667,7 +672,7 @@ namespace Roboto_Socket_Library
                     //设置计数器
                     ConnectNumber--;
 
-                    Socket_ErrorInfo_delegate?.Invoke(e.Message);
+                    Socket_ErrorInfo_delegate?.Invoke(e.Message, client);
 
                     //断开连接
                     //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);

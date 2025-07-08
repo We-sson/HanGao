@@ -89,7 +89,7 @@ namespace Roboto_Socket_Library
             set
             {
                 _Is_Connect_Client = value;
-                Socket_Connect_State_delegate?.Invoke(value);
+                Socket_Connect_State_delegate?.Invoke(value,null);
 
             }
         }
@@ -346,7 +346,7 @@ namespace Roboto_Socket_Library
                 {
 
 
-                    Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message);
+                    Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message, Global_Socket_Write);
 
 
                     return;
@@ -371,7 +371,7 @@ namespace Roboto_Socket_Library
                 {
 
 
-                    Socket_ErrorInfo_delegate?.Invoke($"Error: -50 原因:" + e.Message);
+                    Socket_ErrorInfo_delegate?.Invoke($"Error: -50 原因:" + e.Message, Global_Socket_Read);
                     return;
                 }
                 //连接成功释放阻塞
@@ -481,7 +481,7 @@ namespace Roboto_Socket_Library
 
                             _Receive.Receive_Var = Socket_KUKA_Receive.Receive_Byte.Message_Show;
                             //传送委托到声明位置
-                            Socket_Receive_Delegate?.Invoke(_Receive);
+                            Socket_Receive_Delegate?.Invoke(_Receive,null);
 
                         }
                     }
@@ -989,6 +989,7 @@ namespace Roboto_Socket_Library
 
             if (_Enum == Read_Write_Enum.Read)
             {
+                Socket_ErrorInfo_delegate?.Invoke("断开读取连接");
 
                 if (Global_Socket_Read.Connected)
                 {
@@ -1004,7 +1005,6 @@ namespace Roboto_Socket_Library
                 //读取标识重置
                 Is_Connect_Client = false;
 
-                Socket_ErrorInfo_delegate?.Invoke("断开读取连接");
 
             }
 
@@ -1054,13 +1054,13 @@ namespace Roboto_Socket_Library
         /// <param name="_Error">连接失败原因输入</param>
         public void Socket_Receive_Error(Read_Write_Enum _Enum, string _Error)
         {
+            Socket_ErrorInfo_delegate?.Invoke(_Error);
             Close_Waite.Reset();
             Close_Waite.Set();
 
             //连接失败后关闭连接
 
             Socket_Close(_Enum);
-            Socket_ErrorInfo_delegate?.Invoke(_Error);
                 
         }
 
