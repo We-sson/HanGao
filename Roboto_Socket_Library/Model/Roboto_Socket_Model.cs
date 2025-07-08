@@ -353,7 +353,7 @@ namespace Roboto_Socket_Library.Model
             /// 视觉接收协议模式
             /// </summary>
             [XmlAttribute]
-            public Vision_Model_Enum Vision_Model { set; get; }
+            public Vision_Model_Enum Vision_Model { set; get; } = Vision_Model_Enum.Mes_Server_Info_Send_Data;
 
             public Robot_Mes_Info_Data_Receive Robot_Mes_Info_Data { set; get; } = new Robot_Mes_Info_Data_Receive();
 
@@ -959,6 +959,9 @@ namespace Roboto_Socket_Library.Model
         Mes_Info_Data,
         Mes_Server_Info_Send_Data,
         Mes_Server_Info_Rece_Data,
+        Mes_Client_Info_Send_Data,
+        Mes_Client_Info_Rece_Data,
+
         Unknown
 
 

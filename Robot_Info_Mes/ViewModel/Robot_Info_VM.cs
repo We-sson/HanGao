@@ -196,7 +196,7 @@ namespace Robot_Info_Mes.ViewModel
                 ///记录文件保存时间
                 Mes_Robot_Info_Model_Data.File_Update_Time = DateTime.Now;
                 ///计算可用稼动率
-                Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours, File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours);
+                Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Millisecond, Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_Millisecond);
 
 
                 //计算性能稼动率
@@ -267,8 +267,7 @@ namespace Robot_Info_Mes.ViewModel
                             };
 
 
-                            Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>(File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model, Vision_Model_Enum.Mes_Server_Info_Send_Data, _Send);
-
+                            Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>(File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model, Vision_Model_Enum.Mes_Server_Info_Rece_Data, _Send);
                         }
 
 
@@ -282,13 +281,15 @@ namespace Robot_Info_Mes.ViewModel
             };
             Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Start();
 
-
-
+            ///汇总上传信息
+            Mes_Info_Parameters.Socket_Client.Mes_Receive_Info_Data_Delegate = Mes_Receive_Info_Data_Method;
             Mes_Info_Parameters.Socket_Client.Socket_ErrorInfo_delegate = Socket_Mes_ErrorLog_Show;
             Mes_Info_Parameters.Socket_Client.Socket_ConnectInfo_delegate = Socket_ConnectLog_Show;
             Mes_Info_Parameters.Socket_Client.Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method;
             Mes_Info_Parameters.Socket_Client.Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method;
         }
+
+
 
         /// <summary>
         /// 初始化文件读取
@@ -330,9 +331,7 @@ namespace Robot_Info_Mes.ViewModel
                     Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port)
                     {
                         Socket_Robot = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model,
-                        //Vision_Ini_Data_Delegate = Robot_Info_Parameters,
-
-                        //Vision_Find_Model_Delegate = Vision_Find_Shape_Receive_Method,
+    
                         Robot_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
                         Socket_ErrorInfo_delegate = Socket_Robot_ErrorLog_Show,
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
@@ -365,10 +364,7 @@ namespace Robot_Info_Mes.ViewModel
                     Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port.ToString())
                     {
                         Socket_Robot = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model,
-                        //Vision_Ini_Data_Delegate = Robot_Info_Parameters,
-
-                        //Vision_Find_Model_Delegate = Vision_Find_Shape_Receive_Method,
-                        //Mes_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
+                     
                         Mes_Server_Info_Data_Delegate = Mes_Server_Info_Data_Method,
                         Socket_ErrorInfo_delegate = Socket_Mes_ErrorLog_Show,
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
@@ -549,6 +545,26 @@ namespace Robot_Info_Mes.ViewModel
         }
 
 
+
+        /// <summary>
+        /// 看板信息
+        /// </summary>
+        /// <param name="_Receive"></param>
+        public void Mes_Receive_Info_Data_Method(Mes_Server_Info_Data_Send _Receive)
+        {
+
+
+
+
+            User_Log_Add($"上传看板信息更新时间：{_Receive.Socket_Update_Time}");
+
+
+
+
+
+
+
+        }
 
 
 

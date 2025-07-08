@@ -44,7 +44,7 @@ namespace Roboto_Socket_Library
         public delegate T2 ReceiveMessage_delegate<T1, T2>(T1 _T);
 
 
-        public delegate T2 SendMessage_delegate<T1, T2>(T1 _T);
+        public delegate void ClientMessage_delegate<T1>(T1 _T);
 
 
 
@@ -90,10 +90,19 @@ namespace Roboto_Socket_Library
         public ReceiveMessage_delegate<Robot_Mes_Info_Data_Receive, Robot_Mes_Info_Data_Send>? Robot_Info_Model_Data_Delegate { set; get; }
 
 
+
+        /// <summary>
+        /// 信息接受服务器委托
+        /// </summary>
         public ReceiveMessage_delegate<Mes_Server_Info_Data_Receive, Mes_Server_Info_Data_Send>? Mes_Server_Info_Data_Delegate { set; get; }
 
 
 
+
+        /// <summary>
+        /// 看板接受消息委托
+        /// </summary>
+        public ClientMessage_delegate< Mes_Server_Info_Data_Send>? Mes_Receive_Info_Data_Delegate { set; get; }
 
 
 
@@ -325,7 +334,7 @@ namespace Roboto_Socket_Library
                     Robot_Socket_Protocol _Socket_Protocol = new(Socket_Robot, _Reveice_Meg);
 
                     ///根据协议类型处理对应内容
-                    switch (_Socket_Protocol.Vision_Model_Type)
+                    switch (_Socket_Protocol.Vision_Model)
                     {
                
 
@@ -334,6 +343,7 @@ namespace Roboto_Socket_Library
 
                             Mes_Server_Info_Data_Send? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Send>();
 
+                             Mes_Receive_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!);
 
 
                             break;
@@ -554,7 +564,7 @@ namespace Roboto_Socket_Library
                     Robot_Socket_Protocol _Socket_Protocol = new(Socket_Robot, _Reveice_Meg);
 
                     ///根据协议类型处理对应内容
-                    switch (_Socket_Protocol.Vision_Model_Type)
+                    switch (_Socket_Protocol.Vision_Model)
                     {
                         case Vision_Model_Enum.Calibration_New:
                             break;

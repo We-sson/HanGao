@@ -1,5 +1,6 @@
 ﻿using PropertyChanged;
 using Roboto_Socket_Library.Model;
+using System.Diagnostics;
 using System.Windows.Threading;
 using System.Xml.Serialization;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
@@ -84,9 +85,9 @@ namespace Robot_Info_Mes.Model
                         if (value.Mes_Robot_Mode == KUKA_Mode_OP_Enum.Run)
                         {
 
-                            Robot_Work_AB_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
+                            Robot_Work_AB_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State,  Robot_Work_A_Cycle,  Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
 
-                            Robot_Work_CD_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, ref Robot_Work_C_Cycle, ref Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
+                            Robot_Work_CD_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State,  Robot_Work_C_Cycle,  Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
 
 
 
@@ -108,9 +109,9 @@ namespace Robot_Info_Mes.Model
                         if (value.Mes_Robot_Mode == KUKA_Mode_OP_Enum.Run)
                         {
 
-                            Robot_Work_AB_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
+                            Robot_Work_AB_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State,  Robot_Work_A_Cycle,  Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
 
-                            Robot_Work_CD_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, ref Robot_Work_C_Cycle, ref Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
+                            Robot_Work_CD_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State,  Robot_Work_C_Cycle,  Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
                         }
 
 
@@ -268,23 +269,23 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         [XmlIgnore]
 
-        public Time_Model Robot_Work_A_Cycle = new();
+        public Time_Model Robot_Work_A_Cycle { set; get; } = new();
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
         [XmlIgnore]
 
-        public Time_Model Robot_Work_B_Cycle = new();
+        public Time_Model Robot_Work_B_Cycle { set; get; } = new();
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
         [XmlIgnore]
-        public Time_Model Robot_Work_C_Cycle = new();
+        public Time_Model Robot_Work_C_Cycle { set; get; } = new();
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
         [XmlIgnore]
-        public Time_Model Robot_Work_D_Cycle = new();
+        public Time_Model Robot_Work_D_Cycle { set; get; } = new();
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
@@ -389,7 +390,7 @@ namespace Robot_Info_Mes.Model
         /// <param name="_Robot_Work_B_Cycle"></param>
         /// <param name="_Robot_Work_AB_Number"></param>
         /// <returns></returns>
-        public TimeSpan Robot_R_Process_Work_State_Update(bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State, ref Time_Model _Robot_Work_A_Cycle, ref Time_Model _Robot_Work_B_Cycle, ref int _Robot_Work_AB_Number)
+        public TimeSpan Robot_R_Process_Work_State_Update(bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State,  Time_Model _Robot_Work_A_Cycle,  Time_Model _Robot_Work_B_Cycle, ref int _Robot_Work_AB_Number)
         {
             TimeSpan _Robot_Work_AB_Cycle = new();
 
@@ -460,7 +461,7 @@ namespace Robot_Info_Mes.Model
 
 
 
-        public TimeSpan Robot_Surrounding_Process_Work_State_Update(bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State, ref Time_Model _Robot_Work_A_Cycle, ref Time_Model _Robot_Work_B_Cycle, ref int _Robot_Work_AB_Number)
+        public TimeSpan Robot_Surrounding_Process_Work_State_Update(bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State,  Time_Model _Robot_Work_A_Cycle,  Time_Model _Robot_Work_B_Cycle, ref int _Robot_Work_AB_Number)
         {
             //TimeSpan _Robot_Work_AB_Cycle = new();
 
@@ -557,15 +558,18 @@ namespace Robot_Info_Mes.Model
     {
         public Time_Model()
         {
-            Timer.Interval = new TimeSpan(0, 0, 0, 0, UpdateInterval);
+            Time_Update.Interval = new TimeSpan(0, 0, 0, 0, UpdateInterval);
+            //Timer.Interval = UpdateInterval;
 
-
-            Timer.Tick += (s, e) =>
+            
+            Time_Update.Tick += (s, e) =>
             {
-                Timer_UI = Timer_UI.Add(TimeSpan.FromMilliseconds(UpdateInterval));
+
+                Timer_UI = Timer.Elapsed;
+
 
             };
-
+        
         }
 
 
@@ -580,10 +584,11 @@ namespace Robot_Info_Mes.Model
         public DateTime LastTime { set; get; }
 
         [XmlIgnore]
-        public  DispatcherTimer Timer { set; get; } = new();
+        public Stopwatch Timer { set; get; } = new();
 
         //private TimeSpan Time_Cycls=new TimeSpan(0,0,1);
 
+        private DispatcherTimer Time_Update { set; get; } = new();
 
 
         private TimeSpan _Timer_UI = TimeSpan.Zero;
@@ -619,12 +624,15 @@ namespace Robot_Info_Mes.Model
         public void Start()
         {
             Timer.Start();
+            Time_Update.Start();
+
             LastTime = DateTime.Now;
         }
 
         public void Stop()
         {
             Timer.Stop();
+            Time_Update.Stop();
 
         }
 
@@ -633,8 +641,13 @@ namespace Robot_Info_Mes.Model
         public void Reset()
         {
             Timer.Stop();
-            Timer_UI = TimeSpan.Zero;
+            Timer.Reset();
+            Time_Update.Stop();
             Timer.Start();
+            Time_Update.Start();
+           
+            Timer_UI = TimeSpan.Zero;
+
             LastTime = DateTime.Now;
 
 

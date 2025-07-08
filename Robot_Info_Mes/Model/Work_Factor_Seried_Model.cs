@@ -56,7 +56,7 @@ namespace Robot_Info_Mes.Model
         public double Get_Work_Availability_Factor(double _Work_Time, double _Work_Standard_Hours)
         {
 
-            var _Work_Availability = (_Work_Time / _Work_Standard_Hours);
+            var _Work_Availability = ((_Work_Standard_Hours-_Work_Time )/ _Work_Standard_Hours)*100;
             return Math.Round(double.IsNaN(_Work_Availability) ? 0 : (_Work_Availability <= 120 ? _Work_Availability : 120), 1);
 
 
@@ -65,7 +65,7 @@ namespace Robot_Info_Mes.Model
 
         }
 
-        public double Get_Work_Cycle_Load_Factor(Robot_Process_Int_Enum _Process, Time_Model _A_Cycle_Time, Time_Model _B_Cycle_Time, Time_Model _C_Cycle_Time, Time_Model _D_Cycle_Time, double Work_Standard_Time)
+        public double Get_Work_Cycle_Load_Factor(Robot_Process_Int_Enum _Process,  Time_Model _A_Cycle_Time, Time_Model _B_Cycle_Time, Time_Model _C_Cycle_Time, Time_Model _D_Cycle_Time, double Work_Standard_Time)
         {
 
 
@@ -75,7 +75,7 @@ namespace Robot_Info_Mes.Model
             {
                 case Robot_Process_Int_Enum.R_Side_7 or Robot_Process_Int_Enum.R_Side_8 or Robot_Process_Int_Enum.R_Side_9:
 
-                    if (_A_Cycle_Time.Timer.IsEnabled || _B_Cycle_Time.Timer.IsEnabled)
+                    if (_A_Cycle_Time.Timer.IsRunning || _B_Cycle_Time.Timer.IsRunning)
                     {
 
 
@@ -85,7 +85,7 @@ namespace Robot_Info_Mes.Model
 
 
                     }
-                    if (_C_Cycle_Time.Timer.IsEnabled || _D_Cycle_Time.Timer.IsEnabled)
+                    if (_C_Cycle_Time.Timer.IsRunning || _D_Cycle_Time.Timer.IsRunning)
                     {
 
                         _Facyor = ((_C_Cycle_Time.Timer_Sec + _D_Cycle_Time.Timer_Sec) / Work_Standard_Time) * 100;
@@ -97,13 +97,13 @@ namespace Robot_Info_Mes.Model
 
                 case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1:
 
-                    if (_A_Cycle_Time.Timer.IsEnabled)
+                    if (_A_Cycle_Time.Timer.IsRunning)
                     {
 
                     _Facyor = ((_A_Cycle_Time.Timer_Sec) / Work_Standard_Time) * 100;
                     }
 
-                    if (_C_Cycle_Time.Timer.IsEnabled)
+                    if (_C_Cycle_Time.Timer.IsRunning)
                     {
 
 

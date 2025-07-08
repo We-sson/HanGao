@@ -16,13 +16,13 @@ namespace Roboto_Socket_Library
             ///通讯解析必备参数
             Socket_Robot = _robo;
             Receice_byte = new List<byte>(_receive);
-            Vision_Model_Type = Socket_Get_Vision_Model();
+            Vision_Model = Socket_Get_Vision_Model();
         }
         public Robot_Socket_Protocol(Socket_Robot_Protocols_Enum _robo, Vision_Model_Enum _model)
         {
             ///通讯解析必备参数
             Socket_Robot = _robo;
-            Vision_Model_Type = _model;
+            Vision_Model = _model;
         }
         //private KUKA_EKL_Socket_Protocols KUKA_Socket_Protocols { get; set; } = new KUKA_EKL_Socket_Protocols();
 
@@ -39,7 +39,7 @@ namespace Roboto_Socket_Library
         /// <summary>
         /// 视觉接收协议模式
         /// </summary>
-        public Vision_Model_Enum Vision_Model_Type { set; get; } = Vision_Model_Enum.Vision_Ini_Data;
+        public Vision_Model_Enum Vision_Model { set; get; } = Vision_Model_Enum.Vision_Ini_Data;
 
 
 
@@ -125,7 +125,7 @@ namespace Roboto_Socket_Library
         {
 
 
-            switch (Vision_Model_Type)
+            switch (Vision_Model)
             {
                 case Vision_Model_Enum.Calibration_New:
                     break;
@@ -187,7 +187,7 @@ namespace Roboto_Socket_Library
         public byte[]? Socket_Send_Set_Data<T1>(T1 _Propertie)
         {
 
-            switch (Vision_Model_Type)
+            switch (Vision_Model)
             {
                 case Vision_Model_Enum.Calibration_New:
                     break;
@@ -219,7 +219,16 @@ namespace Roboto_Socket_Library
                 case Vision_Model_Enum.Mes_Server_Info_Send_Data:
 
 
-                    return Mes_Server_Info_Send_Procotol((_Propertie as Mes_Server_Info_Data_Receive)!);
+                    return Mes_Server_Info_Send_Procotol((_Propertie as Mes_Server_Info_Data_Send)!);
+
+
+                case Vision_Model_Enum.Mes_Server_Info_Rece_Data:
+                    
+
+
+                    return Mes_Server_Info_Receive_Procotol((_Propertie as Mes_Server_Info_Data_Receive)!);
+
+
 
                 default:
                     throw new Exception("现有通讯协议无法解析，请联系开发者！");
@@ -271,7 +280,7 @@ namespace Roboto_Socket_Library
 
 
 
-                    _ABB_HandEye_Calib_Rece.Vision_Model = Vision_Model_Type;
+                    _ABB_HandEye_Calib_Rece.Vision_Model = Vision_Model;
                     _ABB_HandEye_Calib_Rece.Calibration_Model = (HandEye_Calibration_Type_Enum)_Calib_Model;
                     _ABB_HandEye_Calib_Rece.ACT_Point.X = Math.Round(x, 4).ToString();
                     _ABB_HandEye_Calib_Rece.ACT_Point.Y = Math.Round(y, 4).ToString();
@@ -519,7 +528,7 @@ namespace Roboto_Socket_Library
                     double oRy = BitConverter.ToSingle(Ryyy);
                     double oRz = BitConverter.ToSingle(Rzzz);
 
-                    _Robot_Creation_Model_Rece.Vision_Model = Vision_Model_Type;
+                    _Robot_Creation_Model_Rece.Vision_Model = Vision_Model;
 
                     _Robot_Creation_Model_Rece.Robot_Type = (Robot_Type_Enum)_Robot_Type;
                     _Robot_Creation_Model_Rece.Camera_Pos.X = Math.Round(cx, 4).ToString();
@@ -844,7 +853,51 @@ namespace Roboto_Socket_Library
         /// <param name="_Propertie"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private byte[]? Mes_Server_Info_Send_Procotol(Mes_Server_Info_Data_Receive _Propertie)
+        private byte[]? Mes_Server_Info_Send_Procotol(Mes_Server_Info_Data_Send _Propertie)
+        {
+
+            List<byte> _byte_List = new();
+
+            switch (Socket_Robot)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+
+                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Mes_Server_Info_Data_Send>(_Propertie)));
+
+                    break;
+                case Socket_Robot_Protocols_Enum.ABB:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.川崎:
+
+
+
+                    break;
+                case Socket_Robot_Protocols_Enum.通用:
+
+
+
+                    break;
+                default:
+
+                    throw new Exception("标定发送协议错误！");
+
+
+            }
+
+            return _byte_List.ToArray();
+        }
+
+
+        /// <summary>
+        /// Mes看板信息发送协议解析
+        /// </summary>
+        /// <param name="_Propertie"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private byte[]? Mes_Server_Info_Receive_Procotol(Mes_Server_Info_Data_Receive _Propertie)
         {
 
             List<byte> _byte_List = new();
@@ -880,6 +933,11 @@ namespace Roboto_Socket_Library
 
             return _byte_List.ToArray();
         }
+
+
+
+
+
 
         /// <summary>
         /// 视觉查找数据接收解析
