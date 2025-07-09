@@ -10,6 +10,7 @@
     xmlns:local="clr-namespace:Robot_Info_Mes"
     xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="设备运行状态读取上位机"
     MinWidth="1440"
     MinHeight="900"
     d:Height="900"

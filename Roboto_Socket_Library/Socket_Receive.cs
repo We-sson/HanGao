@@ -670,9 +670,10 @@ namespace Roboto_Socket_Library
                 {
 
                     //设置计数器
-                    ConnectNumber--;
-
                     Socket_ErrorInfo_delegate?.Invoke(e.Message, client);
+                    ConnectNumber--;
+                    client.Close();
+                    client.Dispose();
 
                     //断开连接
                     //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);

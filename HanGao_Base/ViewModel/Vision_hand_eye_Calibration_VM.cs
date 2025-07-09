@@ -5,6 +5,7 @@ using Ookii.Dialogs.Wpf;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
 using System.Drawing;
+using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Windows.Controls.Primitives;
 using Throw;
@@ -1578,7 +1579,7 @@ namespace HanGao.ViewModel
         /// <param name="_S"></param>
         /// <param name="_RStr"></param>
         /// <returns></returns>
-        public HandEye_Calibration_Send HandEye_Calib_Socket_Receive(HandEye_Calibration_Receive _S)
+        public HandEye_Calibration_Send HandEye_Calib_Socket_Receive(HandEye_Calibration_Receive _S, Socket _Socket)
         {
             string _Str = string.Empty;
             MVS_Camera_Info_Model _Select_Camera = new();
@@ -1855,7 +1856,7 @@ namespace HanGao.ViewModel
         /// 通讯日志显示
         /// </summary>
         /// <param name="_log"></param>
-        public void Socket_Log_Show(string _log)
+        public void Socket_Log_Show(string _log, Socket Socket)
         {
             User_Log_Add(_log, Log_Show_Window_Enum.HandEye);
         }
