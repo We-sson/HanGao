@@ -195,7 +195,7 @@ namespace Roboto_Socket_Library
                 }
                 else
                 {
-                    Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器超时退出！", Socket_Client);
+                    Socket_ConnectInfo_delegate?.Invoke($"Error:-1,IP：{_IP}，Port：{_Port}，连接服务器超时退出！", Socket_Client);
                     //Socket_Client?.Shutdown(SocketShutdown.Both);
                     Socket_Client?.Close();
                     Socket_Client?.Dispose();
@@ -209,7 +209,7 @@ namespace Roboto_Socket_Library
             catch (Exception e)
             {
 
-                Socket_ErrorInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message, Socket_Client);
+                Socket_ErrorInfo_delegate?.Invoke($"Error:-2,IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message, Socket_Client);
                 Socket_Client?.Close();
                 Socket_Client?.Dispose();
                 return false;
@@ -286,7 +286,7 @@ namespace Roboto_Socket_Library
             }
             else
             {
-                throw new Exception("现有通讯协议无法解析，请联系开发者！");
+                throw new Exception("Error:-3,现有通讯协议无法解析，请联系开发者！");
             }
         }
 
@@ -316,7 +316,7 @@ namespace Roboto_Socket_Library
 
                     if (length == 0)
                     {
-                        Socket_ErrorInfo_delegate?.Invoke($"{clientipe}: 断开连接! ",client);
+                        Socket_ErrorInfo_delegate?.Invoke($"Error:-4,{clientipe}: 断开连接! ",client);
                         client.Close();
                         client.Dispose();
                         //Client_Connect = false;
@@ -357,7 +357,7 @@ namespace Roboto_Socket_Library
 
                     //设置计数器
                     //ConnectNumber--;
-                    Socket_ErrorInfo_delegate?.Invoke(e.Message, client);
+                    Socket_ErrorInfo_delegate?.Invoke("Error:-5," + e.Message, client);
                     client.Close();
                     client.Dispose();
 
@@ -407,7 +407,7 @@ namespace Roboto_Socket_Library
             catch (Exception e)
             {
 
-                Socket_ErrorInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message, Socket_Sever);
+                Socket_ErrorInfo_delegate?.Invoke($"Error:-7,IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message, Socket_Sever);
 
                 //Socket_Sever.Close();
                 //Socket_Sever.Dispose();
@@ -473,7 +473,7 @@ namespace Roboto_Socket_Library
             catch (Exception _e)
             {
 
-                throw new Exception("本地IP获取失败！，请检查网络配置。原因：" + _e.Message);
+                throw new Exception("Error:-8,本地IP获取失败！，请检查网络配置。原因：" + _e.Message);
 
             }
 
@@ -551,7 +551,7 @@ namespace Roboto_Socket_Library
 
                     if (length == 0)
                     {
-                        Socket_ErrorInfo_delegate?.Invoke($"{clientipe}: 断开连接! ", client);
+                        Socket_ErrorInfo_delegate?.Invoke($"Error:-9,{clientipe}: 断开连接! ", client);
                         client.Close();
                         client.Dispose();
                         //Client_Connect = false;
@@ -663,14 +663,14 @@ namespace Roboto_Socket_Library
                     }
                     else
                     {
-                        throw new Exception("现有通讯协议无法解析，请联系开发者！");
+                        throw new Exception("Error:-10,现有通讯协议无法解析，请联系开发者！");
                     }
                 }
                 catch (Exception e)
                 {
 
                     //设置计数器
-                    Socket_ErrorInfo_delegate?.Invoke(e.Message, client);
+                    Socket_ErrorInfo_delegate?.Invoke("Error:-11," + e.Message, client);
                     ConnectNumber--;
                     client.Close();
                     client.Dispose();

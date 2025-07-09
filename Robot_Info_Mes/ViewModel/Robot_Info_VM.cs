@@ -58,8 +58,10 @@ namespace Robot_Info_Mes.ViewModel
 
         }
 
-
-
+        /// <summary>
+        /// 系统版本
+        /// </summary>
+        public string Window_Version { set; get; } = string.Empty;
 
 
         public Work_Factor_Seried_Model Work_Factor_Seried { set; get; } = new Work_Factor_Seried_Model();
@@ -313,7 +315,7 @@ namespace Robot_Info_Mes.ViewModel
             User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
 
 
-
+            Window_Version =  Application.ResourceAssembly.GetName().Version!.ToString();
 
         }
 

@@ -12,13 +12,15 @@
     <UseWindowsForms>True</UseWindowsForms>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <ApplicationIcon>Resources\软件图标.ico</ApplicationIcon>
+    <FileVersion></FileVersion>
+    <AssemblyVersion></AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <DebugType>embedded</DebugType>
     <WarningLevel>8</WarningLevel>
-    <Deterministic>False</Deterministic>
+    <Deterministic>false</Deterministic>
     <NoWarn>1701;1702;1416;DV2001</NoWarn>
   </PropertyGroup>
 
@@ -26,7 +28,7 @@
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <DebugType>embedded</DebugType>
     <WarningLevel>8</WarningLevel>
-    <Deterministic>False</Deterministic>
+    <Deterministic>false</Deterministic>
     <NoWarn>1701;1702;1416;DV2001</NoWarn>
   </PropertyGroup>
 

@@ -10,7 +10,7 @@
     xmlns:local="clr-namespace:Robot_Info_Mes"
     xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="生产二楼机械手信息看板"
+    Title="{Binding Window_Version, StringFormat={}生产二楼机械手信息看板 V{0}}"
     MinWidth="1440"
     MinHeight="900"
     d:Height="900"
