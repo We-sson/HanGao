@@ -88,9 +88,9 @@ namespace Robot_Info_Mes.Model
                         if (value.Mes_Robot_Mode == KUKA_Mode_OP_Enum.Run)
                         {
 
-                            Robot_Work_AB_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State,  Robot_Work_A_Cycle,  Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
+                            Robot_Work_AB_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
 
-                            Robot_Work_CD_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State,  Robot_Work_C_Cycle,  Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
+                            Robot_Work_CD_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State,ref  Robot_Work_C_Cycle, ref Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
 
 
 
@@ -273,23 +273,23 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         [XmlIgnore]
 
-        public Time_Model Robot_Work_A_Cycle { set; get; } = new();
+        public Time_Model Robot_Work_A_Cycle= new();
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
         [XmlIgnore]
 
-        public Time_Model Robot_Work_B_Cycle { set; get; } = new();
+        public Time_Model Robot_Work_B_Cycle = new();
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
         [XmlIgnore]
-        public Time_Model Robot_Work_C_Cycle { set; get; } = new();
+        public Time_Model Robot_Work_C_Cycle = new();
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
         [XmlIgnore]
-        public Time_Model Robot_Work_D_Cycle { set; get; } = new();
+        public Time_Model Robot_Work_D_Cycle= new();
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
@@ -394,7 +394,7 @@ namespace Robot_Info_Mes.Model
         /// <param name="_Robot_Work_B_Cycle"></param>
         /// <param name="_Robot_Work_AB_Number"></param>
         /// <returns></returns>
-        public TimeSpan Robot_R_Process_Work_State_Update(bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State,  Time_Model _Robot_Work_A_Cycle,  Time_Model _Robot_Work_B_Cycle, ref int _Robot_Work_AB_Number)
+        public TimeSpan Robot_R_Process_Work_State_Update(bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State,ref  Time_Model _Robot_Work_A_Cycle, ref Time_Model _Robot_Work_B_Cycle, ref int _Robot_Work_AB_Number)
         {
             TimeSpan _Robot_Work_AB_Cycle = new();
 

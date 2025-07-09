@@ -10,10 +10,14 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Threading;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 using Application = System.Windows.Application;
+using Button = System.Windows.Controls.Button;
+using ListBox = System.Windows.Controls.ListBox;
 using MessageBox = System.Windows.MessageBox;
 
 namespace Robot_Info_Mes.ViewModel
@@ -159,6 +163,120 @@ namespace Robot_Info_Mes.ViewModel
             };
 
 
+        /// <summary>
+        ///服务器启动停止按钮
+        /// </summary>
+        public ICommand Server_Window_Scrolling_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                ListBox? _Contol = Sm!.Source as ListBox;
+                try
+                {
+
+
+
+                    ScrollViewer? ScrollViewer = _Contol!.Template.FindName("PART_ScrollViewer", _Contol) as ScrollViewer ;
+
+
+
+                    DispatcherTimer _timer = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(100)
+                    };
+                    //_timer.Tick +=(s,e)=>
+                    //{
+
+
+
+
+                    //    double _delta = 1;
+
+                    //    double newOffset = ScrollViewer!.VerticalOffset + _delta;
+
+                    //    // 到达底部或顶部时，反向滚动
+                    //    if (newOffset >= ScrollViewer.ScrollableHeight)
+                    //    {
+                    //        newOffset = ScrollViewer.ScrollableHeight;
+                    //        _delta = -Math.Abs(_delta);
+                    //    }
+                    //    else if (newOffset <= 0)
+                    //    {
+                    //        newOffset = 0;
+                    //        _delta = Math.Abs(_delta);
+                    //    }
+
+                    //    ScrollViewer.ScrollToVerticalOffset(newOffset);
+
+
+                    //};
+                    //_timer.Start();
+
+
+
+
+
+                    //_Contol.HorizontalScroll.va
+
+                    //_Contol!.Dispatcher.Invoke(() =>
+                    //{
+                    //    // 滚动到列表底部
+                    //    if (_Contol.Items.Count > 0)
+                    //    {
+                    //        _Contol.ScrollIntoView(_Contol.Items[_Contol.Items.Count - 1]);
+                    //    }
+                    //});
+
+
+                    //double currentOffset = _Contol;
+
+                    //if (_scrollingDown)
+                    //{
+                    //    // 向下滚动
+                    //    if (currentOffset < _scrollViewer.ScrollableHeight)
+                    //    {
+                    //        _scrollViewer.ScrollToVerticalOffset(currentOffset + ScrollStep);
+                    //    }
+                    //    else
+                    //    {
+                    //        // 到达底部，改为向上滚动
+                    //        _scrollingDown = false;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    // 向上滚动
+                    //    if (currentOffset > 0)
+                    //    {
+                    //        _scrollViewer.ScrollToVerticalOffset(currentOffset - ScrollStep);
+                    //    }
+                    //    else
+                    //    {
+                    //        // 到达顶部，改为向下滚动
+                    //        _scrollingDown = true;
+                    //    }
+                    //}
+
+
+
+
+                    //User_Log_Add("保存设置参数成功！重启软件生效。");
+
+
+
+
+                }
+                catch (Exception _e)
+                {
+
+                    User_Log_Add(_e.Message, MessageBoxImage.Error);
+
+                }
+
+
+
+            });
+        }
 
 
 
@@ -182,7 +300,9 @@ namespace Robot_Info_Mes.ViewModel
         }
 
 
-
+        /// <summary>
+        /// 初始化机器人运行时间
+        /// </summary>
         public void Int_Run_TIme()
         {
 
