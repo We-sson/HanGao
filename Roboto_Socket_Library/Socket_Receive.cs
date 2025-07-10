@@ -267,6 +267,11 @@ namespace Roboto_Socket_Library
 
         public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val)
         {
+
+            try
+            {
+
+   
             Robot_Socket_Protocol _Socket_Protoco = new Robot_Socket_Protocol(_Robot_Protocols, _Model);
             Byte[] Send_byte = Array.Empty<byte>();
 
@@ -288,6 +293,14 @@ namespace Roboto_Socket_Library
             {
                 throw new Exception("Error:-3,现有通讯协议无法解析，请联系开发者！");
             }
+
+            }
+            catch (Exception e)
+            {
+
+                Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message, Socket_Client);
+
+            }
         }
 
 
@@ -304,8 +317,8 @@ namespace Roboto_Socket_Library
             {
                 try
                 {
-                    IPEndPoint clientipe = (IPEndPoint)client.RemoteEndPoint!;
-                    int length = client.EndReceive(ar);
+                    IPEndPoint? clientipe = (IPEndPoint)client?.RemoteEndPoint!;
+                    int length = client?.EndReceive(ar)??0;
                     string _S = string.Empty;
 
                     Byte[] Send_byte = Array.Empty<byte>();
@@ -317,8 +330,8 @@ namespace Roboto_Socket_Library
                     if (length == 0)
                     {
                         Socket_ErrorInfo_delegate?.Invoke($"Error:-4,{clientipe}: 断开连接! ",client);
-                        client.Close();
-                        client.Dispose();
+                        client?.Close();
+                        client?.Dispose();
                         //Client_Connect = false;
                         return;
                     }
@@ -358,8 +371,8 @@ namespace Roboto_Socket_Library
                     //设置计数器
                     //ConnectNumber--;
                     Socket_ErrorInfo_delegate?.Invoke("Error:-5," + e.Message, client);
-                    client.Close();
-                    client.Dispose();
+                    client?.Close();
+                    client?.Dispose();
 
                     //断开连接
                     //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);
@@ -505,8 +518,8 @@ namespace Roboto_Socket_Library
                 catch (Exception e)
                 {
                     Socket_ErrorInfo_delegate?.Invoke(e.Message, client);
-                    ServerSocket.Close();
-                    ServerSocket.Dispose();
+                    ServerSocket?.Close();
+                    ServerSocket?.Dispose();
                     return;
                 }
 
@@ -539,8 +552,8 @@ namespace Roboto_Socket_Library
             {
                 try
                 {
-                    IPEndPoint clientipe = (IPEndPoint)client.RemoteEndPoint!;
-                    int length = client.EndReceive(ar);
+                    IPEndPoint clientipe = (IPEndPoint)client?.RemoteEndPoint!;
+                    int length = client?.EndReceive(ar)??0;
                     string _S = string.Empty;
 
                     Byte[] Send_byte = Array.Empty<byte>();
@@ -552,8 +565,8 @@ namespace Roboto_Socket_Library
                     if (length == 0)
                     {
                         Socket_ErrorInfo_delegate?.Invoke($"Error:-9,{clientipe}: 断开连接! ", client);
-                        client.Close();
-                        client.Dispose();
+                        client?.Close();
+                        client?.Dispose();
                         //Client_Connect = false;
                         return;
                     }
@@ -657,9 +670,9 @@ namespace Roboto_Socket_Library
 
                         //委托显示发送数据
                         Socket_Send_Meg?.Invoke(Send_byte);
-                        client.Send(Send_byte);
+                        client?.Send(Send_byte);
                         //通过递归不停的接收该客户端的消息
-                        client.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
+                        client?.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
                     }
                     else
                     {
@@ -672,8 +685,8 @@ namespace Roboto_Socket_Library
                     //设置计数器
                     Socket_ErrorInfo_delegate?.Invoke("Error:-11," + e.Message, client);
                     ConnectNumber--;
-                    client.Close();
-                    client.Dispose();
+                    client?.Close();
+                    client?.Dispose();
 
                     //断开连接
                     //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);

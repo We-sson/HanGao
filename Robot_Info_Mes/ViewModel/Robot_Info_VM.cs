@@ -176,7 +176,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-                    ScrollViewer? ScrollViewer = _Contol!.Template.FindName("PART_ScrollViewer", _Contol) as ScrollViewer ;
+                    ScrollViewer? ScrollViewer = _Contol!.Template.FindName("PART_ScrollViewer", _Contol) as ScrollViewer;
 
 
 
@@ -435,7 +435,7 @@ namespace Robot_Info_Mes.ViewModel
             User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
 
 
-            Window_Version =  Application.ResourceAssembly.GetName().Version!.ToString();
+            Window_Version = Application.ResourceAssembly.GetName().Version!.ToString();
 
         }
 
@@ -755,10 +755,10 @@ namespace Robot_Info_Mes.ViewModel
 
 
             Work_Factor_Seried.Work_Cycle_Load_Factor.Value = Work_Factor_Seried.Get_Work_Cycle_Load_Factor(_Data.Robot_Process_Int,
-                                                                                                                                                                                 Mes_Robot_Info_Model_Data.Robot_Work_A_Cycle,
-                                                                                                                                                                                 Mes_Robot_Info_Model_Data.Robot_Work_B_Cycle,
-                                                                                                                                                                                 Mes_Robot_Info_Model_Data.Robot_Work_C_Cycle,
-                                                                                                                                                                                 Mes_Robot_Info_Model_Data.Robot_Work_D_Cycle,
+                                                                                                                                                                               ref Mes_Robot_Info_Model_Data.Robot_Work_A_Cycle,
+                                                                                                                                                                               ref Mes_Robot_Info_Model_Data.Robot_Work_B_Cycle,
+                                                                                                                                                                               ref Mes_Robot_Info_Model_Data.Robot_Work_C_Cycle,
+                                                                                                                                                                               ref Mes_Robot_Info_Model_Data.Robot_Work_D_Cycle,
                                                                                                                                                                                  File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time);
 
 

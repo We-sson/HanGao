@@ -65,7 +65,7 @@ namespace Robot_Info_Mes.Model
 
         }
 
-        public double Get_Work_Cycle_Load_Factor(Robot_Process_Int_Enum _Process,  Time_Model _A_Cycle_Time, Time_Model _B_Cycle_Time, Time_Model _C_Cycle_Time, Time_Model _D_Cycle_Time, double Work_Standard_Time)
+        public double Get_Work_Cycle_Load_Factor(Robot_Process_Int_Enum _Process,ref  Time_Model _A_Cycle_Time, ref Time_Model _B_Cycle_Time,ref Time_Model _C_Cycle_Time,ref Time_Model _D_Cycle_Time, double Work_Standard_Time)
         {
 
 

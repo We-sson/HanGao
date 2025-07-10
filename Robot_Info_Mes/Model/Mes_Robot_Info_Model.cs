@@ -524,7 +524,7 @@ namespace Robot_Info_Mes.Model
                 Robot_Debug_Time.Timer_UI = TimeSpan.Zero;
                 Robot_Work_Time.Timer_UI = TimeSpan.Zero;
                 Robot_Run_Time.Timer_UI = TimeSpan.Zero;
-
+                Robot_Work_ABCD_Number = 0;
 
             }
             else
