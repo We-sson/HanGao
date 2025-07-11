@@ -403,36 +403,56 @@ namespace Robot_Info_Mes.Model
 
 
 
-                if (_Mes_Work_A_State)
+                if (_Mes_Work_A_State  && !_Mes_Work_B_State)
                 {
+
+
+                    if (_Robot_Work_A_Cycle_State == false && !_Robot_Work_A_Cycle.Timer.IsRunning)
+                    {
+
+                        _Robot_Work_B_Cycle.Stop();
+                        _Robot_Work_A_Cycle.Reset();
+
+                        _Robot_Work_A_Cycle_State = true;
+
+
+                    }
+           
+
+
                     if (_Robot_Work_B_Cycle_State == false)
                     {
                         _Robot_Work_B_Cycle.Stop();
                         _Robot_Work_B_Cycle.Timer_UI = TimeSpan.Zero;
                     }
-                    if (_Robot_Work_A_Cycle_State == false)
-                    {
+       
 
-                        _Robot_Work_A_Cycle.Reset();
-                        _Robot_Work_A_Cycle_State = true;
-                    }
+
+
+
+
                 }
-                if (_Mes_Work_B_State)
+         
+                if (_Mes_Work_B_State && !_Mes_Work_A_State)
                 {
+                    if (_Robot_Work_B_Cycle_State == false && !_Robot_Work_B_Cycle.Timer.IsRunning)
+                    {
+                        _Robot_Work_A_Cycle.Stop();
+                        _Robot_Work_B_Cycle.Reset();
+                        _Robot_Work_B_Cycle_State = true;
+                    }
+       
                     if (_Robot_Work_A_Cycle_State == false)
                     {
 
                         _Robot_Work_A_Cycle.Stop();
                         _Robot_Work_A_Cycle.Timer_UI = TimeSpan.Zero;
                     }
-                    if (_Robot_Work_B_Cycle_State == false)
-                    {
-
-                        _Robot_Work_B_Cycle.Reset();
-                        _Robot_Work_B_Cycle_State = true;
-                    }
+             
 
                 }
+        
+        
 
 
 
@@ -450,6 +470,8 @@ namespace Robot_Info_Mes.Model
 
             if (_Robot_Work_A_Cycle_State && _Robot_Work_B_Cycle_State && !_Mes_Work_A_State && !_Mes_Work_B_State)
             {
+
+
                 _Robot_Work_AB_Number++;
                 _Robot_Work_B_Cycle_State = false;
                 _Robot_Work_A_Cycle_State = false;
