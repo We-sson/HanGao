@@ -549,15 +549,7 @@ namespace Robot_Info_Mes.Model
                 Robot_Work_ABCD_Number = 0;
 
             }
-            else
-            {
-                //累计时间
-                Robot_Error_Time.Time_Offset = Robot_Error_Time.Timer_UI;
-                Robot_Debug_Time.Time_Offset = Robot_Debug_Time.Timer_UI;
-                Robot_Work_Time.Time_Offset = Robot_Work_Time.Timer_UI;
-                Robot_Run_Time.Time_Offset = Robot_Run_Time.Timer_UI;
-
-            }
+         
 
 
 

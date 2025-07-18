@@ -330,7 +330,10 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data. Robot_Error_All_Time.Time_Offset = Mes_Robot_Info_Model_Data. Robot_Error_All_Time.Timer_UI;
             Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI;
             Mes_Robot_Info_Model_Data. Robot_Work_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_UI;
-
+            Mes_Robot_Info_Model_Data.Robot_Error_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Error_Time.Timer_UI;
+            Mes_Robot_Info_Model_Data.Robot_Debug_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI;
+            Mes_Robot_Info_Model_Data.Robot_Work_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI;
+            Mes_Robot_Info_Model_Data.Robot_Run_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_UI;
 
             Mes_Robot_Info_Model_Data.Robot_Run_Time.Start();
             Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Start();
