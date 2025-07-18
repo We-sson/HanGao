@@ -30,12 +30,20 @@ namespace Robot_Info_Mes.ViewModel
         {
             ///初始化
             ///
-            Initialization_File_Info();
+
+            Window_Version = Application.ResourceAssembly.GetName().Version!.ToString();
+
+
+            File_Int_Parameters = File_Xml_Model.Read_Xml_File<File_Int_Model>();
+
+      
 
             switch (File_Int_Parameters.Window_Startup_Type)
             {
                 case Window_Startup_Type_Enum.Server:
 
+
+                    ///看板端
                     Initialization_Mes_Sever_Start();
 
 
@@ -46,12 +54,23 @@ namespace Robot_Info_Mes.ViewModel
 
                     break;
                 case Window_Startup_Type_Enum.Client:
-                    Initialization_Local_Network_Robot_Socket();
+
+                    ///接受机器人信息
+                    
+                    Mes_Robot_Info_Model_Data = File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
+                    Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
+
+                  //  Initialization_Local_Network_Robot_Socket();
 
 
                     Initialization_Robot_Sever_Start();
 
                     Int_Run_TIme();
+
+
+                    User_Log_Add("已读取本机设备信息文件！" + File_Xml_Model.GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
+                    User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
+
 
 
                     break;
@@ -306,6 +325,13 @@ namespace Robot_Info_Mes.ViewModel
         public void Int_Run_TIme()
         {
 
+            //重启软件后当天时间继续计时
+            Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Timer_UI;
+            Mes_Robot_Info_Model_Data. Robot_Error_All_Time.Time_Offset = Mes_Robot_Info_Model_Data. Robot_Error_All_Time.Timer_UI;
+            Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI;
+            Mes_Robot_Info_Model_Data. Robot_Work_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_UI;
+
+
             Mes_Robot_Info_Model_Data.Robot_Run_Time.Start();
             Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Start();
             Mes_Robot_Info_Model_Data.Robot_Offline_Time.Reset();
@@ -420,27 +446,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-        /// <summary>
-        /// 初始化文件读取
-        /// </summary>
-        public void Initialization_File_Info()
-        {
 
-
-            Mes_Robot_Info_Model_Data = File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
-            File_Int_Parameters = File_Xml_Model.Read_Xml_File<File_Int_Model>();
-
-            ///检查数据是否当天有效
-            Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
-
-
-            User_Log_Add("已读取本机设备信息文件！" + File_Xml_Model.GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
-            User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
-
-
-            Window_Version = Application.ResourceAssembly.GetName().Version!.ToString();
-
-        }
 
 
 

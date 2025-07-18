@@ -560,10 +560,7 @@ namespace Robot_Info_Mes.Model
             }
 
 
-            Robot_Debug_All_Time.Time_Offset = Robot_Debug_All_Time.Timer_UI;
-            Robot_Error_All_Time.Time_Offset = Robot_Error_All_Time.Timer_UI;
-            Robot_Run_All_Time.Time_Offset = Robot_Run_All_Time.Timer_UI;
-            Robot_Work_All_Time.Time_Offset = Robot_Work_All_Time.Timer_UI;
+
 
 
         }
@@ -611,7 +608,7 @@ namespace Robot_Info_Mes.Model
 
 
             };
-        
+            Stop();
         }
 
 
