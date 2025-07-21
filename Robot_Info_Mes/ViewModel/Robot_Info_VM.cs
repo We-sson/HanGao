@@ -348,6 +348,11 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.Socket_Polling_Time);
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Tick += (s, e) =>
             {
+
+           
+                //当程序连续开的时候经过12点清除数据
+                Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
+
                 ///记录文件保存时间
                 Mes_Robot_Info_Model_Data.File_Update_Time = DateTime.Now;
                 ///计算可用稼动率
@@ -358,8 +363,6 @@ namespace Robot_Info_Mes.ViewModel
                 Work_Factor_Seried.Work_Performance_Factor.Value = Work_Factor_Seried.Get_Work_Performance_Factor(File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number, Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Sec);
                 ///保存时间文件
 
-                //当程序连续开的时候经过12点清除数据
-                Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
 
 
                 File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
