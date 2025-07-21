@@ -1,0 +1,85 @@
+MODULE HG_Mes(SYSMODULE)
+
+
+
+    RECORD Robot_Process_Name_Enum
+        string R_Side_7;
+
+    ENDRECORD
+
+
+    CONST Robot_Process_Name_Enum Robot_Process_Name:=["R_Side_7"];
+
+
+
+    CONST string Mes_Info_Data:="Mes_Info_Data";
+
+    PERS num Work_A_Run_Nunber:=0;
+    PERS num Work_B_Run_Nunber:=0;
+    PERS num Work_C_Run_Nunber:=0;
+    PERS num Work_D_Run_Nunber:=0;
+
+
+    LOCAL VAR bool Q_Work_A_Stat:=FALSE;
+    LOCAL VAR bool Q_Work_B_Stat:=FALSE;
+    LOCAL VAR bool Q_Work_C_Stat:=FALSE;
+    LOCAL VAR bool Q_Work_D_Stat:=FALSE;
+    LOCAL VAR bool EKRL_Send_Stat:=FALSE;
+    LOCAL VAR bool EKRL_Server_Stat:=FALSE;
+
+
+    PERS bool Work_A_state:=FALSE;
+    PERS bool Work_B_state:=FALSE;
+    PERS bool Work_C_state:=FALSE;
+    PERS bool Work_D_state:=FALSE;
+
+    VAR num Socket_Cycle_Time:=500;
+
+
+
+    PROC HG_Mes_Info_Main()
+        HG_Mes_Info_Int;
+
+        WHILE TRUE DO
+
+
+
+
+
+        ENDWHILE
+
+
+
+
+    ENDPROC
+
+    PROC HG_Mes_Info_Int()
+
+
+        Work_A_Run_Nunber:=0;
+        Work_B_Run_Nunber:=0;
+        Work_C_Run_Nunber:=0;
+        Work_D_Run_Nunber:=0;
+
+
+        Q_Work_A_Stat:=FALSE;
+        Q_Work_B_Stat:=FALSE;
+        Q_Work_C_Stat:=FALSE;
+        Q_Work_D_Stat:=FALSE;
+        EKRL_Send_Stat:=FALSE;
+        EKRL_Server_Stat:=FALSE;
+
+
+        Work_A_state:=FALSE;
+        Work_B_state:=FALSE;
+        Work_C_state:=FALSE;
+        Work_D_state:=FALSE;
+
+
+
+    ENDPROC
+
+
+
+
+ENDMODULE
