@@ -1,0 +1,18 @@
+<ProcessDefinitionDocument>
+		<ActionInstructionDescription name="WaitTime" informationText="Wait time instruction">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="InPos" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Time" dataType="num" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+			</InstructionParameterGroups>
+			<InstructionTemplates>
+				<InstructionTemplate name="Default">
+					<InstructionArgument name="InPos" enabled="false" value=""/>
+					<InstructionArgument name="Time" enabled="True" value="1"/>
+				</InstructionTemplate>
+			</InstructionTemplates>
+		</ActionInstructionDescription>
+</ProcessDefinitionDocument>

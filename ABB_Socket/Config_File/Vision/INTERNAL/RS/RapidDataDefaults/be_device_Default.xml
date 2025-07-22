@@ -1,0 +1,15 @@
+      <PpGenericDataDescription>
+        <SyncToProgramModule>true</SyncToProgramModule>
+        <SyncToProcDataModule>false</SyncToProcDataModule>
+        <SyncToCalibDataModule>false</SyncToCalibDataModule>
+        <RapidStorageType>0</RapidStorageType>
+        <DataType>be_device</DataType>
+        <DataName>dev</DataName>
+        <Expression>["diBE_SENSE",TRUE,[6,45,100,100],[40,45,100,100],0.10,FALSE,TRUE,TRUE]</Expression>
+        <ArrayLength>0</ArrayLength>
+        <ModuleName>Module1</ModuleName>
+        <CanBeModifed>true</CanBeModifed>
+        <SyncAsInline>false</SyncAsInline>
+        <SyncToModuleSetting>2</SyncToModuleSetting>
+      </PpGenericDataDescription>
+      

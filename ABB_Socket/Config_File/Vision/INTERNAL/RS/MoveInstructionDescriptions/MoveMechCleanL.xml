@@ -1,0 +1,27 @@
+<ProcessDefinitionDocument>
+		<MoveInstructionDescription name="MoveMechCleanL" motionType="Linear" informationText="Move Linear to MechTorchClean">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ApproachPoint" dataType="robtarget" accessMode="In"  optional="false" pointType="ViaPoint" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="CleanPoint" dataType="robtarget" accessMode="In"  optional="false" pointType="ToPoint" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Speed" dataType="speeddata" accessMode="In"  optional="false" />
+				</InstructionParameterGroup>	
+				<InstructionParameterGroup>	
+					<InstructionParameter name="Zone" dataType="zonedata" accessMode="In"  optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>	
+					<InstructionParameter name="Tool" dataType="tooldata" accessMode="Persistent"  optional="false" />
+				</InstructionParameterGroup>	
+				<InstructionParameterGroup>	
+					<InstructionParameter name="WObj" dataType="wobjdata" accessMode="Persistent"  optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="TLoad" dataType="loaddata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>			
+  		</InstructionParameterGroups>
+		</MoveInstructionDescription>
+</ProcessDefinitionDocument>

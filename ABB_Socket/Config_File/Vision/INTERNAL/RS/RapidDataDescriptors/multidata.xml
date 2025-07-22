@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>multidata</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>Direction</ComponentName>
+      <ComponentDescription>Direction for the replay</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items>
+            <PpRapidDataSelectionItem>
+              <Name>Reverse</Name>
+              <Value>-1</Value>
+            </PpRapidDataSelectionItem>
+            <PpRapidDataSelectionItem>
+              <Name>Forward</Name>
+              <Value>1</Value>
+            </PpRapidDataSelectionItem>
+          </Items>
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>ApproachDistance</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>DepartDistance</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>StartOffset</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>EndOffset</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SeamOffs_y</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SeamOffs_z</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SeamRot_x</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SeamRot_y</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

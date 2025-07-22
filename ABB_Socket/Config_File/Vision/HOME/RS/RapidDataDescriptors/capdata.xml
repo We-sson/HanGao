@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DataType>capdata</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>start_fly</ComponentName>
+      <ComponentDescription>flying start</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>end_fly</ComponentName>
+      <ComponentDescription>flying end</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>first_instr</ComponentName>
+      <ComponentDescription>first instruction</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>last_instr</ComponentName>
+      <ComponentDescription>last instruction)</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>restart_dist</ComponentName>
+      <ComponentDescription>restart distance (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>speed_data.fly_start</ComponentName>
+      <ComponentDescription>flying start speed (mm/s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>speed_data.start</ComponentName>
+      <ComponentDescription>start speed (mm/s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>speed_data.startspeed_time</ComponentName>
+      <ComponentDescription>start speed time (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>speed_data.startmove_delay</ComponentName>
+      <ComponentDescription>start move delay (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>speed_data.main</ComponentName>
+      <ComponentDescription>main process speed (mm/s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>speed_data.fly_end</ComponentName>
+      <ComponentDescription>flying end speed (mm/s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>start_fly_point.from_start</ComponentName>
+      <ComponentDescription>dist. from start (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>start_fly_point.process_dist</ComponentName>
+      <ComponentDescription>process dist. (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>start_fly_point.distance</ComponentName>
+      <ComponentDescription>supervision dist. (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>end_fly_point.from_start</ComponentName>
+      <ComponentDescription>dist. from start (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>end_fly_point.process_dist</ComponentName>
+      <ComponentDescription>process dist. (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>end_fly_point.distance</ComponentName>
+      <ComponentDescription>supervision dist. (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>sup_timeouts.pre_cond</ComponentName>
+      <ComponentDescription>PRE timeout (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>sup_timeouts.start_cond</ComponentName>
+      <ComponentDescription>END_PRE START timeout (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>sup_timeouts.end_main_cond</ComponentName>
+      <ComponentDescription>END_MAIN START_POST1 timeout (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>sup_timeouts.end_post1_cond</ComponentName>
+      <ComponentDescription>END_POST1 START_POST2 timeout (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>sup_timeouts.end_post2_cond</ComponentName>
+      <ComponentDescription>END_POST2 timeout (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>proc_times.pre</ComponentName>
+      <ComponentDescription>PRE_START time (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>proc_times.post1</ComponentName>
+      <ComponentDescription>POST1 time (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>proc_times.post2</ComponentName>
+      <ComponentDescription>POST2 time (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>block_at_restart.weave_start</ComponentName>
+      <ComponentDescription>block weave_start</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>block_at_restart.motion_delay</ComponentName>
+      <ComponentDescription>block motion_delay</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>block_at_restart.pre_phase</ComponentName>
+      <ComponentDescription>block PRE PRE_START phase</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>block_at_restart.startspeed_phase</ComponentName>
+      <ComponentDescription>block startspeed</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>block_at_restart.post1_phase</ComponentName>
+      <ComponentDescription>block START_POST1 POST1 phase</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>block_at_restart.post2_phase</ComponentName>
+      <ComponentDescription>block START_POST2 POST2 phase</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>fricdata</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>FricLev_Ax1</ComponentName>
+      <ComponentDescription>Friction tuning for axis 1</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>FricLev_Ax2</ComponentName>
+      <ComponentDescription>Friction tuning for axis 2</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>FricLev_Ax3</ComponentName>
+      <ComponentDescription>Friction tuning for axis 3</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>FricLev_Ax4</ComponentName>
+      <ComponentDescription>Friction tuning for axis 4</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>FricLev_Ax5</ComponentName>
+      <ComponentDescription>Friction tuning for axis 5</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>FricLev_Ax6</ComponentName>
+      <ComponentDescription>Friction tuning for axis 6</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

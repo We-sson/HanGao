@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding="utf-8" ?>
+<cfgrules_registry xmlns="urn:abb-robotics-registry-cfg-rules">
+<entry domain="EIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/rules/cfg/" postpath="cir_eio_cfgrules.xml"/>
+<entry domain="MOC" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/rules/cfg/" postpath="moc_cfgrules.xml"/>
+<entry domain="EIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/rules/cfg/" postpath="eio_cfgrules.xml"/>
+<entry domain="SIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/rules/cfg/" postpath="sio_cfgrules.xml"/>
+<entry domain="SIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/rules/cfg/" postpath="sio_net_cfgrules.xml"/>
+<entry domain="SYS" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/rules/cfg/" postpath="cir_sys_cfgrules.xml"/>
+<entry domain="MMC" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/rules/cfg/" postpath="cir_mmc_cfgrules.xml"/>
+<entry domain="EIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/enms" postpath="/en_base_cfgrules.xml"/>
+<entry domain="SIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/rse/" postpath="rse_cfgrules.xml"/>
+<entry domain="SYS" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/mt/" postpath="cir_sys_mt_cfgrules.xml"/>
+<entry domain="PROC" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/arc/ArcBase/rules/" postpath="arc_cfgrules.xml"/>
+<entry domain="PROC" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/arc/ArcBase/rules/" postpath="arc_eq_int_cfgrules.xml"/>
+<entry domain="PROC" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/arc/WeldEquip/PWS/StdIOWeld/rules/" postpath="arc_eq_cfgrules.xml"/>
+</cfgrules_registry>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>PathTuneData</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>Trans.x</ComponentName>
+      <ComponentDescription>Offset of ToPoint X</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>Trans.y</ComponentName>
+      <ComponentDescription>Offset of ToPoint Y</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>Trans.z</ComponentName>
+      <ComponentDescription>Offset of ToPoint Z</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>MeasuredSpeed</ComponentName>
+      <ComponentDescription>Measured speed during tuning</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

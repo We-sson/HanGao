@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>be_tooldesign</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>OrientBody</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>MaxBodyDia</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>MinBodyDia</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>ScanRange</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>RangeShift</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SliceGap</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>ScanWire</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>OffsEndSearch</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>WireDia</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SlowMoveSpeed.v_tcp</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SlowMoveSpeed.v_ori</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SlowMoveSpeed.v_leax</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SlowMoveSpeed.v_reax</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>FastMoveSpeed.v_tcp</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>FastMoveSpeed.v_ori</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>FastMoveSpeed.v_leax</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>FastMoveSpeed.v_reax</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

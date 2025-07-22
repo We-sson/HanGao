@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>SeamToolPos</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SeamOffs_y</ComponentName>
+      <ComponentDescription>Seam offset in y direction</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SeamOffs_z</ComponentName>
+      <ComponentDescription>Seam offset in z direction</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SeamAngle_x</ComponentName>
+      <ComponentDescription>Tool work angle</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>SeamAngle_y</ComponentName>
+      <ComponentDescription>Tool push or drag angle (negative number will be a push angle)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>AngleIsAbsolute</ComponentName>
+      <ComponentDescription>Specified angle will be absolute otherwise angle is relative to stored angle</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

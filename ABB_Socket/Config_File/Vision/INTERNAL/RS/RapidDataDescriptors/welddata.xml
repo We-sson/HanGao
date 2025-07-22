@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>welddata</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>weld_speed</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>org_weld_speed</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>main_arc.sched</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>main_arc.mode</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>main_arc.voltage</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>main_arc.wirefeed</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>main_arc.control</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>main_arc.current</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>main_arc.voltage2</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>main_arc.wirefeed2</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>main_arc.control2</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>org_arc.sched</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>true</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>org_arc.mode</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>org_arc.voltage</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>org_arc.wirefeed</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>org_arc.control</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>org_arc.current</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>org_arc.voltage2</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>org_arc.wirefeed2</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>org_arc.control2</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

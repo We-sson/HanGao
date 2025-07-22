@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding="utf-8" ?>
+<cfgtext_registry xmlns="urn:abb-robotics-registry-cfg-text">
+<entry domain="EIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/language/install/../" postpath="/controller/cfg/cir_eio_cfgtext.xml"/>
+<entry domain="EIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/language/install/../" postpath="/controller/cfg/eio_cfgtext.xml"/>
+<entry domain="SIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/language/install/../" postpath="/controller/cfg/sio_cfgtext.xml"/>
+<entry domain="SIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/language/install/../" postpath="/controller/cfg/sio_net_cfgtext.xml"/>
+<entry domain="SYS" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/language/install/../" postpath="/controller/cfg/cir_sys_cfgtext.xml"/>
+<entry domain="MOC" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/language/install/../" postpath="/controller/cfg/moc_cfgtext.xml"/>
+<entry domain="MMC" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/language/install/../" postpath="/controller/cfg/cir_mmc_cfgtext.xml"/>
+<entry domain="EIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/enms/language/" postpath="/en_cfgtext.xml"/>
+<entry domain="SIO" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/rse/language/" postpath="/rse_cfgtext.xml"/>
+<entry domain="SYS" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/mt/language/" postpath="/cir_sys_mt_cfgtext.xml"/>
+<entry domain="PROC" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/arc/ArcBase/language/" postpath="/arc_cfgtext.xml"/>
+<entry domain="PROC" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/arc/ArcBase/language/" postpath="/arc_eq_int_cfgtext.xml"/>
+<entry domain="PROC" prepath="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/arc/WeldEquip/PWS/StdIOWeld/language/" postpath="/arc_eq_cfgtext.xml"/>
+</cfgtext_registry>

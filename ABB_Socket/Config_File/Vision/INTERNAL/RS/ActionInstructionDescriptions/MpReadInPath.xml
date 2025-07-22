@@ -1,0 +1,74 @@
+<ProcessDefinitionDocument>
+		<ActionInstructionDescription name="MpReadInPath" informationText="Reads in a recorded path to memory">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Overlap" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+        <InstructionParameterGroup>
+					<InstructionParameter name="SeamName" dataType="string" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>		
+				<InstructionParameterGroup>
+					<InstructionParameter name="OffsEax_a" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="OffsEax_b" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="OffsEax_c" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="OffsEax_d" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="OffsEax_e" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="OffsEax_f" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="SpinAngle" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+        <InstructionParameterGroup>
+					<InstructionParameter name="NormalizePath" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+        <InstructionParameterGroup>
+					<InstructionParameter name="MinPointInc" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="MaxPointInc" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="MaxPathDeviation" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="SavePathFileName" dataType="string" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="CreateLogFile" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+			  <InstructionParameterGroup>
+					<InstructionParameter name="PointInc" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>		
+			</InstructionParameterGroups>
+			<InstructionTemplates>
+				<InstructionTemplate name="Default">
+					<InstructionArgument name="Overlap" enabled="False" value=""/>
+					<InstructionArgument name="SeamName" enabled="False" value=""/>
+					<InstructionArgument name="OffsEax_a" enabled="False" value=""/>
+					<InstructionArgument name="OffsEax_b" enabled="False" value=""/>
+					<InstructionArgument name="OffsEax_c" enabled="False" value=""/>
+					<InstructionArgument name="OffsEax_d" enabled="False" value=""/>
+					<InstructionArgument name="OffsEax_e" enabled="False" value=""/>
+					<InstructionArgument name="OffsEax_f" enabled="False" value=""/>
+					<InstructionArgument name="SpinAngle" enabled="False" value=""/>
+					<InstructionArgument name="NormalizePath" enabled="False" value=""/>					
+					<InstructionArgument name="MinPointInc" enabled="False" value=""/>
+					<InstructionArgument name="MaxPointInc" enabled="False" value=""/>
+					<InstructionArgument name="MaxPathDeviation" enabled="False" value=""/>
+					<InstructionArgument name="SavePathFileName" enabled="False" value=""/>
+					<InstructionArgument name="CreateLogFile" enabled="False" value=""/>
+					<InstructionArgument name="PointInc" enabled="False" value=""/>
+				</InstructionTemplate>
+			</InstructionTemplates>
+		</ActionInstructionDescription>
+</ProcessDefinitionDocument>

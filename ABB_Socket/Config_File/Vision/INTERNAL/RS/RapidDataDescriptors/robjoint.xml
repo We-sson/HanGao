@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>robjoint</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>rax_1</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>rax_2</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>rax_3</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>rax_4</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>rax_5</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>rax_6</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>false</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

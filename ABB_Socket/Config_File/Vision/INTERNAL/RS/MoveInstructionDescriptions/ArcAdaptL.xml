@@ -1,0 +1,29 @@
+<ProcessDefinitionDocument>
+	<MoveInstructionDescriptions>
+		<MoveInstructionDescription name="ArcAdaptL" motionType="Linear" informationText="Process_Arc_Via_L">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ToPoint" dataType="robtarget" accessMode="In" dimensions="0" optional="false" pointType="ToPoint" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ID" dataType="identno" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Speed" dataType="speeddata" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Zone" dataType="zonedata" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Tool" dataType="tooldata" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="WObj" dataType="wobjdata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="TLoad" dataType="loaddata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>			
+			</InstructionParameterGroups>
+		</MoveInstructionDescription>
+	</MoveInstructionDescriptions>
+</ProcessDefinitionDocument>

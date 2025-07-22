@@ -1,0 +1,26 @@
+<ProcessDefinitionDocument>
+	<ProcessDefinitions>
+		<ProcessDefinition name="Search_Groove_1D" linearInstructionName="Search_Groove">
+			<ProcessTemplate name="Search_1" defaultMotionType="Linear">
+				<LinearInstructionTemplate name="Search_Groove">
+					<InstructionArgument name="NotOff" enabled="False" value=""/>
+					<InstructionArgument name="Result" enabled="True" value="peDispS1"/>
+					<InstructionArgument name="GrooveWidth" enabled="True" value="reg1"/>
+					<InstructionArgument name="SearchStop" enabled="False" value=""/>
+					<InstructionArgument name="StartPoint" enabled="True" value=""/>
+					<InstructionArgument name="CenterPoint" enabled="True" value=""/>
+					<InstructionArgument name="NomWidth" enabled="True" value="10"/>
+					<InstructionArgument name="NomDepth" enabled="False" value=""/>
+					<InstructionArgument name="InitSchL" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="vmax"/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="PrePDisp" enabled="False" value=""/>
+					<InstructionArgument name="SchSpeed" enabled="False" value=""/>
+					<InstructionArgument name="SearchName" enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</LinearInstructionTemplate>
+			</ProcessTemplate>
+		</ProcessDefinition>
+	</ProcessDefinitions>
+</ProcessDefinitionDocument>

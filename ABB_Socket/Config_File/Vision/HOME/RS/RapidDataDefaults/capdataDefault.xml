@@ -1,0 +1,14 @@
+      <PpGenericDataDescription>
+        <SyncToProgramModule>false</SyncToProgramModule>
+        <SyncToProcDataModule>true</SyncToProcDataModule>
+        <SyncToCalibDataModule>false</SyncToCalibDataModule>
+        <RapidStorageType>2</RapidStorageType>
+        <DataType>capdata</DataType>
+        <DataName>cap_data_</DataName>
+        <ArrayLength>0</ArrayLength>
+        <Expression>[FALSE,FALSE,TRUE ,TRUE ,0,[ 50,20,0,0, 10, 50],[FALSE,0,200],[FALSE,0,200],[.1,.1,1,1,1],[1,1,1],[FALSE,TRUE ,FALSE,TRUE ,TRUE ,TRUE ]]</Expression>
+        <ModuleName>CapData</ModuleName>
+        <CanBeModifed>true</CanBeModifed>
+        <SyncAsInline>false</SyncAsInline>
+        <SyncToModuleSetting>3</SyncToModuleSetting>
+      </PpGenericDataDescription>

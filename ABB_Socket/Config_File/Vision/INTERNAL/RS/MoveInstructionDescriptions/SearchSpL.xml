@@ -1,0 +1,45 @@
+ <ProcessDefinitionDocument>
+		<MoveInstructionDescription name="SearchSpL" motionType="Linear" informationText="Navigator Linear Search">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ApprDist" dataType="num" accessMode="In" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="SearchPoint" dataType="robtarget" syncReferencedData="True" accessMode="InOut" optional="false"/>
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ToPoint" dataType="robtarget" accessMode="In" optional="false" pointType="ToPoint" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Speed" dataType="speeddata" accessMode="In"  optional="false" />
+				</InstructionParameterGroup>	
+				<InstructionParameterGroup>	
+					<InstructionParameter name="Zone" dataType="zonedata" accessMode="In"  optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>	
+					<InstructionParameter name="Tool" dataType="tooldata" accessMode="Persistent"  optional="false" />
+				</InstructionParameterGroup>	
+				<InstructionParameterGroup>	
+					<InstructionParameter name="WObj" dataType="wobjdata" accessMode="Persistent"  optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="SphereData" dataType="navgeodata" syncReferencedData="True" accessMode="In"  optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>	
+					<InstructionParameter name="MeanError" dataType="num" syncReferencedData="True" accessMode="InOut"  optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>	
+					<InstructionParameter name="MaxError" dataType="num" syncReferencedData="True" accessMode="InOut"  optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="UpdateToPoint" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="SearchName" dataType="string" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="TLoad" dataType="loaddata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>			
+  		</InstructionParameterGroups>
+		</MoveInstructionDescription>
+</ProcessDefinitionDocument>

@@ -1,0 +1,10 @@
+<ProcessDefinitionDocument>
+		<ActionInstructionDescription name="RecoveryPosReset" informationText="Reset the recovery position">
+			<InstructionParameterGroups>
+			</InstructionParameterGroups>
+			<InstructionTemplates>
+				<InstructionTemplate name="Default">
+				</InstructionTemplate>
+			</InstructionTemplates>
+		</ActionInstructionDescription>
+</ProcessDefinitionDocument>

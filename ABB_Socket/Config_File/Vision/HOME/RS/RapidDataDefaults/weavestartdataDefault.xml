@@ -1,0 +1,14 @@
+      <PpGenericDataDescription>
+        <SyncToProgramModule>false</SyncToProgramModule>
+        <SyncToProcDataModule>true</SyncToProcDataModule>
+        <SyncToCalibDataModule>false</SyncToCalibDataModule>
+        <RapidStorageType>2</RapidStorageType>
+        <DataType>weavestartdata</DataType>
+        <DataName>cap_wvs_</DataName>
+        <ArrayLength>0</ArrayLength>
+        <Expression>[FALSE,20,0,1]</Expression>
+        <ModuleName>CapData</ModuleName>
+        <CanBeModifed>true</CanBeModifed>
+        <SyncAsInline>false</SyncAsInline>
+        <SyncToModuleSetting>3</SyncToModuleSetting>
+      </PpGenericDataDescription>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>menudata</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>description</ComponentName>
+      <ComponentDescription>A short description of the menu item</ComponentDescription>
+      <AtomicDataType>3</AtomicDataType>
+      <StringDataDescriptor>
+        <MaxStringLength>80</MaxStringLength>
+        <ListDataTypeName />
+        <IsImageFileName>false</IsImageFileName>
+        <IsPathProcName>false</IsPathProcName>
+      </StringDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>image</ComponentName>
+      <ComponentDescription>The name of the icon to use next to the menu item</ComponentDescription>
+      <AtomicDataType>3</AtomicDataType>
+      <StringDataDescriptor>
+        <MaxStringLength>80</MaxStringLength>
+        <ListDataTypeName />
+        <IsImageFileName>true</IsImageFileName>
+        <IsPathProcName>false</IsPathProcName>
+      </StringDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>procName</ComponentName>
+      <ComponentDescription>The actual procedure that will be called when running this setup or service routine</ComponentDescription>
+      <AtomicDataType>3</AtomicDataType>
+      <StringDataDescriptor>
+        <MaxStringLength>80</MaxStringLength>
+        <ListDataTypeName />
+        <IsImageFileName>false</IsImageFileName>
+        <IsPathProcName>false</IsPathProcName>
+      </StringDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>validStation</ComponentName>
+      <ComponentDescription>Value defining to which station this menu item will be visible</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>true</IntegerOnly>
+        <Limits>
+          <Enabled>true</Enabled>
+          <Min>0</Min>
+          <Max>255</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>taskList</ComponentName>
+      <ComponentDescription>The task names separated by ':' for the tasks where this routine will be executed</ComponentDescription>
+      <AtomicDataType>3</AtomicDataType>
+      <StringDataDescriptor>
+        <MaxStringLength>80</MaxStringLength>
+        <ListDataTypeName />
+        <IsImageFileName>false</IsImageFileName>
+        <IsPathProcName>false</IsPathProcName>
+      </StringDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>validPosition</ComponentName>
+      <ComponentDescription>Value defining at which robot position this menu item will be visible</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>true</IntegerOnly>
+        <Limits>
+          <Enabled>true</Enabled>
+          <Min>0</Min>
+          <Max>255</Max>
+        </Limits>
+        <Enumerations>
+          <Items>
+            <PpRapidDataSelectionItem>
+              <Name>SHOW_NEVER</Name>
+              <Value>0</Value>
+            </PpRapidDataSelectionItem>
+            <PpRapidDataSelectionItem>
+              <Name>SHOW_SAFE</Name>
+              <Value>1</Value>
+            </PpRapidDataSelectionItem>
+            <PpRapidDataSelectionItem>
+              <Name>SHOW_SERVICE</Name>
+              <Value>2</Value>
+            </PpRapidDataSelectionItem>
+            <PpRapidDataSelectionItem>
+              <Name>SHOW_ALWAYS</Name>
+              <Value>255</Value>
+            </PpRapidDataSelectionItem>
+          </Items>
+          <UseEnumerationsOnly>false</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>allowAfterError</ComponentName>
+      <ComponentDescription>True if the menu item should be shown after an error</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>type</ComponentName>
+      <ComponentDescription />
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>true</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items>
+            <PpRapidDataSelectionItem>
+              <Name>Setup Menu</Name>
+              <Value>1</Value>
+            </PpRapidDataSelectionItem>
+            <PpRapidDataSelectionItem>
+              <Name>Service Menu</Name>
+              <Value>2</Value>
+            </PpRapidDataSelectionItem>
+          </Items>
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>minUserLevel</ComponentName>
+      <ComponentDescription>Value defining for which user level this menu item will be visible. 255 means always visible</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>true</IntegerOnly>
+        <Limits>
+          <Enabled>true</Enabled>
+          <Min>0</Min>
+          <Max>255</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>blockOtherTasks</ComponentName>
+      <ComponentDescription>If this is set to True all other tasks will be blocked during the execution of this routine</ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+      <BoolDataDescriptor>
+        <TrueItem>
+          <Name>TRUE</Name>
+          <Value>TRUE</Value>
+        </TrueItem>
+        <FalseItem>
+          <Name>FALSE</Name>
+          <Value>FALSE</Value>
+        </FalseItem>
+      </BoolDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>plcCode</ComponentName>
+      <ComponentDescription>Unique identifier index for PLC interfaces</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>true</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

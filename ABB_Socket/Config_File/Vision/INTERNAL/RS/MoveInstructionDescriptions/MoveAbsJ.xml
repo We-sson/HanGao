@@ -1,0 +1,43 @@
+<ProcessDefinitionDocument>
+    <MoveInstructionDescription name="MoveAbsJ" motionType="Joint" informationText="">
+      <InstructionParameterGroups>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Conc" dataType="switch" accessMode="In"  optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="ToJointPos" dataType="jointtarget" accessMode="In"  optional="false" pointType="ToJointPos" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="ID" dataType="identno" accessMode="In"  optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="NoEOffs" dataType="switch" accessMode="In"  optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Speed" dataType="speeddata" accessMode="In"  optional="false" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="V" dataType="num" accessMode="In"  optional="true" />
+          <InstructionParameter name="T" dataType="num" accessMode="In"  optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Zone" dataType="zonedata" accessMode="In"  optional="false" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Z" dataType="num" accessMode="In"  optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Inpos" dataType="stoppointdata" accessMode="In"  optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Tool" dataType="tooldata" accessMode="Persistent"  optional="false" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="WObj" dataType="wobjdata" accessMode="Persistent"  optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="TLoad" dataType="loaddata" accessMode="Persistent" optional="True" />
+        </InstructionParameterGroup>
+      </InstructionParameterGroups>
+    </MoveInstructionDescription>
+</ProcessDefinitionDocument>

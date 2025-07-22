@@ -1,0 +1,22 @@
+<ProcessDefinitionDocument>
+		<ActionInstructionDescription name="MpSavePath" informationText="Saves path in memory to a rapid file">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="FileName" dataType="string" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+        <InstructionParameterGroup>
+					<InstructionParameter name="SeamName" dataType="string" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+        <InstructionParameterGroup>
+					<InstructionParameter name="CreateLogFile" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+			</InstructionParameterGroups>
+			<InstructionTemplates>
+				<InstructionTemplate name="Default">
+					<InstructionArgument name="FileName" enabled="True" value=""/>
+					<InstructionArgument name="SeamName" enabled="False" value=""/>
+					<InstructionArgument name="CreateLogFile" enabled="False" value=""/>
+				</InstructionTemplate>
+			</InstructionTemplates>
+		</ActionInstructionDescription>
+</ProcessDefinitionDocument>

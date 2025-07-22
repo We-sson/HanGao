@@ -1,0 +1,15 @@
+     <PpGenericDataDescription>
+        <SyncToProgramModule>true</SyncToProgramModule>
+        <SyncToProcDataModule>false</SyncToProcDataModule>
+        <SyncToCalibDataModule>false</SyncToCalibDataModule>
+        <RapidStorageType>0</RapidStorageType>
+        <DataType>pm_calibdata</DataType>
+        <DataName>cl</DataName>
+        <Expression>[TRUE,FALSE,"",100,20,"","",15,5,"","",[0,0,1]]</Expression>
+        <ArrayLength>0</ArrayLength>
+        <ModuleName>Module1</ModuleName>
+        <CanBeModifed>true</CanBeModifed>
+        <SyncAsInline>false</SyncAsInline>
+        <SyncToModuleSetting>2</SyncToModuleSetting>
+      </PpGenericDataDescription>
+      

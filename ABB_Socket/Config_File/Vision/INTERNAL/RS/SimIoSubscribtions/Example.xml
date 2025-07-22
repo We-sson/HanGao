@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SimulationIoSubscribtions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <List>
+    <IoSubscribtionSignal>
+      <TaskName>T_ROB1</TaskName>
+      <SignalName>Signal1</SignalName>
+      <IsProcessSignal>true</IsProcessSignal>
+    </IoSubscribtionSignal>
+    <IoSubscribtionSignal>
+      <TaskName>T_ROB1</TaskName>
+      <SignalName>Signal2</SignalName>
+      <IsProcessSignal>false</IsProcessSignal>
+    </IoSubscribtionSignal>
+  </List>
+</SimulationIoSubscribtions>

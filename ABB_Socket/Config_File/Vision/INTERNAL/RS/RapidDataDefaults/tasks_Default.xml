@@ -1,0 +1,16 @@
+      <PpGenericDataDescription>
+        <SyncToProgramModule>false</SyncToProgramModule>
+        <SyncToProcDataModule>true</SyncToProcDataModule>
+        <SyncToCalibDataModule>false</SyncToCalibDataModule>
+        <RapidStorageType>1</RapidStorageType>
+        <DataType>tasks</DataType>
+        <DataName>ts</DataName>
+        <Expression />
+        <ArrayLength>1</ArrayLength>
+        <ModuleName>Module1</ModuleName>
+        <CanBeModifed>true</CanBeModifed>
+        <SyncAsInline>false</SyncAsInline>
+        <SyncToModuleSetting>3</SyncToModuleSetting>
+      </PpGenericDataDescription>
+      
+      

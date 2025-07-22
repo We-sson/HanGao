@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>LsTableConf</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>IndexCutting</ComponentName>
+      <ComponentDescription>Index number in cutting params group</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>IndexPiercing</ComponentName>
+      <ComponentDescription>Index number in piercing params group</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

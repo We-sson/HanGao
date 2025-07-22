@@ -1,0 +1,16 @@
+     <PpGenericDataDescription>
+        <SyncToProgramModule>true</SyncToProgramModule>
+        <SyncToProcDataModule>false</SyncToProcDataModule>
+        <SyncToCalibDataModule>false</SyncToCalibDataModule>
+        <RapidStorageType>0</RapidStorageType>
+        <DataType>be_tooldesign</DataType>
+        <DataName>tooldes</DataName>
+        <Expression>[TRUE,30,18,50,6,6,TRUE,TRUE,1.2,[150,120,100,100],[250,150,100,100]]</Expression>
+        <ArrayLength>0</ArrayLength>
+        <ModuleName>Module1</ModuleName>
+        <CanBeModifed>true</CanBeModifed>
+        <SyncAsInline>false</SyncAsInline>
+        <SyncToModuleSetting>2</SyncToModuleSetting>
+      </PpGenericDataDescription>
+      
+      

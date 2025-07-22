@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>partdata</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>pathProcName</ComponentName>
+      <ComponentDescription>The procedure that will be called when running this part</ComponentDescription>
+      <AtomicDataType>3</AtomicDataType>
+      <StringDataDescriptor>
+        <MaxStringLength>80</MaxStringLength>
+        <ListDataTypeName />
+        <IsImageFileName>false</IsImageFileName>
+        <IsPathProcName>false</IsPathProcName>
+      </StringDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>description</ComponentName>
+      <ComponentDescription>A short description of the part</ComponentDescription>
+      <AtomicDataType>3</AtomicDataType>
+      <StringDataDescriptor>
+        <MaxStringLength>55</MaxStringLength>
+        <ListDataTypeName />
+        <IsImageFileName>false</IsImageFileName>
+        <IsPathProcName>false</IsPathProcName>
+      </StringDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>taskList</ComponentName>
+      <ComponentDescription>The task names separated by ':' for the tasks where this part will be executed</ComponentDescription>
+      <AtomicDataType>3</AtomicDataType>
+      <StringDataDescriptor>
+        <MaxStringLength>80</MaxStringLength>
+        <ListDataTypeName />
+        <IsImageFileName>false</IsImageFileName>
+        <IsPathProcName>false</IsPathProcName>
+      </StringDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>validStation</ComponentName>
+      <ComponentDescription>Value defining for which station this part will be valid</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>true</IntegerOnly>
+        <Limits>
+          <Enabled>true</Enabled>
+          <Min>0</Min>
+          <Max>255</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>plcCode</ComponentName>
+      <ComponentDescription>Unique identifier index for PLC interfaces</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+      <NumDataDescriptor>
+        <IntegerOnly>true</IntegerOnly>
+        <Limits>
+          <Enabled>false</Enabled>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Limits>
+        <Enumerations>
+          <Items />
+          <UseEnumerationsOnly>true</UseEnumerationsOnly>
+        </Enumerations>
+      </NumDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>Image</ComponentName>
+      <ComponentDescription>The name of the picture to use in the preview frame when browsing parts in the Part handler</ComponentDescription>
+      <AtomicDataType>3</AtomicDataType>
+      <StringDataDescriptor>
+        <MaxStringLength>80</MaxStringLength>
+        <ListDataTypeName />
+        <IsImageFileName>true</IsImageFileName>
+        <IsPathProcName>false</IsPathProcName>
+      </StringDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>advPart</ComponentName>
+      <ComponentDescription>Reference to an advanced part data</ComponentDescription>
+      <AtomicDataType>3</AtomicDataType>
+      <StringDataDescriptor>
+        <MaxStringLength>80</MaxStringLength>
+        <ListDataTypeName>partadv</ListDataTypeName>
+        <IsImageFileName>false</IsImageFileName>
+        <IsPathProcName>false</IsPathProcName>
+      </StringDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

@@ -1,0 +1,10 @@
+<ProcessDefinitionDocument>
+		<ActionInstructionDescription name="Recoverymenu" informationText="Display recovery menu">
+			<InstructionParameterGroups>
+			</InstructionParameterGroups>
+			<InstructionTemplates>
+				<InstructionTemplate name="Default">
+				</InstructionTemplate>
+			</InstructionTemplates>
+		</ActionInstructionDescription>
+</ProcessDefinitionDocument>

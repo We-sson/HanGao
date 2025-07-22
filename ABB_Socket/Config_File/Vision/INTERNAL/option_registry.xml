@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding="utf-8" ?>
+<option_registry xmlns="urn:abb-robotics-registry-option">
+<entry option="arc" path="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/arc/ArcBase"/>
+<entry option="gtpuSDK" path="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/gtpusdk"/>
+<entry option="prdscr_gui_home" path="C:/Users/LING/Documents/RobotStudio/Systems/Vision/HOME/ProdScr"/>
+<entry option="Production Screen" path="C:/Users/LING/AppData/Local/ABB Industrial IT/Robotics IT/RobotWare/RobotWare_6.08.1040/options/prodscr"/>
+</option_registry>

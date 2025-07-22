@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ProductSettings version="1.0">
+  <Products>
+    <Product name="RobotWare" version="6.08.1040" id="abb.robotics.robotware">
+      <Settings>
+        <Setting id="abb.robotics.robotware.base" displayName="" robot="1" />
+        <Setting id="abb.robotics.robotware.languages.chinese" displayName="" robot="1" />
+        <Setting id="abb.robotics.robotware.options.addinprepared" displayName="" robot="1" />
+        <Setting id="abb.robotics.robotware.options.worldzones" displayName="" robot="1" />
+        <Setting id="abb.robotics.robotware.options.pathrecovery" displayName="" robot="1" />
+        <Setting id="abb.robotics.robotware.options.pathoffset" displayName="" robot="1" />
+        <Setting id="abb.robotics.robotware.options.pcinterface" displayName="" robot="1" />
+        <Setting id="abb.robotics.robotware.options.multitasking" displayName="623-1 Multitasking" robot="1" />
+        <Setting id="abb.robotics.robotware.robots.irb140.6-0_8" displayName="IRB 140-6/0.8" robot="1" path="\IRB 140-6/0.8\" />
+        <Setting id="abb.robotics.robotware.drivesystems.drive.dc430a2.du430a2.dm430a" displayName="Drive System IRB 120/140/260/360/910SC/1200/1400/1520/1600/1660ID" robot="1" path="\Drive System IRB 120/140/260/360/910SC/1200/1400/1520/1600/1660ID\" />
+        <Setting id="abb.robotics.robotware.applications.arc" displayName="633-4 Arc" robot="1" path="\633-4 Arc\" />
+      </Settings>
+    </Product>
+  </Products>
+</ProductSettings>

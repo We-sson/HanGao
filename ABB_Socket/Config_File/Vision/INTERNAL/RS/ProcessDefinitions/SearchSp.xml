@@ -1,0 +1,38 @@
+<ProcessDefinitionDocument>
+	<ProcessDefinitions>
+		<ProcessDefinition name="SearchSp" jointInstructionName="SearchSpJ" linearInstructionName="SearchSpL">
+			<ProcessTemplate name="Default" defaultMotionType="Linear">
+				<JointInstructionTemplate name="SearchSpJ">
+					<InstructionArgument name="ApprDist"  enabled="True" value="50"/>
+					<InstructionArgument name="SearchPoint"  enabled="True" value=""/>
+					<InstructionArgument name="ToPoint"  enabled="True" value=""/>
+					<InstructionArgument name="Speed"  enabled="True" value="v100"/>
+					<InstructionArgument name="Zone"  enabled="True" value="z1"/>
+					<InstructionArgument name="Tool"  enabled="True" value=""/>
+					<InstructionArgument name="WObj"  enabled="True" value=""/>
+					<InstructionArgument name="SphereData"  enabled="True" value=""/>
+					<InstructionArgument name="MeanError"  enabled="False" value=""/>
+					<InstructionArgument name="MaxError"  enabled="False" value=""/>
+					<InstructionArgument name="UpdateToPoint"  enabled="False" value=""/>
+					<InstructionArgument name="SearchName"  enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value="" />
+				</JointInstructionTemplate>
+				<LinearInstructionTemplate name="SearchSpL">
+					<InstructionArgument name="ApprDist"  enabled="True" value="50"/>
+					<InstructionArgument name="SearchPoint"  enabled="True" value=""/>
+					<InstructionArgument name="ToPoint"  enabled="True" value=""/>
+					<InstructionArgument name="Speed"  enabled="True" value="v100"/>
+					<InstructionArgument name="Zone"  enabled="True" value="z1"/>
+					<InstructionArgument name="Tool"  enabled="True" value=""/>
+					<InstructionArgument name="WObj"  enabled="True" value=""/>
+					<InstructionArgument name="SphereData"  enabled="True" value=""/>
+					<InstructionArgument name="MeanError"  enabled="False" value=""/>
+					<InstructionArgument name="MaxError"  enabled="False" value=""/>
+					<InstructionArgument name="UpdateToPoint"  enabled="False" value=""/>
+					<InstructionArgument name="SearchName"  enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value="" />
+				</LinearInstructionTemplate>
+			</ProcessTemplate>
+		</ProcessDefinition>
+	</ProcessDefinitions>
+</ProcessDefinitionDocument>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>ShapeOffsetData</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>Description</ComponentName>
+      <ComponentDescription>Offset of ToPoint X</ComponentDescription>
+      <AtomicDataType>3</AtomicDataType>
+      <StringDataDescriptor>
+        <MaxStringLength>80</MaxStringLength>
+        <ListDataTypeName />
+        <IsImageFileName>false</IsImageFileName>
+        <IsPathProcName>false</IsPathProcName>
+      </StringDataDescriptor>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>OffsetX</ComponentName>
+      <ComponentDescription>Offset of ToPoint X in wobj</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>OffsetY</ComponentName>
+      <ComponentDescription>Offset of ToPoint Y in wobj</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>OffsetZ</ComponentName>
+      <ComponentDescription>Offset of ToPoint Z in wobj</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>OffsetShapeX</ComponentName>
+      <ComponentDescription>Offset of X in shape coordinates</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>OffsetShapeY</ComponentName>
+      <ComponentDescription>Offset of Y in shape coordinates</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>ShapeRotation</ComponentName>
+      <ComponentDescription>Rotation in shape coordinate system, done after offset is set</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>DiameterFineTune</ComponentName>
+      <ComponentDescription>Fine tuning of shape Diameter, valid for holes</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>X_DimensionFineTune</ComponentName>
+      <ComponentDescription>Fine tuning of shape X dimension, valid for rectangle and slot</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>Y_DimensionFineTune</ComponentName>
+      <ComponentDescription>Fine tuning of shape Y dimension, valid for rectangle, slot and hex</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

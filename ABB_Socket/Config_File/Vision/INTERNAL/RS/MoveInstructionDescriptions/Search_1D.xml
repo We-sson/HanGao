@@ -1,0 +1,48 @@
+<ProcessDefinitionDocument>
+  <MoveInstructionDescription name="Search_1D" motionType="Linear" informationText="SearchType=1">
+    <InstructionParameterGroups>
+      <InstructionParameterGroup>
+        <InstructionParameter name="NotOff" dataType="switch" accessMode="In" optional="True" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="Wire" dataType="switch" accessMode="In" optional="True" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="Result" dataType="pose" accessMode="InOut" syncReferencedData="True" optional="False" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="SearchStop" dataType="robtarget" accessMode="InOut" syncReferencedData="True" optional="True" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="StartPoint" dataType="robtarget" accessMode="In" optional="False" pointType="ViaPoint" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="SearchPoint" dataType="robtarget" accessMode="In" optional="False" pointType="ToPoint" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="Speed" dataType="speeddata" accessMode="In" optional="False" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="Tool" dataType="tooldata" accessMode="Persistent" optional="False" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="WObj" dataType="wobjdata" accessMode="Persistent" optional="True" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="PrePDisp" dataType="pose" accessMode="In" syncReferencedData="True" optional="True" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="Limit" dataType="num" accessMode="In" optional="True" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="SchSpeed" dataType="num" accessMode="In" optional="True" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="SearchName" dataType="string" accessMode="In" optional="True" />
+      </InstructionParameterGroup>
+   		<InstructionParameterGroup>
+				<InstructionParameter name="TLoad" dataType="loaddata" accessMode="Persistent" dimensions="0" optional="true" />
+			</InstructionParameterGroup>			
+    </InstructionParameterGroups>
+  </MoveInstructionDescription>
+</ProcessDefinitionDocument>

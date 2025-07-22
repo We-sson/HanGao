@@ -1,0 +1,12 @@
+<ProcessDefinitionDocument>
+		<ActionInstructionDescription name="PDispOff" informationText="Activates offset">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+				</InstructionParameterGroup>
+			</InstructionParameterGroups>
+			<InstructionTemplates>
+				<InstructionTemplate name="Default">
+				</InstructionTemplate>
+			</InstructionTemplates>
+		</ActionInstructionDescription>
+</ProcessDefinitionDocument>

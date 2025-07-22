@@ -1,0 +1,14 @@
+<ProcessDefinitionDocument>
+		<ActionInstructionDescription name="MpLoadPath" informationText="Loads a path from file to memory">
+			<InstructionParameterGroups>
+        <InstructionParameterGroup>
+					<InstructionParameter name="FileName" dataType="string" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>		
+			</InstructionParameterGroups>
+			<InstructionTemplates>
+				<InstructionTemplate name="Default">
+					<InstructionArgument name="FileName" enabled="true" value=""/>
+				</InstructionTemplate>
+			</InstructionTemplates>
+		</ActionInstructionDescription>
+</ProcessDefinitionDocument>

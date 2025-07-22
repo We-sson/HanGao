@@ -1,0 +1,27 @@
+<ProcessDefinitionDocument>
+  <ProcessDefinition name="BESetupTool" jointInstructionName="BESetupToolJ">
+    <ProcessTemplate name="Default" defaultMotionType="Joint">
+      <JointInstructionTemplate name="BESetupToolJ">
+        <InstructionArgument name="ApprPoint" enabled="True" value="" />
+        <InstructionArgument name="StartPoint" enabled="True" value="" />
+        <InstructionArgument name="TcpExtens" enabled="True" value="15" />
+        <InstructionArgument name="ToolDesign" enabled="True" value="tdMigDefault" />
+        <InstructionArgument name="Scan" enabled="True" value="scanBullsMig" />
+        <InstructionArgument name="Device" enabled="True" value="devYokeUp" />
+        <InstructionArgument name="Speed" enabled="True" value="v100" />
+        <InstructionArgument name="Zone" enabled="True" value="z1" />
+        <InstructionArgument name="Tool" enabled="True" value="tool0" />
+        <InstructionArgument name="XYZOnly" enabled="False" value="" />
+        <InstructionArgument name="FixedAxes" enabled="False" value="" />
+        <InstructionArgument name="MaxError" enabled="False" value="" />
+        <InstructionArgument name="MaxFromDay1" enabled="False" value="" />
+        <InstructionArgument name="ElapsedTime" enabled="False" value="" />
+        <InstructionArgument name="MeanDev" enabled="False" value="" />
+        <InstructionArgument name="MaxDev" enabled="False" value="" />
+        <InstructionArgument name="CheckRange" enabled="True" value="" />
+        <InstructionArgument name="CheckBeamAngle" enabled="True" value="0" />
+        <InstructionArgument name="TLoad" enabled="False" value=""/>
+      </JointInstructionTemplate>
+    </ProcessTemplate>
+  </ProcessDefinition>
+</ProcessDefinitionDocument>

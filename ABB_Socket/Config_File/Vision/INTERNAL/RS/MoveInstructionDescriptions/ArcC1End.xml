@@ -1,0 +1,67 @@
+<ProcessDefinitionDocument>
+    <MoveInstructionDescription name="ArcC1End" motionType="Circular" informationText="Process_Arc_End_C">
+      <InstructionParameterGroups>
+        <InstructionParameterGroup>
+          <InstructionParameter name="CirPoint" dataType="robtarget" accessMode="In" dimensions="0" optional="false" pointType="CirPoint"/>
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="ToPoint" dataType="robtarget" accessMode="In" dimensions="0" optional="false" pointType="ToPoint" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="ID" dataType="identno" accessMode="In" dimensions="0" optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Speed" dataType="speeddata" accessMode="In" dimensions="0" optional="false" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Seam" dataType="seamdata1" syncReferencedData="True" accessMode="Persistent" dimensions="0" optional="false" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Weld" dataType="welddata1" syncReferencedData="True" accessMode="Persistent" dimensions="0" optional="false" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Weave" dataType="weavedata" syncReferencedData="True" accessMode="Persistent" dimensions="0" optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Zone" dataType="zonedata" accessMode="In" dimensions="0" optional="false" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Tool" dataType="tooldata" accessMode="Persistent" dimensions="0" optional="false" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="WObj" dataType="wobjdata" accessMode="Persistent" dimensions="0" optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Corr" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+          <InstructionParameter name="Track" dataType="trackdata" syncReferencedData="True" accessMode="Persistent" dimensions="0" optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="Time" dataType="num" accessMode="In" dimensions="0" optional="true" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="T1" dataType="triggdata" accessMode="In" syncReferencedData="false" optional="True" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="T2" dataType="triggdata" accessMode="In" syncReferencedData="false" optional="True" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="T3" dataType="triggdata" accessMode="In" syncReferencedData="false" optional="True" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="T4" dataType="triggdata" accessMode="In" syncReferencedData="false" optional="True" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="T5" dataType="triggdata" accessMode="In" syncReferencedData="false" optional="True" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="T6" dataType="triggdata" accessMode="In" syncReferencedData="false" optional="True" />
+        </InstructionParameterGroup>
+        <InstructionParameterGroup>
+          <InstructionParameter name="T7" dataType="triggdata" accessMode="In" syncReferencedData="false" optional="True" />
+        </InstructionParameterGroup>
+       	<InstructionParameterGroup>
+					<InstructionParameter name="TLoad" dataType="loaddata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>			
+      </InstructionParameterGroups>
+    </MoveInstructionDescription>
+</ProcessDefinitionDocument>

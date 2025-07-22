@@ -1,0 +1,23 @@
+<ProcessDefinitionDocument>
+	<ProcessDefinitions>
+    <ProcessDefinition name="MoveAbs" jointInstructionName="MoveAbsJ">
+      <ProcessTemplate name="Default" defaultMotionType="Joint">
+        <JointInstructionTemplate name="MoveAbsJ">
+          <InstructionArgument name="Conc"  enabled="false" value=""/>
+          <InstructionArgument name="ToJointPos"  enabled="true" value=""/>
+          <InstructionArgument name="ID"  enabled="true" value=""/>
+          <InstructionArgument name="NoEOffs"  enabled="false" value=""/>
+          <InstructionArgument name="Speed"  enabled="true" value="v1000"/>
+          <InstructionArgument name="V"  enabled="false" value=""/>
+          <InstructionArgument name="T"  enabled="false" value=""/>
+          <InstructionArgument name="Zone"  enabled="true" value="z100"/>
+          <InstructionArgument name="Z"  enabled="false" value=""/>
+          <InstructionArgument name="Inpos"  enabled="false" value=""/>
+          <InstructionArgument name="Tool"  enabled="true" value="tool0"/>
+          <InstructionArgument name="WObj"  enabled="true" value="wobj0"/>
+          <InstructionArgument name="TLoad" enabled="false" value=""/>
+        </JointInstructionTemplate>
+      </ProcessTemplate>
+    </ProcessDefinition>
+	</ProcessDefinitions>
+</ProcessDefinitionDocument>

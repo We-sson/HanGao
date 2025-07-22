@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SystemProperties>
+  <SystemName>Vision</SystemName>
+  <SerialNo>VIRTUAL_USE</SerialNo>
+  <UsedMedia>
+    <Media path="C:\Users\LING\AppData\Local\ABB Industrial IT\Robotics IT\RobotWare\RobotWare_6.08.1040" name="RobotWare" version="6.08.1040">
+    </Media>
+  </UsedMedia>
+  <ControlModule>
+    <Option descr="RobotWare Base">
+    </Option>
+    <Option descr="Chinese">
+    </Option>
+    <Option descr="988-1 RW Add-In Prepared">
+    </Option>
+    <Option descr="608-1 World Zones">
+    </Option>
+    <Option descr="611-1 Path Recovery">
+    </Option>
+    <Option descr="612-1 Path Offset">
+    </Option>
+    <Option descr="616-1 PC Interface">
+    </Option>
+    <Option descr="623-1 Multitasking">
+    </Option>
+  </ControlModule>
+  <DriveModule>
+    <Name>Robot1</Name>
+    <Option descr="IRB 140-6/0.8">
+    </Option>
+    <Option descr="Drive System IRB 120/140/260/360/910SC/1200/1400/1520/1600/1660ID">
+    </Option>
+    <Option descr="633-4 Arc">
+    </Option>
+  </DriveModule>
+</SystemProperties>

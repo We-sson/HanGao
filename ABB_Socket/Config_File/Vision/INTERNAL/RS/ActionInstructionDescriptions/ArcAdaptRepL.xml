@@ -1,0 +1,88 @@
+<ProcessDefinitionDocument>
+		<ActionInstructionDescription name="ArcAdaptRepL" informationText="Replays a strored path">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Start" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="End" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="NoProcess" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Offset" dataType="multidata" syncReferencedData="True" accessMode="In"  optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Adapt" dataType="adaptdata" syncReferencedData="true" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+			  <InstructionParameterGroup>
+					<InstructionParameter name="SpeedGain" dataType="num" accessMode="In" dimensions="0" optional="true" />
+					<InstructionParameter name="AdaptToMinMax" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="StartInd" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="EndInd" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Speed" dataType="speeddata" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Seam" dataType="seamdata" syncReferencedData="True" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Weld" dataType="welddata" syncReferencedData="True" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Weave" dataType="weavedata" syncReferencedData="True" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Zone" dataType="zonedata" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Tool" dataType="tooldata" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="WObj" dataType="wobjdata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Track" dataType="trackdata" syncReferencedData="True" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="SeamName" dataType="string" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+			  <InstructionParameterGroup>
+					<InstructionParameter name="ServRoutine" dataType="string" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>		
+				<InstructionParameterGroup>
+					<InstructionParameter name="TLoad" dataType="loaddata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>			
+			</InstructionParameterGroups>
+			<InstructionTemplates>
+				<InstructionTemplate name="Default">
+					<InstructionArgument name="Start" enabled="True" value=""/>
+					<InstructionArgument name="End" enabled="True" value=""/>
+					<InstructionArgument name="NoProcess" enabled="True" value=""/>
+					<InstructionArgument name="Offset" enabled="True" value=""/>
+					<InstructionArgument name="Adapt" enabled="True" value=""/>
+					<InstructionArgument name="SpeedGain" enabled="False" value=""/>
+					<InstructionArgument name="AdaptToMinMax" enabled="False" value=""/>
+					<InstructionArgument name="StartInd" enabled="False" value=""/>
+					<InstructionArgument name="EndInd" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v100"/>
+					<InstructionArgument name="Seam" enabled="True" value=""/>
+					<InstructionArgument name="Weld" enabled="True" value=""/>
+					<InstructionArgument name="Weave" enabled="True" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="z10"/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="False" value=""/>
+					<InstructionArgument name="Track" enabled="False" value=""/>
+					<InstructionArgument name="SeamName" enabled="False" value=""/>
+					<InstructionArgument name="ServRoutine" enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</InstructionTemplate>
+			</InstructionTemplates>
+		</ActionInstructionDescription>
+</ProcessDefinitionDocument>

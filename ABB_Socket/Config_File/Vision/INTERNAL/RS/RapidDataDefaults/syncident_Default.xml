@@ -1,0 +1,15 @@
+     <PpGenericDataDescription>
+        <SyncToProgramModule>true</SyncToProgramModule>
+        <SyncToProcDataModule>false</SyncToProcDataModule>
+        <SyncToCalibDataModule>false</SyncToCalibDataModule>
+        <RapidStorageType>3</RapidStorageType>
+        <DataType>syncident</DataType>
+        <DataName>id</DataName>
+        <Expression />
+        <ArrayLength>0</ArrayLength>
+        <ModuleName>Module1</ModuleName>
+        <CanBeModifed>true</CanBeModifed>
+        <SyncAsInline>false</SyncAsInline>
+        <SyncToModuleSetting>2</SyncToModuleSetting>
+      </PpGenericDataDescription>
+      

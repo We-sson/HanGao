@@ -1,0 +1,24 @@
+%%%
+  VERSION:1
+  LANGUAGE:ENGLISH
+%%%
+
+MODULE ScreenMaker(SYSMODULE,NOVIEW)
+        
+PERS string routineNameToCall := "";
+ PROC ScmCallRoutine()
+  IF routineNameToCall <> stEmpty THEN
+   %routineNameToCall%;      
+  ELSE
+   TPWrite "Rapid Data must be set before";
+   RETURN;
+  ENDIF 
+  routineNameToCall := stEmpty;
+  Stop;
+     ERROR
+   routineNameToCall := stEmpty;
+   RETURN;
+     UNDO
+   routineNameToCall := stEmpty;
+ ENDPROC        
+ENDMODULE

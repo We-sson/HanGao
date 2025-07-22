@@ -1,0 +1,15 @@
+     <PpGenericDataDescription>
+        <SyncToProgramModule>false</SyncToProgramModule>
+        <SyncToProcDataModule>true</SyncToProcDataModule>
+        <SyncToCalibDataModule>false</SyncToCalibDataModule>
+        <RapidStorageType>0</RapidStorageType>
+        <DataType>adaptdata</DataType>
+        <DataName>ad</DataName>
+        <Expression>[10,1,0,0,2,20,1,20]</Expression>
+        <ArrayLength>0</ArrayLength>
+        <ModuleName>Module1</ModuleName>
+        <CanBeModifed>true</CanBeModifed>
+        <SyncAsInline>false</SyncAsInline>
+        <SyncToModuleSetting>3</SyncToModuleSetting>
+      </PpGenericDataDescription>
+      

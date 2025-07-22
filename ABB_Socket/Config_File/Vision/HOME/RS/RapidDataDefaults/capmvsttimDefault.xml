@@ -1,0 +1,14 @@
+      <PpGenericDataDescription>
+        <SyncToProgramModule>false</SyncToProgramModule>
+        <SyncToProcDataModule>true</SyncToProcDataModule>
+        <SyncToCalibDataModule>false</SyncToCalibDataModule>
+        <RapidStorageType>2</RapidStorageType>
+        <DataType>capmvsttim</DataType>
+        <DataName>cap_mvsttim_</DataName>
+        <ArrayLength>0</ArrayLength>
+        <Expression>1.5</Expression>
+        <ModuleName>CapData</ModuleName>
+        <CanBeModifed>true</CanBeModifed>
+        <SyncAsInline>false</SyncAsInline>
+        <SyncToModuleSetting>3</SyncToModuleSetting>
+      </PpGenericDataDescription>

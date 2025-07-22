@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>LsCutParams</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CutPower</ComponentName>
+      <ComponentDescription>MAX Cutting Power setting for laser control (watt)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.CutSpeed</ComponentName>
+      <ComponentDescription>Cut speed (mm/s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.PowerLevel</ComponentName>
+      <ComponentDescription>Cutting Power setting for laser control (%)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.MinPowerLevel</ComponentName>
+      <ComponentDescription>Min power setting for laser control (%)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.CriticalSpeed</ComponentName>
+      <ComponentDescription>Adjust power in case speed is lower than this value.(mm/s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.Acceleration</ComponentName>
+      <ComponentDescription>Acceleration.(mm/s*s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.CutProgram</ComponentName>
+      <ComponentDescription>Cut program used</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.Duty_max</ComponentName>
+      <ComponentDescription>Max duty cycle only for pulse laser(%)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.Duty_min</ComponentName>
+      <ComponentDescription>Min duty cycle only for pulse laser(%)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.GasType</ComponentName>
+      <ComponentDescription>Gas type used for cutting</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.GasFlow</ComponentName>
+      <ComponentDescription>Gas flow during cutting</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.HC_StandOff</ComponentName>
+      <ComponentDescription>Height during main cut operation (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.HC_LockOn</ComponentName>
+      <ComponentDescription>Lock head during main cut operation </ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.HC_CharCurve</ComponentName>
+      <ComponentDescription>Cutting Head characteristic curve</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>CuttingParams.Kerf</ComponentName>
+      <ComponentDescription>Kerf width of laser beam (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>PierParams.GasType</ComponentName>
+      <ComponentDescription>Gas type used for cutting</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>PierParams.GasFlow</ComponentName>
+      <ComponentDescription>Gas flow during cutting</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>PierParams.PurgeTime</ComponentName>
+      <ComponentDescription>Time for purging gas before start cut (s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>PierParams.PowerLevel</ComponentName>
+      <ComponentDescription>Cutting Power setting for laser control (%)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>PierParams.PierceTime</ComponentName>
+      <ComponentDescription>Time to pierce the material(s)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>PierParams.CutProgram</ComponentName>
+      <ComponentDescription>Piercing program used</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>PierParams.Duty_max</ComponentName>
+      <ComponentDescription>Max duty cycle only for pulse laser(%)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>PierParams.Duty_min</ComponentName>
+      <ComponentDescription>Min duty cycle only for pulse laser(%)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>PierParams.HC_StandOff</ComponentName>
+      <ComponentDescription>Height during main cut operation (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>PierParams.HC_LockOn</ComponentName>
+      <ComponentDescription>Lock head during main cut operation </ComponentDescription>
+      <AtomicDataType>1</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ProcessDefinitionDocument>
+  <ProcessDefinition name="MoveExt" jointInstructionName="MoveExtJ">
+    <ProcessTemplate name="Default" defaultMotionType="Joint">
+      <JointInstructionTemplate name="MoveExtJ">
+        <InstructionArgument name="Conc" enabled="False" value="" />
+        <InstructionArgument name="ToJointPos" enabled="True" value="" />
+        <InstructionArgument name="ID" enabled="False" value="" />
+        <InstructionArgument name="Speed" enabled="True" value="vrot50" />
+        <InstructionArgument name="T" enabled="False" value="" />
+        <InstructionArgument name="Zone" enabled="True" value="z10" />
+        <InstructionArgument name="Inpos" enabled="False" value="" />
+      </JointInstructionTemplate>
+    </ProcessTemplate>
+  </ProcessDefinition>
+</ProcessDefinitionDocument>

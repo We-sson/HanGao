@@ -1,0 +1,14 @@
+     <PpGenericDataDescription>
+        <SyncToProgramModule>true</SyncToProgramModule>
+        <SyncToProcDataModule>false</SyncToProcDataModule>
+        <SyncToCalibDataModule>false</SyncToCalibDataModule>
+        <RapidStorageType>2</RapidStorageType>
+        <DataType>menusetupflag</DataType>
+        <DataName>mdb</DataName>
+        <ArrayLength>0</ArrayLength>
+        <Expression>[FALSE,"",1,""]</Expression>
+        <ModuleName>Module1</ModuleName>
+        <CanBeModifed>true</CanBeModifed>
+        <SyncAsInline>false</SyncAsInline>
+        <SyncToModuleSetting>2</SyncToModuleSetting>
+      </PpGenericDataDescription>

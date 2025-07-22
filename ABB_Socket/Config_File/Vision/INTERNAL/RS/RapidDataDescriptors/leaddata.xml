@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PpRapidRecordDescriptor xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DataType>leaddata</DataType>
+  <RapidDataComponentDescriptorList>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>Zone</ComponentName>
+      <ComponentDescription>Lead Zone Type, default zone (0) is in the -y direction</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>LeadIn.Type</ComponentName>
+      <ComponentDescription>none:=0, Linear:=1, Arc:=2</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>LeadIn.Distance</ComponentName>
+      <ComponentDescription>distance between start point and the edge of shape (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>LeadIn.Angle</ComponentName>
+      <ComponentDescription>angle of linear lead-in (degree)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>LeadIn.Radius</ComponentName>
+      <ComponentDescription>Radius of arc lead-in (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>Overlap</ComponentName>
+      <ComponentDescription>Overlap between lead-in and lead-out on the edge of the shape (degree)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>LeadOut.Type</ComponentName>
+      <ComponentDescription>none:=0, Linear:=1, Arc:=2</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>LeadOut.Distance</ComponentName>
+      <ComponentDescription>distance between start point and the edge of shape (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>LeadOut.Angle</ComponentName>
+      <ComponentDescription>angle of linear lead-out (degree)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+    <PpRapidDataComponentDescriptor>
+      <ComponentName>LeadOut.Radius</ComponentName>
+      <ComponentDescription>Radius of arc lead-out (mm)</ComponentDescription>
+      <AtomicDataType>2</AtomicDataType>
+    </PpRapidDataComponentDescriptor>
+  </RapidDataComponentDescriptorList>
+</PpRapidRecordDescriptor>

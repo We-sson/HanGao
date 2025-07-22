@@ -1,0 +1,65 @@
+<ProcessDefinitionDocument>
+	<MoveInstructionDescriptions>
+		<MoveInstructionDescription name="BESetupToolJ" motionType="Joint" informationText="BullsEye_Setup">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ApprPoint" dataType="jointtarget" accessMode="In" optional="false" pointType="ViaPoint" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="StartPoint" dataType="jointtarget" accessMode="In"  optional="false" pointType="ToJointPos" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="TcpExtens" dataType="num" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ToolDesign" dataType="be_tooldesign" syncReferencedData="True" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Scan" dataType="be_scan" syncReferencedData="True" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Device" dataType="be_device" syncReferencedData="True" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Speed" dataType="speeddata" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Zone" dataType="zonedata" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Tool" dataType="tooldata" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="XYZOnly" dataType="switch" accessMode="In"  optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="FixedAxes" dataType="be_fixedaxes" syncReferencedData="True" accessMode="In"  optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="MaxError" dataType="num"  accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="MaxFromDay1" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ElapsedTime" dataType="num" syncReferencedData="True" accessMode="InOut" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="MeanDev" dataType="num" syncReferencedData="True" accessMode="InOut" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="MaxDev" dataType="num" syncReferencedData="True" accessMode="InOut" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="CheckRange" dataType="switch" accessMode="In"  optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="CheckBeamAngle" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="TLoad" dataType="loaddata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>			
+ 			</InstructionParameterGroups>
+		</MoveInstructionDescription>
+	</MoveInstructionDescriptions>
+</ProcessDefinitionDocument>

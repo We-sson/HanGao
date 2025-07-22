@@ -1,0 +1,56 @@
+<ProcessDefinitionDocument>
+	<MoveInstructionDescriptions>
+		<MoveInstructionDescription name="Search_Groove" motionType="Linear" informationText="SearchType=2">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="NotOff" dataType="switch" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Result" dataType="pose" syncReferencedData="True" accessMode="InOut" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="GrooveWidth" dataType="num" syncReferencedData="True" accessMode="InOut" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="SearchStop" dataType="robtarget" syncReferencedData="True" accessMode="InOut" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="StartPoint" dataType="robtarget" accessMode="In" dimensions="0" optional="false" pointType="ViaPoint" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="CenterPoint" dataType="robtarget" accessMode="In" dimensions="0" optional="false" pointType="ToPoint" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="NomWidth" dataType="num" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="NomDepth" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="InitSchL" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Speed" dataType="speeddata" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Tool" dataType="tooldata" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="WObj" dataType="wobjdata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="PrePDisp" dataType="pose" syncReferencedData="True" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="SchSpeed" dataType="num" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="SearchName" dataType="string" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="TLoad" dataType="loaddata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>			
+  		</InstructionParameterGroups>
+		</MoveInstructionDescription>
+	</MoveInstructionDescriptions>
+</ProcessDefinitionDocument>

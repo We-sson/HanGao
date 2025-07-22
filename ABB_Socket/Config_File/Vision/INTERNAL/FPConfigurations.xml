@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FP>
+  <USER name="IOViewConfigs">
+    <!--Comments: Settings for the FlexPendant IO Signal view.-->
+    <CONFIGURATION name="SignalViewLayouts">
+      <!--Comments: SignalViewLayouts view layouts.-->
+      <SETTING name="Default">
+        <COL id="2">
+          <PROP value="Value" />
+          <WIDTH value="115" />
+        </COL>
+        <COL id="3">
+          <PROP value="Type" />
+          <WIDTH value="79" />
+        </COL>
+        <COL id="4">
+          <PROP value="Device" />
+          <WIDTH value="142" />
+        </COL>
+      </SETTING>
+      <SETTING name="ValueLabelType">
+        <COL id="2">
+          <PROP value="Value" />
+          <WIDTH value="100" />
+        </COL>
+        <COL id="3">
+          <PROP value="SignalLabel" />
+          <WIDTH value="167" />
+        </COL>
+        <COL id="4">
+          <PROP value="Type" />
+          <WIDTH value="59" />
+        </COL>
+      </SETTING>
+    </CONFIGURATION>
+  </USER>
+</FP>

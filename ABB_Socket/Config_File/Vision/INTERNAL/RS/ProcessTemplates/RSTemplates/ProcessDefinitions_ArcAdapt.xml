@@ -1,0 +1,223 @@
+<ProcessDefinitionDocument>
+	<ProcessDefinitions>
+		<ProcessDefinition name="ProcessDefinitions_ArcAdapt_0" jointInstructionName="MoveJ" linearInstructionName="MoveL" circularInstructionName="MoveC">
+			<ProcessTemplate name="_Air" defaultMotionType="Joint">
+				<JointInstructionTemplate name="MoveJ">
+					<InstructionArgument name="Conc" enabled="False" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v1000"/>
+					<InstructionArgument name="V" enabled="False" value=""/>
+					<InstructionArgument name="T" enabled="False" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="z10"/>
+					<InstructionArgument name="Z"  enabled="False" value=""/>
+					<InstructionArgument name="Inpos"  enabled="False" value=""/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</JointInstructionTemplate>
+				<LinearInstructionTemplate name="MoveL">
+					<InstructionArgument name="Conc" enabled="False" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v1000"/>
+					<InstructionArgument name="V" enabled="False" value=""/>
+					<InstructionArgument name="T" enabled="False" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="z10"/>
+					<InstructionArgument name="Z"  enabled="False" value=""/>
+					<InstructionArgument name="Inpos"  enabled="False" value=""/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="Corr"  enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</LinearInstructionTemplate>
+				<CircularInstructionTemplate name="MoveC">
+					<InstructionArgument name="Conc" enabled="False" value=""/>
+					<InstructionArgument name="CirPoint" enabled="True" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v1000"/>
+					<InstructionArgument name="V" enabled="False" value=""/>
+					<InstructionArgument name="T" enabled="False" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="z10"/>
+					<InstructionArgument name="Z"  enabled="False" value=""/>
+					<InstructionArgument name="Inpos"  enabled="False" value=""/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="Corr"  enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</CircularInstructionTemplate>
+			</ProcessTemplate>
+		</ProcessDefinition>
+	
+		<ProcessDefinition name="ProcessDefinitions_ArcAdapt_1" jointInstructionName="MoveJ" linearInstructionName="MoveL" circularInstructionName="MoveC">
+			<ProcessTemplate name="_Approach" defaultMotionType="Joint">
+				<JointInstructionTemplate name="MoveJ">
+					<InstructionArgument name="Conc" enabled="False" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v1000"/>
+					<InstructionArgument name="V" enabled="False" value=""/>
+					<InstructionArgument name="T" enabled="False" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="z10"/>
+					<InstructionArgument name="Z"  enabled="False" value=""/>
+					<InstructionArgument name="Inpos"  enabled="False" value=""/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</JointInstructionTemplate>
+				<LinearInstructionTemplate name="MoveL">
+					<InstructionArgument name="Conc" enabled="False" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v1000"/>
+					<InstructionArgument name="V" enabled="False" value=""/>
+					<InstructionArgument name="T" enabled="False" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="z10"/>
+					<InstructionArgument name="Z"  enabled="False" value=""/>
+					<InstructionArgument name="Inpos"  enabled="False" value=""/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>	
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="Corr"  enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</LinearInstructionTemplate>
+				<CircularInstructionTemplate name="MoveC">
+					<InstructionArgument name="Conc" enabled="False" value=""/>
+					<InstructionArgument name="CirPoint" enabled="True" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v1000"/>
+					<InstructionArgument name="V" enabled="False" value=""/>
+					<InstructionArgument name="T" enabled="False" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="z10"/>
+					<InstructionArgument name="Z"  enabled="False" value=""/>
+					<InstructionArgument name="Inpos"  enabled="False" value=""/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>	
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="Corr"  enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</CircularInstructionTemplate>
+			</ProcessTemplate>
+		</ProcessDefinition>
+
+		<ProcessDefinition name="ProcessDefinitions_ArcAdapt_2" linearInstructionName="ArcAdaptLStart">
+			<ProcessTemplate name="_ProcStart" defaultMotionType="Linear">
+				<LinearInstructionTemplate name="ArcAdaptLStart">
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v1000"/>
+					<InstructionArgument name="GrooveWidth" enabled="True" value="10"/>
+					<InstructionArgument name="Adapt" enabled="True" value="ad1"/>
+					<InstructionArgument name="Seam" enabled="True" value=""/>
+					<InstructionArgument name="Weld" enabled="True" value=""/>
+					<InstructionArgument name="Weave" enabled="True" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="fine"/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="Track" enabled="True" value=""/>
+					<InstructionArgument name="SeamName" enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</LinearInstructionTemplate>
+			</ProcessTemplate>
+		</ProcessDefinition>
+
+		<ProcessDefinition name="ProcessDefinitions_ArcAdapt_3" linearInstructionName="ArcAdaptL" circularInstructionName="ArcAdaptC">
+			<ProcessTemplate name="_ProcVia" defaultMotionType="Linear">
+				<LinearInstructionTemplate name="ArcAdaptL">
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v100"/>
+					<InstructionArgument name="Zone" enabled="True" value="z1"/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</LinearInstructionTemplate>
+				<CircularInstructionTemplate name="ArcAdaptC">
+					<InstructionArgument name="CirPoint" enabled="True" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v100"/>
+					<InstructionArgument name="Zone" enabled="True" value="z1"/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</CircularInstructionTemplate>
+			</ProcessTemplate>
+		</ProcessDefinition>
+
+		<ProcessDefinition name="ProcessDefinitions_ArcAdapt_4" linearInstructionName="ArcAdaptLEnd" circularInstructionName="ArcAdaptCEnd">
+			<ProcessTemplate name="_ProcEnd" defaultMotionType="Linear">
+				<LinearInstructionTemplate name="ArcAdaptLEnd">
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v100"/>
+					<InstructionArgument name="Zone" enabled="True" value="fine"/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</LinearInstructionTemplate>
+				<CircularInstructionTemplate name="ArcAdaptCEnd">
+					<InstructionArgument name="CirPoint" enabled="True" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v100"/>
+					<InstructionArgument name="Zone" enabled="True" value="fine"/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</CircularInstructionTemplate>
+			</ProcessTemplate>
+		</ProcessDefinition>
+
+		<ProcessDefinition name="ProcessDefinitions_ArcAdapt_5" jointInstructionName="MoveJ" linearInstructionName="MoveL" circularInstructionName="MoveC">
+			<ProcessTemplate name="_Depart" defaultMotionType="Linear">
+				<JointInstructionTemplate name="MoveJ">
+					<InstructionArgument name="Conc" enabled="False" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v1000"/>
+					<InstructionArgument name="V" enabled="False" value=""/>
+					<InstructionArgument name="T" enabled="False" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="z10"/>
+					<InstructionArgument name="Z"  enabled="False" value=""/>
+					<InstructionArgument name="Inpos"  enabled="False" value=""/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>	
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</JointInstructionTemplate>
+				<LinearInstructionTemplate name="MoveL">
+					<InstructionArgument name="Conc" enabled="False" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v1000"/>
+					<InstructionArgument name="V" enabled="False" value=""/>
+					<InstructionArgument name="T" enabled="False" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="z10"/>
+					<InstructionArgument name="Z"  enabled="False" value=""/>
+					<InstructionArgument name="Inpos"  enabled="False" value=""/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>	
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="Corr"  enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</LinearInstructionTemplate>
+				<CircularInstructionTemplate name="MoveC">
+					<InstructionArgument name="Conc" enabled="False" value=""/>
+					<InstructionArgument name="CirPoint" enabled="True" value=""/>
+					<InstructionArgument name="ToPoint" enabled="True" value=""/>
+					<InstructionArgument name="ID" enabled="False" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="v1000"/>
+					<InstructionArgument name="V" enabled="False" value=""/>
+					<InstructionArgument name="T" enabled="False" value=""/>
+					<InstructionArgument name="Zone" enabled="True" value="z10"/>
+					<InstructionArgument name="Z"  enabled="False" value=""/>
+					<InstructionArgument name="Inpos"  enabled="False" value=""/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>	
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="Corr"  enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</CircularInstructionTemplate>
+			</ProcessTemplate>
+		</ProcessDefinition>
+	</ProcessDefinitions>
+</ProcessDefinitionDocument>
+

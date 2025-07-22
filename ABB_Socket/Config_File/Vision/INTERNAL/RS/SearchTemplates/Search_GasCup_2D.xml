@@ -1,0 +1,42 @@
+<ProcessDefinitionDocument>
+	<ProcessDefinitions>
+		<ProcessDefinition name="Search_GasCup_2D" linearInstructionName="Search_1D">
+			<ProcessTemplate name="Search_1" defaultMotionType="Linear">
+				<LinearInstructionTemplate name="Search_1D">
+					<InstructionArgument name="NotOff" enabled="True" value=""/>
+					<InstructionArgument name="Wire" enabled="False" value=""/>
+					<InstructionArgument name="Result" enabled="True" value="peDispS1"/>
+					<InstructionArgument name="SearchStop" enabled="False" value=""/>
+					<InstructionArgument name="StartPoint" enabled="True" value=""/>
+					<InstructionArgument name="SearchPoint" enabled="True" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="vmax"/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="PrePDisp" enabled="False" value=""/>
+					<InstructionArgument name="Limit" enabled="False" value=""/>
+					<InstructionArgument name="SchSpeed" enabled="False" value=""/>
+					<InstructionArgument name="SearchName" enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</LinearInstructionTemplate>
+			</ProcessTemplate>
+			<ProcessTemplate name="Search_2" defaultMotionType="Linear">
+				<LinearInstructionTemplate name="Search_1D">
+					<InstructionArgument name="NotOff" enabled="False" value=""/>
+					<InstructionArgument name="Wire" enabled="False" value=""/>
+					<InstructionArgument name="Result" enabled="True" value="peDispS2"/>
+					<InstructionArgument name="SearchStop" enabled="False" value=""/>
+					<InstructionArgument name="StartPoint" enabled="True" value=""/>
+					<InstructionArgument name="SearchPoint" enabled="True" value=""/>
+					<InstructionArgument name="Speed" enabled="True" value="vmax"/>
+					<InstructionArgument name="Tool" enabled="True" value=""/>
+					<InstructionArgument name="WObj" enabled="True" value=""/>
+					<InstructionArgument name="PrePDisp" enabled="True" value="peDispS1"/>
+					<InstructionArgument name="Limit" enabled="False" value=""/>
+					<InstructionArgument name="SchSpeed" enabled="False" value=""/>
+					<InstructionArgument name="SearchName" enabled="False" value=""/>
+					<InstructionArgument name="TLoad" enabled="False" value=""/>
+				</LinearInstructionTemplate>
+			</ProcessTemplate>
+		</ProcessDefinition>
+	</ProcessDefinitions>
+</ProcessDefinitionDocument>

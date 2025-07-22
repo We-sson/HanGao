@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ProcessDefinitionDocument>
+  <MoveInstructionDescription name="MoveExtJ" motionType="Joint" informationText="">
+    <InstructionParameterGroups>
+      <InstructionParameterGroup>
+        <InstructionParameter name="Conc" dataType="switch" accessMode="In" optional="True" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="ToJointPos" dataType="jointtarget" accessMode="In" optional="False" pointType="ToJointPos" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="ID" dataType="identno" accessMode="In" optional="True" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="Speed" dataType="speeddata" accessMode="In" optional="False" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="T" dataType="num" accessMode="In" optional="True" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="Zone" dataType="zonedata" accessMode="In" optional="False" />
+      </InstructionParameterGroup>
+      <InstructionParameterGroup>
+        <InstructionParameter name="Inpos" dataType="stoppointdata" accessMode="In" optional="True" />
+      </InstructionParameterGroup>
+    </InstructionParameterGroups>
+  </MoveInstructionDescription>
+</ProcessDefinitionDocument>

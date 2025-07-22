@@ -1,0 +1,14 @@
+<ProcessDefinitionDocument>
+		<ActionInstructionDescription name="PDispSet" informationText="Activates offset">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="DispFrame" dataType="pose" syncReferencedData="True" accessMode="In"  optional="false" />
+				</InstructionParameterGroup>
+			</InstructionParameterGroups>
+			<InstructionTemplates>
+				<InstructionTemplate name="Default">
+					<InstructionArgument name="DispFrame" enabled="True" value="peDisp"/>
+				</InstructionTemplate>
+			</InstructionTemplates>
+		</ActionInstructionDescription>
+</ProcessDefinitionDocument>

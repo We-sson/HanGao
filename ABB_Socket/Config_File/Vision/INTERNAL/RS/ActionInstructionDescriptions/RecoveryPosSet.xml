@@ -1,0 +1,14 @@
+<ProcessDefinitionDocument>
+		<ActionInstructionDescription name="RecoveryPosSet" informationText="Set the recovery position">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ServRoutine" dataType="string" syncReferencedData="False" accessMode="In"  optional="True" />
+				</InstructionParameterGroup>
+			</InstructionParameterGroups>
+			<InstructionTemplates>
+				<InstructionTemplate name="Default">
+					<InstructionArgument name="ServRoutine" enabled="False" value=""/>
+				</InstructionTemplate>
+			</InstructionTemplates>
+		</ActionInstructionDescription>
+</ProcessDefinitionDocument>

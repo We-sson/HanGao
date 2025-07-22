@@ -1,0 +1,50 @@
+<ProcessDefinitionDocument>
+	<MoveInstructionDescriptions>
+		<MoveInstructionDescription name="ArcAdaptLStart" motionType="Linear" informationText="Process_Arc_Start_L">
+			<InstructionParameterGroups>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ToPoint" dataType="robtarget" accessMode="In" dimensions="0" optional="false" pointType="ToPoint" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="ID" dataType="identno" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Speed" dataType="speeddata" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="GrooveWidth" dataType="num" syncReferencedData="true" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Adapt" dataType="adaptdata" syncReferencedData="true" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Seam" dataType="seamdata" syncReferencedData="true" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Weld" dataType="welddata" syncReferencedData="true" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Weave" dataType="weavedata" syncReferencedData="true" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Zone" dataType="zonedata" accessMode="In" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Tool" dataType="tooldata" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="WObj" dataType="wobjdata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="Track" dataType="trackdata" syncReferencedData="true" accessMode="Persistent" dimensions="0" optional="false" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="SeamName" dataType="string" accessMode="In" dimensions="0" optional="true" />
+				</InstructionParameterGroup>
+				<InstructionParameterGroup>
+					<InstructionParameter name="TLoad" dataType="loaddata" accessMode="Persistent" dimensions="0" optional="true" />
+				</InstructionParameterGroup>			
+			</InstructionParameterGroups>
+		</MoveInstructionDescription>
+	</MoveInstructionDescriptions>
+</ProcessDefinitionDocument>
