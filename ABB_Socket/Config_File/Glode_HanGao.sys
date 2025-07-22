@@ -27,10 +27,8 @@ MODULE Glode_HanGao(SYSMODULE)
 
     RECORD Creation_Model_Send_Model
         num Vision_Model;
-       
-        num Robot_Type;
-        HPoint CameraPos;
-        HPoint OriginPos;
+        num Creation_Model;
+        HPoint ACT_Point;
     ENDRECORD
 
     RECORD Creation_Model_Receive_Model
@@ -63,54 +61,40 @@ MODULE Glode_HanGao(SYSMODULE)
 
 
 
-    PROC HG_Creation_Model(wobjdata OriginPos)
+    PROC HG_Creation_Model(string Model)
         VAR Creation_Model_Send_Model Creation_Model_Send;
         var Creation_Model_Receive_Model Creation_Model_Receive;
         VAR robtarget ACT_Point;
         VAR robtarget Model_Pos;
-
+        VAR bool Socket_Connect_State;
         !Vision function code
         Creation_Model_Send.Vision_Model:=6;
 
-        !Vision RobotPos Type
-        Creation_Model_Send.Robot_Type:=1;
+        TEST Model
+        CASE HE_Creation_CameraPos_Model:
+            Creation_Model_Send.Creation_Model:=0;
 
-        ! TEST Model
-        ! CASE HE_Creation_CameraPos_Model:
-        !   Creation_Model_Send.Creation_Model:=0;
-
-        ! CASE HE_Creation_OriginPos_Model:
-        !   Creation_Model_Send.Creation_Model:=1;
-        ! DEFAULT:
-        !    TPWrite "Model:="+Model+" , Creation Val Error! ";
-        !   Stop;
-        !  EXIT;
-        ! ENDTEST
+        CASE HE_Creation_OriginPos_Model:
+            Creation_Model_Send.Creation_Model:=1;
+        DEFAULT:
+            TPWrite "Model:="+Model+" , Creation Val Error! ";
+            Stop;
+            EXIT;
+        ENDTEST
 
         ACT_Point:=cRobT();
 
-        Creation_Model_Send.CameraPos.X:=ACT_Point.trans.x;
-        Creation_Model_Send.CameraPos.Y:=ACT_Point.trans.y;
-        Creation_Model_Send.CameraPos.Z:=ACT_Point.trans.z;
-        Creation_Model_Send.CameraPos.Rz:=EulerZYX(\X,ACT_Point.rot);
-        Creation_Model_Send.CameraPos.Ry:=EulerZYX(\Y,ACT_Point.rot);
-        Creation_Model_Send.CameraPos.Rx:=EulerZYX(\Z,ACT_Point.rot);
-
-        Creation_Model_Send.OriginPos.X:=OriginPos.uframe.trans.x;
-        Creation_Model_Send.OriginPos.Y:=OriginPos.uframe.trans.y;
-        Creation_Model_Send.OriginPos.Z:=OriginPos.uframe.trans.z;
-        Creation_Model_Send.OriginPos.Rz:=EulerZYX(\X,OriginPos.uframe.rot);
-        Creation_Model_Send.OriginPos.Ry:=EulerZYX(\Y,OriginPos.uframe.rot);
-        Creation_Model_Send.OriginPos.Rx:=EulerZYX(\Z,OriginPos.uframe.rot);
+        Creation_Model_Send.ACT_Point.X:=ACT_Point.trans.x;
+        Creation_Model_Send.ACT_Point.Y:=ACT_Point.trans.y;
+        Creation_Model_Send.ACT_Point.Z:=ACT_Point.trans.z;
+        Creation_Model_Send.ACT_Point.Rx:=EulerZYX(\X,ACT_Point.rot);
+        Creation_Model_Send.ACT_Point.Ry:=EulerZYX(\Y,ACT_Point.rot);
+        Creation_Model_Send.ACT_Point.Rz:=EulerZYX(\Z,ACT_Point.rot);
 
         !show pos
-        HTWrite("CameraPos:"+ValToStr(Creation_Model_Send.CameraPos));
-        
-        HTWrite("OriginPos:"+ValToStr(Creation_Model_Send.OriginPos));
+        HTWrite(ValToStr(Creation_Model_Send.ACT_Point));
 
-        
-        
-        HG_Socket_Client_Connect Client,\wait_time:=2000;
+       Socket_Connect_State:= HG_Socket_Client_Connect (Client,HG_Client_PORT\wait_time:=2000);
         HG_Creation_Model_Socket_Send Client,Creation_Model_Send;
         HG_Creation_Model_Socket_Receive Client,Creation_Model_Receive;
         HG_Socket_Close Client;
@@ -141,7 +125,7 @@ MODULE Glode_HanGao(SYSMODULE)
         VAR num Rz;
         VAR string Rece_Str;
         VAR HandEye_Calib_Receive_Model Receive_Results;
-
+ VAR bool Socket_Connect_State;
 
 
         HandEye_Send.Vision_Model:=5;
@@ -158,9 +142,9 @@ MODULE Glode_HanGao(SYSMODULE)
             HandEye_Send.ACT_Point.X:=ACT_Point.trans.x;
             HandEye_Send.ACT_Point.Y:=ACT_Point.trans.y;
             HandEye_Send.ACT_Point.Z:=ACT_Point.trans.z;
-            HandEye_Send.ACT_Point.Rz:=EulerZYX(\X,ACT_Point.rot);
+            HandEye_Send.ACT_Point.Rx:=EulerZYX(\X,ACT_Point.rot);
             HandEye_Send.ACT_Point.Ry:=EulerZYX(\Y,ACT_Point.rot);
-            HandEye_Send.ACT_Point.Rx:=EulerZYX(\Z,ACT_Point.rot);
+            HandEye_Send.ACT_Point.Rz:=EulerZYX(\Z,ACT_Point.rot);
         CASE HE_Calib_End_Model:
             HandEye_Send.Calibration_Model:=2;
 
@@ -179,7 +163,7 @@ MODULE Glode_HanGao(SYSMODULE)
 
         !PC communication link
 
-        HG_Socket_Client_Connect Client,\wait_time:=2000;
+       Socket_Connect_State:=HG_Socket_Client_Connect(Client,HG_Client_PORT\wait_time:=2000);
         HG_HE_Calib_Socket_Send Client,HandEye_Send;
         HG_HE_Calib_Socket_Receive Client,Hand_Recevice;
         HG_Socket_Close Client;
