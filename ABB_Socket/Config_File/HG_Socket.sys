@@ -1,5 +1,34 @@
 MODULE HG_Socket(SYSMODULE)
 
+    RECORD HandEye_Calib_Send_Model
+        num Vision_Model;
+        num Calibration_Model;
+        HPoint ACT_Point;
+    ENDRECORD
+
+    RECORD HandEye_Calib_Receive_Model
+        string Message_Error;
+        num IsStatus;
+        HPoint Calib_Point;
+    ENDRECORD
+
+
+    RECORD Creation_Model_Send_Model
+        num Vision_Model;
+        num Creation_Model;
+        HPoint ACT_Point;
+    ENDRECORD
+
+    RECORD Creation_Model_Receive_Model
+        string Message_Error;
+        num IsStatus;
+        HPoint Creation_Point;
+    ENDRECORD
+
+
+
+
+
     CONST num HG_Client_PORT:=5400;
     CONST num HG_Mes_Client_PORT:=6005;
 
@@ -10,13 +39,13 @@ MODULE HG_Socket(SYSMODULE)
 
     CONST bool DegLog:=TRUE;
 
-    LOCAL VAR rawbytes Send_raw;
-    LOCAL VAR rawbytes Rece_raw;
+    ! LOCAL VAR rawbytes Send_raw;
+    ! LOCAL VAR rawbytes Rece_raw;
 
 
     VAR socketdev Server;
     VAR socketdev Client;
-    VAR num N11O;
+
 
 
 
@@ -83,6 +112,7 @@ MODULE HG_Socket(SYSMODULE)
 
 
         VAR rawbytes Data_raw;
+        VAR rawbytes Send_raw;
 
         ClearRawBytes Send_raw;
         !model
@@ -127,6 +157,7 @@ MODULE HG_Socket(SYSMODULE)
         VAR string Msg_Start;
         VAR string Msg_End;
         VAR num Error_Length;
+        VAR rawbytes Rece_raw;
 
         ClearRawBytes Rece_raw;
         IF Present(wait_time) time_val:=wait_time;
@@ -192,6 +223,7 @@ MODULE HG_Socket(SYSMODULE)
     PROC HG_HE_Calib_Socket_Send(VAR socketdev client_socket,var HandEye_Calib_Send_Model Send_Model)
 
 
+        VAR rawbytes Send_raw;
 
 
         ClearRawBytes Send_raw;
@@ -237,6 +269,7 @@ MODULE HG_Socket(SYSMODULE)
         VAR string Msg_Start;
         VAR string Msg_End;
         VAR num Error_Length;
+        VAR rawbytes Rece_raw;
 
         ClearRawBytes Rece_raw;
         IF Present(wait_time) time_val:=wait_time;
@@ -302,19 +335,94 @@ MODULE HG_Socket(SYSMODULE)
     PROC Mes_Socket_Info_Send(VAR socketdev client_socket,var HG_Mes_SocketSend_Model Send_Model)
 
         VAR rawbytes Data_raw;
-
+        VAR rawbytes Send_raw;
         ClearRawBytes Send_raw;
 
-        PackRawBytes Send_Model.Vision_Model,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
-        PackRawBytes Send_Model.Robot_Type,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
-        PackRawBytes Send_Model.Mes_Robot_Mode,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
-        PackRawBytes Send_Model.Mes_Programs_Name,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
-        
 
+        PackRawBytes strLen(Send_Model.Vision_Model),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
+        PackRawBytes Send_Model.Vision_Model,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
+        PackRawBytes strLen(Send_Model.Robot_Type),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
+        PackRawBytes Send_Model.Robot_Type,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
+        PackRawBytes strLen(Send_Model.Mes_Robot_Mode),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
+        PackRawBytes Send_Model.Mes_Robot_Mode,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
+        PackRawBytes strLen(Send_Model.Mes_Programs_Name),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
+        PackRawBytes Send_Model.Mes_Programs_Name,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
+        PackRawBytes strLen(Send_Model.Mes_Work_A_State),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
+        PackRawBytes Send_Model.Mes_Work_A_State,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
+        PackRawBytes strLen(Send_Model.Mes_Work_B_State),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
+        PackRawBytes Send_Model.Mes_Work_B_State,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
+        PackRawBytes strLen(Send_Model.Mes_Work_C_State),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
+        PackRawBytes Send_Model.Mes_Work_C_State,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
+        PackRawBytes strLen(Send_Model.Mes_Work_D_State),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
+        PackRawBytes Send_Model.Mes_Work_D_State,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
+        !???????
+        PackRawBytes RawBytesLen(Send_raw),Data_raw,1,\IntX:=UINT;
+        !??????
+        CopyRawBytes Send_raw,1,Data_raw,3;
+
+        SocketSend Client_Socket\RawData:=Send_raw;
+
+
+    ERROR
+        !Error Handling
+        IF ERRNO=ERR_SOCK_TIMEOUT THEN
+            HTWrite "pack msg to sensor socket timeout";
+            !RETRY;
+        ELSEIF ERRNO=ERR_SOCK_CLOSED THEN
+            HTWrite "pack msg to sensor socket closed";
+        ELSE
+            HTWrite "pack msg to sensor socket unknow";
+        ENDIF
     ENDPROC
 
-    PROC Mes_Socket_Info_Receive()
-        <SMT>
+    PROC Mes_Socket_Info_Receive(var socketdev client_socket,var HG_Mes_SocketRece_Model Rece_Model,\num Wait_Time)
+
+        VAR num time_val:=WAIT_MAX;
+        VAR string Rece_String;
+
+        VAR num msg_len;
+        VAR num bytes_rcvd;
+        VAR string Msg_Start;
+        VAR string Msg_End;
+        VAR num Error_Length;
+        VAR rawbytes Rece_raw;
+
+        ClearRawBytes Rece_raw;
+        IF Present(wait_time) time_val:=wait_time;
+
+        !Receive Msg_leng
+        SocketReceive client_socket,\RawData:=Rece_raw,\ReadNoOfBytes:=4,\Time:=time_val;
+        UnpackRawBytes Rece_raw,1,msg_len,\IntX:=DINT;
+
+        !Stop \NoRegain;
+
+        ClearRawBytes Rece_raw;
+        ! Read check message bytes
+        SocketReceive client_socket,\RawData:=Rece_raw,\NoRecBytes:=bytes_rcvd,\Time:=time_val;
+        IF (bytes_rcvd<>msg_len) THEN
+            ErrWrite\W,"ROS Socket Recv Failed","Did not receive expected # of bytes.",
+                     \RL2:="Expected: "+ValToStr(msg_len-4),
+                     \RL3:="Received: "+ValToStr(bytes_rcvd);
+
+            Rece_Model.IsStatus:=0;
+            RETURN ;
+        ENDIF
+
+        !-----------------
+
+        ClearRawBytes Rece_raw;
+        !-----------------        
+
+    ERROR
+        !Error Handling
+        IF ERRNO=ERR_SOCK_TIMEOUT THEN
+            TPWrite "upack msg from sensor socket timeout, timeout time is: "+ValToStr(time_val);
+            RETURN ;
+        ELSEIF ERRNO=ERR_SOCK_CLOSED THEN
+            TPWrite "upack msg from sensor socket closed";
+        ELSE
+            TPWrite "upack msg from sensor socket unknow";
+        ENDIF
     ENDPROC
 
 ENDMODULE

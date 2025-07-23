@@ -634,7 +634,7 @@ namespace Robot_Info_Mes.Model
                 Timer_Millisecond = value.TotalMilliseconds;
                 Timer_Minute = value.TotalMinutes;
                 Timer_Hours = value.TotalHours;
-
+                Timer_Day=value.TotalDays;
 
                 _Timer_UI = value;
             }
@@ -645,8 +645,6 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         [XmlIgnore]
         public  TimeSpan Time_Offset { set; get; } = TimeSpan.Zero;
-
-
         [XmlIgnore]
         public double Timer_Sec { set; get; }
         [XmlIgnore]
@@ -655,7 +653,8 @@ namespace Robot_Info_Mes.Model
         public double Timer_Minute { set; get; }
         [XmlIgnore]
         public double Timer_Hours { set; get; }
-
+        [XmlIgnore]
+        public double Timer_Day { set; get; }
 
         public void Start()
         {

@@ -12,30 +12,6 @@ MODULE Glode_HanGao(SYSMODULE)
         num Rz;
     ENDRECORD
 
-    RECORD HandEye_Calib_Send_Model
-        num Vision_Model;
-        num Calibration_Model;
-        HPoint ACT_Point;
-    ENDRECORD
-
-    RECORD HandEye_Calib_Receive_Model
-        string Message_Error;
-        num IsStatus;
-        HPoint Calib_Point;
-    ENDRECORD
-
-
-    RECORD Creation_Model_Send_Model
-        num Vision_Model;
-        num Creation_Model;
-        HPoint ACT_Point;
-    ENDRECORD
-
-    RECORD Creation_Model_Receive_Model
-        string Message_Error;
-        num IsStatus;
-        HPoint Creation_Point;
-    ENDRECORD
 
 
     !HandEye_Calib_Model

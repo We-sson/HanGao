@@ -1098,28 +1098,28 @@
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
                                 FontSize="16"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_Hours, StringFormat='{}累计生产时间：{0:F3}H'}" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_Day, StringFormat='{}累计生产时间：{0:F4}天'}" />
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
                                 FontSize="16"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_Hours, StringFormat='{}累计作业时间：{0:F3}H'}" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_Day, StringFormat='{}累计作业时间：{0:F4}天'}" />
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
                                 FontSize="16"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Timer_Hours, StringFormat='{}累计调试时间：{0:F3}H'}" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Timer_Day, StringFormat='{}累计调试时间：{0:F4}天'}" />
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
                                 FontSize="16"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Timer_Hours, StringFormat='{}累计故障时间：{0:F3}H'}" />
+                                Text="{Binding Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Timer_Day, StringFormat='{}累计故障时间：{0:F4}天'}" />
                         </StackPanel>
                     </Grid>
                 </Grid>

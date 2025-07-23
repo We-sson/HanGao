@@ -16,14 +16,18 @@ MODULE HG_Mes(SYSMODULE)
         string Vision_Model;
         string Mes_Robot_Mode;
         string Mes_Programs_Name;
-        bool Mes_Work_A_State;
-        bool Mes_Work_B_State;
-        bool Mes_Work_C_State;
-        bool Mes_Work_D_State;
-        string Robot_Process_Name;
+        string Mes_Work_A_State;
+        string Mes_Work_B_State;
+        string Mes_Work_C_State;
+        string Mes_Work_D_State;
     ENDRECORD
 
+    RECORD HG_Mes_SocketRece_Model
+        num Socket_Polling_Time;
+        num IsStatus;
 
+
+    ENDRECORD
 
 
     CONST Robot_Process_Name_Model Robot_Process_Name_Enum:=["R_Side_7","R_Side_8","R_Side_9","Panel_Surround_7","Panel_Surround_8","Panel_Surround_9"];
@@ -45,12 +49,12 @@ MODULE HG_Mes(SYSMODULE)
     LOCAL VAR bool EKRL_Server_Stat:=FALSE;
 
 
-    PERS bool Work_A_state:=FALSE;
-    PERS bool Work_B_state:=FALSE;
+    PERS bool Work_A_state:=TRUE;
+    PERS bool Work_B_state:=TRUE;
     PERS bool Work_C_state:=FALSE;
     PERS bool Work_D_state:=FALSE;
 
-    VAR num Socket_Cycle_Time:=500;
+    VAR num Socket_Cycle_Time:=0.3;
 
     VAR clock Socket_Cycle_clock;
 
@@ -60,7 +64,7 @@ MODULE HG_Mes(SYSMODULE)
         WHILE TRUE DO
 
 
-            HG_Mes_Send EKRL_Send_Stat;
+            HG_Mes_Date_Send EKRL_Send_Stat,Socket_Cycle_clock;
 
 
         ENDWHILE
@@ -96,10 +100,10 @@ MODULE HG_Mes(SYSMODULE)
 
     ENDPROC
 
-    PROC HG_Mes_Send(inout bool EKRL_Connt_Stat)
+    PROC HG_Mes_Date_Send(var bool EKRL_Connt_Stat,var clock Socket_Cycle_clock)
         VAR socketstatus status;
         VAR num Socket_num;
-
+        VAR num Clock_num;
 
         !????????
         IF EKRL_Connt_Stat=FALSE THEN
@@ -134,11 +138,12 @@ MODULE HG_Mes(SYSMODULE)
         ENDIF
 
         !???????????
-        IF EKRL_Connt_Stat=TRUE and ClkRead(Socket_Cycle_clock)>=Socket_Cycle_Time and SocketGetStatus(Client)<>SOCKET_CONNECTED THEN
+        Clock_num:=ClkRead(Socket_Cycle_clock);
+        IF EKRL_Connt_Stat=TRUE and  ClkRead(Socket_Cycle_clock)>=Socket_Cycle_Time  and SocketGetStatus(Client)=SOCKET_CONNECTED THEN
             ClkStop Socket_Cycle_clock;
             ClkReset Socket_Cycle_clock;
-
-
+            HG_Mes_Info_Send;
+            ClkStart Socket_Cycle_clock;
         ENDIF
 
 
@@ -158,6 +163,67 @@ MODULE HG_Mes(SYSMODULE)
 
 
     ENDPROC
+
+
+    PROC HG_Mes_Info_Send()
+        VAR HG_Mes_SocketSend_Model HG_Mes_SocketSend;
+        VAR HG_Mes_SocketRece_Model HG_Mes_SocketRece;
+        VAR num No;
+        VAR string aa;
+        No:=0;
+
+        HG_Mes_SocketSend.Robot_Type:="ABB";
+
+        HG_Mes_SocketSend.Vision_Model:=Mes_Info_Data;
+
+        HG_Mes_SocketSend.Mes_Programs_Name:=GetTaskName(\MecTaskNo:=No);
+
+
+
+        IF Robot_Error=1 THEN
+            HG_Mes_SocketSend.Mes_Robot_Mode:="Error";
+
+        ELSE
+            TEST OpMode()
+            CASE OP_AUTO:
+                HG_Mes_SocketSend.Mes_Robot_Mode:="Run";
+            CASE OP_MAN_PROG:
+                HG_Mes_SocketSend.Mes_Robot_Mode:="T1";
+
+            ENDTEST
+
+        ENDIF
+      aa:=ValToStr(TRUE);
+      
+
+        HG_Mes_SocketSend.Mes_Work_A_State:=ValToStr(Work_A_state);
+        HG_Mes_SocketSend.Mes_Work_B_State:=ValToStr(Work_B_state);
+        HG_Mes_SocketSend.Mes_Work_C_State:=ValToStr(Work_C_state);
+        HG_Mes_SocketSend.Mes_Work_D_State:=ValToStr(Work_D_state);
+
+        !Send Data
+        Mes_Socket_Info_Send Client,HG_Mes_SocketSend;
+
+        !Mes_Socket_Info_Receive Client,HG_Mes_SocketRece\Wait_Time:=1;
+
+
+
+
+
+    ERROR
+        !??????????????
+        IF ERRNO=ERR_SOCK_CLOSED THEN
+            HG_Socket_Close Client;
+
+            RETURN ;
+        ENDIF
+
+
+
+
+
+    ENDPROC
+
 
 
 ENDMODULE
