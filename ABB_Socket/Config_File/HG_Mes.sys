@@ -59,6 +59,13 @@ MODULE HG_Mes(SYSMODULE)
 
     VAR clock Socket_Cycle_clock;
 
+
+    PROC Main()
+        HG_Mes_Info_Main;
+    ENDPROC
+
+
+
     PROC HG_Mes_Info_Main()
         HG_Mes_Info_Int;
 

@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <None Remove="Resources\1楼面板.png" />
+    <None Remove="Resources\2楼面板.jpg" />
     <None Remove="Resources\7线R边.png" />
     <None Remove="Resources\7线围边.png" />
     <None Remove="Resources\8线R边.png" />
@@ -67,6 +68,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\1楼面板.png" />
+    <Resource Include="Resources\2楼面板.jpg" />
     <Resource Include="Resources\7线R边.png" />
     <Resource Include="Resources\7线围边.png" />
     <Resource Include="Resources\8线R边.png" />

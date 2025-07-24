@@ -1038,7 +1038,10 @@ namespace Roboto_Socket_Library.Model
         Panel_Surround_9,
         [Description("1楼激光面板")]
 
-        Panel_Welding_1
+        Panel_Welding_1,
+        [Description("2楼激光面板")]
+
+        Panel_Welding_2
 
     }
 

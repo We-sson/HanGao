@@ -1,1041 +1,906 @@
-&ACCESS RVO
+&ACCESS RVO1
 &REL 398
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
 DEF HG_EKRL( )
-;fold DECL
-DECL INT TTTT
-DECL CHAR Bytes[32]
-DECL EKI_STATUS RET
-;endfold
-;FOLD INI;%{PE}
-  ;FOLD BASISTECH INI
-    GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
-    INTERRUPT ON 3 
-    BAS (#INITMOV,0 )
-  ;ENDFOLD (BASISTECH INI)
-  ;FOLD USER INI
-    ;Make your modifications here
-
-  ;ENDFOLD (USER INI)
-
-;ENDFOLD (INI)
-;------------
-;EKRL_CONNECT()
-
-
-
-
-;Bytes[]="hellow"
-;halt
-
-;EKRL_Close()
+   ;fold DECL
+      DECL INT TTTT
+      DECL CHAR Bytes[32]
+      DECL EKI_STATUS RET
+   ;endfold
+   ;FOLD INI;%{PE}
+      ;FOLD BASISTECH INI
+         GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+         INTERRUPT ON 3 
+         BAS (#INITMOV,0 )
+      ;ENDFOLD (BASISTECH INI)
+      ;FOLD USER INI
+         ;Make your modifications here
+         
+      ;ENDFOLD (USER INI)
+      
+   ;ENDFOLD (INI)
+   ;------------
+   ;EKRL_CONNECT()
+   
+   ;Bytes[]="hellow"
+   ;halt
+   
+   ;EKRL_Close()
 END
-
 
 GLOBAL DEF EKRL_Creation_Plan(EKRL_NAME:IN,Plan_Base_No:IN)
-DECL CHAR Message_Error[1024],EKRL_NAME[],HandEye_Type_String[1024]
-DECL EKI_STATUS RET
-DECL INT Plan_Base_No
-DECL  BOOL IsStatus
-DECL INT HandEye_ID,OPFFSET
-DECL State_t _State
-DECL Frame Creation_Point,Camera_Pos
-Creation_Point=$NULLFRAME
-Camera_Pos=$NULLFRAME
-
-Message_Error[]=" "
-IsStatus=false
-OPFFSET=0
-
-
-Camera_Pos=$POS_ACT
-
-
-
-
-EKRL_Connect(EKRL_NAME[],TRUE)
-
-
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Vision_Creation_Model")
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Camera_Pos", $POS_ACT)
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Origin_Pos", BASE_DATA[Plan_Base_No])
-RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
-
-Message_Wait("Wait Vision Send!",2,FALSE)
-
-RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
-RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Creation_Point" ,Creation_Point)
-RET=EKI_Close(EKRL_NAME[])
-RET=EKI_Clear(EKRL_NAME[])
-
-IF  IsStatus THEN
-
-MSGNOTIFY(Message_Error[])
-
-
-;Result_Pos.X=Creation_Point.X
-;Result_Pos.Y=Creation_Point.Y
-;Result_Pos.Z=Creation_Point.Z
-
-
-else
-
-MsgQuit(Message_Error[], "HanGao")
-halt
-ENDIF
-
-
+   DECL CHAR Message_Error[1024],EKRL_NAME[],HandEye_Type_String[1024]
+   DECL EKI_STATUS RET
+   DECL INT Plan_Base_No
+   DECL  BOOL IsStatus
+   DECL INT HandEye_ID,OPFFSET
+   DECL State_t _State
+   DECL Frame Creation_Point,Camera_Pos
+   Creation_Point=$NULLFRAME
+   Camera_Pos=$NULLFRAME
+   
+   Message_Error[]=" "
+   IsStatus=false
+   OPFFSET=0
+   
+   Camera_Pos=$POS_ACT
+   
+   EKRL_Connect(EKRL_NAME[],TRUE)
+   
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Vision_Creation_Model")
+   RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Camera_Pos", $POS_ACT)
+   RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Origin_Pos", BASE_DATA[Plan_Base_No])
+   RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
+   
+   Message_Wait("Wait Vision Send!",2,FALSE)
+   
+   RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
+   RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
+   RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Creation_Point" ,Creation_Point)
+   RET=EKI_Close(EKRL_NAME[])
+   RET=EKI_Clear(EKRL_NAME[])
+   
+   IF  IsStatus THEN
+      
+      MSGNOTIFY(Message_Error[])
+      
+      ;Result_Pos.X=Creation_Point.X
+      ;Result_Pos.Y=Creation_Point.Y
+      ;Result_Pos.Z=Creation_Point.Z
+      
+   else
+      
+      MsgQuit(Message_Error[], "HanGao")
+      halt
+   ENDIF
+   
 END
-
-
 
 GLOBAL DEF EKRL_HandEye_Point(EKRL_NAME:IN,HandEye_Type:IN,HandEye_Result_Pos:OUT)
-DECL CHAR Message_Error[1024],EKRL_NAME[],HandEye_Type_String[1024]
-DECL EKI_STATUS RET
-DECL HandEye_Calib_Model_Enum HandEye_Type
-DECL  BOOL IsStatus
-DECL INT HandEye_ID,OPFFSET
-DECL State_t _State
-DECL Frame Result_Pos
-DECL E6POS HandEye_Result_Pos
-
-
-Message_Error[]=" "
-IsStatus=false
-OPFFSET=0
-Result_Pos={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-
-;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
-
-switch HandEye_Type
-case #Calibration_Start
-HandEye_Type_String[]="Calibration_Start"
-case #Calibration_Progress
-HandEye_Type_String[]="Calibration_Progress"
-case #Calibration_End
-HandEye_Type_String[]="Calibration_End"
-endswitch
-
-
-EKRL_Connect(EKRL_NAME[],TRUE)
-
-
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Calibration_Model",HandEye_Type_String[])
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","HandEye_Calib_Date")
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/ACT_Point", $POS_ACT)
-RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
-
-Message_Wait("Wait Camera Calib!",2,FALSE)
-
-RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
-RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
-RET=EKI_Close(EKRL_NAME[])
-RET=EKI_Clear(EKRL_NAME[])
-
-IF  IsStatus THEN
-
-MSGNOTIFY(Message_Error[])
-
-switch HandEye_Type
-case #Calibration_Start
-
-;-----
-case #Calibration_Progress
-;-----
-case #Calibration_End
-
-
-HandEye_Result_Pos.X=Result_Pos.X
-HandEye_Result_Pos.Y=Result_Pos.Y
-HandEye_Result_Pos.Z=Result_Pos.Z
-endswitch
-
-
-else
-
-MsgQuit(Message_Error[], "HanGao")
-halt
-ENDIF
-
-
+   DECL CHAR Message_Error[1024],EKRL_NAME[],HandEye_Type_String[1024]
+   DECL EKI_STATUS RET
+   DECL HandEye_Calib_Model_Enum HandEye_Type
+   DECL  BOOL IsStatus
+   DECL INT HandEye_ID,OPFFSET
+   DECL State_t _State
+   DECL Frame Result_Pos
+   DECL E6POS HandEye_Result_Pos
+   
+   Message_Error[]=" "
+   IsStatus=false
+   OPFFSET=0
+   Result_Pos={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   
+   ;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
+   
+   switch HandEye_Type
+      case #Calibration_Start
+         HandEye_Type_String[]="Calibration_Start"
+      case #Calibration_Progress
+         HandEye_Type_String[]="Calibration_Progress"
+      case #Calibration_End
+         HandEye_Type_String[]="Calibration_End"
+   endswitch
+   
+   EKRL_Connect(EKRL_NAME[],TRUE)
+   
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Calibration_Model",HandEye_Type_String[])
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","HandEye_Calib_Date")
+   RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/ACT_Point", $POS_ACT)
+   RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
+   
+   Message_Wait("Wait Camera Calib!",2,FALSE)
+   
+   RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
+   RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
+   RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
+   RET=EKI_Close(EKRL_NAME[])
+   RET=EKI_Clear(EKRL_NAME[])
+   
+   IF  IsStatus THEN
+      
+      MSGNOTIFY(Message_Error[])
+      
+      switch HandEye_Type
+         case #Calibration_Start
+            
+            ;-----
+         case #Calibration_Progress
+            ;-----
+         case #Calibration_End
+            
+            HandEye_Result_Pos.X=Result_Pos.X
+            HandEye_Result_Pos.Y=Result_Pos.Y
+            HandEye_Result_Pos.Z=Result_Pos.Z
+      endswitch
+      
+   else
+      
+      MsgQuit(Message_Error[], "HanGao")
+      halt
+   ENDIF
+   
 END
-
 
 GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN)
-DECL CHAR EKRL_NAME[],MODE_OP[1024],Robot_Process_Name_Str[1024],DATAPATH[1024],Robot_Process_Int[1024],DATAPATH_NAME[1024]
-DECL EKI_STATUS RET
-
-DECL  BOOL IsStatus
-DECL INT HandEye_ID,OPFFSET,Work_Number,Mes_Work_AB_Cycle_Time,Mes_Work_CD_Cycle_Time
-DECL State_t _State
-
-
-
-
-IsStatus=FALSE
-
-DATAPATH_NAME[]=" "
-;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
-
-
-
-
-
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Mes_Info_Data")
-DATAPATH_NAME[]=$PROg_info[1].PRO_IP_NAME[]
-;HALT
-;SWRITE(DATAPATH[],_State,OPFFSET,"%s",)
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
-
-
-OPFFSET=0
-IF $ERR.NUMBER<>0 THEN
+   DECL CHAR EKRL_NAME[],MODE_OP[1024],Robot_Process_Name_Str[1024],DATAPATH[1024],Robot_Process_Int[1024],DATAPATH_NAME[1024]
+   DECL EKI_STATUS RET
    
-    SWRITE(MODE_OP[],_State,OPFFSET,"%s","Error")
- ELSE
-
-IF ($MODE_OP==#AUT)  AND ($PROg_info[1].P_STATE==#P_ACTIVE)   THEN
- 
-    SWRITE(MODE_OP[],_State,OPFFSET,"%s","Run")
- 
-ELSE
-;halt
-    SWRITE(MODE_OP[],_State,OPFFSET,"%s","T1")
-ENDIF
-
-
-ENDIF
-
-
-;SWRITE(MODE_OP[],_State,OPFFSET,"%g",$MODE_OP)
-  
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Robot_Mode",MODE_OP[])
-
-
-;HALT
-;SWITCH Robot_Process_Name
+   DECL  BOOL IsStatus
+   DECL INT HandEye_ID,OPFFSET,Work_Number,Mes_Work_AB_Cycle_Time,Mes_Work_CD_Cycle_Time
+   DECL State_t _State
+   
+   IsStatus=FALSE
+   
+   DATAPATH_NAME[]=" "
+   ;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
+   
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Mes_Info_Data")
+   DATAPATH_NAME[]=$PROg_info[1].PRO_IP_NAME[]
+   ;HALT
+   ;SWRITE(DATAPATH[],_State,OPFFSET,"%s",)
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
+   
+   OPFFSET=0
+   IF $ERR.NUMBER<>0 THEN
+      
+      SWRITE(MODE_OP[],_State,OPFFSET,"%s","Error")
+   ELSE
+      
+      IF ($MODE_OP==#AUT)  AND ($PROg_info[1].P_STATE==#P_ACTIVE)   THEN
+         
+         SWRITE(MODE_OP[],_State,OPFFSET,"%s","Run")
+         
+      ELSE
+         ;halt
+         SWRITE(MODE_OP[],_State,OPFFSET,"%s","T1")
+      ENDIF
+      
+   ENDIF
+   
+   ;SWRITE(MODE_OP[],_State,OPFFSET,"%g",$MODE_OP)
+   
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Robot_Mode",MODE_OP[])
+   
+   ;HALT
+   ;SWITCH Robot_Process_Name
    ;CASE #R_Side_7 , #R_Side_8,#R_Side_9
-      ;
-      ;Work_Number=Work_B_Run_Nunber+Work_D_Run_Nunber
-      ;Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
-      ;Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
+   ;
+   ;Work_Number=Work_B_Run_Nunber+Work_D_Run_Nunber
+   ;Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
+   ;Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
    ;CASE #Panel_Surround_7,#Panel_Surround_8,#Panel_Surround_9
-      ;
-      ;Work_Number=Work_A_Run_Nunber+Work_C_Run_Nunber
-      ;Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time
-      ;Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time
-      ;
-;ENDSWITCH
-
-
-
-
-;RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_Number",Work_Number)
-
-RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_A_State",Work_A_State)
-RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_B_State",Work_B_State)
-RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_C_State",Work_C_State)
-RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_D_State",Work_D_State)
-
-
-
-OPFFSET=0
-SWITCH Robot_Process_Name
-   CASE #R_Side_7
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_7")
-   CASE #R_Side_8
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_8")
-   CASE #R_Side_9      
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_9")   
-   CASE #Panel_Surround_7
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_7")     
-   CASE #Panel_Surround_8
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_8")  
-   CASE #Panel_Surround_9
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_9")      
-ENDSWITCH
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Int[])
-
-
-;HALT
-;wait sec 0.2
-RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
-RET = EKI_ClearBuffer(EKRL_NAME[],"Robot_Send")
-
-;HALT
-;Message_Wait("Wait Mes Data!",2,TRUE)
-
-;RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
-;RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_Cycle_Time)
-;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
-;RET=EKI_Close(EKRL_NAME[])
-;RET=EKI_Clear(EKRL_NAME[])
-
-
-
-
-
-
-
-
+   ;
+   ;Work_Number=Work_A_Run_Nunber+Work_C_Run_Nunber
+   ;Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time
+   ;Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time
+   ;
+   ;ENDSWITCH
+   
+   ;RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_Number",Work_Number)
+   
+   RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_A_State",Work_A_State)
+   RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_B_State",Work_B_State)
+   RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_C_State",Work_C_State)
+   RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_D_State",Work_D_State)
+   
+   OPFFSET=0
+   SWITCH Robot_Process_Name
+      CASE #R_Side_7
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_7")
+      CASE #R_Side_8
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_8")
+      CASE #R_Side_9      
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_9")   
+      CASE #Panel_Surround_7
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_7")     
+      CASE #Panel_Surround_8
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_8")  
+      CASE #Panel_Surround_9
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_9")
+      CASE #Panel_Welding_1
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Welding_1")
+      CASE #Panel_Welding_2
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Welding_2")
+   ENDSWITCH
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Int[])
+   
+   ;HALT
+   ;wait sec 0.2
+   RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
+   RET = EKI_ClearBuffer(EKRL_NAME[],"Robot_Send")
+   
+   ;HALT
+   ;Message_Wait("Wait Mes Data!",2,TRUE)
+   
+   ;RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
+   ;RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_Cycle_Time)
+   ;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
+   ;RET=EKI_Close(EKRL_NAME[])
+   ;RET=EKI_Clear(EKRL_NAME[])
+   
 END
-
-
-
 
 GLOBAL DEF EKRL_Vision_Int_Data(EKRL_NAME:IN)
-DECL CHAR Message_Error[1024],EKRL_NAME[]
-DECL EKI_STATUS RET
-DECL  BOOL IsStatus
-DECL INT Vision_Scope
-Message_Error[]=" "
-IsStatus=false
-Vision_Scope=0
-
-;!Exit
-IF Vision_Type==#Vision_NO THEN 
-return 
-ENDIF
-
-
-EKRL_Connect(EKRL_NAME[],TRUE)
-
-
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Vision_Ini_Data")
-RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
-
-
-Message_Wait("Wait Vision Int Data!",2,FALSE)
-
-
-RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
-RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
-RET=EKI_GetINT(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Scope" ,Vision_Scope)
-RET=EKI_GetReal(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Translation_Max_Offset" ,Vision_Trans_Max_Offset)
-RET=EKI_GetReal(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Rotation_Max_Offset" ,Vision_Rota_Max_Offset)
-RET=EKI_Close(EKRL_NAME[])
-RET=EKI_Clear(EKRL_NAME[])
-
-IF  IsStatus THEN
-
-MSGNOTIFY(Message_Error[])
-
-else
-
-MsgQuit(Message_Error[], "HanGao")
-halt
-ENDIF
-
-
+   DECL CHAR Message_Error[1024],EKRL_NAME[]
+   DECL EKI_STATUS RET
+   DECL  BOOL IsStatus
+   DECL INT Vision_Scope
+   Message_Error[]=" "
+   IsStatus=false
+   Vision_Scope=0
+   
+   ;!Exit
+   IF Vision_Type==#Vision_NO THEN 
+      return 
+   ENDIF
+   
+   EKRL_Connect(EKRL_NAME[],TRUE)
+   
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Vision_Ini_Data")
+   RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
+   
+   Message_Wait("Wait Vision Int Data!",2,FALSE)
+   
+   RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
+   RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
+   RET=EKI_GetINT(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Scope" ,Vision_Scope)
+   RET=EKI_GetReal(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Translation_Max_Offset" ,Vision_Trans_Max_Offset)
+   RET=EKI_GetReal(EKRL_NAME[],"Robot_Send/Initialization_Data/Vision_Rotation_Max_Offset" ,Vision_Rota_Max_Offset)
+   RET=EKI_Close(EKRL_NAME[])
+   RET=EKI_Clear(EKRL_NAME[])
+   
+   IF  IsStatus THEN
+      
+      MSGNOTIFY(Message_Error[])
+      
+   else
+      
+      MsgQuit(Message_Error[], "HanGao")
+      halt
+   ENDIF
+   
 END
 
-
 GLOBAL DEF EKRL_Vision_Find(Calibration_STATE:IN,Vision_PATH:IN,FInd_ID:IN,Base_Data_No:IN,POS_Offset_1 :OUT,POS_Offset_2:OUT,POS_Offset_3:OUT,POS_Offset_4:OUT,POS_Offset_5:OUT,POS_Offset_6:OUT,POS_Offset_7:OUT,POS_Offset_8:OUT,POS_Offset_9:OUT)
-DECL CHAR Message_Error[1024],EKRL_NAME[1024]
-DECL EKI_STATUS RET
-DECL Vision_PATH_Enum Vision_PATH
-DECL  BOOL IsStatus,Calibration_STATE
-DECL INT FInd_ID,Base_Data_No
-DECL Frame Pos_1,Pos_2,Pos_3,Pos_4,Pos_5,Pos_6,Pos_7,Pos_8,Pos_9
-DECL E6POS POS_Offset_1 ,POS_Offset_2,POS_Offset_3,POS_Offset_4,POS_Offset_5,POS_Offset_6,POS_Offset_7,POS_Offset_8,POS_Offset_9
-DECL E6POS POS_Array[9]
-DECL VAR_STATE VarT
-EKRL_NAME[]="Xml_Vision_Model"
-Message_Error[]=" "
-IsStatus=false
-Pos_1=$NULLFRAME
-Pos_2=$NULLFRAME
-Pos_3=$NULLFRAME
-Pos_4=$NULLFRAME
-Pos_5=$NULLFRAME
-Pos_6=$NULLFRAME
-Pos_7=$NULLFRAME
-Pos_8=$NULLFRAME
-Pos_9=$NULLFRAME
-
-
-IF (Vision_Type<>#Vision_Run) AND (Vision_Type<>#Vision_Text) THEN 
-return 
-ENDIF
-
-
-
-
-
-EKRL_Connect(EKRL_NAME[],TRUE)
-
-
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Find_Model")
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
-RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/@Find_ID", FInd_ID)
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Camera_Pos", $POS_ACT)
-RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/@Calibration", Calibration_STATE)
-
-
-IF Calibration_STATE==TRUE THEN 
-
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Plan_Pos", BASE_DATA[Base_Data_No])
-
-IF VARSTATE("POS_Offset_1")==#INITIALIZED THEN
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_1", POS_Offset_1)
-ELSE
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_1", $NULLFRAME)
-ENDIF
-IF VARSTATE("POS_Offset_2")==#INITIALIZED THEN
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_2", POS_Offset_2)
-ELSE
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_2", $NULLFRAME)
-ENDIF
-IF VARSTATE("POS_Offset_3")==#INITIALIZED THEN
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_3", POS_Offset_3)
-ELSE
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_3", $NULLFRAME)
-ENDIF
-IF VARSTATE("POS_Offset_4")==#INITIALIZED THEN
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_4", POS_Offset_4)
-ELSE
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_4", $NULLFRAME)
-ENDIF
-IF VARSTATE("POS_Offset_5")==#INITIALIZED THEN
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_5", POS_Offset_5)
-ELSE
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_5", $NULLFRAME)
-ENDIF
-IF VARSTATE("POS_Offset_6")==#INITIALIZED THEN
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_6", POS_Offset_6)
-ELSE
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_6", $NULLFRAME)
-ENDIF
-IF VARSTATE("POS_Offset_7")==#INITIALIZED THEN
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_7", POS_Offset_7)
-ELSE
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_7", $NULLFRAME)
-ENDIF
-IF VARSTATE("POS_Offset_8")==#INITIALIZED THEN
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_8", POS_Offset_8)
-ELSE
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_8", $NULLFRAME)
-ENDIF
-ELSE
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Plan_Pos", $NULLFRAME)
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_1", $NULLFRAME)
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_2", $NULLFRAME)
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_3", $NULLFRAME)
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_4", $NULLFRAME)
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_5", $NULLFRAME)
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_6", $NULLFRAME)
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_7", $NULLFRAME)
-RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_8", $NULLFRAME)
-ENDIF
-
-
-
-
-RET=EKI_Send(EKRL_NAME[],"Robot_Receive")
-
-
-
-Message_Wait("Wait Vision Find Data!",2,FALSE)
-
-
-RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
-RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
-
-IF (Vision_Type<>#Vision_Text) THEN 
-
-
-IF IsStatus THEN
-
-MSGNOTIFY(Message_Error[])
-
-IF Calibration_STATE==FALSE THEN 
-
-
-IF VARSTATE("POS_Offset_1")==#INITIALIZED THEN
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_1" ,Pos_1)
-Vision_Results_Pos(Vision_PATH,Pos_1,POS_Offset_1)
-ENDIF
-IF VARSTATE("POS_Offset_2")==#INITIALIZED THEN
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_2" ,Pos_2)
-Vision_Results_Pos(Vision_PATH,Pos_2,POS_Offset_2)
-ENDIF
-IF VARSTATE("POS_Offset_3")==#INITIALIZED THEN
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_3" ,Pos_3)
-Vision_Results_Pos(Vision_PATH,Pos_3,POS_Offset_3)
-ENDIF
-IF VARSTATE("POS_Offset_4")==#INITIALIZED THEN
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_4" ,Pos_4)
-Vision_Results_Pos(Vision_PATH,Pos_4,POS_Offset_4)
-ENDIF
-IF VARSTATE("POS_Offset_5")==#INITIALIZED THEN
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_5" ,Pos_5)
-Vision_Results_Pos(Vision_PATH,Pos_5,POS_Offset_5)
-ENDIF
-IF VARSTATE("POS_Offset_6")==#INITIALIZED THEN
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_6" ,Pos_6)
-Vision_Results_Pos(Vision_PATH,Pos_6,POS_Offset_6)
-ENDIF
-IF VARSTATE("POS_Offset_7")==#INITIALIZED THEN
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_7" ,Pos_7)
-Vision_Results_Pos(Vision_PATH,Pos_7,POS_Offset_7)
-ENDIF
-IF VARSTATE("POS_Offset_8")==#INITIALIZED THEN
-RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_8" ,Pos_8)
-Vision_Results_Pos(Vision_PATH,Pos_8,POS_Offset_8)
-ENDIF
-
-ELSE
-;Hold Robot
-Halt
-ENDIF
-
-
-
-
-
-ELSE
-
-MsgQuit(Message_Error[], "HanGao")
-
-
-ENDIF
-
-ELSE
-MSGNOTIFY("Vision Text Model !")
-
-ENDIF
-
-RET=EKI_Close(EKRL_NAME[])
-RET=EKI_Clear(EKRL_NAME[])
+   DECL CHAR Message_Error[1024],EKRL_NAME[1024]
+   DECL EKI_STATUS RET
+   DECL Vision_PATH_Enum Vision_PATH
+   DECL  BOOL IsStatus,Calibration_STATE
+   DECL INT FInd_ID,Base_Data_No
+   DECL Frame Pos_1,Pos_2,Pos_3,Pos_4,Pos_5,Pos_6,Pos_7,Pos_8,Pos_9
+   DECL E6POS POS_Offset_1 ,POS_Offset_2,POS_Offset_3,POS_Offset_4,POS_Offset_5,POS_Offset_6,POS_Offset_7,POS_Offset_8,POS_Offset_9
+   DECL E6POS POS_Array[9]
+   DECL VAR_STATE VarT
+   EKRL_NAME[]="Xml_Vision_Model"
+   Message_Error[]=" "
+   IsStatus=false
+   Pos_1=$NULLFRAME
+   Pos_2=$NULLFRAME
+   Pos_3=$NULLFRAME
+   Pos_4=$NULLFRAME
+   Pos_5=$NULLFRAME
+   Pos_6=$NULLFRAME
+   Pos_7=$NULLFRAME
+   Pos_8=$NULLFRAME
+   Pos_9=$NULLFRAME
+   
+   IF (Vision_Type<>#Vision_Run) AND (Vision_Type<>#Vision_Text) THEN 
+      return 
+   ENDIF
+   
+   EKRL_Connect(EKRL_NAME[],TRUE)
+   
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Find_Model")
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
+   RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/@Find_ID", FInd_ID)
+   RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Camera_Pos", $POS_ACT)
+   RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/@Calibration", Calibration_STATE)
+   
+   IF Calibration_STATE==TRUE THEN 
+      
+      RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Plan_Pos", BASE_DATA[Base_Data_No])
+      
+      IF VARSTATE("POS_Offset_1")==#INITIALIZED THEN
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_1", POS_Offset_1)
+      ELSE
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_1", $NULLFRAME)
+      ENDIF
+      IF VARSTATE("POS_Offset_2")==#INITIALIZED THEN
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_2", POS_Offset_2)
+      ELSE
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_2", $NULLFRAME)
+      ENDIF
+      IF VARSTATE("POS_Offset_3")==#INITIALIZED THEN
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_3", POS_Offset_3)
+      ELSE
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_3", $NULLFRAME)
+      ENDIF
+      IF VARSTATE("POS_Offset_4")==#INITIALIZED THEN
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_4", POS_Offset_4)
+      ELSE
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_4", $NULLFRAME)
+      ENDIF
+      IF VARSTATE("POS_Offset_5")==#INITIALIZED THEN
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_5", POS_Offset_5)
+      ELSE
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_5", $NULLFRAME)
+      ENDIF
+      IF VARSTATE("POS_Offset_6")==#INITIALIZED THEN
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_6", POS_Offset_6)
+      ELSE
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_6", $NULLFRAME)
+      ENDIF
+      IF VARSTATE("POS_Offset_7")==#INITIALIZED THEN
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_7", POS_Offset_7)
+      ELSE
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_7", $NULLFRAME)
+      ENDIF
+      IF VARSTATE("POS_Offset_8")==#INITIALIZED THEN
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_8", POS_Offset_8)
+      ELSE
+         RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_8", $NULLFRAME)
+      ENDIF
+   ELSE
+      RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Plan_Pos", $NULLFRAME)
+      RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_1", $NULLFRAME)
+      RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_2", $NULLFRAME)
+      RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_3", $NULLFRAME)
+      RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_4", $NULLFRAME)
+      RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_5", $NULLFRAME)
+      RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_6", $NULLFRAME)
+      RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_7", $NULLFRAME)
+      RET=EKI_SetFrame(EKRL_NAME[],"Robot_Receive/Path_Pos/Pos_8", $NULLFRAME)
+   ENDIF
+   
+   RET=EKI_Send(EKRL_NAME[],"Robot_Receive")
+   
+   Message_Wait("Wait Vision Find Data!",2,FALSE)
+   
+   RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
+   RET=EKI_GetString(EKRL_NAME[],"Robot_Send/Message_Error" ,Message_Error[])
+   
+   IF (Vision_Type<>#Vision_Text) THEN 
+      
+      IF IsStatus THEN
+         
+         MSGNOTIFY(Message_Error[])
+         
+         IF Calibration_STATE==FALSE THEN 
+            
+            IF VARSTATE("POS_Offset_1")==#INITIALIZED THEN
+               RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_1" ,Pos_1)
+               Vision_Results_Pos(Vision_PATH,Pos_1,POS_Offset_1)
+            ENDIF
+            IF VARSTATE("POS_Offset_2")==#INITIALIZED THEN
+               RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_2" ,Pos_2)
+               Vision_Results_Pos(Vision_PATH,Pos_2,POS_Offset_2)
+            ENDIF
+            IF VARSTATE("POS_Offset_3")==#INITIALIZED THEN
+               RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_3" ,Pos_3)
+               Vision_Results_Pos(Vision_PATH,Pos_3,POS_Offset_3)
+            ENDIF
+            IF VARSTATE("POS_Offset_4")==#INITIALIZED THEN
+               RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_4" ,Pos_4)
+               Vision_Results_Pos(Vision_PATH,Pos_4,POS_Offset_4)
+            ENDIF
+            IF VARSTATE("POS_Offset_5")==#INITIALIZED THEN
+               RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_5" ,Pos_5)
+               Vision_Results_Pos(Vision_PATH,Pos_5,POS_Offset_5)
+            ENDIF
+            IF VARSTATE("POS_Offset_6")==#INITIALIZED THEN
+               RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_6" ,Pos_6)
+               Vision_Results_Pos(Vision_PATH,Pos_6,POS_Offset_6)
+            ENDIF
+            IF VARSTATE("POS_Offset_7")==#INITIALIZED THEN
+               RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_7" ,Pos_7)
+               Vision_Results_Pos(Vision_PATH,Pos_7,POS_Offset_7)
+            ENDIF
+            IF VARSTATE("POS_Offset_8")==#INITIALIZED THEN
+               RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos/Pos_8" ,Pos_8)
+               Vision_Results_Pos(Vision_PATH,Pos_8,POS_Offset_8)
+            ENDIF
+            
+         ELSE
+            ;Hold Robot
+            Halt
+         ENDIF
+         
+      ELSE
+         
+         MsgQuit(Message_Error[], "HanGao")
+         
+      ENDIF
+      
+   ELSE
+      MSGNOTIFY("Vision Text Model !")
+      
+   ENDIF
+   
+   RET=EKI_Close(EKRL_NAME[])
+   RET=EKI_Clear(EKRL_NAME[])
 END
 
 GLOBAL DEF EKRL_Find_Model_Send(EKRL_NAME:IN,Work_Number:IN,Find_Area:IN)
-DECL INT ID,Work,Find_Area,OPFFSET,Work_Number,Find_Data_Model
-DECL CHAR Find_Area_String[1024], Message_Error[1024],Message_Show[1024],Work_Area[1024],EKRL_NAME[]
-DECL BOOL Calculation_Status
-DECL Frame LastPos1,LastPos2,LastPos3,LastPos4,LastPos5,LastPos6,LastPos7,LastPos8,LastPos9
-DECL E6POS LP1,LP2,LP3,LP4,LP5,LP6,LP7,LP8,LP9
-
-DECL EKI_STATUS RET
-DECL State_t _State,STAT
-DECL MODUS_T MODE
-MODE=#SYNC
-
-
-
-OPFFSET=0
-Calculation_Status=false
-$Flag[2]=false
-LastPos1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos2={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos3={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos4={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos5={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos6={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos7={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos8={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos9={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LP1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LP2={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LP3={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LP4={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LP5={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LP6={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LP7={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LP8={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LP9={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-
-
-Find_Area_String[]=" "
-Message_Error[]=" "
-Message_Show[]=" "
-
-
-
-EKRL_Connect(EKRL_NAME[],TRUE)
-
-
-switch Find_Area
-
-CASE 1
-
-Find_Area_String[]="F_45"
-
-CASE 2
-Find_Area_String[]="F_135"
-
-CASE 3
-Find_Area_String[]="F_225"
-
-CASE 4
-Find_Area_String[]="F_315"
-
-ENDSWITCH
-
-
-switch Work_Number
-
-CASE 1
-
-Work_Area[]="Work_1"
-
-Find_Data_Model=N1_Sink_Data.Sink_Model
-
-
-CASE 2
-Work_Area[]="Work_2"
-Find_Data_Model=N2_Sink_Data.Sink_Model
-CASE 3
-Work_Area[]="Work_3"
-
-CASE 4
-Work_Area[]="Work_4"
-
-ENDSWITCH
-
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Find_Model")
-RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Find_Model/@Find_Data", Find_Data_Model)
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Find_Model/@Work_Area", Work_Area[])
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Find_Model/@Vision_Area", Find_Area_String[])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", $POS_ACT)
-
-RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
-
-
-Message_Wait("Find Model Data Sending",2,FALSE)
-
-RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,Calculation_Status)
-RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
-
-SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find Model: %s"  ,Message_Error[] ) 
-IF  Calculation_Status THEN
-
-
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_1" ,LastPos1)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_2" ,LastPos2)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_3" ,LastPos3)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_4" ,LastPos4)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_5" ,LastPos5)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_6" ,LastPos6)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_7" ,LastPos7)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_8" ,LastPos8)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_9" ,LastPos9)
-LP1=LastPos1
-LP2=LastPos2
-LP3=LastPos3
-LP4=LastPos4
-LP5=LastPos5
-LP6=LastPos6
-LP7=LastPos7
-LP8=LastPos8
-LP9=LastPos9
-
-
-HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP1)
-HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP2)
-HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP3)
-HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP4)
-
-switch Find_Area
-
-CASE 1
-
-N45_OFFSET_POS=LP2
-N45_CIR_POS=LP1
-D45_Start_POS=LP4
-D45_End_POS=LP3
-CASE 2
-N135_OFFSET_POS=LP2
-N135_CIR_POS=LP1
-D135_Start_POS=LP4
-D135_End_POS=LP3
-CASE 3
-N225_OFFSET_POS=LP2
-N225_CIR_POS=LP1
-D225_Start_POS=LP4
-D225_End_POS=LP3
-CASE 4
-N315_OFFSET_POS=LP2
-N315_CIR_POS=LP1
-D315_Start_POS=LP4
-D315_End_POS=LP3
-ENDSWITCH
-
-
-MSGNOTIFY(Message_Error[],"HanGao")
-else
-
-
-
-MsgQuit(Message_Error[], "HanGao")
-halt
-;return
-
-
-ENDIF
- 
-
-RET=EKI_Close(EKRL_NAME[])
-RET=EKI_Clear(EKRL_NAME[])
-
+   DECL INT ID,Work,Find_Area,OPFFSET,Work_Number,Find_Data_Model
+   DECL CHAR Find_Area_String[1024], Message_Error[1024],Message_Show[1024],Work_Area[1024],EKRL_NAME[]
+   DECL BOOL Calculation_Status
+   DECL Frame LastPos1,LastPos2,LastPos3,LastPos4,LastPos5,LastPos6,LastPos7,LastPos8,LastPos9
+   DECL E6POS LP1,LP2,LP3,LP4,LP5,LP6,LP7,LP8,LP9
+   
+   DECL EKI_STATUS RET
+   DECL State_t _State,STAT
+   DECL MODUS_T MODE
+   MODE=#SYNC
+   
+   OPFFSET=0
+   Calculation_Status=false
+   $Flag[2]=false
+   LastPos1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos2={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos3={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos4={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos5={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos6={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos7={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos8={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos9={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LP1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LP2={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LP3={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LP4={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LP5={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LP6={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LP7={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LP8={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LP9={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   
+   Find_Area_String[]=" "
+   Message_Error[]=" "
+   Message_Show[]=" "
+   
+   EKRL_Connect(EKRL_NAME[],TRUE)
+   
+   switch Find_Area
+      
+      CASE 1
+         
+         Find_Area_String[]="F_45"
+         
+      CASE 2
+         Find_Area_String[]="F_135"
+         
+      CASE 3
+         Find_Area_String[]="F_225"
+         
+      CASE 4
+         Find_Area_String[]="F_315"
+         
+   ENDSWITCH
+   
+   switch Work_Number
+      
+      CASE 1
+         
+         Work_Area[]="Work_1"
+         
+         Find_Data_Model=N1_Sink_Data.Sink_Model
+         
+      CASE 2
+         Work_Area[]="Work_2"
+         Find_Data_Model=N2_Sink_Data.Sink_Model
+      CASE 3
+         Work_Area[]="Work_3"
+         
+      CASE 4
+         Work_Area[]="Work_4"
+         
+   ENDSWITCH
+   
+   RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Find_Model")
+   RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Find_Model/@Find_Data", Find_Data_Model)
+   RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Find_Model/@Work_Area", Work_Area[])
+   RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Find_Model/@Vision_Area", Find_Area_String[])
+   RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", $POS_ACT)
+   
+   RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
+   
+   Message_Wait("Find Model Data Sending",2,FALSE)
+   
+   RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,Calculation_Status)
+   RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
+   
+   SWRITE( Message_Show[] , _State , OPFFSET ,"Vision Find Model: %s"  ,Message_Error[] ) 
+   IF  Calculation_Status THEN
+      
+      RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_1" ,LastPos1)
+      RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_2" ,LastPos2)
+      RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_3" ,LastPos3)
+      RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_4" ,LastPos4)
+      RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_5" ,LastPos5)
+      RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_6" ,LastPos6)
+      RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_7" ,LastPos7)
+      RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_8" ,LastPos8)
+      RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_9" ,LastPos9)
+      LP1=LastPos1
+      LP2=LastPos2
+      LP3=LastPos3
+      LP4=LastPos4
+      LP5=LastPos5
+      LP6=LastPos6
+      LP7=LastPos7
+      LP8=LastPos8
+      LP9=LastPos9
+      
+      HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP1)
+      HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP2)
+      HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP3)
+      HanGao_Camera_Offset(#Find_Model ,Find_Area,Work_Number,LP4)
+      
+      switch Find_Area
+         
+         CASE 1
+            
+            N45_OFFSET_POS=LP2
+            N45_CIR_POS=LP1
+            D45_Start_POS=LP4
+            D45_End_POS=LP3
+         CASE 2
+            N135_OFFSET_POS=LP2
+            N135_CIR_POS=LP1
+            D135_Start_POS=LP4
+            D135_End_POS=LP3
+         CASE 3
+            N225_OFFSET_POS=LP2
+            N225_CIR_POS=LP1
+            D225_Start_POS=LP4
+            D225_End_POS=LP3
+         CASE 4
+            N315_OFFSET_POS=LP2
+            N315_CIR_POS=LP1
+            D315_Start_POS=LP4
+            D315_End_POS=LP3
+      ENDSWITCH
+      
+      MSGNOTIFY(Message_Error[],"HanGao")
+   else
+      
+      MsgQuit(Message_Error[], "HanGao")
+      halt
+      ;return
+      
+   ENDIF
+   
+   RET=EKI_Close(EKRL_NAME[])
+   RET=EKI_Clear(EKRL_NAME[])
+   
 End
-
 
 GLOBAL DEF  Message_Wait(Msg_String:IN,Flag_No:IN,Wait_NO:IN)
-DECL CHAR Msg_String[]
-DECL INT Flag_No
-DECL INT Mess_INT
-DECL BOOL Mess_Del,Wait_NO
-Mess_INT=-1
-
-REPEAT
-;halt
-IF ((NOT Exists_KrlMsg(Mess_INT) AND (Wait_NO==FALSE))) THEN
-Msg_Wait(Msg_String[],FALSE,Mess_INT,Flag_No)
-;halt
-ENDIF
-
-
-UNTIL  $Flag[Flag_No]
-Mess_Del=Clear_KrlMsg(Mess_INT)
-
-
+   DECL CHAR Msg_String[]
+   DECL INT Flag_No
+   DECL INT Mess_INT
+   DECL BOOL Mess_Del,Wait_NO
+   Mess_INT=-1
+   
+   REPEAT
+      ;halt
+      IF ((NOT Exists_KrlMsg(Mess_INT) AND (Wait_NO==FALSE))) THEN
+         Msg_Wait(Msg_String[],FALSE,Mess_INT,Flag_No)
+         ;halt
+      ENDIF
+      
+   UNTIL  $Flag[Flag_No]
+   Mess_Del=Clear_KrlMsg(Mess_INT)
+   
 END
-
-
 
 GLOBAL DEF EKRL_Calibration_Send(EKRL_NAME:IN,Area_Name:IN,Work_Area:IN)
-DECL INT Area_Name,Calibration_Mark,Work_Area
-DECL CHAR Message_Error[1024],Work_Area_Name[1024],EKRL_NAME[]
-DECL EKI_STATUS RET
-DECL BOOL Calibration_Status
-DECL Frame LastPos1,LastPos2,LastPos3,LastPos4,LastPos5,LastPos6,LastPos7,LastPos8,LastPos9
-;-----INI--------
-$Flag[2]=FALSE
-Calibration_Status=False
-$Flag[2]=false
-Message_Error[]=" "
-Work_Area_Name[]=" "
-LastPos1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos2={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos3={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos4={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos5={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos6={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos7={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos8={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-LastPos9={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
-;-----INI--------
-
-EKRL_Connect(EKRL_NAME[],TRUE)
-
-
-switch Work_Area
-
-CASE 1
-
-Work_Area_Name[]="Work_1"
-
-Calibration_Mark=N1_Sink_Data.Sink_Model
-
-CASE 2
-Work_Area_Name[]="Work_2"
-Calibration_Mark=N2_Sink_Data.Sink_Model
-CASE 3
-Work_Area_Name[]="Work_3"
-
-CASE 4
-Work_Area_Name[]="Work_4"
-
-ENDSWITCH
-
-
-SWITCH Area_Name
-
-CASE 1
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Vision_Area","F_45")
-
-switch Work_Area
-CASE 1
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N1_Cam_45_POS)
-
-CASE 2
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N2_Cam_45_POS)
-CASE 3
-
-CASE 4
-ENDSWITCH
-
-
-CASE 2
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Vision_Area","F_135")
-switch Work_Area
-CASE 1
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N1_Cam_135_POS)
-
-CASE 2
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N2_Cam_135_POS)
-CASE 3
-
-CASE 4
-ENDSWITCH
-
-CASE 3
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Vision_Area","F_225")
-switch Work_Area
-CASE 1
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N1_Cam_225_POS)
-
-CASE 2
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N2_Cam_225_POS)
-CASE 3
-
-CASE 4
-ENDSWITCH
-CASE 4
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Vision_Area","F_315")
-switch Work_Area
-CASE 1
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N1_Cam_315_POS)
-
-CASE 2
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N2_Cam_315_POS)
-CASE 3
-
-CASE 4
-ENDSWITCH
-ENDSWITCH
-
-
-switch	Global_Calib_Model
-
-
-case #New
-
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_1", Calibration_Point[1])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_2", Calibration_Point[2])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_3", Calibration_Point[3])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_4", Calibration_Point[4])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_5", Calibration_Point[5])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_6", Calibration_Point[6])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_7", Calibration_Point[7])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_8", Calibration_Point[8])
-RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_9", Calibration_Point[9])
-
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_New")
-
-
-
-
-case #Add
-
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_Add")
-
-case #Text
-
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_Text")
-
-
-
-
-endSwitch
-
-
-
-RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Work_Area", Work_Area_Name[])
-RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Calibration_Mark", Calibration_Mark)
-
-
-
-RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
-
-
-
-Message_Wait("Calibration Data Sending",2,FALSE)
-
-
-
-RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,Calibration_Status)
-RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
-
-
-IF  Calibration_Status THEN
-
-switch Global_Calib_Model
-
-case #Text
-
-
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_1" ,LastPos1)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_2" ,LastPos2)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_3" ,LastPos3)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_4" ,LastPos4)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_5" ,LastPos5)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_6" ,LastPos6)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_7" ,LastPos7)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_8" ,LastPos8)
-RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_9" ,LastPos9)
-Calibration_Text[1]=LastPos1
-Calibration_Text[2]=LastPos2
-Calibration_Text[3]=LastPos3
-Calibration_Text[4]=LastPos4
-Calibration_Text[5]=LastPos5
-Calibration_Text[6]=LastPos6
-Calibration_Text[7]=LastPos7
-Calibration_Text[8]=LastPos8
-Calibration_Text[9]=LastPos9
-case #Add
-
-
-
-endSwitch
-
-
-
-
-MSGNOTIFY(Message_Error[])
-
-else
-
-MsgQuit(Message_Error[], "HanGao")
-halt
-ENDIF
- 
-
-RET=EKI_Close(EKRL_NAME[])
-RET=EKI_Clear(EKRL_NAME[])
-;wait until data read
-;WAIT FOR $FLAG[1]
-
-
-
+   DECL INT Area_Name,Calibration_Mark,Work_Area
+   DECL CHAR Message_Error[1024],Work_Area_Name[1024],EKRL_NAME[]
+   DECL EKI_STATUS RET
+   DECL BOOL Calibration_Status
+   DECL Frame LastPos1,LastPos2,LastPos3,LastPos4,LastPos5,LastPos6,LastPos7,LastPos8,LastPos9
+   ;-----INI--------
+   $Flag[2]=FALSE
+   Calibration_Status=False
+   $Flag[2]=false
+   Message_Error[]=" "
+   Work_Area_Name[]=" "
+   LastPos1={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos2={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos3={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos4={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos5={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos6={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos7={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos8={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   LastPos9={X 0.0,Y 0.0,A 0.0,B 0.0,C 0.0}
+   ;-----INI--------
+   
+   EKRL_Connect(EKRL_NAME[],TRUE)
+   
+   switch Work_Area
+      
+      CASE 1
+         
+         Work_Area_Name[]="Work_1"
+         
+         Calibration_Mark=N1_Sink_Data.Sink_Model
+         
+      CASE 2
+         Work_Area_Name[]="Work_2"
+         Calibration_Mark=N2_Sink_Data.Sink_Model
+      CASE 3
+         Work_Area_Name[]="Work_3"
+         
+      CASE 4
+         Work_Area_Name[]="Work_4"
+         
+   ENDSWITCH
+   
+   SWITCH Area_Name
+      
+      CASE 1
+         RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Vision_Area","F_45")
+         
+         switch Work_Area
+            CASE 1
+               RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N1_Cam_45_POS)
+               
+            CASE 2
+               RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N2_Cam_45_POS)
+            CASE 3
+               
+            CASE 4
+         ENDSWITCH
+         
+      CASE 2
+         RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Vision_Area","F_135")
+         switch Work_Area
+            CASE 1
+               RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N1_Cam_135_POS)
+               
+            CASE 2
+               RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N2_Cam_135_POS)
+            CASE 3
+               
+            CASE 4
+         ENDSWITCH
+         
+      CASE 3
+         RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Vision_Area","F_225")
+         switch Work_Area
+            CASE 1
+               RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N1_Cam_225_POS)
+               
+            CASE 2
+               RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N2_Cam_225_POS)
+            CASE 3
+               
+            CASE 4
+         ENDSWITCH
+      CASE 4
+         RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Vision_Area","F_315")
+         switch Work_Area
+            CASE 1
+               RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N1_Cam_315_POS)
+               
+            CASE 2
+               RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Camera_Point/Pos_1", N2_Cam_315_POS)
+            CASE 3
+               
+            CASE 4
+         ENDSWITCH
+   ENDSWITCH
+   
+   switch	Global_Calib_Model
+      
+      case #New
+         
+         RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_1", Calibration_Point[1])
+         RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_2", Calibration_Point[2])
+         RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_3", Calibration_Point[3])
+         RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_4", Calibration_Point[4])
+         RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_5", Calibration_Point[5])
+         RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_6", Calibration_Point[6])
+         RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_7", Calibration_Point[7])
+         RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_8", Calibration_Point[8])
+         RET=EKI_SetFrame(EKRL_NAME[],"KUKA_Receive/Vision_Point/Pos_9", Calibration_Point[9])
+         
+         RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_New")
+         
+      case #Add
+         
+         RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_Add")
+         
+      case #Text
+         
+         RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/@Model","Calibration_Text")
+         
+   endSwitch
+   
+   RET=EKI_SetString(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Work_Area", Work_Area_Name[])
+   RET=EKI_SetInt(EKRL_NAME[],"KUKA_Receive/Calibration_Model/@Calibration_Mark", Calibration_Mark)
+   
+   RET = EKI_Send(EKRL_NAME[],"KUKA_Receive")
+   
+   Message_Wait("Calibration Data Sending",2,FALSE)
+   
+   RET=EKI_GetBool(EKRL_NAME[],"KUKA_Send/@IsStatus" ,Calibration_Status)
+   RET=EKI_GetString(EKRL_NAME[],"KUKA_Send/Message_Error" ,Message_Error[])
+   
+   IF  Calibration_Status THEN
+      
+      switch Global_Calib_Model
+         
+         case #Text
+            
+            RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_1" ,LastPos1)
+            RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_2" ,LastPos2)
+            RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_3" ,LastPos3)
+            RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_4" ,LastPos4)
+            RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_5" ,LastPos5)
+            RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_6" ,LastPos6)
+            RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_7" ,LastPos7)
+            RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_8" ,LastPos8)
+            RET=EKI_GetFrame(EKRL_NAME[],"KUKA_Send/Vision_Point/Pos_9" ,LastPos9)
+            Calibration_Text[1]=LastPos1
+            Calibration_Text[2]=LastPos2
+            Calibration_Text[3]=LastPos3
+            Calibration_Text[4]=LastPos4
+            Calibration_Text[5]=LastPos5
+            Calibration_Text[6]=LastPos6
+            Calibration_Text[7]=LastPos7
+            Calibration_Text[8]=LastPos8
+            Calibration_Text[9]=LastPos9
+         case #Add
+            
+      endSwitch
+      
+      MSGNOTIFY(Message_Error[])
+      
+   else
+      
+      MsgQuit(Message_Error[], "HanGao")
+      halt
+   ENDIF
+   
+   RET=EKI_Close(EKRL_NAME[])
+   RET=EKI_Clear(EKRL_NAME[])
+   ;wait until data read
+   ;WAIT FOR $FLAG[1]
+   
 End
-
 
 GLOBAL DEF EKRL_Mes_Server(EKRL_NAME:IN,_Server_Stat:OUT)
-DECL EKI_STATUS RET
-DECL INT Mess_INT
-DECL BOOL Mess_Del,Msg_Err,_Server_Stat
-DECL CHAR EKRL_NAME[]
-;EKRL_NAME[]="HanGaoEkrl"
-
-;HALT
-WAIT SEC 0.02
-RET=EKI_Init(EKRL_NAME[])
-;EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
-
-;HALT
-RET=EKI_OPEN(EKRL_NAME[])
-EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
-
-IF RET.Msg_No<>0 THEN
- _Server_Stat=FALSE
- RET=EKI_Close(EKRL_NAME[])
-RET=EKI_Clear(EKRL_NAME[])
- EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
-ENDIF
-
-wait sec 0.024
-
-;MSGNOTIFY("HanGao:Socket Connecting!")
-
-
-
+   DECL EKI_STATUS RET
+   DECL INT Mess_INT
+   DECL BOOL Mess_Del,Msg_Err,_Server_Stat
+   DECL CHAR EKRL_NAME[]
+   ;EKRL_NAME[]="HanGaoEkrl"
+   
+   ;HALT
+   WAIT SEC 0.02
+   RET=EKI_Init(EKRL_NAME[])
+   ;EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
+   
+   ;HALT
+   RET=EKI_OPEN(EKRL_NAME[])
+   EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
+   
+   IF RET.Msg_No<>0 THEN
+      _Server_Stat=FALSE
+      RET=EKI_Close(EKRL_NAME[])
+      RET=EKI_Clear(EKRL_NAME[])
+      EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
+   ENDIF
+   
+   wait sec 0.024
+   
+   ;MSGNOTIFY("HanGao:Socket Connecting!")
+   
 End
-
-
-
 
 GLOBAL DEF EKRL_Connect(EKRL_NAME:IN,Msg_Err:IN)
-DECL EKI_STATUS RET
-DECL INT Mess_INT
-DECL BOOL Mess_Del,Msg_Err
-DECL CHAR EKRL_NAME[]
-;EKRL_NAME[]="HanGaoEkrl"
-
-Mess_INT=-1
-WAIT SEC 0.02
-RET=EKI_Init(EKRL_NAME[])
-EKI_CHECK(RET,#Quit,EKRL_NAME[])
-
-;HALT
-RET=EKI_OPEN(EKRL_NAME[])
-EKI_CHECK(RET,#Quit,EKRL_NAME[])
-
-wait sec 0.02
-
-;MSGNOTIFY("HanGao:Socket Connecting!")
-
-IF Msg_Err THEN
- 
-
-
-REPEAT
-;halt
-IF NOT Exists_KrlMsg(Mess_INT) THEN
-Msg_Wait("Socket Connecting",false,Mess_INT,Connect_Falg)
-;halt
-ENDIF
-IF NOT $FLAG[Connect_Falg]  THEN
-RET=EKI_open(EKRL_NAME[])
-;HALT
-
-wait sec 2
-
-
-
-ENDIF
-
-UNTIL  $Flag[Connect_Falg]
-
-MSGNOTIFY("HanGao:Socket Connecting OK!")
-Mess_Del=Clear_KrlMsg(Mess_INT)
-
-
-ENDIF
-
-
-
+   DECL EKI_STATUS RET
+   DECL INT Mess_INT
+   DECL BOOL Mess_Del,Msg_Err
+   DECL CHAR EKRL_NAME[]
+   ;EKRL_NAME[]="HanGaoEkrl"
+   
+   Mess_INT=-1
+   WAIT SEC 0.02
+   RET=EKI_Init(EKRL_NAME[])
+   EKI_CHECK(RET,#Quit,EKRL_NAME[])
+   
+   ;HALT
+   RET=EKI_OPEN(EKRL_NAME[])
+   EKI_CHECK(RET,#Quit,EKRL_NAME[])
+   
+   wait sec 0.02
+   
+   ;MSGNOTIFY("HanGao:Socket Connecting!")
+   
+   IF Msg_Err THEN
+      
+      REPEAT
+         ;halt
+         IF NOT Exists_KrlMsg(Mess_INT) THEN
+            Msg_Wait("Socket Connecting",false,Mess_INT,Connect_Falg)
+            ;halt
+         ENDIF
+         IF NOT $FLAG[Connect_Falg]  THEN
+            RET=EKI_open(EKRL_NAME[])
+            ;HALT
+            
+            wait sec 2
+            
+         ENDIF
+         
+      UNTIL  $Flag[Connect_Falg]
+      
+      MSGNOTIFY("HanGao:Socket Connecting OK!")
+      Mess_Del=Clear_KrlMsg(Mess_INT)
+      
+   ENDIF
+   
 End
 GLOBAL DEF EKRL_Close(EKRL_NAME:IN)
-DECL CHAR EKRL_NAME[]
-DECL EKI_STATUS RET
-RET=EKI_Close(EKRL_NAME[])
-RET=EKI_Clear(EKRL_NAME[])
-
+   DECL CHAR EKRL_NAME[]
+   DECL EKI_STATUS RET
+   RET=EKI_Close(EKRL_NAME[])
+   RET=EKI_Clear(EKRL_NAME[])
+   
 END
 
-
-
 GLOBAL  DEF  Msg_Wait(mess[]:IN,Wait_ON:IN,MSG_INT:OUT,Connect_Flag:IN)
-DECL INT Msg_INT,Connect_Flag
-DECL BOOL Msg_Clear,Msg_Exit,Wait_ON
-DECL CHAR mess[]
-DECL KRLMSG_T MYMESSAGE
-DECL KRLMSGPAR_T Parameter[3]
-DECL KRLMSGOPT_T Option
-Msg_INT=-1
-Msg_Clear=false
-Msg_Exit=false
-mymessage.Msg_txt[]=mess[]
-MYMESSAGE.Modul[]="HanGao"
-MYMESSAGE.Nr=1
-Parameter[1]={Par_Type #EMPTY}
-Parameter[2]={Par_Type #EMPTY}
-Parameter[3]={Par_Type #EMPTY}
-MSG_INT=SET_KRLMSG(#WAITING,MYMESSAGE,Parameter[],Option)
-
-REPEAT
-wait sec 0.012
-IF $FLAG[Connect_Flag] THEN
-Msg_Clear=Clear_KrlMsg(Msg_INT)
-ENDIF
-Msg_Exit=Exists_KrlMsg(Msg_INT)
-UNTIL NOT(Msg_Exit) OR Msg_Clear OR NOT(WAIT_ON)
+   DECL INT Msg_INT,Connect_Flag
+   DECL BOOL Msg_Clear,Msg_Exit,Wait_ON
+   DECL CHAR mess[]
+   DECL KRLMSG_T MYMESSAGE
+   DECL KRLMSGPAR_T Parameter[3]
+   DECL KRLMSGOPT_T Option
+   Msg_INT=-1
+   Msg_Clear=false
+   Msg_Exit=false
+   mymessage.Msg_txt[]=mess[]
+   MYMESSAGE.Modul[]="HanGao"
+   MYMESSAGE.Nr=1
+   Parameter[1]={Par_Type #EMPTY}
+   Parameter[2]={Par_Type #EMPTY}
+   Parameter[3]={Par_Type #EMPTY}
+   MSG_INT=SET_KRLMSG(#WAITING,MYMESSAGE,Parameter[],Option)
+   
+   REPEAT
+      wait sec 0.012
+      IF $FLAG[Connect_Flag] THEN
+         Msg_Clear=Clear_KrlMsg(Msg_INT)
+      ENDIF
+      Msg_Exit=Exists_KrlMsg(Msg_INT)
+   UNTIL NOT(Msg_Exit) OR Msg_Clear OR NOT(WAIT_ON)
 END

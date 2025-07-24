@@ -1,19 +1,31 @@
-&ACCESS RVP3
-&REL 3786
+&ACCESS RVO1
+&REL 7219
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEF Mes_Info( )
 Mes_Info_Int()
+Work_A_State=false
+Work_B_State=false
+Work_C_State=false
+Work_D_State=false
 
+halt
 LOOP
 ;Mes_Info_Main()
+Work_A_State=true
+wait sec 20
+Work_A_State=false
+Work_C_State=true
+wait sec 20
+Work_C_State=false
 
-;FOLD WAIT Time= 0.1 sec ;%{PE}
+wait sec 0.5
+;FOLD WAIT Time= 0.0 sec ;%{PE}
 ;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.wait; Time=0.1
+;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.wait; Time=0.0
 ;ENDFOLD
-WAIT SEC 0.1
+WAIT SEC 0.0
 ;ENDFOLD
 ENDLOOP
 ;# DATE:2025-6-12
@@ -348,6 +360,11 @@ Work_C_Run_Nunber=0
 Work_D_Run_Nunber=0
 Work_All_Run_Nunber=0
 
+WORK_A_State=FALSE
+WORK_B_State=FALSE
+WORK_C_State=FALSE
+WORK_D_State=FALSE
+
 _Work_A_Stat=FALSE
 _Work_B_Stat=FALSE
 _Work_C_Stat=FALSE
@@ -355,11 +372,7 @@ _Work_D_Stat=FALSE
 _EKRL_Send_Stat=FALSE
 _EKRL_Server_Stat=FALSE
 
-for i=9 to 20
-$TIMER_STOP[i]=true
-$TIMER[i]=0
 
-ENDFOR
 
 
 END
