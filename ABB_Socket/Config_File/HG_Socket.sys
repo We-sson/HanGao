@@ -30,7 +30,7 @@ MODULE HG_Socket(SYSMODULE)
 
 
     CONST num HG_Client_PORT:=5400;
-    CONST num HG_Mes_Client_PORT:=6005;
+    CONST num HG_Mes_Client_PORT:=6000;
 
     CONST num HG_Sever_PORT:=5001;
     CONST num HG_Client_Time:=2;
@@ -336,9 +336,10 @@ MODULE HG_Socket(SYSMODULE)
 
         VAR rawbytes Data_raw;
         VAR rawbytes Send_raw;
+        VAR num TEST1;
         ClearRawBytes Send_raw;
 
-
+        TEST1:=strLen(Send_Model.Vision_Model);
         PackRawBytes strLen(Send_Model.Vision_Model),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
         PackRawBytes Send_Model.Vision_Model,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
         PackRawBytes strLen(Send_Model.Robot_Type),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
@@ -355,12 +356,21 @@ MODULE HG_Socket(SYSMODULE)
         PackRawBytes Send_Model.Mes_Work_C_State,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
         PackRawBytes strLen(Send_Model.Mes_Work_D_State),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
         PackRawBytes Send_Model.Mes_Work_D_State,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
-        !???????
-        PackRawBytes RawBytesLen(Send_raw),Data_raw,1,\IntX:=UINT;
-        !??????
-        CopyRawBytes Send_raw,1,Data_raw,3;
+        PackRawBytes strLen(Send_Model.Robot_Process_Int),Send_raw,(RawBytesLen(Send_raw)+1)\IntX:=UINT;
+        PackRawBytes Send_Model.Robot_Process_Int,Send_raw,(RawBytesLen(Send_raw)+1)\ASCII;
 
-        SocketSend Client_Socket\RawData:=Send_raw;
+        !???????
+        PackRawBytes RawBytesLen(Send_raw)+2,Data_raw,1,\IntX:=UINT;
+
+
+
+        !??????
+        CopyRawBytes Send_raw,1,Data_raw,RawBytesLen(Data_raw)+1;
+
+        TEST1:=RawBytesLen(Data_raw);
+
+
+        SocketSend Client_Socket\RawData:=Data_raw;
 
 
     ERROR
@@ -390,25 +400,33 @@ MODULE HG_Socket(SYSMODULE)
         ClearRawBytes Rece_raw;
         IF Present(wait_time) time_val:=wait_time;
 
-        !Receive Msg_leng
-        SocketReceive client_socket,\RawData:=Rece_raw,\ReadNoOfBytes:=4,\Time:=time_val;
-        UnpackRawBytes Rece_raw,1,msg_len,\IntX:=DINT;
+        !        !Receive Msg_leng
+        !            SocketReceive client_socket,\RawData:=Rece_raw,\ReadNoOfBytes:=4,\Time:=time_val;
+        !            UnpackRawBytes Rece_raw,1,msg_len,\IntX:=DINT;
 
         !Stop \NoRegain;
 
         ClearRawBytes Rece_raw;
         ! Read check message bytes
         SocketReceive client_socket,\RawData:=Rece_raw,\NoRecBytes:=bytes_rcvd,\Time:=time_val;
-        IF (bytes_rcvd<>msg_len) THEN
-            ErrWrite\W,"ROS Socket Recv Failed","Did not receive expected # of bytes.",
-                     \RL2:="Expected: "+ValToStr(msg_len-4),
-                     \RL3:="Received: "+ValToStr(bytes_rcvd);
 
-            Rece_Model.IsStatus:=0;
-            RETURN ;
-        ENDIF
+
+
+        !            IF (bytes_rcvd<>msg_len) THEN
+        !                ErrWrite\W,"ROS Socket Recv Failed","Did not receive expected # of bytes.",
+        !                         \RL2:="Expected: "+ValToStr(msg_len-4),
+        !                         \RL3:="Received: "+ValToStr(bytes_rcvd);
+
+        !                Rece_Model.IsStatus:=0;
+        !                RETURN ;
+        !            ENDIF
 
         !-----------------
+        UnpackRawBytes Rece_raw,1,Rece_Model.IsStatus,\IntX:=DINT;
+        UnpackRawBytes Rece_raw,5,Rece_Model.Socket_Polling_Time,\IntX:=DINT;
+
+
+
 
         ClearRawBytes Rece_raw;
         !-----------------        
@@ -417,12 +435,13 @@ MODULE HG_Socket(SYSMODULE)
         !Error Handling
         IF ERRNO=ERR_SOCK_TIMEOUT THEN
             TPWrite "upack msg from sensor socket timeout, timeout time is: "+ValToStr(time_val);
-            RETURN ;
+            TRYNEXT;
         ELSEIF ERRNO=ERR_SOCK_CLOSED THEN
             TPWrite "upack msg from sensor socket closed";
         ELSE
             TPWrite "upack msg from sensor socket unknow";
         ENDIF
+        RETURN ;
     ENDPROC
 
 ENDMODULE

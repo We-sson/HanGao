@@ -233,13 +233,13 @@ namespace Roboto_Socket_Library.Model
                 Vision_Model=_.Vision_Model;
                 Mes_Programs_Name = _.Mes_Programs_Name;
                 Mes_Robot_Mode=_.Mes_Robot_Mode;
+                Robot_Process_Int = _.Robot_Process_Int;
 
                 Mes_Work_A_State = _.Mes_Work_A_State;
                 Mes_Work_B_State = _.Mes_Work_B_State;
                 Mes_Work_C_State= _.Mes_Work_C_State;
                 Mes_Work_D_State = _.Mes_Work_D_State;
 
-                Robot_Process_Int = _.Robot_Process_Int;
 
             }
 

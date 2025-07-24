@@ -1,7 +1,7 @@
 MODULE HG_Vision
-	VAR wobjdata Model_2:=[FALSE,TRUE,"",[[695.763,-308.932,242.802],[0.688146,0.238317,-0.632091,0.264803]],[[0,0,0],[1,0,0,0]]];
-	VAR wobjdata Model_1:=[FALSE,TRUE,"",[[0,0,0],[1,0,0,0]],[[0,0,0],[1,0,0,0]]];
-   ! PERS tooldata too11OSPR:=[TRUE,[[-150,0,388],[1,0,0,0]],[6,[-150,0,0],[1,0,0,0],0,0,0]];
+    VAR wobjdata Model_2:=[FALSE,TRUE,"",[[695.763,-308.932,242.802],[0.688146,0.238317,-0.632091,0.264803]],[[0,0,0],[1,0,0,0]]];
+    VAR wobjdata Model_1:=[FALSE,TRUE,"",[[0,0,0],[1,0,0,0]],[[0,0,0],[1,0,0,0]]];
+    PERS tooldata too11OSPR:=[TRUE,[[-150,0,388],[1,0,0,0]],[6,[-150,0,0],[1,0,0,0],0,0,0]];
 
 
 
@@ -41,7 +41,12 @@ MODULE HG_Vision
 
 
     PROC HE_Creation_Model_Demo()
-        HG_Creation_Model Model_2;
+        ! HG_Creation_Model Model_2;
+        VAR string a;
+        VAR num No;
+        No:=0;
+        a:=GetTaskName(\TaskNo:=No);
+        a:=GetServiceInfo(ROB_1\DutyTimeCnt);
     ENDPROC
 
 ENDMODULE

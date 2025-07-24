@@ -70,24 +70,25 @@ namespace Roboto_Socket_Library
 
 
                     //装换接收总数字节
-                    var INI = BitConverter.ToInt16(Receice_byte.Skip(0).Take(2).ToArray());
+                    int INI = BitConverter.ToInt16(Receice_byte.Skip(0).Take(2).ToArray());
 
-                    if (INI != Receice_byte.Count - 2)
+                    if (INI != Receice_byte.Count)
                     {
                         throw new Exception("通讯协议存在丢包，请检查网络！");
                     }
 
-                    //装换接收功能
-                    var mode = BitConverter.ToInt16(Receice_byte.Skip(2).Take(2).ToArray());
+                    //接收类型长度
+                    int mode_Len = BitConverter.ToInt16(Receice_byte.Skip(2).Take(2).ToArray());
 
+                    string Model_String = Encoding.ASCII.GetString(Receice_byte.Skip(4).Take(mode_Len).ToArray());
 
-                    if (!Enum.IsDefined((Vision_Model_Enum)mode))
+                    if (!Enum.IsDefined(typeof(Vision_Model_Enum), Model_String))
                     {
                         throw new Exception("通讯协议无该功能码，请联系开发者！");
                     }
 
 
-                    return (Vision_Model_Enum)mode;
+                    return Enum.Parse<Vision_Model_Enum>(Model_String);
 
 
 
@@ -223,7 +224,7 @@ namespace Roboto_Socket_Library
 
 
                 case Vision_Model_Enum.Mes_Server_Info_Rece_Data:
-                    
+
 
 
                     return Mes_Server_Info_Receive_Procotol((_Propertie as Mes_Server_Info_Data_Receive)!);
@@ -624,7 +625,63 @@ namespace Roboto_Socket_Library
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
 
+                    int Byte_Start = 2;
+                    int Len_Cont = 2;
+                    //接收类型长度
+                    byte[] Read_Byte = Receice_byte.Skip(Byte_Start).ToArray();
 
+                    int mode_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
+                    string Model_String = Encoding.ASCII.GetString(Receice_byte.Skip(Byte_Start + Len_Cont).Take(mode_Len).ToArray());
+
+                    _Mes_Robot_Data_Receive.Vision_Model = Enum.Parse<Vision_Model_Enum>(Model_String);
+
+                    Read_Byte = Read_Byte.Skip(Len_Cont + mode_Len).ToArray();
+
+                    int Robot_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
+                    string Robot_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Robot_Len).ToArray());
+
+                    _Mes_Robot_Data_Receive.Robot_Type = Enum.Parse<Robot_Type_Enum>(Robot_String);
+
+
+                    Read_Byte = Read_Byte.Skip(Len_Cont + Robot_Len).ToArray();
+
+                    int Robot_Mode_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
+                    string Robot_Mode_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Robot_Mode_Len).ToArray());
+
+                    _Mes_Robot_Data_Receive.Mes_Robot_Mode = Enum.Parse<KUKA_Mode_OP_Enum>(Robot_Mode_String);
+
+                    Read_Byte = Read_Byte.Skip(Len_Cont + Robot_Mode_Len).ToArray();
+
+                    int Programs_Name_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
+
+                    _Mes_Robot_Data_Receive.Mes_Programs_Name = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Programs_Name_Len).ToArray());
+
+                    Read_Byte = Read_Byte.Skip(Len_Cont + Programs_Name_Len).ToArray();
+
+                    int Work_A_State_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
+                    string Work_A_State_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Work_A_State_Len).ToArray());
+                    _Mes_Robot_Data_Receive.Mes_Work_A_State = bool.Parse(Work_A_State_String);
+
+                    Read_Byte = Read_Byte.Skip(Len_Cont + Work_A_State_Len).ToArray();
+                    int Work_B_State_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
+                    string Work_B_State_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Work_B_State_Len).ToArray());
+                    _Mes_Robot_Data_Receive.Mes_Work_B_State = bool.Parse(Work_B_State_String);
+
+                    Read_Byte = Read_Byte.Skip(Len_Cont + Work_B_State_Len).ToArray();
+                    int Work_C_State_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
+                    string Work_C_State_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Work_C_State_Len).ToArray());
+                    _Mes_Robot_Data_Receive.Mes_Work_C_State = bool.Parse(Work_C_State_String);
+
+
+                    Read_Byte = Read_Byte.Skip(Len_Cont + Work_C_State_Len).ToArray();
+                    int Work_D_State_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
+                    string Work_D_State_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Work_D_State_Len).ToArray());
+                    _Mes_Robot_Data_Receive.Mes_Work_D_State = bool.Parse(Work_D_State_String);
+
+                    Read_Byte = Read_Byte.Skip(Len_Cont + Work_D_State_Len).ToArray();
+                    int Robot_Process_Int_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
+                    string Robot_Process_Int_Len_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Robot_Process_Int_Len).ToArray());
+                    _Mes_Robot_Data_Receive.Robot_Process_Int = Enum.Parse<Robot_Process_Int_Enum>(Robot_Process_Int_Len_String);
 
                     break;
                 case Socket_Robot_Protocols_Enum.川崎:
@@ -825,7 +882,35 @@ namespace Roboto_Socket_Library
 
 
 
-                    break;
+                    //装换数据
+                    var st = BitConverter.GetBytes(_Propertie.IsStatus);
+                    //var mes = Encoding.UTF8.GetBytes(_Propertie.Socket_Polling_Time);
+                    var Polling_Time = BitConverter.GetBytes(_Propertie.Socket_Polling_Time / 1000);
+
+
+
+
+                    //拼接
+
+                    _byte_List.AddRange(st);
+                    _byte_List.AddRange(Polling_Time);
+                    //_Send_Byte.AddRange(mes);
+                    //_Send_Byte.AddRange(xx);
+                    //_Send_Byte.AddRange(yy);
+                    //_Send_Byte.AddRange(zz);
+                    //_Send_Byte.AddRange(Rxx);
+                    //_Send_Byte.AddRange(Ryy);
+                    //_Send_Byte.AddRange(Rzz);
+
+
+                    var _num = BitConverter.GetBytes(_byte_List.Count);
+
+                    //_byte_List.InsertRange(0, _num);
+                    return _byte_List.ToArray();
+
+
+
+
                 case Socket_Robot_Protocols_Enum.川崎:
 
 
