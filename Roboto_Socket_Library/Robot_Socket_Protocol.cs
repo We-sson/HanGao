@@ -60,10 +60,18 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
+                    try
+                    {
 
                     //提取接收内容解析
                     XElement _KUKA_Receive = XElement.Parse(Encoding.UTF8.GetString(Receice_byte.ToArray()));
                     return Enum.Parse<Vision_Model_Enum>(_KUKA_Receive.Attribute("Vision_Model")!.Value.ToString());
+                    }
+                    catch (Exception e)
+                    {
+
+                        throw new Exception("通讯协议存在异常！"+e.Message);
+                    }
 
 
                 case Socket_Robot_Protocols_Enum.ABB:

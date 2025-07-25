@@ -312,6 +312,8 @@ namespace Roboto_Socket_Library
         /// <param name="ar"></param>
         private void Client_ReceiveMessage(IAsyncResult ar)
         {
+            Thread.CurrentThread.Priority = ThreadPriority.Highest;
+
             //客户端对象
             if (ar!.AsyncState is Socket client)
             {
@@ -560,6 +562,8 @@ namespace Roboto_Socket_Library
         /// <param name="ar"></param>
         private void ReceiveMessage(IAsyncResult ar)
         {
+
+            Thread.CurrentThread.Priority = ThreadPriority.Highest;
             //客户端对象
             if (ar!.AsyncState is Socket client)
             {

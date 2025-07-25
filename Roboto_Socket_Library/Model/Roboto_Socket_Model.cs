@@ -297,7 +297,7 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 机器人工艺机器人
             /// </summary>
-            public Robot_Process_Int_Enum Robot_Process_Int = Robot_Process_Int_Enum.R_Side_7;
+            public Robot_Process_Int_Enum Robot_Process_Int { set; get; } = Robot_Process_Int_Enum.R_Side_7;
 
         }
         /// <summary>
@@ -1042,7 +1042,7 @@ namespace Roboto_Socket_Library.Model
         [Description("2楼激光面板")]
 
         Panel_Welding_2
-
+            
     }
 
 }
