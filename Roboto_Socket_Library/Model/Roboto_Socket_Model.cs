@@ -644,7 +644,7 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 上床板报更新时间
         /// </summary>
-        public double Sever_Cycle_Update_Time { set; get; } = 1;
+        public double Sever_Cycle_Update_Time { set; get; } = 2;
 
 
 
@@ -805,10 +805,15 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
-  
         public TimeSpan Robot_Work_CD_Cycle { set; get; } = new();
 
 
+        /// <summary>
+        /// 预备看板通讯周期
+        /// </summary>
+        public TimeSpan Socket_Cycle_Time { set; get; } = new();
+
+        
 
         /// <summary>
         /// 节拍负荷率

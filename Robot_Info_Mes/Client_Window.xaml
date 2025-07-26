@@ -715,6 +715,47 @@
 
                 </Border>
 
+
+                <Grid
+                    Grid.Column=" 0"
+                    Width=" 70"
+                    Margin="5,10,5,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=" 40" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                        Text="通讯周期" />
+                    <Border
+                        Grid.Row=" 2"
+                        BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                        BorderThickness="2"
+                        CornerRadius="10">
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                            Text="{Binding Mes_Robot_Info_Model_Data.Socket_Cycle_Time.Milliseconds, StringFormat='{}{0:}ms', FallbackValue=....}"
+                            TextAlignment="Left"
+                            TextWrapping="Wrap" />
+
+
+                    </Border>
+                </Grid>
+
+
                 <Border
                     Width="3"
                     Margin="5,20,5,20"

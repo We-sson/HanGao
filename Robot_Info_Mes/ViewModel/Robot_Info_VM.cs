@@ -36,17 +36,17 @@ namespace Robot_Info_Mes.ViewModel
 
             File_Int_Parameters = File_Xml_Model.Read_Xml_File<File_Int_Model>();
 
-      
+
 
             switch (File_Int_Parameters.Window_Startup_Type)
             {
                 case Window_Startup_Type_Enum.Server:
 
+                    ///使用默认xml格式接受信息
+                    File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model = Socket_Robot_Protocols_Enum.KUKA;
 
                     ///看板端
                     Initialization_Mes_Sever_Start();
-
-
 
 
 
@@ -56,11 +56,11 @@ namespace Robot_Info_Mes.ViewModel
                 case Window_Startup_Type_Enum.Client:
 
                     ///接受机器人信息
-                    
+
                     Mes_Robot_Info_Model_Data = File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
                     Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
 
-                  //  Initialization_Local_Network_Robot_Socket();
+                    //  Initialization_Local_Network_Robot_Socket();
 
 
                     Initialization_Robot_Sever_Start();
@@ -344,9 +344,9 @@ namespace Robot_Info_Mes.ViewModel
 
             //重启软件后当天时间继续计时
             Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Timer_UI;
-            Mes_Robot_Info_Model_Data. Robot_Error_All_Time.Time_Offset = Mes_Robot_Info_Model_Data. Robot_Error_All_Time.Timer_UI;
+            Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Timer_UI;
             Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI;
-            Mes_Robot_Info_Model_Data. Robot_Work_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_UI;
+            Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_UI;
             Mes_Robot_Info_Model_Data.Robot_Error_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Error_Time.Timer_UI;
             Mes_Robot_Info_Model_Data.Robot_Debug_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI;
             Mes_Robot_Info_Model_Data.Robot_Work_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI;
@@ -366,7 +366,7 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Tick += (s, e) =>
             {
 
-           
+
                 //当程序连续开的时候经过12点清除数据
                 Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
 
@@ -392,27 +392,62 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Start();
 
 
+            ///周期发送看板更新
+            //Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.Sever_Cycle_Update_Time);
+            //Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Tick += (s, e) =>
+            //{
 
-            Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.Sever_Cycle_Update_Time);
-            Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Tick += (s, e) =>
+
+            //    //User_Log_Add("信息文件定时已到：" + Mes_Run_Parameters.Socket_Polling_Time + "s，进行文件保存！");
+
+
+            //};
+            //Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Start();
+
+
+
+            Socket_Cycle_KanBan_Info();
+
+            ///汇总上传信息
+            Mes_Info_Parameters.Socket_Client.Mes_Receive_Info_Data_Delegate = Mes_Receive_Info_Data_Method;
+            Mes_Info_Parameters.Socket_Client.Socket_ErrorInfo_delegate = Socket_Cycle_Update_ErrorLog_Show;
+            Mes_Info_Parameters.Socket_Client.Socket_ConnectInfo_delegate = Socket_ConnectLog_Show;
+            Mes_Info_Parameters.Socket_Client.Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method;
+            Mes_Info_Parameters.Socket_Client.Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method;
+        }
+
+
+        /// <summary>
+        /// 通讯循环周期发送看板信息
+        /// </summary>
+        public void Socket_Cycle_KanBan_Info()
+        {
+            Task.Run(() =>
             {
-                Task.Run(() =>
-                {
-                    Thread.CurrentThread.Priority = ThreadPriority.Highest;
+                Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
-                    lock (Mes_Info_Parameters)
-                    {
+                while (true)
+                {
+
+                    Thread.Sleep((int)File_Int_Parameters.Mes_Run_Parameters.Sever_Cycle_Update_Time*1000);
+
+                    //if (Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected)
+                    //{
+
 
                         if ((Mes_Info_Parameters.Socket_Client.Socket_Client) == null || (!(bool?)(Mes_Info_Parameters.Socket_Client.Socket_Client?.Connected) ?? false))
                         {
 
                             Mes_Info_Parameters.Socket_Client.Connect(File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port);
+                            //连接成功释放一下信号
+                            Mes_Info_Parameters.Socket_Client.Rece_Event.Set();
 
-
-                        }
-                        if ((bool?)(Mes_Info_Parameters.Socket_Client.Socket_Client?.Connected) ?? false)
+                        } 
+          
+                        if (((bool?)(Mes_Info_Parameters.Socket_Client.Socket_Client?.Connected) ?? false) && Mes_Info_Parameters.Socket_Client.Rece_Event.WaitOne())
                         {
-
+                            ///发送完成一次后复位信号
+                            Mes_Info_Parameters.Socket_Client.Rece_Event.Reset();
 
                             Mes_Server_Info_Data_Receive _Send = new Mes_Server_Info_Data_Receive()
                             {
@@ -445,31 +480,23 @@ namespace Robot_Info_Mes.ViewModel
                             };
 
 
-                            Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>(File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model, Vision_Model_Enum.Mes_Server_Info_Rece_Data, _Send);
+                            Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>( Socket_Robot_Protocols_Enum.KUKA, Vision_Model_Enum.Mes_Server_Info_Rece_Data, _Send);
+
+                     
+
                         }
 
 
                     }
 
-                });
+                //}
 
-                //User_Log_Add("信息文件定时已到：" + Mes_Run_Parameters.Socket_Polling_Time + "s，进行文件保存！");
+            });
 
 
-            };
-            Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Start();
 
-            ///汇总上传信息
-            Mes_Info_Parameters.Socket_Client.Mes_Receive_Info_Data_Delegate = Mes_Receive_Info_Data_Method;
-            Mes_Info_Parameters.Socket_Client.Socket_ErrorInfo_delegate = Socket_Cycle_Update_ErrorLog_Show;
-            Mes_Info_Parameters.Socket_Client.Socket_ConnectInfo_delegate = Socket_ConnectLog_Show;
-            Mes_Info_Parameters.Socket_Client.Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method;
-            Mes_Info_Parameters.Socket_Client.Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method;
+
         }
-
-
-
-
 
 
 
@@ -653,6 +680,9 @@ namespace Robot_Info_Mes.ViewModel
         {
             Mes_Server_Info_Data_Send _Send = new();
 
+            Thread.CurrentThread.Priority = ThreadPriority.Highest;
+
+
             foreach (var _Server in Mes_Server_Model_List)
             {
 
@@ -667,7 +697,8 @@ namespace Robot_Info_Mes.ViewModel
                     _Server.Work_Factor_Seried.Work_Availability_Factor.Value = _Receive.Mes_Server_Date.Work_Availability_Factor;
                     _Server.Work_Factor_Seried.Work_Performance_Factor.Value = _Receive.Mes_Server_Date.Work_Performance_Factor;
 
-
+                    //计算通讯周期
+                    _Server.Mes_Robot_Info_Model_Data.Socket_Cycle_Time = DateTime.Now - _Server.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time;
 
                     _Server.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time = DateTime.Now;
                     _Server.Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_UI = _Receive.Mes_Server_Date.Robot_Work_AB_Cycle;
@@ -693,6 +724,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
                     _Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode = _Receive.Robot_Mes_Info_Data.Mes_Robot_Mode;
+
 
 
                     _Server.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Connected;
@@ -758,7 +790,8 @@ namespace Robot_Info_Mes.ViewModel
             User_Log_Add($"上传看板信息更新时间：{_Receive.Socket_Update_Time}");
 
 
-
+            ///接受完成消息在发送信息
+            Mes_Info_Parameters.Socket_Client.Rece_Event.Set();
 
 
 
@@ -773,8 +806,11 @@ namespace Robot_Info_Mes.ViewModel
         /// <param name="_Data"></param>
         public void Set_Robot_Info_Data(Robot_Mes_Info_Data_Receive _Data)
         {
+            ///计算通讯周期耗时
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Time = DateTime.Now - Mes_Robot_Info_Model_Data.Socket_Last_Update_Time;
 
             Mes_Robot_Info_Model_Data.Socket_Last_Update_Time = DateTime.Now;
+
 
             Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data);
 
@@ -862,9 +898,21 @@ namespace Robot_Info_Mes.ViewModel
         public void Socket_Cycle_Update_ErrorLog_Show(string _log, Socket? _Socket)
         {
 
+            try
+            {
+
+                Mes_Info_Parameters.Socket_Client?.Socket_Client?.Disconnect(false);
 
 
-            User_Log_Add(_log);
+                User_Log_Add(_log);
+
+            }
+            catch (Exception e)
+            {
+
+                User_Log_Add(_log + e.Message);
+            }
+
         }
 
         /// <summary>

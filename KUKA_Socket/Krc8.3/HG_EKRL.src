@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 398
+&ACCESS RVO2
+&REL 404
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -145,16 +145,18 @@ GLOBAL DEF EKRL_HandEye_Point(EKRL_NAME:IN,HandEye_Type:IN,HandEye_Result_Pos:OU
    
 END
 
-GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN)
+GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN,Send_Stae:OUT)
    DECL CHAR EKRL_NAME[],MODE_OP[1024],Robot_Process_Name_Str[1024],DATAPATH[1024],Robot_Process_Int[1024],DATAPATH_NAME[1024]
    DECL EKI_STATUS RET
    
-   DECL  BOOL IsStatus
+   DECL  BOOL IsStatus,Rece_State,Send_Stae
    DECL INT HandEye_ID,OPFFSET,Work_Number,Mes_Work_AB_Cycle_Time,Mes_Work_CD_Cycle_Time
    DECL State_t _State
    
    IsStatus=FALSE
-   
+   Rece_State=FALSE
+   ;Send_Stae=FALSE
+   $FLAG[2]=FALSE
    DATAPATH_NAME[]=" "
    ;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
    
@@ -232,13 +234,26 @@ GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN)
    ;HALT
    ;wait sec 0.2
    RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
-   RET = EKI_ClearBuffer(EKRL_NAME[],"Robot_Send")
    
    ;HALT
    ;Message_Wait("Wait Mes Data!",2,TRUE)
+   EKRL_Wait_TimeOut(Rece_State,Socket_TimeOut,2)
    
-   ;RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
-   ;RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_Cycle_Time)
+   IF Rece_State THEN
+      
+      RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
+      ;RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_TimeOut)
+      
+      
+      Send_Stae=TRUE
+       $FLAG[2]=FALSE
+   ELSE
+      Send_Stae=FALSE
+   ENDIF
+   
+   RET = EKI_ClearBuffer(EKRL_NAME[],"Robot_Send")
+   
+   
    ;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
    ;RET=EKI_Close(EKRL_NAME[])
    ;RET=EKI_Clear(EKRL_NAME[])
@@ -826,24 +841,28 @@ GLOBAL DEF EKRL_Mes_Server(EKRL_NAME:IN,_Server_Stat:OUT)
    
 End
 
-GLOBAL DEF EKRL_Connect(EKRL_NAME:IN,Msg_Err:IN)
+GLOBAL DEF EKRL_Connect(EKRL_NAME:IN,Msg_Err:IN,Connect_State:OUT)
    DECL EKI_STATUS RET
    DECL INT Mess_INT
-   DECL BOOL Mess_Del,Msg_Err
+   DECL BOOL Mess_Del,Msg_Err,Connect_State
    DECL CHAR EKRL_NAME[]
    ;EKRL_NAME[]="HanGaoEkrl"
-   
+   Connect_State=FALSE
    Mess_INT=-1
-   WAIT SEC 0.02
+ 
+   $FLAG[Connect_Falg]=FALSE
+   
+   
+   
    RET=EKI_Init(EKRL_NAME[])
-   EKI_CHECK(RET,#Quit,EKRL_NAME[])
+   EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
    
    ;HALT
    RET=EKI_OPEN(EKRL_NAME[])
-   EKI_CHECK(RET,#Quit,EKRL_NAME[])
+   EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
    
-   wait sec 0.02
-   
+ 
+   WAIT SEC 0.24
    ;MSGNOTIFY("HanGao:Socket Connecting!")
    
    IF Msg_Err THEN
@@ -866,6 +885,9 @@ GLOBAL DEF EKRL_Connect(EKRL_NAME:IN,Msg_Err:IN)
       
       MSGNOTIFY("HanGao:Socket Connecting OK!")
       Mess_Del=Clear_KrlMsg(Mess_INT)
+   ELSE
+      
+      EKRL_Wait_TimeOut(Connect_State,Socket_TimeOut,Connect_Falg)
       
    ENDIF
    
@@ -903,4 +925,28 @@ GLOBAL  DEF  Msg_Wait(mess[]:IN,Wait_ON:IN,MSG_INT:OUT,Connect_Flag:IN)
       ENDIF
       Msg_Exit=Exists_KrlMsg(Msg_INT)
    UNTIL NOT(Msg_Exit) OR Msg_Clear OR NOT(WAIT_ON)
+END
+
+GLOBAL DEF EKRL_Wait_TimeOut(Rece_State:OUT,Wait_Sec:IN,Rece_Flag_No:IN)
+   DECL bool Rece_State
+   DECL int Wait_Sec
+   decl int Rece_Flag_No
+   Rece_State=FALSE
+   $TIMER[10]=0
+   $TIMER_STOP[10]=FALSE
+   
+;WAIT SEC 0.5
+; OR ($FLAG[Rece_Flag_No]==FALSE
+WHILE  (Wait_Sec<$TIMER[10]) OR $FLAG[Rece_Flag_No]==FALSE
+  WAIT SEC 0.02
+ENDWHILE
+
+   
+   
+   IF $FLAG[Rece_Flag_No]==TRUE THEN
+      Rece_State=TRUE
+   ENDIF
+   
+   $TIMER_STOP[10]=TRUE
+   $TIMER[10]=0
 END

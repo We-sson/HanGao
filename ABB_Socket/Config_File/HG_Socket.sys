@@ -62,11 +62,11 @@ MODULE HG_Socket(SYSMODULE)
 
 
 
-    FUNC bool HG_Socket_Client_Connect(VAR socketdev client_socket,num port,\num wait_time)
+    FUNC bool HG_Socket_Client_Connect(VAR socketdev client_socket,num port,\bool Wait_out,\num wait_time)
         VAR num time_val:=WAIT_MAX;
         ! default to wait-forever
         IF Present(wait_time) time_val:=wait_time;
-
+        ! IF Present(Wait_out) Wait_out:=true;
         IF (SocketGetStatus(client_socket)<>SOCKET_CLOSED) SocketClose client_socket;
 
         WaitUntil(SocketGetStatus(client_socket)=SOCKET_CLOSED);
@@ -77,7 +77,7 @@ MODULE HG_Socket(SYSMODULE)
 
         SocketConnect client_socket,HG_Client_IP,port\Time:=time_val;
 
-        IF wait_time<>1 THEN
+        IF Wait_out THEN
 
             WaitUntil(SocketGetStatus(client_socket)=SOCKET_CONNECTED);
             HTWrite "Socket Connect OK->, "+HG_Client_IP+":"+ValToStr(HG_Client_PORT);
@@ -85,16 +85,19 @@ MODULE HG_Socket(SYSMODULE)
             RETURN TRUE;
         ELSE
 
-            IF (SocketGetStatus(client_socket)=SOCKET_CONNECTED) RETURN TRUE;
-
+            IF (SocketGetStatus(client_socket)=SOCKET_CONNECTED) then
+                RETURN TRUE;
+            ELSE
+                RETURN FALSE;
+            endif
         ENDIF
 
-        RETURN FALSE;
+
     ERROR
         !Error Handling
         IF ERRNO=ERR_SOCK_TIMEOUT THEN
 
-            IF wait_time<>1 THEN
+            IF Wait_out THEN
                 RETRY;
             ELSE
                 RETURN FALSE;
@@ -383,6 +386,7 @@ MODULE HG_Socket(SYSMODULE)
         ELSE
             HTWrite "pack msg to sensor socket unknow";
         ENDIF
+        RETURN;
     ENDPROC
 
     PROC Mes_Socket_Info_Receive(var socketdev client_socket,var HG_Mes_SocketRece_Model Rece_Model,\num Wait_Time)
@@ -435,12 +439,14 @@ MODULE HG_Socket(SYSMODULE)
         !Error Handling
         IF ERRNO=ERR_SOCK_TIMEOUT THEN
             TPWrite "upack msg from sensor socket timeout, timeout time is: "+ValToStr(time_val);
-            TRYNEXT;
+
         ELSEIF ERRNO=ERR_SOCK_CLOSED THEN
             TPWrite "upack msg from sensor socket closed";
         ELSE
             TPWrite "upack msg from sensor socket unknow";
         ENDIF
+        !TRYNEXT;
+        Rece_Model.IsStatus:=0;
         RETURN ;
     ENDPROC
 

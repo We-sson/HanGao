@@ -1,379 +1,331 @@
-&ACCESS RVO1
-&REL 7219
+&ACCESS RVP1
+&REL 7828
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEF Mes_Info( )
-Mes_Info_Int()
-Work_A_State=false
-Work_B_State=false
-Work_C_State=false
-Work_D_State=false
+   Mes_Info_Int()
+   Work_A_State=false
+   Work_B_State=false
+   Work_C_State=false
+   Work_D_State=false
+   
+   halt
+   LOOP
+      ;Mes_Info_Main()
 
-halt
-LOOP
-;Mes_Info_Main()
-Work_A_State=true
-wait sec 20
-Work_A_State=false
-Work_C_State=true
-wait sec 20
-Work_C_State=false
-
-wait sec 0.5
-;FOLD WAIT Time= 0.0 sec ;%{PE}
-;FOLD Parameters ;%{h}
-;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.wait; Time=0.0
-;ENDFOLD
-WAIT SEC 0.0
-;ENDFOLD
-ENDLOOP
-;# DATE:2025-6-12
+  ; ENDLOOP
+      Work_A_State=true
+      wait sec 5
+      Work_A_State=false
+      Work_C_State=true
+      wait sec 5
+      Work_C_State=false
+      
+      wait sec 0.5
+      ;FOLD WAIT Time= 0.0 sec ;%{PE}
+         ;FOLD Parameters ;%{h}
+            ;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.wait; Time=0.0
+         ;ENDFOLD
+         WAIT SEC 0.0
+      ;ENDFOLD
+   ENDLOOP
+   ;# DATE:2025-6-12
 END
 
 GLOBAL DEF Mes_InFo_Main()
-
-;DECL bool _Work_A_Stat,_Work_B_Stat,_Work_C_Stat,_Work_D_Stat
- 
-
-;_Work_A_Stat=FALSE
-;_Work_B_Stat=FALSE
-;_Work_C_Stat=FALSE
-;_Work_D_Stat=FALSE
-
-
-  
-
-
-;Mes_Work_Info(WORK_A_State,_Work_A_Stat,12,Work_A_Run_Nunber,Work_A_Run_Cycle_Time)
-;Mes_Work_Info(WORK_B_State,_Work_B_Stat,13,Work_B_Run_Nunber,Work_B_Run_Cycle_Time)
-;Mes_Work_Info(WORK_C_State,_Work_C_Stat,14,Work_C_Run_Nunber,Work_C_Run_Cycle_Time)
-;Mes_Work_Info(WORK_D_State,_Work_D_Stat,15,Work_D_Run_Nunber,Work_D_Run_Cycle_Time)
-
-
-Mes_Info_Send(_EKRL_Send_Stat,9)
-
-;Mes_Info_Server(1,9)
-
-
+   
+   ;DECL bool _Work_A_Stat,_Work_B_Stat,_Work_C_Stat,_Work_D_Stat
+   
+   ;_Work_A_Stat=FALSE
+   ;_Work_B_Stat=FALSE
+   ;_Work_C_Stat=FALSE
+   ;_Work_D_Stat=FALSE
+   
+   ;Mes_Work_Info(WORK_A_State,_Work_A_Stat,12,Work_A_Run_Nunber,Work_A_Run_Cycle_Time)
+   ;Mes_Work_Info(WORK_B_State,_Work_B_Stat,13,Work_B_Run_Nunber,Work_B_Run_Cycle_Time)
+   ;Mes_Work_Info(WORK_C_State,_Work_C_Stat,14,Work_C_Run_Nunber,Work_C_Run_Cycle_Time)
+   ;Mes_Work_Info(WORK_D_State,_Work_D_Stat,15,Work_D_Run_Nunber,Work_D_Run_Cycle_Time)
+   
+   Mes_Info_Send(_EKRL_Connect_Stat,_EKRL_Send_Stat)
+   
+   ;Mes_Info_Server(1,9)
+   
 END
 
 DEF Mes_Work_Info( _Work:IN,_Work_State:OUT, _Time_No:IN,_Work_Run_Nunber:OUT,_Work_Run_Cycle_Time:OUT)
-
-DECL BOOL _Work,_Work_State
-DECL INT _Time_No,_Work_Run_Nunber,_Work_Run_Cycle_Time,_Work_Run_All_Time
-
-
-
-
-IF ((_Work==TRUE) AND (_Work_State==FALSE)  AND ($MODE_OP==#AUT) ) THEN
-_Work_State=TRUE
-$TIMER_STOP[_Time_No]=false
-
-
-ENDIF
-
-
-
-IF  ((_Work==FALSE )AND( _Work_State==TRUE) AND ($MODE_OP==#AUT) )  THEN
-_Work_Run_Nunber=_Work_Run_Nunber+1
-$TIMER_STOP[_Time_No]=true
-
-_Work_Run_All_Time=$TIMER[_Time_No]
-$TIMER[_Time_No]=0
-
-_Work_State=FALSE
-
-
-
-
-
-ENDIF
-
-
-
-IF ((_Work==TRUE) AND (_Work_State==TRUE) AND ($MODE_OP==#AUT)) THEN
-_Work_Run_Cycle_Time=$TIMER[_Time_No]
-ENDIF
-
-
-
+   
+   DECL BOOL _Work,_Work_State
+   DECL INT _Time_No,_Work_Run_Nunber,_Work_Run_Cycle_Time,_Work_Run_All_Time
+   
+   IF ((_Work==TRUE) AND (_Work_State==FALSE)  AND ($MODE_OP==#AUT) ) THEN
+      _Work_State=TRUE
+      $TIMER_STOP[_Time_No]=false
+      
+   ENDIF
+   
+   IF  ((_Work==FALSE )AND( _Work_State==TRUE) AND ($MODE_OP==#AUT) )  THEN
+      _Work_Run_Nunber=_Work_Run_Nunber+1
+      $TIMER_STOP[_Time_No]=true
+      
+      _Work_Run_All_Time=$TIMER[_Time_No]
+      $TIMER[_Time_No]=0
+      
+      _Work_State=FALSE
+      
+   ENDIF
+   
+   IF ((_Work==TRUE) AND (_Work_State==TRUE) AND ($MODE_OP==#AUT)) THEN
+      _Work_Run_Cycle_Time=$TIMER[_Time_No]
+   ENDIF
+   
 END
-
-
 
 DEF Mes_Mode_Info(_Aut_Time:OUT,_Stat:OUT,_Time_No:IN,_Mode:IN)
-DECL INT _Aut_Time,_Time_No
-DECL MODE_OP _Mode
-DECL BOOL _Stat
-
-
-
-
-
-IF (($Mode_OP==_Mode) AND (_Stat==false)) THEN
-$TIMER_STOP[_Time_No]=false
-_Stat=true
-ENDIF
-
-if (($Mode_OP<>_Mode) AND (_Stat==TRUE)) THEN
-;wait sec 0
-$TIMER_STOP[_Time_No]=true
-_Aut_Time=_Aut_Time+$TIMER[_Time_No]
-$TIMER[_Time_No]=0
-_Stat=FALSE
-endif
-
-
+   DECL INT _Aut_Time,_Time_No
+   DECL MODE_OP _Mode
+   DECL BOOL _Stat
+   
+   IF (($Mode_OP==_Mode) AND (_Stat==false)) THEN
+      $TIMER_STOP[_Time_No]=false
+      _Stat=true
+   ENDIF
+   
+   if (($Mode_OP<>_Mode) AND (_Stat==TRUE)) THEN
+      ;wait sec 0
+      $TIMER_STOP[_Time_No]=true
+      _Aut_Time=_Aut_Time+$TIMER[_Time_No]
+      $TIMER[_Time_No]=0
+      _Stat=FALSE
+   endif
+   
 END
-
-
 
 DEF Mes_Info_Server(_Falg_No:IN,_Time_No:IN)
-
-DECL INT _Falg_No,_Time_No
-DECL CHAR EKRL_NAME[1024]
-DECL EKI_STATUS RET
-;HALT
-
-EKRL_NAME[]="Xml_Mes_Robot_Info"
-
-IF _EKRL_Send_Stat==FALSE THEN
-_EKRL_Send_Stat=TRUE
-;EKRL_Mes_Server("Xml_Mes_Robot_Info",_EKRL_Send_Stat)
- $TIMER[_Time_No]=0
- $TIMER_STOP[_Time_No]=false
-
-RET=EKI_Init(EKRL_NAME[])
-;EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
-;HALT
-RET=EKI_OPEN(EKRL_NAME[])
-EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
-
-IF RET.Msg_No<>0 THEN
- _EKRL_Send_Stat=FALSE
-RET=EKI_Clear(EKRL_NAME[])
-;RET=EKI_Close(EKRL_NAME[])
-EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
-ENDIF
-
-ENDIF
-
-
-
-
- IF (_EKRL_Send_Stat==TRUE) AND ($Flag[_Falg_No]==TRUE) AND (_EKRL_Server_Connt_Stat==false) THEN
-   _EKRL_Server_Connt_Stat=TRUE
- ; Mes_EKRL_Server_Send(EKRL_NAME[])
-  
-ENDIF
-
-
-
-IF ((_EKRL_Send_Stat==TRUE) AND ($Flag[_Falg_No]==TRUE)  AND  (_EKRL_Server_Connt_Stat==TRUE) AND  ($TIMER[_Time_No]>Socket_Cycle_Time) ) THEN
-
-;HALT
- Mes_EKRL_Server_Send(EKRL_NAME[])
- $TIMER_STOP[_Time_No]=TRUE
- $TIMER[_Time_No]=0
- $TIMER_STOP[_Time_No]=false
-ENDIF
-
-IF (_EKRL_Send_Stat==TRUE) AND ($Flag[_Falg_No]==FALSE)AND (_EKRL_Server_Connt_Stat==TRUE) THEN
-  _EKRL_Send_Stat=FALSE
-  _EKRL_Server_Connt_Stat=FALSE
-   $TIMER_STOP[_Time_No]=TRUE
-   $TIMER[_Time_No]=0
-   RET=EKI_Clear(EKRL_NAME[])
-  ; RET=EKI_Close(EKRL_NAME[])
-ENDIF
-
-
-
+   
+   DECL INT _Falg_No,_Time_No
+   DECL CHAR EKRL_NAME[1024]
+   DECL EKI_STATUS RET
+   ;HALT
+   
+   EKRL_NAME[]="Xml_Mes_Robot_Info"
+   
+   IF _EKRL_Send_Stat==FALSE THEN
+      _EKRL_Send_Stat=TRUE
+      ;EKRL_Mes_Server("Xml_Mes_Robot_Info",_EKRL_Send_Stat)
+      $TIMER[_Time_No]=0
+      $TIMER_STOP[_Time_No]=false
+      
+      RET=EKI_Init(EKRL_NAME[])
+      ;EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
+      ;HALT
+      RET=EKI_OPEN(EKRL_NAME[])
+      EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
+      
+      IF RET.Msg_No<>0 THEN
+         _EKRL_Send_Stat=FALSE
+         RET=EKI_Clear(EKRL_NAME[])
+         ;RET=EKI_Close(EKRL_NAME[])
+         EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
+      ENDIF
+      
+   ENDIF
+   
+   IF (_EKRL_Send_Stat==TRUE) AND ($Flag[_Falg_No]==TRUE) AND (_EKRL_Server_Connt_Stat==false) THEN
+      _EKRL_Server_Connt_Stat=TRUE
+      ; Mes_EKRL_Server_Send(EKRL_NAME[])
+      
+   ENDIF
+   
+   IF ((_EKRL_Send_Stat==TRUE) AND ($Flag[_Falg_No]==TRUE)  AND  (_EKRL_Server_Connt_Stat==TRUE) AND  ($TIMER[_Time_No]>Socket_TimeOut) ) THEN
+      
+      ;HALT
+      Mes_EKRL_Server_Send(EKRL_NAME[])
+      $TIMER_STOP[_Time_No]=TRUE
+      $TIMER[_Time_No]=0
+      $TIMER_STOP[_Time_No]=false
+   ENDIF
+   
+   IF (_EKRL_Send_Stat==TRUE) AND ($Flag[_Falg_No]==FALSE)AND (_EKRL_Server_Connt_Stat==TRUE) THEN
+      _EKRL_Send_Stat=FALSE
+      _EKRL_Server_Connt_Stat=FALSE
+      $TIMER_STOP[_Time_No]=TRUE
+      $TIMER[_Time_No]=0
+      RET=EKI_Clear(EKRL_NAME[])
+      ; RET=EKI_Close(EKRL_NAME[])
+   ENDIF
+   
 END
 
-
-DEF Mes_Info_Send(_EKRL_Connt_Stat:OUT,_Time_No:IN)
-DECL BOOL _EKRL_Connt_Stat
-DECL INT _Time_No
-
-;strat
-IF (_EKRL_Connt_Stat==FALSE) THEN
-$TIMER_STOP[_Time_No]=false
-_EKRL_Connt_Stat=TRUE
-;HALT
- EKRL_Connect("Xml_Mes_Robot_Info",FALSE)
-ENDIF
-
-;send
-IF ((_EKRL_Connt_Stat==TRUE) AND ($TIMER[_Time_No]>Socket_Cycle_Time)) and ($FLAG[1]==TRUE) THEN
-$TIMER_STOP[_Time_No]=TRUE
-$TIMER[_Time_No]=0
-Mes_EKRL_Info_Send("Xml_Mes_Robot_Info")
-$TIMER_STOP[_Time_No]=FALSE
-ENDIF
-
-;Rest
-IF (_EKRL_Connt_Stat==TRUE) AND ($FLAG[1]==false) THEN
- EKRL_Close("Xml_Mes_Robot_Info")
-_EKRL_Connt_Stat=FALSE
- $TIMER_STOP[_Time_No]=TRUE
-$TIMER[_Time_No]=0
-ENDIF
-
-
-
-
+DEF Mes_Info_Send(_Connt_Stat:OUT,_Send_Stat:OUT)
+   DECL BOOL _Connt_Stat,_Send_Stat
+   DECL INT _Time_No
+  
+ 
+  ;$FLAG[2]=FALSE
+   ;strat
+   IF (_Connt_Stat==FALSE) THEN
+     ; $TIMER_STOP[_Time_No]=false
+     
+     
+      ;HALT
+      EKRL_Connect("Xml_Mes_Robot_Info",FALSE,_Connt_Stat)
+      IF _Connt_Stat THEN
+        _Send_Stat=TRUE
+         
+      ENDIF
+   ENDIF
+   
+   ;send
+   IF (_Connt_Stat==TRUE) AND (_Send_Stat==TRUE) and ($FLAG[1]==TRUE) THEN
+     ; $TIMER_STOP[_Time_No]=TRUE
+      ;$TIMER[_Time_No]=0
+      Mes_EKRL_Info_Send("Xml_Mes_Robot_Info",_Send_Stat)
+      
+      ;$FLAG[2]=FALSE
+     ; $TIMER_STOP[_Time_No]=FALSE
+   ENDIF
+   
+   ;Rest
+   IF ((_Connt_Stat==TRUE) AND ($FLAG[1]==false)) OR (_Send_Stat==FALSE) THEN
+      EKRL_Close("Xml_Mes_Robot_Info")
+      _Send_Stat=FALSE
+      _Connt_Stat=FALSE
+      ;$TIMER_STOP[_Time_No]=TRUE
+      ;$TIMER[_Time_No]=0
+   ENDIF
+   
 END
 
 DEF Mes_EKRL_Server_Send(EKRL_NAME:IN)
-DECL CHAR EKRL_NAME[],MODE_OP[1024],Robot_Process_Name_Str[1024],DATAPATH[1024],Robot_Process_Int[1024]
-DECL EKI_STATUS RET
-DECL  BOOL IsStatus
-DECL INT HandEye_ID,OPFFSET,Work_Number,Mes_Work_AB_Cycle_Time,Mes_Work_CD_Cycle_Time
-DECL State_t _State
-
-
-
-
-;IsStatus=FALSE
-
-DATAPATH[]=" "
-;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
-
-
-
-
-;HALT
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Mes_Info_Data")
-DATAPATH_NAME[]=$DATAPATH[]
-;SWRITE(DATAPATH[],_State,OPFFSET,"%s",)
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
-
-OPFFSET=0
- SWITCH $MODE_OP
-    CASE #T1
-      SWRITE(MODE_OP[],_State,OPFFSET,"%s","T1")
-    CASE #AUT
-      SWRITE(MODE_OP[],_State,OPFFSET,"%s","AUT")
-  ENDSWITCH 
-
-
-
-;SWRITE(MODE_OP[],_State,OPFFSET,"%g",$MODE_OP)
-  
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Robot_Mode",MODE_OP[])
-
-
-Work_Number=Work_A_Run_Nunber+Work_B_Run_Nunber
-RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_Number",Work_Number)
-
-
-Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
-RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_A_State",Mes_Work_AB_Cycle_Time)
-
-Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
-RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_CD_Cycle_Time",Mes_Work_CD_Cycle_Time)
-
-
-OPFFSET=0
-SWITCH Robot_Process_Name
-   CASE #R_Side_7
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_7")
-   CASE #R_Side_8
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_8")
-   CASE #R_Side_9      
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_9")   
-   CASE #Panel_Surround_7
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_7")     
-   CASE #Panel_Surround_8
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_8")  
-   CASE #Panel_Surround_9
-   SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_9")      
-ENDSWITCH
-RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Int[])
-
-
-
-RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
-;HALT
-;Message_Wait("Wait Mes Data!",2,TRUE)
-
-;RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
-;RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_Cycle_Time)
-;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
-;RET=EKI_Close(EKRL_NAME[])
-;RET=EKI_Clear(EKRL_NAME[])
-
-;IF  IsStatus THEN
-
-;MSGNOTIFY(Message_Error[])
-
-;switch HandEye_Type
-;case #Calibration_Start
-
-;-----
-;case #Calibration_Progress
-;-----
-;case #Calibration_End
-
-
-;HandEye_Result_Pos.X=Result_Pos.X
-;HandEye_Result_Pos.Y=Result_Pos.Y
-;HandEye_Result_Pos.Z=Result_Pos.Z
-;endswitch
-
-
-;else
-
-;MsgQuit(Message_Error[], "HanGao")
-;halt
-;ENDIF
-
-
-
-
-
-
-
+   DECL CHAR EKRL_NAME[],MODE_OP[1024],Robot_Process_Name_Str[1024],DATAPATH[1024],Robot_Process_Int[1024]
+   DECL EKI_STATUS RET
+   DECL  BOOL IsStatus
+   DECL INT HandEye_ID,OPFFSET,Work_Number,Mes_Work_AB_Cycle_Time,Mes_Work_CD_Cycle_Time
+   DECL State_t _State
+   
+   ;IsStatus=FALSE
+   
+   DATAPATH[]=" "
+   ;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
+   
+   ;HALT
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Mes_Info_Data")
+   DATAPATH_NAME[]=$DATAPATH[]
+   ;SWRITE(DATAPATH[],_State,OPFFSET,"%s",)
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
+   
+   OPFFSET=0
+   SWITCH $MODE_OP
+      CASE #T1
+         SWRITE(MODE_OP[],_State,OPFFSET,"%s","T1")
+      CASE #AUT
+         SWRITE(MODE_OP[],_State,OPFFSET,"%s","AUT")
+   ENDSWITCH 
+   
+   ;SWRITE(MODE_OP[],_State,OPFFSET,"%g",$MODE_OP)
+   
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Robot_Mode",MODE_OP[])
+   
+   Work_Number=Work_A_Run_Nunber+Work_B_Run_Nunber
+   RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_Number",Work_Number)
+   
+   Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
+   RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_A_State",Mes_Work_AB_Cycle_Time)
+   
+   Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
+   RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_CD_Cycle_Time",Mes_Work_CD_Cycle_Time)
+   
+   OPFFSET=0
+   SWITCH Robot_Process_Name
+      CASE #R_Side_7
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_7")
+      CASE #R_Side_8
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_8")
+      CASE #R_Side_9      
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_9")   
+      CASE #Panel_Surround_7
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_7")     
+      CASE #Panel_Surround_8
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_8")  
+      CASE #Panel_Surround_9
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_9")
+      CASE #Panel_Welding_1
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Welding_1")
+      CASE #Panel_Welding_2
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Welding_2")
+   ENDSWITCH
+   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Int[])
+   
+   RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
+   ;HALT
+   ;Message_Wait("Wait Mes Data!",2,TRUE)
+   
+   ;RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
+   ;RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_Cycle_Time)
+   ;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
+   ;RET=EKI_Close(EKRL_NAME[])
+   ;RET=EKI_Clear(EKRL_NAME[])
+   
+   ;IF  IsStatus THEN
+   
+   ;MSGNOTIFY(Message_Error[])
+   
+   ;switch HandEye_Type
+   ;case #Calibration_Start
+   
+   ;-----
+   ;case #Calibration_Progress
+   ;-----
+   ;case #Calibration_End
+   
+   ;HandEye_Result_Pos.X=Result_Pos.X
+   ;HandEye_Result_Pos.Y=Result_Pos.Y
+   ;HandEye_Result_Pos.Z=Result_Pos.Z
+   ;endswitch
+   
+   ;else
+   
+   ;MsgQuit(Message_Error[], "HanGao")
+   ;halt
+   ;ENDIF
+   
 END
 
 GLOBAL DEF Mes_InFo_Int()
-DECL int i
-;{DATE:CSEC 0,SEC 0,MIN 0,HOUR 0,DAY 0,MONTH 0,YEAR 0}
-Robot_Run_Time=$DATE
-T1_Time=0
-Aut_Time=0
-Work_A_Run_Cycle_Time=0
-Work_A_Run_All_Time=0
-Work_B_Run_Cycle_Time=0
-Work_B_Run_All_Time=0
-Work_C_Run_Cycle_Time=0
-Work_C_Run_All_Time=0
-Work_D_Run_Cycle_Time=0
-Work_D_Run_All_Time=0
+   DECL int i
+   ;{DATE:CSEC 0,SEC 0,MIN 0,HOUR 0,DAY 0,MONTH 0,YEAR 0}
+   Robot_Run_Time=$DATE
+   T1_Time=0
+   Aut_Time=0
+   Work_A_Run_Cycle_Time=0
+   Work_A_Run_All_Time=0
+   Work_B_Run_Cycle_Time=0
+   Work_B_Run_All_Time=0
+   Work_C_Run_Cycle_Time=0
+   Work_C_Run_All_Time=0
+   Work_D_Run_Cycle_Time=0
+   Work_D_Run_All_Time=0
+   
+   Work_A_Run_Nunber=0
+   Work_B_Run_Nunber=0
+   Work_C_Run_Nunber=0
+   Work_D_Run_Nunber=0
+   Work_All_Run_Nunber=0
+   
+   WORK_A_State=FALSE
+   WORK_B_State=FALSE
+   WORK_C_State=FALSE
+   WORK_D_State=FALSE
+   
+   _Work_A_Stat=FALSE
+   _Work_B_Stat=FALSE
+   _Work_C_Stat=FALSE
+   _Work_D_Stat=FALSE
+   
 
-Work_A_Run_Nunber=0
-Work_B_Run_Nunber=0
-Work_C_Run_Nunber=0
-Work_D_Run_Nunber=0
-Work_All_Run_Nunber=0
-
-WORK_A_State=FALSE
-WORK_B_State=FALSE
-WORK_C_State=FALSE
-WORK_D_State=FALSE
-
-_Work_A_Stat=FALSE
-_Work_B_Stat=FALSE
-_Work_C_Stat=FALSE
-_Work_D_Stat=FALSE
-_EKRL_Send_Stat=FALSE
-_EKRL_Server_Stat=FALSE
-
-
-
-
+   _EKRL_Connect_Stat=false
+   _EKRL_Send_Stat=FALSE
+   
 END
-

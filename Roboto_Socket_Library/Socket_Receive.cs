@@ -133,7 +133,10 @@ namespace Roboto_Socket_Library
         public Socket_T_delegate<string>? Socket_ConnectInfo_delegate { set; get; }
 
 
-        private ManualResetEvent Connnect_State { set; get; } = new ManualResetEvent(false);
+        private ManualResetEvent Send_State { set; get; } = new ManualResetEvent(false);
+
+
+        public  ManualResetEvent Rece_Event { set; get; } = new ManualResetEvent(false);
 
 
         /// <summary>
@@ -147,8 +150,8 @@ namespace Roboto_Socket_Library
 
         //public bool Client_Connect { set; get; }
 
-        private static byte[] buffer = new byte[1024 * 1024];
-        private static int ConnectNumber = 0;
+        private  byte[] buffer = new byte[1024 * 1024];
+        private  int ConnectNumber = 0;
 
         /// <summary>
         /// 接收文件编码信息
@@ -166,6 +169,10 @@ namespace Roboto_Socket_Library
         private readonly ManualResetEvent Timeout_Event = new ManualResetEvent(false);
 
 
+
+        private readonly ManualResetEvent Timeout_End = new ManualResetEvent(false);
+
+
         /// <summary>
         /// 带有超时连接时间服务器连接方法
         /// </summary>
@@ -178,10 +185,12 @@ namespace Roboto_Socket_Library
             try
             {
                 Timeout_Event.Reset();
+                Timeout_End.Reset();
                 //创建套接字
                 IPEndPoint ipe = new(IPAddress.Parse(_IP), int.Parse(_Port));
 
                 Socket_Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);        //创建与远程主机的连接
+          
                 //Socket_Client.Connect(ipe);
                 Socket_Client?.BeginConnect(ipe, new AsyncCallback(Client_Inf), Socket_Client);
 
@@ -190,6 +199,10 @@ namespace Roboto_Socket_Library
 
 
                     Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器成功！", Socket_Client);
+
+
+
+
                     return true;
 
                 }
@@ -197,9 +210,9 @@ namespace Roboto_Socket_Library
                 {
                     Socket_ConnectInfo_delegate?.Invoke($"Error:-1,IP：{_IP}，Port：{_Port}，连接服务器超时退出！", Socket_Client);
                     //Socket_Client?.Shutdown(SocketShutdown.Both);
-                    Socket_Client?.Close();
-                    Socket_Client?.Dispose();
-
+                    //Socket_Client?.Close();
+                    //Socket_Client?.Dispose();
+                    Timeout_End.WaitOne();
 
                     return false;
 
@@ -234,29 +247,38 @@ namespace Roboto_Socket_Library
 
             try
             {
+                if (Socket_Client?.Connected??false)
+                {
+                Timeout_Event.Set();
+
+                }
+                Socket_Client?.EndConnect(ar!);
+               
                 //Task.Delay(10);
                 //挂起读取异步连接
-                Socket_Client?.EndConnect(ar!);
                 //异步接收客户端
                 //Socket_Client?.BeginAccept(new AsyncCallback(ClienAppcet), Socket_Client);
 
                 //Client_Connect = true;
-                Timeout_Event.Set();
 
             }
             catch (Exception e)
             {
 
-                Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message, Socket_Client);
+                Socket_ErrorInfo_delegate?.Invoke($"Error:-51 原因:" + e.Message, Socket_Client);
                 //Client_Connect = false;
-                Socket_Client?.Close();
-                Socket_Client?.Dispose();
+                //Socket_Client?.Close();
+                //Socket_Client?.Dispose();
 
                 //Socket_Client?.Shutdown(SocketShutdown.Both);
 
 
 
                 return;
+            }
+            finally
+            {
+                Timeout_End.Set();
             }
 
 
@@ -265,7 +287,7 @@ namespace Roboto_Socket_Library
 
 
 
-        public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val)
+        public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val,int TimeOut=1000)
         {
 
             try
@@ -276,21 +298,66 @@ namespace Roboto_Socket_Library
                 Byte[] Send_byte = Array.Empty<byte>();
 
                 //_Socket_Protoco.Socket_Send_Set_Data(_val);
+                Socket_Client!.ReceiveTimeout= TimeOut;
+
+
 
                 Send_byte = _Socket_Protoco.Socket_Send_Set_Data(_val ?? new object()) ?? Array.Empty<byte>();
 
 
                 if (Send_byte != Array.Empty<byte>() && ((bool?)Socket_Client?.Connected ?? false))
                 {
-
+                    Send_State.Reset();
                     //委托显示发送数据
                     Socket_Send_Meg?.Invoke(Send_byte);
                     Socket_Client?.Send(Send_byte);
+
+
                     //通过递归不停的接收该客户端的消息
-                    Socket_Client?.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(Client_ReceiveMessage), Socket_Client);
+                    //Socket_Client?.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(Client_ReceiveMessage), Socket_Client);
+                    int length=Socket_Client?.Receive(buffer, buffer.Length, SocketFlags.None)??0;
+
+
+                    if (length==0)
+                    {
+                        throw new Exception("Error:-65,接受信息为空，重复发送");
+
+                    }
+
+                    //接触数据长度
+                    byte[] _Reveice_Meg = buffer.Skip(0).Take(length).ToArray();
+                    //委托显示接受数据
+                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
+
+
+                    //创建协议处理类型,处理协议头部解析类型
+                    Robot_Socket_Protocol _Socket_Protocol = new(Socket_Robot, _Reveice_Meg);
+
+                    ///根据协议类型处理对应内容
+                    switch (_Socket_Protocol.Vision_Model)
+                    {
+
+
+                        case Vision_Model_Enum.Mes_Server_Info_Rece_Data:
+
+
+                            Mes_Server_Info_Data_Send? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Send>();
+
+                            Mes_Receive_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!);
+
+
+                            break;
+
+
+                    }
+
+
+
+
                 }
                 else
                 {
+
                     throw new Exception("Error:-3,现有通讯协议无法解析，请联系开发者！");
                 }
 
@@ -332,8 +399,8 @@ namespace Roboto_Socket_Library
                     if (length == 0)
                     {
                         Socket_ErrorInfo_delegate?.Invoke($"Error:-4,{clientipe}: 断开连接! ", client);
-                        client?.Close();
-                        client?.Dispose();
+                        //client?.Close();
+                        //client?.Dispose();
                         //Client_Connect = false;
                         return;
                     }
@@ -366,6 +433,9 @@ namespace Roboto_Socket_Library
 
                     }
 
+                    ///释放接受信息锁
+                    Send_State.Set();
+
                 }
                 catch (Exception e)
                 {
@@ -373,8 +443,8 @@ namespace Roboto_Socket_Library
                     //设置计数器
                     //ConnectNumber--;
                     Socket_ErrorInfo_delegate?.Invoke("Error:-5," + e.Message, client);
-                    client?.Close();
-                    client?.Dispose();
+                    //client?.Close();
+                    //client?.Dispose();
 
                     //断开连接
                     //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);
@@ -526,8 +596,8 @@ namespace Roboto_Socket_Library
                     catch (Exception e)
                     {
                         Socket_ErrorInfo_delegate?.Invoke($"Error:-15" + e.Message, client);
-                        ServerSocket?.Close();
-                        ServerSocket?.Dispose();
+                        //ServerSocket?.Close();
+                        //ServerSocket?.Dispose();
                         return;
                     }
 
@@ -582,8 +652,8 @@ namespace Roboto_Socket_Library
                     if (length == 0)
                     {
                         Socket_ErrorInfo_delegate?.Invoke($"Error:-9,{clientipe}: 断开连接! ", client);
-                        client?.Close();
-                        client?.Dispose();
+                        //client?.Close();
+                        //client?.Dispose();
                         //Client_Connect = false;
                         return;
                     }
@@ -689,7 +759,11 @@ namespace Roboto_Socket_Library
                         Socket_Send_Meg?.Invoke(Send_byte);
                         client?.Send(Send_byte);
                         //通过递归不停的接收该客户端的消息
+                     
+                        GC.Collect();
                         client?.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
+
+
                     }
                     else
                     {
@@ -702,8 +776,8 @@ namespace Roboto_Socket_Library
                     //设置计数器
                     Socket_ErrorInfo_delegate?.Invoke("Error:-11," + e.Message, client);
                     ConnectNumber--;
-                    client?.Close();
-                    client?.Dispose();
+                    //client?.Close();
+                    //client?.Dispose();
 
                     //断开连接
                     //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);
@@ -813,7 +887,7 @@ namespace Roboto_Socket_Library
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Type"></param>
         /// <returns></returns>
-        public static string Property_Xml<T1>(T1 _Type)
+        public  string Property_Xml<T1>(T1 _Type)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             //去除xml声明

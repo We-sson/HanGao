@@ -63,14 +63,14 @@ namespace Roboto_Socket_Library
                     try
                     {
 
-                    //提取接收内容解析
-                    XElement _KUKA_Receive = XElement.Parse(Encoding.UTF8.GetString(Receice_byte.ToArray()));
-                    return Enum.Parse<Vision_Model_Enum>(_KUKA_Receive.Attribute("Vision_Model")!.Value.ToString());
+                        //提取接收内容解析
+                        XElement _KUKA_Receive = XElement.Parse(Encoding.UTF8.GetString(Receice_byte.ToArray()));
+                        return Enum.Parse<Vision_Model_Enum>(_KUKA_Receive.Attribute("Vision_Model")!.Value.ToString());
                     }
                     catch (Exception e)
                     {
-
-                        throw new Exception("通讯协议存在异常！"+e.Message);
+                      string aa=   Encoding.UTF8.GetString(Receice_byte.ToArray());
+                        throw new Exception("通讯协议存在异常！" + e.Message);
                     }
 
 
@@ -82,6 +82,7 @@ namespace Roboto_Socket_Library
 
                     if (INI != Receice_byte.Count)
                     {
+                        Receice_byte.Clear();
                         throw new Exception("通讯协议存在丢包，请检查网络！");
                     }
 
@@ -337,7 +338,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                    _Send_Byte = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_Propertie)));
+                    _Send_Byte = new List<byte>(Encoding.UTF8.GetBytes(new KUKA_Send_Receive_Xml().Property_Xml<HandEye_Calibration_Send>(_Propertie)));
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
@@ -417,7 +418,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                    _Send_Byte = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Vision_Creation_Model_Send>(_Propertie)));
+                    _Send_Byte = new List<byte>(Encoding.UTF8.GetBytes(new KUKA_Send_Receive_Xml().Property_Xml<Vision_Creation_Model_Send>(_Propertie)));
 
 
                     break;
@@ -801,7 +802,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Vision_Ini_Data_Send>(_Propertie)));
+                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(new KUKA_Send_Receive_Xml().Property_Xml<Vision_Ini_Data_Send>(_Propertie)));
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
@@ -840,7 +841,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Vision_Find_Data_Send>(_Propertie)));
+                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(new KUKA_Send_Receive_Xml().Property_Xml<Vision_Find_Data_Send>(_Propertie)));
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
@@ -883,7 +884,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Robot_Mes_Info_Data_Send>(_Propertie)));
+                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(new KUKA_Send_Receive_Xml().Property_Xml<Robot_Mes_Info_Data_Send>(_Propertie)));
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
@@ -955,7 +956,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
 
-                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Mes_Server_Info_Data_Send>(_Propertie)));
+                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(new  KUKA_Send_Receive_Xml().Property_Xml<Mes_Server_Info_Data_Send>(_Propertie)));
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
@@ -995,34 +996,37 @@ namespace Roboto_Socket_Library
 
             List<byte> _byte_List = new();
 
-            switch (Socket_Robot)
-            {
-                case Socket_Robot_Protocols_Enum.KUKA:
-
-                    _byte_List = new List<byte>(Encoding.UTF8.GetBytes(KUKA_Send_Receive_Xml.Property_Xml<Mes_Server_Info_Data_Receive>(_Propertie)));
-
-                    break;
-                case Socket_Robot_Protocols_Enum.ABB:
 
 
+            ///上位机软件通用格式
+            _byte_List = new List<byte>(Encoding.UTF8.GetBytes(new KUKA_Send_Receive_Xml().Property_Xml<Mes_Server_Info_Data_Receive>(_Propertie)));
+            //switch (Socket_Robot)
+            //{
+            //    case Socket_Robot_Protocols_Enum.KUKA:
 
-                    break;
-                case Socket_Robot_Protocols_Enum.川崎:
+
+            //        break;
+            //    case Socket_Robot_Protocols_Enum.ABB:
 
 
 
-                    break;
-                case Socket_Robot_Protocols_Enum.通用:
+            //        break;
+            //    case Socket_Robot_Protocols_Enum.川崎:
 
 
 
-                    break;
-                default:
-
-                    throw new Exception("标定发送协议错误！");
+            //        break;
+            //    case Socket_Robot_Protocols_Enum.通用:
 
 
-            }
+
+            //        break;
+            //    default:
+
+            //        throw new Exception("标定发送协议错误！");
+
+
+            //}
 
             return _byte_List.ToArray();
         }

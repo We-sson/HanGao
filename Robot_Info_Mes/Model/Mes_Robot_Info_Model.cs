@@ -193,6 +193,13 @@ namespace Robot_Info_Mes.Model
 
 
         /// <summary>
+        /// 通讯周期
+        /// </summary>
+        public TimeSpan Socket_Cycle_Time { set; get; } = new TimeSpan();
+
+
+
+        /// <summary>
         /// 文件更新最后时间
         /// </summary>
         public DateTime File_Update_Time { set; get; } = new DateTime();

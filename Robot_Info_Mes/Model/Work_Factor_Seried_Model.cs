@@ -95,7 +95,7 @@ namespace Robot_Info_Mes.Model
 
                     break;
 
-                case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1:
+                case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1 or  Robot_Process_Int_Enum.Panel_Welding_2:
 
                     if (_A_Cycle_Time.Timer.IsRunning)
                     {
