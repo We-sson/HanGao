@@ -236,7 +236,7 @@ namespace Robot_Info_Mes.ViewModel
 
                     DispatcherTimer _timer = new DispatcherTimer
                     {
-                        Interval = TimeSpan.FromMilliseconds(2000)
+                        Interval = TimeSpan.FromMilliseconds(4000)
                     };
                     _timer.Tick += (s, e) =>
                     {
