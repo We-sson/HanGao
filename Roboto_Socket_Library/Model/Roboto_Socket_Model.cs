@@ -646,13 +646,15 @@ namespace Roboto_Socket_Library.Model
         /// </summary>
         public double Sever_Cycle_Update_Time { set; get; } = 2;
 
-
-
+        /// <summary>
+        /// 接受超时时间，单位秒
+        /// </summary>
+        public double Mes_Server_Info_Rece_Time { set; get; } = 5;
 
         /// <summary>
         /// 本地文件保存时间
         /// </summary>
-        public double  Socket_Polling_Time { get; set; } = 5;
+        public double File_Save_Cycle_Time { get; set; } = 5;
 
 
 

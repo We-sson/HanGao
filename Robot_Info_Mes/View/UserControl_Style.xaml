@@ -1247,7 +1247,7 @@
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
                     <Grid
                         x:Name="Bg"
-                        Margin="3.5"
+                        Margin="2"
                         SnapsToDevicePixels="true">
                         <!--<Grid.RowDefinitions>
                             <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>

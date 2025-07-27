@@ -2,6 +2,7 @@
 using Roboto_Socket_Library.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -322,95 +323,27 @@ namespace Robot_Info_Mes.Model
 
 
                     return _Path;
+                case Type _T when _T == typeof(List<Mes_Server_Info_List_Model>):
 
-                //case Type _T when _T == typeof(Xml_Model):
-                //    switch (Get_Xml_File)
-                //    {
-                //        case Get_Xml_File_Enum.Folder_Path:
+                    switch (Get_Xml_File)
+                    {
+                        case Get_Xml_File_Enum.Folder_Path:
 
-                //            _Path = Environment.CurrentDirectory + "\\Sink_Date";
-                //            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                //            break;
-                //        case Get_Xml_File_Enum.File_Path:
-                //            _Path = Environment.CurrentDirectory + "\\Sink_Date" + "\\Sink_List.Xml";
+                            _Path = Environment.CurrentDirectory + "\\Server_Date";
+                            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
+                            break;
+                        case Get_Xml_File_Enum.File_Path:
 
+                    
 
-                //            break;
-                //    }
+                            _Path = Environment.CurrentDirectory + $"\\Server_Date" + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".Xml";
 
-                //    return _Path;
-
-                //case Type _T when _T == typeof(Vision_Auto_Config_Model):
-
-                //    switch (Get_Xml_File)
-                //    {
-                //        case Get_Xml_File_Enum.Folder_Path:
-
-                //            _Path = Environment.CurrentDirectory + "\\Global_Config";
-
-                //            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-
-                //            break;
-                //        case Get_Xml_File_Enum.File_Path:
-                //            _Path = Environment.CurrentDirectory + "\\Global_Config" + "\\Global_Config.Xml";
+                            break;
+                    }
 
 
+                    return _Path;
 
-                //            break;
-                //    }
-                //    return _Path;
-                //case Type _T when _T == typeof(Area_Error_Model):
-
-                //    switch (Get_Xml_File)
-                //    {
-                //        case Get_Xml_File_Enum.Folder_Path:
-
-                //            _Path = Environment.CurrentDirectory + "\\Error_Data";
-                //            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                //            break;
-                //        case Get_Xml_File_Enum.File_Path:
-
-
-
-
-                //            //设置存放参数
-                //            _Path = Environment.CurrentDirectory + "\\Error_Data";
-                //            string _FileName = "";
-                //            int Sample_Save_Image_Number = 0;
-
-
-
-
-                //            //var aa= typeof(T1);
-
-
-                //            //检查存放文件目录
-                //            if (!Directory.Exists(_Path))
-                //            {
-                //                //创建文件夹
-                //                Directory.CreateDirectory(_Path);
-
-                //            }
-
-                //            DirectoryInfo root = new DirectoryInfo(_Path);
-                //            FileInfo Re;
-                //            do
-                //            {
-                //                _FileName = DateTime.Today.ToLongDateString() + "_" + (Sample_Save_Image_Number += 1).ToString() + ".xml";
-
-                //                Re = root.GetFiles().Where(F => F.Name.Contains(_FileName)).FirstOrDefault();
-
-
-                //            } while (Re != null);
-
-
-                //            //合并路径
-                //            _Path += "\\" + _FileName;
-
-
-                //            break;
-                //    }
-                //    return _Path;
 
                 default:
 
@@ -434,6 +367,7 @@ namespace Robot_Info_Mes.Model
             try
             {
 
+                GetXml_Path<T1>(Get_Xml_File_Enum.Folder_Path);
                 string _Path = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path);
                 string tempPath = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path) +".tmp";
 

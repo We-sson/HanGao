@@ -42,6 +42,9 @@ namespace Robot_Info_Mes.ViewModel
             {
                 case Window_Startup_Type_Enum.Server:
 
+
+
+
                     ///使用默认xml格式接受信息
                     File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model = Socket_Robot_Protocols_Enum.KUKA;
 
@@ -49,7 +52,7 @@ namespace Robot_Info_Mes.ViewModel
                     Initialization_Mes_Sever_Start();
 
 
-
+                    Int_Server_Run_Time();
 
 
                     break;
@@ -120,7 +123,9 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-
+        /// <summary>
+        /// 看板设备列表
+        /// </summary>
         public ObservableCollection<Mes_Server_Info_List_Model> Mes_Server_Model_List { set; get; } =
             new ObservableCollection<Mes_Server_Info_List_Model>()
             {
@@ -198,6 +203,19 @@ namespace Robot_Info_Mes.ViewModel
             },
             };
 
+        /// <summary>
+        /// 看板选中列
+        /// </summary>
+        public Mes_Server_Info_List_Model Mes_Server_Model_Select { set; get; } = new Mes_Server_Info_List_Model();
+
+
+
+        /// <summary>
+        /// 看板循环查看列号
+        /// </summary>
+        public int Mes_Server_Model_List_View { set; get; } = 0;
+
+
 
         /// <summary>
         ///服务器启动停止按钮
@@ -212,86 +230,44 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-                    ScrollViewer? ScrollViewer = _Contol!.Template.FindName("PART_ScrollViewer", _Contol) as ScrollViewer;
+                    //ScrollViewer? ScrollViewer = _Contol!.Template.FindName("PART_ScrollViewer", _Contol) as ScrollViewer;
 
 
 
                     DispatcherTimer _timer = new DispatcherTimer
                     {
-                        Interval = TimeSpan.FromMilliseconds(100)
+                        Interval = TimeSpan.FromMilliseconds(2000)
                     };
-                    //_timer.Tick +=(s,e)=>
-                    //{
+                    _timer.Tick += (s, e) =>
+                    {
+
+                        if (Mes_Server_Model_List.Count == 0) return;
+                        if (Mes_Server_Model_List_View> Mes_Server_Model_List.Count-1)
+                        {
+                            Mes_Server_Model_List_View = 0;
+                        }
+
+                        _Contol!.ScrollIntoView( Mes_Server_Model_List[ Mes_Server_Model_List_View]);
+                        _Contol.SelectedIndex = Mes_Server_Model_List_View;
+                        Mes_Server_Model_List_View++;
+
+                        //foreach (var item in Mes_Server_Model_List)
+                        //{
+                        //    //if (item.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected)
+                        //    //{
+                        //    //}
+                        //    Mes_Server_Model_Select = item;
+
+
+                        //}
+
+
+                    };
+                    _timer.Start();
 
 
 
 
-                    //    double _delta = 1;
-
-                    //    double newOffset = ScrollViewer!.VerticalOffset + _delta;
-
-                    //    // 到达底部或顶部时，反向滚动
-                    //    if (newOffset >= ScrollViewer.ScrollableHeight)
-                    //    {
-                    //        newOffset = ScrollViewer.ScrollableHeight;
-                    //        _delta = -Math.Abs(_delta);
-                    //    }
-                    //    else if (newOffset <= 0)
-                    //    {
-                    //        newOffset = 0;
-                    //        _delta = Math.Abs(_delta);
-                    //    }
-
-                    //    ScrollViewer.ScrollToVerticalOffset(newOffset);
-
-
-                    //};
-                    //_timer.Start();
-
-
-
-
-
-                    //_Contol.HorizontalScroll.va
-
-                    //_Contol!.Dispatcher.Invoke(() =>
-                    //{
-                    //    // 滚动到列表底部
-                    //    if (_Contol.Items.Count > 0)
-                    //    {
-                    //        _Contol.ScrollIntoView(_Contol.Items[_Contol.Items.Count - 1]);
-                    //    }
-                    //});
-
-
-                    //double currentOffset = _Contol;
-
-                    //if (_scrollingDown)
-                    //{
-                    //    // 向下滚动
-                    //    if (currentOffset < _scrollViewer.ScrollableHeight)
-                    //    {
-                    //        _scrollViewer.ScrollToVerticalOffset(currentOffset + ScrollStep);
-                    //    }
-                    //    else
-                    //    {
-                    //        // 到达底部，改为向上滚动
-                    //        _scrollingDown = false;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    // 向上滚动
-                    //    if (currentOffset > 0)
-                    //    {
-                    //        _scrollViewer.ScrollToVerticalOffset(currentOffset - ScrollStep);
-                    //    }
-                    //    else
-                    //    {
-                    //        // 到达顶部，改为向下滚动
-                    //        _scrollingDown = true;
-                    //    }
-                    //}
 
 
 
@@ -362,7 +338,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
             //Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.AutoReset = true;
-            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.Socket_Polling_Time);
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time);
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Tick += (s, e) =>
             {
 
@@ -385,7 +361,7 @@ namespace Robot_Info_Mes.ViewModel
                 File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
 
 
-                User_Log_Add("信息文件定时已到：" + File_Int_Parameters.Mes_Run_Parameters.Socket_Polling_Time + "s，进行文件保存！");
+                User_Log_Add("信息文件定时已到：" + File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time + "s，进行文件保存！");
 
 
             };
@@ -416,6 +392,41 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Info_Parameters.Socket_Client.Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method;
         }
 
+
+        public void Int_Server_Run_Time()
+        {
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time);
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Tick += (s, e) =>
+            {
+
+
+                //当程序连续开的时候经过12点清除数据
+                //Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
+
+                ///记录文件保存时间
+                //Mes_Robot_Info_Model_Data.File_Update_Time = DateTime.Now;
+                ///计算可用稼动率
+                //Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Millisecond, Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_Millisecond);
+
+
+                ////计算性能稼动率
+                //Work_Factor_Seried.Work_Performance_Factor.Value = Work_Factor_Seried.Get_Work_Performance_Factor(File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number, Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Sec);
+                /////保存时间文件
+
+
+
+                File_Xml_Model.Save_Xml(new List<Mes_Server_Info_List_Model>(Mes_Server_Model_List) );
+
+
+                User_Log_Add("信息文件定时已到：" + File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time + "s，进行文件保存！");
+
+
+            };
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Start();
+
+
+
+        }
 
         /// <summary>
         /// 通讯循环周期发送看板信息
@@ -480,7 +491,7 @@ namespace Robot_Info_Mes.ViewModel
                             };
 
 
-                            Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>( Socket_Robot_Protocols_Enum.KUKA, Vision_Model_Enum.Mes_Server_Info_Rece_Data, _Send);
+                            Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>( Socket_Robot_Protocols_Enum.KUKA, Vision_Model_Enum.Mes_Server_Info_Rece_Data, _Send, (int)File_Int_Parameters.Mes_Run_Parameters.Mes_Server_Info_Rece_Time*1000);
 
                      
 
@@ -650,6 +661,8 @@ namespace Robot_Info_Mes.ViewModel
         /// <returns></returns>
         public Robot_Mes_Info_Data_Send Robot_Mes_Info_Receive_Method(Robot_Mes_Info_Data_Receive _Receive, Socket? _socket)
         {
+
+         
             Robot_Mes_Info_Data_Send _Send = new();
 
 
@@ -662,11 +675,12 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-            _Send.Socket_Polling_Time = (int)(File_Int_Parameters.Mes_Run_Parameters.Socket_Polling_Time * 1000);
+            _Send.Socket_Polling_Time = (int)(File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time * 1000);
             _Send.IsStatus = 1;
 
 
             return _Send;
+            
         }
 
 
@@ -681,7 +695,9 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Server_Info_Data_Send _Send = new();
 
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
-
+            lock (Mes_Server_Model_List) 
+            {
+            
 
             foreach (var _Server in Mes_Server_Model_List)
             {
@@ -768,6 +784,7 @@ namespace Robot_Info_Mes.ViewModel
             }
 
 
+            }
 
 
             return _Send;
@@ -794,7 +811,7 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Info_Parameters.Socket_Client.Rece_Event.Set();
 
 
-
+            //Thread.Sleep(100);
 
         }
 

@@ -256,7 +256,7 @@ namespace Robot_Info_Mes.Model
 
                         break;
                     case Robot_Process_Int_Enum.Panel_Surround_9:
-                        _Image_Source = "/Resources/1楼面板.png";
+                        _Image_Source = "/Resources/9线围边.png";
 
                         break;
                     case Robot_Process_Int_Enum.Panel_Welding_1:
@@ -594,7 +594,7 @@ namespace Robot_Info_Mes.Model
 
     }
 
-
+    [Serializable]
     [AddINotifyPropertyChangedInterface]
     public class Mes_Server_Info_List_Model
     {
@@ -602,12 +602,13 @@ namespace Robot_Info_Mes.Model
         {
 
         }
-
+        [XmlIgnore]
         public IPEndPoint? Connetc_Mes_IP { set; get; } = null;
 
-
+     
         public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
 
+        [XmlIgnore]
 
         public Work_Factor_Seried_Model Work_Factor_Seried { set; get; } = new Work_Factor_Seried_Model();
 

@@ -150,8 +150,8 @@ namespace Roboto_Socket_Library
 
         //public bool Client_Connect { set; get; }
 
-        private  byte[] buffer = new byte[1024 * 1024];
-        private  int ConnectNumber = 0;
+        //private  byte[] buffer { set; get; } = new byte[1024 * 2048];
+        public  int ConnectNumber { set; get; } = 0;
 
         /// <summary>
         /// 接收文件编码信息
@@ -190,7 +190,7 @@ namespace Roboto_Socket_Library
                 IPEndPoint ipe = new(IPAddress.Parse(_IP), int.Parse(_Port));
 
                 Socket_Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);        //创建与远程主机的连接
-          
+                Socket_Client.NoDelay = true;
                 //Socket_Client.Connect(ipe);
                 Socket_Client?.BeginConnect(ipe, new AsyncCallback(Client_Inf), Socket_Client);
 
@@ -296,7 +296,7 @@ namespace Roboto_Socket_Library
 
                 Robot_Socket_Protocol _Socket_Protoco = new Robot_Socket_Protocol(_Robot_Protocols, _Model);
                 Byte[] Send_byte = Array.Empty<byte>();
-
+                byte[] buffer= new byte[1024 * 2048];
                 //_Socket_Protoco.Socket_Send_Set_Data(_val);
                 Socket_Client!.ReceiveTimeout= TimeOut;
 
@@ -327,7 +327,6 @@ namespace Roboto_Socket_Library
                     //接触数据长度
                     byte[] _Reveice_Meg = buffer.Skip(0).Take(length).ToArray();
                     //委托显示接受数据
-                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
 
 
                     //创建协议处理类型,处理协议头部解析类型
@@ -352,7 +351,8 @@ namespace Roboto_Socket_Library
                     }
 
 
-
+                    string aa = Encoding.UTF8.GetString(Send_byte.ToArray());
+                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
 
                 }
                 else
@@ -382,12 +382,12 @@ namespace Roboto_Socket_Library
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
             //客户端对象
-            if (ar!.AsyncState is Socket client)
+            if (ar!.AsyncState is Receive_State client)
             {
                 try
                 {
-                    IPEndPoint? clientipe = (IPEndPoint)client?.RemoteEndPoint!;
-                    int length = client?.EndReceive(ar) ?? 0;
+                    IPEndPoint? clientipe = (IPEndPoint)client.Client_Socket?.RemoteEndPoint!;
+                    int length = client.Client_Socket?.EndReceive(ar) ?? 0;
                     string _S = string.Empty;
 
                     Byte[] Send_byte = Array.Empty<byte>();
@@ -398,7 +398,7 @@ namespace Roboto_Socket_Library
 
                     if (length == 0)
                     {
-                        Socket_ErrorInfo_delegate?.Invoke($"Error:-4,{clientipe}: 断开连接! ", client);
+                        Socket_ErrorInfo_delegate?.Invoke($"Error:-4,{clientipe}: 断开连接! ", client.Client_Socket);
                         //client?.Close();
                         //client?.Dispose();
                         //Client_Connect = false;
@@ -407,9 +407,9 @@ namespace Roboto_Socket_Library
 
 
                     //接触数据长度
-                    byte[] _Reveice_Meg = buffer.Skip(0).Take(length).ToArray();
+                    byte[] _Reveice_Meg = client.buffer.Skip(0).Take(length).ToArray();
                     //委托显示接受数据
-                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
+   
 
 
                     //创建协议处理类型,处理协议头部解析类型
@@ -435,14 +435,14 @@ namespace Roboto_Socket_Library
 
                     ///释放接受信息锁
                     Send_State.Set();
-
+                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
                 }
                 catch (Exception e)
                 {
 
                     //设置计数器
                     //ConnectNumber--;
-                    Socket_ErrorInfo_delegate?.Invoke("Error:-5," + e.Message, client);
+                    Socket_ErrorInfo_delegate?.Invoke("Error:-5," + e.Message, client.Client_Socket);
                     //client?.Close();
                     //client?.Dispose();
 
@@ -583,15 +583,16 @@ namespace Roboto_Socket_Library
                 //服务端对象获取
                 Socket? ServerSocket = ar.AsyncState as Socket;
                 Socket? client = ServerSocket?.EndAccept(ar);
+                Receive_State _Receive = new Receive_State() { Client_Socket= client };
                 if (null != ServerSocket)
                 {
                     try
                     {
-
+                        
 
                         //得到接受进来的socket客户端
                         //开始异步接收客户端数据
-                        client?.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
+                        client?.BeginReceive(_Receive.buffer, 0, _Receive.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), _Receive);
                     }
                     catch (Exception e)
                     {
@@ -635,12 +636,18 @@ namespace Roboto_Socket_Library
 
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
             //客户端对象
-            if (ar!.AsyncState is Socket client)
+
+
+        
+
+
+
+            if (ar!.AsyncState is Receive_State client)
             {
                 try
                 {
-                    IPEndPoint clientipe = (IPEndPoint)client?.RemoteEndPoint!;
-                    int length = client?.EndReceive(ar) ?? 0;
+                    IPEndPoint clientipe = (IPEndPoint)client.Client_Socket?.RemoteEndPoint!;
+                    int length = client.Client_Socket?.EndReceive(ar) ?? 0;
                     string _S = string.Empty;
 
                     Byte[] Send_byte = Array.Empty<byte>();
@@ -651,18 +658,18 @@ namespace Roboto_Socket_Library
 
                     if (length == 0)
                     {
-                        Socket_ErrorInfo_delegate?.Invoke($"Error:-9,{clientipe}: 断开连接! ", client);
+                        Socket_ErrorInfo_delegate?.Invoke($"Error:-9,{clientipe}: 断开连接! ", client.Client_Socket);
                         //client?.Close();
                         //client?.Dispose();
                         //Client_Connect = false;
                         return;
                     }
+                    client.Client_Socket?.BeginReceive(client.buffer, 0, client.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
 
-
+                        
                     //接触数据长度
-                    byte[] _Reveice_Meg = buffer.Skip(0).Take(length).ToArray();
+                    byte[] _Reveice_Meg = client.buffer.Skip(0).Take(length).ToArray();
                     //委托显示接受数据
-                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
 
 
                     //创建协议处理类型,处理协议头部解析类型
@@ -737,7 +744,7 @@ namespace Roboto_Socket_Library
 
                             Mes_Server_Info_Data_Receive? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Receive>();
 
-                            Mes_Server_Info_Data_Send? _Mes_Server_Send = Mes_Server_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!, client);
+                            Mes_Server_Info_Data_Send? _Mes_Server_Send = Mes_Server_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!, client.Client_Socket);
 
                             Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Mes_Server_Send ?? new Mes_Server_Info_Data_Send()) ?? Array.Empty<byte>();
 
@@ -757,11 +764,10 @@ namespace Roboto_Socket_Library
 
                         //委托显示发送数据
                         Socket_Send_Meg?.Invoke(Send_byte);
-                        client?.Send(Send_byte);
+                        client.Client_Socket?.Send(Send_byte);
                         //通过递归不停的接收该客户端的消息
                      
-                        GC.Collect();
-                        client?.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
+                        //GC.Collect();
 
 
                     }
@@ -769,12 +775,18 @@ namespace Roboto_Socket_Library
                     {
                         throw new Exception("Error:-10,现有通讯协议无法解析，请联系开发者！");
                     }
+
+
+                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
+
+
                 }
                 catch (Exception e)
                 {
 
                     //设置计数器
-                    Socket_ErrorInfo_delegate?.Invoke("Error:-11," + e.Message, client);
+                    Socket_ErrorInfo_delegate?.Invoke("Error:-11," + e.Message, client.Client_Socket);
+
                     ConnectNumber--;
                     //client?.Close();
                     //client?.Dispose();
@@ -784,6 +796,7 @@ namespace Roboto_Socket_Library
                 }
             }
 
+            
         }
 
         ///// <summary>
@@ -949,7 +962,17 @@ namespace Roboto_Socket_Library
     }
 
 
+    public class Receive_State
+    {
+        public Socket? Client_Socket { set; get; }
 
+
+        public  byte[] buffer { set; get; } = new byte[1024 * 2048];
+
+         
+
+
+    }
 
 
     public enum Socket_Type_Enum

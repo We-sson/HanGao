@@ -1711,7 +1711,7 @@ namespace HanGao.ViewModel
                             _HandEye_Send.IsStatus = 1;
                             _HandEye_Send.Message_Error = "Hand-eye Calibration to Find OK!";
 
-                            _Str = KUKA_Send_Receive_Xml.Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
+                            _Str = new KUKA_Send_Receive_Xml().Property_Xml<HandEye_Calibration_Send>(_HandEye_Send);
 
 
 
