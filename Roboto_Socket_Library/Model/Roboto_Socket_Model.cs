@@ -657,7 +657,10 @@ namespace Roboto_Socket_Library.Model
         public double File_Save_Cycle_Time { get; set; } = 5;
 
 
-
+        /// <summary>
+        /// 看板列表
+        /// </summary>
+        public double KanBan_List_Cycle_View_Time { get; set; } = 5;
 
 
 

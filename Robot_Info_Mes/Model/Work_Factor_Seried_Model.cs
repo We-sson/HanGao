@@ -1,5 +1,6 @@
 ﻿using LiveChartsCore;
 using LiveChartsCore.Defaults;
+using LiveChartsCore.Drawing;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
@@ -21,7 +22,8 @@ namespace Robot_Info_Mes.Model
         {
 
 
-
+            LiveCharts.Configure(config =>
+            config.HasGlobalSKTypeface(SKFontManager.Default.MatchCharacter('汉')));
 
 
             Work_Cycle_Load_Factor_Series = GaugeGenerator.BuildSolidGauge(
@@ -39,13 +41,64 @@ namespace Robot_Info_Mes.Model
 
        new GaugeItem(GaugeItem.Background, SetBackgroundStyle));
 
+
+
+
+            Mes_Data_View_List_Series = new ObservableCollection<ISeries>
+            {
+                        new LineSeries<double>
+        {
+            LineSmoothness = 1,
+            Name = "时间稼动率",
+            DataPadding = new LvcPoint(10, 0),
+            Values =Work_Availability_Factor_List,
+            Stroke = new SolidColorPaint(s_blue, 2),
+            GeometrySize = 10,
+            GeometryStroke = new SolidColorPaint(s_blue, 2),
+            Fill = null,
+            ScalesYAt = 0 // it will be scaled at the Axis[0] instance 
+        },
+        new LineSeries<double>
+        {
+          LineSmoothness = 1,
+            Name = "平均节拍",
+            Values =Work_Cycle_Load_Factor_List,
+            Stroke = new SolidColorPaint(s_blue, 2),
+            GeometrySize = 10,
+            GeometryStroke = new SolidColorPaint(s_blue, 2),
+            Fill = null,
+            ScalesYAt = 1 // it will be scaled at the Axis[0] instance 
+        },
+        new LineSeries<DateTimePoint>
+        {
+            Name = "作业时间",
+            Values = Robot_Work_Time_List,
+            Stroke = new SolidColorPaint(s_red, 2),
+            GeometrySize = 10,
+            GeometryStroke = new SolidColorPaint(s_red, 2),
+            Fill = null,
+            ScalesYAt = 2 // it will be scaled at the YAxes[1] instance 
+        },
+        //new LineSeries<double>
+        //{
+        //    Name = "Thousands",
+        //    Values = new double[] { 5493, 7843, 4368, 9018, 3902 },
+        //    Stroke = new SolidColorPaint(s_yellow, 2),
+        //    GeometrySize = 10,
+        //    GeometryStroke = new SolidColorPaint(s_yellow, 2),
+        //    Fill = null,
+        //    ScalesYAt = 2  // it will be scaled at the YAxes[2] instance 
+        //}
+            };
+
+
         }
 
         /// <summary>
         /// 节拍负荷率
         /// </summary>
         [XmlIgnore]
-    
+
         public ObservableValue Work_Cycle_Load_Factor { set; get; } = new ObservableValue { Value = 0 };
 
 
@@ -66,7 +119,14 @@ namespace Robot_Info_Mes.Model
 
 
 
-public ObservableCollection<ObservableValue> Robot_Work_ABCD_Number { set; get; }=new ObservableCollection<ObservableValue>() {new(2), new(2), new(2), new(2), new(2)};
+        public ObservableCollection<double> Robot_Work_ABCD_Number_List { set; get; } = new ObservableCollection<double>() { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+        public ObservableCollection<double> Work_Availability_Factor_List { set; get; } = new ObservableCollection<double>() { 20, 25, 28, 29, 30, 31, 50, 60, 65, 61, 11 };
+        public ObservableCollection<double> Work_Performance_Factor_List { set; get; } = new ObservableCollection<double>() { 20, 25, 28, 29, 30, 31, 50, 60, 65, 61, 11 };
+        public ObservableCollection<DateTimePoint> Robot_Work_Time_List { set; get; } = new ObservableCollection<DateTimePoint>() { new DateTimePoint(new DateTime(2025,7,28), 0.548), new DateTimePoint(new DateTime(2025, 7, 27), 0.348), new DateTimePoint(new DateTime(2025, 7, 26), 0.348) };
+        public ObservableCollection<double> Work_Cycle_Load_Factor_List { set; get; } = new ObservableCollection<double>() { 20.6, 25.5, 28.7, 29.6, 30.1, 31, 40.2, 50.1, 55.5, 31.2, 11.1 };
+
+
+
 
 
 
@@ -75,104 +135,144 @@ public ObservableCollection<ObservableValue> Robot_Work_ABCD_Number { set; get; 
         private static readonly SKColor s_red = new(229, 57, 53);
         private static readonly SKColor s_yellow = new(198, 167, 0);
 
-        public ISeries[] Series { get; set; } =
-        {
-        new LineSeries<double>
-        {
-            LineSmoothness = 1,
-            Name = "Tens",
-            Values = new double[] { 14, 13, 14, 15, 17 },
-            Stroke = new SolidColorPaint(s_blue, 2),
-            GeometrySize = 10,
-            GeometryStroke = new SolidColorPaint(s_blue, 2),
-            Fill = null,
-            ScalesYAt = 0 // it will be scaled at the Axis[0] instance 
-        },
-        new LineSeries<double>
-        {
-            Name = "Tens 2",
-            Values = new double[] { 11, 12, 13, 10, 13 },
-            Stroke = new SolidColorPaint(s_blue, 2),
-            GeometrySize = 10,
-            GeometryStroke = new SolidColorPaint(s_blue, 2),
-            Fill = null,
-            ScalesYAt = 0 // it will be scaled at the Axis[0] instance 
-        },
-        new LineSeries<double>
-        {
-            Name = "Hundreds",
-            Values = new double[] { 533, 586, 425, 579, 518 },
-            Stroke = new SolidColorPaint(s_red, 2),
-            GeometrySize = 10,
-            GeometryStroke = new SolidColorPaint(s_red, 2),
-            Fill = null,
-            ScalesYAt = 1 // it will be scaled at the YAxes[1] instance 
-        },
-        new LineSeries<double>
-        {
-            Name = "Thousands",
-            Values = new double[] { 5493, 7843, 4368, 9018, 3902 },
-            Stroke = new SolidColorPaint(s_yellow, 2),
-            GeometrySize = 10,
-            GeometryStroke = new SolidColorPaint(s_yellow, 2),
-            Fill = null,
-            ScalesYAt = 2  // it will be scaled at the YAxes[2] instance 
-        }
-    };
+        public IEnumerable<ISeries> Mes_Data_View_List_Series { get; set; }
+
 
         public ICartesianAxis[] YAxes { get; set; } =
         {
         new Axis // the "units" and "tens" series will be scaled on this axis
         {
-            Name = "Tens",
-            NameTextSize = 14,
-            NamePaint = new SolidColorPaint(s_blue),
+
+            Name = "达成率",
+            NameTextSize = 16,
+        
+            MaxLimit=100,
+            MinLimit =0,
+            MinStep =0.1,
+            NamePaint =new SolidColorPaint(){ Color = new SKColor(25, 118, 210)},
+            Labeler = (point)=>$"{point} %",
             NamePadding = new LiveChartsCore.Drawing.Padding(0, 20),
             Padding =  new LiveChartsCore.Drawing.Padding(0, 0, 20, 0),
-            TextSize = 12,
+            TextSize = 16,
             LabelsPaint = new SolidColorPaint(s_blue),
-            TicksPaint = new SolidColorPaint(s_blue),
-            SubticksPaint = new SolidColorPaint(s_blue),
-            DrawTicksPath = true
+            //TicksPaint = new SolidColorPaint(s_blue),
+            //SubticksPaint = new SolidColorPaint(s_blue),
+            //DrawTicksPath = true,
+             
         },
         new Axis // the "hundreds" series will be scaled on this axis
         {
-            Name = "Hundreds",
-            NameTextSize = 14,
-            NamePaint = new SolidColorPaint(s_red),
-            NamePadding = new LiveChartsCore.Drawing.Padding(0, 20),
-            Padding =  new LiveChartsCore.Drawing.Padding(20, 0, 0, 0),
-            TextSize = 12,
-            LabelsPaint = new SolidColorPaint(s_red),
-            TicksPaint = new SolidColorPaint(s_red),
-            SubticksPaint = new SolidColorPaint(s_red),
-            DrawTicksPath = true,
-            ShowSeparatorLines = false,
+            Name = "平均节拍",
+            NameTextSize = 16,
+             MinStep =1,
+            NamePaint =new SolidColorPaint(){ Color = new SKColor(25, 118, 210) },
+            Labeler = (point)=>$"{point} 秒",
+            LabelsPaint =new SolidColorPaint(){ Color =  new SKColor (25, 118, 210)},
+               NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
+            Padding =  new LiveChartsCore.Drawing.Padding(5 ,0,5, 0),
+            TextSize = 16,
+            //NamePaint = new SolidColorPaint(s_red),
+            //NamePadding = new LiveChartsCore.Drawing.Padding(0, 20),
+            //Padding =  new LiveChartsCore.Drawing.Padding(20, 0, 0, 0),
+            //TextSize = 12,
+            //LabelsPaint = new SolidColorPaint(s_red),
+            //TicksPaint = new SolidColorPaint(s_red),
+            //SubticksPaint = new SolidColorPaint(s_red),
+            //DrawTicksPath = true,
+            //ShowSeparatorLines = false,
             Position = LiveChartsCore.Measure.AxisPosition.End
         },
         new Axis // the "thousands" series will be scaled on this axis
         {
-            Name = "Thousands",
-            NameTextSize = 14,
-            NamePadding = new LiveChartsCore.Drawing.Padding(0, 20),
-            Padding =  new LiveChartsCore.Drawing.Padding(20, 0, 0, 0),
-            NamePaint = new SolidColorPaint(s_yellow),
-            TextSize = 12,
-            LabelsPaint = new SolidColorPaint(s_yellow),
-            TicksPaint = new SolidColorPaint(s_yellow),
-            SubticksPaint = new SolidColorPaint(s_yellow),
-            DrawTicksPath = true,
-            ShowSeparatorLines = false,
-            Position = LiveChartsCore.Measure.AxisPosition.End
+            Name = "作业时间",
+            NameTextSize = 16,
+            MaxLimit=1,
+            MinLimit =0,
+            MinStep =0.1,
+            NamePaint =new SolidColorPaint(){ Color = new SKColor(25, 118, 210) },
+            Labeler = (point)=>$"{point.ToString("F2")} 天",
+            LabelsPaint =new SolidColorPaint(){ Color =  new SKColor (25, 118, 210)},
+            NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
+            Padding =  new LiveChartsCore.Drawing.Padding(5 ,0,5, 0),
+            TextSize = 16,
+            //NamePadding = new LiveChartsCore.Drawing.Padding(0, 20),
+            //Padding =  new LiveChartsCore.Drawing.Padding(20, 0, 0, 0),
+            //NamePaint = new SolidColorPaint(s_yellow),
+            //TextSize = 12,
+            //LabelsPaint = new SolidColorPaint(s_yellow),
+            //TicksPaint = new SolidColorPaint(s_yellow),
+            //SubticksPaint = new SolidColorPaint(s_yellow),
+            //DrawTicksPath = true,
+            //ShowSeparatorLines = false,
+            Position = AxisPosition.End
         }
     };
+
+
+        public ICartesianAxis[] XAxes { get; set; } =
+   {
+            
+
+        new Axis// the "units" and "tens" series will be scaled on this axis
+        {
+
+            //Name = "本月",
+            NameTextSize = 16,
+            MaxLimit=31,
+            MinLimit =-1,
+            MinStep =0.1,
+            NamePaint =new SolidColorPaint(){ Color =  SKColors.Black},
+            Labeler = (point)=>$"{point} 天",
+
+            NamePadding = new LiveChartsCore.Drawing.Padding(0,20),
+            Padding =  new LiveChartsCore.Drawing.Padding(10, 10, 10, 10),
+            TextSize = 16,
+            LabelsPaint =new SolidColorPaint(){ Color =  new SKColor (25, 118, 210) },
+            TicksPaint = new SolidColorPaint(s_blue),
+            //SubticksPaint = new SolidColorPaint(s_blue),
+            //DrawTicksPath = true,
+            Position = AxisPosition.Start,
+            
+            
+
+        },
+     
+
+    };
+
+
 
         public SolidColorPaint LegendTextPaint { get; set; } =
             new SolidColorPaint
             {
                 Color = new SKColor(50, 50, 50),
-                SKTypeface = SKTypeface.FromFamilyName("Courier New")
+                //SKTypeface = SKTypeface.FromFamilyName("Courier New")
+
+            
             };
+
+        public SolidColorPaint NamePaint { get; set; } =
+     new SolidColorPaint
+     {
+         Color = new SKColor(50, 50, 50),
+         //SKTypeface = SKTypeface.FromFamilyName("Courier New")
+
+     };
+
+
+        /// <summary>
+        /// 列表提示
+        /// </summary>
+        public SolidColorPaint TooltipTextPaint =>
+        new SolidColorPaint
+        {
+            Color = new SKColor(50, 50, 50),
+            //SKTypeface = SKTypeface.FromFamilyName("Courier New")
+
+        };
+
+
+
 
         public SolidColorPaint LedgendBackgroundPaint { get; set; } =
             new SolidColorPaint(new SKColor(240, 240, 240));
@@ -180,7 +280,11 @@ public ObservableCollection<ObservableValue> Robot_Work_ABCD_Number { set; get; 
 
 
 
-
+        public DrawMarginFrame DrawMarginFrame => new DrawMarginFrame
+        {
+            Fill = null,
+            Stroke = new SolidColorPaint(SKColors.Gray, 2)
+        };
 
 
 
@@ -197,10 +301,14 @@ public ObservableCollection<ObservableValue> Robot_Work_ABCD_Number { set; get; 
         public IEnumerable<ISeries> Work_Performance_Factor_Series { get; set; }
 
 
+
+        //public IEnumerable<ISeries> Mes_Data_View_List_Series { get; set; }
+
+
         public double Get_Work_Availability_Factor(double _Work_Time, double _Work_Run_Time)
         {
 
-            var _Work_Availability = (_Work_Time / _Work_Run_Time) *100;
+            var _Work_Availability = (_Work_Time / _Work_Run_Time) * 100;
             return Math.Round(double.IsNaN(_Work_Availability) ? 0 : (_Work_Availability <= 120 ? _Work_Availability : 120), 1);
 
 
@@ -209,7 +317,7 @@ public ObservableCollection<ObservableValue> Robot_Work_ABCD_Number { set; get; 
 
         }
 
-        public double Get_Work_Cycle_Load_Factor(Robot_Process_Int_Enum _Process,ref  Time_Model _A_Cycle_Time, ref Time_Model _B_Cycle_Time,ref Time_Model _C_Cycle_Time,ref Time_Model _D_Cycle_Time, double Work_Standard_Time)
+        public double Get_Work_Cycle_Load_Factor(Robot_Process_Int_Enum _Process, ref Time_Model _A_Cycle_Time, ref Time_Model _B_Cycle_Time, ref Time_Model _C_Cycle_Time, ref Time_Model _D_Cycle_Time, double Work_Standard_Time)
         {
 
 
@@ -239,19 +347,19 @@ public ObservableCollection<ObservableValue> Robot_Work_ABCD_Number { set; get; 
 
                     break;
 
-                case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1 or  Robot_Process_Int_Enum.Panel_Welding_2:
+                case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1 or Robot_Process_Int_Enum.Panel_Welding_2:
 
                     if (_A_Cycle_Time.Timer.IsRunning)
                     {
 
-                    _Facyor = ((_A_Cycle_Time.Timer_Sec) / Work_Standard_Time) * 100;
+                        _Facyor = ((_A_Cycle_Time.Timer_Sec) / Work_Standard_Time) * 100;
                     }
 
                     if (_C_Cycle_Time.Timer.IsRunning)
                     {
 
 
-                    _Facyor = ((_C_Cycle_Time.Timer_Sec) / Work_Standard_Time) * 100;
+                        _Facyor = ((_C_Cycle_Time.Timer_Sec) / Work_Standard_Time) * 100;
                     }
 
                     break;

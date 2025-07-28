@@ -1206,22 +1206,19 @@
                                 Text="{Binding Mes_Robot_Info_Model_Data.Robot_Offline_Time.Timer_UI, StringFormat='{}设备离线时间....{0:hh\\:mm\\:ss}'}" />
                         </Border>
 
-                        <Grid
-                            x:Name="Data_List_View"
-                            Grid.Row=" 1"
-                            Height="0"
-                            CacheMode="BitmapCache">
+                        <Grid Grid.Row=" 1">
 
 
                             <Grid.Style>
                                 <Style TargetType="Grid">
-                                    <Setter Property="Visibility" Value="Hidden" />
-
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Setter Property="Height" Value="280" />
 
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="true">
                                             <Setter Property="Visibility" Value="Visible" />
-                                            <DataTrigger.EnterActions>
+                                            <Setter Property="Height" Value="280" />
+                                            <!--<DataTrigger.EnterActions>
                                                 <BeginStoryboard>
                                                     <Storyboard Timeline.DesiredFrameRate="30">
                                                         <DoubleAnimation
@@ -1248,7 +1245,7 @@
                                                         </DoubleAnimation>
                                                     </Storyboard>
                                                 </BeginStoryboard>
-                                            </DataTrigger.ExitActions>
+                                            </DataTrigger.ExitActions>-->
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -1260,7 +1257,9 @@
                                 LegendPosition="Left"
                                 LegendTextPaint="{Binding Work_Factor_Seried.LegendTextPaint}"
                                 LegendTextSize="16"
-                                Series="{Binding Work_Factor_Seried.Series}"
+                                Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
+                                TooltipTextPaint="{Binding Work_Factor_Seried.TooltipTextPaint}"
+                                XAxes="{Binding Work_Factor_Seried.XAxes}"
                                 YAxes="{Binding Work_Factor_Seried.YAxes}" />
                         </Grid>
 

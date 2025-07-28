@@ -90,6 +90,11 @@ namespace Robot_Info_Mes.ViewModel
         public string Window_Version { set; get; } = string.Empty;
 
 
+
+
+        /// <summary>
+        /// 页面报表控件显示
+        /// </summary>
         public Work_Factor_Seried_Model Work_Factor_Seried { set; get; } = new Work_Factor_Seried_Model();
 
 
@@ -103,21 +108,32 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-
+        /// <summary>
+        /// 机器人通讯交互参数
+        /// </summary>
         public Socket_Robot_Info_Parameters_Model Robot_Info_Parameters { set; get; } = new Socket_Robot_Info_Parameters_Model() { };
 
 
 
 
-
+         /// <summary>
+         /// 看板服务器参数
+         /// </summary>
         public Socket_Mes_Info_Parameters_Model Mes_Info_Parameters { set; get; } = new Socket_Mes_Info_Parameters_Model();
 
 
 
+
+
+        /// <summary>
+        /// 上位机接受机器人参数
+        /// </summary>
         public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
 
 
-
+        /// <summary>
+        /// 文件初始化参数
+        /// </summary>
         public File_Int_Model File_Int_Parameters { set; get; } = new();
 
 
@@ -218,7 +234,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
         /// <summary>
-        ///服务器启动停止按钮
+        ///服务器启动轮播操作
         /// </summary>
         public ICommand Server_Window_Scrolling_Comm
         {
@@ -236,7 +252,7 @@ namespace Robot_Info_Mes.ViewModel
 
                     DispatcherTimer _timer = new DispatcherTimer
                     {
-                        Interval = TimeSpan.FromMilliseconds(4000)
+                        Interval = TimeSpan.FromMilliseconds(File_Int_Parameters.Mes_Run_Parameters.KanBan_List_Cycle_View_Time)
                     };
                     _timer.Tick += (s, e) =>
                     {
@@ -251,19 +267,14 @@ namespace Robot_Info_Mes.ViewModel
                         _Contol.SelectedIndex = Mes_Server_Model_List_View;
                         Mes_Server_Model_List_View++;
 
-                        //foreach (var item in Mes_Server_Model_List)
-                        //{
-                        //    //if (item.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected)
-                        //    //{
-                        //    //}
-                        //    Mes_Server_Model_Select = item;
+         
 
 
-                        //}
+
 
 
                     };
-                    _timer.Start();
+                    //_timer.Start();
 
 
 
