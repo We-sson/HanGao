@@ -1206,7 +1206,7 @@
                                 Text="{Binding Mes_Robot_Info_Model_Data.Robot_Offline_Time.Timer_UI, StringFormat='{}设备离线时间....{0:hh\\:mm\\:ss}'}" />
                         </Border>
 
-                        <Grid Grid.Row=" 1">
+                        <Grid Grid.Row=" 1" Margin="0,10,0,-20">
 
 
                             <Grid.Style>

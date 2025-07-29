@@ -52,24 +52,48 @@ namespace Robot_Info_Mes.Model
             Name = "时间稼动率",
             DataPadding = new LvcPoint(10, 0),
             Values =Work_Availability_Factor_List,
-            Stroke = new SolidColorPaint(s_blue, 2),
+            Stroke = new SolidColorPaint(Line_蓝_主颜色,2),
             GeometrySize = 10,
-            GeometryStroke = new SolidColorPaint(s_blue, 2),
+            GeometryStroke = new SolidColorPaint(Line_蓝_主颜色, 2),
             Fill = null,
             ScalesYAt = 0 // it will be scaled at the Axis[0] instance 
+        },
+           new LineSeries<double>
+        {
+            LineSmoothness = 1,
+            Name = "性能稼动率",
+            DataPadding = new LvcPoint(10, 0),
+            Values =Work_Performance_Factor_List,
+            Stroke = new SolidColorPaint(Line_蓝_主颜色, 2),
+            GeometrySize = 10,
+            GeometryStroke = new SolidColorPaint(Line_蓝_主颜色, 2),
+            Fill = null,
+            ScalesYAt = 0 // it will be scaled at the Axis[0] instance 
+        },
+           new LineSeries<double>
+        {
+          LineSmoothness = 1,
+            Name = "生产数量",
+            Values =Robot_Work_ABCD_Number_List,
+            Stroke = new SolidColorPaint(Line_蓝_主颜色, 2),
+            GeometrySize = 10,
+            GeometryStroke = new SolidColorPaint(Line_蓝_主颜色, 2),
+            Fill = null,
+            ScalesYAt = 1 // it will be scaled at the Axis[0] instance 
         },
         new LineSeries<double>
         {
           LineSmoothness = 1,
             Name = "平均节拍",
             Values =Work_Cycle_Load_Factor_List,
-            Stroke = new SolidColorPaint(s_blue, 2),
+            Stroke = new SolidColorPaint(Line_蓝_主颜色, 2),
             GeometrySize = 10,
-            GeometryStroke = new SolidColorPaint(s_blue, 2),
+            GeometryStroke = new SolidColorPaint(Line_蓝_主颜色, 2),
             Fill = null,
-            ScalesYAt = 1 // it will be scaled at the Axis[0] instance 
+            ScalesYAt = 2 // it will be scaled at the Axis[0] instance 
         },
-        new LineSeries<DateTimePoint>
+
+        new LineSeries<double>
         {
             Name = "作业时间",
             Values = Robot_Work_Time_List,
@@ -77,18 +101,9 @@ namespace Robot_Info_Mes.Model
             GeometrySize = 10,
             GeometryStroke = new SolidColorPaint(s_red, 2),
             Fill = null,
-            ScalesYAt = 2 // it will be scaled at the YAxes[1] instance 
+            ScalesYAt = 3 // it will be scaled at the YAxes[1] instance 
         },
-        //new LineSeries<double>
-        //{
-        //    Name = "Thousands",
-        //    Values = new double[] { 5493, 7843, 4368, 9018, 3902 },
-        //    Stroke = new SolidColorPaint(s_yellow, 2),
-        //    GeometrySize = 10,
-        //    GeometryStroke = new SolidColorPaint(s_yellow, 2),
-        //    Fill = null,
-        //    ScalesYAt = 2  // it will be scaled at the YAxes[2] instance 
-        //}
+
             };
 
 
@@ -119,10 +134,10 @@ namespace Robot_Info_Mes.Model
 
 
 
-        public ObservableCollection<double> Robot_Work_ABCD_Number_List { set; get; } = new ObservableCollection<double>() { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-        public ObservableCollection<double> Work_Availability_Factor_List { set; get; } = new ObservableCollection<double>() { 20, 25, 28, 29, 30, 31, 50, 60, 65, 61, 11 };
+        public ObservableCollection<double> Robot_Work_ABCD_Number_List { set; get; } = new ObservableCollection<double>() { 358, 405, 365, 485, 355, 298, 366, 401, 380, 369, 440 };
+        public ObservableCollection<double> Work_Availability_Factor_List { set; get; } = new ObservableCollection<double>() { 90, 65, 25, 33, 36, 37, 59, 66, 60, 69, 65 };
         public ObservableCollection<double> Work_Performance_Factor_List { set; get; } = new ObservableCollection<double>() { 20, 25, 28, 29, 30, 31, 50, 60, 65, 61, 11 };
-        public ObservableCollection<DateTimePoint> Robot_Work_Time_List { set; get; } = new ObservableCollection<DateTimePoint>() { new DateTimePoint(new DateTime(2025,7,28), 0.548), new DateTimePoint(new DateTime(2025, 7, 27), 0.348), new DateTimePoint(new DateTime(2025, 7, 26), 0.348) };
+        public ObservableCollection<double> Robot_Work_Time_List { set; get; } = new ObservableCollection<double>() { 0.65, 0.35, 0.45, 0.35, 0.44,0.31, 0.402, 0.501, 0.555, 0.312, 0.111 };
         public ObservableCollection<double> Work_Cycle_Load_Factor_List { set; get; } = new ObservableCollection<double>() { 20.6, 25.5, 28.7, 29.6, 30.1, 31, 40.2, 50.1, 55.5, 31.2, 11.1 };
 
 
@@ -131,9 +146,13 @@ namespace Robot_Info_Mes.Model
 
 
 
-        private static readonly SKColor s_blue = new(25, 118, 210);
+        private static readonly SKColor Line_蓝_主颜色 = new(75,101,135);
         private static readonly SKColor s_red = new(229, 57, 53);
         private static readonly SKColor s_yellow = new(198, 167, 0);
+
+
+
+
 
         public IEnumerable<ISeries> Mes_Data_View_List_Series { get; set; }
 
@@ -145,7 +164,6 @@ namespace Robot_Info_Mes.Model
 
             Name = "达成率",
             NameTextSize = 16,
-        
             MaxLimit=100,
             MinLimit =0,
             MinStep =0.1,
@@ -154,11 +172,33 @@ namespace Robot_Info_Mes.Model
             NamePadding = new LiveChartsCore.Drawing.Padding(0, 20),
             Padding =  new LiveChartsCore.Drawing.Padding(0, 0, 20, 0),
             TextSize = 16,
-            LabelsPaint = new SolidColorPaint(s_blue),
+            LabelsPaint = new SolidColorPaint(Line_蓝_主颜色),
             //TicksPaint = new SolidColorPaint(s_blue),
             //SubticksPaint = new SolidColorPaint(s_blue),
             //DrawTicksPath = true,
              
+        },
+                new Axis // the "hundreds" series will be scaled on this axis
+        {
+            Name = "生产数量",
+            NameTextSize = 16,
+             MinStep =1,
+            NamePaint =new SolidColorPaint(){ Color = new SKColor(25, 118, 210) },
+            Labeler = (point)=>$"{point} Psc",
+            LabelsPaint =new SolidColorPaint(){ Color =  new SKColor (25, 118, 210)},
+               NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
+            Padding =  new LiveChartsCore.Drawing.Padding(5 ,0,5, 0),
+            TextSize = 16,
+            //NamePaint = new SolidColorPaint(s_red),
+            //NamePadding = new LiveChartsCore.Drawing.Padding(0, 20),
+            //Padding =  new LiveChartsCore.Drawing.Padding(20, 0, 0, 0),
+            //TextSize = 12,
+            //LabelsPaint = new SolidColorPaint(s_red),
+            //TicksPaint = new SolidColorPaint(s_red),
+            //SubticksPaint = new SolidColorPaint(s_red),
+            //DrawTicksPath = true,
+            //ShowSeparatorLines = false,
+            Position = LiveChartsCore.Measure.AxisPosition.End
         },
         new Axis // the "hundreds" series will be scaled on this axis
         {
@@ -205,13 +245,14 @@ namespace Robot_Info_Mes.Model
             //DrawTicksPath = true,
             //ShowSeparatorLines = false,
             Position = AxisPosition.End
+
         }
     };
 
 
         public ICartesianAxis[] XAxes { get; set; } =
    {
-            
+
 
         new Axis// the "units" and "tens" series will be scaled on this axis
         {
@@ -221,22 +262,22 @@ namespace Robot_Info_Mes.Model
             MaxLimit=31,
             MinLimit =-1,
             MinStep =0.1,
-            NamePaint =new SolidColorPaint(){ Color =  SKColors.Black},
+            NamePaint =new SolidColorPaint(Line_蓝_主颜色),
             Labeler = (point)=>$"{point} 天",
 
             NamePadding = new LiveChartsCore.Drawing.Padding(0,20),
             Padding =  new LiveChartsCore.Drawing.Padding(10, 10, 10, 10),
             TextSize = 16,
-            LabelsPaint =new SolidColorPaint(){ Color =  new SKColor (25, 118, 210) },
-            TicksPaint = new SolidColorPaint(s_blue),
+            LabelsPaint =new SolidColorPaint( Line_蓝_主颜色 ),
+            TicksPaint = new SolidColorPaint(Line_蓝_主颜色),
             //SubticksPaint = new SolidColorPaint(s_blue),
             //DrawTicksPath = true,
             Position = AxisPosition.Start,
-            
-            
+
+
 
         },
-     
+
 
     };
 
@@ -248,7 +289,7 @@ namespace Robot_Info_Mes.Model
                 Color = new SKColor(50, 50, 50),
                 //SKTypeface = SKTypeface.FromFamilyName("Courier New")
 
-            
+
             };
 
         public SolidColorPaint NamePaint { get; set; } =
