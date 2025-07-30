@@ -51,6 +51,7 @@ namespace Robot_Info_Mes.Model
             LineSmoothness = 1,
             Name = "时间稼动率",
             DataPadding = new LvcPoint(10, 0),
+          
             Values =Work_Availability_Factor_List,
             Stroke = new SolidColorPaint(Line_蓝_主颜色,2),
             GeometrySize = 10,
@@ -64,9 +65,11 @@ namespace Robot_Info_Mes.Model
             Name = "性能稼动率",
             DataPadding = new LvcPoint(10, 0),
             Values =Work_Performance_Factor_List,
-            Stroke = new SolidColorPaint(Line_蓝_主颜色, 2),
+
+            Stroke = new SolidColorPaint(Line_绿色_配颜色,2),
+         
             GeometrySize = 10,
-            GeometryStroke = new SolidColorPaint(Line_蓝_主颜色, 2),
+            GeometryStroke = new SolidColorPaint(Line_绿色_配颜色, 2),
             Fill = null,
             ScalesYAt = 0 // it will be scaled at the Axis[0] instance 
         },
@@ -97,9 +100,9 @@ namespace Robot_Info_Mes.Model
         {
             Name = "作业时间",
             Values = Robot_Work_Time_List,
-            Stroke = new SolidColorPaint(s_red, 2),
+            Stroke = new SolidColorPaint(Line_蓝_主颜色, 2),
             GeometrySize = 10,
-            GeometryStroke = new SolidColorPaint(s_red, 2),
+            GeometryStroke = new SolidColorPaint(Line_蓝_主颜色, 2),
             Fill = null,
             ScalesYAt = 3 // it will be scaled at the YAxes[1] instance 
         },
@@ -137,7 +140,7 @@ namespace Robot_Info_Mes.Model
         public ObservableCollection<double> Robot_Work_ABCD_Number_List { set; get; } = new ObservableCollection<double>() { 358, 405, 365, 485, 355, 298, 366, 401, 380, 369, 440 };
         public ObservableCollection<double> Work_Availability_Factor_List { set; get; } = new ObservableCollection<double>() { 90, 65, 25, 33, 36, 37, 59, 66, 60, 69, 65 };
         public ObservableCollection<double> Work_Performance_Factor_List { set; get; } = new ObservableCollection<double>() { 20, 25, 28, 29, 30, 31, 50, 60, 65, 61, 11 };
-        public ObservableCollection<double> Robot_Work_Time_List { set; get; } = new ObservableCollection<double>() { 0.65, 0.35, 0.45, 0.35, 0.44,0.31, 0.402, 0.501, 0.555, 0.312, 0.111 };
+        public ObservableCollection<double> Robot_Work_Time_List { set; get; } = new ObservableCollection<double>() { 0.65, 0.35, 0.45, 0.35, 0.44, 0.31, 0.402, 0.501, 0.555, 0.312, 0.111 };
         public ObservableCollection<double> Work_Cycle_Load_Factor_List { set; get; } = new ObservableCollection<double>() { 20.6, 25.5, 28.7, 29.6, 30.1, 31, 40.2, 50.1, 55.5, 31.2, 11.1 };
 
 
@@ -146,12 +149,17 @@ namespace Robot_Info_Mes.Model
 
 
 
-        private static readonly SKColor Line_蓝_主颜色 = new(75,101,135);
-        private static readonly SKColor s_red = new(229, 57, 53);
-        private static readonly SKColor s_yellow = new(198, 167, 0);
-
-
-
+        private static readonly SKColor Line_蓝_主颜色 = new(75, 101, 135);
+        private static readonly SKColor Line_深蓝_配颜色 = new(62, 71, 86);
+        private static readonly SKColor Line_浅绿_配颜色 = new(38, 138, 131);
+        private static readonly SKColor Line_浅浅绿_配颜色 = new(155, 182, 179);
+        private static readonly SKColor Line_绿色_配颜色 = new(48, 112, 69);
+        private static readonly SKColor Line_红色色_配颜色 = new(159, 73, 68);
+        private static readonly SKColor Line_浅灰_配颜色 = new(162, 172, 189);
+        private static readonly SKColor Line_棕红_配颜色 = new(144, 83, 59);
+        private static readonly SKColor Line_棕色_配颜色 = new(117, 96, 64);
+        private static readonly SKColor Line_浅棕色_配颜色 = new(171, 146, 112);
+        private static readonly SKColor Line_黄色_配颜色 = new(222, 160, 30);
 
 
         public IEnumerable<ISeries> Mes_Data_View_List_Series { get; set; }
@@ -167,7 +175,7 @@ namespace Robot_Info_Mes.Model
             MaxLimit=100,
             MinLimit =0,
             MinStep =0.1,
-            NamePaint =new SolidColorPaint(){ Color = new SKColor(25, 118, 210)},
+            NamePaint =new SolidColorPaint(Line_蓝_主颜色),
             Labeler = (point)=>$"{point} %",
             NamePadding = new LiveChartsCore.Drawing.Padding(0, 20),
             Padding =  new LiveChartsCore.Drawing.Padding(0, 0, 20, 0),
@@ -183,9 +191,10 @@ namespace Robot_Info_Mes.Model
             Name = "生产数量",
             NameTextSize = 16,
              MinStep =1,
-            NamePaint =new SolidColorPaint(){ Color = new SKColor(25, 118, 210) },
+                        NamePaint =new SolidColorPaint(Line_蓝_主颜色),
+
             Labeler = (point)=>$"{point} Psc",
-            LabelsPaint =new SolidColorPaint(){ Color =  new SKColor (25, 118, 210)},
+            LabelsPaint =new SolidColorPaint(Line_蓝_主颜色),
                NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
             Padding =  new LiveChartsCore.Drawing.Padding(5 ,0,5, 0),
             TextSize = 16,
@@ -204,11 +213,11 @@ namespace Robot_Info_Mes.Model
         {
             Name = "平均节拍",
             NameTextSize = 16,
-             MinStep =1,
-            NamePaint =new SolidColorPaint(){ Color = new SKColor(25, 118, 210) },
+            MinStep =1,
+            NamePaint =new SolidColorPaint(Line_蓝_主颜色),
             Labeler = (point)=>$"{point} 秒",
-            LabelsPaint =new SolidColorPaint(){ Color =  new SKColor (25, 118, 210)},
-               NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
+            LabelsPaint =new SolidColorPaint(Line_蓝_主颜色),
+            NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
             Padding =  new LiveChartsCore.Drawing.Padding(5 ,0,5, 0),
             TextSize = 16,
             //NamePaint = new SolidColorPaint(s_red),
@@ -229,9 +238,9 @@ namespace Robot_Info_Mes.Model
             MaxLimit=1,
             MinLimit =0,
             MinStep =0.1,
-            NamePaint =new SolidColorPaint(){ Color = new SKColor(25, 118, 210) },
+            NamePaint =new SolidColorPaint(Line_蓝_主颜色),
             Labeler = (point)=>$"{point.ToString("F2")} 天",
-            LabelsPaint =new SolidColorPaint(){ Color =  new SKColor (25, 118, 210)},
+            LabelsPaint =new SolidColorPaint(Line_蓝_主颜色),
             NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
             Padding =  new LiveChartsCore.Drawing.Padding(5 ,0,5, 0),
             TextSize = 16,
@@ -286,16 +295,17 @@ namespace Robot_Info_Mes.Model
         public SolidColorPaint LegendTextPaint { get; set; } =
             new SolidColorPaint
             {
-                Color = new SKColor(50, 50, 50),
+                Color = Line_蓝_主颜色,
+                 StrokeThickness = 5,
                 //SKTypeface = SKTypeface.FromFamilyName("Courier New")
-
+                 
 
             };
 
         public SolidColorPaint NamePaint { get; set; } =
      new SolidColorPaint
      {
-         Color = new SKColor(50, 50, 50),
+         Color = Line_蓝_主颜色
          //SKTypeface = SKTypeface.FromFamilyName("Courier New")
 
      };
@@ -307,7 +317,7 @@ namespace Robot_Info_Mes.Model
         public SolidColorPaint TooltipTextPaint =>
         new SolidColorPaint
         {
-            Color = new SKColor(50, 50, 50),
+            Color = Line_蓝_主颜色
             //SKTypeface = SKTypeface.FromFamilyName("Courier New")
 
         };
@@ -316,7 +326,7 @@ namespace Robot_Info_Mes.Model
 
 
         public SolidColorPaint LedgendBackgroundPaint { get; set; } =
-            new SolidColorPaint(new SKColor(240, 240, 240));
+          new SolidColorPaint();
 
 
 

@@ -1256,7 +1256,8 @@
                                 LegendBackgroundPaint="{Binding Work_Factor_Seried.LedgendBackgroundPaint}"
                                 LegendPosition="Left"
                                 LegendTextPaint="{Binding Work_Factor_Seried.LegendTextPaint}"
-                                LegendTextSize="16"
+                                LegendTextSize="20"
+                                
                                 Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
                                 TooltipTextPaint="{Binding Work_Factor_Seried.TooltipTextPaint}"
                                 XAxes="{Binding Work_Factor_Seried.XAxes}"
