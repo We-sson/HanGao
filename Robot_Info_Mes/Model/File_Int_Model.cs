@@ -26,11 +26,15 @@ namespace Robot_Info_Mes.Model
 
         public Window_Startup_Type_Enum Window_Startup_Type { set; get; } = Window_Startup_Type_Enum.Client;
 
-
+        /// <summary>
+        /// 软件运行参数
+        /// </summary>
         public Mes_Run_Parameters_Model Mes_Run_Parameters { set; get; } = new();
 
 
-
+        /// <summary>
+        /// 工艺时间参数
+        /// </summary>
         public Mes_Standard_Time_Model Mes_Standard_Time { set; get; } = new();
 
 
@@ -62,6 +66,23 @@ namespace Robot_Info_Mes.Model
         /// 每天作业总时间、小时
         /// </summary>
         public double Work_Standard_Hours { set; get; } = 8;
+
+
+        /// <summary>
+        /// 标准得最大产能
+        /// </summary>
+        public int Robot_Work_ABCD_Number_Max { set; get; } = 350;
+
+        /// <summary>
+        /// 标准得时间稼动率
+        /// </summary>
+        public int Work_Availability_Factor_Max { set; get; } = 60;
+
+        /// <summary>
+        /// 标准得性能稼动率
+        /// </summary>
+        public int Work_Performance_Factor_Max { set; get; } = 90;
+
 
     }
 

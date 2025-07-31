@@ -805,7 +805,7 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 机器人作业周期、秒
         /// </summary>
-   
+
         public TimeSpan Robot_Work_AB_Cycle { set; get; } = new();
         /// <summary>
         /// 机器人作业周期、秒
@@ -818,7 +818,7 @@ namespace Roboto_Socket_Library.Model
         /// </summary>
         public TimeSpan Socket_Cycle_Time { set; get; } = new();
 
-        
+
 
         /// <summary>
         /// 节拍负荷率
@@ -887,6 +887,48 @@ namespace Roboto_Socket_Library.Model
 
 
 
+        /// <summary>
+        /// 当前工艺作业标准作业数量
+        /// </summary>
+        public int Robot_Work_ABCD_Number_Max { set; get; } = 0;
+
+
+
+        /// <summary>
+        /// 当前工艺标准节拍
+        /// </summary>
+        public double Work_Cycle_Load_Factor_Max { set; get; } = 0;
+
+
+
+        /// <summary>
+        /// 目前累计平均节拍
+        /// </summary>
+        public double Work_Cycle_Load_Factor_Mean { set; get; } = 0;
+
+
+
+
+
+
+        /// <summary>
+        /// 当前工艺标准总作业时间
+        /// </summary>
+        public double Robot_Work_Time_Max {  set; get; } = 0;
+
+
+
+
+        /// <summary>
+        /// 当前工艺标准时间稼动率
+        /// </summary>
+        public int Work_Availability_Factor_Max { set; get; } = 0;
+
+
+        /// <summary>
+        /// 当前工艺标准性能稼动率
+        /// </summary>
+        public int Work_Performance_Factor_Max { set; get; } = 0;
 
 
     }

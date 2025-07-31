@@ -1,5 +1,6 @@
 ﻿using PropertyChanged;
 using Roboto_Socket_Library.Model;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net;
 using System.Windows.Threading;
@@ -100,8 +101,7 @@ namespace Robot_Info_Mes.Model
 
                             Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number + Robot_Work_CD_Number;
 
-                            Robot_Work_AB_Number = 0;
-                            Robot_Work_CD_Number = 0;
+
 
 
                             break;
@@ -121,8 +121,7 @@ namespace Robot_Info_Mes.Model
 
 
                             Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number + Robot_Work_CD_Number;
-                            Robot_Work_AB_Number = 0;
-                            Robot_Work_CD_Number = 0;
+
 
 
                             break;
@@ -132,6 +131,8 @@ namespace Robot_Info_Mes.Model
                     }
 
 
+                    Robot_Work_AB_Number = 0;
+                    Robot_Work_CD_Number = 0;
 
                     if (value.Mes_Robot_Mode == KUKA_Mode_OP_Enum.Run && (value.Mes_Work_A_State || value.Mes_Work_B_State || value.Mes_Work_C_State || value.Mes_Work_D_State))
                     {
@@ -318,6 +319,19 @@ namespace Robot_Info_Mes.Model
         public Time_Model Robot_Work_CD_Cycle { set; get; } = new();
 
 
+        /// <summary>
+        /// 节拍集合
+        /// </summary>
+        public ObservableCollection<double> Robot_Work_ABCD_Cycle_List { set; get; } = new();
+
+
+
+
+        /// <summary>
+        /// 节拍集合中平均数
+        /// </summary>
+        public double Robot_Work_ABCD_Cycle_Mean { set; get; } = 0;
+
 
 
         private bool Robot_Work_A_Cycle_State = false;
@@ -340,6 +354,11 @@ namespace Robot_Info_Mes.Model
         /// 机器人工作加工数量
         /// </summary>
         public int Robot_Work_ABCD_Number { set; get; } = 0;
+
+
+
+
+
 
         /// <summary>
         /// 机器人通讯离线时间、秒
@@ -495,6 +514,11 @@ namespace Robot_Info_Mes.Model
 
             }
 
+            _Robot_Work_AB_Cycle = _Robot_Work_A_Cycle.Timer_UI + _Robot_Work_B_Cycle.Timer_UI;
+
+
+
+
 
             if (_Robot_Work_A_Cycle_State && _Robot_Work_B_Cycle_State && !_Mes_Work_A_State && !_Mes_Work_B_State)
             {
@@ -503,11 +527,15 @@ namespace Robot_Info_Mes.Model
                 _Robot_Work_AB_Number++;
                 _Robot_Work_B_Cycle_State = false;
                 _Robot_Work_A_Cycle_State = false;
+   
+                Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_AB_Cycle.TotalMilliseconds);
+                Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average();
+
+
 
             }
 
 
-            _Robot_Work_AB_Cycle = _Robot_Work_A_Cycle.Timer_UI + _Robot_Work_B_Cycle.Timer_UI;
 
             return _Robot_Work_AB_Cycle;
 
@@ -526,7 +554,7 @@ namespace Robot_Info_Mes.Model
 
 
 
-                if (_Robot_Work_A_Cycle_State == false &&!_Robot_Work_A_Cycle.Timer.IsRunning )
+                if (_Robot_Work_A_Cycle_State == false && !_Robot_Work_A_Cycle.Timer.IsRunning)
                 {
 
                     _Robot_Work_A_Cycle.Reset();
@@ -556,7 +584,8 @@ namespace Robot_Info_Mes.Model
                 _Robot_Work_AB_Number++;
                 _Robot_Work_A_Cycle_State = false;
                 _Robot_Work_A_Cycle.Stop();
-
+                Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_A_Cycle.Timer_Sec);
+                Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average();
 
             }
 
@@ -605,7 +634,7 @@ namespace Robot_Info_Mes.Model
         [XmlIgnore]
         public IPEndPoint? Connetc_Mes_IP { set; get; } = null;
 
-     
+
         public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
 
         [XmlIgnore]

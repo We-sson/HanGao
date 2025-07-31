@@ -496,6 +496,16 @@ namespace Robot_Info_Mes.ViewModel
                                     Work_Cycle_Load_Factor = Work_Factor_Seried.Work_Cycle_Load_Factor.Value ?? 0,
                                     Work_Performance_Factor = Work_Factor_Seried.Work_Performance_Factor.Value ?? 0,
 
+
+                                    ///工艺时间参数
+                                     Robot_Work_ABCD_Number_Max= File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max,
+                                     Robot_Work_Time_Max = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours,
+                                     Work_Cycle_Load_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time,
+                                     Work_Availability_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max,
+                                     Work_Performance_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max
+
+
+
                                 }
 
 
@@ -751,6 +761,14 @@ namespace Robot_Info_Mes.ViewModel
 
 
                     _Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode = _Receive.Robot_Mes_Info_Data.Mes_Robot_Mode;
+
+                        ///工艺参数写入
+                        _Server.Work_Factor_Seried.Work_Cycle_Load_Factor_Max.Value = _Receive.Mes_Server_Date.Work_Cycle_Load_Factor_Max;
+                        _Server.Work_Factor_Seried.Robot_Work_ABCD_Number_Max.Value = _Receive.Mes_Server_Date.Robot_Work_ABCD_Number_Max;
+                        _Server.Work_Factor_Seried.Robot_Work_Time_Max.Value= _Receive.Mes_Server_Date.Robot_Work_Time_Max;
+                        _Server.Work_Factor_Seried.Work_Availability_Factor_Max.Value = _Receive.Mes_Server_Date.Work_Availability_Factor_Max;
+                        _Server.Work_Factor_Seried.Work_Performance_Factor_Max.Value = _Receive.Mes_Server_Date.Work_Performance_Factor_Max;
+
 
 
 
