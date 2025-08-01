@@ -1130,6 +1130,42 @@
                         TooltipPosition="Center" />
 
                 </Grid>
+                <Border
+                    Width="3"
+                    Margin="5,20,5,20"
+                    Background="{DynamicResource 全局_按钮_深灰颜色}"
+                    CornerRadius=" 1.5" />
+                <Grid Width=" 90" Margin="5,10,5,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=" 40" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="19"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                        Text="平均节拍" />
+                    <Border
+                        Grid.Row=" 2"
+                        BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                        BorderThickness="2"
+                        CornerRadius="10">
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                            Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_Mean, FallbackValue=...., StringFormat={}{0:F2}s}" />
+
+
+                    </Border>
+                </Grid>
 
                 <Grid Width=" 90" Margin="5,10,5,10">
                     <Grid.RowDefinitions>
@@ -1155,14 +1191,13 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontFamily="{DynamicResource 全局_文字_中文字体}"
-                            FontSize="20"
+                            FontSize="18"
                             Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                             Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number, FallbackValue=....}" />
 
 
                     </Border>
                 </Grid>
-
 
 
 

@@ -209,8 +209,149 @@ namespace Robot_Info_Mes.Model
 
                     return _newVale;
 
+                case Type _T when _T == typeof(ObservableCollection<Mes_Server_Info_List_Model>):
 
 
+                    //Vision_Data _vision_Data = (Vision_Data)(object)_newVale;
+                    //Find_Data_List = new Vision_Data() { Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 0, Date_Last_Revise = DateTime.Now.ToString() } } };
+
+
+                    _Path = GetXml_Path<ObservableCollection<Mes_Server_Info_List_Model>>(Get_Xml_File_Enum.Folder_Path);
+
+                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
+                    //检查存放文件目录
+                    _Path = GetXml_Path<ObservableCollection<Mes_Server_Info_List_Model>>(Get_Xml_File_Enum.File_Path);
+
+
+
+
+
+                    if (!File.Exists(_Path))
+                    {
+                        //_vision_Data.Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = "0", } };
+                        //_newVale = (T1)(object)new Vision_Data() { Vision_List = [new Vision_Xml_Models()] };
+
+                        _newVale=( T1)(object)new ObservableCollection<Mes_Server_Info_List_Model>()
+                    
+            {
+            new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.R_Side_7,
+                    },
+
+                }
+            },
+            new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.R_Side_8,
+                    },
+
+                }
+            },
+            new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.R_Side_9,
+                    },
+
+                }
+            },
+            new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Surround_7,
+                    },
+
+                }
+            },
+            new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Surround_8,
+                    },
+
+                }
+            },
+            new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Surround_9,
+                    },
+
+                }
+            },
+            new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Welding_1,
+                    },
+
+                }
+            },
+            new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Welding_2,
+                    },
+
+                }
+            },
+            };
+
+
+                        ///检查日期缺失补齐
+                        foreach (Mes_Server_Info_List_Model item in   (ObservableCollection<Mes_Server_Info_List_Model>)(object)_newVale)
+                        {
+                            item.Work_Factor_Seried.Mes_Date_Int();
+                        }
+
+
+
+                        //初始化参数读取文件
+                        Save_Xml(_newVale);
+
+                    }
+                    else
+                    {
+
+
+                        ///读取文件
+                        _newVale = (T1)(object)Read_Xml<ObservableCollection<Mes_Server_Info_List_Model>>();
+
+
+
+                        ///检查日期缺失补齐
+                        foreach (Mes_Server_Info_List_Model item in (ObservableCollection<Mes_Server_Info_List_Model>)(object)_newVale)
+                        {
+                            item.Work_Factor_Seried.Mes_Date_Int();
+                        }
+
+                        //参数0号为默认值
+                        //_Data.Vision_List.Where(_List => int.Parse(_List.ID) == 0).FirstOrDefault(_List =>
+                        //{
+                        //    _List.Camera_Parameter_Data = new MVS_SDK_Base.Model.MVS_Model.MVS_Camera_Parameter_Model();
+                        //    _List.Find_Shape_Data = new Halcon_Data_Model.Find_Shape_Based_ModelXld();
+                        //    return true;
+
+                        //});
+                        //_newVale = (T1)(object)_Data;
+
+                    }
+
+
+                    return _newVale;
+
+                    
                 //case Type _T when _T == typeof(Vision_Auto_Config_Model):
 
 
@@ -344,7 +485,7 @@ namespace Robot_Info_Mes.Model
 
 
                     return _Path;
-                case Type _T when _T == typeof(List<Mes_Server_Info_List_Model>):
+                case Type _T when _T == typeof(ObservableCollection< Mes_Server_Info_List_Model>):
 
                     switch (Get_Xml_File)
                     {
@@ -357,7 +498,7 @@ namespace Robot_Info_Mes.Model
 
                     
 
-                            _Path = Environment.CurrentDirectory + $"\\Server_Date" + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".Xml";
+                            _Path = Environment.CurrentDirectory + $"\\Server_Date" + "\\" + DateTime.Now.ToString("yyyy-MM") + ".Xml";
 
                             break;
                     }

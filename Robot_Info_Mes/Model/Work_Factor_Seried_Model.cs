@@ -13,6 +13,7 @@ using SkiaSharp;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using System.Xml.Serialization;
+using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 
 namespace Robot_Info_Mes.Model
 {
@@ -91,7 +92,7 @@ namespace Robot_Info_Mes.Model
                 IsVisible = false,
           LineSmoothness = 1,
             Name = "平均节拍",
-            Values =Work_Cycle_Load_Factor_List,
+            Values =Robot_Work_ABCD_Cycle_Mean_List,
             Stroke = new SolidColorPaint(Line_浅绿_配颜色, 2),
             GeometrySize = 10,
             GeometryStroke = new SolidColorPaint(Line_浅绿_配颜色, 2),
@@ -201,6 +202,9 @@ namespace Robot_Info_Mes.Model
             };
 
 
+
+   
+
             ///初始化完数据后开始陆续显示数据
             Mes_Data_View_Int();
 
@@ -218,6 +222,14 @@ namespace Robot_Info_Mes.Model
         /// 当前列表显示列
         /// </summary>
         private int Mes_Data_View_List_Update_Num { set; get; } = 0;
+
+        /// <summary>
+        /// 看板列表循环播放时间
+        /// </summary>
+        public double KanBan_List_Cycle_View_Time { set; get; } = 2;
+
+
+
 
         /// <summary>
         /// 节拍负荷率
@@ -240,21 +252,24 @@ namespace Robot_Info_Mes.Model
 
 
 
-       /// <summary>
-       /// 生产数量合格线
-       /// </summary>
+        /// <summary>
+        /// 生产数量合格线
+        /// </summary>
+       [XmlIgnore]
         public ObservableValue Robot_Work_ABCD_Number_Max { set; get; } = new ObservableValue { Value = 350 };
 
 
         /// <summary>
         /// 平均节拍合格线
         /// </summary>
+        [XmlIgnore]
         public ObservableValue Work_Cycle_Load_Factor_Max { set; get; } = new ObservableValue { Value = 60 };
 
 
         /// <summary>
         /// 作业周期合格线
         /// </summary>
+        [XmlIgnore]
         public ObservableValue Robot_Work_Time_Max { set; get; } = new ObservableValue { Value = 6 };
 
 
@@ -263,25 +278,35 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 时间稼动率合格线
         /// </summary>
+        [XmlIgnore]
         public ObservableValue Work_Availability_Factor_Max { set; get; } = new ObservableValue { Value = 60 };
 
 
         /// <summary>
         /// 性能稼动率合格线
         /// </summary>
+        [XmlIgnore]
         public ObservableValue Work_Performance_Factor_Max { set; get; } = new ObservableValue { Value = 90 };
 
 
 
+        /// <summary>
+        /// 机器人循环平均节拍
+        /// </summary>
+        [XmlIgnore]
+        public ObservableValue Robot_Work_ABCD_Cycle_Mean { set; get; } = new ObservableValue { Value = 60 };
 
 
 
 
-        public ObservableCollection<double> Robot_Work_ABCD_Number_List { set; get; } = new ObservableCollection<double>() { 358, 405, 365, 485, 355, 298, 366, 401, 380, 369, 440 };
-        public ObservableCollection<double> Work_Availability_Factor_List { set; get; } = new ObservableCollection<double>() { 90, 65, 25, 33, 36, 37, 59, 66, 60, 69, 65 };
-        public ObservableCollection<double> Work_Performance_Factor_List { set; get; } = new ObservableCollection<double>() { 20, 25, 28, 29, 30, 31, 50, 60, 65, 61, 11 };
-        public ObservableCollection<double> Robot_Work_Time_List { set; get; } = new ObservableCollection<double>() { 6.5, 3.5, 4.5, 3.5, 4.4, 3.1, 4.02, 5.01, 5.55, 3.12, 5.11 };
-        public ObservableCollection<double> Work_Cycle_Load_Factor_List { set; get; } = new ObservableCollection<double>() { 20.6, 25.5, 28.7, 29.6, 30.1, 31, 40.2, 50.1, 55.5, 31.2, 11.1 };
+
+
+
+        public ObservableCollection<double?> Robot_Work_ABCD_Number_List { set; get; } = new();
+        public ObservableCollection<double?> Work_Availability_Factor_List { set; get; } = new();
+        public ObservableCollection<double?> Work_Performance_Factor_List { set; get; } = new();
+        public ObservableCollection<double?> Robot_Work_Time_List { set; get; } = new();
+        public ObservableCollection<double?> Robot_Work_ABCD_Cycle_Mean_List { set; get; } = new();
 
 
 
@@ -301,18 +326,19 @@ namespace Robot_Info_Mes.Model
         private static readonly SKColor Line_浅棕色_配颜色 = new(171, 146, 112);
         private static readonly SKColor Line_黑色_配颜色 = new(71, 71, 71);
 
-
+        [XmlIgnore]
         public ObservableCollection<ISeries> Mes_Data_View_List_Series { get; set; }
+        [XmlIgnore]
         public ObservableCollection<RectangularSection> Mes_Data_View_List_Sections { get; set; }
-
-        public ObservableCollection< ICartesianAxis >YAxes { get; set; } =new ObservableCollection<ICartesianAxis> 
+        [XmlIgnore]
+        public ObservableCollection<ICartesianAxis> YAxes { get; set; } = new ObservableCollection<ICartesianAxis>
         {
         new Axis // the "units" and "tens" series will be scaled on this axis
         {
             IsVisible = true,
             Name = "达成率",
             NameTextSize = 16,
-            MaxLimit=100,
+            MaxLimit=150,
             MinLimit =0,
             MinStep =0.1,
             NamePaint =new SolidColorPaint(Line_蓝_主颜色),
@@ -375,7 +401,7 @@ namespace Robot_Info_Mes.Model
             Position =AxisPosition.Start
         },
         new Axis // the "thousands" series will be scaled on this axis
-        {   
+        {
             IsVisible = false,
             Name = "作业时间",
             NameTextSize = 16,
@@ -402,8 +428,8 @@ namespace Robot_Info_Mes.Model
         }
     };
 
-
-        public ObservableCollection<ICartesianAxis> XAxes { get; set; } =new ObservableCollection<ICartesianAxis> 
+        [XmlIgnore]
+        public ObservableCollection<ICartesianAxis> XAxes { get; set; } = new ObservableCollection<ICartesianAxis>
    {
 
 
@@ -416,7 +442,7 @@ namespace Robot_Info_Mes.Model
             MinLimit =-1,
             MinStep =1,
             NamePaint =new SolidColorPaint(Line_蓝_主颜色),
-            Labeler = (point)=>$"{point} 天",
+            Labeler = (point)=>$"{point+1} 号",
             NamePadding = new LiveChartsCore.Drawing.Padding(0,20),
             Padding =  new LiveChartsCore.Drawing.Padding(10),
             TextSize = 16,
@@ -435,7 +461,10 @@ namespace Robot_Info_Mes.Model
     };
 
 
-
+        /// <summary>
+        /// 图表文字颜色
+        /// </summary>
+       [XmlIgnore]
         public SolidColorPaint LegendTextPaint { get; set; } =
             new SolidColorPaint
             {
@@ -445,7 +474,10 @@ namespace Robot_Info_Mes.Model
 
 
             };
-
+        /// <summary>
+        /// 图表文字格式
+        /// </summary>
+       [XmlIgnore]
         public SolidColorPaint NamePaint { get; set; } =
      new SolidColorPaint
      {
@@ -459,6 +491,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 列表提示
         /// </summary>
+       [XmlIgnore]
         public SolidColorPaint TooltipTextPaint =>
         new SolidColorPaint
         {
@@ -470,13 +503,19 @@ namespace Robot_Info_Mes.Model
 
 
 
-
+        /// <summary>
+        /// 图表背景样式
+        /// </summary>
+       [XmlIgnore]
         public SolidColorPaint LedgendBackgroundPaint { get; set; } =
           new SolidColorPaint();
 
 
 
-
+        /// <summary>
+        /// 图表背景样式
+        /// </summary>
+       [XmlIgnore]
         public DrawMarginFrame DrawMarginFrame => new DrawMarginFrame
         {
             Fill = null,
@@ -623,12 +662,14 @@ namespace Robot_Info_Mes.Model
         }
 
 
-
+        /// <summary>
+        /// 看板列表数据循环显示
+        /// </summary>
         private void Mes_Data_View_Int()
         {
 
             Mes_Data_View_List_Update_Num = 0;
-            Mes_Data_View_List_Update.Interval = TimeSpan.FromSeconds(1.5);
+            Mes_Data_View_List_Update.Interval = TimeSpan.FromSeconds(KanBan_List_Cycle_View_Time);
             int Series_Count = Mes_Data_View_List_Series.Count();
             int Sections_Count = Mes_Data_View_List_Sections.Count();
 
@@ -648,28 +689,36 @@ namespace Robot_Info_Mes.Model
                 //    Mes_Data_View_List_Series[Mes_Data_View_List_Update_Num].IsVisible = false;
                 //    Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].IsVisible = false;
                 //}
+                lock (Mes_Data_View_List_Series)
+                {
 
                 Mes_Data_View_List_Series[Mes_Data_View_List_Update_Num].IsVisible = false;
-                Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].IsVisible = false ;
+                Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].IsVisible = false;
                 YAxes[Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].ScalesYAt].IsVisible = false;
-
 
 
 
 
                 Mes_Data_View_List_Update_Num = (Mes_Data_View_List_Update_Num + 1) % Series_Count;
 
+                //if (Mes_Data_View_List_Update_Num== Series_Count-1)
+                //{
+                //    Mes_Data_ViewNext.Set();
+                //}
+
+
                 Mes_Data_View_List_Series[Mes_Data_View_List_Update_Num].IsVisible = true;
                 Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].IsVisible = true;
-                YAxes[ Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].ScalesYAt].IsVisible = true;
+                YAxes[Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].ScalesYAt].IsVisible = true;
 
 
 
-                //Mes_Data_View_List_Update_Num++;
+                    //Mes_Data_View_List_Update_Num++;
 
 
-                //if (Mes_Data_View_List_Update_Num > Series_Count-1) Mes_Data_View_List_Update_Num = 0;
-                //if (Mes_Data_View_List_Update_Num > Sections_Count-1) Mes_Data_View_List_Update_Num = 0;
+                    //if (Mes_Data_View_List_Update_Num > Series_Count-1) Mes_Data_View_List_Update_Num = 0;
+                    //if (Mes_Data_View_List_Update_Num > Sections_Count-1) Mes_Data_View_List_Update_Num = 0;
+                }
 
             };
             Mes_Data_View_List_Update.Start();
@@ -680,10 +729,89 @@ namespace Robot_Info_Mes.Model
 
         }
 
+        public  void Mes_Date_Int()
+        {
+            int _Day_Number = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+
+            Mes_Data_List_Conut(Robot_Work_ABCD_Number_List, _Day_Number);
+            Mes_Data_List_Conut(Work_Availability_Factor_List, _Day_Number);
+            Mes_Data_List_Conut(Work_Performance_Factor_List, _Day_Number);
+            Mes_Data_List_Conut(Robot_Work_Time_List, _Day_Number);
+            Mes_Data_List_Conut(Robot_Work_ABCD_Cycle_Mean_List, _Day_Number);
 
 
 
 
+
+
+
+        }
+
+
+
+        /// <summary>
+        /// 添加数据到列表中
+        /// </summary>
+        /// <param name="_Receive"></param>
+        public void Mes_Data_View_List_Add(Mes_Server_Info_Data_Receive _Receive)
+        {
+
+
+            int _Month = DateTime.Now.Month;
+            int _Day = DateTime.Now.Day - 1;
+
+
+
+
+            Robot_Work_ABCD_Number_List[_Day] = _Receive.Mes_Server_Date.Robot_Work_ABCD_Number;
+
+
+
+            Work_Availability_Factor_List[_Day] = _Receive.Mes_Server_Date.Work_Availability_Factor;
+
+            Work_Performance_Factor_List[_Day] = _Receive.Mes_Server_Date.Work_Performance_Factor;
+
+            Robot_Work_Time_List[_Day] = _Receive.Mes_Server_Date.Robot_Run_Time.TotalHours;
+
+            Robot_Work_ABCD_Cycle_Mean_List[_Day] = _Receive.Mes_Server_Date.Robot_Work_ABCD_Cycle_Mean;
+
+
+
+        }
+
+
+        /// <summary>
+        /// 根据当月日天数添加
+        /// </summary>
+        /// <param name="_List"></param>
+        /// <param name="_Month"></param>
+        private void Mes_Data_List_Conut(ObservableCollection<double?> _List, int _Month)
+        {
+
+            int _Count = _List.Count;
+
+
+
+            if (_Count < _Month)
+            {
+
+                for (int i = _Count; i < _Month; i++)
+                {
+
+                    _List.Add(0);
+
+                }
+
+
+            }
+            else if (_Count > _Month)
+            {
+                _List.RemoveAt(_Count-1 );
+            }
+
+
+
+        }
 
 
 

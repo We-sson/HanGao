@@ -658,9 +658,12 @@ namespace Roboto_Socket_Library.Model
 
 
         /// <summary>
-        /// 看板列表
+        /// 看板列表显示轮换时间
         /// </summary>
-        public double KanBan_List_Cycle_View_Time { get; set; } = 5;
+        public double KanBan_List_Cycle_View_Time { get; set; } = 2;
+
+
+        public double KanBan_ALLList_Cycle_View_Time { get; set; } = 10;
 
 
 
@@ -897,14 +900,14 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 当前工艺标准节拍
         /// </summary>
-        public double Work_Cycle_Load_Factor_Max { set; get; } = 0;
+        public double Work_Standard_Time { set; get; } = 0;
 
 
 
         /// <summary>
         /// 目前累计平均节拍
         /// </summary>
-        public double Work_Cycle_Load_Factor_Mean { set; get; } = 0;
+        public double Robot_Work_ABCD_Cycle_Mean { set; get; } = 0;
 
 
 
@@ -929,6 +932,9 @@ namespace Roboto_Socket_Library.Model
         /// 当前工艺标准性能稼动率
         /// </summary>
         public int Work_Performance_Factor_Max { set; get; } = 0;
+
+
+
 
 
     }

@@ -26,7 +26,7 @@ namespace Robot_Info_Mes.Model
 
 
         private Robot_Mes_Info_Data_Receive _Robot_Info_Data = new();
-        [XmlIgnore]
+       
         public Robot_Mes_Info_Data_Receive Robot_Info_Data
         {
             get { return _Robot_Info_Data; }
@@ -528,7 +528,7 @@ namespace Robot_Info_Mes.Model
                 _Robot_Work_B_Cycle_State = false;
                 _Robot_Work_A_Cycle_State = false;
    
-                Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_AB_Cycle.TotalMilliseconds);
+                Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_AB_Cycle.TotalSeconds );
                 Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average();
 
 
@@ -637,7 +637,7 @@ namespace Robot_Info_Mes.Model
 
         public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
 
-        [XmlIgnore]
+      
 
         public Work_Factor_Seried_Model Work_Factor_Seried { set; get; } = new Work_Factor_Seried_Model();
 
