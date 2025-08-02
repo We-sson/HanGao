@@ -80,6 +80,8 @@ namespace Robot_Info_Mes.Model
                 IsVisible = false,
           LineSmoothness = 1,
             Name = "生产数量",
+            DataPadding = new LvcPoint(10, 0),
+
             Values =Robot_Work_ABCD_Number_List,
             Stroke = new SolidColorPaint(Line_棕红_配颜色, 2),
             GeometrySize = 10,
@@ -92,6 +94,8 @@ namespace Robot_Info_Mes.Model
                 IsVisible = false,
           LineSmoothness = 1,
             Name = "平均节拍",
+            DataPadding = new LvcPoint(10, 0),
+
             Values =Robot_Work_ABCD_Cycle_Mean_List,
             Stroke = new SolidColorPaint(Line_浅绿_配颜色, 2),
             GeometrySize = 10,
@@ -104,6 +108,8 @@ namespace Robot_Info_Mes.Model
         {
                 IsVisible = false,
             Name = "作业时间",
+            DataPadding = new LvcPoint(10, 0),
+
             Values = Robot_Work_Time_List,
             Stroke = new SolidColorPaint(Line_黑色_配颜色, 2),
             GeometrySize = 10,
@@ -124,8 +130,8 @@ namespace Robot_Info_Mes.Model
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_蓝_主颜色),
             ZIndex = 0,
-            Yi = Work_Availability_Factor_Max.Value,
-            Yj = Work_Availability_Factor_Max.Value,
+            Yi = Work_Availability_Factor_Max,
+            Yj = Work_Availability_Factor_Max,
             Stroke = new SolidColorPaint
             {
 
@@ -141,8 +147,8 @@ namespace Robot_Info_Mes.Model
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_绿色_配颜色),
             ZIndex = 0,
-            Yi = Work_Performance_Factor_Max.Value,
-            Yj = Work_Performance_Factor_Max.Value,
+            Yi = Work_Performance_Factor_Max,
+            Yj = Work_Performance_Factor_Max,
             Stroke = new SolidColorPaint
             {
                 Color = Line_绿色_配颜色,
@@ -157,8 +163,8 @@ namespace Robot_Info_Mes.Model
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_棕红_配颜色),
             ZIndex = 0,
-            Yi = Robot_Work_ABCD_Number_Max.Value,
-            Yj = Robot_Work_ABCD_Number_Max.Value,
+            Yi = Robot_Work_ABCD_Number_Max,
+            Yj = Robot_Work_ABCD_Number_Max,
             Stroke = new SolidColorPaint
             {
                 Color = Line_棕红_配颜色,
@@ -173,8 +179,8 @@ namespace Robot_Info_Mes.Model
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_浅绿_配颜色),
             ZIndex = 0,
-            Yi = Work_Cycle_Load_Factor_Max.Value,
-            Yj = Work_Cycle_Load_Factor_Max.Value,
+            Yi = Work_Standard_Time_Max,
+            Yj = Work_Standard_Time_Max,
             Stroke = new SolidColorPaint
             {
                 Color = Line_浅绿_配颜色,
@@ -189,8 +195,8 @@ namespace Robot_Info_Mes.Model
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_黑色_配颜色),
             ZIndex = 0,
-            Yi = Robot_Work_Time_Max.Value,
-            Yj = Robot_Work_Time_Max.Value,
+            Yi = Robot_Work_Time_Max,
+            Yj = Robot_Work_Time_Max,
             Stroke = new SolidColorPaint
             {
                 Color = Line_黑色_配颜色,
@@ -255,22 +261,22 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 生产数量合格线
         /// </summary>
-       [XmlIgnore]
-        public ObservableValue Robot_Work_ABCD_Number_Max { set; get; } = new ObservableValue { Value = 350 };
+  
+        public int  Robot_Work_ABCD_Number_Max { set; get; } = 0;
 
 
         /// <summary>
         /// 平均节拍合格线
         /// </summary>
-        [XmlIgnore]
-        public ObservableValue Work_Cycle_Load_Factor_Max { set; get; } = new ObservableValue { Value = 60 };
+      
+        public double Work_Standard_Time_Max { set; get; } =0;
 
 
         /// <summary>
         /// 作业周期合格线
         /// </summary>
-        [XmlIgnore]
-        public ObservableValue Robot_Work_Time_Max { set; get; } = new ObservableValue { Value = 6 };
+ 
+        public double  Robot_Work_Time_Max { set; get; } = 0;
 
 
 
@@ -278,23 +284,22 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 时间稼动率合格线
         /// </summary>
-        [XmlIgnore]
-        public ObservableValue Work_Availability_Factor_Max { set; get; } = new ObservableValue { Value = 60 };
+ 
+        public double  Work_Availability_Factor_Max { set; get; } = 0;
 
 
         /// <summary>
         /// 性能稼动率合格线
         /// </summary>
-        [XmlIgnore]
-        public ObservableValue Work_Performance_Factor_Max { set; get; } = new ObservableValue { Value = 90 };
-
+    
+        public double Work_Performance_Factor_Max { set; get; } = 0;
 
 
         /// <summary>
         /// 机器人循环平均节拍
         /// </summary>
-        [XmlIgnore]
-        public ObservableValue Robot_Work_ABCD_Cycle_Mean { set; get; } = new ObservableValue { Value = 60 };
+        //[XmlIgnore]
+        //public ObservableValue Robot_Work_ABCD_Cycle_Mean { set; get; } = new ObservableValue { Value = 0 };
 
 
 
@@ -358,6 +363,8 @@ namespace Robot_Info_Mes.Model
             IsVisible = false,
             Name = "生产数量",
             NameTextSize = 16,
+            MaxLimit=800,
+            MinLimit=0,
             MinStep =1,
             NamePaint =new SolidColorPaint(Line_棕红_配颜色),
             Labeler = (point)=>$"{point} Psc",
@@ -381,6 +388,7 @@ namespace Robot_Info_Mes.Model
             IsVisible = false,
             Name = "平均节拍",
             NameTextSize = 16,
+            MaxLimit=100,
             MinLimit=0,
             MinStep =1,
             NamePaint =new SolidColorPaint(Line_浅绿_配颜色),
@@ -749,6 +757,42 @@ namespace Robot_Info_Mes.Model
 
 
 
+
+        /// <summary>
+        /// 更新各指标合格线位置
+        /// </summary>
+        /// <param name="_Receive"></param>
+        public void Mes_Data_View_Max_Add(Mes_Server_Info_Data_Receive _Receive)
+        {
+
+
+            Work_Availability_Factor_Max = _Receive.Mes_Server_Date.Work_Availability_Factor_Max;
+            Mes_Data_View_List_Sections[0].Yi = _Receive.Mes_Server_Date.Work_Availability_Factor_Max;
+            Mes_Data_View_List_Sections[0].Yj = _Receive.Mes_Server_Date.Work_Availability_Factor_Max;
+
+
+
+
+            Work_Performance_Factor_Max = _Receive.Mes_Server_Date.Work_Performance_Factor_Max;
+            Mes_Data_View_List_Sections[1].Yi = _Receive.Mes_Server_Date.Work_Performance_Factor_Max;
+            Mes_Data_View_List_Sections[1].Yj = _Receive.Mes_Server_Date.Work_Performance_Factor_Max;
+
+            Robot_Work_ABCD_Number_Max = _Receive.Mes_Server_Date.Robot_Work_ABCD_Number_Max;
+            Mes_Data_View_List_Sections[2].Yi = _Receive.Mes_Server_Date.Robot_Work_ABCD_Number_Max;
+            Mes_Data_View_List_Sections[2].Yj = _Receive.Mes_Server_Date.Robot_Work_ABCD_Number_Max;
+
+
+            Work_Standard_Time_Max = _Receive.Mes_Server_Date.Work_Standard_Time;
+            Mes_Data_View_List_Sections[3].Yi = _Receive.Mes_Server_Date.Work_Standard_Time;
+            Mes_Data_View_List_Sections[3].Yj = _Receive.Mes_Server_Date.Work_Standard_Time;
+
+            Robot_Work_Time_Max = _Receive.Mes_Server_Date.Robot_Work_Time_Max;
+            Mes_Data_View_List_Sections[4].Yi = _Receive.Mes_Server_Date.Robot_Work_Time_Max;
+            Mes_Data_View_List_Sections[4].Yj = _Receive.Mes_Server_Date.Robot_Work_Time_Max;
+
+        }
+
+
         /// <summary>
         /// 添加数据到列表中
         /// </summary>
@@ -764,8 +808,6 @@ namespace Robot_Info_Mes.Model
 
 
             Robot_Work_ABCD_Number_List[_Day] = _Receive.Mes_Server_Date.Robot_Work_ABCD_Number;
-
-
 
             Work_Availability_Factor_List[_Day] = _Receive.Mes_Server_Date.Work_Availability_Factor;
 

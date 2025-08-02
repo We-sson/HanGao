@@ -2,6 +2,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LiveChartsCore.Defaults;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
@@ -377,6 +378,16 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
+                ///检查通讯超时保存时间的更新断开连接
+                foreach (var item in Mes_Server_Model_List)
+                {
+                    if ((DateTime.Now - item.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time).TotalSeconds > File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time)
+                    {
+                        Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+                    }
+                    
+                }
+
                 File_Xml_Model.Save_Xml(new ObservableCollection<Mes_Server_Info_List_Model>(Mes_Server_Model_List));
 
 
@@ -722,22 +733,19 @@ namespace Robot_Info_Mes.ViewModel
 
                         _Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode = _Receive.Robot_Mes_Info_Data.Mes_Robot_Mode;
 
-
-
-
-
                         ///工艺参数写入
-                        _Server.Work_Factor_Seried.Work_Cycle_Load_Factor_Max.Value = _Receive.Mes_Server_Date.Work_Standard_Time;
-                        _Server.Work_Factor_Seried.Robot_Work_ABCD_Number_Max.Value = _Receive.Mes_Server_Date.Robot_Work_ABCD_Number_Max;
-                        _Server.Work_Factor_Seried.Robot_Work_Time_Max.Value = _Receive.Mes_Server_Date.Robot_Work_Time_Max;
-                        _Server.Work_Factor_Seried.Work_Availability_Factor_Max.Value = _Receive.Mes_Server_Date.Work_Availability_Factor_Max;
-                        _Server.Work_Factor_Seried.Work_Performance_Factor_Max.Value = _Receive.Mes_Server_Date.Work_Performance_Factor_Max;
+                        //_Server.Work_Factor_Seried.Work_Cycle_Load_Factor_Max= new ObservableValue(  _Receive.Mes_Server_Date.Work_Standard_Time );
+                        //_Server.Work_Factor_Seried.Robot_Work_ABCD_Number_Max = new ObservableValue(_Receive.Mes_Server_Date.Robot_Work_ABCD_Number_Max);
+                        //_Server.Work_Factor_Seried.Robot_Work_Time_Max = new ObservableValue(_Receive.Mes_Server_Date.Robot_Work_Time_Max);
+                        //_Server.Work_Factor_Seried.Work_Availability_Factor_Max = new ObservableValue(_Receive.Mes_Server_Date.Work_Availability_Factor_Max);
+                        //_Server.Work_Factor_Seried.Work_Performance_Factor_Max = new ObservableValue(_Receive.Mes_Server_Date.Work_Performance_Factor_Max);
 
 
                         _Server.Work_Factor_Seried.Mes_Data_View_List_Add(_Receive);
+                        _Server.Work_Factor_Seried.Mes_Data_View_Max_Add(_Receive);
 
 
-
+                        
 
 
 
