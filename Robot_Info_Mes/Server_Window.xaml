@@ -603,8 +603,11 @@
             ItemsSource="{Binding Mes_Server_Model_List}"
             ScrollViewer.CanContentScroll="False"
             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+            ScrollViewer.IsDeferredScrollingEnabled="True"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
-            SelectedItem="{Binding Mes_Server_Model_Select}">
+            SelectedItem="{Binding Mes_Server_Model_Select}"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <ListBox.Resources>
                 <Style BasedOn="{StaticResource Right_ScrollBarStyle}" TargetType="{x:Type ScrollBar}" />
             </ListBox.Resources>
@@ -614,6 +617,7 @@
                         Grid.Row="1"
                         Grid.Column=" 0"
                         Margin="0,5,0,0"
+                        CacheMode="BitmapCache"
                         ShowGridLines="False">
 
                         <Grid.RowDefinitions>
@@ -624,8 +628,7 @@
                         <Border
                             Background="{DynamicResource 全局_背景_白颜色}"
                             BorderThickness="3"
-                            CornerRadius="10"
-                            Effect="{DynamicResource 全局背景阴影}">
+                            CornerRadius="10">
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
@@ -648,8 +651,7 @@
                             <Border
                                 Width=" 200"
                                 Margin="10,10,5,10"
-                                CornerRadius=" 10 "
-                                Effect="{DynamicResource 全局背景阴影}">
+                                CornerRadius=" 10 ">
                                 <Border.Background>
                                     <ImageBrush ImageSource="{Binding Mes_Robot_Info_Model_Data.Image_Source}" Stretch="UniformToFill" />
                                 </Border.Background>
@@ -967,8 +969,7 @@
                                         Background="{DynamicResource 全局_按钮_绿颜色}"
                                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                                         BorderThickness="3"
-                                        CornerRadius=" 10"
-                                        Effect="{DynamicResource 全局背景阴影}">
+                                        CornerRadius=" 10">
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="Opacity" Value="0.5" />
@@ -992,8 +993,7 @@
                                         Background="{DynamicResource 全局_按钮_黄颜色}"
                                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                                         BorderThickness="3"
-                                        CornerRadius=" 10"
-                                        Effect="{DynamicResource 全局背景阴影}">
+                                        CornerRadius=" 10">
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="Opacity" Value="0.5" />
@@ -1016,8 +1016,7 @@
                                         Background="{DynamicResource 全局_按钮_红颜色}"
                                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                                         BorderThickness="3"
-                                        CornerRadius=" 10"
-                                        Effect="{DynamicResource 全局背景阴影}">
+                                        CornerRadius=" 10">
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="Opacity" Value="0.5" />
@@ -1294,8 +1293,7 @@
                             <Border
                                 Background="{DynamicResource 全局_背景_白颜色}"
                                 BorderThickness="3"
-                                CornerRadius="10"
-                                Effect="{DynamicResource 全局背景阴影}">
+                                CornerRadius="10">
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
@@ -1311,6 +1309,7 @@
 
                             <lvc:CartesianChart
                                 Margin="10"
+                                EasingFunction="{x:Null}"
                                 LegendBackgroundPaint="{Binding Work_Factor_Seried.LedgendBackgroundPaint}"
                                 LegendPosition="Left"
                                 LegendTextPaint="{Binding Work_Factor_Seried.LegendTextPaint}"
