@@ -8,6 +8,7 @@ using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows;
@@ -30,6 +31,10 @@ namespace Robot_Info_Mes.ViewModel
         {
             ///初始化
             ///
+  
+            if (!IsInDesignMode)
+            {
+
 
             Window_Version = Application.ResourceAssembly.GetName().Version!.ToString();
 
@@ -84,7 +89,23 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
+
+
+            }
+
+
         }
+        /// <summary>
+        /// 开发设计状态
+        /// </summary>
+        private bool IsInDesignMode
+        {
+            get
+            {
+                return DesignerProperties.GetIsInDesignMode(new DependencyObject());
+            }
+        }
+
 
         /// <summary>
         /// 系统版本
@@ -98,6 +119,9 @@ namespace Robot_Info_Mes.ViewModel
         /// 页面报表控件显示
         /// </summary>
         public Work_Factor_Seried_Model Work_Factor_Seried { set; get; } = new Work_Factor_Seried_Model();
+
+
+
 
 
 
@@ -383,7 +407,7 @@ namespace Robot_Info_Mes.ViewModel
                 {
                     if ((DateTime.Now - item.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time).TotalSeconds > File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time)
                     {
-                        Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+                        item.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
                     }
                     
                 }
