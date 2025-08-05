@@ -54,12 +54,17 @@ namespace Robot_Info_Mes.Model
              IsVisible = true  ,
             LineSmoothness = 1,
             Name = "时间稼动率",
-            DataPadding = new LvcPoint(10, 0),
+            DataPadding = new LvcPoint(15, 0),
             Values =Work_Availability_Factor_List,
             Stroke = new SolidColorPaint(Line_蓝_主颜色,2),
             GeometrySize = 10,
             GeometryStroke = new SolidColorPaint(Line_蓝_主颜色, 2),
             Fill = null,
+            DataLabelsSize = 14,
+            DataLabelsPaint=new SolidColorPaint(Line_蓝_主颜色),
+            DataLabelsPosition= DataLabelsPosition.Top,
+            DataLabelsFormatter=(_P)=>$"{_P.Coordinate.PrimaryValue}%",
+          
             ScalesYAt = 0 // it will be scaled at the Axis[0] instance 
             },
            new LineSeries<double>
@@ -67,25 +72,33 @@ namespace Robot_Info_Mes.Model
                 IsVisible = false,
             LineSmoothness = 1,
             Name = "性能稼动率",
-            DataPadding = new LvcPoint(10, 0),
+            DataPadding = new LvcPoint(15, 0),
             Values =Work_Performance_Factor_List,
             Stroke = new SolidColorPaint(Line_绿色_配颜色,2),
             GeometrySize = 10,
             GeometryStroke = new SolidColorPaint(Line_绿色_配颜色,2),
+            DataLabelsSize = 14,
+            DataLabelsPaint=new SolidColorPaint(Line_绿色_配颜色),
+            DataLabelsPosition= DataLabelsPosition.Top,
+            DataLabelsFormatter=(_P)=>$"{_P.Coordinate.PrimaryValue}%",
             Fill = null,
             ScalesYAt = 0 // it will be scaled at the Axis[0] instance 
            },
            new LineSeries<double>
            {
-                IsVisible = false,
-          LineSmoothness = 1,
+             IsVisible = false,
+           LineSmoothness = 1,
             Name = "生产数量",
-            DataPadding = new LvcPoint(10, 0),
+            DataPadding = new LvcPoint(15, 0),
 
             Values =Robot_Work_ABCD_Number_List,
             Stroke = new SolidColorPaint(Line_棕红_配颜色, 2),
             GeometrySize = 10,
             GeometryStroke = new SolidColorPaint(Line_棕红_配颜色, 2),
+             DataLabelsSize = 14,
+            DataLabelsPaint=new SolidColorPaint(Line_棕红_配颜色),
+            DataLabelsPosition= DataLabelsPosition.Top,
+            DataLabelsFormatter=(_P)=>$"{_P.Coordinate.PrimaryValue}Psc",
             Fill = null,
             ScalesYAt = 1 // it will be scaled at the Axis[0] instance 
            },
@@ -94,12 +107,16 @@ namespace Robot_Info_Mes.Model
                 IsVisible = false,
           LineSmoothness = 1,
             Name = "平均节拍",
-            DataPadding = new LvcPoint(10, 0),
+            DataPadding = new LvcPoint(15, 0),
 
             Values =Robot_Work_ABCD_Cycle_Mean_List,
             Stroke = new SolidColorPaint(Line_浅绿_配颜色, 2),
             GeometrySize = 10,
             GeometryStroke = new SolidColorPaint(Line_浅绿_配颜色, 2),
+           DataLabelsSize = 14,
+            DataLabelsPaint=new SolidColorPaint(Line_浅绿_配颜色),
+            DataLabelsPosition= DataLabelsPosition.Top,
+            DataLabelsFormatter=(_P)=>$"{_P.Coordinate.PrimaryValue:F1}秒",
             Fill = null,
             ScalesYAt = 2 // it will be scaled at the Axis[0] instance 
         },
@@ -108,12 +125,16 @@ namespace Robot_Info_Mes.Model
         {
                 IsVisible = false,
             Name = "作业时间",
-            DataPadding = new LvcPoint(10, 0),
+            DataPadding = new LvcPoint(15, 0),
 
             Values = Robot_Work_Time_List,
             Stroke = new SolidColorPaint(Line_黑色_配颜色, 2),
             GeometrySize = 10,
             GeometryStroke = new SolidColorPaint(Line_黑色_配颜色, 2),
+            DataLabelsSize = 14,
+            DataLabelsPaint=new SolidColorPaint(Line_黑色_配颜色),
+            DataLabelsPosition= DataLabelsPosition.Top,
+            DataLabelsFormatter=(_P)=>$"{_P.Coordinate.PrimaryValue:F1}时",
             Fill = null,
             ScalesYAt = 3 // it will be scaled at the YAxes[1] instance 
         },
@@ -126,16 +147,16 @@ namespace Robot_Info_Mes.Model
                new RectangularSection
                   {
                        IsVisible = true ,
-            Label="时间稼动率合格线",
+            Label="合格线",
             LabelSize = 15,
-            LabelPaint=new SolidColorPaint(Line_蓝_主颜色),
+            LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
             ZIndex = 0,
             Yi = Work_Availability_Factor_Max,
             Yj = Work_Availability_Factor_Max,
             Stroke = new SolidColorPaint
             {
 
-                Color = Line_蓝_主颜色,
+                Color = Line_红色色_配颜色,
                 StrokeThickness = 2,
                 PathEffect = new DashEffect(new float[] {10, 20 })
             }  , ScalesXAt = 0, ScalesYAt= 0,
@@ -143,15 +164,15 @@ namespace Robot_Info_Mes.Model
             new RectangularSection
                   {
                     IsVisible = false,
-            Label="性能稼动率合格线",
+            Label="合格线",
             LabelSize = 15,
-            LabelPaint=new SolidColorPaint(Line_绿色_配颜色),
+            LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
             ZIndex = 0,
             Yi = Work_Performance_Factor_Max,
             Yj = Work_Performance_Factor_Max,
             Stroke = new SolidColorPaint
             {
-                Color = Line_绿色_配颜色,
+                Color = Line_红色色_配颜色,
                 StrokeThickness = 2,
                 PathEffect = new DashEffect(new float[] {10, 20 })
             }  , ScalesXAt = 0, ScalesYAt= 0,
@@ -159,15 +180,15 @@ namespace Robot_Info_Mes.Model
             new RectangularSection
                   {
                     IsVisible = false,
-            Label="生产数量合格线",
+            Label="合格线",
             LabelSize = 15,
-            LabelPaint=new SolidColorPaint(Line_棕红_配颜色),
+            LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
             ZIndex = 0,
             Yi = Robot_Work_ABCD_Number_Max,
             Yj = Robot_Work_ABCD_Number_Max,
             Stroke = new SolidColorPaint
             {
-                Color = Line_棕红_配颜色,
+                Color = Line_红色色_配颜色,
                 StrokeThickness = 2,
                 PathEffect = new DashEffect(new float[] {10, 20 })
             }  , ScalesXAt = 0, ScalesYAt= 1,
@@ -175,15 +196,15 @@ namespace Robot_Info_Mes.Model
              new RectangularSection
                   {
                      IsVisible = false,
-            Label="平均节拍合格线",
+            Label="合格线",
             LabelSize = 15,
-            LabelPaint=new SolidColorPaint(Line_浅绿_配颜色),
+            LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
             ZIndex = 0,
             Yi = Work_Standard_Time_Max,
             Yj = Work_Standard_Time_Max,
             Stroke = new SolidColorPaint
             {
-                Color = Line_浅绿_配颜色,
+                Color = Line_红色色_配颜色,
                 StrokeThickness = 2,
                 PathEffect = new DashEffect(new float[] {10, 20 })
             }  , ScalesXAt = 0, ScalesYAt= 2,
@@ -191,15 +212,15 @@ namespace Robot_Info_Mes.Model
              new RectangularSection
                   {
                      IsVisible = false,
-            Label="作业时间合格线",
+            Label="合格线",
             LabelSize = 15,
-            LabelPaint=new SolidColorPaint(Line_黑色_配颜色),
+            LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
             ZIndex = 0,
             Yi = Robot_Work_Time_Max,
             Yj = Robot_Work_Time_Max,
             Stroke = new SolidColorPaint
             {
-                Color = Line_黑色_配颜色,
+                Color = Line_红色色_配颜色,
                 StrokeThickness = 2,
                 PathEffect = new DashEffect(new float[] {10, 20 })
             }  , ScalesXAt = 0, ScalesYAt= 3,
@@ -324,7 +345,7 @@ namespace Robot_Info_Mes.Model
         private static readonly SKColor Line_浅绿_配颜色 = new(38, 138, 131);
         private static readonly SKColor Line_浅浅绿_配颜色 = new(155, 182, 179);
         private static readonly SKColor Line_绿色_配颜色 = new(48, 112, 69);
-        private static readonly SKColor Line_红色色_配颜色 = new(159, 73, 68);
+        private static readonly SKColor Line_红色色_配颜色 = new(200, 58, 58);
         private static readonly SKColor Line_浅灰_配颜色 = new(162, 172, 189);
         private static readonly SKColor Line_棕红_配颜色 = new(144, 83, 59);
         private static readonly SKColor Line_棕色_配颜色 = new(117, 96, 64);
@@ -363,7 +384,7 @@ namespace Robot_Info_Mes.Model
             IsVisible = false,
             Name = "生产数量",
             NameTextSize = 16,
-            MaxLimit=800,
+
             MinLimit=0,
             MinStep =1,
             NamePaint =new SolidColorPaint(Line_棕红_配颜色),
@@ -394,7 +415,7 @@ namespace Robot_Info_Mes.Model
             NamePaint =new SolidColorPaint(Line_浅绿_配颜色),
             Labeler = (point)=>$"{point} 秒",
             LabelsPaint =new SolidColorPaint(Line_浅绿_配颜色),
-              NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
+            NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
             Padding =  new LiveChartsCore.Drawing.Padding(0, 0, 20, 0),
             TextSize = 16,
             //NamePaint = new SolidColorPaint(s_red),
@@ -413,8 +434,8 @@ namespace Robot_Info_Mes.Model
             IsVisible = false,
             Name = "作业时间",
             NameTextSize = 16,
-            MaxLimit=10,
-            MinLimit =0,
+            MaxLimit=20,
+            MinLimit=0,
             MinStep =0.1,
             NamePaint =new SolidColorPaint(Line_黑色_配颜色),
             Labeler = (point)=>$"{point.ToString()} 小时",
