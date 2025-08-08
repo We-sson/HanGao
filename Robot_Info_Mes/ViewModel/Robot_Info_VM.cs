@@ -2,7 +2,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LiveChartsCore.Defaults;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
@@ -31,61 +30,60 @@ namespace Robot_Info_Mes.ViewModel
         {
             ///初始化
             ///
-  
+
             if (!IsInDesignMode)
             {
 
 
-            Window_Version = Application.ResourceAssembly.GetName().Version!.ToString();
+                Window_Version = Application.ResourceAssembly.GetName().Version!.ToString();
 
 
-            File_Int_Parameters = File_Xml_Model.Read_Xml_File<File_Int_Model>();
-
-
-
-            switch (File_Int_Parameters.Window_Startup_Type)
-            {
-                case Window_Startup_Type_Enum.Server:
+                File_Int_Parameters = File_Xml_Model.Read_Xml_File<File_Int_Model>();
 
 
 
-
-                    ///使用默认xml格式接受信息
-                    File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model = Socket_Robot_Protocols_Enum.KUKA;
-
-                    ///看板端
-                    Initialization_Mes_Sever_Start();
-
-
-                    Int_Server_Run_Time();
+                switch (File_Int_Parameters.Window_Startup_Type)
+                {
+                    case Window_Startup_Type_Enum.Server:
 
 
 
 
-                    break;
-                case Window_Startup_Type_Enum.Client:
+                        ///使用默认xml格式接受信息
+                        File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model = Socket_Robot_Protocols_Enum.KUKA;
 
-                    ///接受机器人信息
-
-                    Mes_Robot_Info_Model_Data = File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
-                    Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
-
-                    //  Initialization_Local_Network_Robot_Socket();
+                        ///看板端
+                        Initialization_Mes_Sever_Start();
 
 
-                    Initialization_Robot_Sever_Start();
+                        Int_Server_Run_Time();
 
-                    Int_Run_TIme();
+                        Int_Server_KanBan_View_Data();
+
+                        break;
+                    case Window_Startup_Type_Enum.Client:
+
+                        ///接受机器人信息
+
+                        Mes_Robot_Info_Model_Data = File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
+                        Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
+
+                        //  Initialization_Local_Network_Robot_Socket();
 
 
-                    User_Log_Add("已读取本机设备信息文件！" + File_Xml_Model.GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
-                    User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
+                        Initialization_Robot_Sever_Start();
+
+                        Int_Run_TIme();
+
+
+                        User_Log_Add("已读取本机设备信息文件！" + File_Xml_Model.GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
+                        User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
 
 
 
-                    break;
+                        break;
 
-            }
+                }
 
 
 
@@ -370,6 +368,24 @@ namespace Robot_Info_Mes.ViewModel
         }
 
 
+
+        /// <summary>
+        /// 设置看板时间参数
+        /// </summary>
+        public void Int_Server_KanBan_View_Data()
+        {
+
+            foreach (var item in Mes_Server_Model_List)
+            {
+                item.Work_Factor_Seried.KanBan_List_Cycle_View_Time = File_Int_Parameters.Mes_Run_Parameters.KanBan_List_Cycle_View_Time;
+                item.Work_Factor_Seried.Mes_Data_View_Int();
+            }
+
+
+        }
+
+
+
         public void Int_Server_Run_Time()
         {
 
@@ -409,7 +425,7 @@ namespace Robot_Info_Mes.ViewModel
                     {
                         item.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
                     }
-                    
+
                 }
 
                 File_Xml_Model.Save_Xml(new ObservableCollection<Mes_Server_Info_List_Model>(Mes_Server_Model_List));
@@ -420,6 +436,11 @@ namespace Robot_Info_Mes.ViewModel
 
             };
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Start();
+
+
+
+
+
 
 
 
@@ -769,7 +790,7 @@ namespace Robot_Info_Mes.ViewModel
                         _Server.Work_Factor_Seried.Mes_Data_View_Max_Add(_Receive);
 
 
-                        
+
 
 
 

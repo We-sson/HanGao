@@ -89,13 +89,13 @@ namespace Robot_Info_Mes.Model
              IsVisible = false,
            LineSmoothness = 1,
             Name = "生产数量",
-            DataPadding = new LvcPoint(15, 0),
+            DataPadding = new LvcPoint(15, 2),
 
             Values =Robot_Work_ABCD_Number_List,
             Stroke = new SolidColorPaint(Line_棕红_配颜色, 2),
             GeometrySize = 10,
             GeometryStroke = new SolidColorPaint(Line_棕红_配颜色, 2),
-             DataLabelsSize = 14,
+            DataLabelsSize = 13,
             DataLabelsPaint=new SolidColorPaint(Line_棕红_配颜色),
             DataLabelsPosition= DataLabelsPosition.Top,
             DataLabelsFormatter=(_P)=>$"{_P.Coordinate.PrimaryValue}Psc",
@@ -233,7 +233,7 @@ namespace Robot_Info_Mes.Model
    
 
             ///初始化完数据后开始陆续显示数据
-            Mes_Data_View_Int();
+            //Mes_Data_View_Int();
 
 
         }
@@ -384,7 +384,7 @@ namespace Robot_Info_Mes.Model
             IsVisible = false,
             Name = "生产数量",
             NameTextSize = 16,
-
+            
             MinLimit=0,
             MinStep =1,
             NamePaint =new SolidColorPaint(Line_棕红_配颜色),
@@ -694,7 +694,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 看板列表数据循环显示
         /// </summary>
-        private void Mes_Data_View_Int()
+        public  void Mes_Data_View_Int()
         {
 
             Mes_Data_View_List_Update_Num = 0;
