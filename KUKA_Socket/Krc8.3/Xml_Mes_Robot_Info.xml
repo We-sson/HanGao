@@ -11,7 +11,7 @@
 			<ALIVE Set_Flag="1"/>
          <ENVIRONMENT>Submit</ENVIRONMENT>
          <MESSAGES Logging="disabled" Display="disabled"/>
-         <TIMEOUT Connect="0"/>
+         <TIMEOUT Connect="50"/>
 
 		</INTERNAL>
 	</CONFIGURATION>

@@ -111,9 +111,9 @@ namespace Robot_Info_Mes.Model
 
 
 
-                            Robot_Work_AB_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, Robot_Work_A_Cycle, Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
+                            Robot_Work_AB_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_B_State,ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, Robot_Work_A_Cycle, Robot_Work_B_Cycle, ref Robot_Work_AB_Number ,ref Robot_Work_AB_Cycle_Aborted, ref Robot_Work_AB_Last_State);
 
-                            Robot_Work_CD_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, Robot_Work_C_Cycle, Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
+                            Robot_Work_CD_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, Robot_Work_C_Cycle, Robot_Work_D_Cycle, ref Robot_Work_CD_Number, ref Robot_Work_CD_Cycle_Aborted, ref Robot_Work_CD_Last_State);
 
 
 
@@ -339,8 +339,11 @@ namespace Robot_Info_Mes.Model
         private bool Robot_Work_C_Cycle_State = false;
         private bool Robot_Work_D_Cycle_State = false;
 
+       private  bool Robot_Work_AB_Cycle_Aborted = false;
+       private  bool Robot_Work_CD_Cycle_Aborted = false;
 
-
+        private bool Robot_Work_AB_Last_State = false;
+        private bool Robot_Work_CD_Last_State = false;
 
         /// <summary>
         /// 机器人作业数量、秒
@@ -543,57 +546,59 @@ namespace Robot_Info_Mes.Model
 
 
 
-        public TimeSpan Robot_Surrounding_Process_Work_State_Update(KUKA_Mode_OP_Enum KUKA_Mode_OP, bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State, Time_Model _Robot_Work_A_Cycle, Time_Model _Robot_Work_B_Cycle, ref int _Robot_Work_AB_Number)
+        public TimeSpan Robot_Surrounding_Process_Work_State_Update(
+          KUKA_Mode_OP_Enum KUKA_Mode_OP,
+          bool _Mes_Work_A_State,
+          bool _Mes_Work_B_State,
+          ref bool _Robot_Work_A_Cycle_State,
+          ref bool _Robot_Work_B_Cycle_State,
+          Time_Model _Robot_Work_A_Cycle,
+          Time_Model _Robot_Work_B_Cycle,
+          ref int _Robot_Work_AB_Number,
+          ref bool aborted,       // 中断标记
+          ref bool lastMes        // 上一次 MES 状态
+      )
         {
-            //TimeSpan _Robot_Work_AB_Cycle = new();
-
-            if (_Mes_Work_A_State && KUKA_Mode_OP == KUKA_Mode_OP_Enum.Run)
+            // === 运行中 ===
+            if (_Robot_Work_A_Cycle_State)
             {
-
-
-
-
-
-                if (_Robot_Work_A_Cycle_State == false && !_Robot_Work_A_Cycle.Timer.IsRunning)
+                if (KUKA_Mode_OP != KUKA_Mode_OP_Enum.Run)
                 {
+                    // 中途退出 Run → 中断，不计数
+                    _Robot_Work_A_Cycle.Stop();
+                    //_Robot_Work_A_Cycle.Reset();
+                    _Robot_Work_A_Cycle_State = false;
+                    aborted = true;
+                }
+                else if (!_Mes_Work_A_State && lastMes) // MES true→false
+                {
+                    // 正常完成周期
+                    _Robot_Work_A_Cycle.Stop();
+                    Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_A_Cycle.Timer_Sec);
+                    Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average();
+                    _Robot_Work_AB_Number++;
+                    _Robot_Work_A_Cycle_State = false;
+                }
+            }
+            else // === 空闲 ===
+            {
+                // 如果之前被中断，必须等 MES=false 才解锁
+                if (aborted && !_Mes_Work_A_State)
+                    aborted = false;
 
+                // 满足条件 → 开始新周期
+                if (!aborted && KUKA_Mode_OP == KUKA_Mode_OP_Enum.Run && _Mes_Work_A_State && !lastMes)
+                {
                     _Robot_Work_A_Cycle.Reset();
-                    _Robot_Work_A_Cycle_State = true;
-
-                }
-
-                if (_Robot_Work_A_Cycle_State && KUKA_Mode_OP == KUKA_Mode_OP_Enum.Run && !_Robot_Work_A_Cycle.Timer.IsRunning)
-                {
                     _Robot_Work_A_Cycle.Start();
+                    _Robot_Work_A_Cycle_State = true;
                 }
-
-
-            }
-            else
-            {
-
-                _Robot_Work_A_Cycle.Stop();
-
-
-
             }
 
-
-            if (_Robot_Work_A_Cycle_State && !_Mes_Work_A_State)
-            {
-                _Robot_Work_AB_Number++;
-                _Robot_Work_A_Cycle_State = false;
-                _Robot_Work_A_Cycle.Stop();
-                Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_A_Cycle.Timer_Sec);
-                Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average();
-
-            }
-
+            // 记录 MES 状态
+            lastMes = _Mes_Work_A_State;
 
             return _Robot_Work_A_Cycle.Timer_UI;
-
-
-
         }
 
 
