@@ -271,6 +271,13 @@ namespace Robot_Info_Mes.Model
 
                         break;
 
+                    case Robot_Process_Int_Enum.LaserCutting_1:
+
+
+                        _Image_Source = "/Resources/光华拉伸激光切割_1.jpg";
+
+                        break;
+
                 }
 
                 return _Image_Source;

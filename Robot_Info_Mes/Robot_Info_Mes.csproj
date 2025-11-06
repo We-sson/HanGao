@@ -41,6 +41,7 @@
     <None Remove="Resources\8线围边.png" />
     <None Remove="Resources\9线R边.png" />
     <None Remove="Resources\9线围边.png" />
+    <None Remove="Resources\光华拉伸激光切割_1.jpg" />
     <None Remove="Resources\软件图标.ico" />
   </ItemGroup>
 
@@ -77,6 +78,7 @@
     <Resource Include="Resources\9线围边.png" />
     <Resource Include="Resources\iconfont.ttf" />
     <Resource Include="Resources\Vision_下拉选择_ioc.png" />
+    <Resource Include="Resources\光华拉伸激光切割_1.jpg" />
     <Resource Include="Resources\软件图标.ico" />
   </ItemGroup>
 

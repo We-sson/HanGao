@@ -966,6 +966,7 @@ namespace Roboto_Socket_Library.Model
         KUKA,
         ABB,
         川崎,
+        FANUC,
         通用
     }
 
@@ -1048,8 +1049,11 @@ namespace Roboto_Socket_Library.Model
         ABB,
         [Description("川崎)")]
         川崎,
-        [Description("通用")]
+        [Description("FANUC")]
 
+        FANUC,
+
+        [Description("通用")]
         通用
     }
 
@@ -1099,7 +1103,11 @@ namespace Roboto_Socket_Library.Model
         Panel_Welding_1,
         [Description("2楼激光面板")]
 
-        Panel_Welding_2
+        Panel_Welding_2,
+
+        [Description("光华拉伸切割激光")]
+        LaserCutting_1,
+
             
     }
 

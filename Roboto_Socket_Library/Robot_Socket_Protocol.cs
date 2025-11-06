@@ -100,6 +100,23 @@ namespace Roboto_Socket_Library
                     return Enum.Parse<Vision_Model_Enum>(Model_String);
 
 
+                case Socket_Robot_Protocols_Enum.FANUC:
+
+                    string Mes_Model_String = Encoding.ASCII.GetString(Receice_byte.ToArray()).Split(':')[0];
+
+                   
+
+                    if (!Enum.IsDefined(typeof(Vision_Model_Enum), Mes_Model_String))
+                    {
+                        throw new Exception("通讯协议无该功能码，请联系开发者！");
+                    }
+
+
+                    return Enum.Parse<Vision_Model_Enum>(Mes_Model_String);
+
+
+
+                 
 
 
                 case Socket_Robot_Protocols_Enum.川崎:
@@ -107,11 +124,17 @@ namespace Roboto_Socket_Library
 
                     //**********
                     break;
+
+
+
+
                 case Socket_Robot_Protocols_Enum.通用:
 
                     //**********
 
                     break;
+
+
 
             }
 
@@ -701,7 +724,38 @@ namespace Roboto_Socket_Library
                 case Socket_Robot_Protocols_Enum.通用:
 
 
+                    break;
 
+
+                case Socket_Robot_Protocols_Enum.FANUC:
+
+
+                    _Mes_Robot_Data_Receive.Vision_Model = Enum.Parse<Vision_Model_Enum>(Encoding.ASCII.GetString(Receice_byte.ToArray()).Split(':')[0]);
+
+
+                    string Receice_byte_Start = Encoding.ASCII.GetString(Receice_byte.ToArray()).Split(':')[1];
+                    string Receice_byte_Date = Receice_byte_Start.Split(';')[0];
+
+
+                    List<string> Receice_byte_List = new List<string>(Receice_byte_Date.Split(','));
+
+
+                    if (Receice_byte_List.Count<8)
+                    { throw new Exception("协议内容缺失！");}
+
+                    _Mes_Robot_Data_Receive.Robot_Type = Enum.Parse<Robot_Type_Enum>( Receice_byte_List[0]);
+                    _Mes_Robot_Data_Receive.Mes_Robot_Mode = Enum.Parse<KUKA_Mode_OP_Enum>(Receice_byte_List[1]);
+                    _Mes_Robot_Data_Receive.Mes_Programs_Name = Receice_byte_List[2];
+                    _Mes_Robot_Data_Receive.Robot_Process_Int = Enum.Parse<Robot_Process_Int_Enum>(Receice_byte_List[3]);
+                    _Mes_Robot_Data_Receive.Mes_Work_A_State = bool.Parse(Receice_byte_List[4]);
+                    _Mes_Robot_Data_Receive.Mes_Work_B_State = bool.Parse(Receice_byte_List[5]);
+                    _Mes_Robot_Data_Receive.Mes_Work_C_State = bool.Parse(Receice_byte_List[6]);
+                    _Mes_Robot_Data_Receive.Mes_Work_D_State = bool.Parse(Receice_byte_List[7]);
+
+
+
+
+                    break;
 
                 default:
                     throw new Exception("发送协议错误！");
@@ -887,7 +941,7 @@ namespace Roboto_Socket_Library
                     _byte_List = new List<byte>(Encoding.UTF8.GetBytes(new KUKA_Send_Receive_Xml().Property_Xml<Robot_Mes_Info_Data_Send>(_Propertie)));
 
                     break;
-                case Socket_Robot_Protocols_Enum.ABB:
+                case Socket_Robot_Protocols_Enum.ABB or Socket_Robot_Protocols_Enum.FANUC:
 
 
 
@@ -925,6 +979,10 @@ namespace Roboto_Socket_Library
 
 
                     break;
+
+
+
+          
                 case Socket_Robot_Protocols_Enum.通用:
 
 
