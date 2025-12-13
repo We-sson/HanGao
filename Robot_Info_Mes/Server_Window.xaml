@@ -20,6 +20,11 @@
     UseLayoutRounding="True"
     WindowState="Maximized"
     mc:Ignorable="d">
+
+    <Window.Resources>
+        <Enum_Converter:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+    </Window.Resources>
+
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
 
@@ -52,6 +57,17 @@
             FontSize="32"
             Foreground="{DynamicResource 全局_按钮_蓝颜色}"
             Text="生产二楼机械手信息看板" />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="100,0,20,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontFamily="{DynamicResource 全局_文字_中文字体}"
+            FontSize="32"
+            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+            Text="生产二楼机械手信息看板" />
+
 
         <!--<Grid
             Grid.Row="1"
@@ -648,24 +664,43 @@
                             ItemWidth="auto"
                             Orientation="Horizontal">
 
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height=" *" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Border
+                                    Grid.Row=" 0"
+                                    Width=" 200"
+                                    Margin="10,10,0,0"
+                                    CornerRadius=" 10 ">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{Binding Mes_Robot_Info_Model_Data.Image_Source}" Stretch="UniformToFill" />
+                                    </Border.Background>
 
-                            <Border
-                                Width=" 200"
-                                Margin="10,10,5,10"
-                                CornerRadius=" 10 ">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="{Binding Mes_Robot_Info_Model_Data.Image_Source}" Stretch="UniformToFill" />
-                                </Border.Background>
+                                </Border>
 
-                            </Border>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                                    Text="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int, Converter={StaticResource EnumDescriptionConverter}}" />
 
+
+                            </Grid>
 
                             <Grid
                                 Grid.Column=" 0"
                                 Width=" 80"
-                                Margin="5,10,5,10">
+                                Margin="5,0,5,10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height=" 40" />
+
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <TextBlock
@@ -678,6 +713,7 @@
                                     FontWeight="Bold"
                                     Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                                     Text="通讯周期" />
+
                                 <Border
                                     Grid.Row=" 2"
                                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
@@ -710,7 +746,7 @@
                             <Grid
                                 Grid.Column=" 0"
                                 Width=" 130"
-                                Margin="5,10,5,10">
+                                Margin="5,0,5,10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height=" 40" />
                                     <RowDefinition />
@@ -748,7 +784,7 @@
                             <Grid
                                 Grid.Column=" 1"
                                 Width=" 150"
-                                Margin="5,10,5,10">
+                                Margin="5,0,5,10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height=" 40" />
                                     <RowDefinition />
@@ -831,7 +867,7 @@
                             </Grid>
 
 
-                            <Grid Margin="5,10,5,10">
+                            <Grid Margin="5,0,5,10">
 
 
                                 <Grid.RowDefinitions>
@@ -868,7 +904,7 @@
                                 CornerRadius=" 1.5" />
 
 
-                            <Grid Width=" 90" Margin="5,10,5,10">
+                            <Grid Width=" 90" Margin="5,0,5,10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height=" 40" />
                                     <RowDefinition />
@@ -902,7 +938,7 @@
 
 
 
-                            <Grid Width=" 90" Margin="5,10,5,10">
+                            <Grid Width=" 90" Margin="5,0,5,10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height=" 40" />
                                     <RowDefinition />
@@ -946,7 +982,7 @@
                                 Background="{DynamicResource 全局_按钮_深灰颜色}"
                                 CornerRadius=" 1.5" />
 
-                            <Grid Margin="5,10,5,10">
+                            <Grid Margin="5,0,5,10">
 
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="40" />
@@ -1045,7 +1081,7 @@
                                 CornerRadius=" 1.5" />
 
 
-                            <Grid Margin="5,10,5,10">
+                            <Grid Margin="5,0,5,10">
 
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="40" />
@@ -1153,7 +1189,7 @@
                                 CornerRadius=" 1.5" />
 
 
-                            <Grid Margin="5,10,5,10">
+                            <Grid Margin="5,0,5,10">
 
 
                                 <Grid.RowDefinitions>
@@ -1186,7 +1222,7 @@
 
 
                             </Grid>
-                            <Grid Margin="5,10,5,10">
+                            <Grid Margin="5,0,5,10">
 
 
                                 <Grid.RowDefinitions>
@@ -1223,6 +1259,8 @@
                         </WrapPanel>
 
                         <Border
+                            Width="730"
+                            HorizontalAlignment="Left"
                             d:Visibility="Collapsed"
                             Background="{DynamicResource 全局_按钮_黑颜色}"
                             CornerRadius=" 10"
@@ -1241,7 +1279,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                FontSize="50"
+                                FontSize="40"
                                 Foreground="{DynamicResource 全局_按钮_白颜色}"
                                 Text="{Binding Mes_Robot_Info_Model_Data.Robot_Offline_Time.Timer_UI, StringFormat='{}设备离线时间....{0:hh\\:mm\\:ss}'}" />
                         </Border>

@@ -1105,7 +1105,7 @@ namespace Roboto_Socket_Library.Model
 
         Panel_Welding_2,
 
-        [Description("光华拉伸切割激光")]
+        [Description("拉伸切割")]
         LaserCutting_1,
 
             

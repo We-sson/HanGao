@@ -306,6 +306,15 @@ namespace Robot_Info_Mes.Model
 
                 }
             },
+                        new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.LaserCutting_1,
+                    },
+
+                }
+            },
             };
 
 
