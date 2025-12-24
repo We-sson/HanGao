@@ -1,0 +1,29 @@
+&ACCESS RV
+&REL 4
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\FunctionVorgabe
+DEF Int_Work( ) 
+
+
+IF  ( $IN[5] ) THEN
+   ;insert your code here
+Work_1=true
+ENDIF
+
+IF  ( $IN[6] ) THEN
+   ;insert your code here
+Work_2=true
+ENDIF
+
+IF  ( $IN[3] ) THEN
+
+Work_3=true
+   ;insert your code here
+ENDIF
+
+IF  ( $IN[4] ) THEN
+   ;insert your code here
+
+Work_4=true
+ENDIF
+END
