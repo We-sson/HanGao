@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <plugin>
+    <include name="ActionControl.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="ArcSimulation.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="BaseApp.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.GUI.BaseApp.BaseApp" anchor="Left" icon="Icon01.bmp" />
+    </include>
+    <include name="CollisionLogViewer.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.CollisionLogViewer.CollisionLogViewer" anchor="Bottom" icon="Icon39.bmp" />
+    </include>
+    <include name="CollisionPairSettingGUI.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="CubicsManager.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.CubicsManager.CubicsManager" anchor="Bottom" icon="" />
+    </include>
+    <include name="cubics_a000.dll" validate="false" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="cubics_a001.dll" validate="false" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="cubics_a002.dll" validate="false" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="cubics_a003.dll" validate="false" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="cubics_a004.dll" validate="false" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="CycleTime.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="DispLogApp.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.SystemLogViewer.LogViewer" anchor="Bottom" icon="Icon11.bmp" />
+    </include>
+    <include name="ExternalAxisWizard.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="FailurePrediction.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="GripperMove.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="HandlingClampSettingGUI.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="HandlingSimulation.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="InstallationPositionAnalyzer.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="InterlockControlGUI.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.InterlockControl.InterlockControl" anchor="Right" icon="Icon14.bmp" />
+    </include>
+    <include name="IOMonitor.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.IOMonitor.IOMonitorControl" anchor="Bottom" icon="Icon15.bmp" />
+    </include>
+    <include name="LayoutInformationConverter.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="MoveCancel.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.MoveCalcel.MoveCancel" anchor="Right" icon="Icon17.bmp" />
+    </include>
+    <include name="OptionSetting.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="PaintPathCopy.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.PaintPathCopy.PaintPathCopy" anchor="Right" icon="Icon19.bmp" />
+    </include>
+    <include name="PaintPathGeneratorGUI.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.PaintPathGenerator.GUI.PaintPath_Generator" anchor="Right" icon="Icon20.bmp" />
+    </include>
+    <include name="PaintPathSimulation.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="Palletize.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="Palletize.MainMenu" anchor="Right" icon="" />
+    </include>
+    <include name="PickerLinkGenerator.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="ProgramConversion.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="ProgramTable.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.GUI.ProgramTable.ProgramTable" anchor="Right" icon="Icon02.bmp" />
+    </include>
+    <include name="PwCalculator.dll" validate="false" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="PwConsumption.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="RecordVideo.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="RobotPanel.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.TeachPanel.RobotPanel" anchor="Right" icon="Icon22.bmp" />
+    </include>
+    <include name="ServoWeldSimulation.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="SignalGraph.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="SimpleOnPattern.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="SimpleShapeGenerator.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="SimulationControl.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.SimulationControl.SimulationControl" anchor="Bottom" icon="Icon23.bmp" />
+    </include>
+    <include name="SimulationExtension.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.Simulation.SimulationExtensionFactory" anchor="None" icon="" />
+    </include>
+    <include name="SimulationInterface.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="StartPage.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.GUI.StartPage.StartPage" anchor="Left" icon="StartPage.bmp" />
+    </include>
+    <include name="TeachAxisPanel.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="TeachPointAlign.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="TeachPointSectionWriteDotLine.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="TerminalGUI.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.Terminal.TerminalForm" anchor="Bottom" icon="Icon27.bmp" />
+    </include>
+    <include name="TimeLine.dll" validate="true" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="TP_Program.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180">
+      <combine class="KHI.Fortuna.Extension.TP_Program.TP_Program" anchor="Bottom" icon="Icon29.bmp" />
+    </include>
+    <include name="usbcom.dll" validate="false" enable="false" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="ViewControlPlugins.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+    <include name="WriteTrackLine.dll" validate="true" enable="true" floating="false" locationX="0" locationY="0" alwaystop="true" sizeX="240" sizeY="180" />
+  </plugin>
+</config>

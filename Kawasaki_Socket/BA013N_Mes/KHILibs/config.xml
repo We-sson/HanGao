@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <!--<culture>en-US</culture>-->
+  <plugin>
+    <include name="MoNo.dll"/>
+    <include name="MoNo.Legacy.dll"/>
+    <include name="MoNo.Legacy.Std.dll"/>
+    <include name="MoNo.Framework.dll"/>
+    <include name="MoNo.Spatial.dll"/>
+    <include name="MoNo.Spatial.Formats.dll"/>
+    <include name="KHI.Fortuna.HisuiViewer.Gui.dll"/>
+    <include name="KrHsViewer.dll"/>
+    <include name="KrHsMain.exe"/>
+  </plugin>
+  <command>
+    <!-- Hisui.Std.dll に用意されている標準メニューのうち，ビュー操作関連以外を除外 -->
+    <remove name="File"/>
+    <remove name="Edit"/>
+    <remove name="Debug"/>
+    <remove name="Tool"/>
+    <remove name="View.Rotate"/>
+    <remove name="View.Pan"/>
+    <remove name="View.Zoom"/>
+    <remove name="View.Spin"/>
+    <!-- Hisui.Tk.dll に用意されている標準メニューを除外 -->
+    <remove name="Positioning1"/>
+    <remove name="Positioning2"/>
+    <remove name="View.ZKeptViewOperation"/>
+    <remove name="View.ZoomToMousePosition"/>
+    <!--  ClipPlane周りを除外  -->
+    <!-- remove name="View.ClipPlane.OnOff"/ -->
+    <remove name="View.ClipPlane._1"/>
+    <remove name="View.ClipPlane.View"/>
+    <remove name="View.ClipPlane.PlusX"/>
+    <remove name="View.ClipPlane.MinusX"/>
+    <remove name="View.ClipPlane.PlusY"/>
+    <remove name="View.ClipPlane.MinusY"/>
+    <remove name="View.ClipPlane.PlusZ"/>
+    <remove name="View.ClipPlane.MinusZ"/>
+    <remove name="View.ClipPlane._2"/>
+    <remove name="View.ClipPlane.Capping"/>
+    <remove name="View._10"/>
+    <!-- メニュー名 -->
+    
+    <!-- ビュー -->
+    <caption name="View">View</caption>
+    <caption name="View.Prev">Prev</caption>
+    <caption name="View.Next">Next</caption>
+    <caption name="View.Fit">Fit</caption>
+    <caption name="View.Fit.FitAsIs">Fit</caption>
+    <caption name="View.Fit.FitXY">XY</caption>
+    <caption name="View.Fit.FitYZ">YZ</caption>
+    <caption name="View.Fit.FitZX">ZX</caption>
+    <caption name="View.ClipPlane">ClipPlane</caption>
+    <caption name="View.ClipPlane.Setting">ClipPlane Setting</caption>
+    <caption name="View.ClipPlane.OnOff">ClipPlane On/Off</caption>
+    <caption name="View.ClipPlane.View">ClipPlane View</caption>
+    <caption name="View.ClipPlane.PlusX">+X</caption>
+    <caption name="View.ClipPlane.MinusX">-X</caption>
+    <caption name="View.ClipPlane.PlusY">+Y</caption>
+    <caption name="View.ClipPlane.MinusY">-Y</caption>
+    <caption name="View.ClipPlane.PlusZ">+Z</caption>
+    <caption name="View.ClipPlane.MinusZ">-Z</caption>
+    <caption name="View.ClipPlane.Capping">Capping</caption>
+    <caption name="View.RenderBothFace">Both Side</caption>
+    <caption name="View.RenderFrontFace">Front Side</caption>
+    <caption name="View.PolygonStyleFace">Shading</caption>
+    <caption name="View.PolygonStyleEdge">Wireframe</caption>
+    <caption name="View.PolygonStyleFaceEdge">Shading + Wireframe</caption>
+    <caption name="View.Ortho">Ortho</caption>
+    <caption name="View.Perspective">Perspective</caption>
+    <caption name="View.ShowAxis">Show Axis</caption>
+    <caption name="View.ShowCompass">Show Compass</caption>
+    <caption name="View.ShowRuler">Show Ruler</caption>
+    <caption name="View.SaveImage">Save as Image</caption>
+    <caption name="View.SaveImage.SelectedImage">Selected View</caption>
+    <caption name="View.SaveImage.AllImages">All Views</caption>
+    <caption name="View.CopyImage">Copy as Image</caption>
+    <caption name="View.CopyImage.SelectedImage">Selected View</caption>
+    <caption name="View.CopyImage.AllImages">All Views</caption>
+    <caption name="View.Setting">Settings</caption>
+    <caption name="View.EnvInfo">Env Info</caption>
+
+    <!-- オプション -->
+    <caption name="Option">Option</caption>
+    <caption name="Option.SelectPlugins">Plugins</caption>
+  </command>
+</config>
