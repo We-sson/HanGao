@@ -6,7 +6,7 @@
 DEFDAT  MES_INFO PUBLIC
 
 DECL DATE Robot_Run_Time
-GLOBAL ENUM Robot_Process_Name_Enum R_Side_7,R_Side_8,R_Side_9,Panel_Surround_7,Panel_Surround_8,Panel_Surround_9,Panel_Welding_1,Panel_Welding_2
+GLOBAL ENUM Robot_Process_Name_Enum R_Side_7,R_Side_8,R_Side_9,Panel_Surround_7,Panel_Surround_8,Panel_Surround_9,Panel_Welding_1,Panel_Welding_2,LaserCutting_1,Spot_Surround_1
 
 GLOBAL INT T1_Time=0
 GLOBAL INT Aut_Time=0

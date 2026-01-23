@@ -1,4 +1,4 @@
-&ACCESS RVO2
+&ACCESS RVO1
 &REL 404
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
@@ -228,6 +228,10 @@ GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN,Send_Stae:OUT)
          SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Welding_1")
       CASE #Panel_Welding_2
          SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Welding_2")
+      CASE #LaserCutting_1
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","LaserCutting_1")
+      CASE #Spot_Surround_1
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Spot_Surround_1")
    ENDSWITCH
    RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Int[])
    
@@ -244,15 +248,13 @@ GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN,Send_Stae:OUT)
       RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
       ;RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_TimeOut)
       
-      
       Send_Stae=TRUE
-       $FLAG[2]=FALSE
+      $FLAG[2]=FALSE
    ELSE
       Send_Stae=FALSE
    ENDIF
    
    RET = EKI_ClearBuffer(EKRL_NAME[],"Robot_Send")
-   
    
    ;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
    ;RET=EKI_Close(EKRL_NAME[])
@@ -849,10 +851,8 @@ GLOBAL DEF EKRL_Connect(EKRL_NAME:IN,Msg_Err:IN,Connect_State:OUT)
    ;EKRL_NAME[]="HanGaoEkrl"
    Connect_State=FALSE
    Mess_INT=-1
- 
+   
    $FLAG[Connect_Falg]=FALSE
-   
-   
    
    RET=EKI_Init(EKRL_NAME[])
    EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
@@ -861,8 +861,7 @@ GLOBAL DEF EKRL_Connect(EKRL_NAME:IN,Msg_Err:IN,Connect_State:OUT)
    RET=EKI_OPEN(EKRL_NAME[])
    EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
    
- 
-   WAIT SEC 0.24
+   ;WAIT SEC 0.24
    ;MSGNOTIFY("HanGao:Socket Connecting!")
    
    IF Msg_Err THEN
@@ -935,13 +934,11 @@ GLOBAL DEF EKRL_Wait_TimeOut(Rece_State:OUT,Wait_Sec:IN,Rece_Flag_No:IN)
    $TIMER[10]=0
    $TIMER_STOP[10]=FALSE
    
-;WAIT SEC 0.5
-; OR ($FLAG[Rece_Flag_No]==FALSE
-WHILE  (Wait_Sec<$TIMER[10]) OR $FLAG[Rece_Flag_No]==FALSE
-  WAIT SEC 0.02
-ENDWHILE
-
-   
+   ;WAIT SEC 0.5
+   ; OR ($FLAG[Rece_Flag_No]==FALSE
+   WHILE  (Wait_Sec<$TIMER[10]) OR $FLAG[Rece_Flag_No]==FALSE
+      WAIT SEC 0.02
+   ENDWHILE
    
    IF $FLAG[Rece_Flag_No]==TRUE THEN
       Rece_State=TRUE

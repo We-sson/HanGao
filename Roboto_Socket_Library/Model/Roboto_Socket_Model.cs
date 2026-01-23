@@ -229,22 +229,22 @@ namespace Roboto_Socket_Library.Model
             }
             public Robot_Mes_Info_Data_Receive(Robot_Mes_Info_Data_Receive _)
             {
-                Robot_Type=_.Robot_Type;
-                Vision_Model=_.Vision_Model;
+                Robot_Type = _.Robot_Type;
+                Vision_Model = _.Vision_Model;
                 Mes_Programs_Name = _.Mes_Programs_Name;
-                Mes_Robot_Mode=_.Mes_Robot_Mode;
+                Mes_Robot_Mode = _.Mes_Robot_Mode;
                 Robot_Process_Int = _.Robot_Process_Int;
 
                 Mes_Work_A_State = _.Mes_Work_A_State;
                 Mes_Work_B_State = _.Mes_Work_B_State;
-                Mes_Work_C_State= _.Mes_Work_C_State;
+                Mes_Work_C_State = _.Mes_Work_C_State;
                 Mes_Work_D_State = _.Mes_Work_D_State;
 
 
             }
 
 
- 
+
 
             /// <summary>
             /// 接收点位类型的机器人
@@ -282,7 +282,7 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 工位周期时间，毫秒
             /// </summary>
-            public bool Mes_Work_A_State { set; get; } 
+            public bool Mes_Work_A_State { set; get; }
 
             /// <summary>
             /// 工位周期时间，毫秒
@@ -312,9 +312,9 @@ namespace Roboto_Socket_Library.Model
             /// <summary>
             /// 通讯轮询时间
             /// </summary>
-            public int Socket_Polling_Time { set; get; } =5000;
+            public int Socket_Polling_Time { set; get; } = 5000;
             [XmlAttribute]
-            public int  IsStatus { set; get; } = 0;
+            public int IsStatus { set; get; } = 0;
 
 
 
@@ -674,7 +674,7 @@ namespace Roboto_Socket_Library.Model
     public class Socket_Mes_Info_Parameters_Model
     {
 
-         
+
 
 
         public Socket_Receive Socket_Client { set; get; } = new Socket_Receive();
@@ -917,7 +917,7 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 当前工艺标准总作业时间
         /// </summary>
-        public double Robot_Work_Time_Max {  set; get; } = 0;
+        public double Robot_Work_Time_Max { set; get; } = 0;
 
 
 
@@ -954,7 +954,7 @@ namespace Roboto_Socket_Library.Model
     /// 泛型类型委托声明
     /// </summary>
     /// <param name="_Connect_State"></param>
-    public delegate void Socket_T_delegate<T>(T _T, Socket? _Socket=null);
+    public delegate void Socket_T_delegate<T>(T _T, Socket? _Socket = null);
 
 
     /// <summary>
@@ -1101,14 +1101,15 @@ namespace Roboto_Socket_Library.Model
         [Description("1楼激光面板")]
 
         Panel_Welding_1,
-        [Description("2楼激光面板")]
 
+        [Description("2楼激光面板")]
         Panel_Welding_2,
 
-        [Description("拉伸切割")]
+        [Description("光华拉伸切割")]
         LaserCutting_1,
 
-            
+        [Description("光华点焊围边")]
+        Spot_Surround_1
     }
 
 }

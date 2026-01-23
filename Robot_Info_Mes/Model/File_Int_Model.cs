@@ -1,17 +1,10 @@
 ﻿using PropertyChanged;
 using Roboto_Socket_Library.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
-using System.Windows.Shell;
 using System.Xml;
 using System.Xml.Serialization;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Robot_Info_Mes.Model
 {
@@ -125,7 +118,7 @@ namespace Robot_Info_Mes.Model
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Vale"></param>
         /// <returns></returns>
-        public static  T1 Read_Xml_File<T1>() where T1 : new()
+        public static T1 Read_Xml_File<T1>() where T1 : new()
         {
             string _Path = "";
 
@@ -231,8 +224,8 @@ namespace Robot_Info_Mes.Model
                         //_vision_Data.Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = "0", } };
                         //_newVale = (T1)(object)new Vision_Data() { Vision_List = [new Vision_Xml_Models()] };
 
-                        _newVale=( T1)(object)new ObservableCollection<Mes_Server_Info_List_Model>()
-                    
+                        _newVale = (T1)(object)new ObservableCollection<Mes_Server_Info_List_Model>()
+
             {
             new ()
             {
@@ -306,7 +299,7 @@ namespace Robot_Info_Mes.Model
 
                 }
             },
-                        new ()
+            new ()
             {
                 Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
                     Robot_Info_Data=new  (){
@@ -315,11 +308,20 @@ namespace Robot_Info_Mes.Model
 
                 }
             },
+                new ()
+            {
+                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
+                    Robot_Info_Data=new  (){
+                        Robot_Process_Int= Robot_Process_Int_Enum.Spot_Surround_1,
+                    },
+
+                }
+            },
             };
 
 
                         ///检查日期缺失补齐
-                        foreach (Mes_Server_Info_List_Model item in   (ObservableCollection<Mes_Server_Info_List_Model>)(object)_newVale)
+                        foreach (Mes_Server_Info_List_Model item in (ObservableCollection<Mes_Server_Info_List_Model>)(object)_newVale)
                         {
                             item.Work_Factor_Seried.Mes_Date_Int();
                         }
@@ -360,7 +362,7 @@ namespace Robot_Info_Mes.Model
 
                     return _newVale;
 
-                    
+
                 //case Type _T when _T == typeof(Vision_Auto_Config_Model):
 
 
@@ -448,7 +450,7 @@ namespace Robot_Info_Mes.Model
         /// <returns></returns>
 
 
-        public static  string GetXml_Path<T1>(Get_Xml_File_Enum Get_Xml_File)
+        public static string GetXml_Path<T1>(Get_Xml_File_Enum Get_Xml_File)
         {
             string _Path = "";
             Type T = typeof(T1);
@@ -494,7 +496,7 @@ namespace Robot_Info_Mes.Model
 
 
                     return _Path;
-                case Type _T when _T == typeof(ObservableCollection< Mes_Server_Info_List_Model>):
+                case Type _T when _T == typeof(ObservableCollection<Mes_Server_Info_List_Model>):
 
                     switch (Get_Xml_File)
                     {
@@ -505,7 +507,7 @@ namespace Robot_Info_Mes.Model
                             break;
                         case Get_Xml_File_Enum.File_Path:
 
-                    
+
 
                             _Path = Environment.CurrentDirectory + $"\\Server_Date" + "\\" + DateTime.Now.ToString("yyyy-MM") + ".Xml";
 
@@ -531,7 +533,7 @@ namespace Robot_Info_Mes.Model
         /// 保存修改后的水槽尺寸
         /// </summary>
         /// <param name="sink"></param>
-        public static  void Save_Xml<T1>(T1 _Data)
+        public static void Save_Xml<T1>(T1 _Data)
         {
 
 
@@ -540,7 +542,7 @@ namespace Robot_Info_Mes.Model
 
                 GetXml_Path<T1>(Get_Xml_File_Enum.Folder_Path);
                 string _Path = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path);
-                string tempPath = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path) +".tmp";
+                string tempPath = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path) + ".tmp";
 
                 // 如果临时文件意外存在，先删掉
                 if (File.Exists(tempPath))
@@ -626,7 +628,7 @@ namespace Robot_Info_Mes.Model
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Path"></param>
         /// <returns></returns>
-        public static  T1 Read_Xml<T1>() where T1 : new()
+        public static T1 Read_Xml<T1>() where T1 : new()
         {
             T1 _Val = new();
 
