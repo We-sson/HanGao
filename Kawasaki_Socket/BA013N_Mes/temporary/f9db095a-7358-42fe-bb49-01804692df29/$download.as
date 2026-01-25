@@ -16,10 +16,6 @@
 .NETCONF     192.168.44.2,"pcc",255.255.255.0,0.0.0.0,0.0.0.0,0.0.0.0,""
 .NETCONF2     192.168.1.101,255.255.0.0,0.0.0.0
 .INTER_PANEL_D
-9,10,""," ¼¾¼¶¼¾¼Ò¼¾","","",7,2,1,2,"SIGNAL 2100",-1
-15,10,"","   ¼¾¼»¼¾¼¦   ¼¾¼¶€Ò¼¾","   ¼¾¼¶€Ò¼¾","",10,5,5,5,"SIGNAL 2002,2101",-1
-16,10,"","   ¼¾¼Á¼¾¼×   ¼¾¼Î¼Ö¼Ä","   ¼¾¼Î¼Ö¼Ä","",10,5,5,6,"SIGNAL 2001",-1
-21,9,1,7,0
 .END
 .INTER_PANEL_TITLE
 "",0
@@ -34,7 +30,7 @@
 .INTER_PANEL_COLOR_D
 182,3,224,244,28,159,252,255,251,255,0,31,2,241,52,219,
 .END
-.PROGRAM autostart1.pc() #0; #0; #0; #0; #0; #0; Í¨ÐÅÖ÷³ÌÐò
+.PROGRAM autostart1.pc() #0; #0; #0; #0; #0; #0; #0; Í¨ÐÅÖ÷³ÌÐò
   port = 60000
   ip[1] = 192
   ip[2] = 168
@@ -49,7 +45,7 @@
   TWAIT 1
   CALL close_socket; ¶Ï¿ªÍ¨ÐÅ
 .END
-.PROGRAM autostart5.pc() #0; #0; #0; #0; #0; #0; Í¨ÐÅÖ÷³ÌÐò
+.PROGRAM autostart5.pc() #0; #0; #0; #0; #0; #0; #0; Í¨ÐÅÖ÷³ÌÐò
   port = 60000
   ip[1] = 192
   ip[2] = 168
@@ -64,17 +60,17 @@
   sock_stat = 0
   WHILE (1) DO
     CALL open_socket; Á¬½ÓÍ¨ÐÅ
+    TWAIT 2
+    CALL close_socket; ¶Ï¿ªÍ¨ÐÅ
   END
-;TWAIT 1
-;CALL close_socket; ¶Ï¿ªÍ¨ÐÅ
 .END
-.PROGRAM close_err() #54; #21; #109; #748; #0; #0
-  sock_error = 0
-  sock_error = ERROR
+.PROGRAM close_err() #0; #180; #21; #109; #748; #0; #0
+;sock_error = 0
+;sock_error = ERROR
   TYPE "¹Ø±Õ´íÎó£¡"
   RETURNE
 .END
-.PROGRAM close_socket() #6; #3; #24; #17;¶Ï¿ªÍ¨ÐÅ³ÌÐò
+.PROGRAM close_socket() #0; #0; #3; #24; #17;¶Ï¿ªÍ¨ÐÅ³ÌÐò
 ;*****************************************
 ;* FUNCTION: Ì×½Ó×Ö¹Ø±Õ³ÌÐò              *
 ;* WorkType: TCP/IPÍ¨Ñ¶                  *
@@ -95,7 +91,7 @@
     TYPE "Í¨Ñ¶¹Ø±Õ"
   END
 .END
-.PROGRAM com_test() #0; #0; #0; #0; #0; #4; ¸ù¾ÝÖ¸Ê¾Êý¾Ý½øÐÐ¸÷´¦Àí
+.PROGRAM com_test() #0; #0; #0; #0; #0; #0; #4; ¸ù¾ÝÖ¸Ê¾Êý¾Ý½øÐÐ¸÷´¦Àí
   CASE text_id OF
    VALUE 0: ; ÎÞÖ¸Ê¾
     GOTO break_exit
@@ -112,7 +108,7 @@
   CALL send(eret,$end_buf[1]); ·¢ËÍ½áÊø´¦Àí
 break_exit:
 .END
-.PROGRAM main() #0; #0; #0; #0; #0; #0; Í¨ÐÅÖ÷³ÌÐò
+.PROGRAM main() #0; #0; #0; #0; #0; #0; #0; Í¨ÐÅÖ÷³ÌÐò
   port = 60000
   ip[1] = 192
   ip[2] = 168
@@ -153,7 +149,7 @@ exit:
   CALL close_socket; ¶Ï¿ªÍ¨ÐÅ
 exit_end:
 .END
-.PROGRAM mes_close_socke() #0; #0; #0; #0; #0; #38402;¶Ï¿ªÍ¨ÐÅ
+.PROGRAM mes_close_socke() #0; #0; #0; #0; #0; #0; #38402;¶Ï¿ªÍ¨ÐÅ
   TCP_CLOSE ret,sock_id;Õý³£µÄÌ×½Ó×Ö¹Ø±Õ
   IF ret<0 THEN
     PRINT "TCP_CLOSE OK id=",ret1
@@ -161,14 +157,14 @@ exit_end:
     sock_id = 0
   END
 .END
-.PROGRAM mes_int() #0; #0; #0; #0; #0; #0; #0; #37520; Mes³õÊ¼»¯
+.PROGRAM mes_int() #0; #0; #0; #0; #0; #0; #0; #0; #37520; Mes³õÊ¼»¯
 ;Êý¾Ý³õÊ¼»¯
   work_a_state = FALSE;
   work_b_state = FALSE;
   work_c_state = FALSE;
   work_d_state = FALSE;
 .END
-.PROGRAM mes_main() #0; #0; #0; #0; #0; #0; Í¨ÐÅÖ÷³ÌÐò
+.PROGRAM mes_main() #0; #0; #0; #0; #0; #0; #0; Í¨ÐÅÖ÷³ÌÐò
 ; max_length = 255
 ;tout_rec = 5
 ; eret = 0
@@ -186,7 +182,7 @@ exit_end:
 ;  CALL tcp_close_socke;¶Ï¿ªÍ¨ÐÅ
 ;END
 .END
-.PROGRAM mes_open_socket() #0; #0; #0; #0; #0; #101; #0; #0;¿ªÊ¼Í¨ÐÅ
+.PROGRAM mes_open_socket() #0; #0; #0; #0; #0; #0; #101; #0; #0;¿ªÊ¼Í¨ÐÅ
   .er_count = 0
   .ret = 0
   .port = 60000
@@ -200,17 +196,17 @@ exit_end:
     PRINT "TCP_CONNECT error id=",sock_id
   END
 .END
-.PROGRAM open_socket() #6; #4; #24; #11;Í¨Ñ¶Á¬½Ó³ÌÐò
+.PROGRAM open_socket() #0; #0; #4; #24; #11;Í¨Ñ¶Á¬½Ó³ÌÐò
 ;*****************************************
 ;* FUNCTION: Í¨Ñ¶Á¬½Ó³ÌÐò                *
 ;* WorkType: TCP/IPÍ¨Ñ¶                  *
 ;* Copyright[c]2022 by KRCT              *
 ;*****************************************
 ;TCP_STATUS ·µ»ØÖµ£¬¶Ë¿ÚºÅ£¬Ì×½Ó×ÖºÅ£¬´íÎó´úÂë£¬´íÎó×Ó´úÂë£¬IPµØÖ·
-  ONE sock_err
   TCP_STATUS sock_stat,stat_port[0],stat_sock[0],stat_err[0],stat_sub[0],$ip_add[0]
 ;PAUSE
   IF sock_stat>0 THEN ;¼ì²éÁ¬½Ó×´Ì¬
+    ONE sock_err
     CALL close_socket
   END
 ;connect
@@ -220,12 +216,12 @@ exit_end:
     TCP_CONNECT sock_id,port,ip[1],tout_open
 ;PAUSE
     IF sock_id<0 THEN
-      .$ret = "Í¨Ñ¶Á¬½Ó´íÎó£¬´íÎó´úÂë="+$ENCODE(sock_id)
+      .$ret = "Í¨Ñ¶Á¬½Ó´íÎó£¬Í¨ÐÅÐòºÅ="+$ENCODE(sock_id)
 ; IFPWPRINT 1,2,10,4,10=.$ret
       TYPE .$ret
     END
     IF sock_id==0 THEN
-      .$ret = "Í¨Ñ¶Á¬½Ó¶ÔÏóÎÞ»ØÓ¦£¡"+$ENCODE(sock_id)
+      .$ret = "Í¨Ñ¶Á¬½Ó¶ÔÏóÎÞ»ØÓ¦£¡"
 ; IFPWPRINT 1,2,10,4,10=.$ret
       TYPE .$ret
     END
@@ -235,7 +231,7 @@ exit_end:
 ;IFPWPRINT 1,2,10,4,10="»úÆ÷ÈËÓë·þÎñÆ÷Í¨Ñ¶Á¬½Ó³É¹¦"
   TYPE "»úÆ÷ÈËÓë·þÎñÆ÷Í¨Ñ¶Á¬½Ó³É¹¦!,Socket_ID=",sock_id
 .END
-.PROGRAM recv() #0; #0; #0; #0; #0; #257168; Í¨ÐÅ ½ÓÊÕÊý¾Ý
+.PROGRAM recv() #0; #0; #0; #0; #0; #0; #257168; Í¨ÐÅ ½ÓÊÕÊý¾Ý
   .num = 0
   TCP_RECV ret,sock_id,$recv_buf[1],.num,tout_rec,max_length
   IF ret<0 THEN
@@ -249,7 +245,7 @@ exit_end:
     END
   END
 .END
-.PROGRAM send(.ret,.$data) #0; #0; #0; #0; #0; #4; Í¨ÐÅ ·¢ËÍÊý¾Ý
+.PROGRAM send(.ret,.$data) #0; #0; #0; #0; #0; #0; #4; Í¨ÐÅ ·¢ËÍÊý¾Ý
   $send_buf[1] = .$data
   buf_n = 1
   .ret = 1
@@ -262,7 +258,7 @@ send_rt:
     PRINT "TCP_SEND OK  in SEND",sret
   END
 .END
-.PROGRAM sock_err() #54; #20; #109; #748; #0; #0
+.PROGRAM sock_err() #0; #180; #20; #109; #748; #0; #0
   sock_error = 0
   sock_error = ERROR
   ONE close_err
@@ -286,11 +282,11 @@ ret = 0
 sock_close = 0
 sock_error = 0
 sock_id = 0
-sock_stat = 1
+sock_stat = 0
 sret = 0
 stat_err[0] = 0
 stat_port[0] = 60000
-stat_sock[0] = 424
+stat_sock[0] = 284
 stat_sub[0] = 0
 text_id = 0
 tout = 60

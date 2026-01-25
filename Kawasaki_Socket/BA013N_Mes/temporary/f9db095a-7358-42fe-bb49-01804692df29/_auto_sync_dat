@@ -1809,7 +1809,7 @@ ZSWITCH ZADCCAL         OFF  -505
 ZSWITCH Z_IVAR          ON   -501
 ZSWITCH ZRTXLEN         OFF  -505
 ZSWITCH ZARCSTEPMOD     OFF  -513
-ZSWITCH ZTLS            ON   -497
+ZSWITCH ZTLS            OFF  -499
 ZSWITCH ZNOSLOW_START   OFF  -517
 ZSWITCH ZARCCHECK       ON   -507
 ZSWITCH ZWVDIR          OFF  -503
@@ -2879,7 +2879,7 @@ SWITCH AUTOSTART.PC    OFF
 SWITCH AUTOSTART2.PC   OFF
 SWITCH AUTOSTART3.PC   OFF
 SWITCH AUTOSTART4.PC   OFF
-SWITCH AUTOSTART5.PC   ON 
+SWITCH AUTOSTART5.PC   OFF
 SWITCH ERRSTART.PC     OFF
 SWITCH AUTOSTART.LSQ   OFF
 SWITCH DISPIO_01       OFF
@@ -3705,7 +3705,7 @@ ZAWOUTSIG_NAME 1,1,"????????","????","A"
 ZAWOUTSIG_NAME 1,2,"Weld Current","Cur","A"
 ZAWOUTSIG_NAME 2,1,"????????","????","V"
 ZAWOUTSIG_NAME 2,2,"Weld Voltage","Vlt","V"
-ZAWOUTSIG_NAME 3,1,"Ž¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼Ž¼Ž¼Ž¾Ž¼Polarity Ratio","PO",""
+ZAWOUTSIG_NAME 3,1,"Ž¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼Polarity Ratio","PO",""
 ZAWOUTSIG_NAME 3,2,"Polarity Ratio","PO",""
 ZAWOUTSIG_NAME 4,1,"????????????","????",""
 ZAWOUTSIG_NAME 4,2,"Weld Out Sig 4","Sig 4",""
@@ -3729,9 +3729,8 @@ ZARCCOOP_RESTART_ACCU 1.000000
 LINEALIZE_ZERO_ENABLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 .END
 .INTER_PANEL_D
-9,10,""," ¼¾¼¶¼¾¼Ò¼¾","","",7,2,1,2,"SIGNAL 2100",-1
-15,10,"","   ¼¾¼»¼¾¼¦   ¼¾¼¶€Ò¼¾","   ¼¾¼¶€Ò¼¾","",10,5,5,5,"SIGNAL 2002,2101",-1
-16,10,"","   ¼¾¼Á¼¾¼×   ¼¾¼Î¼Ö¼Ä","   ¼¾¼Î¼Ö¼Ä","",10,5,5,6,"SIGNAL 2001",-1
+9,10,""," ¼¾¼À¼¾¼¸¼¾","","",7,2,1,2,"SIGNAL 2100",-1
+16,10,"","   ¼¾¼À¼¾¼Ã   ¼¾¼À¼¾¼Ð","   ¼¾¼À¼¾¼Ð","",10,5,5,6,"SIGNAL 2001",-1
 21,9,1,7,0
 .END
 .INTER_PANEL_TITLE
