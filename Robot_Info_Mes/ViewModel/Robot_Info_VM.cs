@@ -909,45 +909,30 @@ namespace Robot_Info_Mes.ViewModel
         }
 
 
+        private readonly object _userLogLock = new();
 
         /// <summary>
         /// 全局使用输出方法
         /// </summary>
-        public void User_Log_Add(string Log, MessageBoxImage _MessType = MessageBoxImage.None)
+
+
+        public void User_Log_Add(string log, MessageBoxImage messType = MessageBoxImage.None)
         {
-
-            Task.Run(() =>
+            Application.Current.Dispatcher.BeginInvoke(() =>
             {
-
-
-                try
+                lock (_userLogLock)
                 {
+                    User_Log.User_Log = log;
 
-                    User_Log.User_Log = Log;
-
-
-                    if (_MessType != MessageBoxImage.None)
+                    if (messType != MessageBoxImage.None)
                     {
-
-
-                        Application.Current.Dispatcher.Invoke(() => { MessageBox.Show(Log, "操作提示....", MessageBoxButton.OK, _MessType); });
+                        MessageBox.Show(log, "操作提示....", MessageBoxButton.OK, messType);
                     }
-
                 }
-                catch (Exception e)
-                {
-
-                    Application.Current.Dispatcher.Invoke(() => { MessageBox.Show(e.Message, "操作提示....", MessageBoxButton.OK, _MessType); });
-
-                }
-
             });
-
-
-
-
-
         }
+
+
 
 
         /// <summary>
@@ -997,6 +982,10 @@ namespace Robot_Info_Mes.ViewModel
         /// <param name="_Socket"></param>
         public void Socket_Mes_ErrorLog_Show(string _log, Socket? _Socket)
         {
+            //加锁防止外部修改列表
+            lock (Mes_Server_Model_List)
+            {
+
 
             foreach (var _Server in Mes_Server_Model_List)
             {
@@ -1014,6 +1003,7 @@ namespace Robot_Info_Mes.ViewModel
 
             }
 
+            }
 
             User_Log_Add(_log);
         }
