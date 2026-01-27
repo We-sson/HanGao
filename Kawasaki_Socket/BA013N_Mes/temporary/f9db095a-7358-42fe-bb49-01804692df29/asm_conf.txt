@@ -1,0 +1,7 @@
+# Assembly configuration file
+# 2026/1/27  20:53:57
+Assembly=0x00000000,0x00,32,,0
+Assembly=0x00000000,0x00,32,,0
+Assembly=0x00000000,0x00,32,,0
+Assembly=0x00000000,0x00,0,,0
+Assembly=0x00000000,0x00,0,,0

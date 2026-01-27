@@ -1,0 +1,15 @@
+# Identity configuration file
+# 2026/1/27  20:53:57
+Vendor=0
+ProductType=0
+ProductCode=0
+Major=0
+Minor=0
+Status=0x0000
+SerialNumber=0x504d4153
+ProductName=
+AppStatus=0
+UserName=eng,0x00,4,0
+UserDescription=eng,0x00,4,0
+UserLocation=eng,0x00,4,0
+DscpEnable=0
