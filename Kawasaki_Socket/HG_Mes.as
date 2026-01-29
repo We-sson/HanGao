@@ -13,7 +13,7 @@
 .INTER_PANEL_COLOR_D
 182,3,224,244,28,159,252,255,251,255,0,31,2,241,52,219,
 .END
-.PROGRAM autostart5.pc() #0; #0; #0; #0; #0; #0; 通信主程序
+.PROGRAM autostart5.pc() #0;通信主程序
   port = 60000
   ip[1] = 192
   ip[2] = 168
@@ -37,11 +37,11 @@
     CALL recv
   END
 .END
-.PROGRAM close_err() #0; #0; #0; #0; #0; #6;
+.PROGRAM close_err() #0
   TYPE "关闭错误！"
   RETURNE
 .END
-.PROGRAM close_socket() #0; #0; #0; #0; #0; #3;断开通信程序
+.PROGRAM close_socket() #0;断开通信程序
 ;*****************************************
 ;* FUNCTION: 套接字关闭程序              *
 ;* WorkType: TCP/IP通讯                  *
@@ -63,7 +63,7 @@
     TWAIT 1
   END
 .END
-.PROGRAM mes_main() #0; #0
+.PROGRAM mes_main() #0
   work_a_state = FALSE;
   work_b_state = FALSE;
   work_c_state = FALSE;
@@ -76,11 +76,15 @@
   TWAIT 1
   work_c_state = FALSE;
 .END
-.PROGRAM mes_protocol() #0; #1112; #0; #0; #0; #0
-  $mes_type = "Mes_Info_Date"
-  $robot_type = "川崎"
+.PROGRAM mes_protocol() #492
+  $mes_type = "Mes_Info_Data"
+  $robot_type = "Kawasaki"
+  .$a_state = ""
+  .$b_state = ""
+  .$c_state = ""
+  .$d_state = ""
   IF SWITCH(ERROR )==0 THEN
-    IF (SWITCH(REPEAT )==-1) AND (SWITCH(PNL_CYCST )==-1) THEN
+    IF SWITCH(REPEAT )==-1 AND SWITCH(CS )==-1 AND SWITCH(POWER )==-1 AND SWITCH(ERROR )==0 THEN
       $robot_mode = "Run"
     ELSE
       $robot_mode = "T1"
@@ -91,11 +95,31 @@
 ;PAUSE
   $robot_programs = "Main"
   $robot_process = "Panel_Welding_1"
+  IF (work_a_state==TRUE) THEN
+    .$a_state = "TRUE"
+  ELSE
+    .$a_state = "FALSE"
+  END
+  IF (work_b_state==TRUE) THEN
+    .$b_state = "TRUE"
+  ELSE
+    .$b_state = "FALSE"
+  END
+  IF (work_c_state==TRUE) THEN
+    .$c_state = "TRUE"
+  ELSE
+    .$c_state = "FALSE"
+  END
+  IF (work_d_state==TRUE) THEN
+    .$d_state = "TRUE"
+  ELSE
+    .$d_state = "FALSE"
+  END
   $mes_send_data = ""
-  $mes_send_data = $mes_type+","+$robot_type+","+$robot_mode+","+$robot_programs+","+$robot_process+","+$ENCODE(work_a_state,",",work_b_state,",",work_c_state,",",work_d_state)
+  $mes_send_data = $mes_type+":"+$robot_type+","+$robot_mode+","+$robot_programs+","+$robot_process+","+.$a_state+","+.$b_state+","+.$c_state+","+.$d_state
 ;PAUSE
 .END
-.PROGRAM open_socket() #0; #1636; #0; #0; #0; #48;通讯连接程序
+.PROGRAM open_socket() #492;通讯连接程序
 ;*****************************************
 ;* FUNCTION: 通讯连接程序                *
 ;* WorkType: TCP/IP通讯                  *
@@ -125,25 +149,26 @@
     sock_connt = TRUE
   END
 .END
-.PROGRAM recv() #0; #1110; #0; #0; #0; #0; 通信 接收数据
+.PROGRAM recv() #491;通信接收数据
   .tout_rec = 2
   .max_length = 255
   .num = 0
   $recv_buf[0] = ""
   .ret = 0
+  .$recv[0] = ""
   ONE sock_err
 ;TCP_RECV 返回值，套接字号，接收字符串数组，元素数，接收超时时间，最大字节数
-  TCP_RECV .ret,sock_id,$recv_buf[0],.num,.tout_rec,.max_length
+  TCP_RECV .ret,sock_id,.$recv[0],.num,.tout_rec,.max_length
 ;PRINT .ret,sock_id,$recv_buf[0],.num,.tout_rec,.max_length
 ;PAUSE
   IF (.ret<0) OR (.num==0) THEN
     PRINT "数据接收超时，错误代码="+$ENCODE(.ret)
     CALL sock_err
   ELSE
-    PRINT "数据接收成功=",$recv_buf[0]
+    PRINT "数据接收成功!",VAL(.$recv[0],2)
   END
 .END
-.PROGRAM send(.$data) #0; #1112; #0; #0; #0;数据发送程序
+.PROGRAM send(.$data) #492;数据发送程序
 ;*****************************************
 ;* FUNCTION: 数据发送程序                *
 ;* WorkType: TCP/IP通讯                  *
@@ -164,7 +189,7 @@
     TYPE "数据发送成功",.$data
   END
 .END
-.PROGRAM sock_err() #0; #43; #0; #0; #0; #3;
+.PROGRAM sock_err() #0
   sock_error = 0
   sock_error = ERROR
   sock_cnt = 0
@@ -200,8 +225,8 @@ port_no[0] = 60000
 sock_cnt = 1
 sock_connt = -1
 sock_error = 0
-sock_id = 416
-sock_ids[0] = 416
+sock_id = 368
+sock_ids[0] = 368
 sret = 0
 sub_cd[0] = 0
 work_a_state = 0
@@ -211,12 +236,12 @@ work_d_state = 0
 .END
 .STRINGS
 $ip_adrs[0] = "192.168.44.1"
-$mes_send_data = "Mes_Info_Date,川崎,T1,Main,Panel_Welding_1, 0, 0, 0, 0"
-$mes_type = "Mes_Info_Date"
-$recv_buf[0] = "111111"
+$mes_send_data = "Mes_Info_Data:Kawasaki,T1,Main,Panel_Welding_1,FALSE,FALSE,FALSE,FALSE"
+$mes_type = "Mes_Info_Data"
+$recv_buf[0] = ""
 $robot_mode = "T1"
 $robot_process = "Panel_Welding_1"
 $robot_programs = "Main"
-$robot_type = "川崎"
-$send_buf[0] = "Mes_Info_Date,川崎,T1,Main,Panel_Welding_1, 0, 0, 0, 0"
+$robot_type = "Kawasaki"
+$send_buf[0] = "Mes_Info_Data:Kawasaki,T1,Main,Panel_Welding_1,FALSE,FALSE,FALSE,FALSE"
 .END
