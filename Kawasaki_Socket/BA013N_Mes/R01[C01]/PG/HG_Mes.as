@@ -22,8 +22,8 @@ ZLINEAR         0   0   0   0   0   0  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1  -
 CONT_CODE     701      -10516
 ZZERO         268445403 268148736 268435456 268435456 268435456 268435456 268435456 268435456 268435456 268435456 268435456 268435456 268435456 268435456 268435456 268435456 268435456 268435456   541022506
 ENDLESS_POS   0 100 1       -1516
-ZLANGUAGE ON -3683
-LANG_NO 0
+ZLANGUAGE     ON  -3683
+LANG_NO         0   8
 ZSIGSPEC      256 256 512      -15361
 ZSIGSPEC2      32  32        -961
 ZAXCONFIG       1  -1  -1  -1  -1  -1  -1  -1  -1  -1         119
@@ -473,7 +473,7 @@ OP_MTN_CHK    OFF -4417
 OP_CHKINCHING  OFF -4345
 OP_DIRECTSP   OFF -4733
 OP_COLDET     OFF -4300
-OP_BLTARM OFF -4280
+OP_BLTARM     OFF -4280
 OP_IPKALM     OFF -4145
 OP_KADOUINFO  ON  -4586
 OP_IMON2      OFF -3341
@@ -497,7 +497,7 @@ OP_PANELLESS  ON  -4852
 OP_COMMU1     OFF -3562
 OP_FIELDBUS   OFF -4658
 OP_KLOGIC     OFF -3816
-OP_CUBIC_S OFF -4851
+OP_CUBIC_S    OFF -4851
 OP_EIP_SAFETY  OFF -5310
 OP_TP_WRITE_CBS  OFF -5255
 OP_TCPIP_CONRST  OFF -5535
@@ -1721,7 +1721,7 @@ ZTURNFOLLOWCOMP_N  0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.000
 ZTURNFOLLOWCOMP_P  0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000          -1
 ZSWITCH ZDISP_GANTI     OFF  -513
 ZSWITCH ZKILL_LOAD      OFF  -511
-ZSWITCH ZLANGUAGE ON -507
+ZSWITCH ZLANGUAGE       ON   -507
 ZSWITCH ZWELD.COMP      OFF  -511
 ZSWITCH ZTPLIGHT_ON     OFF  -513
 ZSWITCH ZTWICE.BRKCHK   OFF  -517
@@ -1809,7 +1809,7 @@ ZSWITCH ZADCCAL         OFF  -505
 ZSWITCH Z_IVAR          ON   -501
 ZSWITCH ZRTXLEN         OFF  -505
 ZSWITCH ZARCSTEPMOD     OFF  -513
-ZSWITCH ZTLS            OFF  -499
+ZSWITCH ZTLS            ON   -497
 ZSWITCH ZNOSLOW_START   OFF  -517
 ZSWITCH ZARCCHECK       ON   -507
 ZSWITCH ZWVDIR          OFF  -503
@@ -2134,38 +2134,38 @@ ZSWITCH ZFRI_COMP_CHG_TYPE OFF  -527
 ZSWITCH ZARC_PCAS_AUTO_WCR ON   -525
 .END
 .OPE_INFO1
-OPEINFO  32 13 6 1  1769481287  ;(26/1/27 11:34:47) RA010N-A001 
-CONT_TIM  9.5 
-SERV_TIM  0.6 
-MTON_CNT  31 
+OPEINFO  32 13 6 1  1769577329  ;(26/1/28 14:15:29) RA010N-A001 
+CONT_TIM  21.2 
+SERV_TIM  0.1 
+MTON_CNT  4 
 ESTP_CNT  0 
-BRKE_CNT  31 
-CON_PWR  0.921 
-SUP_PWR  0.921 
+BRKE_CNT  4 
+CON_PWR  2.143 
+SUP_PWR  2.143 
 REG_PWR  0.000 
 OPEINFO COLDET_CNT  0 
 MOVE_TJT  0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
 DIST_DJT  0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 
-OPEINFO TP_BKLIGHT  0 1.4 50000 
-OPEINFO MC  0 31 2000000 0 0 2000000 0 0 2000000 
+OPEINFO TP_BKLIGHT  0 0.3 50000 
+OPEINFO MC  0 4 2000000 0 0 2000000 0 0 2000000 
 OPEINFO PARTS1  0 0 0 0 0 0 0 0 0 0 0 
 OPEINFO PARTS2  0 0 0 0 0 0 0 0 0 0 0 
 OPEINFO PARTS3  0 0 0 0 0 0 0 0 0 0 0 
 ARC_ON_TIME  0 
 ARC_OFF_TIME  0 
-M_OPEINFO  32 13 6 1  1769481287  ;(26/1/27 11:34:47) RA010N-A001 
-M_CONT_TIM  9.5 
-M_SERV_TIM  0.6 
-M_MTON_CNT  31 
+M_OPEINFO  32 13 6 1  1769577329  ;(26/1/28 14:15:29) RA010N-A001 
+M_CONT_TIM  21.2 
+M_SERV_TIM  0.1 
+M_MTON_CNT  4 
 M_ESTP_CNT  0 
-M_BRKE_CNT  31 
-M_CON_PWR  0.921 
-M_SUP_PWR  0.921 
+M_BRKE_CNT  4 
+M_CON_PWR  2.143 
+M_SUP_PWR  2.143 
 M_REG_PWR  0.000 
 M_OPEINFO COLDET_CNT  0 
 M_MOVE_TJT  0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 
 M_DIST_DJT  0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 
-HOUR_MTR  9.5 
+HOUR_MTR  21.2 
 .END
 .SYSDATA
 REG_POINT       0
@@ -2978,7 +2978,7 @@ SWITCH HOMEPOS_SET_DISPPAGE OFF
 .END
 .CONDITION
 AS_VER       ASE_033300Z4X
-ELOG_NUM            401
+ELOG_NUM              1
 CHK_ONCE      255
 MAN_SPEED     1
 CHK_SPEED     1
@@ -3018,7 +3018,7 @@ PRG_JT_ACCEL    100.000   100.000   100.000   100.000   100.000   100.000   100.
 PRG_JT_DECEL    100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000
 PRM_JT_ACCEL    100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000
 PRM_JT_DECEL    100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000   100.000
-USR_DO1      00100000000000000000000000000000
+USR_DO1      01100000000000000000000000000000
 USR_DO2      00000000000000000000000000000000
 USR_DO3      00000000000000000000000000000000
 USR_DO4      00000000000000000000000000000000
@@ -3937,25 +3937,19 @@ LINEALIZE_ZERO_ENABLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 .END
 .BRKLOG
 .END
-.PROGRAM autostart5.pc() #0; #0; #0; #0; 通信主程序
+.PROGRAM autostart5.pc() #0; #0; #0; #0; #0; 通信主程序
   port = 60000
   ip[1] = 192
   ip[2] = 168
   ip[3] = 44
   ip[4] = 1
-  max_length = 255
-  tout_open = 60
-  eret = 0
-  ret = 0
 ; sock_id = 0
-  sock_stat = 0
+; sock_stat = 0
   work_a_state = FALSE;
   work_b_state = FALSE;
   work_c_state = FALSE;
   work_d_state = FALSE;
   sock_connt = FALSE
-  sock_send = FALSE
-  sock_rece = FALSE
 ;CALL mes_protocol
   WHILE (1) DO
     CALL open_socket; 连接通信
@@ -3965,14 +3959,13 @@ LINEALIZE_ZERO_ENABLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
     CALL send($mes_send_data)
 ;PAUSE
     CALL recv
-;PAUSE
   END
 .END
-.PROGRAM close_err() #0; #0; #0; #6;
+.PROGRAM close_err() #0; #0; #0; #0; #6;
   TYPE "关闭错误！"
   RETURNE
 .END
-.PROGRAM close_socket() #0; #0; #0; #3;断开通信程序
+.PROGRAM close_socket() #0; #0; #0; #0; #3;断开通信程序
 ;*****************************************
 ;* FUNCTION: 套接字关闭程序              *
 ;* WorkType: TCP/IP通讯                  *
@@ -3992,10 +3985,22 @@ LINEALIZE_ZERO_ENABLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
     TYPE "通讯关闭"
 ;sock_id = 0
     TWAIT 1
-    sock_connt = FALSE
   END
 .END
-.PROGRAM mes_protocol() #1903; #0; #0; #0
+.PROGRAM mes_main() #0
+  work_a_state = FALSE;
+  work_b_state = FALSE;
+  work_c_state = FALSE;
+  work_d_state = FALSE;
+  work_a_state = TRUE
+  TWAIT 5
+  work_a_state = FALSE
+  TWAIT 1
+  work_c_state = TRUE;
+  TWAIT 1
+  work_c_state = FALSE;
+.END
+.PROGRAM mes_protocol() #1112; #0; #0; #0; #0
   $mes_type = "Mes_Info_Date"
   $robot_type = "川崎"
   IF SWITCH(ERROR )==0 THEN
@@ -4014,18 +4019,19 @@ LINEALIZE_ZERO_ENABLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
   $mes_send_data = $mes_type+","+$robot_type+","+$robot_mode+","+$robot_programs+","+$robot_process+","+$ENCODE(work_a_state,",",work_b_state,",",work_c_state,",",work_d_state)
 ;PAUSE
 .END
-.PROGRAM open_socket() #1903; #0; #0; #48;通讯连接程序
+.PROGRAM open_socket() #1636; #0; #0; #0; #48;通讯连接程序
 ;*****************************************
 ;* FUNCTION: 通讯连接程序                *
 ;* WorkType: TCP/IP通讯                  *
 ;* Copyright[c]2022 by KRCT              *
 ;*****************************************
 ;TCP_STATUS 返回值，端口号，套接字号，错误代码，错误子代码，IP地址
+  .tout_open = 10
   IF sock_connt==FALSE THEN
     DO
 ;  CALL vis_disconnect
       ONE sock_err
-      TCP_CONNECT sock_id,port,ip[1],tout_open
+      TCP_CONNECT sock_id,port,ip[1],.tout_open
 ;PAUSE
       IF sock_id<0 THEN
         .$ret = "通讯连接错误，通信序号="+$ENCODE(sock_id)
@@ -4035,7 +4041,7 @@ LINEALIZE_ZERO_ENABLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
         .$ret = "通讯连接对象无回应！"
         TYPE .$ret
       END
-      TWAIT 2
+      TWAIT 1
 ;PAUSE
       TCP_STATUS sock_cnt,port_no[0],sock_ids[0],err_cd[0],sub_cd[0],$ip_adrs[0]
     UNTIL (sock_id>0) AND (sock_cnt>0)
@@ -4043,50 +4049,46 @@ LINEALIZE_ZERO_ENABLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
     sock_connt = TRUE
   END
 .END
-.PROGRAM recv() #534; 数据接收程序
-;*****************************************
-;* FUNCTION: 数据接收程序                *
-;* WorkType: TCP/IP通讯                  *
-;* Copyright[c]2022 by KRCT              *
-;*****************************************
+.PROGRAM recv() #1110; #0; #0; #0; #0; 通信 接收数据
+  .tout_rec = 2
   .max_length = 255
   .num = 0
-  .tout_recv = 1
   $recv_buf[0] = ""
-;TCP_RECV 返回值，套接字号，接收字符串数组，元素数，接收超时时间，最大字节数
+  .ret = 0
   ONE sock_err
-  TCP_RECV rret,sock_id,$recv_buf[0],.num,.tout_recv,.max_length
-  PAUSE
-  IF rret<0 THEN
-    .$rret = "数据接收超时，错误代码="+$ENCODE(rret)
-    TYPE .$rret
+;TCP_RECV 返回值，套接字号，接收字符串数组，元素数，接收超时时间，最大字节数
+  TCP_RECV .ret,sock_id,$recv_buf[0],.num,.tout_rec,.max_length
+;PRINT .ret,sock_id,$recv_buf[0],.num,.tout_rec,.max_length
+;PAUSE
+  IF (.ret<0) OR (.num==0) THEN
+    PRINT "数据接收超时，错误代码="+$ENCODE(.ret)
     CALL sock_err
   ELSE
-    TYPE "数据接收成功=",$recv_buf[0]
+    PRINT "数据接收成功=",$recv_buf[0]
   END
 .END
-.PROGRAM send(.$data) #1903; #0; #0;数据发送程序
+.PROGRAM send(.$data) #1112; #0; #0; #0;数据发送程序
 ;*****************************************
 ;* FUNCTION: 数据发送程序                *
 ;* WorkType: TCP/IP通讯                  *
 ;* Copyright[c]2022 by KRCT              *
 ;*****************************************
-  $send_buf[1] = .$data
+  $send_buf[0] = .$data
   .buf_n = 1
-  tout_send = 5
+  .tout_send = 2
 ;TCP_SEND 返回值，套接字号，发送字符串数组，元素数，发送超时时间
   ONE sock_err
-  TCP_SEND sret,sock_id,$send_buf[1],.buf_n,tout_send
+  TCP_SEND sret,sock_id,$send_buf[0],.buf_n,.tout_send
 ;PAUSE
   IF sret<0 THEN
     .$sret = "数据接收超时，错误代码="+$ENCODE(sret)
-    TYPE "数据发送成功=",.$sret
+    TYPE .$sret
     CALL sock_err
   ELSE
     TYPE "数据发送成功",.$data
   END
 .END
-.PROGRAM sock_err() #349; #0; #0; #3;
+.PROGRAM sock_err() #43; #0; #0; #0; #3;
   sock_error = 0
   sock_error = ERROR
   sock_cnt = 0
@@ -4097,7 +4099,7 @@ LINEALIZE_ZERO_ENABLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       sock_id = sock_ids[.i]
       ONE close_err
       TCP_CLOSE .err1,sock_id
-      PRINT "断开连接状态！IP:",$ip_adrs[.i]
+      PRINT "断开连接状态！IP=",$ip_adrs[.i]
 ;PAUSE
       IF .err1<0 THEN
         PRINT "Error: TCP_CLOSE Fault, code ",.err1
@@ -4107,51 +4109,31 @@ LINEALIZE_ZERO_ENABLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
     END
   END
   TCP_STATUS sock_cnt,port_no[0],sock_ids[0],err_cd[0],sub_cd[0],$ip_adrs[0]
-;PAUSE
   sock_connt = FALSE
+;PAUSE
   RETURNE
 .END
 .REALS
-buf_n = 1
-eret = 0
 err_cd[0] = 0
 ip[1] = 192
 ip[2] = 168
 ip[3] = 44
 ip[4] = 1
-max_length = 255
 port = 60000
 port_no[0] = 60000
-ret = 0
-rret = -34025
-sock_close = 0
-sock_cnt = 0
-sock_connt = 0
+sock_cnt = 1
+sock_connt = -1
 sock_error = 0
-sock_id = 496
-sock_ids[0] = 496
-sock_rece = 0
-sock_send = 0
-sock_stat = 0
+sock_id = 416
+sock_ids[0] = 416
 sret = 0
-stat_err[0] = 0
-stat_port[0] = 60000
-stat_sock[0] = 416
-stat_sub[0] = 0
 sub_cd[0] = 0
-text_id = 0
-tout = 60
-tout_open = 60
-tout_rec = 60
-tout_send = 5
 work_a_state = 0
 work_b_state = 0
 work_c_state = 0
 work_d_state = 0
 .END
 .STRINGS
-$end_buf[1] = "1 OK"
-$ip_add[0] = "192.168.44.1"
 $ip_adrs[0] = "192.168.44.1"
 $mes_send_data = "Mes_Info_Date,川崎,T1,Main,Panel_Welding_1, 0, 0, 0, 0"
 $mes_type = "Mes_Info_Date"
@@ -4160,5 +4142,5 @@ $robot_mode = "T1"
 $robot_process = "Panel_Welding_1"
 $robot_programs = "Main"
 $robot_type = "川崎"
-$send_buf[1] = "Mes_Info_Date,川崎,T1,Main,Panel_Welding_1, 0, 0, 0, 0"
+$send_buf[0] = "Mes_Info_Date,川崎,T1,Main,Panel_Welding_1, 0, 0, 0, 0"
 .END

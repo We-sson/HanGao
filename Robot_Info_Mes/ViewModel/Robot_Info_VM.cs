@@ -918,7 +918,10 @@ namespace Robot_Info_Mes.ViewModel
 
         public void User_Log_Add(string log, MessageBoxImage messType = MessageBoxImage.None)
         {
-            Application.Current.Dispatcher.BeginInvoke(() =>
+
+            try
+            {
+         Application.Current.Dispatcher.BeginInvoke(() =>
             {
                 lock (_userLogLock)
                 {
@@ -930,6 +933,15 @@ namespace Robot_Info_Mes.ViewModel
                     }
                 }
             });
+
+
+
+            }
+            catch (Exception)
+            {
+
+               ///出现报错放弃
+            }
         }
 
 

@@ -941,15 +941,6 @@ namespace Roboto_Socket_Library.Model
 
 
 
-
-
-
-
-
-
-
-
-
     /// <summary>
     /// 泛型类型委托声明
     /// </summary>
@@ -1048,7 +1039,7 @@ namespace Roboto_Socket_Library.Model
         [Description("ABB")]
         ABB,
         [Description("川崎)")]
-        川崎,
+        Kawasaki,
         [Description("FANUC")]
 
         FANUC,

@@ -122,8 +122,21 @@ namespace Roboto_Socket_Library
                 case Socket_Robot_Protocols_Enum.川崎:
 
 
+
+                    string Kawasaki_Model_String = Encoding.ASCII.GetString(Receice_byte.ToArray()).Split(':')[0];
                     //**********
-                    break;
+
+
+                    if (!Enum.IsDefined(typeof(Vision_Model_Enum), Kawasaki_Model_String))
+                    {
+                        throw new Exception("通讯协议无该功能码，请联系开发者！");
+                    }
+
+
+                    return Enum.Parse<Vision_Model_Enum>(Kawasaki_Model_String);
+
+
+       
 
 
 
@@ -716,18 +729,14 @@ namespace Roboto_Socket_Library
                     _Mes_Robot_Data_Receive.Robot_Process_Int = Enum.Parse<Robot_Process_Int_Enum>(Robot_Process_Int_Len_String);
 
                     break;
-                case Socket_Robot_Protocols_Enum.川崎:
-
-
-
-                    break;
+       
                 case Socket_Robot_Protocols_Enum.通用:
 
 
                     break;
 
 
-                case Socket_Robot_Protocols_Enum.FANUC:
+                case Socket_Robot_Protocols_Enum.FANUC or Socket_Robot_Protocols_Enum.川崎:
 
 
                     _Mes_Robot_Data_Receive.Vision_Model = Enum.Parse<Vision_Model_Enum>(Encoding.ASCII.GetString(Receice_byte.ToArray()).Split(':')[0]);
@@ -941,7 +950,7 @@ namespace Roboto_Socket_Library
                     _byte_List = new List<byte>(Encoding.UTF8.GetBytes(new KUKA_Send_Receive_Xml().Property_Xml<Robot_Mes_Info_Data_Send>(_Propertie)));
 
                     break;
-                case Socket_Robot_Protocols_Enum.ABB or Socket_Robot_Protocols_Enum.FANUC:
+                case Socket_Robot_Protocols_Enum.ABB or Socket_Robot_Protocols_Enum.FANUC or Socket_Robot_Protocols_Enum.川崎:
 
 
 
@@ -974,11 +983,7 @@ namespace Roboto_Socket_Library
 
 
 
-                case Socket_Robot_Protocols_Enum.川崎:
-
-
-
-                    break;
+             
 
 
 

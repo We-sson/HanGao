@@ -1,4 +1,0 @@
-# Ethenet/IP Safety configuration file
-# 2026/1/27  20:53:57
-IPAddress=0.0.0.0
-Netmask=255.255.0.0
