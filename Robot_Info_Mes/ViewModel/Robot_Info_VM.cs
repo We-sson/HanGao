@@ -703,12 +703,6 @@ namespace Robot_Info_Mes.ViewModel
                 Set_Robot_Info_Data(_Receive);
 
 
-
-
-
-
-
-
                 _Send.Socket_Polling_Time = (int)(File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time * 1000);
                 _Send.IsStatus = 1;
 
@@ -719,7 +713,7 @@ namespace Robot_Info_Mes.ViewModel
         }
 
 
-
+        private readonly object _Mes_ServerLock = new();
         /// <summary>
         /// 看板接受各个上位机的机器人信息进行更新显示
         /// </summary>
@@ -730,7 +724,7 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Server_Info_Data_Send _Send = new();
 
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
-            lock (Mes_Server_Model_List)
+            lock (_Mes_ServerLock)
             {
 
 
