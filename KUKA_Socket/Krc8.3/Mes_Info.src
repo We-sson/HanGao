@@ -1,4 +1,4 @@
-&ACCESS RVP1
+&ACCESS RVP3
 &REL 7828
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
@@ -255,6 +255,10 @@ DEF Mes_EKRL_Server_Send(EKRL_NAME:IN)
          SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Welding_1")
       CASE #Panel_Welding_2
          SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Welding_2")
+          CASE #LaserCutting_1
+          SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","LaserCutting_1")
+      CASE #Spot_Surround_1
+         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Spot_Surround_1")
    ENDSWITCH
    RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Int[])
    

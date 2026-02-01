@@ -107,30 +107,30 @@ namespace Robot_Info_Mes.Model
                             break;
 
 
-                            //AC作业周期为一个产品
-                        case Robot_Process_Int_Enum.Spot_Surround_1:
+                            //AC作业周期为一个产品,临时屏蔽
+                        //case Robot_Process_Int_Enum.Spot_Surround_1:
 
 
 
 
 
-                            Robot_Work_AB_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_C_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_C_Cycle, ref Robot_Work_AB_Number);
+                        //    Robot_Work_AB_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_C_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_C_Cycle, ref Robot_Work_AB_Number);
 
                          
 
 
-                            Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number;
+                        //    Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number;
 
 
 
 
 
-                            break;
+                        //    break;
 
 
 
                             //A和C一个周期为一个产品
-                        case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1 or Robot_Process_Int_Enum.Panel_Welding_2 or Robot_Process_Int_Enum.LaserCutting_1:
+                        case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1 or Robot_Process_Int_Enum.Panel_Welding_2 or Robot_Process_Int_Enum.LaserCutting_1 or Robot_Process_Int_Enum.Spot_Surround_1:
 
 
 
