@@ -202,18 +202,16 @@ namespace Robot_Info_Mes.Model
 
                     return _newVale;
 
-                case Type _T when _T == typeof(ObservableCollection<Mes_Server_Info_List_Model>):
+                case Type _T when _T == typeof(Mes_Server_Info_Data):
 
 
-                    //Vision_Data _vision_Data = (Vision_Data)(object)_newVale;
-                    //Find_Data_List = new Vision_Data() { Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = 0, Date_Last_Revise = DateTime.Now.ToString() } } };
+              
 
-
-                    _Path = GetXml_Path<ObservableCollection<Mes_Server_Info_List_Model>>(Get_Xml_File_Enum.Folder_Path);
+                    _Path = GetXml_Path<Mes_Server_Info_Data>(Get_Xml_File_Enum.Folder_Path);
 
                     if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
                     //检查存放文件目录
-                    _Path = GetXml_Path<ObservableCollection<Mes_Server_Info_List_Model>>(Get_Xml_File_Enum.File_Path);
+                    _Path = GetXml_Path<Mes_Server_Info_Data>(Get_Xml_File_Enum.File_Path);
 
 
 
@@ -224,7 +222,9 @@ namespace Robot_Info_Mes.Model
                         //_vision_Data.Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = "0", } };
                         //_newVale = (T1)(object)new Vision_Data() { Vision_List = [new Vision_Xml_Models()] };
 
-                        _newVale = (T1)(object)new ObservableCollection<Mes_Server_Info_List_Model>()
+                        _newVale = (T1)(object)new Mes_Server_Info_Data()
+                        {
+                            Mes_Server_Model_List = new ObservableCollection<Mes_Server_Info_List_Model>()
 
             {
             new ()
@@ -317,16 +317,20 @@ namespace Robot_Info_Mes.Model
 
                 }
             },
-            };
+            },
+                File_Update_Time = DateTime.Now
+                        };
 
 
-                        ///检查日期缺失补齐
-                        foreach (Mes_Server_Info_List_Model item in (ObservableCollection<Mes_Server_Info_List_Model>)(object)_newVale)
-                        {
-                            item.Work_Factor_Seried.Mes_Date_Int();
-                        }
+                        
 
+                        /////检查日期缺失补齐
+                        //foreach (Mes_Server_Info_List_Model item in (Mes_Server_Info_Data)(object)_newVale)
+                        //{
+                        //    item.Work_Factor_Seried.Mes_Date_Int();
+                        //}
 
+                      
 
                         //初始化参数读取文件
                         Save_Xml(_newVale);
@@ -337,95 +341,23 @@ namespace Robot_Info_Mes.Model
 
 
                         ///读取文件
-                        _newVale = (T1)(object)Read_Xml<ObservableCollection<Mes_Server_Info_List_Model>>();
+                        _newVale = (T1)(object)Read_Xml<Mes_Server_Info_Data>();
 
 
 
                         ///检查日期缺失补齐
-                        foreach (Mes_Server_Info_List_Model item in (ObservableCollection<Mes_Server_Info_List_Model>)(object)_newVale)
-                        {
-                            item.Work_Factor_Seried.Mes_Date_Int();
-                        }
-
-                        //参数0号为默认值
-                        //_Data.Vision_List.Where(_List => int.Parse(_List.ID) == 0).FirstOrDefault(_List =>
+                        //foreach (Mes_Server_Info_List_Model item in (ObservableCollection<Mes_Server_Info_List_Model>)(object)_newVale)
                         //{
-                        //    _List.Camera_Parameter_Data = new MVS_SDK_Base.Model.MVS_Model.MVS_Camera_Parameter_Model();
-                        //    _List.Find_Shape_Data = new Halcon_Data_Model.Find_Shape_Based_ModelXld();
-                        //    return true;
+                        //    item.Work_Factor_Seried.Mes_Date_Int();
+                        //}
 
-                        //});
-                        //_newVale = (T1)(object)_Data;
+              
 
                     }
 
 
                     return _newVale;
 
-
-                //case Type _T when _T == typeof(Vision_Auto_Config_Model):
-
-
-                //    //Vision_Auto_Config_Model Config_Data = (Vision_Auto_Config_Model)(object)_newVale as Vision_Auto_Config_Model;
-
-
-                //    _Path = GetXml_Path<Vision_Auto_Config_Model>(Get_Xml_File_Enum.Folder_Path);
-
-                //    //检查存放文件目录
-                //    _Path = GetXml_Path<Vision_Auto_Config_Model>(Get_Xml_File_Enum.File_Path);
-
-
-                //    if (!File.Exists(_Path))
-                //    {
-                //        //Config_Data = new Vision_Auto_Config_Model();
-                //        //初始化参数读取文件
-                //        Save_Xml(_newVale);
-
-                //    }
-                //    else
-                //    {
-                //        //读取文件
-                //        _newVale = (T1)(object)Read_Xml<Vision_Auto_Config_Model>();
-
-
-                //    }
-
-                //    return _newVale;
-
-
-
-                //case Type _T when _T == typeof(Xml_Model):
-
-
-
-                //    Xml_Model _Sink_Data = (Xml_Model)(object)_newVale as Xml_Model;
-
-                //    _Path = GetXml_Path<Xml_Model>(Get_Xml_File_Enum.Folder_Path);
-                //    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                //    //检查存放文件目录
-                //    _Path = GetXml_Path<Xml_Model>(Get_Xml_File_Enum.File_Path);
-
-
-                //    if (!File.Exists(_Path))
-                //    {
-
-                //        //保存文件
-                //        Save_Xml(_newVale);
-
-
-                //    }
-                //    else
-                //    {
-                //        //读取文件内容
-                //        _newVale = (T1)(object)Read_Xml<Xml_Model>();
-
-
-                //    }
-
-
-
-
-                //    return _newVale;
 
 
                 default:
@@ -496,8 +428,8 @@ namespace Robot_Info_Mes.Model
 
 
                     return _Path;
-                case Type _T when _T == typeof(ObservableCollection<Mes_Server_Info_List_Model>):
-
+                case Type _T when _T == typeof(Mes_Server_Info_Data):
+                    //Mes_Server_Info_Data
                     switch (Get_Xml_File)
                     {
                         case Get_Xml_File_Enum.Folder_Path:

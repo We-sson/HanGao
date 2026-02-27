@@ -669,6 +669,32 @@ namespace Robot_Info_Mes.Model
 
     [Serializable]
     [AddINotifyPropertyChangedInterface]
+    public class Mes_Server_Info_Data
+    {
+        public Mes_Server_Info_Data()
+        {
+
+        }
+
+        /// <summary>
+        /// 文件更新最后时间
+        /// </summary>
+        public DateTime File_Update_Time { set; get; } = new DateTime();
+
+
+
+        /// <summary>
+        /// 看板设备列表
+        /// </summary>
+        public ObservableCollection<Mes_Server_Info_List_Model> Mes_Server_Model_List { set; get; } = new ObservableCollection<Mes_Server_Info_List_Model>();
+
+
+
+    }
+
+
+    [Serializable]
+    [AddINotifyPropertyChangedInterface]
     public class Mes_Server_Info_List_Model
     {
         public Mes_Server_Info_List_Model()

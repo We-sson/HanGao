@@ -55,8 +55,8 @@ namespace Robot_Info_Mes.ViewModel
                         ///看板端
                         Initialization_Mes_Sever_Start();
 
-
                         Int_Server_Run_Time();
+
 
                         Int_Server_KanBan_View_Data();
 
@@ -166,7 +166,14 @@ namespace Robot_Info_Mes.ViewModel
         /// <summary>
         /// 看板设备列表
         /// </summary>
-        public ObservableCollection<Mes_Server_Info_List_Model> Mes_Server_Model_List { set; get; } = new ObservableCollection<Mes_Server_Info_List_Model>();
+        //public ObservableCollection<Mes_Server_Info_List_Model> Mes_Server_Model_List { set; get; } = new ObservableCollection<Mes_Server_Info_List_Model>();
+
+
+        /// <summary>
+        /// 看板设备保存文件
+        /// </summary>
+        public Mes_Server_Info_Data Mes_Server_Info_Data { set; get; } = new Mes_Server_Info_Data();
+
 
 
         /// <summary>
@@ -199,7 +206,7 @@ namespace Robot_Info_Mes.ViewModel
                     //ScrollViewer? ScrollViewer = _Contol!.Template.FindName("PART_ScrollViewer", _Contol) as ScrollViewer;
 
                     ///看板总列表轮播
-                    _Contol!.ScrollIntoView(Mes_Server_Model_List[Mes_Server_Model_List_View]);
+                    _Contol!.ScrollIntoView(Mes_Server_Info_Data.Mes_Server_Model_List[Mes_Server_Model_List_View]);
                     _Contol.SelectedIndex = Mes_Server_Model_List_View;
 
 
@@ -217,8 +224,8 @@ namespace Robot_Info_Mes.ViewModel
                         Mes_Server_Model_List_View++;
 
 
-                        if (Mes_Server_Model_List.Count == 0) return;
-                        if (Mes_Server_Model_List_View > Mes_Server_Model_List.Count - 1)
+                        if (Mes_Server_Info_Data.Mes_Server_Model_List.Count == 0) return;
+                        if (Mes_Server_Model_List_View > Mes_Server_Info_Data.Mes_Server_Model_List.Count - 1)
                         {
                             Mes_Server_Model_List_View = 0;
                         }
@@ -227,7 +234,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-                        _Contol!.ScrollIntoView(Mes_Server_Model_List[Mes_Server_Model_List_View]);
+                        _Contol!.ScrollIntoView(Mes_Server_Info_Data.Mes_Server_Model_List[Mes_Server_Model_List_View]);
                         _Contol.SelectedIndex = Mes_Server_Model_List_View;
 
 
@@ -375,7 +382,7 @@ namespace Robot_Info_Mes.ViewModel
         public void Int_Server_KanBan_View_Data()
         {
 
-            foreach (var item in Mes_Server_Model_List)
+            foreach (var item in Mes_Server_Info_Data.Mes_Server_Model_List)
             {
                 item.Work_Factor_Seried.KanBan_List_Cycle_View_Time = File_Int_Parameters.Mes_Run_Parameters.KanBan_List_Cycle_View_Time;
                 item.Work_Factor_Seried.Mes_Data_View_Int();
@@ -391,10 +398,15 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-            Mes_Server_Model_List = File_Xml_Model.Read_Xml_File<ObservableCollection<Mes_Server_Info_List_Model>>();
+            Mes_Server_Info_Data = File_Xml_Model.Read_Xml_File<Mes_Server_Info_Data>();
 
 
+            /////检查日期缺失补齐
+            foreach (Mes_Server_Info_List_Model item in Mes_Server_Info_Data.Mes_Server_Model_List)
+            {
+                item.Work_Factor_Seried.Mes_Date_Int();
 
+            }
 
 
 
@@ -419,7 +431,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
                 ///检查通讯超时保存时间的更新断开连接
-                foreach (var item in Mes_Server_Model_List)
+                foreach (var item in Mes_Server_Info_Data.Mes_Server_Model_List)
                 {
                     if ((DateTime.Now - item.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time).TotalSeconds > File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time)
                     {
@@ -428,7 +440,30 @@ namespace Robot_Info_Mes.ViewModel
 
                 }
 
-                File_Xml_Model.Save_Xml(new ObservableCollection<Mes_Server_Info_List_Model>(Mes_Server_Model_List));
+
+
+                //应对跨月数据和对齐
+                if (Mes_Server_Info_Data.File_Update_Time.Month != DateTime.Now.Month)
+                {
+
+                    /////检查日期缺失补齐
+                    foreach (Mes_Server_Info_List_Model item in Mes_Server_Info_Data.Mes_Server_Model_List)
+                    {
+                        item.Work_Factor_Seried.Mes_Date_Int();
+                        item.Work_Factor_Seried.Mes_Data_Clear();
+                    }
+
+
+
+
+
+                }
+
+
+
+                Mes_Server_Info_Data.File_Update_Time = DateTime.Now;
+
+                File_Xml_Model.Save_Xml(Mes_Server_Info_Data);
 
 
                 User_Log_Add("信息文件定时已到：" + File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time + "s，进行文件保存！");
@@ -728,7 +763,7 @@ namespace Robot_Info_Mes.ViewModel
             {
 
 
-                foreach (var _Server in Mes_Server_Model_List)
+                foreach (var _Server in Mes_Server_Info_Data.Mes_Server_Model_List)
                 {
 
 
@@ -800,14 +835,14 @@ namespace Robot_Info_Mes.ViewModel
 
 
                 ///更新列表排序
-                for (int i = 0; i < Mes_Server_Model_List.Count; i++)
+                for (int i = 0; i < Mes_Server_Info_Data.Mes_Server_Model_List.Count; i++)
                 {
-                    if (Mes_Server_Model_List[i].Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected)
+                    if (Mes_Server_Info_Data.Mes_Server_Model_List[i].Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected)
                     {
                         ///把已经连接的项目往上走
-                        for (int _i = 0; _i < Mes_Server_Model_List.Count; _i++)
+                        for (int _i = 0; _i < Mes_Server_Info_Data.Mes_Server_Model_List.Count; _i++)
                         {
-                            if (Mes_Server_Model_List[_i].Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Disconnected)
+                            if (Mes_Server_Info_Data.Mes_Server_Model_List[_i].Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Disconnected)
                             {
                                 ///只能往上排序
                                 if (i > _i)
@@ -815,7 +850,7 @@ namespace Robot_Info_Mes.ViewModel
 
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
-                                        Mes_Server_Model_List.Move(i, _i);
+                                        Mes_Server_Info_Data.Mes_Server_Model_List.Move(i, _i);
                                     });
 
                                 }
@@ -915,18 +950,18 @@ namespace Robot_Info_Mes.ViewModel
 
             try
             {
-         Application.Current.Dispatcher.BeginInvoke(() =>
-            {
-                lock (_userLogLock)
-                {
-                    User_Log.User_Log = log;
+                Application.Current.Dispatcher.BeginInvoke(() =>
+                   {
+                       lock (_userLogLock)
+                       {
+                           User_Log.User_Log = log;
 
-                    if (messType != MessageBoxImage.None)
-                    {
-                        MessageBox.Show(log, "操作提示....", MessageBoxButton.OK, messType);
-                    }
-                }
-            });
+                           if (messType != MessageBoxImage.None)
+                           {
+                               MessageBox.Show(log, "操作提示....", MessageBoxButton.OK, messType);
+                           }
+                       }
+                   });
 
 
 
@@ -934,7 +969,7 @@ namespace Robot_Info_Mes.ViewModel
             catch (Exception)
             {
 
-               ///出现报错放弃
+                ///出现报错放弃
             }
         }
 
@@ -989,25 +1024,25 @@ namespace Robot_Info_Mes.ViewModel
         public void Socket_Mes_ErrorLog_Show(string _log, Socket? _Socket)
         {
             //加锁防止外部修改列表
-            lock (Mes_Server_Model_List)
+            lock (Mes_Server_Info_Data.Mes_Server_Model_List)
             {
 
 
-            foreach (var _Server in Mes_Server_Model_List)
-            {
-                ///如果是当前连接的服务器
-                if (_Socket != null)
+                foreach (var _Server in Mes_Server_Info_Data.Mes_Server_Model_List)
                 {
-
-                    if (_Server.Connetc_Mes_IP == (IPEndPoint?)_Socket.RemoteEndPoint)
+                    ///如果是当前连接的服务器
+                    if (_Socket != null)
                     {
-                        _Server.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+
+                        if (_Server.Connetc_Mes_IP == (IPEndPoint?)_Socket.RemoteEndPoint)
+                        {
+                            _Server.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+
+                        }
 
                     }
 
                 }
-
-            }
 
             }
 

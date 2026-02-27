@@ -56,17 +56,8 @@
             FontFamily="{DynamicResource 全局_文字_中文字体}"
             FontSize="32"
             Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-            Text="生产二楼机械手信息看板" />
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="2"
-            Margin="100,0,20,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontFamily="{DynamicResource 全局_文字_中文字体}"
-            FontSize="32"
-            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-            Text="生产二楼机械手信息看板" />
+            Text="{Binding Mes_Server_Info_Data.File_Update_Time, StringFormat={}{0:yyyy年M月}三厂二楼机械手OEE看板, ConverterCulture=zh-CN}" />
+
 
 
         <!--<Grid
@@ -617,7 +608,7 @@
             Background="Transparent"
             BorderThickness="0"
             ItemContainerStyle="{DynamicResource ListBoxItemStyle1}"
-            ItemsSource="{Binding Mes_Server_Model_List}"
+            ItemsSource="{Binding Mes_Server_Info_Data.Mes_Server_Model_List}"
             ScrollViewer.CanContentScroll="False"
             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
             ScrollViewer.IsDeferredScrollingEnabled="True"

@@ -773,6 +773,10 @@ namespace Robot_Info_Mes.Model
 
         }
 
+
+        /// <summary>
+        /// 看板数据日期对其当月
+        /// </summary>
         public  void Mes_Date_Int()
         {
             int _Day_Number = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
@@ -784,13 +788,19 @@ namespace Robot_Info_Mes.Model
             Mes_Data_List_Conut(Robot_Work_ABCD_Cycle_Mean_List, _Day_Number);
 
 
+        }
 
 
-
+        public  void Mes_Data_Clear() 
+        {
+            Mes_Data_List_Clear(Robot_Work_ABCD_Number_List);
+            Mes_Data_List_Clear(Work_Availability_Factor_List);
+            Mes_Data_List_Clear(Work_Performance_Factor_List);
+            Mes_Data_List_Clear(Robot_Work_Time_List);
+            Mes_Data_List_Clear(Robot_Work_ABCD_Cycle_Mean_List);
 
 
         }
-
 
 
 
@@ -893,7 +903,17 @@ namespace Robot_Info_Mes.Model
 
 
 
+        private void Mes_Data_List_Clear(ObservableCollection<double?> _List) 
+        {
 
+            for (int i = 0; i < _List.Count; i++)
+            {
+                _List[i] = 0;
+            }
+
+
+
+        }
 
 
 

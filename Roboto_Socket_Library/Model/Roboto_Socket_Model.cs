@@ -660,10 +660,10 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 看板列表显示轮换时间
         /// </summary>
-        public double KanBan_List_Cycle_View_Time { get; set; } = 2;
+        public double KanBan_List_Cycle_View_Time { get; set; } = 5;
 
 
-        public double KanBan_ALLList_Cycle_View_Time { get; set; } = 10;
+        public double KanBan_ALLList_Cycle_View_Time { get; set; } = 25;
 
 
 
