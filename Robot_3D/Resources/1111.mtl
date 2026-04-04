@@ -1,0 +1,445 @@
+#
+# Bunkspeed OBJ Material File
+# http://www.bunkspeed.com
+#
+
+newmtl Material_2
+Kd 0.4 0.4 0.4
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_1
+Kd 0.2 0.2 0.2
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_8
+Kd 0.6 0.6 0.6
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_2
+Kd 0.4 0.4 0.4
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_1
+Kd 0.2 0.2 0.2
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_8
+Kd 0.6 0.6 0.6
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_17
+Kd 0.3803922 0.3803922 0.3803922
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_10
+Kd 0.8823529 0.9607843 1
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_9
+Kd 0 0 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_2
+Kd 0.4 0.4 0.4
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_2
+Kd 0.4 0.4 0.4
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_1
+Kd 0.2 0.2 0.2
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_4
+Kd 0.8 0.8 0.8
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_3
+Kd 1 0.4 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_1
+Kd 0.2 0.2 0.2
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_2
+Kd 0.4 0.4 0.4
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_14
+Kd 0.2980392 0.2980392 0.2980392
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_9
+Kd 0 0 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_7
+Kd 1 1 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_4
+Kd 0.8 0.8 0.8
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_12
+Kd 0.8 1 0.2
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_16
+Kd 0.5960785 0.6666667 0.6862745
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_10
+Kd 0.8823529 0.9607843 1
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_8
+Kd 0.6 0.6 0.6
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_13
+Kd 0.8431373 1 0.7803922
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_5
+Kd 0.9490196 0.9490196 0.9490196
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_15
+Kd 0.4627451 0.6235294 0.1647059
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_6
+Kd 1 0.6 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_11
+Kd 1 0.9803922 0.7490196
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_3
+Kd 1 0.4 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_1
+Kd 0.2 0.2 0.2
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_2
+Kd 0.4 0.4 0.4
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_4
+Kd 0.8 0.8 0.8
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_1
+Kd 0.2 0.2 0.2
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_2
+Kd 0.4 0.4 0.4
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_3
+Kd 1 0.4 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_13
+Kd 0.8431373 1 0.7803922
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_4
+Kd 0.8 0.8 0.8
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_6
+Kd 1 0.6 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_9
+Kd 0 0 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_3
+Kd 1 0.4 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_2
+Kd 0.4 0.4 0.4
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_4
+Kd 0.8 0.8 0.8
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_3
+Kd 1 0.4 0
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_2
+Kd 0.4 0.4 0.4
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_8
+Kd 0.6 0.6 0.6
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_4
+Kd 0.8 0.8 0.8
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_1
+Kd 0.2 0.2 0.2
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912
+
+newmtl Material_2
+Kd 0.4 0.4 0.4
+Ks 1 1 1
+pr 0.3
+pm 0
+d 1
+illum 2
+Ns 2.087912

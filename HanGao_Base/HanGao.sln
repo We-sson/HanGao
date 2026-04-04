@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.1.11304.174 d18.0
+VisualStudioVersion = 18.1.11304.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HanGao_Base", "HanGao_Base.csproj", "{1B2622B5-B29B-4EB1-981E-EF015A0AABE4}"
 EndProject
@@ -19,6 +19,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roboto_Socket_Library", "..\Roboto_Socket_Library\Roboto_Socket_Library.csproj", "{A493D3BE-3478-4902-B61D-4FA0DA6B4D08}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robot_Info_Mes", "..\Robot_Info_Mes\Robot_Info_Mes.csproj", "{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robot_3D", "..\Robot_3D\Robot_3D.csproj", "{C7735E34-ECE8-B957-3328-EE645B85B2C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -130,6 +132,18 @@ Global
 		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Release|x64.ActiveCfg = Release|x64
 		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Release|x64.Build.0 = Release|x64
 		{A9C7B091-6523-463F-B78E-5BF1D6E2EA90}.Release|x86.ActiveCfg = Release|x64
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Debug|x64.ActiveCfg = Debug|x64
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Debug|x64.Build.0 = Debug|x64
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Debug|x86.Build.0 = Debug|Any CPU
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Release|x64.ActiveCfg = Release|x64
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Release|x64.Build.0 = Release|x64
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{C7735E34-ECE8-B957-3328-EE645B85B2C1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
