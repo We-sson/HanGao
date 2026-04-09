@@ -1,8 +1,12 @@
-﻿using PropertyChanged;
+﻿using Microsoft.VisualBasic;
+using PropertyChanged;
 using Roboto_Socket_Library.Model;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Windows.Threading;
 using System.Xml.Serialization;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
@@ -178,10 +182,10 @@ namespace Robot_Info_Mes.Model
                     if (Robot_Work_ABCD_Number != 0 && Robot_Time_Outside.Timer.IsRunning && (Robot_Work_A_Cycle.Timer.IsRunning || Robot_Work_B_Cycle.Timer.IsRunning || Robot_Work_C_Cycle.Timer.IsRunning || Robot_Work_D_Cycle.Timer.IsRunning))
                     {
                         Robot_Time_Outside.Stop();
-                        Robot_Robot_Time_Outside_List.Add(Robot_Time_Outside.Timer_Sec);
+                        Robot_Robot_Time_Outside_List.Data_Add_List(Robot_Work_ABCD_Number,Robot_Time_Outside.Timer_Sec);
 
                         ///平均数
-                        Robot_Robot_Time_Outside_List_Mean = Robot_Robot_Time_Outside_List.Average() ?? 0;
+                        Robot_Robot_Time_Outside_List_Mean = Robot_Robot_Time_Outside_List.GetAverage();
 
                     }
 
@@ -401,14 +405,14 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 节拍集合
         /// </summary>
-        public ObservableCollection<double?> Robot_Work_ABCD_Cycle_List { set; get; } = new();
+        public ObservableCollection<double> Robot_Work_ABCD_Cycle_List { set; get; } = new();
 
 
 
         /// <summary>
         /// 节拍外时间集合
         /// </summary>
-        public ObservableCollection<double?> Robot_Robot_Time_Outside_List { set; get; } = new();
+        public ObservableCollection<double> Robot_Robot_Time_Outside_List { set; get; } = new();
 
 
 
@@ -616,7 +620,7 @@ namespace Robot_Info_Mes.Model
                 _Robot_Work_A_Cycle_State = false;
    
                 Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_AB_Cycle.TotalSeconds );
-                Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average()??0;
+                Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average();
 
 
 
@@ -659,7 +663,7 @@ namespace Robot_Info_Mes.Model
                     // 正常完成周期
                     _Robot_Work_A_Cycle.Stop();
                     Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_A_Cycle.Timer_Sec);
-                    Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average()??0;
+                    Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average();
                     _Robot_Work_AB_Number++;
                     _Robot_Work_A_Cycle_State = false;
                 }
@@ -701,8 +705,8 @@ namespace Robot_Info_Mes.Model
                 Robot_Work_ABCD_Number = 0;
                 Robot_Work_ABCD_Cycle_List.Clear();
                 Robot_Robot_Time_Outside_List.Clear();
-
-
+                Robot_Work_ABCD_Cycle_Mean = 0;
+                Robot_Robot_Time_Outside_List_Mean = 0;
             }
 
 
@@ -712,26 +716,13 @@ namespace Robot_Info_Mes.Model
 
         }
 
-        public void Robot_Data_Add_List(int _Cont, ref ObservableCollection<double?> _List) 
-        {
-
-
-            for (int i = 0; i < _List.Count; i++)
-            {
-
-
-
-
-            }
-        
-        
-        
-        }
-
+   
 
 
 
     }
+
+
 
     [Serializable]
     [AddINotifyPropertyChangedInterface]
@@ -892,7 +883,66 @@ namespace Robot_Info_Mes.Model
     }
 
 
+    public static class List_Data_Extension
+    {
 
+
+
+
+        /// <summary>
+        /// 指定位置添加数据，空位补0，从1开始添加
+        /// </summary>
+        public static void Data_Add_List(this ObservableCollection<double> collection, int index, double value)
+        {
+
+            // 自动扩容：跳过的位置全部填充 null
+            while (collection.Count < index)
+            {
+                collection.Add(0);
+            }
+
+
+            // 处理目标位置：无数据则添加，有数据则相加
+            if (collection.Count == index)
+            {
+                // 集合长度刚好等于索引 → 直接添加新数据
+                collection.Add(value);
+            }
+            else
+            {
+                // 位置有数据，相加（处理可空类型）
+                collection[index] += value;
+            }
+
+
+
+
+
+
+        }
+
+
+
+
+        /// <summary>
+        /// 计算 索引1 ~ 指定下标 平均数，只有0位数据则返回0
+        /// </summary>
+        public static double GetAverage(this ObservableCollection<double> collection)
+        {
+            // 索引非法 或 没有1及以后的数据 → 直接返回0
+            if (collection.Count < 1 || collection.Count <= 1)
+                return 0;
+
+            // 截取 1 ~ endIndex 的数据
+            var dataRange = collection.Skip(1).Take(collection.Count);
+            // 无有效数据返回0，有数据计算平均值
+            return dataRange.Any() ? dataRange.Average() : 0;
+
+
+
+
+        }
+    }
 
 
 
