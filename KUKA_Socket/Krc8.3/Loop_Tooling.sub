@@ -1,0 +1,19 @@
+&ACCESS RVP
+&COMMENT USER specified PLC program
+DEF Loop_Tooling( ) 
+   
+   
+   INTERRUPT DECL 21 WHEN $IN[17] == TRUE DO Grip_Button_1()
+   INTERRUPT DECL 22 WHEN $IN[18] == TRUE DO Grip_Button_2()
+   
+ 
+   INTERRUPT ON 21
+   INTERRUPT ON 22
+   
+   LOOP
+	
+	Grip_Tool()
+		
+   ENDLOOP
+   
+END
