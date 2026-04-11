@@ -875,7 +875,7 @@
                                     FontWeight="Bold"
                                     Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                                     Text="节拍负荷率" />
-                                <lvc:PieChart
+                                <!--<lvc:PieChart
                                     Grid.Row="1"
                                     Width="100"
                                     InitialRotation="-225"
@@ -883,7 +883,29 @@
                                     MaxValue="120"
                                     MinValue=" 0"
                                     Series="{Binding Work_Factor_Seried.Work_Cycle_Load_Factor_Series}"
-                                    TooltipPosition="Center" />
+                                    TooltipPosition="Center" />-->
+                                <lvc:PieChart
+                                    Grid.Row="1"
+                                    Width=" 100"
+                                    Height=" 100"
+                                    Background="Transparent"
+                                    InitialRotation="-225"
+                                    MaxAngle="270"
+                                    MaxValue="100"
+                                    MinValue="0"
+                                    TooltipPosition="Auto">
+                                    <lvc:PieChart.Series>
+                                        <lvc:SeriesCollection>
+                                            <lvc:XamlGaugeSeries GaugeValue="{Binding Work_Factor_Seried.Work_Cycle_Load_Factor}" Style="{StaticResource General_GaugeStyle}" />
+                                            <lvc:XamlGaugeBackgroundSeries Style="{StaticResource General_GaugeBackgroundStyle}" />
+                                        </lvc:SeriesCollection>
+                                    </lvc:PieChart.Series>
+
+
+                                </lvc:PieChart>
+
+
+
 
                             </Grid>
 
@@ -1198,7 +1220,7 @@
                                     FontWeight="Bold"
                                     Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                                     Text="时间稼动率" />
-                                <lvc:PieChart
+                                <!--<lvc:PieChart
                                     Grid.Row="1"
                                     Width="100"
                                     HorizontalAlignment="Stretch"
@@ -1209,7 +1231,29 @@
                                     MaxAngle="270"
                                     MaxValue="120"
                                     Series="{Binding Work_Factor_Seried.Work_Availability_Factor_Series}"
-                                    TooltipPosition="Hidden" />
+                                    TooltipPosition="Hidden" />-->
+
+                                <lvc:PieChart
+                                    Grid.Row="1"
+                                    Width=" 100"
+                                    Height=" 100"
+                                    Background="Transparent"
+                                    InitialRotation="-225"
+                                    MaxAngle="270"
+                                    MaxValue="100"
+                                    MinValue="0"
+                                    TooltipPosition="Auto">
+                                    <lvc:PieChart.Series>
+                                        <lvc:SeriesCollection>
+                                            <lvc:XamlGaugeSeries GaugeValue="{Binding Work_Factor_Seried.Work_Availability_Factor}" Style="{StaticResource General_GaugeStyle}" />
+                                            <lvc:XamlGaugeBackgroundSeries Style="{StaticResource General_GaugeBackgroundStyle}" />
+                                        </lvc:SeriesCollection>
+                                    </lvc:PieChart.Series>
+
+
+                                </lvc:PieChart>
+
+
 
 
                             </Grid>
@@ -1231,15 +1275,33 @@
                                     FontWeight="Bold"
                                     Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                                     Text="性能稼动率" />
-                                <lvc:PieChart
+                                <!--<lvc:PieChart
                                     Grid.Row="1"
                                     Width="100"
                                     InitialRotation="-225"
                                     MaxAngle="270"
                                     MaxValue="120"
                                     Series="{Binding Work_Factor_Seried.Work_Performance_Factor_Series}"
-                                    TooltipPosition="Hidden" />
+                                    TooltipPosition="Hidden" />-->
+                                <lvc:PieChart
+                                    Grid.Row="1"
+                                    Width=" 100"
+                                    Height=" 100"
+                                    Background="Transparent"
+                                    InitialRotation="-225"
+                                    MaxAngle="270"
+                                    MaxValue="100"
+                                    MinValue="0"
+                                    TooltipPosition="Auto">
+                                    <lvc:PieChart.Series>
+                                        <lvc:SeriesCollection>
+                                            <lvc:XamlGaugeSeries GaugeValue="{Binding Work_Factor_Seried.Work_Performance_Factor}" Style="{StaticResource General_GaugeStyle}" />
+                                            <lvc:XamlGaugeBackgroundSeries Style="{StaticResource General_GaugeBackgroundStyle}" />
+                                        </lvc:SeriesCollection>
+                                    </lvc:PieChart.Series>
 
+
+                                </lvc:PieChart>
 
                             </Grid>
 

@@ -331,11 +331,11 @@ namespace Robot_Info_Mes.ViewModel
                 ///记录文件保存时间
                 Mes_Robot_Info_Model_Data.File_Update_Time = DateTime.Now;
                 ///计算可用稼动率
-                Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Millisecond, Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_Millisecond);
+                Work_Factor_Seried.Work_Availability_Factor = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Millisecond, Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_Millisecond);
 
 
                 //计算性能稼动率
-                Work_Factor_Seried.Work_Performance_Factor.Value = Work_Factor_Seried.Get_Work_Performance_Factor(File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number, Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Sec);
+                Work_Factor_Seried.Work_Performance_Factor = Work_Factor_Seried.Get_Work_Performance_Factor(File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number, Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Sec);
                 ///保存时间文件
 
 
@@ -535,9 +535,9 @@ namespace Robot_Info_Mes.ViewModel
                                 Robot_Work_AB_Cycle = Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_UI,
                                 Robot_Work_CD_Cycle = Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_UI,
 
-                                Work_Availability_Factor = Work_Factor_Seried.Work_Availability_Factor.Value ?? 0,
-                                Work_Cycle_Load_Factor = Work_Factor_Seried.Work_Cycle_Load_Factor.Value ?? 0,
-                                Work_Performance_Factor = Work_Factor_Seried.Work_Performance_Factor.Value ?? 0,
+                                Work_Availability_Factor = Work_Factor_Seried.Work_Availability_Factor,
+                                Work_Cycle_Load_Factor = Work_Factor_Seried.Work_Cycle_Load_Factor,
+                                Work_Performance_Factor = Work_Factor_Seried.Work_Performance_Factor,
 
 
                                 ///工艺时间参数
@@ -773,9 +773,9 @@ namespace Robot_Info_Mes.ViewModel
                         _Server.Connetc_Mes_IP = (IPEndPoint?)_Socket!.RemoteEndPoint;
 
                         ///指标更新
-                        _Server.Work_Factor_Seried.Work_Cycle_Load_Factor.Value = _Receive.Mes_Server_Date.Work_Cycle_Load_Factor;
-                        _Server.Work_Factor_Seried.Work_Availability_Factor.Value = _Receive.Mes_Server_Date.Work_Availability_Factor;
-                        _Server.Work_Factor_Seried.Work_Performance_Factor.Value = _Receive.Mes_Server_Date.Work_Performance_Factor;
+                        _Server.Work_Factor_Seried.Work_Cycle_Load_Factor = _Receive.Mes_Server_Date.Work_Cycle_Load_Factor;
+                        _Server.Work_Factor_Seried.Work_Availability_Factor = _Receive.Mes_Server_Date.Work_Availability_Factor;
+                        _Server.Work_Factor_Seried.Work_Performance_Factor = _Receive.Mes_Server_Date.Work_Performance_Factor;
 
                         //计算通讯周期
                         _Server.Mes_Robot_Info_Model_Data.Socket_Cycle_Time = DateTime.Now - _Server.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time;
@@ -926,7 +926,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-            Work_Factor_Seried.Work_Cycle_Load_Factor.Value = Work_Factor_Seried.Get_Work_Cycle_Load_Factor(_Data.Robot_Process_Int,
+            Work_Factor_Seried.Work_Cycle_Load_Factor = Work_Factor_Seried.Get_Work_Cycle_Load_Factor(_Data.Robot_Process_Int,
                                                                                                                                                                                ref Mes_Robot_Info_Model_Data.Robot_Work_A_Cycle,
                                                                                                                                                                                ref Mes_Robot_Info_Model_Data.Robot_Work_B_Cycle,
                                                                                                                                                                                ref Mes_Robot_Info_Model_Data.Robot_Work_C_Cycle,

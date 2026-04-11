@@ -47,6 +47,7 @@
                 <ResourceDictionary Source="View\Global_Color.xaml" />
                 <ResourceDictionary Source="View\Window_UserConect.xaml" />
                 <ResourceDictionary Source="View\UserControl_Style.xaml" />
+                <ResourceDictionary Source="View\LiveCharts2_Style.xaml" />
 
 
 

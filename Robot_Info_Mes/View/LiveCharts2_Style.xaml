@@ -1,0 +1,49 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF">
+
+
+
+    <!--  扇形前景样式  -->
+    <Style x:Key="General_GaugeStyle" TargetType="lvc:XamlGaugeSeries">
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="DataLabelsFormatter" Value="{Binding Work_Factor_Seried.LabelFormatter}" />
+        <Setter Property="DataLabelsPosition" Value="ChartCenter" />
+        <Setter Property="DataLabelsSize" Value="16" />
+        <Setter Property="Fill" Value="#4B6587" />
+        <!--<Setter Property="Fill">
+            <Setter.Value>
+                <lvc:LinearGradientPaint
+                    Colors="#4B6587, #DCEDC2"
+                    StartPoint="0.5, 0"
+                    EndPoint="0.5, 1" />
+            </Setter.Value>
+        </Setter>-->
+        <Setter Property="DataLabelsPaint" Value="#4B6587" />
+        <Setter Property="HoverPushout" Value="0" />
+        <Setter Property="InnerRadius" Value="28" />
+        <Setter Property="IsHoverable" Value="False" />
+        <Setter Property="OuterRadiusOffset" Value=" 0" />
+        <Setter Property="RelativeInnerRadius" Value="0" />
+        <Setter Property="RelativeOuterRadius" Value="-18" />
+        <Setter Property="SeriesName" Value="%" />
+        <Setter Property="ShowDataLabels" Value="True" />
+    </Style>
+    <!--  扇形背景样式  -->
+    <Style x:Key="General_GaugeBackgroundStyle" TargetType="lvc:XamlGaugeBackgroundSeries">
+        <Setter Property="Fill" Value="#E6E6E6" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="InnerRadius" Value=" 28" />
+        <Setter Property="OuterRadiusOffset" Value="0" />
+        <Setter Property="RelativeOuterRadius" Value="-18" />
+
+
+    </Style>
+
+
+
+
+
+
+</ResourceDictionary>
