@@ -19,24 +19,7 @@
     DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
     WindowState="Maximized"
     mc:Ignorable="d">
-    <Window.Resources>
-        <!--  公共饼图样式：完全替代你的 SetStyle 方法  -->
-        <Style x:Key="CommonPieStyle" TargetType="lvc:XamlGaugeSeries">
-            <!--  布局属性（对应原 SetStyle 所有配置）  -->
-            <Setter Property="OuterRadiusOffset" Value="0" />
-            <Setter Property="MaxRadialColumnWidth" Value="0" />
-            <Setter Property="InnerRadius" Value="50" />
-            <Setter Property="RelativeInnerRadius" Value="0" />
-            <Setter Property="RelativeOuterRadius" Value="0" />
-            <Setter Property="SeriesName" Value="%" />
-            <!--  标签配置  -->
-            <Setter Property="DataLabelsPosition" Value="ChartCenter" />
-            <Setter Property="DataLabelsSize" Value="18" />
-            <Setter Property="DataLabelsFormatter" Value="{Binding LabelFormatter}" />
-            <Setter Property="Fill" Value="#4B6599" />
-            <Setter Property="DataLabelsPaint" Value="#4B6599" />
-        </Style>
-    </Window.Resources>
+
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -1653,123 +1636,16 @@
 
         </Grid>
 
-        <Grid
-            Grid.Row=" 3"
-            Height=" 280"
-            Background="White">
+        <Grid Grid.Row=" 3" Height="280">
             <lvc:CartesianChart
                 Background="Transparent"
-                LegendBackgroundPaint="{lvc:SolidColorPaint Color='#eee',
-                                                            FontFamily='Courier New'}"
                 LegendPosition="Left"
-                LegendTextPaint="{lvc:SolidColorPaint Color='#323232'}"
-                LegendTextSize="16">
-                <lvc:CartesianChart.Resources>
-                    <Style x:Key="{x:Type lvc:XamlLineSeries}" TargetType="lvc:XamlLineSeries">
-                        <Setter Property="GeometrySize" Value="10" />
-                        <Setter Property="Fill" Value="{x:Null}" />
-                        <Setter Property="LineSmoothness" Value="1" />
-                    </Style>
-                    <Style x:Key="{x:Type lvc:XamlAxis}" TargetType="lvc:XamlAxis">
-                        <Setter Property="NameTextSize" Value="14" />
-                        <Setter Property="NamePadding" Value="0,20" />
-                        <Setter Property="TextSize" Value="12" />
-                        <Setter Property="DrawTicksPath" Value="True" />
-                    </Style>
-                </lvc:CartesianChart.Resources>
-                <lvc:CartesianChart.Series>
-                    <lvc:SeriesCollection>
-                        <lvc:XamlLineSeries
-                            GeometrySize="15"
-                            GeometryStroke="{lvc:SolidColorPaint Color=#1976D2,
-                                                                 StrokeWidth=3}"
-                            ScalesXAt="0"
-                            ScalesYAt="0"
-                            SeriesName="生产数量"
-                            Stroke="{lvc:SolidColorPaint Color=#1976D2,
-                                                         StrokeWidth=2}"
-                            Values="{Binding Work_Factor_Seried.Robot_Work_ABCD_Number_List}" />
-                        <lvc:XamlLineSeries
-                            GeometryStroke="{lvc:SolidColorPaint Color=#1976D2,
-                                                                 StrokeWidth=2}"
-                            ScalesYAt="0"
-                            SeriesName="时间稼动率"
-                            Stroke="{lvc:SolidColorPaint Color=#1976D2,
-                                                         StrokeWidth=2}"
-                            Values="{Binding Work_Factor_Seried.Work_Availability_Factor_List}" />
-                        <lvc:XamlLineSeries
-                            GeometryStroke="{lvc:SolidColorPaint Color=#E53935,
-                                                                 StrokeWidth=2}"
-                            ScalesYAt="1"
-                            SeriesName="性能稼动率"
-                            Stroke="{lvc:SolidColorPaint Color=#E53935,
-                                                         StrokeWidth=2}"
-                            Values="{Binding Work_Factor_Seried.Work_Performance_Factor_List}" />
-                        <lvc:XamlLineSeries
-                            GeometryStroke="{lvc:SolidColorPaint Color=#C6A700,
-                                                                 StrokeWidth=2}"
-                            ScalesYAt="2"
-                            SeriesName="生产平均节拍"
-                            Stroke="{lvc:SolidColorPaint Color=#C6A700,
-                                                         StrokeWidth=2}"
-                            Values="{Binding Work_Factor_Seried.Robot_Work_ABCD_Cycle_Mean_List}" />
-                        <lvc:XamlLineSeries
-                            GeometryStroke="{lvc:SolidColorPaint Color=#C6A700,
-                                                                 StrokeWidth=2}"
-                            ScalesYAt="2"
-                            SeriesName="作业时间"
-                            Stroke="{lvc:SolidColorPaint Color=#C6A700,
-                                                         StrokeWidth=2}"
-                            Values="{Binding Work_Factor_Seried.Robot_Work_Time_List}" />
-                        <lvc:XamlLineSeries
-                            GeometryStroke="{lvc:SolidColorPaint Color=#C6A700,
-                                                                 StrokeWidth=2}"
-                            ScalesYAt="2"
-                            SeriesName="节拍外平均时间"
-                            Stroke="{lvc:SolidColorPaint Color=#C6A700,
-                                                         StrokeWidth=2}"
-                            Values="{Binding Work_Factor_Seried.Robot_Work_Non_Cycle_Time_Mean_List}" />
-                        <lvc:XamlLineSeries
-                            GeometryStroke="{lvc:SolidColorPaint Color=#C6A700,
-                                                                 StrokeWidth=2}"
-                            ScalesYAt="2"
-                            SeriesName="当天节拍外时间"
-                            Stroke="{lvc:SolidColorPaint Color=#C6A700,
-                                                         StrokeWidth=2}"
-                            Values="{Binding Work_Factor_Seried.Robot_Work_For_each_Cycle_Time_List}" />
-                    </lvc:SeriesCollection>
-                </lvc:CartesianChart.Series>
-                <lvc:CartesianChart.YAxes>
-                    <lvc:AxesCollection>
-                        <lvc:XamlAxis
-                            Padding="0,0,20,0"
-                            AxisName="Tens"
-                            LabelsPaint="{lvc:SolidColorPaint Color=#1976D2}"
-                            NamePaint="{lvc:SolidColorPaint Color=#1976D2}"
-                            SubticksPaint="{lvc:SolidColorPaint Color=#1976D2}"
-                            TicksPaint="{lvc:SolidColorPaint Color=#1976D2}" />
-                        <lvc:XamlAxis
-                            Padding="20,0,0,0"
-                            AxisName="Hundreds"
-                            LabelsPaint="{lvc:SolidColorPaint Color=#E53935}"
-                            NamePaint="{lvc:SolidColorPaint Color=#E53935}"
-                            Position="End"
-                            ShowSeparatorLines="False"
-                            SubticksPaint="{lvc:SolidColorPaint Color=#E53935}"
-                            TicksPaint="{lvc:SolidColorPaint Color=#E53935}" />
-                        <lvc:XamlAxis
-                            Padding="20,0,0,0"
-                            AxisName="Thousands"
-                            LabelsPaint="{lvc:SolidColorPaint Color=#C6A700}"
-                            NamePaint="{lvc:SolidColorPaint Color=#C6A700}"
-                            Position="End"
-                            ShowSeparatorLines="False"
-                            SubticksPaint="{lvc:SolidColorPaint Color=#C6A700}"
-                            TicksPaint="{lvc:SolidColorPaint Color=#C6A700}" />
-                    </lvc:AxesCollection>
-                </lvc:CartesianChart.YAxes>
-
-            </lvc:CartesianChart>
+                LegendTextPaint="{lvc:SolidColorPaint Color='#4B6587'}"
+                LegendTextSize="14"
+                Sections="{Binding Work_Factor_Seried.Mes_Data_View_List_Sections}"
+                Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
+                XAxes="{Binding Work_Factor_Seried.XAxes}"
+                YAxes="{Binding Work_Factor_Seried.YAxes}" />
 
 
 

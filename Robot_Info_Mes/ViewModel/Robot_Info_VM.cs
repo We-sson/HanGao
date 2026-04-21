@@ -58,7 +58,7 @@ namespace Robot_Info_Mes.ViewModel
                         Int_Server_Run_Time();
 
 
-                        Int_Server_KanBan_View_Data();
+                      //  Int_Server_KanBan_View_Data();
 
                         break;
                     case Window_Startup_Type_Enum.Client:
