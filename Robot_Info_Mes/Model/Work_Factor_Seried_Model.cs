@@ -1,4 +1,5 @@
-﻿using LiveChartsCore;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LiveChartsCore;
 using LiveChartsCore.Drawing;
 using LiveChartsCore.Kernel;
 using LiveChartsCore.Kernel.Sketches;
@@ -51,6 +52,7 @@ namespace Robot_Info_Mes.Model
                 {
                     new LineSeries<double>
                     {
+                        
                         IsVisible = true,
                         LineSmoothness = 1,
                         Name = "时间稼动率",
@@ -362,7 +364,6 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 性能稼动率合格线
         /// </summary>
-
         public double Work_Performance_Factor_Max { set; get; } = 0;
 
 
@@ -379,7 +380,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 设备时间稼动率列表（当月每天的时间稼动率，日期对齐）
         /// </summary>
-        public ObservableCollection<double> Work_Availability_Factor_List { set; get; } = [];
+        public ObservableCollection<double> Work_Availability_Factor_List { set; get; } = [1,1,1,1,1,1];
         /// <summary>
         /// 设备性能稼动率列表（当月每天的性能稼动率，日期对齐）
         /// </summary>
@@ -444,6 +445,7 @@ namespace Robot_Info_Mes.Model
 
 
         [XmlIgnore]
+   
         public ObservableCollection<ISeries> Mes_Data_View_List_Series { get; set; } = [];
 
 
@@ -459,7 +461,7 @@ namespace Robot_Info_Mes.Model
         {
         new Axis // the "units" and "tens" series will be scaled on this axis
         {
-            IsVisible = true,
+        
             Name = "达成率",
             NameTextSize = 16,
             MaxLimit=150,
@@ -480,7 +482,7 @@ namespace Robot_Info_Mes.Model
         },
                 new Axis // the "hundreds" series will be scaled on this axis
         {
-            IsVisible = true,
+         
             Name = "生产数量",
             NameTextSize = 16,
 
@@ -507,7 +509,7 @@ namespace Robot_Info_Mes.Model
         },
         new Axis // the "hundreds" series will be scaled on this axis
         {
-            IsVisible = true,
+          
             Name = "平均节拍",
             NameTextSize = 16,
             MaxLimit=100,
@@ -534,7 +536,7 @@ namespace Robot_Info_Mes.Model
         },
         new Axis // the "thousands" series will be scaled on this axis
         {
-            IsVisible = true,
+          
             Name = "作业时间",
             NameTextSize = 16,
             MaxLimit=20,
@@ -882,7 +884,7 @@ namespace Robot_Info_Mes.Model
                 }
 
             };
-            Mes_Data_View_List_Update.Start();
+            //Mes_Data_View_List_Update.Start();
 
 
 

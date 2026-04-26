@@ -604,7 +604,7 @@
             Grid.Row=" 3"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
-            d:ItemsSource="{d:SampleData ItemCount=5}"
+            d:ItemsSource="{d:SampleData ItemCount=2}"
             Background="Transparent"
             BorderThickness="0"
             ItemContainerStyle="{DynamicResource ListBoxItemStyle1}"
@@ -1434,7 +1434,6 @@
                             <lvc:CartesianChart
                                 Margin="10"
                                 Background="Transparent"
-                                EasingFunction="{x:Null}"
                                 LegendPosition="Left"
                                 LegendTextPaint="{lvc:SolidColorPaint Color='#4B6587'}"
                                 LegendTextSize="14"
