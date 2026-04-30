@@ -1431,42 +1431,91 @@
                                 YAxes="{Binding Work_Factor_Seried.YAxes}" />-->
 
 
-                            <lvc:CartesianChart
-                                Margin="10"
+                            <!--<lvc:CartesianChart
+                                Margin="12"
                                 Background="Transparent"
                                 LegendPosition="Left"
                                 LegendTextPaint="{lvc:SolidColorPaint Color='#4B6587'}"
-                                LegendTextSize="14"
-                                Sections="{Binding Work_Factor_Seried.Mes_Data_View_List_Sections}"
-                                Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
-                                XAxes="{Binding Work_Factor_Seried.XAxes}"
-                                YAxes="{Binding Work_Factor_Seried.YAxes}" />
+                                LegendTextSize="14">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:SeriesCollection>
+                                        <lvc:XamlLineSeries
+                                            Name="hao"
+                                            GeometrySize="0"
+                                            LineSmoothness="0"
+                                            Values="100" />
+                                        <lvc:XamlLineSeries
+                                            Name="hao1"
+                                            GeometrySize="0"
+                                            LineSmoothness="1"
+                                            Values="2" />
+                                    </lvc:SeriesCollection>
+
+
+
+                                </lvc:CartesianChart.Series>
+
+                            </lvc:CartesianChart>-->
+                            <lvc:CartesianChart SeriesSource="{Binding Work_Factor_Seried.Robot_Work_ABCD_Number_List}">
+                                <lvc:CartesianChart.SeriesTemplate>
+                                    <DataTemplate>
+                                        <lvc:XamlLineSeries Values="{Binding}" />
+                                    </DataTemplate>
+                                </lvc:CartesianChart.SeriesTemplate>
+                            </lvc:CartesianChart>
+
 
 
 
                         </Grid>
 
-
-
-
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
-            <i:Interaction.Triggers>
+            <!--<i:Interaction.Triggers>
 
                 <i:EventTrigger EventName="Loaded">
                     <i:InvokeCommandAction
                         Command="{Binding Server_Window_Scrolling_Comm}"
                         CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                         PassEventArgsToCommand="True" />
+
                 </i:EventTrigger>
-            </i:Interaction.Triggers>
+            </i:Interaction.Triggers>-->
 
 
         </ListBox>
 
+        <ItemsControl Grid.Row=" 3" ItemsSource="{Binding Mes_Server_Info_Data.Mes_Server_Model_List}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <StackPanel>
 
+                            <lvc:CartesianChart Height=" 300" SeriesSource="{Binding Work_Factor_Seried.Work_Availability_Factor_List}">
+                                <lvc:CartesianChart.SeriesTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <StackPanel>
+
+                                                <lvc:XamlLineSeries Values="{Binding}" />
+                                            </StackPanel>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </lvc:CartesianChart.SeriesTemplate>
+                            </lvc:CartesianChart>
+
+
+                            <TextBlock Text="{Binding Work_Factor_Seried.Work_Availability_Factor_List}" />
+
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
     </Grid>
 </Window>

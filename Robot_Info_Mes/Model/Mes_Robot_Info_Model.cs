@@ -743,7 +743,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 看板设备列表
         /// </summary>
-        public ObservableCollection<Mes_Server_Info_List_Model> Mes_Server_Model_List { set; get; } = new ObservableCollection<Mes_Server_Info_List_Model>();
+        public ObservableCollection<Mes_Server_Info_List_Model> Mes_Server_Model_List { set; get; } = [];
 
 
 

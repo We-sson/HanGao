@@ -2,6 +2,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LiveChartsCore.SkiaSharpView.WPF;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
@@ -47,6 +48,7 @@ namespace Robot_Info_Mes.ViewModel
                     case Window_Startup_Type_Enum.Server:
 
 
+                        Int_Server_Run_Time();
 
 
                         ///使用默认xml格式接受信息
@@ -55,7 +57,6 @@ namespace Robot_Info_Mes.ViewModel
                         ///看板端
                         Initialization_Mes_Sever_Start();
 
-                        Int_Server_Run_Time();
 
 
                         Int_Server_KanBan_View_Data();
@@ -245,7 +246,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
                     };
-                    _timer.Start();
+                   // _timer.Start();
 
 
 
@@ -272,6 +273,21 @@ namespace Robot_Info_Mes.ViewModel
             });
         }
 
+
+        /// <summary>
+        ///服务器启动轮播操作
+        /// </summary>
+        public ICommand Server_Window_ChartUpdate_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                CartesianChart? _Contol = Sm!.Source as CartesianChart;
+
+
+
+
+            });
+        }
 
 
 
@@ -407,6 +423,17 @@ namespace Robot_Info_Mes.ViewModel
                 item.Work_Factor_Seried.Mes_Date_Int();
 
             }
+
+            foreach (var _mes in Mes_Server_Info_Data.Mes_Server_Model_List)
+            {
+                foreach (var _Series in _mes.Work_Factor_Seried.Mes_Data_View_List_Series)
+                {
+
+                }
+
+
+            }
+
 
 
 
