@@ -23,9 +23,9 @@
         <Setter Property="HoverPushout" Value="0" />
         <Setter Property="InnerRadius" Value="28" />
         <Setter Property="IsHoverable" Value="False" />
-        <Setter Property="OuterRadiusOffset" Value=" 10" />
+        <Setter Property="OuterRadiusOffset" Value=" 0" />
         <Setter Property="RelativeInnerRadius" Value="0" />
-        <Setter Property="RelativeOuterRadius" Value="-18" />
+        <Setter Property="RelativeOuterRadius" Value="0" />
         <Setter Property="SeriesName" Value="%" />
         <Setter Property="ShowDataLabels" Value="True" />
     </Style>

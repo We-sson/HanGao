@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 
 
@@ -58,6 +60,60 @@ namespace Generic_Extension
         }
 
     }
+    /// <summary>
+    /// 提供用于在 ObservableCollection 中处理可空 double 值集合的扩展方法。
+    /// </summary>
+    /// <remarks>这些扩展方法简化了对 ObservableCollection<double?> 的常见操作，例如
+    /// 在特定位置插入值以及计算平均值时忽略 null 条目。所有方法都是
+    /// 静态的，并且旨在作为 ObservableCollection<double?> 实例的扩展方法使用。</remarks>
+    public static class ObservableCollectionExtensions
+    {
+        public static void AddDataAt(
+            this ObservableCollection<double?> collection,
+            int index,
+            double? value)
+        {
+            if (collection == null )
+                throw new ArgumentNullException(nameof(collection));
+
+            if (index < 0)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            if (value==0)
+            {
+                return;
+
+            }
+
+
+            while (collection.Count <= index)
+            {
+                collection.Add(null);
+            }
+
+           // 写入成功
+            collection[index] = value;
+        }
+
+
+        public static double? AverageOutNull(this ObservableCollection<double?> collection)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            var validValues = collection.Where(x => x.HasValue).Select(x => x.Value);
+
+            return validValues.Any()
+                ? validValues.Average()
+                : null;
+        }
+
+
+
+
+
+    }
+
 
 
     /// <summary>

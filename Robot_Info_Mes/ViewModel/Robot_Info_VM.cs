@@ -2,6 +2,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Generic_Extension;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
 using Roboto_Socket_Library;
@@ -66,6 +67,10 @@ namespace Robot_Info_Mes.ViewModel
                         ///接受机器人信息
 
                         Mes_Robot_Info_Model_Data = File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
+
+                        Work_Factor_Seried = File_Xml_Model.Read_Xml_File<Work_Factor_Seried_Model>();
+
+
                         Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
 
                         //  Initialization_Local_Network_Robot_Socket();
@@ -309,6 +314,9 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Robot_Debug_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI;
             Mes_Robot_Info_Model_Data.Robot_Work_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI;
             Mes_Robot_Info_Model_Data.Robot_Run_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_UI;
+            Mes_Robot_Info_Model_Data.Robot_Time_Outside.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Time_Outside.Timer_UI;
+
+
 
             Mes_Robot_Info_Model_Data.Robot_Run_Time.Start();
             Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Start();
@@ -340,7 +348,26 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
+
+
+                Work_Factor_Seried.Robot_Work_ABCD_Number_List.AddDataAt(DateTime.Now.Day - 1, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number);
+                Work_Factor_Seried.Work_Availability_Factor_List.AddDataAt(DateTime.Now.Day - 1, Work_Factor_Seried.Work_Availability_Factor.Value);
+                Work_Factor_Seried.Work_Performance_Factor_List.AddDataAt(DateTime.Now.Day - 1, Work_Factor_Seried.Work_Performance_Factor.Value);
+                Work_Factor_Seried.Robot_Work_Time_List.AddDataAt(DateTime.Now.Day - 1, Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours);
+                Work_Factor_Seried.Robot_Work_ABCD_Cycle_Mean_List.AddDataAt(DateTime.Now.Day - 1, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_Mean);
+
+
+
+
+
+
+                //保存文件
                 File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
+                File_Xml_Model.Save_Xml(Work_Factor_Seried);
+
+                
+
+
 
 
                 User_Log_Add("信息文件定时已到：" + File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time + "s，进行文件保存！");

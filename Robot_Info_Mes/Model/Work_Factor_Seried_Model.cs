@@ -8,6 +8,7 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.Painting.Effects;
 using PropertyChanged;
+
 using Roboto_Socket_Library.Model;
 using SkiaSharp;
 using System.Collections.ObjectModel;
@@ -55,7 +56,7 @@ namespace Robot_Info_Mes.Model
             },
            new LineSeries<double?>
            {
-                IsVisible = false,
+                IsVisible = true,
             LineSmoothness = 1,
             Name = "性能稼动率",
             DataPadding = new LvcPoint(15, 0),
@@ -72,7 +73,7 @@ namespace Robot_Info_Mes.Model
            },
            new LineSeries<double?>
            {
-             IsVisible = false,
+             IsVisible = true,
            LineSmoothness = 1,
             Name = "生产数量",
             DataPadding = new LvcPoint(15, 2),
@@ -90,7 +91,7 @@ namespace Robot_Info_Mes.Model
            },
         new LineSeries<double?>
         {
-                IsVisible = false,
+                IsVisible = true,
           LineSmoothness = 1,
             Name = "平均节拍",
             DataPadding = new LvcPoint(15, 0),
@@ -109,7 +110,7 @@ namespace Robot_Info_Mes.Model
 
         new LineSeries<double?>
         {
-                IsVisible = false,
+                IsVisible = true,
             Name = "作业时间",
             DataPadding = new LvcPoint(15, 0),
 
@@ -149,7 +150,7 @@ namespace Robot_Info_Mes.Model
             },
             new RectangularSection
                   {
-                    IsVisible = false,
+                    IsVisible = true,
             Label="合格线",
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
@@ -165,7 +166,7 @@ namespace Robot_Info_Mes.Model
             },
             new RectangularSection
                   {
-                    IsVisible = false,
+                    IsVisible = true,
             Label="合格线",
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
@@ -181,7 +182,7 @@ namespace Robot_Info_Mes.Model
             },
              new RectangularSection
                   {
-                     IsVisible = false,
+                     IsVisible = true,
             Label="合格线",
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
@@ -197,7 +198,7 @@ namespace Robot_Info_Mes.Model
             },
              new RectangularSection
                   {
-                     IsVisible = false,
+                     IsVisible = true,
             Label="合格线",
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
@@ -459,7 +460,8 @@ namespace Robot_Info_Mes.Model
             NameTextSize = 16,
             MaxLimit=31,
             MinLimit =-1,
-            MinStep =1,
+            MinStep =2,
+            ForceStepToMin=true,
             NamePaint =new SolidColorPaint(Line_蓝_主颜色),
             Labeler = (point)=>$"{point+1} 号",
             NamePadding = new LiveChartsCore.Drawing.Padding(0,20),

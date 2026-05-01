@@ -12,8 +12,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{Binding Window_Version, StringFormat={}设备运行状态读取上位机 V{0}}"
     MinWidth="1440"
-    MinHeight="900"
-    d:Height="900"
+    MinHeight="1000"
+    d:Height="1000"
     d:Width="1440"
     DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
     WindowState="Maximized"
@@ -25,7 +25,8 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
-            <RowDefinition Height=" 350" />
+            <RowDefinition Height=" 300" />
+            <RowDefinition Height=" auto" />
             <RowDefinition Height=" auto" />
         </Grid.RowDefinitions>
 
@@ -41,6 +42,16 @@
             Text="&#xe641;" />
         <TextBlock
             Grid.Row="0"
+            Grid.Column="0"
+            Margin="20,0,20,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontFamily="{DynamicResource 全局_图标库}"
+            FontSize="32"
+            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+            Text="&#xe641;" />
+        <TextBlock
+            Grid.Row="0"
             Grid.Column="1"
             Margin="100,0,20,0"
             HorizontalAlignment="Center"
@@ -48,12 +59,13 @@
             FontFamily="{DynamicResource 全局_文字_中文字体}"
             FontSize="32"
             Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-            Text="设备运行状态读取上位机" />
+            Text="设备OEE状态读取页面" />
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
+
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0" Margin="5">
 
@@ -543,277 +555,277 @@
                         Header="工艺设置"
                         Style="{DynamicResource Vision_TabItemStyle}">
 
+                        <ScrollViewer Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}">
+                            <StackPanel Margin="10" Orientation="Vertical">
+                                <Grid Height="35" Margin="0,8,0,8">
 
-                        <StackPanel Margin="10" Orientation="Vertical">
-                            <Grid Height="35" Margin="0,8,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width=" auto" />
+                                        <ColumnDefinition Width="50" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="标准节拍" />
+                                    <Slider
+                                        x:Name="Standard_Time_UI"
+                                        Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="100"
+                                        Minimum="0.1"
+                                        SmallChange="0.1"
+                                        Style="{DynamicResource Vision_SliderStyle}"
+                                        TickFrequency="0.1"
+                                        Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time}" />
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                    <ColumnDefinition Width="50" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="16"
-                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                    Text="标准节拍" />
-                                <Slider
-                                    x:Name="Standard_Time_UI"
-                                    Grid.Column=" 1"
-                                    Margin="5"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch"
-                                    IsSnapToTickEnabled="True"
-                                    Maximum="100"
-                                    Minimum="0.1"
-                                    SmallChange="0.1"
-                                    Style="{DynamicResource Vision_SliderStyle}"
-                                    TickFrequency="0.1"
-                                    Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time}" />
+                                    <TextBox
+                                        Grid.Column=" 2"
+                                        Width=" 200"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                        BorderThickness="2"
+                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                        FontSize="18"
+                                        Style="{DynamicResource Vision_TextBoxStyle}"
+                                        Text="{Binding ElementName=Standard_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}" />
 
-                                <TextBox
-                                    Grid.Column=" 2"
-                                    Width=" 200"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Background="Transparent"
-                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                    BorderThickness="2"
-                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                    FontSize="18"
-                                    Style="{DynamicResource Vision_TextBoxStyle}"
-                                    Text="{Binding ElementName=Standard_Time_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}" />
+                                    <TextBlock
+                                        Grid.Column=" 3"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="秒" />
 
-                                <TextBlock
-                                    Grid.Column=" 3"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="16"
-                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                    Text="秒" />
-
-                            </Grid>
-
-
-
-                            <Grid Height="35" Margin="0,8,0,8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                    <ColumnDefinition Width="50" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="16"
-                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                    Text="作业时间" />
-                                <Slider
-                                    x:Name="Work_Standard_Hours"
-                                    Grid.Column=" 1"
-                                    Margin="5"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch"
-                                    IsSnapToTickEnabled="True"
-                                    Maximum="12"
-                                    Minimum="0.1"
-                                    SmallChange="0.1"
-                                    Style="{DynamicResource Vision_SliderStyle}"
-                                    TickFrequency="0.1"
-                                    Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours}" />
-
-                                <TextBox
-                                    Grid.Column=" 2"
-                                    Width=" 200"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Background="Transparent"
-                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                    BorderThickness="2"
-                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                    FontSize="18"
-                                    Style="{DynamicResource Vision_TextBoxStyle}"
-                                    Text="{Binding ElementName=Work_Standard_Hours, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}" />
-                                <TextBlock
-                                    Grid.Column=" 3"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="16"
-                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                    Text="小时" />
-                            </Grid>
-
-                            <Grid Height="35" Margin="0,8,0,8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                    <ColumnDefinition Width="50" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="16"
-                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                    Text="标准产量" />
-                                <Slider
-                                    x:Name="Robot_Work_ABCD_Number_Max"
-                                    Grid.Column=" 1"
-                                    Margin="5"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch"
-                                    IsSnapToTickEnabled="True"
-                                    Maximum="2000"
-                                    Minimum="1"
-                                    SmallChange="1"
-                                    Style="{DynamicResource Vision_SliderStyle}"
-                                    TickFrequency="1"
-                                    Value="{Binding File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max}" />
-
-                                <TextBox
-                                    Grid.Column=" 2"
-                                    Width=" 200"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Background="Transparent"
-                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                    BorderThickness="2"
-                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                    FontSize="18"
-                                    Style="{DynamicResource Vision_TextBoxStyle}"
-                                    Text="{Binding ElementName=Robot_Work_ABCD_Number_Max, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
-                                <TextBlock
-                                    Grid.Column=" 3"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="16"
-                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                    Text="Psc" />
-                            </Grid>
-
-                            <Grid Height="35" Margin="0,8,0,8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                    <ColumnDefinition Width="50" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="16"
-                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                    Text="时间稼动" />
-                                <Slider
-                                    x:Name="Work_Availability_Factor_Max"
-                                    Grid.Column=" 1"
-                                    Margin="5"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch"
-                                    IsSnapToTickEnabled="True"
-                                    Maximum="100"
-                                    Minimum="0"
-                                    SmallChange="1"
-                                    Style="{DynamicResource Vision_SliderStyle}"
-                                    TickFrequency="1"
-                                    Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max}" />
-
-                                <TextBox
-                                    Grid.Column=" 2"
-                                    Width=" 200"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Background="Transparent"
-                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                    BorderThickness="2"
-                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                    FontSize="18"
-                                    Style="{DynamicResource Vision_TextBoxStyle}"
-                                    Text="{Binding ElementName=Work_Availability_Factor_Max, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
-                                <TextBlock
-                                    Grid.Column=" 3"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="16"
-                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                    Text="%" />
-                            </Grid>
-
-                            <Grid Height="35" Margin="0,8,0,8">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width=" auto" />
-                                    <ColumnDefinition Width="50" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="16"
-                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                    Text="性能稼动" />
-                                <Slider
-                                    x:Name="Work_Performance_Factor_Max"
-                                    Grid.Column=" 1"
-                                    Margin="5"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch"
-                                    IsSnapToTickEnabled="True"
-                                    Maximum="100"
-                                    Minimum="0"
-                                    SmallChange="1"
-                                    Style="{DynamicResource Vision_SliderStyle}"
-                                    TickFrequency="1"
-                                    Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max}" />
-
-                                <TextBox
-                                    Grid.Column=" 2"
-                                    Width=" 200"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Background="Transparent"
-                                    BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
-                                    BorderThickness="2"
-                                    FontFamily="{DynamicResource 全局_文字_数字字体}"
-                                    FontSize="18"
-                                    Style="{DynamicResource Vision_TextBoxStyle}"
-                                    Text="{Binding ElementName=Work_Performance_Factor_Max, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
-                                <TextBlock
-                                    Grid.Column=" 3"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="16"
-                                    Foreground="{DynamicResource 全局_按钮_黑颜色}"
-                                    Text="%" />
-                            </Grid>
+                                </Grid>
 
 
 
-                        </StackPanel>
+                                <Grid Height="35" Margin="0,8,0,8">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width=" auto" />
+                                        <ColumnDefinition Width="50" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="作业时间" />
+                                    <Slider
+                                        x:Name="Work_Standard_Hours"
+                                        Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="12"
+                                        Minimum="0.1"
+                                        SmallChange="0.1"
+                                        Style="{DynamicResource Vision_SliderStyle}"
+                                        TickFrequency="0.1"
+                                        Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours}" />
+
+                                    <TextBox
+                                        Grid.Column=" 2"
+                                        Width=" 200"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                        BorderThickness="2"
+                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                        FontSize="18"
+                                        Style="{DynamicResource Vision_TextBoxStyle}"
+                                        Text="{Binding ElementName=Work_Standard_Hours, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}" />
+                                    <TextBlock
+                                        Grid.Column=" 3"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="小时" />
+                                </Grid>
+
+                                <Grid Height="35" Margin="0,8,0,8">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width=" auto" />
+                                        <ColumnDefinition Width="50" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="标准产量" />
+                                    <Slider
+                                        x:Name="Robot_Work_ABCD_Number_Max"
+                                        Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="2000"
+                                        Minimum="1"
+                                        SmallChange="1"
+                                        Style="{DynamicResource Vision_SliderStyle}"
+                                        TickFrequency="1"
+                                        Value="{Binding File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max}" />
+
+                                    <TextBox
+                                        Grid.Column=" 2"
+                                        Width=" 200"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                        BorderThickness="2"
+                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                        FontSize="18"
+                                        Style="{DynamicResource Vision_TextBoxStyle}"
+                                        Text="{Binding ElementName=Robot_Work_ABCD_Number_Max, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
+                                    <TextBlock
+                                        Grid.Column=" 3"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="Psc" />
+                                </Grid>
+
+                                <Grid Height="35" Margin="0,8,0,8">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width=" auto" />
+                                        <ColumnDefinition Width="50" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="时间稼动" />
+                                    <Slider
+                                        x:Name="Work_Availability_Factor_Max"
+                                        Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="100"
+                                        Minimum="0"
+                                        SmallChange="1"
+                                        Style="{DynamicResource Vision_SliderStyle}"
+                                        TickFrequency="1"
+                                        Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max}" />
+
+                                    <TextBox
+                                        Grid.Column=" 2"
+                                        Width=" 200"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                        BorderThickness="2"
+                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                        FontSize="18"
+                                        Style="{DynamicResource Vision_TextBoxStyle}"
+                                        Text="{Binding ElementName=Work_Availability_Factor_Max, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
+                                    <TextBlock
+                                        Grid.Column=" 3"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="%" />
+                                </Grid>
+
+                                <Grid Height="35" Margin="0,8,0,8">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width=" auto" />
+                                        <ColumnDefinition Width="50" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="性能稼动" />
+                                    <Slider
+                                        x:Name="Work_Performance_Factor_Max"
+                                        Grid.Column=" 1"
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="100"
+                                        Minimum="0"
+                                        SmallChange="1"
+                                        Style="{DynamicResource Vision_SliderStyle}"
+                                        TickFrequency="1"
+                                        Value="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max}" />
+
+                                    <TextBox
+                                        Grid.Column=" 2"
+                                        Width=" 200"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                        BorderThickness="2"
+                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                        FontSize="18"
+                                        Style="{DynamicResource Vision_TextBoxStyle}"
+                                        Text="{Binding ElementName=Work_Performance_Factor_Max, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
+                                    <TextBlock
+                                        Grid.Column=" 3"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="%" />
+                                </Grid>
 
 
+
+                            </StackPanel>
+
+                        </ScrollViewer>
                     </TabItem>
 
                 </TabControl>
@@ -1127,17 +1139,17 @@
                         Text="节拍负荷率" />
                     <lvc:PieChart
                         Grid.Row="1"
-                        Width="100"
+                        Width=" 100"
+                        Height=" 100"
+                        Background="Transparent"
                         InitialRotation="-225"
                         MaxAngle="270"
-                        MaxValue="120"
+                        MaxValue="100"
                         MinValue="0"
-                        TooltipPosition="Center">
+                        TooltipPosition="Auto">
                         <lvc:PieChart.Series>
                             <lvc:SeriesCollection>
-                                <lvc:XamlGaugeSeries
-                                    GaugeValue="{Binding Work_Factor_Seried.Work_Cycle_Load_Factor.Value}"
-                                    Style="{StaticResource General_GaugeStyle}" />
+                                <lvc:XamlGaugeSeries GaugeValue="{Binding Work_Factor_Seried.Work_Cycle_Load_Factor.Value}" Style="{StaticResource General_GaugeStyle}" />
                                 <lvc:XamlGaugeBackgroundSeries Style="{StaticResource General_GaugeBackgroundStyle}" />
                             </lvc:SeriesCollection>
                         </lvc:PieChart.Series>
@@ -1531,17 +1543,17 @@
                         Text="时间稼动率" />
                     <lvc:PieChart
                         Grid.Row="1"
-                        Width="100"
+                        Width=" 100"
+                        Height=" 100"
+                        Background="Transparent"
                         InitialRotation="-225"
                         MaxAngle="270"
-                        MaxValue="120"
+                        MaxValue="100"
                         MinValue="0"
-                        TooltipPosition="Hidden">
+                        TooltipPosition="Auto">
                         <lvc:PieChart.Series>
                             <lvc:SeriesCollection>
-                                <lvc:XamlGaugeSeries
-                                    GaugeValue="{Binding Work_Factor_Seried.Work_Availability_Factor.Value}"
-                                    Style="{StaticResource General_GaugeStyle}" />
+                                <lvc:XamlGaugeSeries GaugeValue="{Binding Work_Factor_Seried.Work_Availability_Factor.Value}" Style="{StaticResource General_GaugeStyle}" />
                                 <lvc:XamlGaugeBackgroundSeries Style="{StaticResource General_GaugeBackgroundStyle}" />
                             </lvc:SeriesCollection>
                         </lvc:PieChart.Series>
@@ -1569,17 +1581,17 @@
                         Text="性能稼动率" />
                     <lvc:PieChart
                         Grid.Row="1"
-                        Width="100"
+                        Width=" 100"
+                        Height=" 100"
+                        Background="Transparent"
                         InitialRotation="-225"
                         MaxAngle="270"
-                        MaxValue="120"
+                        MaxValue="100"
                         MinValue="0"
-                        TooltipPosition="Hidden">
+                        TooltipPosition="Auto">
                         <lvc:PieChart.Series>
                             <lvc:SeriesCollection>
-                                <lvc:XamlGaugeSeries
-                                    GaugeValue="{Binding Work_Factor_Seried.Work_Performance_Factor.Value}"
-                                    Style="{StaticResource General_GaugeStyle}" />
+                                <lvc:XamlGaugeSeries GaugeValue="{Binding Work_Factor_Seried.Work_Performance_Factor.Value}" Style="{StaticResource General_GaugeStyle}" />
                                 <lvc:XamlGaugeBackgroundSeries Style="{StaticResource General_GaugeBackgroundStyle}" />
                             </lvc:SeriesCollection>
                         </lvc:PieChart.Series>
@@ -1621,7 +1633,48 @@
         </Grid>
 
 
+        <Grid
+            Grid.Row="3"
+            Grid.Column=" 0"
+            Height=" 280"
+            Margin="5,10,5,0"
+            CacheMode="BitmapCache"
+            ShowGridLines="False">
 
+
+
+
+            <Border
+                Background="{DynamicResource 全局_背景_白颜色}"
+                BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                BorderThickness="3"
+                CornerRadius="10" />
+
+            <lvc:CartesianChart
+                Margin="10"
+                Background="Transparent"
+                EasingFunction="{x:Null}"
+                LegendBackgroundPaint="{Binding Work_Factor_Seried.LedgendBackgroundPaint}"
+                LegendPosition="Left"
+                LegendTextPaint="{Binding Work_Factor_Seried.LegendTextPaint}"
+                LegendTextSize="18"
+                Sections="{Binding Work_Factor_Seried.Mes_Data_View_List_Sections}"
+                Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
+                TooltipTextPaint="{Binding Work_Factor_Seried.TooltipTextPaint}"
+                XAxes="{Binding Work_Factor_Seried.XAxes}"
+                YAxes="{Binding Work_Factor_Seried.YAxes}" />
+
+
+
+
+
+
+
+
+
+
+
+        </Grid>
 
 
     </Grid>

@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using Generic_Extension;
+using PropertyChanged;
 using Roboto_Socket_Library.Model;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -7,6 +8,7 @@ using System.Windows.Threading;
 using System.Xml.Serialization;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 using Timer = System.Timers.Timer;
+
 
 namespace Robot_Info_Mes.Model
 {
@@ -26,7 +28,7 @@ namespace Robot_Info_Mes.Model
 
 
         private Robot_Mes_Info_Data_Receive _Robot_Info_Data = new();
-       
+
         public Robot_Mes_Info_Data_Receive Robot_Info_Data
         {
             get { return _Robot_Info_Data; }
@@ -80,14 +82,14 @@ namespace Robot_Info_Mes.Model
 
 
                     ///节拍外时间记录
-                    if (Robot_Work_ABCD_Number!= 0 &&  !Robot_Time_Outside.Timer.IsRunning  && (!Robot_Work_A_Cycle.Timer.IsRunning && !Robot_Work_B_Cycle.Timer.IsRunning && !Robot_Work_C_Cycle.Timer.IsRunning && !Robot_Work_D_Cycle.Timer.IsRunning))
+                    if (Robot_Work_ABCD_Number != 0 && !Robot_Time_Outside.Timer.IsRunning && (!Robot_Work_A_Cycle.Timer.IsRunning && !Robot_Work_B_Cycle.Timer.IsRunning && !Robot_Work_C_Cycle.Timer.IsRunning && !Robot_Work_D_Cycle.Timer.IsRunning))
                     {
-                        Robot_Time_Outside.Stop ();
-                        Robot_Time_Outside.Reset ();
+                        Robot_Time_Outside.Stop();
+                        Robot_Time_Outside.Reset();
 
                     }
 
-     
+
 
 
 
@@ -113,7 +115,7 @@ namespace Robot_Info_Mes.Model
 
 
 
-                           // Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number + Robot_Work_CD_Number;
+                            // Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number + Robot_Work_CD_Number;
 
 
 
@@ -121,7 +123,7 @@ namespace Robot_Info_Mes.Model
                             break;
 
 
-                            //AC作业周期为一个产品,临时屏蔽
+                        //AC作业周期为一个产品,临时屏蔽
                         //case Robot_Process_Int_Enum.Spot_Surround_1:
 
 
@@ -130,7 +132,7 @@ namespace Robot_Info_Mes.Model
 
                         //    Robot_Work_AB_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_C_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_C_Cycle, ref Robot_Work_AB_Number);
 
-                         
+
 
 
                         //    Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number;
@@ -143,14 +145,14 @@ namespace Robot_Info_Mes.Model
 
 
 
-                            //A和C一个周期为一个产品
+                        //A和C一个周期为一个产品
                         case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1 or Robot_Process_Int_Enum.Panel_Welding_2 or Robot_Process_Int_Enum.LaserCutting_1 or Robot_Process_Int_Enum.Spot_Surround_1:
 
 
 
 
 
-                            Robot_Work_AB_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_B_State,ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, Robot_Work_A_Cycle, Robot_Work_B_Cycle, ref Robot_Work_AB_Number ,ref Robot_Work_AB_Cycle_Aborted, ref Robot_Work_AB_Last_State);
+                            Robot_Work_AB_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, Robot_Work_A_Cycle, Robot_Work_B_Cycle, ref Robot_Work_AB_Number, ref Robot_Work_AB_Cycle_Aborted, ref Robot_Work_AB_Last_State);
 
                             Robot_Work_CD_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, Robot_Work_C_Cycle, Robot_Work_D_Cycle, ref Robot_Work_CD_Number, ref Robot_Work_CD_Cycle_Aborted, ref Robot_Work_CD_Last_State);
 
@@ -177,11 +179,14 @@ namespace Robot_Info_Mes.Model
                     ///节拍外时间记录
                     if (Robot_Work_ABCD_Number != 0 && Robot_Time_Outside.Timer.IsRunning && (Robot_Work_A_Cycle.Timer.IsRunning || Robot_Work_B_Cycle.Timer.IsRunning || Robot_Work_C_Cycle.Timer.IsRunning || Robot_Work_D_Cycle.Timer.IsRunning))
                     {
+
                         Robot_Time_Outside.Stop();
-                        Robot_Robot_Time_Outside_List.Add(Robot_Time_Outside.Timer_Sec);
+                        Robot_Time_Outside.Time_Offset = TimeSpan.Zero;
+                        //Robot_Robot_Time_Outside_List.Add(Robot_Time_Outside.Timer_Sec);
+                        Robot_Robot_Time_Outside_List.AddDataAt(Robot_Work_ABCD_Number, Robot_Time_Outside.Timer_Sec);
 
                         ///平均数
-                        Robot_Robot_Time_Outside_List_Mean = Robot_Robot_Time_Outside_List.Average() ?? 0;
+                        Robot_Robot_Time_Outside_List_Mean = Robot_Robot_Time_Outside_List.AverageOutNull() ?? 0;
 
                     }
 
@@ -337,7 +342,7 @@ namespace Robot_Info_Mes.Model
                         break;
 
 
-                case Robot_Process_Int_Enum.Spot_Surround_1:
+                    case Robot_Process_Int_Enum.Spot_Surround_1:
 
 
                         _Image_Source = "/Resources/光华点焊围边焊接_1.jpg";
@@ -395,7 +400,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 机器人节拍外的时间、秒
         /// </summary>
-        public Time_Model Robot_Time_Outside { set; get;  } = new();
+        public Time_Model Robot_Time_Outside { set; get; } = new();
 
 
         /// <summary>
@@ -403,12 +408,15 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         public ObservableCollection<double?> Robot_Work_ABCD_Cycle_List { set; get; } = new();
 
-
-
         /// <summary>
         /// 节拍外时间集合
         /// </summary>
         public ObservableCollection<double?> Robot_Robot_Time_Outside_List { set; get; } = new();
+
+
+
+
+
 
 
 
@@ -434,8 +442,8 @@ namespace Robot_Info_Mes.Model
         private bool Robot_Work_C_Cycle_State = false;
         private bool Robot_Work_D_Cycle_State = false;
 
-       private  bool Robot_Work_AB_Cycle_Aborted = false;
-       private  bool Robot_Work_CD_Cycle_Aborted = false;
+        private bool Robot_Work_AB_Cycle_Aborted = false;
+        private bool Robot_Work_CD_Cycle_Aborted = false;
 
         private bool Robot_Work_AB_Last_State = false;
         private bool Robot_Work_CD_Last_State = false;
@@ -614,9 +622,15 @@ namespace Robot_Info_Mes.Model
                 _Robot_Work_AB_Number++;
                 _Robot_Work_B_Cycle_State = false;
                 _Robot_Work_A_Cycle_State = false;
-   
-                Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_AB_Cycle.TotalSeconds );
-                Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average()??0;
+
+
+
+                //Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_AB_Cycle.TotalSeconds );
+
+                Robot_Work_ABCD_Cycle_List.AddDataAt(Robot_Work_ABCD_Number+1, _Robot_Work_AB_Cycle.TotalSeconds);
+
+
+                Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.AverageOutNull() ?? 0;
 
 
 
@@ -658,8 +672,13 @@ namespace Robot_Info_Mes.Model
                 {
                     // 正常完成周期
                     _Robot_Work_A_Cycle.Stop();
-                    Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_A_Cycle.Timer_Sec);
-                    Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average()??0;
+                    //Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_A_Cycle.Timer_Sec);
+                    //Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average() ?? 0;
+                    Robot_Work_ABCD_Cycle_List.AddDataAt(Robot_Work_ABCD_Number+1, _Robot_Work_A_Cycle.Timer_Sec);
+                    Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.AverageOutNull() ?? 0;
+
+
+
                     _Robot_Work_AB_Number++;
                     _Robot_Work_A_Cycle_State = false;
                 }
@@ -699,6 +718,7 @@ namespace Robot_Info_Mes.Model
                 Robot_Work_Time.Timer_UI = TimeSpan.Zero;
                 Robot_Run_Time.Timer_UI = TimeSpan.Zero;
                 Robot_Work_ABCD_Number = 0;
+                Robot_Work_ABCD_Cycle_Mean = 0;
                 Robot_Work_ABCD_Cycle_List.Clear();
                 Robot_Robot_Time_Outside_List.Clear();
 
@@ -712,7 +732,7 @@ namespace Robot_Info_Mes.Model
 
         }
 
-        public void Robot_Data_Add_List(int _Cont, ref ObservableCollection<double?> _List) 
+        public void Robot_Data_Add_List(int _Cont, ref ObservableCollection<double?> _List)
         {
 
 
@@ -723,9 +743,9 @@ namespace Robot_Info_Mes.Model
 
 
             }
-        
-        
-        
+
+
+
         }
 
 
@@ -773,7 +793,7 @@ namespace Robot_Info_Mes.Model
 
         public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
 
-      
+
 
         public Work_Factor_Seried_Model Work_Factor_Seried { set; get; } = new Work_Factor_Seried_Model();
 
