@@ -328,6 +328,10 @@ namespace Robot_Info_Mes.Model
         [XmlIgnore]
         public double Work_Performance_Factor { set; get; } = 0;
 
+        [XmlIgnore]
+        public Func<ChartPoint, string> LabelFormatter { get; } =
+            point => $"{point.Coordinate.PrimaryValue}{point.Context.Series.Name}";
+
 
 
 
@@ -919,10 +923,6 @@ namespace Robot_Info_Mes.Model
             return Math.Round(double.IsNaN(_Work_Performance) ? 0 : (_Work_Performance <= 120 ? _Work_Performance : 120), 1);
 
 
-
-
-
-        }
 
 
         // 公共标签格式化器（所有样式复用）
