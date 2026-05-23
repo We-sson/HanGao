@@ -10,16 +10,14 @@
     xmlns:local="clr-namespace:Robot_Info_Mes"
     xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:paint="clr-namespace:LiveChartsCore.SkiaSharpView.Painting;assembly=LiveChartsCore.SkiaSharpView"
     Title="{Binding Window_Version, StringFormat={}设备运行状态读取上位机 V{0}}"
     MinWidth="1440"
     MinHeight="900"
-    d:Height="1080"
+    d:Height="900"
     d:Width="1440"
     DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
     WindowState="Maximized"
     mc:Ignorable="d">
-
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -28,7 +26,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height=" 350" />
-            <RowDefinition Height=" auto" />
             <RowDefinition Height=" auto" />
         </Grid.RowDefinitions>
 
@@ -1059,7 +1056,7 @@
                                         <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_Sec}" Value="0">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Work_Factor_Seried.Work_Cycle_Load_Factor}" Value="120">
+                                        <DataTrigger Binding="{Binding Work_Factor_Seried.Work_Cycle_Load_Factor.Value}" Value="120">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -1089,7 +1086,7 @@
                                         <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_Sec}" Value="0">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Work_Factor_Seried.Work_Cycle_Load_Factor}" Value="120">
+                                        <DataTrigger Binding="{Binding Work_Factor_Seried.Work_Cycle_Load_Factor.Value}" Value="120">
                                             <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -1128,28 +1125,23 @@
                         FontWeight="Bold"
                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                         Text="节拍负荷率" />
-
-
                     <lvc:PieChart
                         Grid.Row="1"
-                        Width=" 100"
-                        Height=" 100"
-                        Background="Transparent"
+                        Width="100"
                         InitialRotation="-225"
                         MaxAngle="270"
-                        MaxValue="100"
+                        MaxValue="120"
                         MinValue="0"
-                        TooltipPosition="Auto">
+                        TooltipPosition="Center">
                         <lvc:PieChart.Series>
                             <lvc:SeriesCollection>
-                                <lvc:XamlGaugeSeries GaugeValue="{Binding Work_Factor_Seried.Work_Cycle_Load_Factor}" Style="{StaticResource General_GaugeStyle}" />
+                                <lvc:XamlGaugeSeries
+                                    GaugeValue="{Binding Work_Factor_Seried.Work_Cycle_Load_Factor.Value}"
+                                    Style="{StaticResource General_GaugeStyle}" />
                                 <lvc:XamlGaugeBackgroundSeries Style="{StaticResource General_GaugeBackgroundStyle}" />
                             </lvc:SeriesCollection>
                         </lvc:PieChart.Series>
-
-
                     </lvc:PieChart>
-
 
                 </Grid>
 
@@ -1537,28 +1529,22 @@
                         FontWeight="Bold"
                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                         Text="时间稼动率" />
-
-
-
-
                     <lvc:PieChart
                         Grid.Row="1"
-                        Width=" 100"
-                        Height=" 100"
-                        Background="Transparent"
+                        Width="100"
                         InitialRotation="-225"
                         MaxAngle="270"
-                        MaxValue="100"
+                        MaxValue="120"
                         MinValue="0"
-                        TooltipPosition="Auto">
+                        TooltipPosition="Hidden">
                         <lvc:PieChart.Series>
                             <lvc:SeriesCollection>
-                                <lvc:XamlGaugeSeries GaugeValue="{Binding Work_Factor_Seried.Work_Availability_Factor}" Style="{StaticResource General_GaugeStyle}" />
+                                <lvc:XamlGaugeSeries
+                                    GaugeValue="{Binding Work_Factor_Seried.Work_Availability_Factor.Value}"
+                                    Style="{StaticResource General_GaugeStyle}" />
                                 <lvc:XamlGaugeBackgroundSeries Style="{StaticResource General_GaugeBackgroundStyle}" />
                             </lvc:SeriesCollection>
                         </lvc:PieChart.Series>
-
-
                     </lvc:PieChart>
 
 
@@ -1583,22 +1569,20 @@
                         Text="性能稼动率" />
                     <lvc:PieChart
                         Grid.Row="1"
-                        Width=" 100"
-                        Height=" 100"
-                        Background="Transparent"
+                        Width="100"
                         InitialRotation="-225"
                         MaxAngle="270"
-                        MaxValue="100"
+                        MaxValue="120"
                         MinValue="0"
-                        TooltipPosition="Auto">
+                        TooltipPosition="Hidden">
                         <lvc:PieChart.Series>
                             <lvc:SeriesCollection>
-                                <lvc:XamlGaugeSeries GaugeValue="{Binding Work_Factor_Seried.Work_Performance_Factor}" Style="{StaticResource General_GaugeStyle}" />
+                                <lvc:XamlGaugeSeries
+                                    GaugeValue="{Binding Work_Factor_Seried.Work_Performance_Factor.Value}"
+                                    Style="{StaticResource General_GaugeStyle}" />
                                 <lvc:XamlGaugeBackgroundSeries Style="{StaticResource General_GaugeBackgroundStyle}" />
                             </lvc:SeriesCollection>
                         </lvc:PieChart.Series>
-
-
                     </lvc:PieChart>
 
 
@@ -1636,35 +1620,7 @@
 
         </Grid>
 
-        <Grid Grid.Row=" 3" Height="280">
 
-            <ListView />
-
-
-
-
-            <!--<lvc:CartesianChart
-                Background="Transparent"
-                LegendPosition="Left"
-                LegendTextPaint="{lvc:SolidColorPaint Color='#4B6587'}"
-                LegendTextSize="14"  SeriesSource="{Binding Work_Factor_Seried.Mes_Data_View_List_Sections}"
-
-                Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
-                XAxes="{Binding Work_Factor_Seried.XAxes}"
-                YAxes="{Binding Work_Factor_Seried.YAxes}" />-->
-
-
-            <lvc:CartesianChart>
-                <lvc:CartesianChart.Series>
-                    <lvc:SeriesCollection>
-                        <lvc:XamlLineSeries Values="55555" />
-                    </lvc:SeriesCollection>
-                </lvc:CartesianChart.Series>
-            </lvc:CartesianChart>
-
-
-
-        </Grid>
 
 
 
