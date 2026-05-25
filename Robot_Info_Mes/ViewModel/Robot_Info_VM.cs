@@ -357,7 +357,10 @@ namespace Robot_Info_Mes.ViewModel
                 Work_Factor_Seried.Robot_Work_ABCD_Cycle_Mean_List.AddDataAt(DateTime.Now.Day - 1, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_Mean);
 
 
+                //更新图表数据
 
+                Work_Factor_Seried.Mes_Data_View_List_Series[5].Values = Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_List;
+                Work_Factor_Seried.Mes_Data_View_List_Series[6].Values = Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List;
 
 
 

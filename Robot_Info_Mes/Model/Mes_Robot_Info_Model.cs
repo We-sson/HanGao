@@ -183,6 +183,8 @@ namespace Robot_Info_Mes.Model
                         Robot_Time_Outside.Stop();
                         Robot_Time_Outside.Time_Offset = TimeSpan.Zero;
                         //Robot_Robot_Time_Outside_List.Add(Robot_Time_Outside.Timer_Sec);
+
+                        //节拍外时间
                         Robot_Robot_Time_Outside_List.AddDataAt(Robot_Work_ABCD_Number, Robot_Time_Outside.Timer_Sec);
 
                         ///平均数
@@ -403,14 +405,14 @@ namespace Robot_Info_Mes.Model
         public Time_Model Robot_Time_Outside { set; get; } = new();
 
 
-        /// <summary>
-        /// 节拍集合
-        /// </summary>
+        ///// <summary>
+        ///// 节拍集合
+        ///// </summary>
         public ObservableCollection<double?> Robot_Work_ABCD_Cycle_List { set; get; } = new();
 
-        /// <summary>
-        /// 节拍外时间集合
-        /// </summary>
+        ///// <summary>
+        ///// 节拍外时间集合
+        ///// </summary>
         public ObservableCollection<double?> Robot_Robot_Time_Outside_List { set; get; } = new();
 
 
@@ -625,11 +627,9 @@ namespace Robot_Info_Mes.Model
 
 
 
-                //Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_AB_Cycle.TotalSeconds );
+         
 
                 Robot_Work_ABCD_Cycle_List.AddDataAt(Robot_Work_ABCD_Number+1, _Robot_Work_AB_Cycle.TotalSeconds);
-
-
                 Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.AverageOutNull() ?? 0;
 
 
