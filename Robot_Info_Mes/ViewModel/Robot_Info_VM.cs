@@ -324,6 +324,8 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
+            //加载数据图表
+            Work_Factor_Seried.Mes_Data_View_List_Series[5].Values = Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List;
 
 
 
@@ -359,8 +361,8 @@ namespace Robot_Info_Mes.ViewModel
 
                 //更新图表数据
 
-                Work_Factor_Seried.Mes_Data_View_List_Series[5].Values = Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_List;
-                Work_Factor_Seried.Mes_Data_View_List_Series[6].Values = Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List;
+                Work_Factor_Seried.Mes_Data_View_List_Series[5].Values = Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List;
+      
 
 
 

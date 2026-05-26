@@ -7,6 +7,7 @@ using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.Painting.Effects;
+using LiveChartsCore.SkiaSharpView.WPF;
 using PropertyChanged;
 
 using Roboto_Socket_Library.Model;
@@ -112,7 +113,7 @@ namespace Robot_Info_Mes.Model
         {
                 IsVisible = false,
             Name = "作业时间",
-            DataPadding = new LvcPoint(15, 0),
+            DataPadding = new LvcPoint(2,2),
 
             Values = Robot_Work_Time_List,
             Stroke = new SolidColorPaint(Line_黑色_配颜色, 2),
@@ -125,91 +126,26 @@ namespace Robot_Info_Mes.Model
             Fill = null,
             ScalesYAt = 3 // it will be scaled at the YAxes[1] instance 
         },
-                     new ColumnSeries<double?>
+
+                new LineSeries <double?>
         {
-                IsVisible = true,
-            Name = "节拍时间",
-            DataPadding = new LvcPoint(15, 0),
-
-            Values = Robot_Work_ABCD_Cycle_List,
-            Stroke = new SolidColorPaint(Line_棕色_配颜色, 2),
-
-            DataLabelsSize = 14,
-            DataLabelsPaint=new SolidColorPaint(Line_棕色_配颜色),
-            DataLabelsPosition= DataLabelsPosition.Top,
-               DataLabelsFormatter = _P =>
-{
-     if (_P.Context.Series is not ColumnSeries<double?> series ||
-        series.Values is not IEnumerable<double?> values)
-    {
-        return string.Empty;
-    }
-
-    var validItems =values
-        .Select((value, index) => new { Value = value, Index = index })
-        .Where(x => x.Value.HasValue)
-        .ToList();
-
-    if (validItems.Count == 0)
-        return string.Empty;
-
-    var maxItem = validItems.MaxBy(x => x.Value);
-    var minItem = validItems.MinBy(x => x.Value);
-    var lastItem = validItems.Last();
-
-    return _P.Index == maxItem!.Index ||
-           _P.Index == minItem!.Index ||
-           _P.Index == lastItem.Index
-        ? $"{_P.Coordinate.PrimaryValue:F1}秒"
-        : string.Empty;
-},
-            Fill = new SolidColorPaint(Line_棕色_配颜色, 2),
-            ScalesYAt = 2, // it will be scaled at the YAxes[1] instance 
-            ScalesXAt = 1 // it will be scaled at the YAxes[1] instance 
-        },
-                new ColumnSeries<double?>
-        {
-                IsVisible = true,
+             IsVisible = true,
             Name = "节拍外时间",
-            DataPadding = new LvcPoint(15, 0),
-
+            DataPadding = new LvcPoint(2, 2),
+            GeometrySize = 8,
+            GeometryStroke = new SolidColorPaint(Line_浅浅绿_配颜色, 2),
             Values = Robot_Robot_Time_Outside_List,
             Stroke = new SolidColorPaint(Line_浅浅绿_配颜色, 2),
-
-            DataLabelsSize = 14,
+             Fill = null,
+             DataLabelsSize = 12,
             DataLabelsPaint=new SolidColorPaint(Line_浅浅绿_配颜色),
             DataLabelsPosition= DataLabelsPosition.Top,
-         DataLabelsFormatter = _P =>
-{
-       if (_P.Context.Series is not ColumnSeries<double?> series ||
-        series.Values is not IEnumerable<double?> values)
-    {
-        return string.Empty;
-    }
-
-    var validItems = values
-        .Select((value, index) => new { Value = value, Index = index })
-        .Where(x => x.Value.HasValue)
-        .ToList();
-
-    if (validItems.Count == 0)
-        return string.Empty;
-
-    var maxItem = validItems.MaxBy(x => x.Value);
-    var minItem = validItems.MinBy(x => x.Value);
-    var lastItem = validItems.Last();
-
-    return _P.Index == maxItem!.Index ||
-           _P.Index == minItem!.Index ||
-           _P.Index == lastItem.Index
-        ? $"{_P.Coordinate.PrimaryValue:F1}秒"
-        : string.Empty;
-},
-            Fill = new SolidColorPaint(Line_浅浅绿_配颜色, 2),
+            DataLabelsFormatter=(_P)=>$"{_P.Coordinate.PrimaryValue:F0}",
+      
             ScalesYAt = 2, // it will be scaled at the YAxes[1] instance 
             ScalesXAt = 1 // it will be scaled at the YAxes[1] instance 
         },
-
+                
             };
 
             Mes_Data_View_List_Sections = new ObservableCollection<RectangularSection>
@@ -485,7 +421,7 @@ namespace Robot_Info_Mes.Model
             IsVisible = true,
             Name = "平均节拍",
             NameTextSize = 16,
-
+            MinZoomDelta = 100,
             MinLimit=0,
             MinStep =1,
             NamePaint =new SolidColorPaint(Line_浅绿_配颜色),
@@ -531,6 +467,7 @@ namespace Robot_Info_Mes.Model
 
             MinLimit =-1,
             MinStep =2,
+     
             ForceStepToMin=true,
             NamePaint =new SolidColorPaint(Line_蓝_主颜色),
             Labeler = (point)=>$"{point+1}号",
@@ -550,7 +487,7 @@ namespace Robot_Info_Mes.Model
             //数量列表
             IsVisible  =true,
             NameTextSize = 16,
-
+   
             MinLimit =-1,
             MinStep =2,
             ForceStepToMin=false,
