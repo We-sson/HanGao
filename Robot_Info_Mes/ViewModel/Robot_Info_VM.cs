@@ -80,7 +80,7 @@ namespace Robot_Info_Mes.ViewModel
 
                         Int_Run_TIme();
 
-
+                        Work_Factor_Seried.Mes_Data_View_Int();
                         User_Log_Add("已读取本机设备信息文件！" + File_Xml_Model.GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
                         User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
 
@@ -326,7 +326,25 @@ namespace Robot_Info_Mes.ViewModel
 
             //加载数据图表
             Work_Factor_Seried.Mes_Data_View_List_Series[5].Values = Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[5].Yi = Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List_Mean;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[5].Yj = Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List_Mean;
 
+            ///读取工艺合格线
+            Work_Factor_Seried.Work_Availability_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[0].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[0].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max;
+            Work_Factor_Seried.Work_Performance_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[1].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[1].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max;
+            Work_Factor_Seried.Robot_Work_ABCD_Number_Max = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[2].Yi = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[2].Yj = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max;
+            Work_Factor_Seried.Work_Standard_Time_Max = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[3].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[3].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time;
+            Work_Factor_Seried.Robot_Work_Time_Max = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[4].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[4].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours;
 
 
             //Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.AutoReset = true;
@@ -362,7 +380,7 @@ namespace Robot_Info_Mes.ViewModel
                 //更新图表数据
 
                 Work_Factor_Seried.Mes_Data_View_List_Series[5].Values = Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List;
-      
+
 
 
 
@@ -370,7 +388,7 @@ namespace Robot_Info_Mes.ViewModel
                 File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
                 File_Xml_Model.Save_Xml(Work_Factor_Seried);
 
-                
+
 
 
 
@@ -751,6 +769,41 @@ namespace Robot_Info_Mes.ViewModel
 
             });
         }
+
+
+        /// <summary>
+        ///服务器启动停止按钮
+        /// </summary>
+        public ICommand Number_Pallets_Clear_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                Button? _Contol = Sm!.Source as Button;
+                try
+                {
+
+
+                    Mes_Robot_Info_Model_Data.Work_Number_Pallets = 0;
+
+
+                    User_Log_Add("栈板数量已清零！");
+
+
+
+
+                }
+                catch (Exception _e)
+                {
+
+                    User_Log_Add("保存设置参数失败！原因：" + _e.Message, MessageBoxImage.Error);
+
+                }
+
+
+
+            });
+        }
+
 
 
         /// <summary>

@@ -18,6 +18,9 @@
     DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
     WindowState="Maximized"
     mc:Ignorable="d">
+    <Window.Resources>
+        <Enum_Converter:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+    </Window.Resources>
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -930,8 +933,36 @@
                 ItemWidth="auto"
                 Orientation="Horizontal">
 
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=" *" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.Row=" 0"
+                        Width=" 200"
+                        Margin="10,10,5,10"
+                        CornerRadius=" 10 ">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding Mes_Robot_Info_Model_Data.Image_Source}" Stretch="UniformToFill" />
+                        </Border.Background>
 
-                <Border
+                    </Border>
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="0,0,0,5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int, Converter={StaticResource EnumDescriptionConverter}}" />
+
+
+                </Grid>
+                <!--<Border
                     Width=" 200"
                     Margin="10,10,5,10"
                     CornerRadius=" 10 "
@@ -940,7 +971,7 @@
                         <ImageBrush ImageSource="{Binding Mes_Robot_Info_Model_Data.Image_Source}" Stretch="UniformToFill" />
                     </Border.Background>
 
-                </Border>
+                </Border>-->
 
 
                 <Grid
@@ -1259,7 +1290,7 @@
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                                         FontSize="18"
                                         Foreground="{DynamicResource 全局_按钮_白颜色}"
-                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number, FallbackValue=....}" />
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Work_Number_Pallets, FallbackValue=....}" />
 
 
                                     <Button
@@ -1279,7 +1310,7 @@
 
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction
-                                                    Command="{Binding Save_Date_File_Comm}"
+                                                    Command="{Binding Number_Pallets_Clear_Comm}"
                                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                     PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
@@ -1509,7 +1540,7 @@
                         FontSize="19"
                         FontWeight="Bold"
                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                        Text="设备运行状态" />
+                        Text="设备运行时间" />
 
 
 
@@ -1676,9 +1707,6 @@
                 </Grid>
 
 
-
-
-
             </WrapPanel>
 
             <Border
@@ -1737,8 +1765,7 @@
                 Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
                 TooltipTextPaint="{Binding Work_Factor_Seried.TooltipTextPaint}"
                 XAxes="{Binding Work_Factor_Seried.XAxes}"
-                YAxes="{Binding Work_Factor_Seried.YAxes}"
-                ZoomMode="X" />
+                YAxes="{Binding Work_Factor_Seried.YAxes}" />
 
 
 

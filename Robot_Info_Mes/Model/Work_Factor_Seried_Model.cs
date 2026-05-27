@@ -7,7 +7,6 @@ using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.Painting.Effects;
-using LiveChartsCore.SkiaSharpView.WPF;
 using PropertyChanged;
 
 using Roboto_Socket_Library.Model;
@@ -38,10 +37,10 @@ namespace Robot_Info_Mes.Model
             {
              new LineSeries<double?>
             {
-             IsVisible = false  ,
+             IsVisible = true  ,
             LineSmoothness = 1,
             Name = "时间稼动率",
-            DataPadding = new LvcPoint(15, 0),
+            DataPadding = new LvcPoint(2, 2),
             Values =Work_Availability_Factor_List,
             Stroke = new SolidColorPaint(Line_蓝_主颜色,2),
             GeometrySize = 10,
@@ -60,7 +59,7 @@ namespace Robot_Info_Mes.Model
                 IsVisible = false,
             LineSmoothness = 1,
             Name = "性能稼动率",
-            DataPadding = new LvcPoint(15, 0),
+            DataPadding = new LvcPoint(2, 2),
             Values =Work_Performance_Factor_List,
             Stroke = new SolidColorPaint(Line_绿色_配颜色,2),
             GeometrySize = 10,
@@ -77,7 +76,7 @@ namespace Robot_Info_Mes.Model
              IsVisible = false,
            LineSmoothness = 1,
             Name = "生产数量",
-            DataPadding = new LvcPoint(15, 2),
+            DataPadding = new LvcPoint(2, 2),
 
             Values =Robot_Work_ABCD_Number_List,
             Stroke = new SolidColorPaint(Line_棕红_配颜色, 2),
@@ -95,7 +94,7 @@ namespace Robot_Info_Mes.Model
                 IsVisible = false,
           LineSmoothness = 1,
             Name = "平均节拍",
-            DataPadding = new LvcPoint(15, 0),
+            DataPadding = new LvcPoint(2, 2),
 
             Values =Robot_Work_ABCD_Cycle_Mean_List,
             Stroke = new SolidColorPaint(Line_浅绿_配颜色, 2),
@@ -129,23 +128,23 @@ namespace Robot_Info_Mes.Model
 
                 new LineSeries <double?>
         {
-             IsVisible = true,
+             IsVisible = false,
             Name = "节拍外时间",
             DataPadding = new LvcPoint(2, 2),
             GeometrySize = 8,
-            GeometryStroke = new SolidColorPaint(Line_浅浅绿_配颜色, 2),
+            GeometryStroke = new SolidColorPaint(Line_深蓝_配颜色, 2),
             Values = Robot_Robot_Time_Outside_List,
-            Stroke = new SolidColorPaint(Line_浅浅绿_配颜色, 2),
+            Stroke = new SolidColorPaint(Line_深蓝_配颜色, 2),
              Fill = null,
              DataLabelsSize = 12,
-            DataLabelsPaint=new SolidColorPaint(Line_浅浅绿_配颜色),
+            DataLabelsPaint=new SolidColorPaint(Line_深蓝_配颜色),
             DataLabelsPosition= DataLabelsPosition.Top,
             DataLabelsFormatter=(_P)=>$"{_P.Coordinate.PrimaryValue:F0}",
-      
-            ScalesYAt = 2, // it will be scaled at the YAxes[1] instance 
-            ScalesXAt = 1 // it will be scaled at the YAxes[1] instance 
+            ScalesXAt=1,
+           ScalesYAt = 4
+
         },
-                
+
             };
 
             Mes_Data_View_List_Sections = new ObservableCollection<RectangularSection>
@@ -169,7 +168,7 @@ namespace Robot_Info_Mes.Model
             },
             new RectangularSection
                   {
-                    IsVisible = true,
+                    IsVisible = false,
             Label="合格线",
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
@@ -185,7 +184,7 @@ namespace Robot_Info_Mes.Model
             },
             new RectangularSection
                   {
-                    IsVisible = true,
+                    IsVisible = false,
             Label="合格线",
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
@@ -201,7 +200,7 @@ namespace Robot_Info_Mes.Model
             },
              new RectangularSection
                   {
-                     IsVisible = true,
+                     IsVisible = false,
             Label="合格线",
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
@@ -217,7 +216,7 @@ namespace Robot_Info_Mes.Model
             },
              new RectangularSection
                   {
-                     IsVisible = true,
+                     IsVisible = false,
             Label="合格线",
             LabelSize = 15,
             LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
@@ -231,7 +230,22 @@ namespace Robot_Info_Mes.Model
                 PathEffect = new DashEffect(new float[] {10, 20 })
             }  , ScalesXAt = 0, ScalesYAt= 3,
             },
-
+                          new RectangularSection
+                  {
+                     IsVisible = false,
+            Label="平均线",
+            LabelSize = 15,
+            LabelPaint=new SolidColorPaint(Line_红色色_配颜色),
+            ZIndex = 0,
+            Yi = 0,
+            Yj = 0,
+            Stroke = new SolidColorPaint
+            {
+                Color = Line_红色色_配颜色,
+                StrokeThickness = 2,
+                PathEffect = new DashEffect(new float[] {10, 20 })
+            }  , ScalesXAt = 1, ScalesYAt= 4,
+            },
             };
 
 
@@ -259,7 +273,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 看板列表循环播放时间
         /// </summary>
-        public double KanBan_List_Cycle_View_Time { set; get; } = 2;
+        public double KanBan_List_Cycle_View_Time { set; get; } = 10;
 
 
 
@@ -326,17 +340,6 @@ namespace Robot_Info_Mes.Model
         public double Work_Performance_Factor_Max { set; get; } = 0;
 
 
-        /// <summary>
-        /// 机器人循环平均节拍
-        /// </summary>
-        //[XmlIgnore]
-        //public ObservableValue Robot_Work_ABCD_Cycle_Mean { set; get; } = new ObservableValue { Value = 0 };
-
-
-
-
-
-
 
         public ObservableCollection<double?> Robot_Work_ABCD_Number_List { set; get; } = new();
         public ObservableCollection<double?> Work_Availability_Factor_List { set; get; } = new();
@@ -362,6 +365,7 @@ namespace Robot_Info_Mes.Model
 
 
         private static readonly SKColor Line_蓝_主颜色 = new(75, 101, 135);
+        private static readonly SKColor Line_灰_配颜色 = new(221, 221, 221);
         private static readonly SKColor Line_深蓝_配颜色 = new(62, 71, 86);
         private static readonly SKColor Line_浅绿_配颜色 = new(38, 138, 131);
         private static readonly SKColor Line_浅浅绿_配颜色 = new(155, 182, 179);
@@ -382,12 +386,14 @@ namespace Robot_Info_Mes.Model
         {
         new Axis // the "units" and "tens" series will be scaled on this axis
         {
-            IsVisible = false,
+            IsVisible = true,
             Name = "达成率",
             NameTextSize = 16,
-            MaxLimit=150,
+           
             MinLimit =0,
-            MinStep =0.1,
+            MinStep =2,
+            SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色,2),
+
             NamePaint =new SolidColorPaint(Line_蓝_主颜色),
             Labeler = (point)=>$"{point} %",
             NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
@@ -405,11 +411,11 @@ namespace Robot_Info_Mes.Model
             NameTextSize = 16,
 
             MinLimit=0,
-            MinStep =1,
+            MinStep =2,
             NamePaint =new SolidColorPaint(Line_棕红_配颜色),
             Labeler = (point)=>$"{point} Psc",
-
-            LabelsPaint =new SolidColorPaint(Line_棕红_配颜色),
+            SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色,2),
+             LabelsPaint =new SolidColorPaint(Line_棕红_配颜色),
             NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
             Padding =  new LiveChartsCore.Drawing.Padding(0, 0, 20, 0),
             TextSize = 16,
@@ -418,12 +424,14 @@ namespace Robot_Info_Mes.Model
         },
         new Axis // the "hundreds" series will be scaled on this axis
         {
-            IsVisible = true,
+            IsVisible = false,
             Name = "平均节拍",
             NameTextSize = 16,
-            MinZoomDelta = 100,
+
             MinLimit=0,
-            MinStep =1,
+            MinStep =2,
+            SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色, 2),
+
             NamePaint =new SolidColorPaint(Line_浅绿_配颜色),
             Labeler = (point)=>$"{point} 秒",
             LabelsPaint =new SolidColorPaint(Line_浅绿_配颜色),
@@ -438,11 +446,13 @@ namespace Robot_Info_Mes.Model
             IsVisible = false,
             Name = "作业时间",
             NameTextSize = 16,
-            MaxLimit=20,
+
             MinLimit=0,
             MinStep =0.1,
+            SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色, 2),
+
             NamePaint =new SolidColorPaint(Line_黑色_配颜色),
-            Labeler = (point)=>$"{point.ToString()} 小时",
+            Labeler = (point)=>$"{point.ToString("F1")} 小时",
             LabelsPaint =new SolidColorPaint(Line_黑色_配颜色),
             NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
             Padding =  new LiveChartsCore.Drawing.Padding(0, 0, 20, 0),
@@ -450,7 +460,26 @@ namespace Robot_Info_Mes.Model
 
             Position = AxisPosition.Start
 
-        }
+        },
+           new Axis // the "hundreds" series will be scaled on this axis
+        {
+            IsVisible = false,
+            Name = "节拍外时间",
+            NameTextSize = 16,
+
+            MinLimit=0,
+            MinStep =1,
+            SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色,2),
+
+            NamePaint =new SolidColorPaint(Line_深蓝_配颜色),
+            Labeler = (point)=>$"{point} 秒",
+            LabelsPaint =new SolidColorPaint(Line_深蓝_配颜色),
+            NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
+            Padding =  new LiveChartsCore.Drawing.Padding(0, 0, 20, 0),
+            TextSize = 16,
+
+            Position =AxisPosition.Start
+        },
     };
 
         [XmlIgnore]
@@ -462,12 +491,12 @@ namespace Robot_Info_Mes.Model
         {
 
             //日期列表
-            IsVisible  =false,
+            IsVisible  =true,
             NameTextSize = 16,
 
             MinLimit =-1,
             MinStep =2,
-     
+            MaxLimit =31,
             ForceStepToMin=true,
             NamePaint =new SolidColorPaint(Line_蓝_主颜色),
             Labeler = (point)=>$"{point+1}号",
@@ -485,9 +514,9 @@ namespace Robot_Info_Mes.Model
         {
 
             //数量列表
-            IsVisible  =true,
+            IsVisible  =false,
             NameTextSize = 16,
-   
+
             MinLimit =-1,
             MinStep =2,
             ForceStepToMin=false,
@@ -729,6 +758,10 @@ namespace Robot_Info_Mes.Model
                     YAxes[Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].ScalesYAt].IsVisible = true;
 
 
+                    XAxes[0].IsVisible = Mes_Data_View_List_Update_Num != 5;
+                    XAxes[1].IsVisible = Mes_Data_View_List_Update_Num == 5;
+
+
 
                     //Mes_Data_View_List_Update_Num++;
 
@@ -760,8 +793,7 @@ namespace Robot_Info_Mes.Model
             Mes_Data_List_Conut(Robot_Work_Time_List, _Day_Number);
             Mes_Data_List_Conut(Robot_Work_ABCD_Cycle_Mean_List, _Day_Number);
 
-
-        }
+                    }
 
 
         public void Mes_Data_Clear()
@@ -859,7 +891,7 @@ namespace Robot_Info_Mes.Model
                 for (int i = _Count; i < _Month; i++)
                 {
 
-                    _List.Add(0);
+                    _List.Add(null);
 
                 }
 
@@ -881,7 +913,7 @@ namespace Robot_Info_Mes.Model
 
             for (int i = 0; i < _List.Count; i++)
             {
-                _List[i] = 0;
+                _List[i] = null;
             }
 
 

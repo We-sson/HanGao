@@ -171,8 +171,9 @@ namespace Robot_Info_Mes.Model
 
                     }
 
+                    ///生产数量
                     Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number + Robot_Work_CD_Number;
-
+                    Work_Number_Pallets= Work_Number_Pallets+Robot_Work_AB_Number + Robot_Work_CD_Number;
 
 
 
@@ -185,10 +186,10 @@ namespace Robot_Info_Mes.Model
                         //Robot_Robot_Time_Outside_List.Add(Robot_Time_Outside.Timer_Sec);
 
                         //节拍外时间
-                        Robot_Robot_Time_Outside_List.AddDataAt(Robot_Work_ABCD_Number, Robot_Time_Outside.Timer_Sec);
+                        Robot_Robot_Time_Outside_List.AddDataAt(Robot_Work_ABCD_Number, Math.Round(Robot_Time_Outside.Timer_Sec,2));
 
                         ///平均数
-                        Robot_Robot_Time_Outside_List_Mean = Robot_Robot_Time_Outside_List.AverageOutNull() ?? 0;
+                        Robot_Robot_Time_Outside_List_Mean =Math.Round( Robot_Robot_Time_Outside_List.AverageOutNull() ?? 0,2);
 
                     }
 
@@ -419,7 +420,7 @@ namespace Robot_Info_Mes.Model
 
 
 
-
+        
 
 
 
@@ -464,6 +465,11 @@ namespace Robot_Info_Mes.Model
         public int Robot_Work_ABCD_Number { set; get; } = 0;
 
 
+
+        /// <summary>
+        /// 作业数量栈板数量
+        /// </summary>
+        public int Work_Number_Pallets { set; get; } = 0;
 
 
 
@@ -630,7 +636,7 @@ namespace Robot_Info_Mes.Model
          
 
                 Robot_Work_ABCD_Cycle_List.AddDataAt(Robot_Work_ABCD_Number+1, _Robot_Work_AB_Cycle.TotalSeconds);
-                Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.AverageOutNull() ?? 0;
+                Robot_Work_ABCD_Cycle_Mean =Math.Round( Robot_Work_ABCD_Cycle_List.AverageOutNull() ?? 0,2);
 
 
 
@@ -675,7 +681,7 @@ namespace Robot_Info_Mes.Model
                     //Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_A_Cycle.Timer_Sec);
                     //Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average() ?? 0;
                     Robot_Work_ABCD_Cycle_List.AddDataAt(Robot_Work_ABCD_Number+1, _Robot_Work_A_Cycle.Timer_Sec);
-                    Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.AverageOutNull() ?? 0;
+                    Robot_Work_ABCD_Cycle_Mean = Math.Round(Robot_Work_ABCD_Cycle_List.AverageOutNull() ?? 0,2);
 
 
 
@@ -719,6 +725,7 @@ namespace Robot_Info_Mes.Model
                 Robot_Run_Time.Timer_UI = TimeSpan.Zero;
                 Robot_Work_ABCD_Number = 0;
                 Robot_Work_ABCD_Cycle_Mean = 0;
+                Work_Number_Pallets = 0;
                 Robot_Work_ABCD_Cycle_List.Clear();
                 Robot_Robot_Time_Outside_List.Clear();
 
