@@ -28,7 +28,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
-            <RowDefinition Height=" 300" />
+            <RowDefinition Height=" auto" />
             <RowDefinition Height=" auto" />
             <RowDefinition Height=" auto" />
         </Grid.RowDefinitions>
@@ -56,7 +56,7 @@
         <TextBlock
             Grid.Row="0"
             Grid.Column="1"
-            Margin="100,0,20,0"
+            Margin="0,0,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -64,13 +64,31 @@
             Foreground="{DynamicResource 全局_按钮_蓝颜色}"
             Text="设备OEE状态读取页面" />
 
-        <Grid Grid.Row="1">
+        <Grid
+            x:Name="Set_UI"
+            Grid.Row="1"
+            Background="Transparent">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Height" Value="48" />
+                    <Setter Property="Opacity" Value="0.3" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=Set_UI}" Value="true">
+                            <Setter Property="Height" Value="300" />
+                            <Setter Property="Opacity" Value="1" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
 
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" Margin="5">
+            <Grid
+                Grid.Column="0"
+                Margin="5"
+                Visibility="Visible">
 
 
 
@@ -1149,7 +1167,8 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                FontSize="16"
+                                FontSize=" 18"
+                                FontWeight="Bold"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                                 Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_Sec, FallbackValue=...., StringFormat={}{0:F1}s}" />
 
@@ -1179,7 +1198,8 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                FontSize="16"
+                                FontSize=" 18"
+                                FontWeight="Bold"
                                 Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                                 Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_Sec, FallbackValue=...., StringFormat={}{0:F1}s}" />
 
@@ -1364,9 +1384,10 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontFamily="{DynamicResource 全局_文字_中文字体}"
-                            FontSize="16"
+                            FontSize=" 18"
+                            FontWeight="Bold"
                             Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                            Text="{Binding Mes_Robot_Info_Model_Data.Robot_Time_Outside.Timer_Sec, FallbackValue=...., StringFormat={}{0:F2}s}"
+                            Text="{Binding Mes_Robot_Info_Model_Data.Robot_Time_Outside.Timer_Sec, FallbackValue=...., StringFormat={}{0:F1}s}"
                             TextWrapping="Wrap" />
 
 

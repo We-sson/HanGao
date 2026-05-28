@@ -452,7 +452,7 @@ namespace Robot_Info_Mes.Model
                             if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
                             break;
                         case Get_Xml_File_Enum.File_Path:
-                            _Path = Environment.CurrentDirectory + "\\Mes_Info" + "\\Work_Factor_Seried_Data.Xml";
+                            _Path = Environment.CurrentDirectory + "\\Mes_Info" + "\\" + DateTime.Now.ToString("yyyy-MM") +"_Work_Data.Xml";
 
                             break;
                     }

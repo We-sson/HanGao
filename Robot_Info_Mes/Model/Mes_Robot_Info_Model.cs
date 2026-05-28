@@ -725,6 +725,7 @@ namespace Robot_Info_Mes.Model
                 Robot_Run_Time.Timer_UI = TimeSpan.Zero;
                 Robot_Work_ABCD_Number = 0;
                 Robot_Work_ABCD_Cycle_Mean = 0;
+                Robot_Robot_Time_Outside_List_Mean = 0;
                 Work_Number_Pallets = 0;
                 Robot_Work_ABCD_Cycle_List.Clear();
                 Robot_Robot_Time_Outside_List.Clear();
@@ -835,7 +836,7 @@ namespace Robot_Info_Mes.Model
 
 
         // UI刷新间隔（毫秒）
-        private const int UpdateInterval = 100;
+        private const int UpdateInterval = 50;
         //private Stopwatch Time { set; get; } = new();
 
         [XmlIgnore]
