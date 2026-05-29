@@ -49,8 +49,18 @@
             Text="&#xe641;" />
         <TextBlock
             Grid.Row="0"
+            Grid.Column="0"
+            Margin="20,0,20,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontFamily="{DynamicResource 全局_图标库}"
+            FontSize="32"
+            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+            Text="&#xe641;" />
+        <TextBlock
+            Grid.Row="0"
             Grid.Column="1"
-            Margin="100,0,20,0"
+            Margin="0,0,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -67,7 +77,7 @@
             Grid.Row=" 3"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
-            d:ItemsSource="{d:SampleData ItemCount=5}"
+            d:ItemsSource="{d:SampleData ItemCount=3}"
             Background="Transparent"
             BorderThickness="0"
             ItemContainerStyle="{DynamicResource ListBoxItemStyle1}"
@@ -84,7 +94,7 @@
             </ListBox.Resources>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid
+                    <!--<Grid
                         Grid.Row="1"
                         Grid.Column=" 0"
                         Margin="0,5,0,0"
@@ -866,34 +876,7 @@
                                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="true">
                                             <Setter Property="Visibility" Value="Visible" />
                                             <Setter Property="Height" Value="280" />
-                                            <!--<DataTrigger.EnterActions>
-                                                <BeginStoryboard>
-                                                    <Storyboard Timeline.DesiredFrameRate="30">
-                                                        <DoubleAnimation
-                                                            Storyboard.TargetProperty="Height"
-                                                            To="280"
-                                                            Duration="0:0:1">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <QuadraticEase EasingMode="EaseOut" />
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </DataTrigger.EnterActions>
-                                            <DataTrigger.ExitActions>
-                                                <BeginStoryboard>
-                                                    <Storyboard Timeline.DesiredFrameRate="30">
-                                                        <DoubleAnimation
-                                                            Storyboard.TargetProperty="Height"
-                                                            To="0"
-                                                            Duration="0:0:1">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <QuadraticEase EasingMode="EaseOut" />
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </DataTrigger.ExitActions>-->
+
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -940,7 +923,13 @@
 
 
 
+                    </Grid>-->
+
+                    <Grid>
+                        <View:OEE_UI DataContext="{Binding}" />
                     </Grid>
+
+
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
