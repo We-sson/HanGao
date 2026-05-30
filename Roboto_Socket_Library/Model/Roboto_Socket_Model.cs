@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Xml.Serialization;
 using Throw;
 
+
 namespace Roboto_Socket_Library.Model
 {
     public class Roboto_Socket_Model
@@ -356,10 +357,15 @@ namespace Roboto_Socket_Library.Model
             [XmlAttribute]
             public Vision_Model_Enum Vision_Model { set; get; } = Vision_Model_Enum.Mes_Server_Info_Send_Data;
 
+
+
             public Robot_Mes_Info_Data_Receive Robot_Mes_Info_Data { set; get; } = new Robot_Mes_Info_Data_Receive();
 
 
             public Mes_Server_Date_Model Mes_Server_Date { set; get; } = new Mes_Server_Date_Model();
+
+
+
 
         }
 
@@ -889,6 +895,11 @@ namespace Roboto_Socket_Library.Model
         /// </summary>
         public int Robot_Work_ABCD_Number { set; get; } = 0;
 
+        /// <summary>
+        /// 作业数量栈板数量
+        /// </summary>
+        public int Work_Number_Pallets { set; get; } = 0;
+
 
 
         /// <summary>
@@ -936,6 +947,35 @@ namespace Roboto_Socket_Library.Model
 
 
 
+
+
+        /// <summary>
+        /// 节拍外时间平均数
+        /// </summary>
+        public double Robot_Robot_Time_Outside_List_Mean { set; get; } = 0;
+
+
+        public TimeSpan Robot_Time_Outside { set; get; } = new();
+
+
+
+
+
+        public ObservableCollection<double?> Robot_Work_ABCD_Number_List { set; get; } = new();
+        public ObservableCollection<double?> Work_Availability_Factor_List { set; get; } = new();
+        public ObservableCollection<double?> Work_Performance_Factor_List { set; get; } = new();
+        public ObservableCollection<double?> Robot_Work_Time_List { set; get; } = new();
+        public ObservableCollection<double?> Robot_Work_ABCD_Cycle_Mean_List { set; get; } = new();
+
+        ///// <summary>
+        ///// 节拍集合
+        ///// </summary>
+        public ObservableCollection<double?> Robot_Work_ABCD_Cycle_List { set; get; } = new();
+
+        ///// <summary>
+        ///// 节拍外时间集合
+        ///// </summary>
+        public ObservableCollection<double?> Robot_Robot_Time_Outside_List { set; get; } = new();
 
 
     }

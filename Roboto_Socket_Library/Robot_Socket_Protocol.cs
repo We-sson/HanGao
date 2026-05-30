@@ -202,13 +202,13 @@ namespace Roboto_Socket_Library
 
                 case Vision_Model_Enum.Mes_Server_Info_Send_Data:
 
-
+                    // Client -> Server: Client 上传看板快照，Server 解析为 Mes_Server_Info_Data_Receive。
 
                     return (T1)(Object)Mes_Server_Info_Receive_Protocol();
 
                 case Vision_Model_Enum.Mes_Server_Info_Rece_Data:
 
-
+                    // Server -> Client: Server 对看板快照的回执，Client 解析为 Mes_Server_Info_Data_Send。
 
                     return (T1)(Object)Mes_Server_Info_Send_Protocol();
 
@@ -264,14 +264,14 @@ namespace Roboto_Socket_Library
 
                 case Vision_Model_Enum.Mes_Server_Info_Send_Data:
 
-
+                    // Server -> Client: Server 回执使用 Mes_Server_Info_Data_Send，保留原枚举名以兼容旧包。
                     return Mes_Server_Info_Send_Procotol((_Propertie as Mes_Server_Info_Data_Send)!);
 
 
                 case Vision_Model_Enum.Mes_Server_Info_Rece_Data:
 
 
-
+                    // Client -> Server: Client 上传 Mes_Server_Info_Data_Receive，保留原枚举名以兼容旧调用。
                     return Mes_Server_Info_Receive_Procotol((_Propertie as Mes_Server_Info_Data_Receive)!);
 
 

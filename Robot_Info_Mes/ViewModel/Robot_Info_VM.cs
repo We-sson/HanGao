@@ -413,15 +413,14 @@ namespace Robot_Info_Mes.ViewModel
             //Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Start();
 
 
-
-            Socket_Cycle_KanBan_Info();
-
             ///汇总上传信息
             Mes_Info_Parameters.Socket_Client.Mes_Receive_Info_Data_Delegate = Mes_Receive_Info_Data_Method;
             Mes_Info_Parameters.Socket_Client.Socket_ErrorInfo_delegate = Socket_Cycle_Update_ErrorLog_Show;
             Mes_Info_Parameters.Socket_Client.Socket_ConnectInfo_delegate = Socket_ConnectLog_Show;
             Mes_Info_Parameters.Socket_Client.Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method;
             Mes_Info_Parameters.Socket_Client.Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method;
+
+            Socket_Cycle_KanBan_Info();
         }
 
 
@@ -564,48 +563,7 @@ namespace Robot_Info_Mes.ViewModel
                         Thread.Sleep((int)File_Int_Parameters.Mes_Run_Parameters.Sever_Cycle_Update_Time * 1000);
                         ///发送完成一次后复位信号
 
-                        Mes_Server_Info_Data_Receive _Send = new Mes_Server_Info_Data_Receive()
-                        {
-                            Vision_Model = Vision_Model_Enum.Mes_Server_Info_Send_Data,
-                            Socket_Update_Time = DateTime.Now,
-                            Robot_Mes_Info_Data = Mes_Robot_Info_Model_Data.Robot_Info_Data,
-                            Mes_Server_Date = new Mes_Server_Date_Model()
-                            {
-                                Robot_Debug_All_Time = Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI,
-                                Robot_Error_All_Time = Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Timer_UI,
-                                Robot_Run_All_Time = Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI,
-                                Robot_Work_All_Time = Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_UI,
-
-                                Robot_Debug_Time = Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI,
-                                Robot_Error_Time = Mes_Robot_Info_Model_Data.Robot_Error_Time.Timer_UI,
-                                Robot_Run_Time = Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_UI,
-                                Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI,
-
-                                Robot_Work_ABCD_Number = Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number,
-                                Robot_Work_AB_Cycle = Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_UI,
-                                Robot_Work_CD_Cycle = Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_UI,
-
-                                Work_Availability_Factor = Work_Factor_Seried.Work_Availability_Factor.Value ?? 0,
-                                Work_Cycle_Load_Factor = Work_Factor_Seried.Work_Cycle_Load_Factor.Value ?? 0,
-                                Work_Performance_Factor = Work_Factor_Seried.Work_Performance_Factor.Value ?? 0,
-
-
-                                ///工艺时间参数
-                                Robot_Work_ABCD_Number_Max = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max,
-                                Robot_Work_Time_Max = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours,
-
-                                Work_Standard_Time = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time,
-                                Work_Availability_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max,
-                                Work_Performance_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max,
-
-
-                                Robot_Work_ABCD_Cycle_Mean = Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_Mean,
-
-
-                            }
-
-
-                        };
+                        Mes_Server_Info_Data_Receive _Send = Create_Mes_Server_Info_Snapshot();
 
 
                         Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>(Socket_Robot_Protocols_Enum.KUKA, Vision_Model_Enum.Mes_Server_Info_Rece_Data, _Send, (int)File_Int_Parameters.Mes_Run_Parameters.Mes_Server_Info_Rece_Time * 1000);
@@ -624,6 +582,54 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
+        }
+
+        private Mes_Server_Info_Data_Receive Create_Mes_Server_Info_Snapshot()
+        {
+            return new Mes_Server_Info_Data_Receive()
+            {
+                Vision_Model = Vision_Model_Enum.Mes_Server_Info_Send_Data,
+                Socket_Update_Time = DateTime.Now,
+                Robot_Mes_Info_Data = new Robot_Mes_Info_Data_Receive(Mes_Robot_Info_Model_Data.Robot_Info_Data),
+                Mes_Server_Date = new Mes_Server_Date_Model()
+                {
+                    Robot_Debug_All_Time = Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Timer_UI,
+                    Robot_Error_All_Time = Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Timer_UI,
+                    Robot_Run_All_Time = Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI,
+                    Robot_Work_All_Time = Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_UI,
+
+                    Robot_Debug_Time = Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI,
+                    Robot_Error_Time = Mes_Robot_Info_Model_Data.Robot_Error_Time.Timer_UI,
+                    Robot_Run_Time = Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_UI,
+                    Robot_Work_Time = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI,
+
+                    Work_Cycle_Load_Factor = Work_Factor_Seried.Work_Cycle_Load_Factor.Value ?? 0,
+                    Work_Availability_Factor = Work_Factor_Seried.Work_Availability_Factor.Value ?? 0,
+                    Work_Performance_Factor = Work_Factor_Seried.Work_Performance_Factor.Value ?? 0,
+
+                    Robot_Work_AB_Cycle = Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_UI,
+                    Robot_Work_CD_Cycle = Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_UI,
+                    Robot_Work_ABCD_Cycle_Mean = Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_Mean,
+                    Robot_Work_ABCD_Number = Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number,
+                    Work_Number_Pallets = Mes_Robot_Info_Model_Data.Work_Number_Pallets,
+                    Robot_Time_Outside = Mes_Robot_Info_Model_Data.Robot_Time_Outside.Timer_UI,
+                    Robot_Robot_Time_Outside_List_Mean = Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List_Mean,
+
+                    Robot_Work_ABCD_Number_Max = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max,
+                    Work_Availability_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max,
+                    Work_Performance_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max,
+                    Robot_Work_Time_Max = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours,
+                    Work_Standard_Time = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time,
+
+                    Robot_Work_ABCD_Number_List = new ObservableCollection<double?>(Work_Factor_Seried.Robot_Work_ABCD_Number_List),
+                    Work_Availability_Factor_List = new ObservableCollection<double?>(Work_Factor_Seried.Work_Availability_Factor_List),
+                    Work_Performance_Factor_List = new ObservableCollection<double?>(Work_Factor_Seried.Work_Performance_Factor_List),
+                    Robot_Work_Time_List = new ObservableCollection<double?>(Work_Factor_Seried.Robot_Work_Time_List),
+                    Robot_Work_ABCD_Cycle_Mean_List = new ObservableCollection<double?>(Work_Factor_Seried.Robot_Work_ABCD_Cycle_Mean_List),
+                    Robot_Work_ABCD_Cycle_List = new ObservableCollection<double?>(Work_Factor_Seried.Robot_Work_ABCD_Cycle_List),
+                    Robot_Robot_Time_Outside_List = new ObservableCollection<double?>(Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List),
+                }
+            };
         }
 
 
@@ -776,11 +782,11 @@ namespace Robot_Info_Mes.ViewModel
         /// </summary>
         public ICommand Number_Pallets_Clear_Comm
         {
-            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            get => new RelayCommand(() =>
             {
-                Button? _Contol = Sm!.Source as Button;
                 try
                 {
+                    if (File_Int_Parameters.Window_Startup_Type != Window_Startup_Type_Enum.Client) return;
 
 
                     Mes_Robot_Info_Model_Data.Work_Number_Pallets = 0;
@@ -854,63 +860,7 @@ namespace Robot_Info_Mes.ViewModel
 
                     if (_Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int == _Receive.Robot_Mes_Info_Data.Robot_Process_Int)
                     {
-                        //保存连接IP
-                        _Server.Connetc_Mes_IP = (IPEndPoint?)_Socket!.RemoteEndPoint;
-
-                        ///指标更新
-                        _Server.Work_Factor_Seried.Work_Cycle_Load_Factor.Value = _Receive.Mes_Server_Date.Work_Cycle_Load_Factor;
-                        _Server.Work_Factor_Seried.Work_Availability_Factor.Value = _Receive.Mes_Server_Date.Work_Availability_Factor;
-                        _Server.Work_Factor_Seried.Work_Performance_Factor.Value = _Receive.Mes_Server_Date.Work_Performance_Factor;
-
-                        //计算通讯周期
-                        _Server.Mes_Robot_Info_Model_Data.Socket_Cycle_Time = DateTime.Now - _Server.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time;
-
-                        _Server.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time = DateTime.Now;
-                        _Server.Mes_Robot_Info_Model_Data.File_Update_Time = DateTime.Now;
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_UI = _Receive.Mes_Server_Date.Robot_Work_AB_Cycle;
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_UI = _Receive.Mes_Server_Date.Robot_Work_CD_Cycle;
-
-
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number = _Receive.Mes_Server_Date.Robot_Work_ABCD_Number;
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_Mean = _Receive.Mes_Server_Date.Robot_Work_ABCD_Cycle_Mean;
-
-
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI = _Receive.Mes_Server_Date.Robot_Work_Time;
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI = _Receive.Mes_Server_Date.Robot_Debug_Time;
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Error_Time.Timer_UI = _Receive.Mes_Server_Date.Robot_Error_Time;
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_UI = _Receive.Mes_Server_Date.Robot_Run_Time;
-
-
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Work_All_Time.Timer_UI = _Receive.Mes_Server_Date.Robot_Work_All_Time;
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Timer_UI = _Receive.Mes_Server_Date.Robot_Debug_All_Time;
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Timer_UI = _Receive.Mes_Server_Date.Robot_Error_All_Time;
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_UI = _Receive.Mes_Server_Date.Robot_Run_All_Time;
-
-
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Programs_Name = _Receive.Robot_Mes_Info_Data.Mes_Programs_Name;
-
-
-                        _Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode = _Receive.Robot_Mes_Info_Data.Mes_Robot_Mode;
-
-                        ///工艺参数写入
-                        //_Server.Work_Factor_Seried.Work_Cycle_Load_Factor_Max= new ObservableValue(  _Receive.Mes_Server_Date.Work_Standard_Time );
-                        //_Server.Work_Factor_Seried.Robot_Work_ABCD_Number_Max = new ObservableValue(_Receive.Mes_Server_Date.Robot_Work_ABCD_Number_Max);
-                        //_Server.Work_Factor_Seried.Robot_Work_Time_Max = new ObservableValue(_Receive.Mes_Server_Date.Robot_Work_Time_Max);
-                        //_Server.Work_Factor_Seried.Work_Availability_Factor_Max = new ObservableValue(_Receive.Mes_Server_Date.Work_Availability_Factor_Max);
-                        //_Server.Work_Factor_Seried.Work_Performance_Factor_Max = new ObservableValue(_Receive.Mes_Server_Date.Work_Performance_Factor_Max);
-
-
-                        _Server.Work_Factor_Seried.Mes_Data_View_List_Add(_Receive);
-                        _Server.Work_Factor_Seried.Mes_Data_View_Max_Add(_Receive);
-
-
-
-
-
-
-
-
-                        _Server.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Connected;
+                        Apply_Mes_Server_Info_Snapshot(_Server, _Receive, _Socket);
 
                     }
 
@@ -957,6 +907,74 @@ namespace Robot_Info_Mes.ViewModel
             return _Send;
 
 
+        }
+
+        private void Apply_Mes_Server_Info_Snapshot(Mes_Server_Info_List_Model _Server, Mes_Server_Info_Data_Receive _Receive, Socket? _Socket)
+        {
+            _Server.Connetc_Mes_IP = (IPEndPoint?)_Socket?.RemoteEndPoint;
+
+            DateTime _Now = DateTime.Now;
+            Mes_Robot_Info_Model _Robot_Data = _Server.Mes_Robot_Info_Model_Data;
+            Mes_Server_Date_Model _Server_Date = _Receive.Mes_Server_Date;
+
+            _Robot_Data.Socket_Cycle_Time = _Now - _Robot_Data.Socket_Last_Update_Time;
+            _Robot_Data.Socket_Last_Update_Time = _Now;
+            _Robot_Data.File_Update_Time = _Now;
+
+            _Robot_Data.Robot_Info_Data.Robot_Type = _Receive.Robot_Mes_Info_Data.Robot_Type;
+            _Robot_Data.Robot_Info_Data.Vision_Model = _Receive.Robot_Mes_Info_Data.Vision_Model;
+            _Robot_Data.Robot_Info_Data.Mes_Programs_Name = _Receive.Robot_Mes_Info_Data.Mes_Programs_Name;
+            _Robot_Data.Robot_Info_Data.Mes_Robot_Mode = _Receive.Robot_Mes_Info_Data.Mes_Robot_Mode;
+            _Robot_Data.Robot_Info_Data.Robot_Process_Int = _Receive.Robot_Mes_Info_Data.Robot_Process_Int;
+            _Robot_Data.Robot_Info_Data.Mes_Work_A_State = _Receive.Robot_Mes_Info_Data.Mes_Work_A_State;
+            _Robot_Data.Robot_Info_Data.Mes_Work_B_State = _Receive.Robot_Mes_Info_Data.Mes_Work_B_State;
+            _Robot_Data.Robot_Info_Data.Mes_Work_C_State = _Receive.Robot_Mes_Info_Data.Mes_Work_C_State;
+            _Robot_Data.Robot_Info_Data.Mes_Work_D_State = _Receive.Robot_Mes_Info_Data.Mes_Work_D_State;
+
+            _Robot_Data.Robot_Work_AB_Cycle.Timer_UI = _Server_Date.Robot_Work_AB_Cycle;
+            _Robot_Data.Robot_Work_CD_Cycle.Timer_UI = _Server_Date.Robot_Work_CD_Cycle;
+            _Robot_Data.Robot_Work_ABCD_Number = _Server_Date.Robot_Work_ABCD_Number;
+            _Robot_Data.Work_Number_Pallets = _Server_Date.Work_Number_Pallets;
+            _Robot_Data.Robot_Work_ABCD_Cycle_Mean = _Server_Date.Robot_Work_ABCD_Cycle_Mean;
+            _Robot_Data.Robot_Time_Outside.Timer_UI = _Server_Date.Robot_Time_Outside;
+            _Robot_Data.Robot_Robot_Time_Outside_List_Mean = _Server_Date.Robot_Robot_Time_Outside_List_Mean;
+
+            _Robot_Data.Robot_Work_Time.Timer_UI = _Server_Date.Robot_Work_Time;
+            _Robot_Data.Robot_Debug_Time.Timer_UI = _Server_Date.Robot_Debug_Time;
+            _Robot_Data.Robot_Error_Time.Timer_UI = _Server_Date.Robot_Error_Time;
+            _Robot_Data.Robot_Run_Time.Timer_UI = _Server_Date.Robot_Run_Time;
+
+            _Robot_Data.Robot_Work_All_Time.Timer_UI = _Server_Date.Robot_Work_All_Time;
+            _Robot_Data.Robot_Debug_All_Time.Timer_UI = _Server_Date.Robot_Debug_All_Time;
+            _Robot_Data.Robot_Error_All_Time.Timer_UI = _Server_Date.Robot_Error_All_Time;
+            _Robot_Data.Robot_Run_All_Time.Timer_UI = _Server_Date.Robot_Run_All_Time;
+
+            _Robot_Data.Robot_Work_ABCD_Cycle_List = _Server_Date.Robot_Work_ABCD_Cycle_List;
+            _Robot_Data.Robot_Robot_Time_Outside_List = _Server_Date.Robot_Robot_Time_Outside_List;
+
+            _Server.Work_Factor_Seried.Work_Cycle_Load_Factor.Value = _Server_Date.Work_Cycle_Load_Factor;
+            _Server.Work_Factor_Seried.Work_Availability_Factor.Value = _Server_Date.Work_Availability_Factor;
+            _Server.Work_Factor_Seried.Work_Performance_Factor.Value = _Server_Date.Work_Performance_Factor;
+
+            _Server.Work_Factor_Seried.Robot_Work_ABCD_Number_List = _Server_Date.Robot_Work_ABCD_Number_List;
+            _Server.Work_Factor_Seried.Work_Availability_Factor_List = _Server_Date.Work_Availability_Factor_List;
+            _Server.Work_Factor_Seried.Work_Performance_Factor_List = _Server_Date.Work_Performance_Factor_List;
+            _Server.Work_Factor_Seried.Robot_Work_Time_List = _Server_Date.Robot_Work_Time_List;
+            _Server.Work_Factor_Seried.Robot_Work_ABCD_Cycle_Mean_List = _Server_Date.Robot_Work_ABCD_Cycle_Mean_List;
+            _Server.Work_Factor_Seried.Robot_Work_ABCD_Cycle_List = _Server_Date.Robot_Work_ABCD_Cycle_List;
+            _Server.Work_Factor_Seried.Robot_Robot_Time_Outside_List = _Server_Date.Robot_Robot_Time_Outside_List;
+            _Server.Work_Factor_Seried.Mes_Data_View_Max_Add(_Receive);
+
+            _Server.Work_Factor_Seried.Mes_Data_View_List_Series[0].Values = _Server.Work_Factor_Seried.Work_Availability_Factor_List;
+            _Server.Work_Factor_Seried.Mes_Data_View_List_Series[1].Values = _Server.Work_Factor_Seried.Work_Performance_Factor_List;
+            _Server.Work_Factor_Seried.Mes_Data_View_List_Series[2].Values = _Server.Work_Factor_Seried.Robot_Work_ABCD_Number_List;
+            _Server.Work_Factor_Seried.Mes_Data_View_List_Series[3].Values = _Server.Work_Factor_Seried.Robot_Work_ABCD_Cycle_Mean_List;
+            _Server.Work_Factor_Seried.Mes_Data_View_List_Series[4].Values = _Server.Work_Factor_Seried.Robot_Work_Time_List;
+            _Server.Work_Factor_Seried.Mes_Data_View_List_Series[5].Values = _Server.Work_Factor_Seried.Robot_Robot_Time_Outside_List;
+            _Server.Work_Factor_Seried.Mes_Data_View_List_Sections[5].Yi = _Server_Date.Robot_Robot_Time_Outside_List_Mean;
+            _Server.Work_Factor_Seried.Mes_Data_View_List_Sections[5].Yj = _Server_Date.Robot_Robot_Time_Outside_List_Mean;
+
+            _Robot_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Connected;
         }
 
 

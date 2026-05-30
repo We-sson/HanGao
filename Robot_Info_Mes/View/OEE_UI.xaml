@@ -420,7 +420,7 @@
 
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction
-                                                    Command="{Binding Number_Pallets_Clear_Comm}"
+                                                    Command="{Binding DataContext.Number_Pallets_Clear_Comm, RelativeSource={RelativeSource AncestorType=Window}}"
                                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
                                                     PassEventArgsToCommand="True" />
                                             </i:EventTrigger>
@@ -853,10 +853,18 @@
             Grid.Column=" 0"
             Height=" 280"
             Margin="5,10,5,0"
+            Background="Transparent"
             CacheMode="BitmapCache"
             ShowGridLines="False">
 
-
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter">
+                    <i:InvokeCommandAction Command="{Binding Work_Factor_Seried.Mes_Data_View_Pause_Comm}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeave">
+                    <i:InvokeCommandAction Command="{Binding Work_Factor_Seried.Mes_Data_View_Resume_Comm}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
 
 
             <Border

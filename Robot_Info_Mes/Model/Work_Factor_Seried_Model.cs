@@ -1,4 +1,5 @@
-﻿using LiveChartsCore;
+﻿using CommunityToolkit.Mvvm.Input;
+using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.Drawing;
 using LiveChartsCore.Kernel;
@@ -12,6 +13,7 @@ using PropertyChanged;
 using Roboto_Socket_Library.Model;
 using SkiaSharp;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using System.Windows.Threading;
 using System.Xml.Serialization;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
@@ -280,6 +282,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 看板列表循环播放时间
         /// </summary>
+        [XmlIgnore]
         public double KanBan_List_Cycle_View_Time { set; get; } = 10;
 
 
@@ -313,6 +316,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 生产数量合格线
         /// </summary>
+        [XmlIgnore]
 
         public int Robot_Work_ABCD_Number_Max { set; get; } = 0;
 
@@ -320,6 +324,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 平均节拍合格线
         /// </summary>
+        [XmlIgnore]
 
         public double Work_Standard_Time_Max { set; get; } = 0;
 
@@ -327,6 +332,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 作业周期合格线
         /// </summary>
+        [XmlIgnore]
 
         public double Robot_Work_Time_Max { set; get; } = 0;
 
@@ -336,6 +342,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 时间稼动率合格线
         /// </summary>
+        [XmlIgnore]
 
         public double Work_Availability_Factor_Max { set; get; } = 0;
 
@@ -343,7 +350,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 性能稼动率合格线
         /// </summary>
-
+        [XmlIgnore]
         public double Work_Performance_Factor_Max { set; get; } = 0;
 
 
@@ -396,7 +403,7 @@ namespace Robot_Info_Mes.Model
             IsVisible = true,
             Name = "达成率",
             NameTextSize = 16,
-           
+           MaxLimit=140,
             MinLimit =0,
             MinStep =2,
             SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色,2),
@@ -926,6 +933,28 @@ namespace Robot_Info_Mes.Model
 
 
         }
+
+        /// <summary>
+        /// 轮播功能鼠标进入停止
+        /// </summary>
+        [XmlIgnore]
+        public ICommand Mes_Data_View_Pause_Comm => new RelayCommand(() =>
+        {
+            Mes_Data_View_List_Update.Stop();
+
+        });
+        /// <summary>
+        /// 轮播功能鼠标进入开始
+        /// </summary>
+        [XmlIgnore]
+        public ICommand Mes_Data_View_Resume_Comm => new RelayCommand(() =>
+        {
+            Mes_Data_View_List_Update.Start();
+  
+
+        });
+
+
 
 
 

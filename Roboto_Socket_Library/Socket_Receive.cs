@@ -58,7 +58,7 @@ namespace Roboto_Socket_Library
         /// <summary>
         /// 机器人通讯
         /// </summary>
-        public Socket_Robot_Protocols_Enum Socket_Robot { set; get; }
+        public Socket_Robot_Protocols_Enum Socket_Robot { set; get; } = Socket_Robot_Protocols_Enum.KUKA;
 
 
 
@@ -296,7 +296,7 @@ namespace Roboto_Socket_Library
 
                 Robot_Socket_Protocol _Socket_Protoco = new Robot_Socket_Protocol(_Robot_Protocols, _Model);
                 Byte[] Send_byte = Array.Empty<byte>();
-                byte[] buffer= new byte[1024 * 2048];
+                byte[] buffer= new byte[2048 * 2048];
                 //_Socket_Protoco.Socket_Send_Set_Data(_val);
                 Socket_Client!.ReceiveTimeout= TimeOut;
 
@@ -340,6 +340,7 @@ namespace Roboto_Socket_Library
                         case Vision_Model_Enum.Mes_Server_Info_Rece_Data:
 
 
+                            // 上位机到上位机看板链路：这里接收的是 Server 对 Client 上传包的回执。
                             Mes_Server_Info_Data_Send? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Send>();
 
                             Mes_Receive_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!);
@@ -423,6 +424,7 @@ namespace Roboto_Socket_Library
                         case Vision_Model_Enum.Mes_Server_Info_Rece_Data:
 
 
+                            // 上位机到上位机看板链路：这里接收的是 Server 对 Client 上传包的回执。
                             Mes_Server_Info_Data_Send? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Send>();
 
                             Mes_Receive_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!);
@@ -742,6 +744,7 @@ namespace Roboto_Socket_Library
                         case Vision_Model_Enum.Mes_Server_Info_Send_Data:
 
 
+                            // 上位机到上位机看板链路：这里接收的是 Client 周期上传给 Server 的看板快照。
                             Mes_Server_Info_Data_Receive? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Receive>();
 
                             Mes_Server_Info_Data_Send? _Mes_Server_Send = Mes_Server_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!, client.Client_Socket);
