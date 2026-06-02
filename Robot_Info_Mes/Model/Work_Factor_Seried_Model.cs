@@ -268,6 +268,12 @@ namespace Robot_Info_Mes.Model
         }
 
 
+
+        /// <summary>
+        /// 看板滚动开启
+        /// </summary>
+        public bool KanBan_Chart_Data_Scroll { set; get; } = false;
+
         /// <summary>
         /// 列表更新显示
         /// </summary>
@@ -460,7 +466,7 @@ namespace Robot_Info_Mes.Model
             IsVisible = false,
             Name = "作业时间",
             NameTextSize = 16,
-
+            MaxLimit =14,
             MinLimit=0,
             MinStep =0.1,
             SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色, 2),
@@ -618,7 +624,7 @@ namespace Robot_Info_Mes.Model
         {
 
             var _Work_Availability = (_Work_Time / _Work_Run_Time) * 100;
-            return Math.Round(double.IsNaN(_Work_Availability) ? 0 : (_Work_Availability <= 120 ? _Work_Availability : 120), 1);
+            return Math.Round(double.IsNaN(_Work_Availability) ? 0 : (_Work_Availability <= 120 ? _Work_Availability : 120), 0);
 
 
 
@@ -699,7 +705,7 @@ namespace Robot_Info_Mes.Model
 
 
 
-            return Math.Round(double.IsNaN(_Facyor) ? 0 : (_Facyor <= 120 ? _Facyor : 120), 1);
+            return Math.Round(double.IsNaN(_Facyor) ? 0 : (_Facyor <= 120 ? _Facyor : 120), 0);
 
 
 
@@ -713,7 +719,7 @@ namespace Robot_Info_Mes.Model
             var _time = _Work_Standard_Time * _Robot_Work_ABCD_Number;
             var _Work_Performance = (_time / _Robot_Work_Time) * 100;
 
-            return Math.Round(double.IsNaN(_Work_Performance) ? 0 : (_Work_Performance <= 120 ? _Work_Performance : 120), 1);
+            return Math.Round(double.IsNaN(_Work_Performance) ? 0 : (_Work_Performance <= 120 ? _Work_Performance : 120), 0);
 
 
 
@@ -940,7 +946,15 @@ namespace Robot_Info_Mes.Model
         [XmlIgnore]
         public ICommand Mes_Data_View_Pause_Comm => new RelayCommand(() =>
         {
+
+            if (KanBan_Chart_Data_Scroll)
+            {
+
+
             Mes_Data_View_List_Update.Stop();
+         
+
+            }
 
         });
         /// <summary>
@@ -949,7 +963,12 @@ namespace Robot_Info_Mes.Model
         [XmlIgnore]
         public ICommand Mes_Data_View_Resume_Comm => new RelayCommand(() =>
         {
+
+            if (KanBan_Chart_Data_Scroll)
+            {
+
             Mes_Data_View_List_Update.Start();
+            }
   
 
         });

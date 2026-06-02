@@ -83,6 +83,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+
     <Style x:Key="Window_ToggleButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
         <Setter Property="Background" Value="Transparent" />

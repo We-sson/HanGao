@@ -1,0 +1,32 @@
+&ACCESS RVP
+&REL 3
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\submit
+DEF Mes( )
+;FOLD DECLARATIONS
+  ;FOLD USER DECL
+  ; Please insert user defined declarations
+
+  ;ENDFOLD (USER DECL)
+;ENDFOLD (DECLARATIONS)
+;FOLD INI
+  ;FOLD USER INIT
+  ; Please insert user defined initialization commands
+
+  ;ENDFOLD (USER INIT)
+;ENDFOLD (INI)
+
+   Mes_Info_Int()
+LOOP
+
+
+ Mes_InFo_Main()
+
+ENDLOOP
+;FOLD ;%{H};
+END
+;ENDFOLD
+;FOLD USER SUBROUTINE
+;Integrate your user defined subroutines
+
+;ENDFOLD (USER SUBROUTINE)

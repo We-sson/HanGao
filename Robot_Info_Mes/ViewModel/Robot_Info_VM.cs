@@ -687,7 +687,6 @@ namespace Robot_Info_Mes.ViewModel
                         Mes_Server_Info_Data_Delegate = Mes_Server_Info_Data_Method,
                         Socket_ErrorInfo_delegate = Socket_Mes_ErrorLog_Show,
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
-
                         Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
                         Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
                     });

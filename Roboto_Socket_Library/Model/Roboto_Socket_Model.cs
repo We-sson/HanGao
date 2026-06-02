@@ -668,10 +668,13 @@ namespace Roboto_Socket_Library.Model
         /// </summary>
         public double KanBan_List_Cycle_View_Time { get; set; } = 5;
 
-
+        /// <summary>
+        /// 看板全部列表滚动时间，单位秒
+        /// </summary>
         public double KanBan_ALLList_Cycle_View_Time { get; set; } = 25;
 
 
+   
 
 
     }
