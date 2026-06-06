@@ -484,7 +484,7 @@ namespace Roboto_Socket_Library
                 //绑定端口和IP
                 Socket_Sever.Bind(ipe);
                 //设置监听
-                Socket_Sever.Listen(10);
+                Socket_Sever.Listen(100);
 
                 //异步接收客户端
                 Socket_Sever.BeginAccept(new AsyncCallback(ClienAppcet), Socket_Sever);
@@ -668,7 +668,7 @@ namespace Roboto_Socket_Library
                     }
                     client.Client_Socket?.BeginReceive(client.buffer, 0, client.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
 
-                        
+
                     //接触数据长度
                     byte[] _Reveice_Meg = client.buffer.Skip(0).Take(length).ToArray();
                     //委托显示接受数据
@@ -970,10 +970,10 @@ namespace Roboto_Socket_Library
         public Socket? Client_Socket { set; get; }
 
 
-        public  byte[] buffer { set; get; } = new byte[1024 * 2048];
+        public  byte[] buffer { set; get; } = new byte[2048 * 2048];
 
-         
 
+        public int Receive_Length { set; get; } = 0;
 
     }
 
