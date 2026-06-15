@@ -1,0 +1,21 @@
+&ACCESS RVO
+&COMMENT USER specified PLC program
+DEF Mes_Loop_Sps( )
+
+
+
+; Please adjust Parameters of SUBMIT_CYCLE () call 
+; First Parameter SPS_TIME: >= 1 determines duration of one run of loop/endloop in ms
+; Second Parameter SPS_PRIO: possible values: #PRIO_NORMAL, #PRIO_HIGH, #PRIO_HIGHEST
+SUBMIT_CYCLE (12, #PRIO_NORMAL)
+
+
+Mes_InFo_Int()
+loop
+Mes_InFo_Main()
+
+WAIT SEC 0
+endloop
+
+
+END

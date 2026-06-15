@@ -1,0 +1,30 @@
+<Channel Version="1.0">
+   <Connection Protocol="TCP">
+      <Client PeerIp="172.31.1.150" PeerIp_VRC="127.0.0.1" PeerPort="6000"/>
+   </Connection>
+ <Behavior>
+ <ConnectionManagement CommErrorEvent="$FLAG[1]"/>
+</Behavior>
+    <Buffering Type="FIFO" Size="500" Strategy="ErrorWhenFull" />
+   
+   <Receive Format="XML" Separator="Robot_Send" Event="$FLAG[2]">
+      <Message> 
+       <Value Name="IsStatus"  Rule="Robot_Send/@IsStatus" Type="BOOL"/>
+		 <Value Name="Socket_Polling_Time" Rule="Robot_Send/Socket_Polling_Time" Type="INT"/>
+		</Message>
+   </Receive>
+   
+   <Send>
+      <Message><![CDATA[<Robot_Receive Robot_Type="$$Robot_Type:String$$" Vision_Model="$$Vision_Model:String$$">
+  <Mes_Programs_Name>$$Mes_Programs_Name:String$$</Mes_Programs_Name>
+  <Mes_Robot_Mode>$$Mes_Robot_Mode:String$$</Mes_Robot_Mode>
+  <Mes_Work_A_State>$$Mes_Work_A_State:Bool$$</Mes_Work_A_State>
+  <Mes_Work_B_State>$$Mes_Work_B_State:Bool$$</Mes_Work_B_State>
+  <Mes_Work_C_State>$$Mes_Work_C_State:Bool$$</Mes_Work_C_State>
+  <Mes_Work_D_State>$$Mes_Work_D_State:Bool$$</Mes_Work_D_State>
+  <Robot_Process_Int>$$Robot_Process_Int:String$$</Robot_Process_Int>
+  </Robot_Receive>]]></Message>
+   </Send>
+</Channel>
+
+

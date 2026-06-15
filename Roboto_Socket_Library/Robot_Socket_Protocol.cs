@@ -955,7 +955,7 @@ namespace Roboto_Socket_Library
 
 
                     //装换数据
-                    var st = BitConverter.GetBytes(_Propertie.IsStatus);
+                    var st = BitConverter.GetBytes(_Propertie.IsStatus?1:0);
                     //var mes = Encoding.UTF8.GetBytes(_Propertie.Socket_Polling_Time);
                     var Polling_Time = BitConverter.GetBytes(_Propertie.Socket_Polling_Time / 1000);
 

@@ -74,7 +74,7 @@ namespace Roboto_Socket_Library.Model
             /// 标定状态
             /// </summary>
             [XmlAttribute]
-            public int IsStatus { set; get; }
+            public bool IsStatus { set; get; }
 
             /// <summary>
             /// 结果位置
@@ -315,7 +315,7 @@ namespace Roboto_Socket_Library.Model
             /// </summary>
             public int Socket_Polling_Time { set; get; } = 5000;
             [XmlAttribute]
-            public int IsStatus { set; get; } = 0;
+            public bool IsStatus { set; get; } = false;
 
 
 

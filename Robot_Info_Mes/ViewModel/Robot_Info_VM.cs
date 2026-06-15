@@ -829,7 +829,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
                 _Send.Socket_Polling_Time = (int)(File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time * 1000);
-                _Send.IsStatus = 1;
+                _Send.IsStatus = true;
 
 
                 return _Send;

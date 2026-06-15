@@ -1,0 +1,138 @@
+&ACCESS RV
+DEF Mes_Info_Data()
+   Mes_Info_Int()
+   Work_A_State=FALSE
+   Work_B_State=FALSE
+   Work_C_State=FALSE
+   Work_D_State=FALSE
+   HALT
+   LOOP
+      ;Mes_Info_Main()
+      ; ENDLOOP
+      Work_A_State=TRUE
+      WAIT SEC 5
+      Work_A_State=FALSE
+      Work_C_State=TRUE
+      WAIT SEC 5
+      Work_C_State=FALSE
+      WAIT SEC 0.5
+      ;FOLD WAIT Time= 0 sec ;%{PE}
+         ;FOLD Parameters ;%{h}
+            ;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.wait; Time=0
+         ;ENDFOLD
+         WAIT SEC 0
+      ;ENDFOLD
+   ENDLOOP
+   ;# DATE:2025-6-12
+END
+
+
+GLOBAL DEF Mes_InFo_Main()
+   Mes_Info_Send(_EKRL_Connect_Stat, _EKRL_Send_Stat)
+END
+
+DEF Mes_Work_Info(_Work:IN, _Work_State:OUT, _Time_No:IN, _Work_Run_Nunber:OUT, _Work_Run_Cycle_Time:OUT)
+   DECL BOOL _Work
+   DECL BOOL _Work_State
+   DECL INT _Time_No
+   DECL INT _Work_Run_Nunber
+   DECL INT _Work_Run_Cycle_Time
+   DECL INT _Work_Run_All_Time
+   IF ((_Work == TRUE) AND (_Work_State == FALSE) AND ($MODE_OP == #AUT)) THEN
+      _Work_State=TRUE
+      $TIMER_STOP[_Time_No]=FALSE
+   ENDIF
+   IF ((_Work == FALSE) AND (_Work_State == TRUE) AND ($MODE_OP == #AUT)) THEN
+      _Work_Run_Nunber=_Work_Run_Nunber + 1
+      $TIMER_STOP[_Time_No]=TRUE
+      _Work_Run_All_Time=$TIMER[_Time_No]
+      $TIMER[_Time_No]=0
+      _Work_State=FALSE
+   ENDIF
+   IF ((_Work == TRUE) AND (_Work_State == TRUE) AND ($MODE_OP == #AUT)) THEN
+      _Work_Run_Cycle_Time=$TIMER[_Time_No]
+   ENDIF
+END
+
+DEF Mes_Mode_Info(_Aut_Time:OUT, _Stat:OUT, _Time_No:IN, _Mode:IN)
+   DECL INT _Aut_Time
+   DECL INT _Time_No
+   DECL MODE_OP _Mode
+   DECL BOOL _Stat
+   IF (($Mode_OP == _Mode) AND (_Stat == FALSE)) THEN
+      $TIMER_STOP[_Time_No]=FALSE
+      _Stat=TRUE
+   ENDIF
+   IF (($Mode_OP <> _Mode) AND (_Stat == TRUE)) THEN
+      ;wait sec 0
+      $TIMER_STOP[_Time_No]=TRUE
+      _Aut_Time=_Aut_Time + $TIMER[_Time_No]
+      $TIMER[_Time_No]=0
+      _Stat=FALSE
+   ENDIF
+END
+
+
+DEF Mes_Info_Send(_Connt_Stat:OUT, _Send_Stat:OUT)
+   DECL BOOL _Connt_Stat
+   DECL BOOL _Send_Stat
+   DECL INT _Time_No
+   ;$FLAG[2]=FALSE
+   ;strat
+   IF (_Connt_Stat == FALSE) THEN
+      ; $TIMER_STOP[_Time_No]=false
+      ;HALT
+      EKRL_Connect("Xml_Mes_Robot_Info", FALSE, _Connt_Stat)
+      IF _Connt_Stat THEN
+         _Send_Stat=TRUE
+      ENDIF
+   ENDIF
+   ;send
+   IF (_Connt_Stat == TRUE) AND (_Send_Stat == TRUE) AND ($FLAG[1] == FALSE) THEN
+      ; $TIMER_STOP[_Time_No]=TRUE
+      ;$TIMER[_Time_No]=0
+      Mes_EKRL_Info_Send("Xml_Mes_Robot_Info", _Send_Stat)
+      ;$FLAG[2]=FALSE
+      ; $TIMER_STOP[_Time_No]=FALSE
+   ENDIF
+   ;Rest
+   IF ((_Connt_Stat == TRUE) AND ($FLAG[1] == TRUE)) OR (_Send_Stat == FALSE) OR ($FLAG[Connect_Falg] == TRUE) THEN
+      EKRL_Close("Xml_Mes_Robot_Info")
+      _Send_Stat=FALSE
+      _Connt_Stat=FALSE
+      ;$TIMER_STOP[_Time_No]=TRUE
+      ;$TIMER[_Time_No]=0
+   ENDIF
+END
+
+
+GLOBAL DEF Mes_InFo_Int()
+   DECL INT i
+   ;{DATE:CSEC 0,SEC 0,MIN 0,HOUR 0,DAY 0,MONTH 0,YEAR 0}
+   Robot_Run_Time=$DATE
+   T1_Time=0
+   Aut_Time=0
+   Work_A_Run_Cycle_Time=0
+   Work_A_Run_All_Time=0
+   Work_B_Run_Cycle_Time=0
+   Work_B_Run_All_Time=0
+   Work_C_Run_Cycle_Time=0
+   Work_C_Run_All_Time=0
+   Work_D_Run_Cycle_Time=0
+   Work_D_Run_All_Time=0
+   Work_A_Run_Nunber=0
+   Work_B_Run_Nunber=0
+   Work_C_Run_Nunber=0
+   Work_D_Run_Nunber=0
+   Work_All_Run_Nunber=0
+   WORK_A_State=FALSE
+   WORK_B_State=FALSE
+   WORK_C_State=FALSE
+   WORK_D_State=FALSE
+   _Work_A_Stat=FALSE
+   _Work_B_Stat=FALSE
+   _Work_C_Stat=FALSE
+   _Work_D_Stat=FALSE
+   _EKRL_Connect_Stat=FALSE
+   _EKRL_Send_Stat=FALSE
+END
