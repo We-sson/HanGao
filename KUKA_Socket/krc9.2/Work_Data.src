@@ -1,0 +1,37 @@
+DEF  Work_Data ( )
+   
+   IF  ( $IN[5] ) THEN
+      ;insert your code here
+      
+      Work_1=true
+      
+   ENDIF
+   
+   IF  ( $IN[6] ) THEN
+      ;insert your code here
+      Work_2=true
+   ENDIF
+   
+   IF  ( $IN[7] ) THEN
+      
+      Work_3=true
+      
+      ;insert your code here
+   ENDIF
+   
+   IF  ( $IN[8] ) THEN
+      ;insert your code here
+      
+      Work_4=true
+   ENDIF
+   
+END
+
+ GLOBAL DEF Work_int()
+   
+   Work_1=FALSE
+   Work_2=FALSE
+   Work_3=FALSE
+   Work_4=FALSE
+   
+END

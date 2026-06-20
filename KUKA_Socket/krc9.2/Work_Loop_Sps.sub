@@ -1,0 +1,13 @@
+&ACCESS  RVO
+&COMMENT USER specified PLC program
+DEF  Work_Loop_Sps( )
+
+Work_int()
+LOOP
+SUBMIT_CYCLE (12, #PRIO_NORMAL)
+
+Work_Data()
+
+ENDLOOP
+END
+

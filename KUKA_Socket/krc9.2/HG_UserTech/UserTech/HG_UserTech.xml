@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<KukaTechConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="HG_UserTech" Version="8.1.4.0">
+  <Application Key="ProgCallComment" Name="Program Call / Comment" ApplicationIcon="">
+    <Parameters>
+      <NameParameter Key="ProgName" Name="ProgramName: " Enabled="true" Default="Program" />
+      <SwitchParameter Key="ProgActionSwitch" Name="Action:" Enabled="true" SelectedCase="Comment">
+        <CaseItem Key="Call" Disp="Run">
+          <ParameterRef Key="ProgName" />
+          <LineBreak />
+          <KrlLine>%ProgName/()</KrlLine>
+        </CaseItem>
+        <CaseItem Key="Comment" Disp="No">
+          <ParameterRef Key="ProgName" />
+          <LineBreak />
+          <KrlLine>;%ProgName/()</KrlLine>
+        </CaseItem>
+      </SwitchParameter>
+    </Parameters>
+    <Scripts />
+    <Inlineforms>
+      <InlineForm Key="ProgCallCommentIlf" Name="HG" Spline="false" Focus="0" OnOpen="" OnTouchUp="" OnAccept="" OnSoftKey1Click="" OnSoftKey2Click="" OnSoftKey3Click="" OnSoftKey4Click="" InlineFormIcon="" DisplayText="HG Name: %ProgName/   State:  %ProgActionSwitch/ ">
+        <ParameterRef Key="ProgActionSwitch" />
+        <KrlLine>%ProgActionSwitch/</KrlLine>
+        <LineBreak />
+      </InlineForm>
+    </Inlineforms>
+    <StatKeys />
+    <StatKeyBars />
+  </Application>
+  <Application Key="ArcDateSet" Name="ArcDateSet">
+    <Parameters>
+      <ListParameter Key="ArcParList" Name="ArcParList" Enabled="true" OnValueChange="" SelectedItem="1" Mapping="dArcPs1WdatWeld[].Name[]">
+        <ListItem Key="1" Disp="" />
+      </ListParameter>
+      <NumberParameter Key="Power" Name="Power" Enabled="true" Unit="%" Default="30" Min="0" Max="100" Step="1" />
+      <NumberParameter Key="Laser_IO" Name="Laser_IO" Enabled="true" Unit="No" Default="0" Min="0" Max="7" Step="1" />
+      <NumberParameter Key="PWM_Duty" Name="PWM_Duty" Enabled="true" Unit="%" Default="30" Min="0" Max="100" Step="1" />
+      <NumberParameter Key="PWM_Freq" Name="PWM_Freq" Enabled="true" Unit="Hz" Default="5" Min="1" Max="20000" Step="0" />
+      <RealParameter Key="Rob_Vel" Name="Rob_Vel" Enabled="true" Unit="m/s" Default="0.1" Min="0.001" Max="0.4" Step="0.01" />
+      <FreeParameter Key="ArcParName" Name="ArcParName" Enabled="true" Default=" " />
+      <SwitchParameter Key="ArcPar_Type" Name="ArcPar_Type" Enabled="true" SelectedCase="CaseItemKey">
+        <CaseItem Key="CaseItemKey" Disp="Start">
+          <LineBreak />
+        </CaseItem>
+        <CaseItem Key="CaseItemKey1" Disp="Switch">
+          <LineBreak />
+          <KrlLine>TRIGGER WHEN PATH = 0.0 DELAY = 0 DO ArcCallChange({Action #enArcChange,WDAT{PS 1,Weld 1,Weave 0,Track 0,ThermalControl 0}}) PRIO = -1</KrlLine>
+        </CaseItem>
+      </SwitchParameter>
+    </Parameters>
+    <Scripts>
+      <Script Key="ReadArcParName">
+        <ShowVar FullPath="dArcPs1WdatWeld[%ArcParList/].Name[]" Param="ArcParName" />
+      </Script>
+    </Scripts>
+    <Inlineforms>
+      <InlineForm Key="ArcParSet" Name="ArcParSet" Spline="false" Focus="0" OnOpen="Nothing" OnTouchUp="" OnAccept="ReadArcParName" OnSoftKey1Click="" OnSoftKey2Click="" OnSoftKey3Click="" OnSoftKey4Click="" InlineFormIcon="" DisplayText="HG=%ArcPar_Type/ %ArcParName/  Vel=%Rob_Vel/mm/s  Power:%Power/%  IO:%Laser_IO/  Duty:%PWM_Duty/%  Freq:%PWM_Freq/Hz  " EnableHotEdit="True">
+        <ParameterRef Key="ArcPar_Type" />
+        <ParameterRef Key="ArcParList" />
+        <ParameterRef Key="Power" />
+        <ParameterRef Key="Laser_IO" />
+        <ParameterRef Key="PWM_Duty" />
+        <ParameterRef Key="PWM_Freq" />
+        <ParameterRef Key="Rob_Vel" />
+        <KrlLine>dArcPs1WdatWeld[%ArcParList/].Velocity=%Rob_Vel/</KrlLine>
+        <KrlLine>dArcPs1WdatWeld[%ArcParList/].C1=%Power/</KrlLine>
+        <KrlLine>dArcPs1WdatWeld[%ArcParList/].C2=%Laser_IO/</KrlLine>
+        <KrlLine>dArcPs1WdatWeld[%ArcParList/].C3=%PWM_Duty/</KrlLine>
+        <KrlLine>dArcPs1WdatWeld[%ArcParList/].C4=%PWM_Freq/</KrlLine>
+        <KrlLine>ArcCallChangeBefore({Action #enArcChangeBefore,WDAT{PS 1,Weld %ArcParList/,Weave 0,Track 0,ThermalControl 0}})</KrlLine>
+        <KrlLine>%ArcPar_Type/ </KrlLine>
+        <LineBreak />
+      </InlineForm>
+    </Inlineforms>
+    <StatKeys />
+    <StatKeyBars />
+  </Application>
+</KukaTechConfiguration>

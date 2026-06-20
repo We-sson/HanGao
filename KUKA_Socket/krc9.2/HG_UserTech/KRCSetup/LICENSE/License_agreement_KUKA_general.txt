@@ -1,0 +1,50 @@
+Software License Terms
+
+Please read the following License carefully. By purchasing the Software product, or by installing or using it,  Licensee agrees with the terms and conditions contained herein:
+
+1.	The subject matter of this License is the Software product which has been preinstalled or recorded on a data medium, including contents such as illustrations, diagrams, text and sample applications, and all associated documentation.
+
+2.	Licensor grants Licensee a nonexclusive, irrevocable, perpetual license to use the Software, subject to the confidentiality provisions of this License. No right to grant sublicenses is granted hereunder, unless the prior written consent of Licensor is obtained. All copyrights and other intellectual property rights are retained by the Licensor and the Licensor’s subcontractors.
+
+3.	The License includes:
+	- use of the Software product on a single computer;
+	- if multiple licenses are purchased, use of the Software product on as many computers as Licenses were purchased;
+	- Creation of one backup copy. Licensee agrees to reproduce and include the copyright notice on any such copy.
+	The License does not include updates/upgrades and/or downdates/downgrades, unless such were explicitly specified as part of the scope of supply. Also not included are any third-party licenses, which have to be purchased by Licensee before the initial installation and use of the Software product. 
+
+4.	Neither the Licensee nor third parties may copy, modify, or separate components of the Software product, i.e. they may not disassemble or decompile it or carry out reverse engineering. In addition, the Software product may not be transferred on to third parties, leased, or sold.
+
+5.	The Licensee may not remove copyright notes or any other indications of legal ownership from the Software product.
+
+6.	Licensor warrants that Licensor has the right to license the Software product and grant the rights granted herein. The Licensor further warrants: that the data medium is free of material and manufacturing defects; that when used as agreed the Software product substantially conforms to the associated documentation; and that it does not contain any defects which render it incapable of use or substantially reduces its utility. The warranty period is 3 months, commencing on the date of delivery. All other warranties and guarantees, whether statutory or implied in law, are excluded, and waived by Licensee, including, but not limited to merchantability, fitness for a particular purpose, or assurance that intellectual property rights of third parties will not be infringed.
+
+7.	The Licensor shall be liable only for damage resulting from willful or gross negligence. Licensor shall not be liable for indirect, special, incidental, or consequential damages, expenses or lost profits, lost savings, loss of data, business interruption or other similar damages resulting from use of the Software product, or from the fact that the Software product could not be used. Licensor's entire liability with respect to the Software shall be as set forth herein.
+
+8.	In addition, the Licensee and User is responsible for the selection of software and hardware, for installation and use, for the expected results, and for data privacy and data protection.
+
+9.	Licensor may list Licensee as a customer in marketing or other promotional materials; an assessment of the Software product may only be stated after prior approval by Licensee.
+
+10.	Licensor may at any time, verify (audit) the use of the Software product and in such case, Licensee agrees to provide reasonable assistance to the Licensor.
+
+11.	The Licensee is obliged to treat all corporate and technical information of Licensor confidentially. Licensee agrees to protect such information by using the same degree of care, but no less than a reasonable degree of care, to prevent the unauthorized use, dissemination, or publication of the corporate and technical information of Licensor as Licensee uses to protect its own corporate and technical information of a like nature. Art. 17 UWG (German Law Against Unfair Competition) shall apply.
+
+12.	KUKA Deutschland GmbH’s General Terms of Delivery and Performance shall apply to this License. In case of contrariness of any clause this license agreement is overriding applicable.
+
+13.	If individual provisions of this License are or become invalid, the validity of the remaining provisions shall remain unaffected. Invalid provisions shall be replaced by valid provisions whose effect comes closest to the intended commercial purpose of the invalid provisions.
+
+14.	This License shall be governed under the laws of the Federal Republic of Germany.
+
+15.	This License and all documents specifically referenced herein constitute the entire agreement between Licensor and Licensee in connection with this License and supersedes all prior and contemporaneous agreements, understandings, negotiations, and discussions of the parties.
+
+16.	This License may be cancelled by Licensor if any material provisions hereof or of KUKA Deutschland GmbH’s General Terms of Delivery and Performance are breached by Licensee.
+
+17.	Licensee warrants that, in the use of the Software, it shall comply with all applicable governmental laws, codes and regulations.
+
+18.	Any waiver of strict compliance with this License or KUKA Deutschland GmbH’s General Terms of Delivery and Performance by Licensor must be in writing and signed by Licensor, and any such waiver shall not constitute a waiver of Licensor’s rights under any other provision of this License or the General Terms of Delivery and Performance.
+
+
+
+KUKA Deutschland GmbH
+Zugspitzstraße 140 D-86165
+Augsburg
+www.kuka.com

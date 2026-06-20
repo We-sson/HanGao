@@ -4,6 +4,7 @@
    </Connection>
  <Behavior>
  <ConnectionManagement CommErrorEvent="$FLAG[1]"/>
+ <UnloadWhenInterpreterReset>S_USER1</UnloadWhenInterpreterReset>
 </Behavior>
     <Buffering Type="FIFO" Size="500" Strategy="ErrorWhenFull" />
    

@@ -1,7 +1,7 @@
 &ACCESS RVO
 &REL 25
 &PARAM DISKPATH = KRC:\R1\HG_Mes
-DEF Int_Tooling( ) 
+DEF Tooling_Main( ) 
    
    INTERRUPT DECL 21 WHEN $IN[17] == TRUE DO Grip_Button_1()
    INTERRUPT DECL 22 WHEN $IN[18] == TRUE DO Grip_Button_2()

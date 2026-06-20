@@ -1,10 +1,7 @@
 &ACCESS RV
 DEF Mes_Info_Data()
    Mes_Info_Int()
-   Work_A_State=FALSE
-   Work_B_State=FALSE
-   Work_C_State=FALSE
-   Work_D_State=FALSE
+   Work_State_Int()
    HALT
    LOOP
       ;Mes_Info_Main()
@@ -25,7 +22,6 @@ DEF Mes_Info_Data()
    ENDLOOP
    ;# DATE:2025-6-12
 END
-
 
 GLOBAL DEF Mes_InFo_Main()
    Mes_Info_Send(_EKRL_Connect_Stat, _EKRL_Send_Stat)
@@ -72,7 +68,6 @@ DEF Mes_Mode_Info(_Aut_Time:OUT, _Stat:OUT, _Time_No:IN, _Mode:IN)
    ENDIF
 END
 
-
 DEF Mes_Info_Send(_Connt_Stat:OUT, _Send_Stat:OUT)
    DECL BOOL _Connt_Stat
    DECL BOOL _Send_Stat
@@ -105,7 +100,6 @@ DEF Mes_Info_Send(_Connt_Stat:OUT, _Send_Stat:OUT)
    ENDIF
 END
 
-
 GLOBAL DEF Mes_InFo_Int()
    DECL INT i
    ;{DATE:CSEC 0,SEC 0,MIN 0,HOUR 0,DAY 0,MONTH 0,YEAR 0}
@@ -135,4 +129,12 @@ GLOBAL DEF Mes_InFo_Int()
    _Work_D_Stat=FALSE
    _EKRL_Connect_Stat=FALSE
    _EKRL_Send_Stat=FALSE
+END
+
+GLOBAL DEF Work_State_Int()
+   Work_A_State=FALSE
+   Work_B_State=FALSE
+   Work_C_State=FALSE
+   Work_D_State=FALSE
+   
 END
