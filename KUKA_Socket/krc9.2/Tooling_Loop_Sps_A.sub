@@ -1,0 +1,20 @@
+&ACCESS RVP
+&COMMENT USER specified PLC program
+DEF Tooling_Loop_Sps_A( ) 
+   
+  ;----- Fixture A buttons: IN17 / IN18  ->  INT 21 / 22
+   INTERRUPT DECL 21 WHEN $IN[17] == TRUE DO Grip_Button_1_A()
+   INTERRUPT DECL 22 WHEN $IN[18] == TRUE DO Grip_Button_2_A()
+
+   INTERRUPT ON 21
+   INTERRUPT ON 22
+
+   Grip_Reset_A=FALSE
+  
+   LOOP
+      Grip_Tool_A()
+
+   ENDLOOP
+   
+END
+

@@ -1,149 +1,115 @@
 &ACCESS RVO
 &REL 25
 &PARAM DISKPATH = KRC:\R1\HG_Mes
-DEF Tooling_Main( ) 
-   
-   INTERRUPT DECL 21 WHEN $IN[17] == TRUE DO Grip_Button_1()
-   INTERRUPT DECL 22 WHEN $IN[18] == TRUE DO Grip_Button_2()
-   
+DEF Tooling_Main()
+   ;----- Fixture A buttons: IN17 / IN18  ->  INT 21 / 22
+   INTERRUPT DECL 21 WHEN $IN[17] == TRUE DO Grip_Button_1_A()
+   INTERRUPT DECL 22 WHEN $IN[18] == TRUE DO Grip_Button_2_A()
+   ;----- Fixture B buttons: IN19 / IN20  ->  INT 23 / 24
+   INTERRUPT DECL 23 WHEN $IN[19] == TRUE DO Grip_Button_1_B()
+   INTERRUPT DECL 24 WHEN $IN[20] == TRUE DO Grip_Button_2_B()
    INTERRUPT ON 21
    INTERRUPT ON 22
-   ;Grip_1 = FALSE
-   ;Grip_2 = FALSE
-   ;Grip_OK=FALSE
-   Grip_Reset=FALSE
-   
-   ;reset_request = FALSE
-   
-   ;in17_old = $IN[17]
-   ;in18_old = $IN[18]
-   
+   INTERRUPT ON 23
+   INTERRUPT ON 24
+   Grip_Reset_A=FALSE
+   Grip_Reset_B=FALSE
    LOOP
-      
-      Grip_Tool()
-      
+      Grip_Tool_A()
+      Grip_Tool_B()
    ENDLOOP
-   
 END
 
-GLOBAL DEF Grip_Tool()
-   
-   IF (Grip_1==FALSE)AND  (Grip_2==FALSE) and (Grip_OK==FALSE)THEN
-      
-      grip_action_0()
-      
+
+GLOBAL DEF Grip_Tool_A()
+   IF (Grip_1_A == FALSE) AND (Grip_2_A == FALSE) AND (Grip_OK_A == FALSE) THEN
+      grip_action_0_A()
    ENDIF
-   
-   IF (Grip_1==TRUE)AND (Grip_2==FALSE) and (Grip_OK==FALSE) THEN
-      
-      grip_action_1()
-      Grip_Reset=FALSE
-      
+   IF (Grip_1_A == TRUE) AND (Grip_2_A == FALSE) AND (Grip_OK_A == FALSE) THEN
+      grip_action_1_A()
+      Grip_Reset_A=FALSE
    ENDIF
-   
-   IF (Grip_1==TRUE)AND (Grip_2==TRUE) and (Grip_OK==FALSE) THEN
-      
-      grip_action_2()
-      Grip_OK=TRUE
-      
+   IF (Grip_1_A == TRUE) AND (Grip_2_A == TRUE) AND (Grip_OK_A == FALSE) THEN
+      grip_action_2_A()
+      Grip_OK_A=TRUE
    ENDIF
-   
    ;-------------------------------------------------
-   
-   IF (Grip_2==TRUE) and (Grip_1==FALSE) AND (Grip_OK==TRUE)AND(Grip_Reset==FALSE) THEN
-      
-      grip_action_3()
-      
+   IF (Grip_2_A == TRUE) AND (Grip_1_A == FALSE) AND (Grip_OK_A == TRUE) AND (Grip_Reset_A == FALSE) THEN
+      grip_action_3_A()
    ENDIF
-   
-   IF (Grip_2==FALSE) and (Grip_1==TRUE) AND (Grip_OK==TRUE)AND(Grip_Reset==FALSE) THEN
-      
-      grip_action_3()
-      
+   IF (Grip_2_A == FALSE) AND (Grip_1_A == TRUE) AND (Grip_OK_A == TRUE) AND (Grip_Reset_A == FALSE) THEN
+      grip_action_3_A()
    ENDIF
-   
-   IF (Grip_2==FALSE)and (Grip_1==FALSE) and (Grip_OK==TRUE)AND(Grip_Reset==FALSE) THEN
-      
-      grip_action_0()
-      Grip_Reset=TRUE
-      Grip_OK=FALSE
+   IF (Grip_2_A == FALSE) AND (Grip_1_A == FALSE) AND (Grip_OK_A == TRUE) AND (Grip_Reset_A == FALSE) THEN
+      grip_action_0_A()
+      Grip_Reset_A=TRUE
+      Grip_OK_A=FALSE
    ENDIF
-   
-   IF Reset_Tooling == TRUE THEN
-      grip_action_3()
-      grip_action_0()
-      Reset_Tooling = FALSE
-      Grip_Reset=false
-      Grip_1=FALSE
-      $OUT[3]=FALSE 
-      Grip_2=FALSE
-      $OUT[4]=FALSE
+   IF Reset_Tooling_A == TRUE THEN
+      grip_action_3_A()
+      grip_action_0_A()
+      Reset_Tooling_A=FALSE
+      Grip_Reset_A=FALSE
+      Grip_1_A=FALSE
+      $OUT[3] = FALSE
+      Grip_2_A=FALSE
+      $OUT[4] = FALSE
    ENDIF
-   
 END
 
-GLOBAL DEF Grip_Button_1()
+GLOBAL DEF Grip_Button_1_A()
    INTERRUPT OFF 21
-   
-   Button_1_On=TRUE
-   
-   IF (Button_1_On==TRUE)AND(Grip_1==FALSE) THEN
-      Grip_1=TRUE
-      $OUT[3]=TRUE
-      Button_1_On=FALSE
+   Button_1_On_A=TRUE
+   IF (Button_1_On_A == TRUE) AND (Grip_1_A == FALSE) THEN
+      Grip_1_A=TRUE
+      $OUT[3] = TRUE
+      Button_1_On_A=FALSE
    ENDIF
-   
-   IF (Button_1_On==TRUE)AND (Grip_1==TRUE) THEN
-      Grip_1=FALSE
-      $OUT[3]=FALSE
-      Button_1_On=FALSE
+   IF (Button_1_On_A == TRUE) AND (Grip_1_A == TRUE) THEN
+      Grip_1_A=FALSE
+      $OUT[3] = FALSE
+      Button_1_On_A=FALSE
    ENDIF
-   
    INTERRUPT ON 21
-   ;HALT
-   wait sec 0.1
+   WAIT SEC 0.1
 END
-GLOBAL DEF Grip_Button_2()
+
+GLOBAL DEF Grip_Button_2_A()
    INTERRUPT OFF 22
-   
-   Button_2_On=TRUE
-   
-   IF (Button_2_On==TRUE)AND(Grip_2==FALSE) THEN
-      Grip_2=TRUE
-      $OUT[4]=TRUE
-      Button_2_On=FALSE
+   Button_2_On_A=TRUE
+   IF (Button_2_On_A == TRUE) AND (Grip_2_A == FALSE) THEN
+      Grip_2_A=TRUE
+      $OUT[4] = TRUE
+      Button_2_On_A=FALSE
    ENDIF
-   
-   IF  (Button_2_On==TRUE)AND (Grip_2==TRUE) THEN
-      Grip_2=FALSE
-      $OUT[4]=FALSE
-      Button_2_On=FALSE
+   IF (Button_2_On_A == TRUE) AND (Grip_2_A == TRUE) THEN
+      Grip_2_A=FALSE
+      $OUT[4] = FALSE
+      Button_2_On_A=FALSE
    ENDIF
    INTERRUPT ON 22
-   ;HALT
-   wait sec 0.1
+   WAIT SEC 0.1
 END
 
-DEF grip_action_0()
-   $OUT[17]=TRUE
-   $OUT[18]=FALSE
-   $OUT[19]=FALSE
-   $OUT[20]=TRUE 
-   $OUT[21]=FALSE
-   $OUT[22]=TRUE
-   
+DEF grip_action_0_A()
+   $OUT[17] = TRUE
+   $OUT[18] = FALSE
+   $OUT[19] = FALSE
+   $OUT[20] = TRUE
+   $OUT[21] = FALSE
+   $OUT[22] = TRUE
 END
 
-DEF grip_action_1()
-   $OUT[17]=TRUE
-   $OUT[18]=FALSE
-   $OUT[19]=TRUE
-   $OUT[20]=FALSE 
-   $OUT[21]=TRUE
-   $OUT[22]=FALSE
+DEF grip_action_1_A()
+   $OUT[17] = TRUE
+   $OUT[18] = FALSE
+   $OUT[19] = TRUE
+   $OUT[20] = FALSE
+   $OUT[21] = TRUE
+   $OUT[22] = FALSE
 END
 
-DEF grip_action_2()
+DEF grip_action_2_A()
    $OUT[17] = FALSE
    $OUT[18] = TRUE
    $OUT[19] = TRUE
@@ -161,18 +127,131 @@ DEF grip_action_2()
    WAIT SEC 0.3
    $OUT[19] = FALSE
    $OUT[20] = TRUE
-   
 END
 
-DEF grip_action_3()
+DEF grip_action_3_A()
    $OUT[19] = TRUE
    $OUT[20] = FALSE
    WAIT SEC 0
    $OUT[17] = TRUE
    $OUT[18] = FALSE
-   ; $OUT[19] = FALSE
-   ; $OUT[20] = TRUE
-   ; $OUT[21] = FALSE
-   ; $OUT[22] = TRUE
+   WAIT SEC 0.5
+END
+
+
+GLOBAL DEF Grip_Tool_B()
+   IF (Grip_1_B == FALSE) AND (Grip_2_B == FALSE) AND (Grip_OK_B == FALSE) THEN
+      grip_action_0_B()
+   ENDIF
+   IF (Grip_1_B == TRUE) AND (Grip_2_B == FALSE) AND (Grip_OK_B == FALSE) THEN
+      grip_action_1_B()
+      Grip_Reset_B=FALSE
+   ENDIF
+   IF (Grip_1_B == TRUE) AND (Grip_2_B == TRUE) AND (Grip_OK_B == FALSE) THEN
+      grip_action_2_B()
+      Grip_OK_B=TRUE
+   ENDIF
+   ;-------------------------------------------------
+   IF (Grip_2_B == TRUE) AND (Grip_1_B == FALSE) AND (Grip_OK_B == TRUE) AND (Grip_Reset_B == FALSE) THEN
+      grip_action_3_B()
+   ENDIF
+   IF (Grip_2_B == FALSE) AND (Grip_1_B == TRUE) AND (Grip_OK_B == TRUE) AND (Grip_Reset_B == FALSE) THEN
+      grip_action_3_B()
+   ENDIF
+   IF (Grip_2_B == FALSE) AND (Grip_1_B == FALSE) AND (Grip_OK_B == TRUE) AND (Grip_Reset_B == FALSE) THEN
+      grip_action_0_B()
+      Grip_Reset_B=TRUE
+      Grip_OK_B=FALSE
+   ENDIF
+   IF Reset_Tooling_B == TRUE THEN
+      grip_action_3_B()
+      grip_action_0_B()
+      Reset_Tooling_B=FALSE
+      Grip_Reset_B=FALSE
+      Grip_1_B=FALSE
+      $OUT[5] = FALSE
+      Grip_2_B=FALSE
+      $OUT[6] = FALSE
+   ENDIF
+END
+
+GLOBAL DEF Grip_Button_1_B()
+   INTERRUPT OFF 23
+   Button_1_On_B=TRUE
+   IF (Button_1_On_B == TRUE) AND (Grip_1_B == FALSE) THEN
+      Grip_1_B=TRUE
+      $OUT[5] = TRUE
+      Button_1_On_B=FALSE
+   ENDIF
+   IF (Button_1_On_B == TRUE) AND (Grip_1_B == TRUE) THEN
+      Grip_1_B=FALSE
+      $OUT[5] = FALSE
+      Button_1_On_B=FALSE
+   ENDIF
+   INTERRUPT ON 23
+   WAIT SEC 0.1
+END
+
+GLOBAL DEF Grip_Button_2_B()
+   INTERRUPT OFF 24
+   Button_2_On_B=TRUE
+   IF (Button_2_On_B == TRUE) AND (Grip_2_B == FALSE) THEN
+      Grip_2_B=TRUE
+      $OUT[6] = TRUE
+      Button_2_On_B=FALSE
+   ENDIF
+   IF (Button_2_On_B == TRUE) AND (Grip_2_B == TRUE) THEN
+      Grip_2_B=FALSE
+      $OUT[6] = FALSE
+      Button_2_On_B=FALSE
+   ENDIF
+   INTERRUPT ON 24
+   WAIT SEC 0.1
+END
+
+DEF grip_action_0_B()
+   $OUT[23] = TRUE
+   $OUT[24] = FALSE
+   $OUT[25] = FALSE
+   $OUT[26] = TRUE
+   $OUT[27] = FALSE
+   $OUT[28] = TRUE
+END
+
+DEF grip_action_1_B()
+   $OUT[23] = TRUE
+   $OUT[24] = FALSE
+   $OUT[25] = TRUE
+   $OUT[26] = FALSE
+   $OUT[27] = TRUE
+   $OUT[28] = FALSE
+END
+
+DEF grip_action_2_B()
+   $OUT[23] = FALSE
+   $OUT[24] = TRUE
+   $OUT[25] = TRUE
+   $OUT[26] = FALSE
+   $OUT[27] = TRUE
+   $OUT[28] = FALSE
+   WAIT SEC 2
+   $OUT[27] = TRUE
+   $OUT[28] = FALSE
+   $OUT[25] = FALSE
+   $OUT[26] = TRUE
+   WAIT SEC 0.3
+   $OUT[25] = TRUE
+   $OUT[26] = FALSE
+   WAIT SEC 0.3
+   $OUT[25] = FALSE
+   $OUT[26] = TRUE
+END
+
+DEF grip_action_3_B()
+   $OUT[25] = TRUE
+   $OUT[26] = FALSE
+   WAIT SEC 0
+   $OUT[23] = TRUE
+   $OUT[24] = FALSE
    WAIT SEC 0.5
 END

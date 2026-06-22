@@ -1,19 +1,28 @@
-&ACCESS  RV
-&PARAM DISKPATH = KRC:\R1\HG_Mes
-&PARAM DISKPATH = KRC:\R1\Program\HG
-&PARAM DISKPATH = KRC:\R1\Program\HG
+&ACCESS RVO
 &REL 25
-DEFDAT  Tooling_Main PUBLIC
+&PARAM DISKPATH = KRC:\R1\HG_Mes
+DEFDAT  TOOLING_MAIN PUBLIC
 
-GLOBAL BOOL Grip_1=FALSE ; ????1???? ????????1
-GLOBAL BOOL Grip_2=FALSE ; ????2???? ????????2
-GLOBAL BOOL Grip_OK=FALSE ; 
-GLOBAL BOOL Grip_Reset=TRUE
+;==============================================================
+; Fixture A  (buttons IN17/IN18, lamps OUT3/OUT4, action OUT17..22)
+;==============================================================
+GLOBAL BOOL Grip_1_A=TRUE
+GLOBAL BOOL Grip_2_A=TRUE
+GLOBAL BOOL Grip_OK_A=TRUE
+GLOBAL BOOL Grip_Reset_A=FALSE
+GLOBAL BOOL Reset_Tooling_A=FALSE
+BOOL Button_1_On_A=FALSE
+BOOL Button_2_On_A=FALSE
 
-BOOL Button_1_On=FALSE
-BOOL Button_1_Up=FALSE
-BOOL Button_2_On=FALSE
-BOOL Button_2_Up=FALSE
-GLOBAL BOOL Reset_Tooling=FALSE ; ????????????????
+;==============================================================
+; Fixture B  (buttons IN19/IN20, lamps OUT5/OUT6, action OUT23..28)
+;==============================================================
+GLOBAL BOOL Grip_1_B=FALSE
+GLOBAL BOOL Grip_2_B=FALSE
+GLOBAL BOOL Grip_OK_B=FALSE
+GLOBAL BOOL Grip_Reset_B=FALSE
+GLOBAL BOOL Reset_Tooling_B=FALSE
+BOOL Button_1_On_B=FALSE
+BOOL Button_2_On_B=FALSE
 
 ENDDAT
