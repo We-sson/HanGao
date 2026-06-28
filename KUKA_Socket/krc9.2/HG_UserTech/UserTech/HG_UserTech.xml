@@ -44,7 +44,7 @@
         </CaseItem>
         <CaseItem Key="CaseItemKey1" Disp="Switch">
           <LineBreak />
-          <KrlLine>TRIGGER WHEN PATH = 0.0 DELAY = 0 DO ArcCallChange({Action #enArcChange,WDAT{PS 1,Weld 1,Weave 0,Track 0,ThermalControl 0}}) PRIO = -1</KrlLine>
+          <KrlLine>TRIGGER WHEN PATH = 0.0 ONSTART DELAY = 0 DO ArcCallChange({Action #enArcChange,WDAT{PS 1,Weld 1,Weave 0,Track 0,ThermalControl 0}}) PRIO = -1</KrlLine>
         </CaseItem>
       </SwitchParameter>
     </Parameters>
