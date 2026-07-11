@@ -117,7 +117,11 @@ namespace Roboto_Socket_Library
 
 
 
-
+        /// <summary>
+        /// 单连接接收缓冲大小。原为 4MB（2048*2048），每连接一份且断开不释放，
+        /// 是内存爆点。256KB 对现有 XML 报文（几十 KB）有充足余量。
+        /// </summary>
+        public const int Receive_Buffer_Size = 256 * 1024;   // 256KB
 
 
 
@@ -234,7 +238,21 @@ namespace Roboto_Socket_Library
 
 
 
+        /// <summary>
+        /// 关闭并释放一个客户端连接（幂等，可重复调用）。
+        /// 注意：必须在调用错误委托【之后】再调用——因为看板匹配逻辑
+        /// (Socket_Mes_ErrorLog_Show) 还要读 RemoteEndPoint，socket 一旦 Dispose 就读不到了。
+        /// </summary>
+        private void Close_Client(Receive_State? _client)
+        {
+            Socket? _s = _client?.Client_Socket;
+            if (_s == null) return;
 
+            _client!.Client_Socket = null;   // 置空防止二次关闭 / 二次进入
+            try { _s.Shutdown(SocketShutdown.Both); } catch { }
+            try { _s.Close(); } catch { }
+            try { _s.Dispose(); } catch { }
+        }
 
 
 
@@ -290,13 +308,15 @@ namespace Roboto_Socket_Library
         public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val,int TimeOut=1000)
         {
 
+            byte[]? buffer = null;   // 提到 try 外，供 finally 归还
             try
             {
 
 
                 Robot_Socket_Protocol _Socket_Protoco = new Robot_Socket_Protocol(_Robot_Protocols, _Model);
                 Byte[] Send_byte = Array.Empty<byte>();
-                byte[] buffer= new byte[2048 * 2048];
+                // 从共享池租借接收缓冲，代替每次 new 4MB（回执报文很小，256KB 绰绰有余）
+                buffer = System.Buffers.ArrayPool<byte>.Shared.Rent(Receive_Buffer_Size);
                 //_Socket_Protoco.Socket_Send_Set_Data(_val);
                 Socket_Client!.ReceiveTimeout= TimeOut;
 
@@ -328,6 +348,7 @@ namespace Roboto_Socket_Library
                     byte[] _Reveice_Meg = buffer.Skip(0).Take(length).ToArray();
                     //委托显示接受数据
 
+                    string bb = Encoding.UTF8.GetString(_Reveice_Meg.ToArray());
 
                     //创建协议处理类型,处理协议头部解析类型
                     Robot_Socket_Protocol _Socket_Protocol = new(Socket_Robot, _Reveice_Meg);
@@ -368,6 +389,13 @@ namespace Roboto_Socket_Library
 
                 Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message, Socket_Client);
 
+          
+
+            }
+            finally
+            {
+                // 归还池化缓冲，避免 LOH 高频分配
+                if (buffer != null) System.Buffers.ArrayPool<byte>.Shared.Return(buffer);
             }
         }
 
@@ -599,8 +627,7 @@ namespace Roboto_Socket_Library
                     catch (Exception e)
                     {
                         Socket_ErrorInfo_delegate?.Invoke($"Error:-15" + e.Message, client);
-                        //ServerSocket?.Close();
-                        //ServerSocket?.Dispose();
+                        Close_Client(_Receive);   // BeginReceive 失败，释放该客户端 socket + 缓冲
                         return;
                     }
 
@@ -664,6 +691,7 @@ namespace Roboto_Socket_Library
                         //client?.Close();
                         //client?.Dispose();
                         //Client_Connect = false;
+                        Close_Client(client);
                         return;
                     }
                     client.Client_Socket?.BeginReceive(client.buffer, 0, client.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
@@ -754,7 +782,12 @@ namespace Roboto_Socket_Library
 
                             break;
 
+                        case Vision_Model_Enum.Unknown:
 
+
+                            throw new Exception("Error:-9,现有通讯协议无法解析，请联系开发者！");
+
+                          
 
 
                     }
@@ -791,8 +824,7 @@ namespace Roboto_Socket_Library
                     Socket_ErrorInfo_delegate?.Invoke("Error:-11," + e.Message, client.Client_Socket);
 
                     ConnectNumber--;
-                    //client?.Close();
-                    //client?.Dispose();
+                    Close_Client(client);   // 先回调再释放：异常/异常断开时释放 socket + 缓冲，避免堆积
 
                     //断开连接
                     //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);
@@ -970,7 +1002,8 @@ namespace Roboto_Socket_Library
         public Socket? Client_Socket { set; get; }
 
 
-        public  byte[] buffer { set; get; } = new byte[2048 * 2048];
+        // 4MB → 256KB，16 倍下降；断开由 Close_Client 统一释放
+        public  byte[] buffer { set; get; } = new byte[Socket_Receive.Receive_Buffer_Size];
 
 
         public int Receive_Length { set; get; } = 0;

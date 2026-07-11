@@ -70,7 +70,7 @@ namespace Roboto_Socket_Library
                     catch (Exception e)
                     {
                       string aa=   Encoding.UTF8.GetString(Receice_byte.ToArray());
-                        throw new Exception("通讯协议存在异常！" + e.Message);
+                        return Vision_Model_Enum.Unknown;
                     }
 
 
