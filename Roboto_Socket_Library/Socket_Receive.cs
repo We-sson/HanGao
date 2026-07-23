@@ -620,9 +620,14 @@ namespace Roboto_Socket_Library
                     {
                         
 
+
                         //得到接受进来的socket客户端
                         //开始异步接收客户端数据
                         client?.BeginReceive(_Receive.buffer, 0, _Receive.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), _Receive);
+
+
+
+
                     }
                     catch (Exception e)
                     {
