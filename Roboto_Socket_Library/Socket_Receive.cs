@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 
@@ -105,8 +106,10 @@ namespace Roboto_Socket_Library
         public ClientMessage_delegate<Mes_Server_Info_Data_Send>? Mes_Receive_Info_Data_Delegate { set; get; }
 
 
-
-
+        /// <summary>
+        /// 对于大数据XML分包循环接收
+        /// </summary>
+        public bool UseXmlFragmentReceive { get; set; } = false;
 
 
 
@@ -140,7 +143,7 @@ namespace Roboto_Socket_Library
         private ManualResetEvent Send_State { set; get; } = new ManualResetEvent(false);
 
 
-        public  ManualResetEvent Rece_Event { set; get; } = new ManualResetEvent(false);
+        public ManualResetEvent Rece_Event { set; get; } = new ManualResetEvent(false);
 
 
         /// <summary>
@@ -155,7 +158,7 @@ namespace Roboto_Socket_Library
         //public bool Client_Connect { set; get; }
 
         //private  byte[] buffer { set; get; } = new byte[1024 * 2048];
-        public  int ConnectNumber { set; get; } = 0;
+        public int ConnectNumber { set; get; } = 0;
 
         /// <summary>
         /// 接收文件编码信息
@@ -265,13 +268,13 @@ namespace Roboto_Socket_Library
 
             try
             {
-                if (Socket_Client?.Connected??false)
+                if (Socket_Client?.Connected ?? false)
                 {
-                Timeout_Event.Set();
+                    Timeout_Event.Set();
 
                 }
                 Socket_Client?.EndConnect(ar!);
-               
+
                 //Task.Delay(10);
                 //挂起读取异步连接
                 //异步接收客户端
@@ -305,7 +308,7 @@ namespace Roboto_Socket_Library
 
 
 
-        public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val,int TimeOut=1000)
+        public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val, int TimeOut = 1000)
         {
 
             byte[]? buffer = null;   // 提到 try 外，供 finally 归还
@@ -318,7 +321,7 @@ namespace Roboto_Socket_Library
                 // 从共享池租借接收缓冲，代替每次 new 4MB（回执报文很小，256KB 绰绰有余）
                 buffer = System.Buffers.ArrayPool<byte>.Shared.Rent(Receive_Buffer_Size);
                 //_Socket_Protoco.Socket_Send_Set_Data(_val);
-                Socket_Client!.ReceiveTimeout= TimeOut;
+                Socket_Client!.ReceiveTimeout = TimeOut;
 
 
 
@@ -335,10 +338,10 @@ namespace Roboto_Socket_Library
 
                     //通过递归不停的接收该客户端的消息
                     //Socket_Client?.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback(Client_ReceiveMessage), Socket_Client);
-                    int length=Socket_Client?.Receive(buffer, buffer.Length, SocketFlags.None)??0;
+                    int length = Socket_Client?.Receive(buffer, buffer.Length, SocketFlags.None) ?? 0;
 
 
-                    if (length==0)
+                    if (length == 0)
                     {
                         throw new Exception("Error:-65,接受信息为空，重复发送");
 
@@ -389,7 +392,7 @@ namespace Roboto_Socket_Library
 
                 Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message, Socket_Client);
 
-          
+
 
             }
             finally
@@ -438,7 +441,7 @@ namespace Roboto_Socket_Library
                     //接触数据长度
                     byte[] _Reveice_Meg = client.buffer.Skip(0).Take(length).ToArray();
                     //委托显示接受数据
-   
+
 
 
                     //创建协议处理类型,处理协议头部解析类型
@@ -613,12 +616,12 @@ namespace Roboto_Socket_Library
                 //服务端对象获取
                 Socket? ServerSocket = ar.AsyncState as Socket;
                 Socket? client = ServerSocket?.EndAccept(ar);
-                Receive_State _Receive = new Receive_State() { Client_Socket= client };
+                Receive_State _Receive = new Receive_State() { Client_Socket = client };
                 if (null != ServerSocket)
                 {
                     try
                     {
-                        
+
 
 
                         //得到接受进来的socket客户端
@@ -672,7 +675,7 @@ namespace Roboto_Socket_Library
             //客户端对象
 
 
-        
+
 
 
 
@@ -699,127 +702,18 @@ namespace Roboto_Socket_Library
                         Close_Client(client);
                         return;
                     }
+
+
+                    ///继续接收客户端数据
                     client.Client_Socket?.BeginReceive(client.buffer, 0, client.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
 
 
-                    //接触数据长度
+                    ///释放接受信息锁
                     byte[] _Reveice_Meg = client.buffer.Skip(0).Take(length).ToArray();
-                    //委托显示接受数据
 
 
-                    //创建协议处理类型,处理协议头部解析类型
-                    Robot_Socket_Protocol _Socket_Protocol = new(Socket_Robot, _Reveice_Meg);
-
-                    ///根据协议类型处理对应内容
-                    switch (_Socket_Protocol.Vision_Model)
-                    {
-                        case Vision_Model_Enum.Calibration_New:
-                            break;
-                        case Vision_Model_Enum.Calibration_Text:
-                            break;
-                        case Vision_Model_Enum.Calibration_Add:
-                            break;
-                        case Vision_Model_Enum.Find_Model:
-
-
-                            Vision_Find_Data_Receive? _Vision_Find_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Vision_Find_Data_Receive>();
-
-                            Vision_Find_Data_Send? _Vision_Find_Send = Vision_Find_Model_Delegate?.Invoke(_Vision_Find_Rece!);
-
-                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data<Vision_Find_Data_Send>(_Vision_Find_Send ?? new Vision_Find_Data_Send()) ?? Array.Empty<byte>();
-
-                            break;
-                        case Vision_Model_Enum.Vision_Ini_Data:
-
-                            Vision_Ini_Data_Receive? _Vision_Ini_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Vision_Ini_Data_Receive>();
-
-                            Vision_Ini_Data_Send? _Vision_Ini_Send = Vision_Ini_Data_Delegate?.Invoke(_Vision_Ini_Rece!);
-
-                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Vision_Ini_Send ?? new Vision_Ini_Data_Send()) ?? Array.Empty<byte>();
-
-                            break;
-                        case Vision_Model_Enum.HandEye_Calib_Date:
-
-
-                            HandEye_Calibration_Receive? _HandEye_Rece = _Socket_Protocol.Socket_Receive_Get_Date<HandEye_Calibration_Receive>();
-
-                            HandEye_Calibration_Send? _Hand_Send = HandEye_Calibration_Data_Delegate?.Invoke(_HandEye_Rece!);
-
-                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Hand_Send ?? new HandEye_Calibration_Send()) ?? Array.Empty<byte>();
-
-
-                            break;
-
-                        case Vision_Model_Enum.Vision_Creation_Model:
-
-                            Vision_Creation_Model_Receive? _Vision_Creation_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Vision_Creation_Model_Receive>();
-
-                            Vision_Creation_Model_Send? __Vision_Creation_Send = Vision_Creation_Model_Data_Delegate?.Invoke(_Vision_Creation_Rece!);
-
-                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(__Vision_Creation_Send ?? new Vision_Creation_Model_Send()) ?? Array.Empty<byte>();
-
-                            break;
-
-                        case Vision_Model_Enum.Mes_Info_Data:
-
-
-                            Robot_Mes_Info_Data_Receive? _Mes_Info_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Robot_Mes_Info_Data_Receive>();
-
-                            Robot_Mes_Info_Data_Send? _Mes_Info_Send = Robot_Info_Model_Data_Delegate?.Invoke(_Mes_Info_Rece!);
-
-                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Mes_Info_Send ?? new Robot_Mes_Info_Data_Send()) ?? Array.Empty<byte>();
-
-
-
-                            break;
-
-
-                        case Vision_Model_Enum.Mes_Server_Info_Send_Data:
-
-
-                            // 上位机到上位机看板链路：这里接收的是 Client 周期上传给 Server 的看板快照。
-                            Mes_Server_Info_Data_Receive? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Receive>();
-
-                            Mes_Server_Info_Data_Send? _Mes_Server_Send = Mes_Server_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!, client.Client_Socket);
-
-                            Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Mes_Server_Send ?? new Mes_Server_Info_Data_Send()) ?? Array.Empty<byte>();
-
-
-                            break;
-
-                        case Vision_Model_Enum.Unknown:
-
-
-                            throw new Exception("Error:-9,现有通讯协议无法解析，请联系开发者！");
-
-                          
-
-
-                    }
-
-
-                    //Send_Information = _S;
-
-                    if (Send_byte != Array.Empty<byte>())
-                    {
-
-                        //委托显示发送数据
-                        Socket_Send_Meg?.Invoke(Send_byte);
-                        client.Client_Socket?.Send(Send_byte);
-                        //通过递归不停的接收该客户端的消息
-                     
-                        //GC.Collect();
-
-
-                    }
-                    else
-                    {
-                        throw new Exception("Error:-10,现有通讯协议无法解析，请联系开发者！");
-                    }
-
-
-                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
-
+                    ///根据是否使用 XML 分片接收来处理报文
+                    ProcessReceivedMessage(client, _Reveice_Meg);           //接触数据长度
 
                 }
                 catch (Exception e)
@@ -836,8 +730,203 @@ namespace Roboto_Socket_Library
                 }
             }
 
-            
+
         }
+
+        /// <summary>
+        /// 处理接收的消息
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="_Reveice_Meg"></param>
+        /// <exception cref="Exception"></exception>
+        private void ProcessReceivedMessage(Receive_State client, byte[] _Reveice_Meg)
+        {
+
+            byte[] Send_byte = Array.Empty<byte>();
+
+            //委托显示接受数据
+
+
+            //创建协议处理类型,处理协议头部解析类型
+            Robot_Socket_Protocol _Socket_Protocol = new(Socket_Robot, _Reveice_Meg);
+
+            ///根据协议类型处理对应内容
+            switch (_Socket_Protocol.Vision_Model)
+            {
+                case Vision_Model_Enum.Calibration_New:
+                    break;
+                case Vision_Model_Enum.Calibration_Text:
+                    break;
+                case Vision_Model_Enum.Calibration_Add:
+                    break;
+                case Vision_Model_Enum.Find_Model:
+
+
+                    Vision_Find_Data_Receive? _Vision_Find_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Vision_Find_Data_Receive>();
+
+                    Vision_Find_Data_Send? _Vision_Find_Send = Vision_Find_Model_Delegate?.Invoke(_Vision_Find_Rece!);
+
+                    Send_byte = _Socket_Protocol.Socket_Send_Set_Data<Vision_Find_Data_Send>(_Vision_Find_Send ?? new Vision_Find_Data_Send()) ?? Array.Empty<byte>();
+
+                    break;
+                case Vision_Model_Enum.Vision_Ini_Data:
+
+                    Vision_Ini_Data_Receive? _Vision_Ini_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Vision_Ini_Data_Receive>();
+
+                    Vision_Ini_Data_Send? _Vision_Ini_Send = Vision_Ini_Data_Delegate?.Invoke(_Vision_Ini_Rece!);
+
+                    Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Vision_Ini_Send ?? new Vision_Ini_Data_Send()) ?? Array.Empty<byte>();
+
+                    break;
+                case Vision_Model_Enum.HandEye_Calib_Date:
+
+
+                    HandEye_Calibration_Receive? _HandEye_Rece = _Socket_Protocol.Socket_Receive_Get_Date<HandEye_Calibration_Receive>();
+
+                    HandEye_Calibration_Send? _Hand_Send = HandEye_Calibration_Data_Delegate?.Invoke(_HandEye_Rece!);
+
+                    Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Hand_Send ?? new HandEye_Calibration_Send()) ?? Array.Empty<byte>();
+
+
+                    break;
+
+                case Vision_Model_Enum.Vision_Creation_Model:
+
+                    Vision_Creation_Model_Receive? _Vision_Creation_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Vision_Creation_Model_Receive>();
+
+                    Vision_Creation_Model_Send? __Vision_Creation_Send = Vision_Creation_Model_Data_Delegate?.Invoke(_Vision_Creation_Rece!);
+
+                    Send_byte = _Socket_Protocol.Socket_Send_Set_Data(__Vision_Creation_Send ?? new Vision_Creation_Model_Send()) ?? Array.Empty<byte>();
+
+                    break;
+
+                case Vision_Model_Enum.Mes_Info_Data:
+
+
+                    Robot_Mes_Info_Data_Receive? _Mes_Info_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Robot_Mes_Info_Data_Receive>();
+
+                    Robot_Mes_Info_Data_Send? _Mes_Info_Send = Robot_Info_Model_Data_Delegate?.Invoke(_Mes_Info_Rece!);
+
+                    Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Mes_Info_Send ?? new Robot_Mes_Info_Data_Send()) ?? Array.Empty<byte>();
+
+
+
+                    break;
+
+
+                case Vision_Model_Enum.Mes_Server_Info_Send_Data:
+
+
+                    // 上位机到上位机看板链路：这里接收的是 Client 周期上传给 Server 的看板快照。
+                    Mes_Server_Info_Data_Receive? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Receive>();
+
+                    Mes_Server_Info_Data_Send? _Mes_Server_Send = Mes_Server_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!, client.Client_Socket);
+
+                    Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Mes_Server_Send ?? new Mes_Server_Info_Data_Send()) ?? Array.Empty<byte>();
+
+
+                    break;
+
+                case Vision_Model_Enum.Unknown:
+
+
+                    throw new Exception("Error:-9,现有通讯协议无法解析，请联系开发者！");
+
+
+
+
+            }
+
+
+            //Send_Information = _S;
+
+            if (Send_byte != Array.Empty<byte>())
+            {
+
+                //委托显示发送数据
+                Socket_Send_Meg?.Invoke(Send_byte);
+                client.Client_Socket?.Send(Send_byte);
+                //通过递归不停的接收该客户端的消息
+
+                //GC.Collect();
+
+
+            }
+            else
+            {
+                throw new Exception("Error:-10,现有通讯协议无法解析，请联系开发者！");
+            }
+
+
+            Socket_Receive_Meg?.Invoke(_Reveice_Meg);
+
+        }
+
+
+        private async Task ReceiveXmlFragmentLoopAsync(Receive_State client)
+        {
+            Socket socket = client.Client_Socket
+                ?? throw new InvalidOperationException("客户端 Socket 为空。");
+
+            try
+            {
+                using NetworkStream stream = new(socket, ownsSocket: false);
+                using XmlReader reader = XmlReader.Create(stream, new XmlReaderSettings
+                {
+                    Async = true,
+                    CloseInput = false,
+                    ConformanceLevel = ConformanceLevel.Fragment,
+                    DtdProcessing = DtdProcessing.Prohibit,
+                    XmlResolver = null
+                });
+
+                while (await reader.ReadAsync().ConfigureAwait(false))
+                {
+                    if (reader.NodeType != XmlNodeType.Element || reader.Depth != 0)
+                    {
+                        continue;
+                    }
+
+                    // 只有完整根节点结束后，LoadAsync 才会返回。
+                    XElement element = await XElement.LoadAsync(
+                        reader,
+                        LoadOptions.PreserveWhitespace,
+                        CancellationToken.None).ConfigureAwait(false);
+
+                    byte[] completeMessage = Encoding.UTF8.GetBytes(
+                        element.ToString(SaveOptions.DisableFormatting));
+
+                    ProcessReceivedMessage(client, completeMessage);
+                }
+
+                Socket_ErrorInfo_delegate?.Invoke(
+                    "Error:-9,客户端断开连接！",
+                    socket);
+            }
+            catch (XmlException ex)
+            {
+                Socket_ErrorInfo_delegate?.Invoke(
+                    "Error:-11,XML 报文不完整或格式错误：" + ex.Message,
+                    socket);
+            }
+            catch (Exception ex)
+            {
+                Socket_ErrorInfo_delegate?.Invoke(
+                    "Error:-11," + ex.Message,
+                    socket);
+            }
+            finally
+            {
+                Close_Client(client);
+            }
+        }
+
+
+
+
+
+
+
 
         ///// <summary>
         ///// 视觉功能模式
@@ -940,7 +1029,7 @@ namespace Roboto_Socket_Library
         /// <typeparam name="T1"></typeparam>
         /// <param name="_Type"></param>
         /// <returns></returns>
-        public  string Property_Xml<T1>(T1 _Type)
+        public string Property_Xml<T1>(T1 _Type)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             //去除xml声明
@@ -1008,7 +1097,7 @@ namespace Roboto_Socket_Library
 
 
         // 4MB → 256KB，16 倍下降；断开由 Close_Client 统一释放
-        public  byte[] buffer { set; get; } = new byte[Socket_Receive.Receive_Buffer_Size];
+        public byte[] buffer { set; get; } = new byte[Socket_Receive.Receive_Buffer_Size];
 
 
         public int Receive_Length { set; get; } = 0;

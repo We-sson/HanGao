@@ -1,0 +1,5 @@
+﻿# KopBuilder Mapping File
+# Format: sourcePath => targetPath | flags
+# Example: file.txt => KrcSetup | ReadOnly | Hidden
+# Created with: iiQWorks.App Builder V:1.2.3.206 at 2026/7/30
+

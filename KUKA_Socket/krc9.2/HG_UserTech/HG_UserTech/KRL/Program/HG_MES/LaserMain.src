@@ -1,0 +1,16 @@
+DEF LaserMain()
+;EXT LaserDat(No:IN,Vel:IN,C1:IN,C2:IN,C3:IN,C4:IN)
+END
+
+
+
+GLOBAL DEF LaserDatM(No:IN,Vel:IN,C1:IN,C2:IN,C3:IN,C4:IN)
+DECL real Vel
+DECL int No,C1,C2,C3,C4
+
+dArcpswdatWeld[No].Velocity=Vel
+dArcpswdatWeld[No].C1=C1
+dArcpswdatWeld[No].C2=C2
+dArcpswdatWeld[No].C3=C3
+dArcpswdatWeld[No].C4=C4
+END

@@ -1,0 +1,26 @@
+﻿# KopBuilder Mapping File
+# Format: sourcePath => targetPath | flags
+# Example: file.txt => KrcSetup | ReadOnly | Hidden
+# Created with: iiQWorks.App Builder V:1.2.3.206 at 2026/7/29
+
+# EKI config files
+.\EthernetKRL\* => Option\Config\User\Common\EthernetKRL
+# KRL Files
+.\Krl\* => Option\KRC\R1\
+# Templates Files
+.\Templates\* => Templates | ExcludeFile=*.xml
+# Fieldbus configurations
+.\Configurations\* => Configurations
+.\Kxr\*.kxr => Kxr
+.\Docs\* => KrcSetup\Doc
+.\DeviceDescriptions\* => DeviceDescriptions
+.\Help\* => Help
+.\Drivers\* => Drivers
+.\Trace\* => Trace
+.\UserTech\* => UserTech
+.\HMIeasy\* => HMIeasy
+.\KrcSetup\* => KrcSetup
+.\Config\* => Option\Config\
+.\UserFiles\* => UserFiles
+.\Applications\iiQWorks.Sim\* => Applications\iiQWorks.Sim
+.\RobotSensorInterface\* => Option\Config\User\Common\SensorInterface
