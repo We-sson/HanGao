@@ -683,7 +683,7 @@ namespace Robot_Info_Mes.ViewModel
                 ///启动服务器添加接收事件
                 foreach (var _Sever in Robot_Info_Parameters.Local_IP_UI)
                 {
-                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port.ToString())
+                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port.ToString(),true)
                     {
                         Socket_Robot = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model,
 
@@ -692,6 +692,7 @@ namespace Robot_Info_Mes.ViewModel
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
                         Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
                         Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
+                      
                     });
                 }
 
@@ -911,6 +912,12 @@ namespace Robot_Info_Mes.ViewModel
 
         }
 
+        /// <summary>
+        /// 应用看板信息快照
+        /// </summary>
+        /// <param name="_Server"></param>
+        /// <param name="_Receive"></param>
+        /// <param name="_Socket"></param>
         private void Apply_Mes_Server_Info_Snapshot(Mes_Server_Info_List_Model _Server, Mes_Server_Info_Data_Receive _Receive, Socket? _Socket)
         {
             _Server.Connetc_Mes_IP = (IPEndPoint?)_Socket?.RemoteEndPoint;

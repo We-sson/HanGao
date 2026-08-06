@@ -64,30 +64,8 @@ GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME[]:IN, Send_Stae:OUT)
    RET=EKI_SetBool(EKRL_NAME[], "Mes_Work_B_State", Work_B_State)
    RET=EKI_SetBool(EKRL_NAME[], "Mes_Work_C_State", Work_C_State)
    RET=EKI_SetBool(EKRL_NAME[], "Mes_Work_D_State", Work_D_State)
-   OPFFSET=0
-   SWITCH Robot_Process_Name
-      CASE #R_Side_7
-         Swrite(Robot_Process_Int[], _State, OPFFSET, "%s", "R_Side_7")
-      CASE #R_Side_8
-         Swrite(Robot_Process_Int[], _State, OPFFSET, "%s", "R_Side_8")
-      CASE #R_Side_9
-         Swrite(Robot_Process_Int[], _State, OPFFSET, "%s", "R_Side_9")
-      CASE #Panel_Surround_7
-         Swrite(Robot_Process_Int[], _State, OPFFSET, "%s", "Panel_Surround_7")
-      CASE #Panel_Surround_8
-         Swrite(Robot_Process_Int[], _State, OPFFSET, "%s", "Panel_Surround_8")
-      CASE #Panel_Surround_9
-         Swrite(Robot_Process_Int[], _State, OPFFSET, "%s", "Panel_Surround_9")
-      CASE #Panel_Welding_1
-         Swrite(Robot_Process_Int[], _State, OPFFSET, "%s", "Panel_Welding_1")
-      CASE #Panel_Welding_2
-         Swrite(Robot_Process_Int[], _State, OPFFSET, "%s", "Panel_Welding_2")
-      CASE #LaserCutting_1
-         Swrite(Robot_Process_Int[], _State, OPFFSET, "%s", "LaserCutting_1")
-      CASE #Spot_Surround_1
-         Swrite(Robot_Process_Int[], _State, OPFFSET, "%s", "Spot_Surround_1")
-   ENDSWITCH
-   RET=EKI_SetString(EKRL_NAME[], "Robot_Process_Int", Robot_Process_Int[])
+  
+   RET=EKI_SetString(EKRL_NAME[], "Robot_Process_Int", Robot_Process_Name[])
    ;HALT
    WAIT SEC .02
    RET=EKI_Send(EKRL_NAME[])

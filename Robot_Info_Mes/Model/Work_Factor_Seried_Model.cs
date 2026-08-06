@@ -466,7 +466,7 @@ namespace Robot_Info_Mes.Model
             IsVisible = false,
             Name = "作业时间",
             NameTextSize = 16,
-            MaxLimit =14,
+          
             MinLimit=0,
             MinStep =0.1,
             SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色, 2),

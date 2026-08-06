@@ -24,6 +24,16 @@ namespace Roboto_Socket_Library
 
 
         }
+        public Socket_Receive(string _IP, string _Port,bool _UseXmlFragmentReceive)
+        {
+
+            UseXmlFragmentReceive = _UseXmlFragmentReceive;
+            Server_Strat(_IP, _Port);
+
+
+
+        }
+
         public Socket_Receive()
         {
 
@@ -622,11 +632,21 @@ namespace Roboto_Socket_Library
                     try
                     {
 
+                        if (UseXmlFragmentReceive)
+                        {
 
+
+                            _ = ReceiveXmlFragmentLoopAsync(_Receive);
+
+                        }
+                        else
+                        {
 
                         //得到接受进来的socket客户端
                         //开始异步接收客户端数据
                         client?.BeginReceive(_Receive.buffer, 0, _Receive.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), _Receive);
+
+                        }    
 
 
 
@@ -899,26 +919,27 @@ namespace Roboto_Socket_Library
                     ProcessReceivedMessage(client, completeMessage);
                 }
 
-                Socket_ErrorInfo_delegate?.Invoke(
-                    "Error:-9,客户端断开连接！",
-                    socket);
+                //Socket_ErrorInfo_delegate?.Invoke(
+                //    "Error:-9,客户端断开连接！",
+                //    socket);
             }
             catch (XmlException ex)
             {
                 Socket_ErrorInfo_delegate?.Invoke(
                     "Error:-11,XML 报文不完整或格式错误：" + ex.Message,
                     socket);
+                Close_Client(client);
+
             }
             catch (Exception ex)
             {
                 Socket_ErrorInfo_delegate?.Invoke(
                     "Error:-11," + ex.Message,
                     socket);
-            }
-            finally
-            {
                 Close_Client(client);
+
             }
+ 
         }
 
 

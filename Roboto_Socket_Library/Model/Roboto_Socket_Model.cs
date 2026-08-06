@@ -660,7 +660,7 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 本地文件保存时间
         /// </summary>
-        public double File_Save_Cycle_Time { get; set; } = 5;
+        public double File_Save_Cycle_Time { get; set; } = 8;
 
 
         /// <summary>
@@ -674,7 +674,7 @@ namespace Roboto_Socket_Library.Model
         public double KanBan_ALLList_Cycle_View_Time { get; set; } = 25;
 
 
-   
+
 
 
     }
@@ -1144,7 +1144,19 @@ namespace Roboto_Socket_Library.Model
         LaserCutting_1,
 
         [Description("光华点焊围边")]
-        Spot_Surround_1
+        Spot_Surround_1,
+
+        [Description("光华激光围边")]
+
+        Spot_Surround_2,
+
+        [Description("8线激光点焊")]
+        Spot_Sink_8,
+
+        [Description("9线激光点焊")]
+        Spot_Sink_9,
+
+
     }
 
 }

@@ -146,7 +146,7 @@ namespace Robot_Info_Mes.Model
 
 
                         //A和C一个周期为一个产品
-                        case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1 or Robot_Process_Int_Enum.Panel_Welding_2 or Robot_Process_Int_Enum.LaserCutting_1 or Robot_Process_Int_Enum.Spot_Surround_1:
+                        case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1 or Robot_Process_Int_Enum.Panel_Welding_2 or Robot_Process_Int_Enum.LaserCutting_1 or Robot_Process_Int_Enum.Spot_Surround_1 or Robot_Process_Int_Enum.Spot_Sink_8 or Robot_Process_Int_Enum.Spot_Sink_9 or Robot_Process_Int_Enum.Spot_Surround_2:
 
 
 
@@ -351,6 +351,20 @@ namespace Robot_Info_Mes.Model
                         _Image_Source = "/Resources/光华点焊围边焊接_1.jpg";
 
                         break;
+                    case Robot_Process_Int_Enum.Spot_Sink_8:
+
+
+
+                        _Image_Source = "/Resources/8线激光点焊.jpg";
+                        break;
+                    case Robot_Process_Int_Enum.Spot_Sink_9:
+
+
+
+                        _Image_Source = "/Resources/9线激光点焊.jpg";
+                        break;
+
+
                 }
 
                 return _Image_Source;

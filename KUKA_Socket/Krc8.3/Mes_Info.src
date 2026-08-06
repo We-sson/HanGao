@@ -1,5 +1,5 @@
-&ACCESS RVP3
-&REL 7828
+&ACCESS RVO1
+&REL 7883
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -12,24 +12,27 @@ DEF Mes_Info( )
    
    halt
    LOOP
-      ;Mes_Info_Main()
+      Mes_Info_Main()
 
-  ; ENDLOOP
+  ENDLOOP
       Work_A_State=true
       wait sec 5
       Work_A_State=false
+
+      wait sec 10
+
+
       Work_C_State=true
       wait sec 5
       Work_C_State=false
-      
-      wait sec 0.5
+      wait sec 5
       ;FOLD WAIT Time= 0.0 sec ;%{PE}
          ;FOLD Parameters ;%{h}
             ;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.wait; Time=0.0
          ;ENDFOLD
          WAIT SEC 0.0
       ;ENDFOLD
-   ENDLOOP
+  ; ENDLOOP
    ;# DATE:2025-6-12
 END
 
@@ -140,7 +143,7 @@ DEF Mes_Info_Server(_Falg_No:IN,_Time_No:IN)
    IF ((_EKRL_Send_Stat==TRUE) AND ($Flag[_Falg_No]==TRUE)  AND  (_EKRL_Server_Connt_Stat==TRUE) AND  ($TIMER[_Time_No]>Socket_TimeOut) ) THEN
       
       ;HALT
-      Mes_EKRL_Server_Send(EKRL_NAME[])
+ ;     Mes_EKRL_Server_Send(EKRL_NAME[])
       $TIMER_STOP[_Time_No]=TRUE
       $TIMER[_Time_No]=0
       $TIMER_STOP[_Time_No]=false
@@ -197,105 +200,6 @@ DEF Mes_Info_Send(_Connt_Stat:OUT,_Send_Stat:OUT)
    
 END
 
-DEF Mes_EKRL_Server_Send(EKRL_NAME:IN)
-   DECL CHAR EKRL_NAME[],MODE_OP[1024],Robot_Process_Name_Str[1024],DATAPATH[1024],Robot_Process_Int[1024]
-   DECL EKI_STATUS RET
-   DECL  BOOL IsStatus
-   DECL INT HandEye_ID,OPFFSET,Work_Number,Mes_Work_AB_Cycle_Time,Mes_Work_CD_Cycle_Time
-   DECL State_t _State
-   
-   ;IsStatus=FALSE
-   
-   DATAPATH[]=" "
-   ;SWRITE( HandEye_Type_String[] , _State , OPFFSET , "%x" , HandEye_Type) 
-   
-   ;HALT
-   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Robot_Type","KUKA")
-   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/@Vision_Model","Mes_Info_Data")
-   DATAPATH_NAME[]=$DATAPATH[]
-   ;SWRITE(DATAPATH[],_State,OPFFSET,"%s",)
-   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Programs_Name",DATAPATH_NAME[])
-   
-   OPFFSET=0
-   SWITCH $MODE_OP
-      CASE #T1
-         SWRITE(MODE_OP[],_State,OPFFSET,"%s","T1")
-      CASE #AUT
-         SWRITE(MODE_OP[],_State,OPFFSET,"%s","AUT")
-   ENDSWITCH 
-   
-   ;SWRITE(MODE_OP[],_State,OPFFSET,"%g",$MODE_OP)
-   
-   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Mes_Robot_Mode",MODE_OP[])
-   
-   Work_Number=Work_A_Run_Nunber+Work_B_Run_Nunber
-   RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_Number",Work_Number)
-   
-   Mes_Work_AB_Cycle_Time=Work_A_Run_Cycle_Time+Work_B_Run_Cycle_Time
-   RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_A_State",Mes_Work_AB_Cycle_Time)
-   
-   Mes_Work_CD_Cycle_Time=Work_C_Run_Cycle_Time+Work_D_Run_Cycle_Time
-   RET=EKI_SetInt(EKRL_NAME[],"Robot_Receive/Mes_Work_CD_Cycle_Time",Mes_Work_CD_Cycle_Time)
-   
-   OPFFSET=0
-   SWITCH Robot_Process_Name
-      CASE #R_Side_7
-         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_7")
-      CASE #R_Side_8
-         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_8")
-      CASE #R_Side_9      
-         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","R_Side_9")   
-      CASE #Panel_Surround_7
-         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_7")     
-      CASE #Panel_Surround_8
-         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_8")  
-      CASE #Panel_Surround_9
-         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Surround_9")
-      CASE #Panel_Welding_1
-         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Welding_1")
-      CASE #Panel_Welding_2
-         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Panel_Welding_2")
-          CASE #LaserCutting_1
-          SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","LaserCutting_1")
-      CASE #Spot_Surround_1
-         SWRITE(Robot_Process_Int[],_State,OPFFSET,"%s","Spot_Surround_1")
-   ENDSWITCH
-   RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Int[])
-   
-   RET = EKI_Send(EKRL_NAME[],"Robot_Receive")
-   ;HALT
-   ;Message_Wait("Wait Mes Data!",2,TRUE)
-   
-   ;RET=EKI_GetBool(EKRL_NAME[],"Robot_Send/@IsStatus" ,IsStatus)
-   ;RET=EKI_GetInt(EKRL_NAME[],"Robot_Send/Socket_Polling_Time" ,Socket_Cycle_Time)
-   ;RET=EKI_GetFrame(EKRL_NAME[],"Robot_Send/Result_Pos" ,Result_Pos)
-   ;RET=EKI_Close(EKRL_NAME[])
-   ;RET=EKI_Clear(EKRL_NAME[])
-   
-   ;IF  IsStatus THEN
-   
-   ;MSGNOTIFY(Message_Error[])
-   
-   ;switch HandEye_Type
-   ;case #Calibration_Start
-   
-   ;-----
-   ;case #Calibration_Progress
-   ;-----
-   ;case #Calibration_End
-   
-   ;HandEye_Result_Pos.X=Result_Pos.X
-   ;HandEye_Result_Pos.Y=Result_Pos.Y
-   ;HandEye_Result_Pos.Z=Result_Pos.Z
-   ;endswitch
-   
-   ;else
-   
-   ;MsgQuit(Message_Error[], "HanGao")
-   ;halt
-   ;ENDIF
-   
-END
 
 GLOBAL DEF Mes_InFo_Int()
    DECL int i

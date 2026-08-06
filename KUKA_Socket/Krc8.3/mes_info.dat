@@ -1,12 +1,11 @@
-&ACCESS RVP1
-&REL 7828
+&ACCESS RVP3
+&REL 7882
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
-DEFDAT  Mes_Info PUBLIC
+DEFDAT  MES_INFO PUBLIC
 
 DECL DATE Robot_Run_Time
-GLOBAL ENUM Robot_Process_Name_Enum R_Side_7,R_Side_8,R_Side_9,Panel_Surround_7,Panel_Surround_8,Panel_Surround_9,Panel_Welding_1,Panel_Welding_2,LaserCutting_1,Spot_Surround_1
 
 GLOBAL INT T1_Time=0
 GLOBAL INT Aut_Time=0
@@ -22,10 +21,10 @@ GLOBAL INT Work_D_Run_All_Time=0
 
 GLOBAL BOOL WORK_A_State=FALSE
 GLOBAL BOOL WORK_B_State=FALSE
-GLOBAL BOOL WORK_C_State=TRUE
+GLOBAL BOOL WORK_C_State=FALSE
 GLOBAL BOOL WORK_D_State=FALSE
 
-GLOBAL INT Socket_TimeOut=200
+GLOBAL INT Socket_TimeOut=50
 
 GLOBAL INT Work_A_Run_Nunber=0
 GLOBAL INT Work_B_Run_Nunber=0
@@ -45,8 +44,8 @@ DECL BOOL _EKRL_Send_Stat=FALSE
 
 DECL BOOL _EKRL_Server_Connt_Stat=FALSE
 
-GLOBAL CONST Robot_Process_Name_Enum Robot_Process_Name=#Spot_Surround_1
-
+GLOBAL CONST CHAR Robot_Process_Name[1024] 
+Robot_Process_Name[]="Spot_Surround_1"
 
 
 ENDDAT
