@@ -161,7 +161,7 @@ namespace Robot_Info_Mes.Model
                 case Type _T when _T == typeof(Mes_Robot_Info_Model):
 
 
-             
+
                     _Path = GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.Folder_Path);
 
                     if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
@@ -171,7 +171,7 @@ namespace Robot_Info_Mes.Model
 
                     if (!File.Exists(_Path))
                     {
-                
+
                         //初始化参数读取文件
                         Save_Xml(_newVale);
 
@@ -218,7 +218,7 @@ namespace Robot_Info_Mes.Model
                 case Type _T when _T == typeof(Mes_Server_Info_Data):
 
 
-              
+
 
                     _Path = GetXml_Path<Mes_Server_Info_Data>(Get_Xml_File_Enum.Folder_Path);
 
@@ -331,11 +331,11 @@ namespace Robot_Info_Mes.Model
                 }
             },
             },
-                File_Update_Time = DateTime.Now
+                            File_Update_Time = DateTime.Now
                         };
 
 
-                        
+
 
                         /////检查日期缺失补齐
                         //foreach (Mes_Server_Info_List_Model item in (Mes_Server_Info_Data)(object)_newVale)
@@ -343,7 +343,7 @@ namespace Robot_Info_Mes.Model
                         //    item.Work_Factor_Seried.Mes_Date_Int();
                         //}
 
-                      
+
 
                         //初始化参数读取文件
                         Save_Xml(_newVale);
@@ -364,7 +364,7 @@ namespace Robot_Info_Mes.Model
                         //    item.Work_Factor_Seried.Mes_Date_Int();
                         //}
 
-              
+
 
                     }
 
@@ -397,100 +397,55 @@ namespace Robot_Info_Mes.Model
 
         public static string GetXml_Path<T1>(Get_Xml_File_Enum Get_Xml_File)
         {
-            string _Path = "";
-            Type T = typeof(T1);
 
+
+            string rootPath = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.CommonApplicationData), "HanGao", "Robot_Info_Mes");
+            string folderPath;
+            string filePath;
 
             switch (typeof(T1))
             {
-                case Type _T when _T == typeof(File_Int_Model):
+                case Type type when type == typeof(File_Int_Model):
 
-                    switch (Get_Xml_File)
-                    {
-                        case Get_Xml_File_Enum.Folder_Path:
+                    folderPath = Path.Combine(rootPath, "Configs");
+                    filePath = Path.Combine(folderPath, "Configs_Data.Xml");
+                    break;
 
-                            _Path = Environment.CurrentDirectory + "\\Configs";
+                case Type type when type == typeof(Mes_Robot_Info_Model):
 
-                            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                            break;
-                        case Get_Xml_File_Enum.File_Path:
-                            _Path = Environment.CurrentDirectory + "\\Configs" + "\\Configs_Data.Xml";
+                    folderPath = Path.Combine(rootPath, "Mes_Info");
+                    filePath = Path.Combine(folderPath, "Mes_Robot_Info.Xml");
+                    break;
 
-                            break;
-                    }
+                case Type type when type == typeof(Work_Factor_Seried_Model):
 
+                    folderPath = Path.Combine(rootPath, "Mes_Info");
+                    filePath = Path.Combine(
+                        folderPath,
+                        $"{DateTime.Now:yyyy-MM}_Work_Data.Xml");
+                    break;
 
-                    return _Path;
+                case Type type when type == typeof(Mes_Server_Info_Data):
 
-
-
-                case Type _T when _T == typeof(Mes_Robot_Info_Model):
-
-                    switch (Get_Xml_File)
-                    {
-                        case Get_Xml_File_Enum.Folder_Path:
-
-                            _Path = Environment.CurrentDirectory + "\\Mes_Info";
-                            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                            break;
-                        case Get_Xml_File_Enum.File_Path:
-                            _Path = Environment.CurrentDirectory + "\\Mes_Info" + "\\Mes_Robot_Info.Xml";
-
-                            break;
-                    }
-
-
-                    return _Path;
-
-                case Type _T when _T == typeof(Work_Factor_Seried_Model):
-
-                    switch (Get_Xml_File)
-                    {
-                        case Get_Xml_File_Enum.Folder_Path:
-
-                            _Path = Environment.CurrentDirectory + "\\Mes_Info";
-                            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                            break;
-                        case Get_Xml_File_Enum.File_Path:
-                            _Path = Environment.CurrentDirectory + "\\Mes_Info" + "\\" + DateTime.Now.ToString("yyyy-MM") +"_Work_Data.Xml";
-
-                            break;
-                    }
-
-
-                    return _Path;
-
-
-
-                case Type _T when _T == typeof(Mes_Server_Info_Data):
-                    //Mes_Server_Info_Data
-                    switch (Get_Xml_File)
-                    {
-                        case Get_Xml_File_Enum.Folder_Path:
-
-                            _Path = Environment.CurrentDirectory + "\\Server_Date";
-                            if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                            break;
-                        case Get_Xml_File_Enum.File_Path:
-
-
-
-                            _Path = Environment.CurrentDirectory + $"\\Server_Date" + "\\" + DateTime.Now.ToString("yyyy-MM") + ".Xml";
-
-                            break;
-                    }
-
-
-                    return _Path;
-
+                    folderPath = Path.Combine(rootPath, "Server_Date");
+                    filePath = Path.Combine(
+                        folderPath,
+                        $"{DateTime.Now:yyyy-MM}.Xml");
+                    break;
 
                 default:
-
                     throw new Exception("读取文件地址类型错误！");
-
             }
 
+            // 保持当前GetXml_Path负责创建目录的行为
+            Directory.CreateDirectory(folderPath);
 
+            return Get_Xml_File switch
+            {
+                Get_Xml_File_Enum.Folder_Path => folderPath,
+                Get_Xml_File_Enum.File_Path => filePath,
+                _ => throw new Exception("读取文件地址类型错误！")
+            };
 
         }
 
