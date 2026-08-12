@@ -82,7 +82,7 @@
             BorderThickness="0"
             ItemContainerStyle="{DynamicResource ListBoxItemStyle1}"
             ItemsSource="{Binding Mes_Server_Info_Data.Mes_Server_Model_List}"
-            ScrollViewer.CanContentScroll="False"
+            ScrollViewer.CanContentScroll="True"
             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
             ScrollViewer.IsDeferredScrollingEnabled="True"
             ScrollViewer.VerticalScrollBarVisibility="Auto"

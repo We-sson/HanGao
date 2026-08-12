@@ -868,7 +868,7 @@ namespace Roboto_Socket_Library
                 client.Client_Socket?.Send(Send_byte);
                 //通过递归不停的接收该客户端的消息
 
-                //GC.Collect();
+                GC.Collect();
 
 
             }
