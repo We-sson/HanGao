@@ -856,11 +856,33 @@ namespace Robot_Info_Mes.ViewModel
             lock (_Mes_ServerLock)
             {
 
+                bool _Process_Exists = false;
+                //遍历列表里面是否有相应数据标
+                foreach (Mes_Server_Info_List_Model _Server in Mes_Server_Info_Data.Mes_Server_Model_List)
+                {
+                    if (_Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int == _Receive.Robot_Mes_Info_Data.Robot_Process_Int)
+                    {
+                        _Process_Exists = true;
+                        break;
+                    }
+                }
+
+                // 当前以 Robot_Process_Int 作为唯一键；新工艺首次进入时创建列表项。
+                if (!_Process_Exists)
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Mes_Server_Info_List_Model _New_Server = new();
+                        _New_Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int = _Receive.Robot_Mes_Info_Data.Robot_Process_Int;
+                        Mes_Server_Info_Data.Mes_Server_Model_List.Add(_New_Server);
+                    });
+                }
 
 
 
 
 
+                //遍历列表里面是否有相应数据标
                 foreach (var _Server in Mes_Server_Info_Data.Mes_Server_Model_List)
                 {
 
