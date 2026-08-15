@@ -650,17 +650,17 @@ namespace Roboto_Socket_Library.Model
         /// <summary>
         /// 上床板报更新时间
         /// </summary>
-        public double Sever_Cycle_Update_Time { set; get; } = 2;
+        public double Sever_Cycle_Update_Time { set; get; } = 5;
 
         /// <summary>
         /// 接受超时时间，单位秒
         /// </summary>
-        public double Mes_Server_Info_Rece_Time { set; get; } = 5;
+        public double Mes_Server_Info_Rece_Time { set; get; } = 15;
 
         /// <summary>
         /// 本地文件保存时间
         /// </summary>
-        public double File_Save_Cycle_Time { get; set; } = 8;
+        public double File_Save_Cycle_Time { get; set; } = 30;
 
 
         /// <summary>

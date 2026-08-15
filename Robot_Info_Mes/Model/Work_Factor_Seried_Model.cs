@@ -28,18 +28,7 @@ namespace Robot_Info_Mes.Model
         {
 
 
-            LiveCharts.Configure(config =>
-                      config
-                          .HasRenderingSettings(settings =>
-                          {
-                              // Win7-era display drivers can fail Skia's GPU path and leave charts blank.
-                              settings.UseGPU = false;
-                              settings.TryUseVSync = false;
-                          })
-                          .HasTextSettings(new TextSettings
-                          {
-                              DefaultTypeface = SKFontManager.Default.MatchCharacter('汉')
-                          }));
+ 
 
 
             Mes_Data_View_List_Series = new ObservableCollection<ISeries>

@@ -854,7 +854,6 @@
             Height=" 280"
             Margin="5,10,5,0"
             Background="Transparent"
-            CacheMode="BitmapCache"
             ShowGridLines="False">
 
             <i:Interaction.Triggers>
