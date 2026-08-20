@@ -855,7 +855,10 @@
             Margin="5,10,5,0"
             Background="Transparent"
             ShowGridLines="False">
-
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseEnter">
                     <i:InvokeCommandAction Command="{Binding Work_Factor_Seried.Mes_Data_View_Pause_Comm}" />
@@ -867,13 +870,69 @@
 
 
             <Border
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
                 Background="{DynamicResource 全局_背景_白颜色}"
                 BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                 BorderThickness="3"
                 CornerRadius="10" />
 
+
+
+            <StackPanel
+                Grid.Column="0"
+                Margin="12,5,12,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <RadioButton
+                    Background="{StaticResource OEE_平均节拍_浅颜色}"
+                    BorderBrush="{StaticResource OEE_平均节拍_颜色}"
+                    Content="平均节拍"
+                    GroupName="OeeMetricGroup"
+                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                <RadioButton
+                    Background="{StaticResource OEE_时间稼动率_浅颜色}"
+                    BorderBrush="{StaticResource OEE_时间稼动率_颜色}"
+                    Content="时间稼动率"
+                    GroupName="OeeMetricGroup"
+                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                <RadioButton
+                    Background="{StaticResource OEE_性能稼动率_浅颜色}"
+                    BorderBrush="{StaticResource OEE_性能稼动率_颜色}"
+                    Content="性能稼动率"
+                    GroupName="OeeMetricGroup"
+                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                <RadioButton
+                    Background="{StaticResource OEE_生产数量_浅颜色}"
+                    BorderBrush="{StaticResource OEE_生产数量_颜色}"
+                    Content="生产数量"
+                    GroupName="OeeMetricGroup"
+                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                <RadioButton
+                    Background="{StaticResource OEE_作业时间_浅颜色}"
+                    BorderBrush="{StaticResource OEE_作业时间_颜色}"
+                    Content="作业时间"
+                    GroupName="OeeMetricGroup"
+                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                <RadioButton
+                    Background="{StaticResource OEE_节拍外时间_浅颜色}"
+                    BorderBrush="{StaticResource OEE_节拍外时间_颜色}"
+                    Content="节拍外时间"
+                    GroupName="OeeMetricGroup"
+                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
+            </StackPanel>
+
+
+
+
+
+
+
+
             <lvc:CartesianChart
-                Margin="10"
+                Grid.Column="1"
+                Margin="10,10,10,10"
                 Background="Transparent"
                 EasingFunction="{x:Null}"
                 LegendBackgroundPaint="{Binding Work_Factor_Seried.LedgendBackgroundPaint}"

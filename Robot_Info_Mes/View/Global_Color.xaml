@@ -30,6 +30,23 @@
     <SolidColorBrush x:Key="全局_按钮_黑颜色" Color="#434343" />
     <SolidColorBrush x:Key="全局_按钮_青红颜色" Color="#F2856D" />
 
+
+
+    <!--  OEE 图表指标颜色，与 Work_Factor_Seried_Model 中的曲线颜色保持一致。  -->
+    <SolidColorBrush x:Key="OEE_平均节拍_颜色" Color="#FF268A83" />
+    <SolidColorBrush x:Key="OEE_平均节拍_浅颜色" Color="#14268A83" />
+    <SolidColorBrush x:Key="OEE_时间稼动率_颜色" Color="#FF4B6587" />
+    <SolidColorBrush x:Key="OEE_时间稼动率_浅颜色" Color="#144B6587" />
+    <SolidColorBrush x:Key="OEE_性能稼动率_颜色" Color="#FF307045" />
+    <SolidColorBrush x:Key="OEE_性能稼动率_浅颜色" Color="#14307045" />
+    <SolidColorBrush x:Key="OEE_生产数量_颜色" Color="#FF90533B" />
+    <SolidColorBrush x:Key="OEE_生产数量_浅颜色" Color="#1490533B" />
+    <SolidColorBrush x:Key="OEE_作业时间_颜色" Color="#FF474747" />
+    <SolidColorBrush x:Key="OEE_作业时间_浅颜色" Color="#14474747" />
+    <SolidColorBrush x:Key="OEE_节拍外时间_颜色" Color="#FF3E4756" />
+    <SolidColorBrush x:Key="OEE_节拍外时间_浅颜色" Color="#143E4756" />
+
+
     <FontFamily x:Key="全局_文字_数字字体">Microsoft JhengHei UI</FontFamily>
     <FontFamily x:Key="全局_文字_中文字体">Microsoft JhengHei UI</FontFamily>
     <FontFamily x:Key="全局_文字_英文字体">Calibri</FontFamily>

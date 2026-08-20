@@ -1668,4 +1668,98 @@
     </Style>
 
 
+
+
+    <!--  OEE指标单选按钮样式  -->
+    <!--
+        BorderBrush 表示每个指标自己的强调色；Background 表示对应的浅色选中背景。
+        未选中时文字使用全局蓝色，选中后由模板切换为当前指标的强调色。
+    -->
+    <Style x:Key="OeeMetricRadioButtonStyle" TargetType="{x:Type RadioButton}">
+        <Setter Property="Margin" Value="0,0,8,0" />
+        <Setter Property="Padding" Value="14,10" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+        <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+        <Setter Property="FontFamily" Value="{DynamicResource 全局_文字_中文字体}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid
+                        x:Name="LayoutRoot"
+                        Background="Transparent"
+                        UseLayoutRounding="True">
+                        <Border
+                            x:Name="SelectionBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="2"
+                            CornerRadius="8"
+                            Opacity="0" />
+
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Ellipse
+                                x:Name="MetricIndicator"
+                                Width="14"
+                                Height="14"
+                                VerticalAlignment="Center"
+                                Fill="Transparent"
+                                Stroke="{TemplateBinding BorderBrush}"
+                                StrokeThickness="2" />
+
+                            <ContentPresenter
+                                x:Name="MetricContent"
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                RecognizesAccessKey="True"
+                                TextElement.FontFamily="{TemplateBinding FontFamily}"
+                                TextElement.FontSize="{TemplateBinding FontSize}"
+                                TextElement.FontWeight="{TemplateBinding FontWeight}"
+                                TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Grid>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="SelectionBorder" Property="Opacity" Value="0.35" />
+                        </MultiTrigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="SelectionBorder" Property="Opacity" Value="1" />
+                            <Setter TargetName="MetricContent" Property="TextElement.Foreground" Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="MetricIndicator" Property="Fill" Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="LayoutRoot" Property="Opacity" Value="0.45" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+
+
 </ResourceDictionary>

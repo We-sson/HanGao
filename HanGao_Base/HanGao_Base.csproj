@@ -274,6 +274,7 @@
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
     <PackageReference Include="MVTec.HalconDotNet-Windows" Version="24111.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="System.ComponentModel.Composition" Version="9.0.2" />
     <PackageReference Include="Throw" Version="1.4.0" />
