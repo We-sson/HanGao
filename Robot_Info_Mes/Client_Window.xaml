@@ -14,7 +14,7 @@
     MinWidth="1440"
     MinHeight="1000"
     d:Height="1000"
-    d:Width="1440"
+    d:Width="1920"
     DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
     WindowState="Maximized"
     mc:Ignorable="d">

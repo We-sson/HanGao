@@ -259,7 +259,7 @@ namespace Robot_Info_Mes.Model
 
 
         /// <summary>
-        /// 看板滚动开启
+        /// 是否在鼠标进入图表区域时暂停轮播。
         /// </summary>
         public bool KanBan_Chart_Data_Scroll { set; get; } = false;
 
@@ -272,7 +272,29 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 当前列表显示列
         /// </summary>
-        private int Mes_Data_View_List_Update_Num { set; get; } = 0;
+        private int mes_Data_View_Selected_Index = 0;
+
+        /// <summary>
+        /// 当前图表显示项。该索引同时驱动图表轮播和界面 RadioButton 选中状态。
+        /// </summary>
+        [XmlIgnore]
+        public int Mes_Data_View_Selected_Index
+        {
+            get => mes_Data_View_Selected_Index;
+            set
+            {
+                if (value < 0 ||
+                    value >= Mes_Data_View_List_Series.Count ||
+                    value >= Mes_Data_View_List_Sections.Count ||
+                    mes_Data_View_Selected_Index == value)
+                {
+                    return;
+                }
+
+                mes_Data_View_Selected_Index = value;
+                Apply_Mes_Data_View(value);
+            }
+        }
 
         /// <summary>
         /// 看板列表循环播放时间
@@ -722,70 +744,79 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         public void Mes_Data_View_Int()
         {
-
-            Mes_Data_View_List_Update_Num = 0;
+            Mes_Data_View_List_Update.Stop();
             Mes_Data_View_List_Update.Interval = TimeSpan.FromSeconds(KanBan_List_Cycle_View_Time);
-            int Series_Count = Mes_Data_View_List_Series.Count();
-            int Sections_Count = Mes_Data_View_List_Sections.Count();
 
-            Mes_Data_View_List_Update.Tick += (s, e) =>
+            Mes_Data_View_List_Update.Tick -= Mes_Data_View_List_Update_Tick;
+            Mes_Data_View_List_Update.Tick += Mes_Data_View_List_Update_Tick;
+
+            if (Mes_Data_View_Selected_Index == 0)
             {
+                Apply_Mes_Data_View(0);
+            }
+            else
+            {
+                Mes_Data_View_Selected_Index = 0;
+            }
 
+            Mes_Data_View_List_Update.Start();
+        }
 
-                //if (Mes_Data_View_List_Update_Num != 0)
-                //{
-                //    Mes_Data_View_List_Series[Mes_Data_View_List_Update_Num - 1].IsVisible = false;
-                //    Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num - 1].IsVisible = false;
-                //}
+        /// <summary>
+        /// 按后台集合原有顺序切换到下一项。
+        /// </summary>
+        private void Mes_Data_View_List_Update_Tick(object? sender, EventArgs e)
+        {
+            if (Mes_Data_View_List_Series.Count == 0)
+            {
+                return;
+            }
 
+            Mes_Data_View_Selected_Index =
+                (Mes_Data_View_Selected_Index + 1) % Mes_Data_View_List_Series.Count;
+        }
 
-                //if (Mes_Data_View_List_Update_Num ==0)
-                //{
-                //    Mes_Data_View_List_Series[Mes_Data_View_List_Update_Num].IsVisible = false;
-                //    Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].IsVisible = false;
-                //}
-                lock (Mes_Data_View_List_Series)
+        /// <summary>
+        /// 根据选中索引统一切换曲线、参考线及坐标轴。
+        /// </summary>
+        private void Apply_Mes_Data_View(int selectedIndex)
+        {
+            if (selectedIndex < 0 ||
+                selectedIndex >= Mes_Data_View_List_Series.Count ||
+                selectedIndex >= Mes_Data_View_List_Sections.Count)
+            {
+                return;
+            }
+
+            lock (Mes_Data_View_List_Series)
+            {
+                for (int i = 0; i < Mes_Data_View_List_Series.Count; i++)
                 {
-
-                    Mes_Data_View_List_Series[Mes_Data_View_List_Update_Num].IsVisible = false;
-                    Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].IsVisible = false;
-                    YAxes[Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].ScalesYAt].IsVisible = false;
-
-
-
-
-                    Mes_Data_View_List_Update_Num = (Mes_Data_View_List_Update_Num + 1) % Series_Count;
-
-                    //if (Mes_Data_View_List_Update_Num== Series_Count-1)
-                    //{
-                    //    Mes_Data_ViewNext.Set();
-                    //}
-
-
-                    Mes_Data_View_List_Series[Mes_Data_View_List_Update_Num].IsVisible = true;
-                    Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].IsVisible = true;
-                    YAxes[Mes_Data_View_List_Sections[Mes_Data_View_List_Update_Num].ScalesYAt].IsVisible = true;
-
-
-                    XAxes[0].IsVisible = Mes_Data_View_List_Update_Num != 5;
-                    XAxes[1].IsVisible = Mes_Data_View_List_Update_Num == 5;
-
-
-
-                    //Mes_Data_View_List_Update_Num++;
-
-
-                    //if (Mes_Data_View_List_Update_Num > Series_Count-1) Mes_Data_View_List_Update_Num = 0;
-                    //if (Mes_Data_View_List_Update_Num > Sections_Count-1) Mes_Data_View_List_Update_Num = 0;
+                    Mes_Data_View_List_Series[i].IsVisible = i == selectedIndex;
                 }
 
-            };
-            Mes_Data_View_List_Update.Start();
+                for (int i = 0; i < Mes_Data_View_List_Sections.Count; i++)
+                {
+                    Mes_Data_View_List_Sections[i].IsVisible = i == selectedIndex;
+                }
 
+                foreach (ICartesianAxis axis in YAxes)
+                {
+                    axis.IsVisible = false;
+                }
 
+                int selectedYAxisIndex = Mes_Data_View_List_Sections[selectedIndex].ScalesYAt;
+                if (selectedYAxisIndex >= 0 && selectedYAxisIndex < YAxes.Count)
+                {
+                    YAxes[selectedYAxisIndex].IsVisible = true;
+                }
 
-
-
+                if (XAxes.Count >= 2)
+                {
+                    XAxes[0].IsVisible = selectedIndex != 5;
+                    XAxes[1].IsVisible = selectedIndex == 5;
+                }
+            }
         }
 
 

@@ -4,11 +4,12 @@
 
 
     <SolidColorBrush x:Key="全局_背景_白颜色" Color="#E6e6e6" />
+    <SolidColorBrush x:Key="全局_背景_灰白颜色" Color="#E1e1e1" />
     <SolidColorBrush x:Key="全局_背景_蓝颜色" Color="#2a3c55" />
 
     <SolidColorBrush x:Key="全局_按钮_白颜色" Color="#ffffff" />
     <SolidColorBrush x:Key="全局_按钮_红颜色" Color="#ff5e58" />
-    <SolidColorBrush x:Key="全局_按钮_蓝颜色" Color="#FF4B6587" />
+    <SolidColorBrush x:Key="全局_按钮_蓝颜色" Color="#4B6587" />
     <SolidColorBrush x:Key="全局_按钮_青绿颜色" Color="#ced89e" />
     <SolidColorBrush x:Key="全局_按钮_深青颜色" Color="#adcf9f" />
     <SolidColorBrush x:Key="全局_按钮_深青黄颜色" Color="#f4d06f" />

@@ -101,4 +101,32 @@ namespace Robot_Info_Mes.View
         }
     }
 
+    /// <summary>
+    /// 将当前图表索引与 RadioButton 对应索引进行双向转换。
+    /// </summary>
+    public class IndexEqualsConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is int currentIndex &&
+                   TryGetIndex(parameter, out int targetIndex) &&
+                   currentIndex == targetIndex;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is true && TryGetIndex(parameter, out int targetIndex))
+            {
+                return targetIndex;
+            }
+
+            return System.Windows.Data.Binding.DoNothing;
+        }
+
+        private static bool TryGetIndex(object parameter, out int index)
+        {
+            return int.TryParse(parameter?.ToString(), out index);
+        }
+    }
+
 }
