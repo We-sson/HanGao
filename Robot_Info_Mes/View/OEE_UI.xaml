@@ -41,7 +41,7 @@
                     <Grid.ColumnDefinitions>
 
 
-                        <ColumnDefinition Width=" 130" />
+                        <ColumnDefinition Width=" *" />
                         <ColumnDefinition Width=" *" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -57,6 +57,7 @@
                         Grid.RowSpan=" 4"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
+                        Width=" 300"
                         Background="{DynamicResource 全局_背景_白颜色}"
                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                         BorderThickness="3"
@@ -167,7 +168,6 @@
                         Grid.Row=" 1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Width=" 280"
                         Margin="10,5,10,0"
                         d:Visibility="Collapsed"
                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
@@ -196,7 +196,6 @@
                         Grid.Row=" 1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Width=" 280"
                         Margin="10,5,10,0"
                         d:Visibility="Collapsed"
                         Background="Black"
@@ -308,7 +307,7 @@
                         Grid.RowSpan="5"
                         Grid.Column="0"
                         Grid.ColumnSpan="5"
-                        Width=" 800"
+                        Width=" 850"
                         Background="{DynamicResource 全局_背景_白颜色}"
                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                         BorderThickness="3"
@@ -733,41 +732,51 @@
                                             </Border.Style>
                                             <Grid>
 
-                                                <TextBlock
-                                                    Grid.Row="0"
-                                                    Grid.Column="0"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                                    FontSize="18"
-                                                    Foreground="{DynamicResource 全局_按钮_白颜色}"
-                                                    Text="{Binding Mes_Robot_Info_Model_Data.Work_Number_Pallets, FallbackValue=....}" />
 
 
-                                                <Button
-                                                    Width=" 50"
-                                                    Margin="0,0,0,0"
-                                                    HorizontalAlignment="Right"
-                                                    Background="{DynamicResource 全局_按钮_红颜色}"
-                                                    Style="{DynamicResource Halcon_Window_Button}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="auto" />
+                                                    </Grid.ColumnDefinitions>
                                                     <TextBlock
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Stretch"
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
                                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                                                         FontSize="18"
                                                         Foreground="{DynamicResource 全局_按钮_白颜色}"
-                                                        Text="O" />
+                                                        Text="{Binding Mes_Robot_Info_Model_Data.Work_Number_Pallets, FallbackValue=....}" />
 
-                                                    <i:Interaction.Triggers>
 
-                                                        <i:EventTrigger EventName="Click">
-                                                            <i:InvokeCommandAction
-                                                                Command="{Binding DataContext.Number_Pallets_Clear_Comm, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
-                                                                PassEventArgsToCommand="True" />
-                                                        </i:EventTrigger>
-                                                    </i:Interaction.Triggers>
-                                                </Button>
+                                                    <Button
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Width=" 50"
+                                                        Margin="0,0,0,0"
+                                                        HorizontalAlignment="Right"
+                                                        Background="{DynamicResource 全局_按钮_红颜色}"
+                                                        Style="{DynamicResource Halcon_Window_Button}">
+                                                        <TextBlock
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Stretch"
+                                                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                                            FontSize="14"
+                                                            Foreground="{DynamicResource 全局_按钮_白颜色}"
+                                                            Text="清零" />
+
+                                                        <i:Interaction.Triggers>
+
+                                                            <i:EventTrigger EventName="Click">
+                                                                <i:InvokeCommandAction
+                                                                    Command="{Binding DataContext.Number_Pallets_Clear_Comm, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                                                    PassEventArgsToCommand="True" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                </Grid>
 
                                             </Grid>
                                         </Border>
@@ -1082,8 +1091,8 @@
                                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="#6f7788"
-                                            Text="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time, StringFormat={}目标 {0:F1}s}" />
+                                            Foreground="{DynamicResource 全局_按钮_灰蓝颜色}"
+                                            Text="{Binding Work_Factor_Seried.Work_Standard_Time_Max, StringFormat={}目标 {0:F1}s}" />
                                     </StackPanel>
 
                                 </StackPanel>
@@ -1140,8 +1149,8 @@
                                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="#6f7788"
-                                            Text="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max, StringFormat={}目标 {0:F0}%}" />
+                                            Foreground="{DynamicResource 全局_按钮_灰蓝颜色}"
+                                            Text="{Binding Work_Factor_Seried.Work_Availability_Factor_Max, StringFormat={}目标 {0:F0}%}" />
                                     </StackPanel>
 
                                 </StackPanel>
@@ -1200,8 +1209,8 @@
                                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                                             FontSize="16"
                                             FontWeight="Bold"
-                                            Foreground="#6f7788"
-                                            Text="{Binding File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max, StringFormat={}目标 {0:F0}%}" />
+                                            Foreground="{DynamicResource 全局_按钮_灰蓝颜色}"
+                                            Text="{Binding Work_Factor_Seried.Work_Performance_Factor_Max, StringFormat={}目标 {0:F0}%}" />
                                     </StackPanel>
 
                                 </StackPanel>
@@ -1270,82 +1279,161 @@
                             Orientation="Horizontal">
 
                             <Border
-                                Width=" 120"
+                                Width=" 140"
                                 Margin="5,10,5,10"
                                 Background="{DynamicResource 全局_按钮_绿颜色}"
-                                BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                BorderThickness="3"
-                                CornerRadius=" 10"
+                                BorderBrush="{DynamicResource 全局_按钮_绿颜色}"
+                                CornerRadius="8"
+                                Effect="{DynamicResource 全局背景阴影}"
+                                Opacity=" 1">
+
+                                <Grid>
+
+                                    <TextBlock
+                                        Margin="10,10,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Text="开机累计时间" />
+                                    <TextBlock
+                                        Margin="10,0,0,10"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_UI, StringFormat='{}{0:hh\\:mm\\:ss}'}"
+                                        Visibility="Visible" />
+                                </Grid>
+                            </Border>
+                            <Border
+                                Width=" 140"
+                                Margin="5,10,5,10"
+                                Background="{DynamicResource 全局_按钮_青颜色}"
+                                CornerRadius="8"
                                 Effect="{DynamicResource 全局背景阴影}">
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="Opacity" Value="0.5" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <Setter Property="BorderThickness" Value="3" />
+
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode}" Value="{x:Static Robot:KUKA_Mode_OP_Enum.Run}">
                                                 <Setter Property="Opacity" Value="1" />
+                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_青颜色}" />
+                                                <Setter Property="BorderThickness" Value="0" />
+
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="20"
-                                    Text="运行" />
+                                <Grid>
+
+                                    <TextBlock
+                                        Margin="10,10,0,10"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Text="作业累计时间" />
+                                    <TextBlock
+                                        Margin="0,0,0,10"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
+
+                                </Grid>
                             </Border>
                             <Border
-                                Width=" 120"
+                                Width=" 140"
                                 Margin="5,10,5,10"
                                 Background="{DynamicResource 全局_按钮_黄颜色}"
-                                BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                BorderThickness="3"
-                                CornerRadius=" 10"
+                                CornerRadius=" 8"
                                 Effect="{DynamicResource 全局背景阴影}">
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="Opacity" Value="0.5" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <Setter Property="BorderThickness" Value="3" />
+
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode}" Value="{x:Static Robot:KUKA_Mode_OP_Enum.T1}">
                                                 <Setter Property="Opacity" Value="1" />
+                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黄颜色}" />
+                                                <Setter Property="BorderThickness" Value="0" />
+
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="20"
-                                    Text="调试" />
+
+                                <Grid>
+
+                                    <TextBlock
+                                        Margin="10,10,0,10"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Text="调试累计时间" />
+                                    <TextBlock
+                                        Margin="0,0,0,10"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_UI, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
+                                </Grid>
                             </Border>
                             <Border
-                                Width=" 120"
-                                Margin="5,10,5,10"
+                                Width=" 140"
+                                Margin="5,10,10,10"
                                 Background="{DynamicResource 全局_按钮_红颜色}"
-                                BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                                BorderThickness="3"
-                                CornerRadius=" 10"
+                                CornerRadius="8"
                                 Effect="{DynamicResource 全局背景阴影}">
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="Opacity" Value="0.5" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
+                                        <Setter Property="BorderThickness" Value="3" />
+
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode}" Value="{x:Static Robot:KUKA_Mode_OP_Enum.Error}">
                                                 <Setter Property="Opacity" Value="1" />
+                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                                <Setter Property="BorderThickness" Value="0" />
+
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontFamily="{DynamicResource 全局_文字_中文字体}"
-                                    FontSize="20"
-                                    Text="错误" />
+                                <Grid>
+
+                                    <TextBlock
+                                        Margin="10,10,0,10"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="16"
+                                        Text="故障累计时间" />
+                                    <TextBlock
+                                        Margin="0,0,0,10"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Error_Time.Timer_UI, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
+                                </Grid>
                             </Border>
 
-                            <Grid Margin="5,10,5,10">
+                            <!--<Grid Margin="5,10,5,10">
 
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="30" />
@@ -1446,7 +1534,7 @@
                                             Text="{Binding Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Timer_Day, StringFormat='{}累计故障时间：{0:F4}天'}" />
                                     </StackPanel>
                                 </Grid>
-                            </Grid>
+                            </Grid>-->
 
 
 
@@ -1708,7 +1796,7 @@
                     Background="{DynamicResource 全局_按钮_深灰颜色}"
                     CornerRadius=" 1.5" />-->
 
-                <Grid
+                <!--<Grid
                     Width=" 90"
                     Margin="5,10,5,10"
                     Background="Transparent">
@@ -1803,7 +1891,7 @@
 
 
 
-                </Grid>
+                </Grid>-->
 
 
                 <!--<Border
