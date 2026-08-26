@@ -83,6 +83,9 @@ namespace Robot_Info_Mes.ViewModel
 
                         Int_Run_TIme();
 
+
+
+                        Work_Factor_Seried.KanBan_List_Cycle_View_Time = File_Int_Parameters.Mes_Run_Parameters.KanBan_List_Cycle_View_Time;
                         Work_Factor_Seried.Mes_Data_View_Int();
                         User_Log_Add("已读取本机设备信息文件！" + File_Xml_Model.GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path));
                         User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));

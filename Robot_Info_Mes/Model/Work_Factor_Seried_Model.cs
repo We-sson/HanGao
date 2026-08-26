@@ -13,6 +13,7 @@ using PropertyChanged;
 using Roboto_Socket_Library.Model;
 using SkiaSharp;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.Xml.Serialization;
@@ -268,6 +269,16 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         private DispatcherTimer Mes_Data_View_List_Update { set; get; } = new DispatcherTimer();
 
+        /// <summary>
+        /// 使用单调时钟记录当前指标已展示的真实时间，避免界面线程延迟造成进度与切换不同步。
+        /// </summary>
+        private Stopwatch Mes_Data_View_Cycle_Stopwatch { get; } = new Stopwatch();
+
+        /// <summary>
+        /// 标记趋势轮播是否因鼠标悬停而暂停。
+        /// </summary>
+        private bool Mes_Data_View_Is_Paused { get; set; }
+
 
         /// <summary>
         /// 当前列表显示列
@@ -293,14 +304,36 @@ namespace Robot_Info_Mes.Model
 
                 mes_Data_View_Selected_Index = value;
                 Apply_Mes_Data_View(value);
+                Restart_Mes_Data_View_Cycle();
             }
         }
 
         /// <summary>
-        /// 看板列表循环播放时间
+        /// 当前轮播进度，范围为 0 到 100，供标准 ProgressBar 绑定。
         /// </summary>
         [XmlIgnore]
-        public double KanBan_List_Cycle_View_Time { set; get; } = 10;
+        public double Mes_Data_View_Progress { get; private set; }
+
+        /// <summary>
+        /// 看板列表循环播放时间
+        /// </summary>
+        private double kanBan_List_Cycle_View_Time;
+
+        [XmlIgnore]
+        public double KanBan_List_Cycle_View_Time
+        {
+            get => kanBan_List_Cycle_View_Time;
+            set
+            {
+                if (kanBan_List_Cycle_View_Time.Equals(value))
+                {
+                    return;
+                }
+
+                kanBan_List_Cycle_View_Time = value;
+                Restart_Mes_Data_View_Cycle();
+            }
+        }
 
 
 
@@ -745,7 +778,10 @@ namespace Robot_Info_Mes.Model
         public void Mes_Data_View_Int()
         {
             Mes_Data_View_List_Update.Stop();
-            Mes_Data_View_List_Update.Interval = TimeSpan.FromSeconds(KanBan_List_Cycle_View_Time);
+            Mes_Data_View_Cycle_Stopwatch.Stop();
+            Mes_Data_View_Is_Paused = false;
+            // 进度条仅用于提示下一次切换，250ms 更新一次即可，无需逐帧刷新。
+            Mes_Data_View_List_Update.Interval = TimeSpan.FromMilliseconds(250);
 
             Mes_Data_View_List_Update.Tick -= Mes_Data_View_List_Update_Tick;
             Mes_Data_View_List_Update.Tick += Mes_Data_View_List_Update_Tick;
@@ -759,6 +795,7 @@ namespace Robot_Info_Mes.Model
                 Mes_Data_View_Selected_Index = 0;
             }
 
+            Restart_Mes_Data_View_Cycle();
             Mes_Data_View_List_Update.Start();
         }
 
@@ -767,13 +804,58 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         private void Mes_Data_View_List_Update_Tick(object? sender, EventArgs e)
         {
-            if (Mes_Data_View_List_Series.Count == 0)
+            Thread.CurrentThread.Priority = ThreadPriority.Highest;
+
+
+            int availableItemCount = Math.Min(
+                Mes_Data_View_List_Series.Count,
+                Mes_Data_View_List_Sections.Count);
+
+            if (availableItemCount == 0)
+            {
+                Mes_Data_View_Progress = 0;
+                return;
+            }
+
+            if (!double.IsFinite(KanBan_List_Cycle_View_Time) ||
+                KanBan_List_Cycle_View_Time <= 0)
+            {
+                Restart_Mes_Data_View_Cycle();
+                return;
+            }
+
+            Mes_Data_View_Progress = Math.Min(
+                100,
+                Mes_Data_View_Cycle_Stopwatch.Elapsed.TotalSeconds /
+                KanBan_List_Cycle_View_Time * 100);
+
+            if (Mes_Data_View_Progress < 100)
             {
                 return;
             }
 
-            Mes_Data_View_Selected_Index =
-                (Mes_Data_View_Selected_Index + 1) % Mes_Data_View_List_Series.Count;
+            int nextIndex = (Mes_Data_View_Selected_Index + 1) % availableItemCount;
+            if (nextIndex == Mes_Data_View_Selected_Index)
+            {
+                Restart_Mes_Data_View_Cycle();
+                return;
+            }
+
+            Mes_Data_View_Selected_Index = nextIndex;
+        }
+
+        /// <summary>
+        /// 从零开始当前指标的展示周期。暂停期间只复位，不恢复计时。
+        /// </summary>
+        private void Restart_Mes_Data_View_Cycle()
+        {
+            Mes_Data_View_Progress = 0;
+            Mes_Data_View_Cycle_Stopwatch.Reset();
+
+            if (!Mes_Data_View_Is_Paused)
+            {
+                Mes_Data_View_Cycle_Stopwatch.Start();
+            }
         }
 
         /// <summary>
@@ -969,10 +1051,9 @@ namespace Robot_Info_Mes.Model
 
             if (KanBan_Chart_Data_Scroll)
             {
-
-
-            Mes_Data_View_List_Update.Stop();
-         
+                Mes_Data_View_Is_Paused = true;
+                Mes_Data_View_List_Update.Stop();
+                Mes_Data_View_Cycle_Stopwatch.Stop();
 
             }
 
@@ -986,8 +1067,9 @@ namespace Robot_Info_Mes.Model
 
             if (KanBan_Chart_Data_Scroll)
             {
-
-            Mes_Data_View_List_Update.Start();
+                Mes_Data_View_Is_Paused = false;
+                Mes_Data_View_Cycle_Stopwatch.Start();
+                Mes_Data_View_List_Update.Start();
             }
   
 

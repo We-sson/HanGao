@@ -37,11 +37,11 @@
                 ItemWidth="auto"
                 Orientation="Horizontal">
 
-                <Grid>
+                <Grid Width=" 300">
                     <Grid.ColumnDefinitions>
 
 
-                        <ColumnDefinition Width=" *" />
+                        <ColumnDefinition Width=" 120" />
                         <ColumnDefinition Width=" *" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -57,7 +57,6 @@
                         Grid.RowSpan=" 4"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Width=" 300"
                         Background="{DynamicResource 全局_背景_白颜色}"
                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                         BorderThickness="3"
@@ -102,7 +101,7 @@
                     </StackPanel>
 
 
-                    <Border
+                    <!--<Border
                         Grid.Row=" 0"
                         Grid.Column="0"
                         Grid.ColumnSpan="5"
@@ -110,7 +109,7 @@
                         Margin="3,0,3,0"
                         VerticalAlignment="Bottom"
                         Background="{DynamicResource 全局_按钮_灰颜色}"
-                        CornerRadius=" 0" />
+                        CornerRadius=" 0" />-->
 
                     <Border
                         Grid.Column=" 1"
@@ -124,9 +123,13 @@
                         <Border.Style>
                             <Style TargetType="Border">
                                 <Setter Property="Background" Value="{DynamicResource 全局_按钮_绿颜色}" />
+                                <Setter Property="Opacity" Value="1" />
+
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State}" Value="{x:Static Robot:Socket_Robot_Connect_State_Enum.Disconnected}">
                                         <Setter Property="Background" Value="{DynamicResource 全局_按钮_红颜色}" />
+                                        <Setter Property="Opacity" Value="0.5" />
+
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -175,7 +178,7 @@
                         CornerRadius=" 6 "
                         Effect="{DynamicResource 全局背景阴影}">
                         <Border.Background>
-                            <ImageBrush ImageSource="{Binding Mes_Robot_Info_Model_Data.Image_Source}" Stretch="Fill" />
+                            <ImageBrush ImageSource="{Binding Mes_Robot_Info_Model_Data.Image_Source}" Stretch="UniformToFill" />
                         </Border.Background>
                         <Border.Style>
                             <Style TargetType="Border">
@@ -284,12 +287,13 @@
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
+                        d:Text="R1/A195059845675498765436546748"
                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                         FontSize="14"
                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                         Text="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Programs_Name, FallbackValue=....}"
                         TextAlignment="Left"
-                        TextWrapping="Wrap" />
+                        TextTrimming="CharacterEllipsis" />
 
                 </Grid>
 
@@ -347,7 +351,7 @@
 
                     </StackPanel>
 
-                    <Border
+                    <!--<Border
                         Grid.Row=" 0"
                         Grid.Column="0"
                         Grid.ColumnSpan="5"
@@ -355,7 +359,7 @@
                         Margin="3,0,3,0"
                         VerticalAlignment="Bottom"
                         Background="{DynamicResource 全局_按钮_灰颜色}"
-                        CornerRadius=" 0" />
+                        CornerRadius=" 0" />-->
 
                     <Grid Grid.Row=" 1">
                         <Grid.ColumnDefinitions>
@@ -1282,7 +1286,8 @@
                                 Width=" 140"
                                 Margin="5,10,5,10"
                                 Background="{DynamicResource 全局_按钮_绿颜色}"
-                                BorderBrush="{DynamicResource 全局_按钮_绿颜色}"
+                                BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                                BorderThickness="3"
                                 CornerRadius="8"
                                 Effect="{DynamicResource 全局背景阴影}"
                                 Opacity=" 1">
@@ -1317,13 +1322,13 @@
                                     <Style TargetType="Border">
                                         <Setter Property="Opacity" Value="0.5" />
                                         <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
-                                        <Setter Property="BorderThickness" Value="3" />
+                                        <Setter Property="BorderThickness" Value="0" />
 
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode}" Value="{x:Static Robot:KUKA_Mode_OP_Enum.Run}">
                                                 <Setter Property="Opacity" Value="1" />
-                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_青颜色}" />
-                                                <Setter Property="BorderThickness" Value="0" />
+
+                                                <Setter Property="BorderThickness" Value="3" />
 
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -1359,13 +1364,13 @@
                                     <Style TargetType="Border">
                                         <Setter Property="Opacity" Value="0.5" />
                                         <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
-                                        <Setter Property="BorderThickness" Value="3" />
+                                        <Setter Property="BorderThickness" Value="0" />
 
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode}" Value="{x:Static Robot:KUKA_Mode_OP_Enum.T1}">
                                                 <Setter Property="Opacity" Value="1" />
-                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黄颜色}" />
-                                                <Setter Property="BorderThickness" Value="0" />
+
+                                                <Setter Property="BorderThickness" Value="3" />
 
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -1401,13 +1406,13 @@
                                     <Style TargetType="Border">
                                         <Setter Property="Opacity" Value="0.5" />
                                         <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
-                                        <Setter Property="BorderThickness" Value="3" />
+                                        <Setter Property="BorderThickness" Value="0" />
 
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode}" Value="{x:Static Robot:KUKA_Mode_OP_Enum.Error}">
                                                 <Setter Property="Opacity" Value="1" />
-                                                <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_红颜色}" />
-                                                <Setter Property="BorderThickness" Value="0" />
+
+                                                <Setter Property="BorderThickness" Value="3" />
 
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -2305,11 +2310,12 @@
             Height=" 280"
             Margin="5,10,5,0"
             Background="Transparent"
+            ClipToBounds="True"
             ShowGridLines="False">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="18" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseEnter">
                     <i:InvokeCommandAction Command="{Binding Work_Factor_Seried.Mes_Data_View_Pause_Comm}" />
@@ -2321,80 +2327,122 @@
 
 
             <Border
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
+                Grid.RowSpan="2"
                 Background="{DynamicResource 全局_背景_白颜色}"
                 BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                 BorderThickness="3"
                 CornerRadius="10" />
 
-
-
-            <StackPanel
-                Grid.Column="0"
-                Margin="12,5,12,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Orientation="Vertical">
-                <RadioButton
-                    Background="{StaticResource OEE_时间稼动率_浅颜色}"
-                    BorderBrush="{StaticResource OEE_时间稼动率_颜色}"
-                    Content="时间稼动率"
-                    IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=0, Mode=TwoWay}"
-                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
-                <RadioButton
-                    Background="{StaticResource OEE_性能稼动率_浅颜色}"
-                    BorderBrush="{StaticResource OEE_性能稼动率_颜色}"
-                    Content="性能稼动率"
-                    IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=1, Mode=TwoWay}"
-                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
-                <RadioButton
-                    Background="{StaticResource OEE_生产数量_浅颜色}"
-                    BorderBrush="{StaticResource OEE_生产数量_颜色}"
-                    Content="生产数量"
-                    IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=2, Mode=TwoWay}"
-                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
-                <RadioButton
-                    Background="{StaticResource OEE_平均节拍_浅颜色}"
-                    BorderBrush="{StaticResource OEE_平均节拍_颜色}"
-                    Content="平均节拍"
-                    IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=3, Mode=TwoWay}"
-                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
-                <RadioButton
-                    Background="{StaticResource OEE_作业时间_浅颜色}"
-                    BorderBrush="{StaticResource OEE_作业时间_颜色}"
-                    Content="作业时间"
-                    IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=4, Mode=TwoWay}"
-                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
-                <RadioButton
-                    Background="{StaticResource OEE_节拍外时间_浅颜色}"
-                    BorderBrush="{StaticResource OEE_节拍外时间_颜色}"
-                    Content="节拍外时间"
-                    IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=5, Mode=TwoWay}"
-                    Style="{StaticResource OeeMetricRadioButtonStyle}" />
-            </StackPanel>
+            <ProgressBar
+                Grid.Row="0"
+                Height="6"
+                Margin="10,7,10,0"
+                VerticalAlignment="Top"
+                Panel.ZIndex="1"
+                d:Value="50"
+                IsHitTestVisible="False"
+                Maximum="100"
+                Minimum="0"
+                Value="{Binding Work_Factor_Seried.Mes_Data_View_Progress, Mode=OneWay}">
+                <ProgressBar.Style>
+                    <Style BasedOn="{StaticResource OeeRotationProgressBarStyle}" TargetType="{x:Type ProgressBar}">
+                        <Setter Property="Foreground" Value="{StaticResource OEE_时间稼动率_颜色}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index}" Value="1">
+                                <Setter Property="Foreground" Value="{StaticResource OEE_性能稼动率_颜色}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index}" Value="2">
+                                <Setter Property="Foreground" Value="{StaticResource OEE_生产数量_颜色}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index}" Value="3">
+                                <Setter Property="Foreground" Value="{StaticResource OEE_平均节拍_颜色}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index}" Value="4">
+                                <Setter Property="Foreground" Value="{StaticResource OEE_作业时间_颜色}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index}" Value="5">
+                                <Setter Property="Foreground" Value="{StaticResource OEE_节拍外时间_颜色}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
 
 
 
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="0"
+                    Margin="12,5,12,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <RadioButton
+                        Background="{StaticResource OEE_时间稼动率_浅颜色}"
+                        BorderBrush="{StaticResource OEE_时间稼动率_颜色}"
+                        Content="时间稼动率"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=0, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                    <RadioButton
+                        Background="{StaticResource OEE_性能稼动率_浅颜色}"
+                        BorderBrush="{StaticResource OEE_性能稼动率_颜色}"
+                        Content="性能稼动率"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=1, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                    <RadioButton
+                        Background="{StaticResource OEE_生产数量_浅颜色}"
+                        BorderBrush="{StaticResource OEE_生产数量_颜色}"
+                        Content="生产数量"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=2, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                    <RadioButton
+                        Background="{StaticResource OEE_平均节拍_浅颜色}"
+                        BorderBrush="{StaticResource OEE_平均节拍_颜色}"
+                        Content="平均节拍"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=3, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                    <RadioButton
+                        Background="{StaticResource OEE_作业时间_浅颜色}"
+                        BorderBrush="{StaticResource OEE_作业时间_颜色}"
+                        Content="作业时间"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=4, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                    <RadioButton
+                        Background="{StaticResource OEE_节拍外时间_浅颜色}"
+                        BorderBrush="{StaticResource OEE_节拍外时间_颜色}"
+                        Content="节拍外时间"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=5, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                </StackPanel>
 
 
 
 
 
-            <lvc:CartesianChart
-                Grid.Column="1"
-                Margin="10,10,10,10"
-                Background="Transparent"
-                EasingFunction="{x:Null}"
-                LegendBackgroundPaint="{Binding Work_Factor_Seried.LedgendBackgroundPaint}"
-                LegendPosition="Hidden"
-                LegendTextPaint="{Binding Work_Factor_Seried.LegendTextPaint}"
-                LegendTextSize="18"
-                Sections="{Binding Work_Factor_Seried.Mes_Data_View_List_Sections}"
-                Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
-                TooltipTextPaint="{Binding Work_Factor_Seried.TooltipTextPaint}"
-                XAxes="{Binding Work_Factor_Seried.XAxes}"
-                YAxes="{Binding Work_Factor_Seried.YAxes}" />
+
+
+
+                <lvc:CartesianChart
+                    Grid.Column="1"
+                    Margin="10,10,10,10"
+                    Background="Transparent"
+                    EasingFunction="{x:Null}"
+                    LegendBackgroundPaint="{Binding Work_Factor_Seried.LedgendBackgroundPaint}"
+                    LegendPosition="Hidden"
+                    LegendTextPaint="{Binding Work_Factor_Seried.LegendTextPaint}"
+                    LegendTextSize="18"
+                    Sections="{Binding Work_Factor_Seried.Mes_Data_View_List_Sections}"
+                    Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
+                    TooltipTextPaint="{Binding Work_Factor_Seried.TooltipTextPaint}"
+                    XAxes="{Binding Work_Factor_Seried.XAxes}"
+                    YAxes="{Binding Work_Factor_Seried.YAxes}" />
+
+            </Grid>
 
 
 
