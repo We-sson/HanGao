@@ -68,24 +68,162 @@
             x:Name="Set_UI"
             Grid.Row="1"
             Background="Transparent">
-            <Grid.Style>
+            <!--<Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Height" Value="48" />
                     <Setter Property="Opacity" Value="0.3" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=Set_UI}" Value="true">
+                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=Set_UI}" Value="false ">
                             <Setter Property="Height" Value="300" />
                             <Setter Property="Opacity" Value="1" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </Grid.Style>
+            </Grid.Style>-->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
-
             </Grid.ColumnDefinitions>
-            <Grid
+
+            <StackPanel
+                Grid.Column=" 0"
+                Margin="8,0"
+                Orientation="Horizontal">
+
+
+
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontFamily="{DynamicResource 全局_文字_中文字体}"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Foreground="#65758A"
+                    Text="参数配置" />
+
+                <Border
+                    Width="2"
+                    Height="20"
+                    Margin="10,0"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource 全局_按钮_灰蓝颜色}" />
+
+                <ToggleButton
+                    x:Name="CommunicationSettingsButton"
+                    d:IsChecked="True"
+                    Content="通信设置"
+                    Style="{StaticResource PopupCompareButtonStyle}" />
+                <Popup
+                    AllowsTransparency="True"
+                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                    IsOpen="{Binding IsChecked, ElementName=CommunicationSettingsButton, Mode=TwoWay}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=CommunicationSettingsButton}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False">
+                    <View:Client_Communication_Settings_View />
+                </Popup>
+
+                <ToggleButton
+                    x:Name="ProcessSettingsButton"
+                    Content="工艺设置"
+                    Style="{StaticResource PopupCompareButtonStyle}" />
+                <Popup
+                    AllowsTransparency="True"
+                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                    IsOpen="{Binding IsChecked, ElementName=ProcessSettingsButton, Mode=TwoWay}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=ProcessSettingsButton}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False">
+                    <View:Client_Process_Settings_View />
+                </Popup>
+
+
+
+
+
+
+
+            </StackPanel>
+
+            <StackPanel
+                Grid.Column=" 1"
+                Margin="8,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+
+
+
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontFamily="{DynamicResource 全局_文字_中文字体}"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Foreground="#65758A"
+                    Text="参数配置" />
+
+                <Border
+                    Width="2"
+                    Height="20"
+                    Margin="10,0"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource 全局_按钮_灰蓝颜色}" />
+
+
+
+                <ToggleButton
+                    x:Name="ReceiveMonitorButton"
+                    Content="通信接收"
+                    Style="{StaticResource PopupCompareButtonStyle}" />
+                <Popup
+                    AllowsTransparency="True"
+                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                    IsOpen="{Binding IsChecked, ElementName=ReceiveMonitorButton, Mode=TwoWay}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=ReceiveMonitorButton}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False">
+                    <View:Client_Receive_Monitor_View />
+                </Popup>
+
+                <ToggleButton
+                    x:Name="SendMonitorButton"
+                    Content="通信发送"
+                    Style="{StaticResource PopupCompareButtonStyle}" />
+                <Popup
+                    AllowsTransparency="True"
+                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                    IsOpen="{Binding IsChecked, ElementName=SendMonitorButton, Mode=TwoWay}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=SendMonitorButton}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False">
+                    <View:Client_Send_Monitor_View />
+                </Popup>
+
+                <ToggleButton
+                    x:Name="LogMonitorButton"
+                    Width="58"
+                    Content="日志"
+                    Style="{StaticResource PopupCompareButtonStyle}" />
+                <Popup
+                    AllowsTransparency="True"
+                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                    IsOpen="{Binding IsChecked, ElementName=LogMonitorButton, Mode=TwoWay}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=LogMonitorButton}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False">
+                    <View:Client_Log_Monitor_View />
+                </Popup>
+
+
+
+
+
+            </StackPanel>
+
+            <!--<Grid
                 Grid.Column="0"
                 Margin="5"
                 Visibility="Visible">
@@ -93,7 +231,8 @@
 
 
 
-                <TabControl
+            -->
+            <!--<TabControl
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
@@ -908,15 +1047,24 @@
                             </StackPanel>
 
                         </ScrollViewer>
+
+
+
                     </TabItem>
 
-                </TabControl>
+                </TabControl>-->
+            <!--
 
 
 
-            </Grid>
-            <Grid Grid.Column="1" Margin="5">
-                <!--<Border
+            </Grid>-->
+
+
+
+
+            <!--<Grid Grid.Column="1" Margin="5">
+            -->
+            <!--<Border
                     Background="{DynamicResource 全局_背景_白颜色}"
                     BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                     BorderThickness="0"
@@ -926,7 +1074,7 @@
 
 
 
-                <Grid Grid.Column="2">
+            <!--<Grid Grid.Column="2">
 
                     <TabControl
                         Grid.Row="0"
@@ -989,10 +1137,14 @@
 
 
 
-                </Grid>
+                </Grid>-->
+            <!--
 
 
-            </Grid>
+            </Grid>-->
+
+            <!--  原 TabControl 保留；右侧增加网页式 Popup 方案，方便现场对比。  -->
+
 
         </Grid>
 

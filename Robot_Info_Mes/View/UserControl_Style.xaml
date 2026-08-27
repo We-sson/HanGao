@@ -624,12 +624,10 @@
                         x:Name="rectangle"
                         Width="{TemplateBinding Width}"
                         Height="{TemplateBinding Height}"
-                        Background="{DynamicResource 全局_按钮_黑颜色}"
+                        Background="{DynamicResource 全局_按钮_灰颜色}"
                         CornerRadius=" 5"
                         Opacity=" 0.5"
                         SnapsToDevicePixels="True" />
-
-
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
@@ -1796,6 +1794,87 @@
     </Style>
 
 
+    <!--  对应网页 command-bar 按钮：右侧箭头 + 底部展开状态条。  -->
+    <Style x:Key="PopupCompareButtonStyle" TargetType="ToggleButton">
+        <Setter Property="Width" Value="84" />
+        <Setter Property="Height" Value="38" />
+        <Setter Property="Margin" Value="2,0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontFamily" Value="{DynamicResource 全局_文字_中文字体}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="#65758A" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border
+                        x:Name="ButtonBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="6">
+                        <Grid>
+                            <ContentPresenter
+                                Margin="7,0,19,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+
+                            <Border
+                                x:Name="Arrow"
+                                Width="7"
+                                Height="7"
+                                Margin="0,-3,8,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                BorderBrush="{TemplateBinding Foreground}"
+                                BorderThickness="0,0,1.5,1.5"
+                                RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <RotateTransform Angle="45" />
+                                </Border.RenderTransform>
+                            </Border>
+
+                            <Border
+                                x:Name="ActiveIndicator"
+                                Height="3"
+                                VerticalAlignment="Bottom"
+                                Background="#49698C"
+                                CornerRadius="1.5,1.5,0,0"
+                                Visibility="Collapsed" />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#F0F3F6" />
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#D4DBE3" />
+                            <Setter Property="Foreground" Value="#344F6D" />
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#EDF2F7" />
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#C7D2DF" />
+                            <Setter TargetName="ActiveIndicator" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="Arrow" Property="Margin" Value="0,3,8,0" />
+                            <Setter TargetName="Arrow" Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="225" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="#344F6D" />
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 

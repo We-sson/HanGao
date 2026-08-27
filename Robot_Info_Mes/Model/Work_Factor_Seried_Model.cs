@@ -781,7 +781,7 @@ namespace Robot_Info_Mes.Model
             Mes_Data_View_Cycle_Stopwatch.Stop();
             Mes_Data_View_Is_Paused = false;
             // 进度条仅用于提示下一次切换，250ms 更新一次即可，无需逐帧刷新。
-            Mes_Data_View_List_Update.Interval = TimeSpan.FromMilliseconds(250);
+            Mes_Data_View_List_Update.Interval = TimeSpan.FromMilliseconds(100);
 
             Mes_Data_View_List_Update.Tick -= Mes_Data_View_List_Update_Tick;
             Mes_Data_View_List_Update.Tick += Mes_Data_View_List_Update_Tick;

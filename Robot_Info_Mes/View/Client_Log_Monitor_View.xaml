@@ -1,0 +1,93 @@
+<UserControl
+    x:Class="Robot_Info_Mes.View.Client_Log_Monitor_View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModel="clr-namespace:Robot_Info_Mes.ViewModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance Type=ViewModel:Robot_Info_VM,
+                                     IsDesignTimeCreatable=False}"
+    mc:Ignorable="d">
+
+
+
+    <!--  日志 Popup 同样只保留控制台区域，日志内容不换行。  -->
+    <Border
+        Width="1000"
+        Height="450"
+        Background="{DynamicResource 全局_背景_蓝颜色}"
+        BorderBrush="#C5CED9"
+        BorderThickness="3"
+        ClipToBounds="True"
+        CornerRadius="12">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border
+                Background="{DynamicResource 全局_按钮_浅蓝颜色}"
+                BorderBrush="#3C4B5E"
+                BorderThickness="0,0,0,0"
+                CornerRadius="12,12,0,0"
+                Effect="{DynamicResource 全局背景阴影}">
+                <StackPanel
+                    Margin="14,0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Ellipse
+                        Width="7"
+                        Height="7"
+                        Margin="0,0,9,0"
+                        Fill="#68C391" />
+                    <TextBlock
+                        FontSize="16"
+                        Foreground="#D4DDE7"
+                        Text="记录持续更新" />
+                </StackPanel>
+            </Border>
+            <ScrollViewer
+                x:Name="Popup_Log_ScrollViewer"
+                Grid.Row="1"
+                Margin="5"
+                Background="Transparent"
+                HorizontalScrollBarVisibility="Disabled"
+                Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}"
+                VerticalScrollBarVisibility="Auto">
+                <TextBox
+                    Padding="14,10"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    FontFamily="Consolas"
+                    FontSize="14"
+                    Foreground="#C6D2DF"
+                    HorizontalScrollBarVisibility="Disabled"
+                    IsReadOnly="True"
+                    Text="{Binding User_Log.User_Log, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="NoWrap"
+                    VerticalScrollBarVisibility="Disabled">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction
+                                Command="{Binding User_Log.Update_Log_Comm}"
+                                CommandParameter="{Binding ElementName=Popup_Log_ScrollViewer}"
+                                PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+
+
+
+
+
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>
+

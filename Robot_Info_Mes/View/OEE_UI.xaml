@@ -12,7 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
     d:Height="1000"
-    d:Width="1920"
+    d:Width="1440"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Enum_Converter:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
@@ -21,7 +21,7 @@
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
 
-            <RowDefinition Height=" auto" />
+            <RowDefinition Height=" 250" />
             <RowDefinition Height=" auto" />
 
         </Grid.RowDefinitions>
@@ -32,12 +32,13 @@
             Margin="5,5,5,0"
             ShowGridLines="True">
 
-            <WrapPanel
-                ItemHeight="280"
-                ItemWidth="auto"
-                Orientation="Horizontal">
-
-                <Grid Width=" 300">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="240" MaxWidth="300" />
+                    <ColumnDefinition MinWidth="600" />
+                    <ColumnDefinition MinWidth=" 550" MaxWidth="600" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column=" 0">
                     <Grid.ColumnDefinitions>
 
 
@@ -47,7 +48,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height=" 50" />
                         <RowDefinition Height=" *" />
-                        <RowDefinition Height="30" />
+                        <RowDefinition Height="20" />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
 
@@ -135,7 +136,11 @@
                             </Style>
                         </Border.Style>
                         <StackPanel Orientation="Horizontal">
-
+                            <Ellipse
+                                Width="7"
+                                Height="7"
+                                Margin="10,0,0,0"
+                                Fill="Black" />
                             <TextBlock
                                 Grid.Row="0"
                                 Margin="5"
@@ -150,7 +155,7 @@
 
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State}" Value="{x:Static Robot:Socket_Robot_Connect_State_Enum.Disconnected}">
-                                                <Setter Property="Text" Value="• 设备已断开" />
+                                                <Setter Property="Text" Value="设备已断开" />
 
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -171,7 +176,7 @@
                         Grid.Row=" 1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="10,5,10,0"
+                        Margin="10,0,10,0"
                         d:Visibility="Collapsed"
                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                         BorderThickness="0"
@@ -199,7 +204,7 @@
                         Grid.Row=" 1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="10,5,10,0"
+                        Margin="10,0,10,0"
                         d:Visibility="Collapsed"
                         Background="Black"
                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
@@ -227,7 +232,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontFamily="{DynamicResource 全局_文字_中文字体}"
-                        FontSize="28"
+                        FontSize="24"
                         Foreground="{DynamicResource 全局_按钮_白颜色}"
                         Text="{Binding Mes_Robot_Info_Model_Data.Robot_Offline_Time.Timer_UI, StringFormat='{}离线时间....{0:hh\\:mm\\:ss}'}">
                         <TextBlock.Style>
@@ -260,7 +265,7 @@
 
                     <TextBlock
                         Grid.Row="3"
-                        Margin="10,0,0,5"
+                        Margin="10,0,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -285,6 +290,7 @@
                     <TextBlock
                         Grid.Row="4"
                         Grid.Column="1"
+                        Margin="0,0,5,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         d:Text="R1/A195059845675498765436546748"
@@ -297,7 +303,7 @@
 
                 </Grid>
 
-                <Grid Margin="10,0,0,0">
+                <Grid Grid.Column=" 1" Margin="5,0,0,0">
 
 
 
@@ -311,7 +317,6 @@
                         Grid.RowSpan="5"
                         Grid.Column="0"
                         Grid.ColumnSpan="5"
-                        Width=" 850"
                         Background="{DynamicResource 全局_背景_白颜色}"
                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
                         BorderThickness="3"
@@ -379,7 +384,7 @@
                         <Border
                             Grid.Row=" 0"
                             Grid.Column=" 0"
-                            Margin="10,3,3,3"
+                            Margin="10,0,1,1"
                             BorderBrush="#3f4756"
                             BorderThickness="8,2,2,2"
                             CornerRadius="6">
@@ -442,7 +447,7 @@
                         <Border
                             Grid.Row=" 1"
                             Grid.Column=" 0"
-                            Margin="10,3,3,6"
+                            Margin="10,1,1,6"
                             BorderBrush="#54313b"
                             BorderThickness="8,2,2,2"
                             CornerRadius="6">
@@ -508,8 +513,8 @@
                         <Border
                             Grid.Row=" 0"
                             Grid.Column=" 1"
-                            Margin="3,3,3,3"
-                            BorderBrush="#6f7788"
+                            Margin="1"
+                            BorderBrush="#92b6aa"
                             BorderThickness="8,2,2,2"
                             CornerRadius="6">
                             <Border.Style>
@@ -577,7 +582,7 @@
                         <Border
                             Grid.Row=" 1"
                             Grid.Column=" 1"
-                            Margin="3,3,3,6"
+                            Margin="1,1,1,6"
                             BorderBrush="#86606a"
                             BorderThickness="8,2,2,2"
                             CornerRadius="6">
@@ -652,7 +657,7 @@
                             Background="Transparent">
 
                             <Border
-                                Margin="3,3,3,3"
+                                Margin="1"
                                 BorderBrush="#6f7788"
                                 BorderThickness="8,2,2,2"
                                 CornerRadius="6">
@@ -800,7 +805,7 @@
                         <Border
                             Grid.Row=" 1"
                             Grid.Column=" 2"
-                            Margin="3,3,3,6"
+                            Margin="1,1,1,6"
                             BorderBrush="#887456"
                             BorderThickness="8,2,2,2"
                             CornerRadius="6">
@@ -855,7 +860,7 @@
                         <Border
                             Grid.Row=" 0"
                             Grid.Column=" 3"
-                            Margin="3,3,10,3"
+                            Margin="1,1,10,1"
                             BorderBrush="#79684e"
                             BorderThickness="8,2,2,2"
                             CornerRadius="6">
@@ -921,7 +926,7 @@
                         <Border
                             Grid.Row=" 1"
                             Grid.Column=" 3"
-                            Margin="3,3,10,6"
+                            Margin="1,1,10,6"
                             BorderBrush="#005e57"
                             BorderThickness="8,2,2,2"
                             CornerRadius="6">
@@ -982,15 +987,15 @@
 
 
 
-                <Grid>
+                <Grid Grid.Column=" 2" Margin="5,0,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
 
 
-                    <Grid Grid.Row=" 0" Margin="10,0,0,3">
+                    <Grid Grid.Row=" 0">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
@@ -1057,9 +1062,10 @@
 
 
                                 <StackPanel
-                                    Margin="5"
+                                    Margin="0"
                                     HorizontalAlignment="Left"
-                                    Orientation="Horizontal">
+                                    Orientation="Horizontal"
+                                    Visibility="Collapsed">
 
                                     <lvc:PieChart
                                         Grid.Row="1"
@@ -1078,7 +1084,7 @@
                                             </lvc:SeriesCollection>
                                         </lvc:PieChart.Series>
                                     </lvc:PieChart>
-                                    <StackPanel Margin="5" VerticalAlignment="Center">
+                                    <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                         <TextBlock
                                             Grid.Row="0"
                                             HorizontalAlignment="Left"
@@ -1088,6 +1094,7 @@
                                             FontWeight="Bold"
                                             Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                                             Text="节拍负荷率" />
+
                                         <TextBlock
                                             Grid.Row="0"
                                             HorizontalAlignment="Left"
@@ -1114,10 +1121,7 @@
                                 </Grid.ColumnDefinitions>
 
 
-                                <StackPanel
-                                    Margin="5"
-                                    HorizontalAlignment="Left"
-                                    Orientation="Horizontal">
+                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
 
                                     <lvc:PieChart
                                         Grid.Row="1"
@@ -1164,7 +1168,7 @@
                             </Grid>
 
 
-                            <Grid>
+                            <Grid Margin="10,0,10,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
@@ -1173,10 +1177,7 @@
                                 </Grid.ColumnDefinitions>
 
 
-                                <StackPanel
-                                    Margin="5"
-                                    HorizontalAlignment="Left"
-                                    Orientation="Horizontal">
+                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
 
                                     <lvc:PieChart
                                         Grid.Row="1"
@@ -1226,7 +1227,7 @@
                         </StackPanel>
 
                     </Grid>
-                    <Grid Grid.Row=" 1" Margin="10,3,0,0">
+                    <Grid Grid.Row=" 1" Margin="0,3,0,0">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
@@ -1277,14 +1278,18 @@
                         </StackPanel>
 
 
-                        <StackPanel
-                            Grid.Column=" 1"
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal">
+                        <Grid Grid.Column=" 1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
 
                             <Border
-                                Width=" 140"
-                                Margin="5,10,5,10"
+                                Grid.Column=" 0"
+                                Margin="0,10,5,10"
                                 Background="{DynamicResource 全局_按钮_绿颜色}"
                                 BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
                                 BorderThickness="3"
@@ -1295,14 +1300,14 @@
                                 <Grid>
 
                                     <TextBlock
-                                        Margin="10,10,0,0"
+                                        Margin="5,10,0,0"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Top"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                                         FontSize="16"
                                         Text="开机累计时间" />
                                     <TextBlock
-                                        Margin="10,0,0,10"
+                                        Margin="0,0,0,10"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1313,7 +1318,7 @@
                                 </Grid>
                             </Border>
                             <Border
-                                Width=" 140"
+                                Grid.Column=" 1"
                                 Margin="5,10,5,10"
                                 Background="{DynamicResource 全局_按钮_青颜色}"
                                 CornerRadius="8"
@@ -1337,7 +1342,7 @@
                                 <Grid>
 
                                     <TextBlock
-                                        Margin="10,10,0,10"
+                                        Margin="5,10,0,10"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Top"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1355,7 +1360,7 @@
                                 </Grid>
                             </Border>
                             <Border
-                                Width=" 140"
+                                Grid.Column=" 2"
                                 Margin="5,10,5,10"
                                 Background="{DynamicResource 全局_按钮_黄颜色}"
                                 CornerRadius=" 8"
@@ -1369,7 +1374,6 @@
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode}" Value="{x:Static Robot:KUKA_Mode_OP_Enum.T1}">
                                                 <Setter Property="Opacity" Value="1" />
-
                                                 <Setter Property="BorderThickness" Value="3" />
 
                                             </DataTrigger>
@@ -1380,7 +1384,7 @@
                                 <Grid>
 
                                     <TextBlock
-                                        Margin="10,10,0,10"
+                                        Margin="5,10,0,10"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Top"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1397,7 +1401,7 @@
                                 </Grid>
                             </Border>
                             <Border
-                                Width=" 140"
+                                Grid.Column=" 3"
                                 Margin="5,10,10,10"
                                 Background="{DynamicResource 全局_按钮_红颜色}"
                                 CornerRadius="8"
@@ -1421,7 +1425,7 @@
                                 <Grid>
 
                                     <TextBlock
-                                        Margin="10,10,0,10"
+                                        Margin="5,10,0,10"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Top"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -1543,7 +1547,7 @@
 
 
 
-                        </StackPanel>
+                        </Grid>
 
                     </Grid>
 
@@ -2275,7 +2279,7 @@
                 </Grid>-->
 
 
-            </WrapPanel>
+            </Grid>
 
             <!--<Border
                 d:Visibility="Collapsed"

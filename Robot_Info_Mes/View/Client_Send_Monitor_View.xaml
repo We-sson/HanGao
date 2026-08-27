@@ -1,0 +1,75 @@
+<UserControl
+    x:Class="Robot_Info_Mes.View.Client_Send_Monitor_View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModel="clr-namespace:Robot_Info_Mes.ViewModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance Type=ViewModel:Robot_Info_VM,
+                                     IsDesignTimeCreatable=False}"
+    mc:Ignorable="d">
+
+
+
+    <!--  通信监控 Popup 只保留网页红框标注的控制台区域。  -->
+    <Border
+        Width="1000"
+        Height="450"
+        Background="{DynamicResource 全局_背景_蓝颜色}"
+        BorderBrush="#C5CED9"
+        BorderThickness="3"
+        ClipToBounds="True"
+        CornerRadius="12">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border
+                Background="{DynamicResource 全局_按钮_浅蓝颜色}"
+                CornerRadius="12,12,0,0"
+                Effect="{DynamicResource 全局背景阴影}">
+                <StackPanel
+                    Margin="14,0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Ellipse
+                        Width="7"
+                        Height="7"
+                        Margin="0,0,9,0"
+                        Fill="#68C391" />
+                    <TextBlock
+                        FontSize="16"
+                        Foreground="#D4DDE7"
+                        Text="只读模式" />
+                </StackPanel>
+            </Border>
+            <ScrollViewer
+                Grid.Row="1"
+                Margin="5"
+                Background="Transparent"
+                HorizontalScrollBarVisibility="Disabled"
+                Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}"
+                VerticalScrollBarVisibility="Auto">
+                <TextBox
+                    Padding="14,10"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    AcceptsTab="True"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    FontFamily="Consolas"
+                    FontSize="14"
+                    Foreground="#C6D2DF"
+                    HorizontalScrollBarVisibility="Disabled"
+                    IsReadOnly="True"
+                    Text="{Binding Robot_Info_Parameters.Send_information.Data_Converts_Str, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Disabled" />
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>
+
