@@ -150,7 +150,7 @@
                                 FontSize="12">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="Text" Value="• 设备已连接" />
+                                        <Setter Property="Text" Value="设备已连接" />
 
 
                                         <Style.Triggers>
@@ -835,15 +835,14 @@
                                     Orientation="Horizontal">
 
                                     <TextBlock
-                                        HorizontalAlignment="Left"
                                         VerticalAlignment="Bottom"
+                                        d:Text="1311213"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                                         FontSize="40"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
                                         Text="{Binding Mes_Robot_Info_Model_Data.Robot_Time_Outside.Timer_Sec, FallbackValue=...., StringFormat={}{0:F1}}"
-                                        TextAlignment="Left"
-                                        TextWrapping="Wrap" />
+                                        TextTrimming="CharacterEllipsis" />
                                     <TextBlock
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom"

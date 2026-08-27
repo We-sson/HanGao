@@ -556,9 +556,17 @@ namespace Robot_Info_Mes.ViewModel
                     if ((Mes_Info_Parameters.Socket_Client.Socket_Client) == null || (!(bool?)(Mes_Info_Parameters.Socket_Client.Socket_Client?.Connected) ?? false))
                     {
 
-                        Mes_Info_Parameters.Socket_Client.Connect(File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port);
+                        bool connectResult = Mes_Info_Parameters.Socket_Client.Connect(File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port);
+
+                        Mes_Info_Parameters.Socket_Client_Type_State = connectResult
+                            ? Socket_Robot_Type_Enum.Ready
+                            : Socket_Robot_Type_Enum.Error;
+
                         //连接成功释放一下信号
-                        Mes_Info_Parameters.Socket_Client.Rece_Event.Set();
+                        if (connectResult)
+                        {
+                            Mes_Info_Parameters.Socket_Client.Rece_Event.Set();
+                        }
 
                     }
 
@@ -571,6 +579,8 @@ namespace Robot_Info_Mes.ViewModel
 
                         Mes_Server_Info_Data_Receive _Send = Create_Mes_Server_Info_Snapshot();
 
+
+                        Mes_Info_Parameters.Socket_Client_Type_State = Socket_Robot_Type_Enum.Working;
 
                         Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>(Socket_Robot_Protocols_Enum.KUKA, Vision_Model_Enum.Mes_Server_Info_Rece_Data, _Send, (int)File_Int_Parameters.Mes_Run_Parameters.Mes_Server_Info_Rece_Time * 1000);
 
@@ -1025,6 +1035,8 @@ namespace Robot_Info_Mes.ViewModel
         {
 
 
+            Mes_Info_Parameters.Socket_Client_Type_State = Socket_Robot_Type_Enum.Ready;
+
 
 
             User_Log_Add($"上传看板信息更新时间：{_Receive.Socket_Update_Time}");
@@ -1139,6 +1151,7 @@ namespace Robot_Info_Mes.ViewModel
         /// <param name="_Socket"></param>
         public void Socket_Cycle_Update_ErrorLog_Show(string _log, Socket? _Socket)
         {
+            Mes_Info_Parameters.Socket_Client_Type_State = Socket_Robot_Type_Enum.Error;
 
             try
             {

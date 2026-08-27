@@ -43,16 +43,7 @@
             FontSize="32"
             Foreground="{DynamicResource 全局_按钮_蓝颜色}"
             Text="&#xe641;" />
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="0"
-            Margin="20,0,20,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            FontFamily="{DynamicResource 全局_图标库}"
-            FontSize="32"
-            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-            Text="&#xe641;" />
+
         <TextBlock
             Grid.Row="0"
             Grid.Column="1"
@@ -63,6 +54,131 @@
             FontSize="32"
             Foreground="{DynamicResource 全局_按钮_蓝颜色}"
             Text="设备OEE状态读取页面" />
+
+        <!--  Client 与 Server 看板之间的实际通信状态。  -->
+        <Border
+            Grid.Row="0"
+            Width="350"
+            Height=" 50"
+            Margin="0,0,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Panel.ZIndex="2"
+            Background="White"
+            BorderBrush="#D5DCE4"
+            BorderThickness="1"
+            CornerRadius="9">
+            <Border.Effect>
+                <DropShadowEffect
+                    BlurRadius="6"
+                    Direction="270"
+                    Opacity="0.06"
+                    ShadowDepth="2" />
+            </Border.Effect>
+            <Grid Margin="20,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="145" />
+                    <ColumnDefinition Width="1" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <Grid
+                        Width="18"
+                        Height="18"
+                        Margin="0,0,10,0">
+                        <Ellipse>
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="Fill" Value="#F6D9D4" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
+                                            <Setter Property="Fill" Value="#D9F0E3" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
+                                            <Setter Property="Fill" Value="#F7E8C4" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                        <Ellipse Width="10" Height="10">
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="Fill" Value="#BD5141" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
+                                            <Setter Property="Fill" Value="#2C8659" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
+                                            <Setter Property="Fill" Value="#D49A2E" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                    </Grid>
+
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="11"
+                            Foreground="#8793A2"
+                            Text="看板连接状态" />
+                        <TextBlock
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="15"
+                            FontWeight="SemiBold">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#A14335" />
+                                    <Setter Property="Text" Value="断开连接" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
+                                            <Setter Property="Foreground" Value="#286E4A" />
+                                            <Setter Property="Text" Value="已连接" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
+                                            <Setter Property="Foreground" Value="#946814" />
+                                            <Setter Property="Text" Value="发送数据中" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+
+                <Border
+                    Grid.Column="1"
+                    Margin="0,2"
+                    Background="#DDE3E9" />
+
+                <StackPanel
+                    Grid.Column="2"
+                    Margin="13,0,0,0"
+                    VerticalAlignment="Center">
+
+                    <TextBlock
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Foreground="#344F6D"
+                        Text="OEE 看板服务器信息" />
+                    <TextBlock
+                        FontFamily="Consolas"
+                        FontSize="14"
+                        Foreground="#8A96A5">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}:{1}">
+                                <Binding Path="File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP" />
+                                <Binding Path="File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </Border>
 
         <Grid
             x:Name="Set_UI"
