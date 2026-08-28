@@ -493,7 +493,7 @@
                                         FontSize="40"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_Sec, FallbackValue=...., StringFormat={}{0:F1}}"
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_AB_Cycle.Timer_Sec, FallbackValue=...., StringFormat={}{0:F0}}"
                                         TextAlignment="Left"
                                         TextWrapping="Wrap" />
 
@@ -560,7 +560,7 @@
                                         FontSize="40"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_Mean, FallbackValue=...., StringFormat={}{0:F2}}"
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_Mean, FallbackValue=...., StringFormat={}{0:F0}}"
                                         TextWrapping="Wrap" />
                                     <TextBlock
                                         HorizontalAlignment="Center"
@@ -629,7 +629,7 @@
                                         FontSize="40"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_Sec, FallbackValue=...., StringFormat={}{0:F1}}"
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Work_CD_Cycle.Timer_Sec, FallbackValue=...., StringFormat={}{0:F0}}"
                                         TextAlignment="Left"
                                         TextWrapping="Wrap" />
 
@@ -834,16 +834,19 @@
                                     HorizontalAlignment="Right"
                                     Orientation="Horizontal">
 
+
+
+
                                     <TextBlock
-                                        VerticalAlignment="Bottom"
-                                        d:Text="1311213"
+                                        d:Text="13313"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                                         FontSize="40"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Time_Outside.Timer_Sec, FallbackValue=...., StringFormat={}{0:F1}}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Time_Outside.Timer_Sec, FallbackValue=...., StringFormat={}{0:F0}}" />
+
                                     <TextBlock
+                                        Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -954,17 +957,19 @@
                                     HorizontalAlignment="Right"
                                     Orientation="Horizontal">
 
+
+
+
                                     <TextBlock
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Bottom"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
                                         FontSize="40"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Time_Outside.Timer_Sec, FallbackValue=...., StringFormat={}{0:F1}}"
-                                        TextAlignment="Left"
-                                        TextWrapping="Wrap" />
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List_Mean, FallbackValue=...., StringFormat={}{0:F0}}" />
+
+
                                     <TextBlock
+                                        Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom"
                                         FontFamily="{DynamicResource 全局_文字_中文字体}"
@@ -972,9 +977,12 @@
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource 全局_按钮_深灰颜色}"
                                         Text="s" />
+
+
                                 </StackPanel>
 
                             </Grid>
+
                         </Border>
 
 

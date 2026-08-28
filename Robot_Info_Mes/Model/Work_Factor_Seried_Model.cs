@@ -102,7 +102,7 @@ namespace Robot_Info_Mes.Model
            DataLabelsSize = 14,
             DataLabelsPaint=new SolidColorPaint(Line_浅绿_配颜色),
             DataLabelsPosition= DataLabelsPosition.Top,
-            DataLabelsFormatter=(_P)=>$"{_P.Coordinate.PrimaryValue:F1}秒",
+            DataLabelsFormatter=(_P)=>$"{_P.Coordinate.PrimaryValue:F0}秒",
             Fill = null,
             ScalesYAt = 2 // it will be scaled at the Axis[0] instance 
         },
