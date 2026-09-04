@@ -2,10 +2,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+    <!--
+        参数窗口专用输入控件模板。标准 PART_* 名称由 WPF 运行时查找，
+        其余属性通过 TemplateBinding 继承调用方主题，供通信和工艺弹层复用。
+    -->
 
-
-
-    <!--  Tab样式  -->
+    <!--  键盘焦点虚线框。  -->
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -25,7 +27,7 @@
 
 
 
-    <!--  下拉选项按钮样式  -->
+    <!--  ComboBox 下拉按钮及箭头的交互状态。  -->
     <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
@@ -183,7 +185,7 @@
         </Setter>
     </Style>
 
-    <!--  下拉选项编辑样式  -->
+    <!--  可编辑 ComboBox：Popup 选项区与输入框组合模板。  -->
     <ControlTemplate x:Key="ComboBoxEditableTemplate" TargetType="{x:Type ComboBox}">
         <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
             <Grid.ColumnDefinitions>
@@ -280,7 +282,7 @@
     </ControlTemplate>
 
 
-    <!--  下拉选项编辑字体样式  -->
+    <!--  可编辑 ComboBox 内部文本框，保留 PART_ContentHost。  -->
     <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="AllowDrop" Value="true" />
@@ -303,7 +305,7 @@
         </Setter>
     </Style>
 
-    <!--  下拉选项样式模板  -->
+    <!--  只读 ComboBox：当前项 ContentPresenter 与下拉 Popup 模板。  -->
     <ControlTemplate x:Key="ComboBoxTemplate" TargetType="{x:Type ComboBox}">
         <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
             <Grid.ColumnDefinitions>
@@ -405,7 +407,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <!--  下拉选项总样式  -->
+    <!--  ComboBox 总样式，根据 IsEditable 切换编辑/只读模板。  -->
     <Style x:Key="Data_ComboBoxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
@@ -433,7 +435,7 @@
 
 
 
-    <!--  滑块总样式  -->
+    <!--  Slider 总样式：根据 Orientation 选择水平或垂直轨道。  -->
     <Style x:Key="Vision_SliderStyle" TargetType="{x:Type Slider}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
         <Setter Property="Background" Value="Transparent" />
@@ -456,6 +458,7 @@
 
 
 
+    <!--  Slider 轨道两侧 RepeatButton 透明化，只保留点击改变数值的行为。  -->
     <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Background" Value="Transparent" />
@@ -476,7 +479,7 @@
 
 
 
-    <!--  滑块默认状态样式  -->
+    <!--  水平 Slider 默认 Thumb。  -->
     <ControlTemplate x:Key="SliderThumbHorizontalDefault" TargetType="{x:Type Thumb}">
         <Grid
             HorizontalAlignment="Center"
@@ -513,6 +516,7 @@
 
 
 
+    <!--  刻度位于轨道上方时使用的水平 Thumb 形状。  -->
     <ControlTemplate x:Key="SliderThumbHorizontalTop" TargetType="{x:Type Thumb}">
         <Grid
             HorizontalAlignment="Center"
@@ -547,6 +551,7 @@
 
 
 
+    <!--  刻度位于轨道下方时使用的水平 Thumb 形状。  -->
     <ControlTemplate x:Key="SliderThumbHorizontalBottom" TargetType="{x:Type Thumb}">
         <Grid
             HorizontalAlignment="Center"
@@ -580,6 +585,7 @@
     </ControlTemplate>
 
 
+    <!--  垂直 Slider 默认 Thumb。  -->
     <ControlTemplate x:Key="SliderThumbVerticalDefault" TargetType="{x:Type Thumb}">
         <Grid
             HorizontalAlignment="Center"
@@ -607,6 +613,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+    <!--  刻度位于左侧时使用的垂直 Thumb。  -->
     <ControlTemplate x:Key="SliderThumbVerticalLeft" TargetType="{x:Type Thumb}">
         <Grid
             HorizontalAlignment="Center"
@@ -636,6 +643,7 @@
     </ControlTemplate>
 
 
+    <!--  刻度位于右侧时使用的垂直 Thumb。  -->
     <ControlTemplate x:Key="SliderThumbVerticalRight" TargetType="{x:Type Thumb}">
         <Grid
             HorizontalAlignment="Center"
@@ -663,6 +671,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+    <!--  垂直 Slider 轨道：包含刻度、已选范围和标准 PART_Track。  -->
     <ControlTemplate x:Key="SliderVertical" TargetType="{x:Type Slider}">
         <Border
             x:Name="border"
@@ -752,6 +761,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+    <!--  水平 Slider 轨道：参数弹层当前实际使用的方向。  -->
     <ControlTemplate x:Key="SliderHorizontal" TargetType="{x:Type Slider}">
         <Border
             x:Name="border"
@@ -847,7 +857,7 @@
 
 
 
-    <!--  文字输入框样式  -->
+    <!--  数值/地址 TextBox 的统一边框与焦点状态。  -->
     <Style x:Key="Vision_TextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource 全局_按钮_黑颜色}" />
@@ -906,6 +916,7 @@
         </Style.Triggers>
     </Style>
 
+    <!--  CheckBox 获得键盘焦点时的虚线轮廓。  -->
     <Style x:Key="OptionMarkFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -924,6 +935,7 @@
 
 
 
+    <!--  菜单式 CheckBox：以内容区域表达选择状态，隐藏系统默认勾选框。  -->
     <Style x:Key="Menu_CheckBoxStyle" TargetType="{x:Type CheckBox}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
@@ -1004,7 +1016,7 @@
 
 
 
-    <!--  图像功能按钮  -->
+    <!--  参数页操作按钮：保存等操作使用统一圆角和交互状态。  -->
 
     <Style x:Key="Halcon_Window_Button" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
@@ -1068,7 +1080,7 @@
         </Setter>
     </Style>
 
-    <!--  CheckBox功能按钮  -->
+    <!--  服务启停 CheckBox 按按钮外观呈现。  -->
     <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}">
 
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -1127,7 +1139,7 @@
 
 
 
-    <!--  列表样式  -->
+    <!--  旧版参数页 TabControl 主模板，仍供注释保留的布局兼容。  -->
     <Style x:Key="TabControl_Style" TargetType="{x:Type TabControl}">
         <Setter Property="Padding" Value="2" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -1221,7 +1233,7 @@
 
 
 
-    <!--  Tab切换窗口内容控件  -->
+    <!--  旧版参数页 TabItem 头部及选中状态模板。  -->
     <Style x:Key="Vision_TabItemStyle" TargetType="{x:Type TabItem}">
         <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_黑颜色}" />
         <Setter Property="Background" Value="{DynamicResource 全局_按钮_深灰颜色}" />
@@ -1456,6 +1468,7 @@
 
 
 
+    <!--  窗口级切换按钮：底部状态条突出当前选中页。  -->
     <Style x:Key="Window_ToggleButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
         <Setter Property="Background" Value="Transparent" />

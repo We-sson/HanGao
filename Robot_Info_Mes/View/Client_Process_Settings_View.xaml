@@ -18,6 +18,7 @@
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
+        <!--  标题区：本页数值是 OEE 公式与趋势参考线的共同业务基准。  -->
         <Border
             Panel.ZIndex="1"
             Background="{DynamicResource 全局_按钮_白颜色}"
@@ -50,7 +51,7 @@
             </Grid>
         </Border>
 
-        <!--  工艺参数保持原 WPF 顺序：滚动控制在前，其余参数纵向排列。  -->
+        <!--  当前生效表单按“交互、节拍/时长、产量、稼动率”顺序排列。  -->
 
 
         <Border
@@ -85,6 +86,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="滚动控制" />
+                        <!--  决定鼠标进入趋势图时是否暂停自动轮播，便于人工停留查看。  -->
 
                         <ToggleButton
                             Grid.Column="1"
@@ -142,6 +144,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="标准节拍" />
+                        <!--  秒/件：参与性能稼动率计算，并成为平均节拍目标线。  -->
                         <Slider
                             x:Name="Standard_Time_UI"
                             Grid.Column=" 1"
@@ -198,6 +201,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="作业时间" />
+                        <!--  小时/日：作为作业时间趋势的计划参考线。  -->
                         <Slider
                             x:Name="Work_Standard_Hours"
                             Grid.Column=" 1"
@@ -250,6 +254,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="标准产量" />
+                        <!--  件/日：作为生产数量趋势的合格线。  -->
                         <Slider
                             x:Name="Robot_Work_ABCD_Number_Max"
                             Grid.Column=" 1"
@@ -302,6 +307,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="时间稼动" />
+                        <!--  百分比：实际作业时间相对软件运行时间的目标值。  -->
                         <Slider
                             x:Name="Work_Availability_Factor_Max"
                             Grid.Column=" 1"
@@ -354,6 +360,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="性能稼动" />
+                        <!--  百分比：理论生产用时相对实际作业时间的目标值。  -->
                         <Slider
                             x:Name="Work_Performance_Factor_Max"
                             Grid.Column=" 1"
@@ -401,6 +408,7 @@
 
 
 
+        <!--  页脚复用 Save_Date_File_Comm 保存整份配置；提示需重启的初始化型参数。  -->
         <Border
             Grid.Row="2"
             Background="{DynamicResource 全局_按钮_白颜色}"

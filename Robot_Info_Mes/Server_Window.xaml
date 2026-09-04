@@ -22,6 +22,7 @@
     mc:Ignorable="d">
 
     <Window.Resources>
+        <!--  OEE 子控件显示设备工艺枚举时使用的中文描述转换器。  -->
         <Enum_Converter:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
     </Window.Resources>
 
@@ -37,6 +38,7 @@
             <RowDefinition Height=" *" />
         </Grid.RowDefinitions>
 
+        <!--  看板顶栏左右放置品牌图标，中间标题随汇总文件月份更新。  -->
         <TextBlock
             Grid.Row="0"
             Grid.Column="0"
@@ -73,6 +75,7 @@
 
 
 
+        <!--  每个 Client/工艺对应一个 OEE_UI；在线项目由视图模型动态排到列表前部。  -->
         <ListBox
             Grid.Row=" 3"
             HorizontalContentAlignment="Stretch"
@@ -98,8 +101,7 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-
-
+                    <!--  列表项自身就是 Mes_Server_Info_List_Model，直接作为单设备卡 DataContext。  -->
                     <Grid HorizontalAlignment="Stretch">
                         <View:OEE_UI HorizontalAlignment="Stretch" DataContext="{Binding}" />
                     </Grid>
@@ -109,7 +111,7 @@
             </ListBox.ItemTemplate>
 
             <i:Interaction.Triggers>
-
+                <!--  列表完成装载后启动整页自动滚动和选中项轮播。  -->
                 <i:EventTrigger EventName="Loaded">
                     <i:InvokeCommandAction
                         Command="{Binding Server_Window_Scrolling_Comm}"

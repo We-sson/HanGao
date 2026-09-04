@@ -11,7 +11,7 @@
 
 
 
-    <!--  通信监控 Popup 只保留网页红框标注的控制台区域。  -->
+    <!--  接收监控绑定 Socket 解码后的文本镜像，用于核对机器人实际上报的内容。  -->
     <Border
         Width="1000"
         Height="450"
@@ -26,6 +26,7 @@
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <!--  状态条明确该窗口只读，不能从这里改写协议数据。  -->
             <Border
                 Background="{DynamicResource 全局_按钮_浅蓝颜色}"
                 CornerRadius="12,12,0,0"
@@ -45,6 +46,7 @@
                         Text="只读模式" />
                 </StackPanel>
             </Border>
+            <!--  保留横向滚动和原始行结构，长报文不会因自动换行改变阅读含义。  -->
             <ScrollViewer
                 Grid.Row="1"
                 Margin="5"

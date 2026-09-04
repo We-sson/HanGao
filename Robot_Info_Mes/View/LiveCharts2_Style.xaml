@@ -4,13 +4,14 @@
     xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF">
 
 
-    <!--  扇形前景样式  -->
+    <!--  仪表前景弧：显示实时百分比、关闭悬停位移，并把标签固定在圆心。  -->
     <Style x:Key="General_GaugeStyle" TargetType="lvc:XamlGaugeSeries">
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="DataLabelsFormatter" Value="{Binding Work_Factor_Seried.LabelFormatter}" />
         <Setter Property="DataLabelsPosition" Value="ChartCenter" />
         <Setter Property="DataLabelsSize" Value="18" />
         <Setter Property="Fill" Value="#4B6587" />
+        <!--  旧渐变填充方案保留为视觉备选；当前使用固定主题蓝以提高大屏对比度。  -->
         <!--<Setter Property="Fill">
             <Setter.Value>
                 <lvc:LinearGradientPaint
@@ -29,7 +30,7 @@
         <Setter Property="SeriesName" Value="%" />
         <Setter Property="ShowDataLabels" Value="True" />
     </Style>
-    <!--  扇形背景样式  -->
+    <!--  仪表背景弧：与前景共用内外半径，灰色部分表示目标范围内尚未达到的比例。  -->
     <Style x:Key="General_GaugeBackgroundStyle" TargetType="lvc:XamlGaugeBackgroundSeries">
         <Setter Property="Fill" Value="#DDDDDD" />
         <Setter Property="CornerRadius" Value="5" />

@@ -17,10 +17,13 @@ using UserControl = System.Windows.Controls.UserControl;
 namespace Robot_Info_Mes.View
 {
     /// <summary>
-    /// OEE_UI.xaml 的交互逻辑
+    /// 单台设备的 OEE 状态卡；既用于客户端本机，也作为服务器设备列表的项目模板。
     /// </summary>
     public partial class OEE_UI : UserControl
     {
+        /// <summary>
+        /// 装载设备信息、实时指标、状态计时及趋势图；数据全部由外部 DataContext 提供。
+        /// </summary>
         public OEE_UI()
         {
             InitializeComponent();

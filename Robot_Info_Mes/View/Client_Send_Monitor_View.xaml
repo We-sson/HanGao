@@ -11,7 +11,7 @@
 
 
 
-    <!--  通信监控 Popup 只保留网页红框标注的控制台区域。  -->
+    <!--  发送监控绑定 Socket 编码后的文本镜像，用于核对应答及看板上报。  -->
     <Border
         Width="1000"
         Height="450"
@@ -26,6 +26,7 @@
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <!--  状态条明确该窗口只读，实际发送仍完全由协议状态机触发。  -->
             <Border
                 Background="{DynamicResource 全局_按钮_浅蓝颜色}"
                 CornerRadius="12,12,0,0"
@@ -45,6 +46,7 @@
                         Text="只读模式" />
                 </StackPanel>
             </Border>
+            <!--  保留横向滚动和原始行结构，便于与对端日志逐字段比对。  -->
             <ScrollViewer
                 Grid.Row="1"
                 Margin="5"

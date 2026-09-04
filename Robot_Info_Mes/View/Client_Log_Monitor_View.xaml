@@ -12,7 +12,7 @@
 
 
 
-    <!--  日志 Popup 同样只保留控制台区域，日志内容不换行。  -->
+    <!--  日志 Popup 只读显示全局日志缓冲区，等宽字体便于核对序号与时间戳。  -->
     <Border
         Width="1000"
         Height="450"
@@ -27,6 +27,7 @@
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <!--  顶部状态条说明内容会随后台通信、统计和保存事件持续追加。  -->
             <Border
                 Background="{DynamicResource 全局_按钮_浅蓝颜色}"
                 BorderBrush="#3C4B5E"
@@ -48,6 +49,7 @@
                         Text="记录持续更新" />
                 </StackPanel>
             </Border>
+            <!--  LayoutUpdated 调用 Update_Log_Comm；仅在内容高度变化时自动滚到最新记录。  -->
             <ScrollViewer
                 x:Name="Popup_Log_ScrollViewer"
                 Grid.Row="1"

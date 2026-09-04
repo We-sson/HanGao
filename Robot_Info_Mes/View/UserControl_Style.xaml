@@ -5,14 +5,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
     mc:Ignorable="av">
+    <!--
+        跨页面通用控件模板。PART_* 名称是 WPF 控件契约，不能随意改名；
+        TemplateBinding 负责把调用方颜色、边框、对齐和内容传入自定义外观。
+    -->
 
-
-
-    <!--    -->
-
-
-    <!--    -->
-    <!--  Tab样式  -->
+    <!--  键盘焦点虚线框：供按钮、单选框及列表项保持可访问性提示。  -->
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -45,7 +43,7 @@
 
 
 
-    <!--  图像功能按钮  -->
+    <!--  通用操作按钮：保留 ContentPresenter，并统一圆角、阴影及交互状态。  -->
 
     <Style x:Key="Halcon_Window_Button" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
@@ -115,7 +113,7 @@
 
 
 
-    <!--  图像显示单选框  -->
+    <!--  图像/模式单选框：选中状态通过边框和触发器表达。  -->
     <Style x:Key="Halcon_Window_RadioButton_Style" TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="Background" Value="Transparent" />
@@ -212,7 +210,7 @@
 
 
 
-    <!--  Tab选的样式  -->
+    <!--  Expander 标题获得键盘焦点时使用的可视轮廓。  -->
     <Style x:Key="ExpanderHeaderFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -232,7 +230,7 @@
 
 
 
-    <!--  Expander栏样式  -->
+    <!--  Expander 向下展开时的标题按钮模板。  -->
     <Style x:Key="ExpanderDownHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -284,7 +282,7 @@
 
 
 
-    <!--  Up  -->
+    <!--  Expander 向上展开时的标题按钮模板。  -->
     <Style x:Key="ExpanderUpHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -343,7 +341,7 @@
         </Setter>
     </Style>
 
-    <!--  Left  -->
+    <!--  Expander 向左展开时的标题按钮模板。  -->
     <Style x:Key="ExpanderLeftHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -402,7 +400,7 @@
         </Setter>
     </Style>
 
-    <!--  Right  -->
+    <!--  Expander 向右展开时的标题按钮模板。  -->
     <Style x:Key="ExpanderRightHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -462,7 +460,7 @@
     </Style>
 
 
-    <!--  Expader主样式  -->
+    <!--  Expander 主模板：按 ExpandDirection 选择标题模板并控制内容区显隐。  -->
     <Style x:Key="Vision_Fence_Expander_Style" TargetType="{x:Type Expander}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Background" Value="Transparent" />
@@ -548,7 +546,7 @@
 
 
 
-    <!--  参数列表内容滚动样式  -->
+    <!--  滚动组件基础样式：透明轨道按钮、可拖动 Thumb 和方向箭头。  -->
 
     <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -613,7 +611,7 @@
         </Setter>
     </Style>
 
-    <!--  竖 中间按钮样式  -->
+    <!--  垂直滚动条中间可拖动滑块。  -->
     <Style x:Key="ScrollBarThumbVertical" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
@@ -643,7 +641,7 @@
     </Style>
 
 
-    <!--  横 中间按钮样式  -->
+    <!--  水平滚动条中间可拖动滑块。  -->
     <Style x:Key="ScrollBarThumbHorizontal" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
@@ -672,7 +670,7 @@
 
 
 
-    <!--  下拉选项编辑字体样式  -->
+    <!--  可编辑 ComboBox 内部 TextBox；PART_ContentHost 为 WPF 必需部件。  -->
     <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="AllowDrop" Value="true" />
@@ -701,6 +699,7 @@
 
 
 
+    <!--  参数选择列表容器，使用自定义 ScrollViewer 且允许内容拉伸。  -->
     <Style x:Key="Vision_Data_ListBoxStyle" TargetType="{x:Type ListBox}">
         <Setter Property="Background" Value="#FFFFFFFF" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -757,7 +756,7 @@
 
 
 
-    <!--  下拉选项按钮样式  -->
+    <!--  ComboBox 下拉按钮，负责箭头外观及鼠标/按下/禁用状态。  -->
     <!--<Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -774,7 +773,7 @@
 
 
 
-    <!--  视觉列表行样式  -->
+    <!--  参数选择列表行：模板负责悬停、选中、焦点及禁用状态。  -->
     <Style x:Key="Vison_Data_ListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Margin" Value="2" />
@@ -1004,7 +1003,7 @@
         </Setter>
     </Style>
 
-    <!--  下拉选项编辑样式  -->
+    <!--  可编辑 ComboBox 模板：Popup 承载选项，EditableTextBox 承载输入。  -->
     <ControlTemplate x:Key="ComboBoxEditableTemplate" TargetType="{x:Type ComboBox}">
         <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
             <Grid.ColumnDefinitions>
@@ -1101,7 +1100,7 @@
     </ControlTemplate>
 
 
-    <!--  下拉选项样式模板  -->
+    <!--  只读 ComboBox 模板：ContentPresenter 显示当前项，Popup 显示列表。  -->
     <ControlTemplate x:Key="ComboBoxTemplate" TargetType="{x:Type ComboBox}">
         <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
             <Grid.ColumnDefinitions>
@@ -1203,7 +1202,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <!--  下拉选项总样式  -->
+    <!--  ComboBox 总样式：根据 IsEditable 选择上方两个模板。  -->
     <Style x:Key="Data_ComboBoxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
@@ -1230,7 +1229,7 @@
     </Style>
 
 
-    <!--  -内容滚动右控件  -->
+    <!--  内容滚动条：分别提供垂直和水平模板，并保留标准 PART_Track。  -->
     <Style x:Key="Right_ScrollBarStyle" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
@@ -1462,7 +1461,7 @@
         </Style.Triggers>
     </Style>
 
-    <!--  -内容滚动主控件  -->
+    <!--  ScrollViewer 主模板：组合内容呈现器、两条滚动条和右下角占位。  -->
     <Style x:Key="Vision_Data_List_ScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
@@ -1532,6 +1531,7 @@
 
 
 
+    <!--  ComboBox 项内文字的字体、颜色和垂直对齐。  -->
     <Style x:Key="ComboBox_TextBlok_Style" TargetType="{x:Type TextBlock}">
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
@@ -1541,7 +1541,7 @@
     </Style>
 
 
-    <!--  列表总模板  -->
+    <!--  Server 设备列表总模板：ScrollViewer 包裹 ItemsPresenter。  -->
 
     <Style x:Key="ListBoxStyle1" TargetType="{x:Type ListBox}">
         <Setter Property="Background" Value="{DynamicResource ListBox.Static.Background}" />
@@ -1598,7 +1598,7 @@
     </Style>
 
 
-    <!--  列表每一项模板  -->
+    <!--  Server 设备列表项模板：保持内容拉伸，并表达选中、焦点和禁用状态。  -->
 
     <Style x:Key="ListBoxItemStyle1" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -1668,7 +1668,7 @@
 
 
 
-    <!--  OEE指标单选按钮样式  -->
+    <!--  OEE 指标单选按钮：每项从调用方接收自己的深/浅语义色。  -->
     <!--
         BorderBrush 表示每个指标自己的强调色；Background 表示对应的浅色选中背景。
         未选中时文字使用全局蓝色，选中后由模板切换为当前指标的强调色。
@@ -1794,7 +1794,7 @@
     </Style>
 
 
-    <!--  对应网页 command-bar 按钮：右侧箭头 + 底部展开状态条。  -->
+    <!--  客户端命令栏 Popup 按钮：右侧箭头指示开合，底部状态条标识当前展开项。  -->
     <Style x:Key="PopupCompareButtonStyle" TargetType="ToggleButton">
         <Setter Property="Width" Value="84" />
         <Setter Property="Height" Value="38" />

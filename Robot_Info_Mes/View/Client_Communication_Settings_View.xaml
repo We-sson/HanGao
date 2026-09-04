@@ -21,6 +21,7 @@
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
+        <!--  标题区：说明本页同时控制机器人监听与 Client→看板的上报链路。  -->
         <Border
             Panel.ZIndex="1"
             Background="{DynamicResource 全局_按钮_白颜色}"
@@ -53,7 +54,7 @@
             </Grid>
         </Border>
 
-        <!--  参数顺序和排版保持原 WPF 纵向单列格式。  -->
+        <!--  当前生效的纵向表单；所有编辑值直接双向绑定 File_Int_Parameters。  -->
 
         <Border
             Grid.Row="1"
@@ -67,6 +68,7 @@
 
 
                 <StackPanel Margin="10" Orientation="Vertical">
+                    <!--  协议类型决定 Socket 库采用 KUKA、ABB、FANUC 或 Kawasaki 的编解码规则。  -->
 
 
 
@@ -142,6 +144,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="保存时间" />
+                        <!--  Slider 与 TextBox 互相绑定同一数值：本地统计及 XML 快照保存周期。  -->
                         <Slider
                             x:Name="Polling_Time_UI"
                             Grid.Column=" 1"
@@ -196,6 +199,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="看板更新" />
+                        <!--  Client 连续向 Server 上报完整快照时的发送间隔。  -->
                         <Slider
                             x:Name="Sever_Cycle_Update_Time_UI"
                             Grid.Column=" 1"
@@ -249,6 +253,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="看板IP" />
+                        <!--  后台重连循环使用的汇总看板地址。  -->
 
 
                         <TextBox
@@ -280,6 +285,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="看板端口" />
+                        <!--  与看板 IP 共同组成 Client Socket 的远端终结点。  -->
 
 
                         <TextBox
@@ -310,6 +316,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="看板超时" />
+                        <!--  单次上报等待 Server 确认消息的最长秒数。  -->
                         <Slider
                             x:Name="Mes_Server_Info_Rece_Time_UI"
                             Grid.Column=" 1"
@@ -364,6 +371,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="本机IP" />
+                        <!--  启动时枚举的本机 IPv4 列表；程序实际会逐地址创建机器人监听器。  -->
                         <ComboBox
                             Grid.Column=" 1"
                             HorizontalContentAlignment="Left"
@@ -416,6 +424,7 @@
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_黑颜色}"
                             Text="服务端口" />
+                        <!--  机器人控制器主动连接本采集端时使用的监听端口。  -->
 
 
                         <TextBox
@@ -438,6 +447,7 @@
                 </StackPanel>
 
 
+                <!--  备用紧凑表单布局，当前整体禁用，仅留作样式比较参考。  -->
                 <!--<StackPanel Margin="22,12,22,10">
                                 <Grid Height="46" Margin="0,3">
                                     <Grid.ColumnDefinitions>
@@ -661,6 +671,7 @@
             </ScrollViewer>
         </Border>
 
+        <!--  页脚：左侧实时启停机器人监听，右侧把全部配置原子保存到 XML。  -->
         <Border
             Grid.Row="2"
             Background="{DynamicResource 全局_按钮_白颜色}"

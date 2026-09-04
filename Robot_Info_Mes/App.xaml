@@ -12,7 +12,9 @@
     <Application.Resources>
         <ResourceDictionary>
 
+            <!--  应用级主题资源按依赖顺序合并：基础色 → 通用控件 → 图表样式。  -->
             <ResourceDictionary.MergedDictionaries>
+                <!--  下方整段是旧项目曾引用的资源，当前保持禁用，不能作为运行期依赖。  -->
                 <!--<ResourceDictionary Source="View\Effect_Resources\Global_Effect.xaml" />
                 <ResourceDictionary Source="View\Style\RadioButton_Style.xaml" />
                 <ResourceDictionary Source="view\Style\Title_Font_Size.xaml" />
@@ -44,6 +46,7 @@
                 <ResourceDictionary Source=" View/User_Control/Vision_Calibration/Style/Vision_Menu_Style.xaml" />
                 <ResourceDictionary Source=" View/User_Control/Vision_hand_eye_Calibration/Style/hand_eye_Style.xaml" />-->
 
+                <!--  当前生效的四个资源字典，供两个主窗口及所有 UserControl 共享。  -->
                 <ResourceDictionary Source="View\Global_Color.xaml" />
                 <ResourceDictionary Source="View\Window_UserConect.xaml" />
                 <ResourceDictionary Source="View\UserControl_Style.xaml" />
@@ -56,6 +59,7 @@
 
             </ResourceDictionary.MergedDictionaries>
 
+            <!--  单一 Locator 把依赖注入中的 Robot_Info_VM 暴露给窗口 DataContext。  -->
             <vm:ViewModelLocator
                 xmlns:vm="clr-namespace:Robot_Info_Mes.ViewModel"
                 x:Key="ViewModelLocator"

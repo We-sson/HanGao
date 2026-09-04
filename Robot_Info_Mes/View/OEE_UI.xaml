@@ -15,9 +15,11 @@
     d:Width="1440"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <!--  枚举转换器显示设备中文名称；索引转换器连接趋势选择按钮与后台轮播索引。  -->
         <Enum_Converter:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
         <Enum_Converter:IndexEqualsConverter x:Key="IndexEqualsConverter" />
     </UserControl.Resources>
+    <!--  DataContext 可为 Client 的 Robot_Info_VM，也可为 Server 列表中的单设备项；两者公开相同绑定路径。  -->
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
 
@@ -26,6 +28,7 @@
 
         </Grid.RowDefinitions>
 
+        <!--  上半区：设备身份、实时生产数据、效率仪表和状态累计时间。  -->
         <Grid
             Grid.Row="0"
             Grid.Column=" 0"
@@ -38,6 +41,7 @@
                     <ColumnDefinition MinWidth="600" />
                     <ColumnDefinition MinWidth=" 550" MaxWidth="600" />
                 </Grid.ColumnDefinitions>
+                <!--  左栏设备卡：连接状态、工艺图片、离线时长、设备名称和当前程序。  -->
                 <Grid Grid.Column=" 0">
                     <Grid.ColumnDefinitions>
 
@@ -53,6 +57,7 @@
                     </Grid.RowDefinitions>
 
 
+                    <!--  整张设备卡的背景与边框。  -->
                     <Border
                         Grid.Row=" 0"
                         Grid.RowSpan=" 4"
@@ -112,6 +117,7 @@
                         Background="{DynamicResource 全局_按钮_灰颜色}"
                         CornerRadius=" 0" />-->
 
+                    <!--  在线/离线徽标由 Socket_Robot_Connect_State 同时切换颜色和文字。  -->
                     <Border
                         Grid.Column=" 1"
                         Height="30"
@@ -172,6 +178,7 @@
 
 
 
+                    <!--  工艺枚举映射到设备图片；离线时降低图片透明度。  -->
                     <Border
                         Grid.Row=" 1"
                         Grid.Column="0"
@@ -200,6 +207,7 @@
 
 
 
+                    <!--  离线遮罩仅在断开时显示，使离线计时文字在图片上保持可读。  -->
                     <Border
                         Grid.Row=" 1"
                         Grid.Column="0"
@@ -303,6 +311,7 @@
 
                 </Grid>
 
+                <!--  中栏实时生产卡：所有数值在设备离线时统一降低透明度。  -->
                 <Grid Grid.Column=" 1" Margin="5,0,0,0">
 
 
@@ -366,6 +375,7 @@
                         Background="{DynamicResource 全局_按钮_灰颜色}"
                         CornerRadius=" 0" />-->
 
+                    <!--  指标磁贴覆盖通信周期、两路节拍、均值、产量、栈板、空闲时间及负荷率。  -->
                     <Grid Grid.Row=" 1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -994,6 +1004,7 @@
 
 
 
+                <!--  右栏上部为 OEE 仪表，下部为开机/作业/调试/故障状态计时。  -->
                 <Grid Grid.Column=" 2" Margin="5,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -1002,6 +1013,7 @@
 
 
 
+                    <!--  时间与性能稼动率同时显示实时值和配置目标；节拍负荷仪表暂时隐藏。  -->
                     <Grid Grid.Row=" 0">
 
                         <Grid.ColumnDefinitions>
@@ -1234,6 +1246,7 @@
                         </StackPanel>
 
                     </Grid>
+                    <!--  四张状态卡通过机器人模式触发器突出当前状态，并显示对应当日累计时长。  -->
                     <Grid Grid.Row=" 1" Margin="0,3,0,0">
 
                         <Grid.ColumnDefinitions>
@@ -1449,6 +1462,7 @@
                                 </Grid>
                             </Border>
 
+                            <!--  以下为旧版状态/指标卡布局片段，保持禁用以供界面演进时对照。  -->
                             <!--<Grid Margin="5,10,5,10">
 
                                 <Grid.RowDefinitions>
@@ -2315,6 +2329,7 @@
         </Grid>
 
 
+        <!--  下半区趋势图：自动轮播六种指标，人工选择与后台索引保持双向同步。  -->
         <Grid
             Grid.Row="1"
             Grid.Column=" 0"
@@ -2326,6 +2341,7 @@
                 <RowDefinition Height="18" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <!--  根据工艺设置决定鼠标悬停时是否暂停轮播，便于查看具体数据点。  -->
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseEnter">
                     <i:InvokeCommandAction Command="{Binding Work_Factor_Seried.Mes_Data_View_Pause_Comm}" />
@@ -2343,6 +2359,7 @@
                 BorderThickness="3"
                 CornerRadius="10" />
 
+            <!--  当前指标的剩余展示周期；颜色随六种指标语义色同步切换。  -->
             <ProgressBar
                 Grid.Row="0"
                 Height="6"
@@ -2386,6 +2403,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
+                <!--  六个按钮直接写入 Mes_Data_View_Selected_Index，也会被自动轮播反向更新。  -->
                 <StackPanel
                     Grid.Column="0"
                     Margin="10,0,0,10"
@@ -2437,6 +2455,7 @@
 
 
 
+                <!--  曲线、参考线及双轴均由 Work_Factor_Seried_Model 统一构造和切换。  -->
                 <lvc:CartesianChart
                     Grid.Column="1"
                     Margin="0,10,10,10"

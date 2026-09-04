@@ -19,6 +19,7 @@
     WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
+        <!--  将机器人/工艺枚举显示为 DescriptionAttribute 中的现场中文名称。  -->
         <Enum_Converter:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
     </Window.Resources>
     <Grid Background="{DynamicResource 全局_背景_白颜色}">
@@ -33,6 +34,7 @@
 
         </Grid.RowDefinitions>
 
+        <!--  顶栏：应用标识、页面标题和 Client→Server 实时连接状态。  -->
         <TextBlock
             Grid.Row="0"
             Grid.Column="0"
@@ -180,6 +182,7 @@
             </Grid>
         </Border>
 
+        <!--  命令栏：左侧编辑通信/工艺参数，右侧查看收发报文与运行日志。  -->
         <Grid
             x:Name="Set_UI"
             Grid.Row="1"
@@ -201,6 +204,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
+            <!--  配置类 Popup 继承按钮所在窗口的 DataContext，修改值直接进入 File_Int_Parameters。  -->
             <StackPanel
                 Grid.Column=" 0"
                 Margin="8,0"
@@ -262,6 +266,7 @@
 
             </StackPanel>
 
+            <!--  诊断类 Popup 使用只读监视视图，不干扰主 OEE 面板的布局。  -->
             <StackPanel
                 Grid.Column=" 1"
                 Margin="8,0"
@@ -339,6 +344,7 @@
 
             </StackPanel>
 
+            <!--  以下大段为旧版 TabControl 参数/监视布局，整体注释保留作视觉迁移参考，不参与编译。  -->
             <!--<Grid
                 Grid.Column="0"
                 Margin="5"
@@ -1259,11 +1265,12 @@
 
             </Grid>-->
 
-            <!--  原 TabControl 保留；右侧增加网页式 Popup 方案，方便现场对比。  -->
+            <!--  当前生效方案使用上方 Popup 命令栏；旧 TabControl 仅以注释形式保留。  -->
 
 
         </Grid>
 
+        <!--  主业务区复用单设备 OEE 控件；DataContext 继续沿用当前 Robot_Info_VM。  -->
         <Grid Grid.Row=" 2">
             <View:OEE_UI DataContext="{Binding}" />
         </Grid>

@@ -11,6 +11,9 @@ using System.Windows.Markup;
 
 namespace Robot_Info_Mes.View
 {
+    /// <summary>
+    /// 视图转换器命名空间的占位类型；具体转换逻辑由同文件中的转换器实现。
+    /// </summary>
     public  class View_Converter
     {
     }
@@ -19,14 +22,21 @@ namespace Robot_Info_Mes.View
 
 
     /// <summary>
-    /// 拓展标记枚举转换方法
+    /// XAML 标记扩展：把一个枚举类型展开成所有枚举值，供 ComboBox 等 ItemsSource 直接绑定。
     /// </summary>
     public class EnumBindingSourceExtension : MarkupExtension
     {
 
 
+        /// <summary>
+        /// 要展开的枚举类型。
+        /// </summary>
         public Type? Enum_List { set; get; }
 
+        /// <summary>
+        /// 验证传入类型确为枚举，尽早暴露错误的 XAML 参数。
+        /// </summary>
+        /// <param name="enumType">需要作为选项来源的枚举类型。</param>
         public EnumBindingSourceExtension(Type enumType)
         {
             if (enumType is null || !enumType.IsEnum)
@@ -34,10 +44,15 @@ namespace Robot_Info_Mes.View
             Enum_List = enumType;
         }
 
+        /// <summary>
+        /// 在 XAML 解析阶段返回枚举值集合。
+        /// </summary>
+        /// <param name="serviceProvider">WPF 提供的标记扩展服务上下文；此实现无需使用。</param>
+        /// <returns>按枚举声明值组成的可枚举集合。</returns>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
 
-            //返回枚举集合
+            // 返回 Enum 而不是基础整数，使后续 Description 转换器仍能读取字段特性。
             return Enum.GetValues(Enum_List!).Cast<Enum>();
 
         }
@@ -47,12 +62,16 @@ namespace Robot_Info_Mes.View
 
 
 
-    ///// <summary>
-    ///// 枚举特性文本显示装欢去
-    ///// </summary>
+    /// <summary>
+    /// 将枚举成员的 <see cref="DescriptionAttribute"/> 转换为面向用户的中文说明。
+    /// </summary>
     public class EnumDescriptionConverter : IValueConverter
     {
-
+        /// <summary>
+        /// 读取枚举字段的 Description；未配置特性或反射失败时退回枚举名称。
+        /// </summary>
+        /// <param name="enumObj">待显示的枚举值。</param>
+        /// <returns>描述文本；没有描述时为枚举值自身的字符串。</returns>
         public static string? GetEnumDescription(object enumObj)
         {
             try
@@ -61,6 +80,7 @@ namespace Robot_Info_Mes.View
                 if (enumObj == null) { return enumObj?.ToString()!; }
 
 
+                // 枚举的特性挂在成员字段上，需先由成员名称找到 FieldInfo。
                 FieldInfo? fieldInfo = enumObj.GetType().GetField(enumObj.ToString()!);
 
 
@@ -87,6 +107,9 @@ namespace Robot_Info_Mes.View
             }
         }
 
+        /// <summary>
+        /// 将绑定源枚举转换为界面显示文本。
+        /// </summary>
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             //Enum _Enum = value as Enum;
@@ -95,6 +118,9 @@ namespace Robot_Info_Mes.View
             return description;
         }
 
+        /// <summary>
+        /// 保留传入值；该转换器实际用于单向显示，反向写入不负责解析枚举。
+        /// </summary>
         public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value;
@@ -102,10 +128,13 @@ namespace Robot_Info_Mes.View
     }
 
     /// <summary>
-    /// 将当前图表索引与 RadioButton 对应索引进行双向转换。
+    /// 将当前趋势图索引与某个 RadioButton 的固定索引进行双向转换。
     /// </summary>
     public class IndexEqualsConverter : IValueConverter
     {
+        /// <summary>
+        /// 当前索引等于 ConverterParameter 时选中对应按钮。
+        /// </summary>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value is int currentIndex &&
@@ -113,6 +142,9 @@ namespace Robot_Info_Mes.View
                    currentIndex == targetIndex;
         }
 
+        /// <summary>
+        /// 仅在按钮被选中时把其固定索引写回；取消选中不覆盖其他按钮刚写入的索引。
+        /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is true && TryGetIndex(parameter, out int targetIndex))
@@ -123,6 +155,9 @@ namespace Robot_Info_Mes.View
             return System.Windows.Data.Binding.DoNothing;
         }
 
+        /// <summary>
+        /// 统一解析 XAML 中以字符串形式传入的 ConverterParameter。
+        /// </summary>
         private static bool TryGetIndex(object parameter, out int index)
         {
             return int.TryParse(parameter?.ToString(), out index);
