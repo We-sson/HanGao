@@ -60,7 +60,7 @@
         <!--  Client 与 Server 看板之间的实际通信状态。  -->
         <Border
             Grid.Row="0"
-            Width="350"
+            Width="450"
             Height=" 50"
             Margin="0,0,5,0"
             HorizontalAlignment="Right"
@@ -77,9 +77,11 @@
                     Opacity="0.06"
                     ShadowDepth="2" />
             </Border.Effect>
-            <Grid Margin="20,0,0,0">
+            <Grid Margin="16,0,10,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="145" />
+                    <ColumnDefinition Width="135" />
+                    <ColumnDefinition Width="1" />
+                    <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="1" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
@@ -92,13 +94,19 @@
                         <Ellipse>
                             <Ellipse.Style>
                                 <Style TargetType="Ellipse">
-                                    <Setter Property="Fill" Value="#F6D9D4" />
+                                    <Setter Property="Fill" Value="#E1E7ED" />
                                     <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Connecting}">
+                                            <Setter Property="Fill" Value="#DCEAF7" />
+                                        </DataTrigger>
                                         <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
                                             <Setter Property="Fill" Value="#D9F0E3" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
                                             <Setter Property="Fill" Value="#F7E8C4" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Error}">
+                                            <Setter Property="Fill" Value="#F6D9D4" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -107,13 +115,19 @@
                         <Ellipse Width="10" Height="10">
                             <Ellipse.Style>
                                 <Style TargetType="Ellipse">
-                                    <Setter Property="Fill" Value="#BD5141" />
+                                    <Setter Property="Fill" Value="#8793A2" />
                                     <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Connecting}">
+                                            <Setter Property="Fill" Value="#3979A8" />
+                                        </DataTrigger>
                                         <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
                                             <Setter Property="Fill" Value="#2C8659" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
                                             <Setter Property="Fill" Value="#D49A2E" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Error}">
+                                            <Setter Property="Fill" Value="#BD5141" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -130,12 +144,17 @@
                         <TextBlock
                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                             FontSize="15"
-                            FontWeight="SemiBold">
+                            FontWeight="SemiBold"
+                            ToolTip="{Binding Mes_Info_Parameters.Last_Communication_Error}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="#A14335" />
-                                    <Setter Property="Text" Value="断开连接" />
+                                    <Setter Property="Foreground" Value="#65758A" />
+                                    <Setter Property="Text" Value="等待连接" />
                                     <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Connecting}">
+                                            <Setter Property="Foreground" Value="#3979A8" />
+                                            <Setter Property="Text" Value="连接中" />
+                                        </DataTrigger>
                                         <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
                                             <Setter Property="Foreground" Value="#286E4A" />
                                             <Setter Property="Text" Value="已连接" />
@@ -143,6 +162,10 @@
                                         <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
                                             <Setter Property="Foreground" Value="#946814" />
                                             <Setter Property="Text" Value="发送数据中" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Error}">
+                                            <Setter Property="Foreground" Value="#A14335" />
+                                            <Setter Property="Text" Value="重连中" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -177,6 +200,42 @@
                                 <Binding Path="File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port" />
                             </MultiBinding>
                         </TextBlock.Text>
+                    </TextBlock>
+                </StackPanel>
+
+                <Border
+                    Grid.Column="3"
+                    Margin="0,2"
+                    Background="#DDE3E9" />
+
+                <StackPanel
+                    Grid.Column="4"
+                    Margin="13,0,0,0"
+                    VerticalAlignment="Center"
+                    ToolTip="Ping 仅表示主机网络可达，不代表看板端口和业务回执正常。">
+                    <TextBlock
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="11"
+                        Foreground="#8793A2"
+                        Text="网络 Ping" />
+                    <TextBlock
+                        FontFamily="Consolas"
+                        FontSize="15"
+                        FontWeight="SemiBold"
+                        Text="{Binding Mes_Info_Parameters.Ping_Latency_Text}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#65758A" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Mes_Info_Parameters.Ping_Is_Reachable}" Value="True">
+                                        <Setter Property="Foreground" Value="#286E4A" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Mes_Info_Parameters.Ping_Is_Reachable}" Value="False">
+                                        <Setter Property="Foreground" Value="#A14335" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
                     </TextBlock>
                 </StackPanel>
             </Grid>

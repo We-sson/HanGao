@@ -721,6 +721,11 @@ namespace Roboto_Socket_Library.Model
         public string Sever_Mes_Info_Port { set; get; } = "6005";
 
         /// <summary>
+        /// 建立看板 TCP 连接允许等待的最长时间，单位秒。
+        /// </summary>
+        public double Mes_Server_Connect_Time { set; get; } = 3;
+
+        /// <summary>
         /// 客户端向看板服务器上传快照的周期，单位秒。
         /// </summary>
         public double Sever_Cycle_Update_Time { set; get; } = 5;
@@ -787,6 +792,24 @@ namespace Roboto_Socket_Library.Model
         /// 看板客户端当前通信阶段。
         /// </summary>
         public Socket_Robot_Type_Enum Socket_Client_Type_State { set; get; } = Socket_Robot_Type_Enum.Default;
+
+        /// <summary>最近一次 ICMP Ping 是否成功；空值表示尚未完成第一次检测。</summary>
+        public bool? Ping_Is_Reachable { set; get; }
+
+        /// <summary>右上角显示的 Ping 往返延迟或失败状态。</summary>
+        public string Ping_Latency_Text { set; get; } = "检测中";
+
+        /// <summary>最近一次 Ping 检测完成的本机时间。</summary>
+        public DateTime? Ping_Last_Update_Time { set; get; }
+
+        /// <summary>最近一次收到看板业务回执的本机时间。</summary>
+        public DateTime? Last_Response_Time { set; get; }
+
+        /// <summary>最近一次看板请求到业务回执之间的耗时，单位毫秒。</summary>
+        public double? Last_Response_Milliseconds { set; get; }
+
+        /// <summary>最近一次连接、发送、接收或协议处理错误。</summary>
+        public string Last_Communication_Error { set; get; } = string.Empty;
 
 
 
@@ -1103,7 +1126,10 @@ namespace Roboto_Socket_Library.Model
         Working,
 
         /// <summary>连接、收发或协议处理发生错误。</summary>
-        Error
+        Error,
+
+        /// <summary>正在首次连接或断线重连。</summary>
+        Connecting
 
 
 

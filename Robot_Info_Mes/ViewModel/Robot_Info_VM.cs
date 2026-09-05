@@ -9,7 +9,9 @@ using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -168,6 +170,14 @@ namespace Robot_Info_Mes.ViewModel
         /// Client 连接 Server 所需的 Socket 客户端及其发送状态。
         /// </summary>
         public Socket_Mes_Info_Parameters_Model Mes_Info_Parameters { set; get; } = new Socket_Mes_Info_Parameters_Model();
+
+        // 看板上报与 Ping 监控各自只允许启动一个后台循环。
+        private int _kanbanUploadLoopStarted;
+        private int _kanbanPingLoopStarted;
+        private long _kanbanRequestStartedTimestamp;
+
+        // Server 端离线检查与文件保存解耦，避免保存周期被误当成通讯超时。
+        private readonly DispatcherTimer _serverConnectionHealthTimer = new();
 
 
 
@@ -420,7 +430,6 @@ namespace Robot_Info_Mes.ViewModel
             };
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Start();
 
-
             // 旧版 DispatcherTimer 上报方案已停用；当前由 Socket_Cycle_KanBan_Info 的握手循环控制节奏。
             //Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.Sever_Cycle_Update_Time);
             //Mes_Robot_Info_Model_Data.Server_Cycle_Update_Data.Tick += (s, e) =>
@@ -441,7 +450,8 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Info_Parameters.Socket_Client.Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method;
             Mes_Info_Parameters.Socket_Client.Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method;
 
-            // 最后启动后台循环，确保回调和所有待发送数据都已初始化。
+            // 最后启动独立的网络可达性检测和业务上报循环，确保回调与待发送数据均已初始化。
+            Start_KanBan_Ping_Monitor();
             Socket_Cycle_KanBan_Info();
         }
 
@@ -507,15 +517,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-                // 若设备最后上报时间超过一个保存周期，将其标为离线供列表样式和排序使用。
-                foreach (var item in Mes_Server_Info_Data.Mes_Server_Model_List)
-                {
-                    if ((DateTime.Now - item.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time).TotalSeconds > File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time)
-                    {
-                        item.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
-                    }
-
-                }
+                // 通讯离线由独立健康检查定时器判断，文件保存周期不再参与连接状态判定。
 
 
 
@@ -550,6 +552,24 @@ namespace Robot_Info_Mes.ViewModel
             };
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Start();
 
+            // 每秒独立检查最后一次有效上报；至少容忍 15 秒或三个上报周期，避免单包延迟造成闪断。
+            _serverConnectionHealthTimer.Interval = TimeSpan.FromSeconds(1);
+            _serverConnectionHealthTimer.Tick += (s, e) =>
+            {
+                double offlineTimeoutSeconds = GetServerOfflineTimeoutSeconds();
+                DateTime now = DateTime.Now;
+
+                foreach (var item in Mes_Server_Info_Data.Mes_Server_Model_List)
+                {
+                    if (item.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected
+                        && (now - item.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time).TotalSeconds > offlineTimeoutSeconds)
+                    {
+                        item.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+                    }
+                }
+            };
+            _serverConnectionHealthTimer.Start();
+
 
 
 
@@ -560,72 +580,172 @@ namespace Robot_Info_Mes.ViewModel
         }
 
         /// <summary>
-        /// 启动 Client→Server 的长驻上报循环，以应答事件串行化每一次发送。
+        /// 启动 Client→Server 的长驻上报循环；每轮同步等待业务回执，失败后按 1～5 秒退避重连。
         /// </summary>
         public void Socket_Cycle_KanBan_Info()
         {
-            // 网络等待和重连不能占用 UI 线程，因此使用后台任务承载整个生命周期。
-            Task.Run(() =>
+            if (Interlocked.Exchange(ref _kanbanUploadLoopStarted, 1) != 0)
             {
-                Thread.CurrentThread.Priority = ThreadPriority.Highest;
+                return;
+            }
 
-                // 该循环随进程存在；Socket 错误回调会断开连接，下一轮自动尝试重连。
+            // 网络等待和重连不能占用 UI 线程，因此使用后台任务承载整个生命周期。
+            _ = Task.Run(async () =>
+            {
+                int consecutiveFailures = 0;
                 while (true)
                 {
-
-
-                    //if (Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected)
-                    //{
-
-
-                    // 没有可用 Socket 时按配置地址重连，并把状态投影到客户端页顶栏。
-                    if ((Mes_Info_Parameters.Socket_Client.Socket_Client) == null || (!(bool?)(Mes_Info_Parameters.Socket_Client.Socket_Client?.Connected) ?? false))
+                    try
                     {
-
-                        bool connectResult = Mes_Info_Parameters.Socket_Client.Connect(File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port);
-
-                        Mes_Info_Parameters.Socket_Client_Type_State = connectResult
-                            ? Socket_Robot_Type_Enum.Ready
-                            : Socket_Robot_Type_Enum.Error;
-
-                        // 首次连接没有上一轮应答，主动放行一次以发送首个快照。
-                        if (connectResult)
+                        Socket_Receive client = Mes_Info_Parameters.Socket_Client;
+                        if (!client.IsClientConnected)
                         {
-                            Mes_Info_Parameters.Socket_Client.Rece_Event.Set();
+                            client.DisconnectClient();
+                            Mes_Info_Parameters.Socket_Client_Type_State = Socket_Robot_Type_Enum.Connecting;
+
+                            int connectTimeout = SecondsToMilliseconds(
+                                File_Int_Parameters.Mes_Run_Parameters.Mes_Server_Connect_Time,
+                                3000);
+                            bool connected = client.Connect(
+                                File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP,
+                                File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port,
+                                connectTimeout);
+
+                            if (!connected)
+                            {
+                                Mes_Info_Parameters.Socket_Client_Type_State = Socket_Robot_Type_Enum.Error;
+                                consecutiveFailures++;
+                                await Task.Delay(GetReconnectDelayMilliseconds(consecutiveFailures)).ConfigureAwait(false);
+                                continue;
+                            }
                         }
 
-                    }
-
-                    // 仅当 Server 对上一包完成应答（Rece_Event 置位）后才允许发送下一包。
-                    if (((bool?)(Mes_Info_Parameters.Socket_Client.Socket_Client?.Connected) ?? false) && Mes_Info_Parameters.Socket_Client.Rece_Event.WaitOne())
-                    {
-                        Mes_Info_Parameters.Socket_Client.Rece_Event.Reset();
-                        // 配置的上报间隔用于限速，避免 Client 紧循环占满 Server 和网络。
-                        Thread.Sleep((int)File_Int_Parameters.Mes_Run_Parameters.Sever_Cycle_Update_Time * 1000);
-                        // 信号已复位；必须等本包应答回调再次置位。
-
-                        // 发送前一次性快照当前所有字段，避免序列化过程中 UI/机器人线程继续修改对象图。
-                        Mes_Server_Info_Data_Receive _Send = Create_Mes_Server_Info_Snapshot();
-
-
+                        // 发送与接收在同一后台循环顺序完成，无需另一个无限期等待的 ManualResetEvent。
+                        Mes_Server_Info_Data_Receive send = Create_Mes_Server_Info_Snapshot();
                         Mes_Info_Parameters.Socket_Client_Type_State = Socket_Robot_Type_Enum.Working;
+                        Interlocked.Exchange(ref _kanbanRequestStartedTimestamp, Stopwatch.GetTimestamp());
 
-                        Mes_Info_Parameters.Socket_Client.Send_Val<Mes_Server_Info_Data_Receive>(Socket_Robot_Protocols_Enum.KUKA, Vision_Model_Enum.Mes_Server_Info_Rece_Data, _Send, (int)File_Int_Parameters.Mes_Run_Parameters.Mes_Server_Info_Rece_Time * 1000);
+                        bool succeeded = client.TrySend_Val(
+                            Socket_Robot_Protocols_Enum.KUKA,
+                            Vision_Model_Enum.Mes_Server_Info_Rece_Data,
+                            send,
+                            SecondsToMilliseconds(
+                                File_Int_Parameters.Mes_Run_Parameters.Mes_Server_Info_Rece_Time,
+                                5000));
 
+                        if (!succeeded)
+                        {
+                            client.DisconnectClient();
+                            consecutiveFailures++;
+                            await Task.Delay(GetReconnectDelayMilliseconds(consecutiveFailures)).ConfigureAwait(false);
+                            continue;
+                        }
 
+                        consecutiveFailures = 0;
+                        await Task.Delay(SecondsToMilliseconds(
+                            File_Int_Parameters.Mes_Run_Parameters.Sever_Cycle_Update_Time,
+                            2000)).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Socket_Cycle_Update_ErrorLog_Show(
+                            $"Error:KANBAN_LOOP,阶段=上报循环，原因：{ex.Message}",
+                            Mes_Info_Parameters.Socket_Client.Socket_Client);
+                        consecutiveFailures++;
+                        await Task.Delay(GetReconnectDelayMilliseconds(consecutiveFailures)).ConfigureAwait(false);
+                    }
+                }
+            });
+        }
 
+        private static int SecondsToMilliseconds(double seconds, int fallbackMilliseconds)
+        {
+            if (double.IsNaN(seconds) || double.IsInfinity(seconds) || seconds <= 0)
+            {
+                return fallbackMilliseconds;
+            }
+
+            return (int)Math.Clamp(seconds * 1000, 100, int.MaxValue);
+        }
+
+        private static int GetReconnectDelayMilliseconds(int consecutiveFailures)
+        {
+            return consecutiveFailures switch
+            {
+                <= 1 => 1000,
+                2 => 2000,
+                3 => 4000,
+                _ => 5000
+            };
+        }
+
+        private double GetServerOfflineTimeoutSeconds()
+        {
+            double uploadCycleSeconds = File_Int_Parameters.Mes_Run_Parameters.Sever_Cycle_Update_Time;
+            if (double.IsNaN(uploadCycleSeconds)
+                || double.IsInfinity(uploadCycleSeconds)
+                || uploadCycleSeconds <= 0)
+            {
+                return 15;
+            }
+
+            return Math.Max(15, uploadCycleSeconds * 3);
+        }
+
+        /// <summary>每两秒检测一次看板主机的 ICMP 可达性；该结果不参与 TCP/业务状态判定。</summary>
+        private void Start_KanBan_Ping_Monitor()
+        {
+            if (Interlocked.Exchange(ref _kanbanPingLoopStarted, 1) != 0)
+            {
+                return;
+            }
+
+            _ = Task.Run(async () =>
+            {
+                while (true)
+                {
+                    bool reachable = false;
+                    string displayText = "不可达";
+                    string target = File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP;
+
+                    try
+                    {
+                        using Ping ping = new();
+                        PingReply reply = await ping.SendPingAsync(target, 1000).ConfigureAwait(false);
+                        reachable = reply.Status == IPStatus.Success;
+                        displayText = reachable
+                            ? $"{reply.RoundtripTime} ms"
+                            : reply.Status == IPStatus.TimedOut ? "超时" : "不可达";
+                    }
+                    catch
+                    {
+                        // ICMP 可能被防火墙禁用；只更新独立 Ping 指标，不改变看板业务通讯状态。
                     }
 
-
+                    Update_KanBan_Ping_State(reachable, displayText);
+                    await Task.Delay(2000).ConfigureAwait(false);
                 }
-
-                //}
-
             });
+        }
 
+        private void Update_KanBan_Ping_State(bool reachable, string displayText)
+        {
+            void ApplyState()
+            {
+                Mes_Info_Parameters.Ping_Is_Reachable = reachable;
+                Mes_Info_Parameters.Ping_Latency_Text = displayText;
+                Mes_Info_Parameters.Ping_Last_Update_Time = DateTime.Now;
+            }
 
-
-
+            Dispatcher? dispatcher = Application.Current?.Dispatcher;
+            if (dispatcher == null || dispatcher.CheckAccess())
+            {
+                ApplyState();
+            }
+            else if (!dispatcher.HasShutdownStarted)
+            {
+                dispatcher.BeginInvoke(ApplyState);
+            }
         }
 
         /// <summary>
@@ -1088,26 +1208,27 @@ namespace Robot_Info_Mes.ViewModel
 
 
         /// <summary>
-        /// 处理 Server 对 Client 上报的确认消息，并放行下一轮发送。
+        /// 处理 Server 对 Client 上报的确认消息，并记录业务往返耗时。
         /// </summary>
         /// <param name="_Receive">Server 应答，时间戳用于日志确认链路时序。</param>
         public void Mes_Receive_Info_Data_Method(Mes_Server_Info_Data_Send _Receive)
         {
 
 
-            // Working→Ready 同步反映在客户端页顶栏，表示本轮数据已被 Server 接收。
+            long requestStarted = Interlocked.Read(ref _kanbanRequestStartedTimestamp);
+            Mes_Info_Parameters.Last_Response_Time = DateTime.Now;
+            Mes_Info_Parameters.Last_Response_Milliseconds = requestStarted == 0
+                ? null
+                : Math.Round(Stopwatch.GetElapsedTime(requestStarted).TotalMilliseconds, 1);
+            Mes_Info_Parameters.Last_Communication_Error = string.Empty;
+
+            // Working→Ready 同步反映在客户端页顶栏，表示本轮数据已被 Server 接收并解析。
             Mes_Info_Parameters.Socket_Client_Type_State = Socket_Robot_Type_Enum.Ready;
 
 
 
-            User_Log_Add($"上传看板信息更新时间：{_Receive.Socket_Update_Time}");
-
-
-            // AutoResetEvent 是发送循环的背压信号：收到确认后才准许构建和发送下一快照。
-            Mes_Info_Parameters.Socket_Client.Rece_Event.Set();
-
-
-            //Thread.Sleep(100);
+            User_Log_Add(
+                $"上传看板信息更新时间：{_Receive.Socket_Update_Time}，业务往返：{Mes_Info_Parameters.Last_Response_Milliseconds:0.0}ms");
 
         }
 
@@ -1221,12 +1342,13 @@ namespace Robot_Info_Mes.ViewModel
         public void Socket_Cycle_Update_ErrorLog_Show(string _log, Socket? _Socket)
         {
             Mes_Info_Parameters.Socket_Client_Type_State = Socket_Robot_Type_Enum.Error;
+            Mes_Info_Parameters.Last_Communication_Error = _log;
 
             try
             {
 
                 // 清理失效连接后，Socket_Cycle_KanBan_Info 下一轮会重新调用 Connect。
-                Mes_Info_Parameters.Socket_Client?.Socket_Client?.Disconnect(false);
+                Mes_Info_Parameters.Socket_Client.DisconnectClient();
 
 
                 User_Log_Add(_log);
@@ -1241,33 +1363,38 @@ namespace Robot_Info_Mes.ViewModel
         }
 
         /// <summary>
-        /// Server 端连接断开回调：根据远端端点找到设备并将其标记为离线。
+        /// Server 端连接错误回调：记录异常，并仅在超过离线宽限时间后标记设备离线。
         /// </summary>
         /// <param name="_log">断开或错误说明。</param>
         /// <param name="_Socket">刚断开的 Client 连接。</param>
         public void Socket_Mes_ErrorLog_Show(string _log, Socket? _Socket)
         {
-            // 与接收快照共用设备集合；锁定期间完成端点匹配和状态变更。
-            lock (Mes_Server_Info_Data.Mes_Server_Model_List)
+            IPEndPoint? remoteEndPoint = null;
+            try
             {
+                remoteEndPoint = _Socket?.RemoteEndPoint as IPEndPoint;
+            }
+            catch
+            {
+                // Socket 可能已被底层关闭；健康检查仍会根据最后成功上报时间完成离线判定。
+            }
 
+            if (remoteEndPoint != null)
+            {
+                double offlineTimeoutSeconds = GetServerOfflineTimeoutSeconds();
 
-                foreach (var _Server in Mes_Server_Info_Data.Mes_Server_Model_List)
+                lock (_Mes_ServerLock)
                 {
-                    // RemoteEndPoint 与收到快照时保存的 Connetc_Mes_IP 一致，借此定位对应工艺项。
-                    if (_Socket != null)
+                    foreach (var _Server in Mes_Server_Info_Data.Mes_Server_Model_List)
                     {
-
-                        if (_Server.Connetc_Mes_IP == (IPEndPoint?)_Socket.RemoteEndPoint)
+                        if (_Server.Connetc_Mes_IP?.Equals(remoteEndPoint) == true
+                            && _Server.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected
+                            && (DateTime.Now - _Server.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time).TotalSeconds > offlineTimeoutSeconds)
                         {
                             _Server.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
-
                         }
-
                     }
-
                 }
-
             }
 
             User_Log_Add(_log);
@@ -1281,7 +1408,10 @@ namespace Robot_Info_Mes.ViewModel
         /// <param name="_Socket">相关连接，当前仅为诊断上下文。</param>
         public void Socket_ConnectLog_Show(string _log, Socket? _Socket)
         {
-
+            if (_log.StartsWith("Error:", StringComparison.Ordinal))
+            {
+                Mes_Info_Parameters.Last_Communication_Error = _log;
+            }
 
             User_Log_Add(_log);
         }

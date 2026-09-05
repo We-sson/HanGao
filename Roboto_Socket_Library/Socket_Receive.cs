@@ -1,10 +1,10 @@
 ﻿
 using Roboto_Socket_Library.Model;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 
@@ -164,6 +164,12 @@ namespace Roboto_Socket_Library
         /// </summary>
         public const int Receive_Buffer_Size = 256 * 1024;   // 256KB
 
+        /// <summary>流式 XML 接收时每次向 Socket 申请的块大小。</summary>
+        private const int Xml_Read_Buffer_Size = 16 * 1024;
+
+        /// <summary>单条 XML 报文上限，防止异常连接无限占用内存。</summary>
+        private const int Max_Xml_Frame_Size = 16 * 1024 * 1024;
+
         /// <summary>收到一帧原始报文后触发，主要用于日志和监视界面。</summary>
         public Message_Byte_delegate<byte[]>? Socket_Receive_Meg { set; get; }
 
@@ -183,7 +189,10 @@ namespace Roboto_Socket_Library
         /// <summary>客户端异步收包路径中，用于通知同步发送方已处理回执。</summary>
         private ManualResetEvent Send_State { set; get; } = new ManualResetEvent(false);
 
-        /// <summary>供调用方等待服务端接收事件的公开同步信号；当前内部流程不主动设置。</summary>
+        /// <summary>
+        /// 旧版看板发送循环使用的应答同步信号。
+        /// 新版看板循环依靠同步请求结果串行发送，此成员仅为兼容旧调用方保留。
+        /// </summary>
         public ManualResetEvent Rece_Event { set; get; } = new ManualResetEvent(false);
 
 
@@ -216,13 +225,6 @@ namespace Roboto_Socket_Library
         /// </summary>
         public string Send_Information { set; get; } = string.Empty;
 
-        /// <summary>主动连接回调成功后释放 <see cref="Connect"/> 的等待。</summary>
-        private readonly ManualResetEvent Timeout_Event = new ManualResetEvent(false);
-
-        /// <summary>主动连接回调无论成功或失败都设置，确保超时分支可等待回调收尾。</summary>
-        private readonly ManualResetEvent Timeout_End = new ManualResetEvent(false);
-
-
         /// <summary>
         /// 在限定时间内主动连接远程 TCP 服务器。
         /// </summary>
@@ -230,58 +232,69 @@ namespace Roboto_Socket_Library
         /// <param name="_Port">远程服务器端口文本。</param>
         /// <param name="TimeOut">等待连接成功的毫秒数。</param>
         /// <returns>在时限内完成连接返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
-        /// <remarks>超时后仍会等待底层连接回调收尾，因此 <paramref name="TimeOut"/> 不是方法总耗时的硬上限。</remarks>
-        public bool Connect(string _IP, string _Port, int TimeOut = 500)
+        /// <remarks>
+        /// 连接尝试使用可取消的异步 Socket API；超时或失败的候选 Socket 会立即释放，
+        /// 因此不会留下“返回失败但 Socket 随后又连接成功”的幽灵连接。
+        /// </remarks>
+        public bool Connect(string _IP, string _Port, int TimeOut = 3000)
         {
+            Socket? candidate = null;
             try
             {
-                // 两个事件都可能保留上一次调用的有信号状态，连接前必须同时复位。
-                Timeout_Event.Reset();
-                Timeout_End.Reset();
+                if (TimeOut <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(TimeOut), "连接超时必须大于 0 毫秒。");
+                }
 
-                // 当前实现明确创建 IPv4/TCP Socket，并关闭 Nagle 以降低小报文往返延迟。
+                // 每次 Connect 都从明确的未连接状态开始，避免旧 Socket 与候选连接并存。
+                DisconnectClient();
                 IPEndPoint ipe = new(IPAddress.Parse(_IP), int.Parse(_Port));
-
-                Socket_Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                Socket_Client.NoDelay = true;
-                Socket_Client?.BeginConnect(ipe, new AsyncCallback(Client_Inf), Socket_Client);
-
-                if (Timeout_Event.WaitOne(TimeOut))
+                candidate = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
                 {
-                    // 回调已确认 Connected，再把可用 Socket 和目标地址交给上层。
-                    Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，连接服务器成功！", Socket_Client);
+                    NoDelay = true
+                };
 
+                using CancellationTokenSource timeoutCancellation = new(TimeSpan.FromMilliseconds(TimeOut));
+                candidate.ConnectAsync(ipe, timeoutCancellation.Token).AsTask().GetAwaiter().GetResult();
 
-
-
-                    return true;
-
-                }
-                else
+                if (!candidate.Connected)
                 {
-                    // 超时消息沿用连接信息通道；等待回调 finally，避免连接尝试尚未收尾就返回。
-                    Socket_ConnectInfo_delegate?.Invoke($"Error:-1,IP：{_IP}，Port：{_Port}，连接服务器超时退出！", Socket_Client);
-                    //Socket_Client?.Shutdown(SocketShutdown.Both);
-                    //Socket_Client?.Close();
-                    //Socket_Client?.Dispose();
-                    Timeout_End.WaitOne();
-
-                    return false;
-
+                    throw new SocketException((int)SocketError.NotConnected);
                 }
 
+                // 连接完整成功后才发布候选 Socket，避免上层观察到半完成连接。
+                DisconnectClient();
+                Socket_Client = candidate;
+                candidate = null;
+
+                Socket_ConnectInfo_delegate?.Invoke($"IP：{_IP}，Port：{_Port}，TCP 连接服务器成功！", Socket_Client);
+                return true;
+            }
+            catch (OperationCanceledException)
+            {
+                Socket_ConnectInfo_delegate?.Invoke(
+                    $"Error:CONNECT_TIMEOUT,IP：{_IP}，Port：{_Port}，TCP 连接超过 {TimeOut}ms，准备重试。",
+                    candidate);
+                return false;
+            }
+            catch (SocketException e)
+            {
+                Socket_ErrorInfo_delegate?.Invoke(
+                    $"Error:CONNECT_FAILED,IP：{_IP}，Port：{_Port}，SocketError={e.SocketErrorCode}，原因：{e.Message}",
+                    candidate);
+                return false;
             }
             catch (Exception e)
             {
-                // 地址解析、Socket 创建和同步等待期间的异常统一在此关闭并释放客户端资源。
-                Socket_ErrorInfo_delegate?.Invoke($"Error:-2,IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message, Socket_Client);
-                Socket_Client?.Close();
-                Socket_Client?.Dispose();
+                Socket_ErrorInfo_delegate?.Invoke(
+                    $"Error:CONNECT_SETUP,IP：{_IP}，Port：{_Port}，连接参数或初始化失败，原因：{e.Message}",
+                    candidate);
                 return false;
-
             }
-
-
+            finally
+            {
+                CloseSocket(candidate);
+            }
         }
 
 
@@ -298,60 +311,436 @@ namespace Roboto_Socket_Library
 
             // 先置空实现幂等；Shutdown、Close 或 Dispose 中任一步失败都不阻止后续清理。
             _client!.Client_Socket = null;
-            try { _s.Shutdown(SocketShutdown.Both); } catch { }
-            try { _s.Close(); } catch { }
-            try { _s.Dispose(); } catch { }
+            CloseSocket(_s);
         }
 
 
 
-        /// <summary>
-        /// 完成主动客户端的异步连接，并释放连接等待事件。
-        /// </summary>
-        /// <param name="ar">由 <c>Socket.BeginConnect</c> 传入的异步结果。</param>
-        private void Client_Inf(IAsyncResult ar)
+        /// <summary>判断主动客户端 Socket 当前是否仍可用于请求/应答。</summary>
+        public bool IsClientConnected
         {
+            get
+            {
+                Socket? socket = Socket_Client;
+                if (socket == null || !socket.Connected)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    // 可读且没有可读字节表示对端已经有序关闭；其余情况由下一次 I/O 最终确认。
+                    return !(socket.Poll(0, SelectMode.SelectRead) && socket.Available == 0);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>关闭并清空主动客户端 Socket，供错误恢复和应用退出路径重复调用。</summary>
+        public void DisconnectClient()
+        {
+            Socket? socket = Socket_Client;
+            Socket_Client = null;
+            CloseSocket(socket);
+        }
+
+        /// <summary>尽最大努力双向关闭并释放一个 Socket。</summary>
+        private static void CloseSocket(Socket? socket)
+        {
+            if (socket == null) return;
+            try { socket.Shutdown(SocketShutdown.Both); } catch { }
+            try { socket.Close(); } catch { }
+            try { socket.Dispose(); } catch { }
+        }
+
+        /// <summary>循环发送直到整个业务帧写入 Socket，避免大报文只发送前半段。</summary>
+        private static void SendAll(Socket socket, byte[] data)
+        {
+            int offset = 0;
+            while (offset < data.Length)
+            {
+                int sent = socket.Send(data, offset, data.Length - offset, SocketFlags.None);
+                if (sent <= 0)
+                {
+                    throw new SocketException((int)SocketError.ConnectionReset);
+                }
+
+                offset += sent;
+            }
+        }
+
+        /// <summary>
+        /// 从主动客户端 Socket 持续读取，直到得到一个完整 XML 根元素。
+        /// TCP 只保证字节顺序，不保证一次 Receive 对应一条业务报文。
+        /// </summary>
+        private static byte[] ReceiveXmlMessage(Socket socket)
+        {
+            List<byte> pending = new(Xml_Read_Buffer_Size);
+            byte[] readBuffer = System.Buffers.ArrayPool<byte>.Shared.Rent(Xml_Read_Buffer_Size);
+            int responseTimeout = socket.ReceiveTimeout;
+            Stopwatch responseWatch = Stopwatch.StartNew();
 
             try
             {
-                // Connected 为真时先释放成功等待者；EndConnect 随后确认并结束底层异步操作。
-                if (Socket_Client?.Connected ?? false)
+                while (true)
                 {
-                    Timeout_Event.Set();
+                    // 整条回执共用一个超时预算，不能因为不断收到半包而重新等待完整超时时间。
+                    if (responseTimeout > 0)
+                    {
+                        long remaining = responseTimeout - responseWatch.ElapsedMilliseconds;
+                        if (remaining <= 0)
+                        {
+                            throw new SocketException((int)SocketError.TimedOut);
+                        }
 
+                        socket.ReceiveTimeout = (int)remaining;
+                    }
+
+                    int length = socket.Receive(readBuffer, 0, readBuffer.Length, SocketFlags.None);
+                    if (length == 0)
+                    {
+                        throw new SocketException((int)SocketError.ConnectionReset);
+                    }
+
+                    for (int index = 0; index < length; index++)
+                    {
+                        pending.Add(readBuffer[index]);
+                    }
+
+                    if (pending.Count > Max_Xml_Frame_Size)
+                    {
+                        throw new InvalidDataException($"XML 回执超过 {Max_Xml_Frame_Size} 字节上限。");
+                    }
+
+                    bool hasFrame = TryExtractXmlFrame(pending, out byte[] frame, out int bytesConsumed);
+                    if (hasFrame)
+                    {
+                        return frame;
+                    }
+
+                    // 只有完整帧前的空白才会在未完成时标记为可丢弃。
+                    if (bytesConsumed > 0)
+                    {
+                        pending.RemoveRange(0, bytesConsumed);
+                    }
                 }
-                Socket_Client?.EndConnect(ar!);
-
-                //Task.Delay(10);
-                //挂起读取异步连接
-                //异步接收客户端
-                //Socket_Client?.BeginAccept(new AsyncCallback(ClienAppcet), Socket_Client);
-
-                //Client_Connect = true;
-
-            }
-            catch (Exception e)
-            {
-                // 失败时不设置成功事件，由 Connect 的超时/失败分支返回 false。
-                Socket_ErrorInfo_delegate?.Invoke($"Error:-51 原因:" + e.Message, Socket_Client);
-                //Client_Connect = false;
-                //Socket_Client?.Close();
-                //Socket_Client?.Dispose();
-
-                //Socket_Client?.Shutdown(SocketShutdown.Both);
-
-
-
-                return;
             }
             finally
             {
-                // 无论连接结果如何，都通知 Connect 回调已经结束，防止超时分支永久等待。
-                Timeout_End.Set();
+                System.Buffers.ArrayPool<byte>.Shared.Return(readBuffer);
+                // 恢复配置值，供下一轮请求使用；连接被其他清理路径关闭时无需恢复。
+                try { socket.ReceiveTimeout = responseTimeout; }
+                catch (ObjectDisposedException) { }
+                catch (SocketException) { }
+            }
+        }
+
+        /// <summary>
+        /// 在累计字节中查找一个完整 XML 顶层元素。该方法只识别 XML 词法边界，
+        /// 完整的结构和 DTO 校验仍由 <see cref="Robot_Socket_Protocol"/> 完成。
+        /// </summary>
+        private static bool TryExtractXmlFrame(
+            List<byte> buffer,
+            out byte[] frame,
+            out int bytesConsumed)
+        {
+            frame = Array.Empty<byte>();
+            bytesConsumed = 0;
+
+            int index = 0;
+            while (index < buffer.Count && IsXmlWhitespace(buffer[index]))
+            {
+                index++;
             }
 
+            if (index == buffer.Count)
+            {
+                // 全部为空白，可安全丢弃，避免空白连接无限增长。
+                bytesConsumed = index;
+                return false;
+            }
 
+            // 允许 UTF-8 BOM，但不把 BOM 交给基于字符串的协议解析器；BOM 本身也可能跨包。
+            int bytesAfterWhitespace = buffer.Count - index;
+            if (buffer[index] == 0xEF
+                && bytesAfterWhitespace < 3
+                && (bytesAfterWhitespace == 1 || buffer[index + 1] == 0xBB))
+            {
+                bytesConsumed = index;
+                return false;
+            }
+
+            if (bytesAfterWhitespace >= 3
+                && buffer[index] == 0xEF
+                && buffer[index + 1] == 0xBB
+                && buffer[index + 2] == 0xBF)
+            {
+                index += 3;
+                while (index < buffer.Count && IsXmlWhitespace(buffer[index]))
+                {
+                    index++;
+                }
+
+                if (index == buffer.Count)
+                {
+                    bytesConsumed = index;
+                    return false;
+                }
+            }
+
+            int frameStart = index;
+            bool rootStarted = false;
+            Stack<(int Start, int Length)> openElements = new();
+
+            while (index < buffer.Count)
+            {
+                if (buffer[index] != (byte)'<')
+                {
+                    int nextTag = IndexOfByte(buffer, (byte)'<', index + 1);
+                    if (!rootStarted)
+                    {
+                        int textEnd = nextTag >= 0 ? nextTag : buffer.Count;
+                        for (int textIndex = index; textIndex < textEnd; textIndex++)
+                        {
+                            if (!IsXmlWhitespace(buffer[textIndex]))
+                            {
+                                throw new XmlException("XML 根元素前包含无效文本。");
+                            }
+                        }
+                    }
+
+                    if (nextTag < 0)
+                    {
+                        bytesConsumed = rootStarted ? 0 : index;
+                        return false;
+                    }
+
+                    index = nextTag;
+                    continue;
+                }
+
+                if (StartsWithAscii(buffer, index, "<!--"))
+                {
+                    int commentEnd = IndexOfAscii(buffer, index + 4, "-->");
+                    if (commentEnd < 0) return false;
+                    index = commentEnd + 3;
+                    continue;
+                }
+
+                if (StartsWithAscii(buffer, index, "<![CDATA["))
+                {
+                    if (!rootStarted)
+                    {
+                        throw new XmlException("CDATA 不能位于 XML 根元素外部。");
+                    }
+
+                    int cdataEnd = IndexOfAscii(buffer, index + 9, "]]>");
+                    if (cdataEnd < 0) return false;
+                    index = cdataEnd + 3;
+                    continue;
+                }
+
+                if (StartsWithAscii(buffer, index, "<?"))
+                {
+                    int instructionEnd = IndexOfAscii(buffer, index + 2, "?>");
+                    if (instructionEnd < 0) return false;
+                    index = instructionEnd + 2;
+                    continue;
+                }
+
+                if (StartsWithAscii(buffer, index, "<!"))
+                {
+                    // 注释、CDATA 或 DOCTYPE 的起始标记也可能恰好被 TCP 拆开。
+                    if (IsIncompleteAsciiPrefix(buffer, index, "<!--")
+                        || IsIncompleteAsciiPrefix(buffer, index, "<![CDATA[")
+                        || IsIncompleteAsciiPrefix(buffer, index, "<!DOCTYPE"))
+                    {
+                        return false;
+                    }
+
+                    // 业务 XML 不需要 DTD；拒绝声明可同时避免外部实体风险。
+                    throw new XmlException("XML 声明节点不受支持（DTD 已禁用）。");
+                }
+
+                bool isClosingTag = StartsWithAscii(buffer, index, "</");
+                int tagEnd = FindXmlTagEnd(buffer, index + (isClosingTag ? 2 : 1));
+                if (tagEnd < 0) return false;
+
+                (int Start, int Length) tagName = GetXmlTagName(
+                    buffer,
+                    index + (isClosingTag ? 2 : 1),
+                    tagEnd);
+
+                if (isClosingTag)
+                {
+                    if (!rootStarted || openElements.Count == 0)
+                    {
+                        throw new XmlException("XML 结束标签没有对应的开始标签。");
+                    }
+
+                    (int Start, int Length) expected = openElements.Pop();
+                    if (!XmlTagNamesEqual(buffer, expected, tagName))
+                    {
+                        throw new XmlException("XML 开始标签与结束标签不匹配。");
+                    }
+
+                    index = tagEnd + 1;
+                    if (openElements.Count == 0)
+                    {
+                        frame = buffer.GetRange(frameStart, index - frameStart).ToArray();
+                        bytesConsumed = index;
+                        return true;
+                    }
+
+                    continue;
+                }
+
+                bool isSelfClosing = IsSelfClosingTag(buffer, index, tagEnd);
+                if (!rootStarted)
+                {
+                    rootStarted = true;
+                }
+
+                index = tagEnd + 1;
+                if (isSelfClosing)
+                {
+                    if (openElements.Count == 0)
+                    {
+                        frame = buffer.GetRange(frameStart, index - frameStart).ToArray();
+                        bytesConsumed = index;
+                        return true;
+                    }
+                }
+                else
+                {
+                    openElements.Push(tagName);
+                }
+            }
+
+            return false;
         }
+
+        private static bool IsXmlWhitespace(byte value)
+            => value is (byte)' ' or (byte)'\t' or (byte)'\r' or (byte)'\n';
+
+        private static int IndexOfByte(List<byte> buffer, byte value, int start)
+        {
+            for (int index = start; index < buffer.Count; index++)
+            {
+                if (buffer[index] == value) return index;
+            }
+
+            return -1;
+        }
+
+        private static bool StartsWithAscii(List<byte> buffer, int start, string value)
+        {
+            if (start < 0 || buffer.Count - start < value.Length) return false;
+            for (int index = 0; index < value.Length; index++)
+            {
+                if (buffer[start + index] != (byte)value[index]) return false;
+            }
+
+            return true;
+        }
+
+        private static bool IsIncompleteAsciiPrefix(List<byte> buffer, int start, string value)
+        {
+            int available = buffer.Count - start;
+            if (available <= 0 || available >= value.Length) return false;
+
+            for (int index = 0; index < available; index++)
+            {
+                if (buffer[start + index] != (byte)value[index]) return false;
+            }
+
+            return true;
+        }
+
+        private static int IndexOfAscii(List<byte> buffer, int start, string value)
+        {
+            int lastStart = buffer.Count - value.Length;
+            for (int index = start; index <= lastStart; index++)
+            {
+                if (StartsWithAscii(buffer, index, value)) return index;
+            }
+
+            return -1;
+        }
+
+        private static int FindXmlTagEnd(List<byte> buffer, int start)
+        {
+            byte quote = 0;
+            for (int index = start; index < buffer.Count; index++)
+            {
+                byte value = buffer[index];
+                if (quote != 0)
+                {
+                    if (value == quote) quote = 0;
+                    continue;
+                }
+
+                if (value is (byte)'\'' or (byte)'\"')
+                {
+                    quote = value;
+                }
+                else if (value == (byte)'>')
+                {
+                    return index;
+                }
+            }
+
+            return -1;
+        }
+
+        private static (int Start, int Length) GetXmlTagName(
+            List<byte> buffer,
+            int start,
+            int tagEnd)
+        {
+            while (start < tagEnd && IsXmlWhitespace(buffer[start])) start++;
+
+            int end = start;
+            while (end < tagEnd
+                && !IsXmlWhitespace(buffer[end])
+                && buffer[end] != (byte)'/'
+                && buffer[end] != (byte)'>')
+            {
+                end++;
+            }
+
+            if (end == start)
+            {
+                throw new XmlException("XML 标签名称为空。");
+            }
+
+            return (start, end - start);
+        }
+
+        private static bool XmlTagNamesEqual(
+            List<byte> buffer,
+            (int Start, int Length) left,
+            (int Start, int Length) right)
+        {
+            if (left.Length != right.Length) return false;
+            for (int index = 0; index < left.Length; index++)
+            {
+                if (buffer[left.Start + index] != buffer[right.Start + index]) return false;
+            }
+
+            return true;
+        }
+
+        private static bool IsSelfClosingTag(List<byte> buffer, int tagStart, int tagEnd)
+        {
+            int index = tagEnd - 1;
+            while (index > tagStart && IsXmlWhitespace(buffer[index])) index--;
+            return index > tagStart && buffer[index] == (byte)'/';
+        }
+
         /// <summary>
         /// 在已连接的客户端 Socket 上发送一个业务请求，并同步等待、解析服务器回执。
         /// </summary>
@@ -366,47 +755,54 @@ namespace Roboto_Socket_Library
         /// </remarks>
         public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val, int TimeOut = 1000)
         {
-            // 缓冲声明在 try 外，确保所有异常路径都能在 finally 中归还共享池。
-            byte[]? buffer = null;
+            _ = TrySend_Val(_Robot_Protocols, _Model, _val, TimeOut);
+        }
+
+        /// <summary>
+        /// 发送一个业务请求并返回是否收到、解析且处理了对应回执。
+        /// </summary>
+        public bool TrySend_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val, int TimeOut = 1000)
+        {
+            string operation = "准备请求";
             try
             {
                 // 发送方向已知功能码，因此构造协议对象时无需从报文头反推模式。
                 Robot_Socket_Protocol _Socket_Protoco = new Robot_Socket_Protocol(_Robot_Protocols, _Model);
                 Byte[] Send_byte = Array.Empty<byte>();
 
-                // 从共享池租用临时缓冲，避免每次请求都分配大数组。
-                buffer = System.Buffers.ArrayPool<byte>.Shared.Rent(Receive_Buffer_Size);
-                Socket_Client!.ReceiveTimeout = TimeOut;
+                Socket socket = Socket_Client
+                    ?? throw new SocketException((int)SocketError.NotConnected);
+                if (!IsClientConnected)
+                {
+                    throw new SocketException((int)SocketError.NotConnected);
+                }
+
+                socket.ReceiveTimeout = TimeOut;
+                socket.SendTimeout = TimeOut;
 
 
 
                 // 将 DTO 编码为所选机器人协议的完整请求帧。
+                operation = "编码请求";
                 Send_byte = _Socket_Protoco.Socket_Send_Set_Data(_val ?? new object()) ?? Array.Empty<byte>();
 
 
-                if (Send_byte != Array.Empty<byte>() && ((bool?)Socket_Client?.Connected ?? false))
+                if (Send_byte.Length > 0)
                 {
                     Send_State.Reset();
 
                     // 原始发送观察回调先于实际 Send，便于日志保持请求顺序。
                     Socket_Send_Meg?.Invoke(Send_byte);
-                    Socket_Client?.Send(Send_byte);
+                    operation = "发送请求";
+                    SendAll(socket, Send_byte);
 
-                    // 同步接收与本请求对应的一次回执；ReceiveTimeout 负责终止无响应等待。
-                    int length = Socket_Client?.Receive(buffer, buffer.Length, SocketFlags.None) ?? 0;
-
-
-                    if (length == 0)
-                    {
-                        // TCP 返回 0 表示对端正常关闭，不能当作空业务回执继续解析。
-                        throw new Exception("Error:-65,接受信息为空，重复发送");
-
-                    }
-
-                    // 只复制本次有效字节，防止池化缓冲剩余区域进入协议解析。
-                    byte[] _Reveice_Meg = buffer.Skip(0).Take(length).ToArray();
+                    // 按完整 XML 根元素收取回执，不能假设一次 Receive 就是一整帧。
+                    // ReceiveTimeout 仍负责终止无响应等待。
+                    operation = "等待回执";
+                    byte[] _Reveice_Meg = ReceiveXmlMessage(socket);
 
                     // 回执方向由报文头决定，协议对象会先识别 Vision_Model 再反序列化。
+                    operation = "解析回执";
                     Robot_Socket_Protocol _Socket_Protocol = new(Socket_Robot, _Reveice_Meg);
 
                     // 客户端当前只消费看板服务器回执；其他功能的客户端回执尚未在此分派。
@@ -420,17 +816,24 @@ namespace Roboto_Socket_Library
                             // 上位机到上位机看板链路：这里接收的是 Server 对 Client 上传包的回执。
                             Mes_Server_Info_Data_Send? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Send>();
 
-                            Mes_Receive_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!);
+                            if (_Mes_Server_Rece == null || Mes_Receive_Info_Data_Delegate == null)
+                            {
+                                throw new InvalidDataException("看板回执为空或未注册回执处理器。");
+                            }
+
+                            Mes_Receive_Info_Data_Delegate.Invoke(_Mes_Server_Rece);
 
 
                             break;
 
-
+                        default:
+                            throw new InvalidDataException($"收到非看板回执功能码：{_Socket_Protocol.Vision_Model}。");
                     }
 
 
                     // 业务回调完成后再发布原始接收帧，保证观察者看到的是已处理数据。
                     Socket_Receive_Meg?.Invoke(_Reveice_Meg);
+                    return true;
 
                 }
                 else
@@ -440,18 +843,21 @@ namespace Roboto_Socket_Library
                 }
 
             }
+            catch (SocketException e)
+            {
+                Socket_ErrorInfo_delegate?.Invoke(
+                    $"Error:KANBAN_SOCKET,阶段={operation}，SocketError={e.SocketErrorCode}，原因：{e.Message}",
+                    Socket_Client);
+                DisconnectClient();
+                return false;
+            }
             catch (Exception e)
             {
-
-                Socket_ErrorInfo_delegate?.Invoke($"Error: -51 原因:" + e.Message, Socket_Client);
-
-
-
-            }
-            finally
-            {
-                // 归还池化缓冲，避免高频请求产生大对象堆分配。
-                if (buffer != null) System.Buffers.ArrayPool<byte>.Shared.Return(buffer);
+                Socket_ErrorInfo_delegate?.Invoke(
+                    $"Error:KANBAN_PROTOCOL,阶段={operation}，原因：{e.Message}",
+                    Socket_Client);
+                DisconnectClient();
+                return false;
             }
         }
 
@@ -653,6 +1059,10 @@ namespace Roboto_Socket_Library
                 ConnectNumber++;
                 Socket? ServerSocket = ar.AsyncState as Socket;
                 Socket? client = ServerSocket?.EndAccept(ar);
+                if (client != null)
+                {
+                    client.NoDelay = true;
+                }
                 Receive_State _Receive = new Receive_State() { Client_Socket = client };
                 if (null != ServerSocket)
                 {
@@ -868,10 +1278,12 @@ namespace Roboto_Socket_Library
 
 
             // 有应答时先通知监视器，再同步写回同一客户端，保持请求/响应日志顺序。
-            if (Send_byte != Array.Empty<byte>())
+            if (Send_byte.Length > 0)
             {
                 Socket_Send_Meg?.Invoke(Send_byte);
-                client.Client_Socket?.Send(Send_byte);
+                Socket responseSocket = client.Client_Socket
+                    ?? throw new SocketException((int)SocketError.NotConnected);
+                SendAll(responseSocket, Send_byte);
             }
             else
             {
@@ -885,12 +1297,13 @@ namespace Roboto_Socket_Library
         }
 
         /// <summary>
-        /// 在一个客户端网络流上持续读取独立的顶层 XML 元素，并逐帧交给统一协议处理。
+        /// 在一个客户端连接上持续累计 TCP 字节，并按完整 XML 根元素逐帧处理。
         /// </summary>
         /// <param name="client">拥有网络流的客户端状态。</param>
         /// <remarks>
-        /// <see cref="ConformanceLevel.Fragment"/> 允许同一 TCP 连接连续传输多个无共同根节点的 XML 文档；
-        /// <c>XElement.LoadAsync</c> 仅在当前根元素完整到达后返回，因此同时解决拆包与粘包问题。
+        /// 不直接在长连接上使用 <see cref="XmlReader"/> 加 <c>XElement.LoadAsync</c>：该组合可能
+        /// 为读取根元素后的下一个节点而继续等待，和同步等待回执的客户端形成互等。这里先在累计
+        /// 字节中定位闭合根元素，再交给协议层解析，同时兼容拆包、粘包和旧版无分隔符 XML。
         /// </remarks>
         private async Task ReceiveXmlFragmentLoopAsync(Receive_State client)
         {
@@ -899,42 +1312,57 @@ namespace Roboto_Socket_Library
 
             try
             {
-                // NetworkStream 不拥有 Socket，退出 using 后由 Close_Client 统一决定何时关闭连接。
-                using NetworkStream stream = new(socket, ownsSocket: false);
-                using XmlReader reader = XmlReader.Create(stream, new XmlReaderSettings
-                {
-                    Async = true,
-                    CloseInput = false,
-                    ConformanceLevel = ConformanceLevel.Fragment,
-                    // 禁止 DTD 和外部解析器，避免网络报文触发外部实体访问。
-                    DtdProcessing = DtdProcessing.Prohibit,
-                    XmlResolver = null
-                });
+                byte[] readBuffer = new byte[Xml_Read_Buffer_Size];
+                List<byte> pending = new(Receive_Buffer_Size);
 
-                while (await reader.ReadAsync().ConfigureAwait(false))
+                while (true)
                 {
-                    // 子元素由 XElement.LoadAsync 随当前根节点一次性读取，不应单独作为报文处理。
-                    if (reader.NodeType != XmlNodeType.Element || reader.Depth != 0)
+                    int length = await socket.ReceiveAsync(
+                        readBuffer,
+                        SocketFlags.None).ConfigureAwait(false);
+
+                    if (length == 0)
                     {
-                        continue;
+                        if (pending.Any(value => !IsXmlWhitespace(value)))
+                        {
+                            throw new XmlException("连接关闭时仍有未完成的 XML 报文。");
+                        }
+
+                        Socket_ErrorInfo_delegate?.Invoke("Error:-9,客户端断开连接！", socket);
+                        Close_Client(client);
+                        return;
                     }
 
-                    // 只有完整根节点结束后 LoadAsync 才返回，半包会继续异步等待网络数据。
-                    XElement element = await XElement.LoadAsync(
-                        reader,
-                        LoadOptions.PreserveWhitespace,
-                        CancellationToken.None).ConfigureAwait(false);
+                    for (int index = 0; index < length; index++)
+                    {
+                        pending.Add(readBuffer[index]);
+                    }
 
-                    // 统一重新编码成 UTF-8，供现有 Robot_Socket_Protocol 字节接口复用。
-                    byte[] completeMessage = Encoding.UTF8.GetBytes(
-                        element.ToString(SaveOptions.DisableFormatting));
+                    if (pending.Count > Max_Xml_Frame_Size)
+                    {
+                        throw new InvalidDataException($"XML 请求超过 {Max_Xml_Frame_Size} 字节上限。");
+                    }
 
-                    ProcessReceivedMessage(client, completeMessage);
+                    while (true)
+                    {
+                        bool hasFrame = TryExtractXmlFrame(
+                            pending,
+                            out byte[] completeMessage,
+                            out int bytesConsumed);
+
+                        if (bytesConsumed > 0)
+                        {
+                            pending.RemoveRange(0, bytesConsumed);
+                        }
+
+                        if (!hasFrame)
+                        {
+                            break;
+                        }
+
+                        ProcessReceivedMessage(client, completeMessage);
+                    }
                 }
-
-                //Socket_ErrorInfo_delegate?.Invoke(
-                //    "Error:-9,客户端断开连接！",
-                //    socket);
             }
             catch (XmlException ex)
             {
