@@ -4,13 +4,13 @@ DEF Tooling_Loop_Sps_B( )
    
 
    ;----- Fixture B buttons: IN19 / IN20  ->  INT 23 / 24
-   INTERRUPT DECL 23 WHEN $IN[19] == TRUE DO Grip_Button_1_B()
-   INTERRUPT DECL 24 WHEN $IN[20] == TRUE DO Grip_Button_2_B()
+   INTERRUPT DECL 23 WHEN $IN[12] == TRUE DO Grip_Button_1_B()
+   INTERRUPT DECL 24 WHEN $IN[13] == TRUE DO Grip_Button_2_B()
 
    INTERRUPT ON 23
    INTERRUPT ON 24
   
-   Grip_Reset_B=FALSE
+   ;Grip_Reset_B=FALSE
    LOOP
 
       Grip_Tool_B()
