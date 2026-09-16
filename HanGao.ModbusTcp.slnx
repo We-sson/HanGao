@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="HanGao.ModbusTcp/HanGao.ModbusTcp.csproj" />
+  <Project Path="HanGao.ModbusTcp.Tests/HanGao.ModbusTcp.Tests.csproj" />
+</Solution>

@@ -3,8 +3,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Generic_Extension;
+using HanGao.ModbusTcp;
 using PropertyChanged;
 using Robot_Info_Mes.Model;
+using Robot_Info_Mes.Services;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
 using System.Collections.ObjectModel;
@@ -179,6 +181,9 @@ namespace Robot_Info_Mes.ViewModel
         // Server 端离线检查与文件保存解耦，避免保存周期被误当成通讯超时。
         private readonly DispatcherTimer _serverConnectionHealthTimer = new();
 
+        // Modbus 服务保持为显式启停：默认不占用 502 端口，窗口 Loaded 或 UI 命令可按部署配置启动。
+        private RobotInfoModbusServerHost? _modbusServerHost;
+
 
 
 
@@ -187,6 +192,11 @@ namespace Robot_Info_Mes.ViewModel
         /// 本机机器人实时状态、节拍、产量和各类时长。
         /// </summary>
         public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
+
+        /// <summary>
+        /// 当前 Modbus TCP 服务状态；尚未创建服务时返回空。
+        /// </summary>
+        public ModbusTcpServerStatus? ModbusTcpStatus => _modbusServerHost?.GetStatus();
 
 
         /// <summary>
@@ -315,6 +325,61 @@ namespace Robot_Info_Mes.ViewModel
         /// 应用级日志模型，供客户端监控弹层及其他日志控件共享。
         /// </summary>
         public User_Log_Models User_Log { set; get; } = new User_Log_Models();
+
+        /// <summary>
+        /// 示例入口：在本机全部网卡的 502 端口启动 FC03/40001 只读服务，每秒发布一次当前机器人快照。
+        /// </summary>
+        /// <remarks>
+        /// 生产部署建议把启用开关、绑定 IP、端口、Unit ID 和发布周期放入 Configs_Data.Xml，
+        /// 再由窗口 Loaded 事件按配置调用本方法。重复调用不会重复创建监听器。
+        /// </remarks>
+        public async Task StartModbusServerAsync()
+        {
+            if (_modbusServerHost is null)
+            {
+                _modbusServerHost = new RobotInfoModbusServerHost(
+                    () => Mes_Robot_Info_Model_Data);
+                _modbusServerHost.PublishFailed += exception =>
+                    User_Log_Add("Modbus 寄存器发布失败：" + exception.Message, MessageBoxImage.Error);
+            }
+
+
+            await _modbusServerHost.StartAsync(
+                bindAddress: IPAddress.Any,
+                port: 502,
+                unitIdentifier: 1,
+                publishInterval: TimeSpan.FromSeconds(1));
+
+            User_Log_Add("Modbus TCP 服务已启动：0.0.0.0:502，Unit ID=1，FC03，起始地址40001。");
+        }
+
+        /// <summary>
+        /// 停止 Modbus 监听和周期发布，并断开当前 SCADA 连接；未启动时调用也是安全的。
+        /// </summary>
+        public async Task StopModbusServerAsync()
+        {
+            if (_modbusServerHost is null)
+            {
+                return;
+            }
+
+            await _modbusServerHost.StopAsync();
+            User_Log_Add("Modbus TCP 服务已停止。");
+        }
+
+        /// <summary>
+        /// 应用退出时永久释放 Modbus 服务资源；释放后可再次调用启动方法创建一个新实例。
+        /// </summary>
+        public async ValueTask DisposeModbusServerAsync()
+        {
+            if (_modbusServerHost is null)
+            {
+                return;
+            }
+
+            await _modbusServerHost.DisposeAsync();
+            _modbusServerHost = null;
+        }
 
         /// <summary>
         /// 旧版“启动全部本地机器人 Socket”入口；当前仅记录日志，实际启动由 Initialization_Robot_Sever_Start 完成。
