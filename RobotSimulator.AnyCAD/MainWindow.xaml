@@ -1,0 +1,234 @@
+<Window x:Class="RobotSimulator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:anycad="clr-namespace:AnyCAD.WPF;assembly=AnyCAD.WPF.NET"
+        mc:Ignorable="d"
+        Title="KR 10 R1440-2 · AnyCAD 运动仿真"
+        Width="1380"
+        Height="850"
+        MinWidth="1050"
+        MinHeight="680"
+        Background="#0E1015"
+        Foreground="White"
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="64" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="34" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="410" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Background="#171A20" BorderBrush="#2A303A" BorderThickness="0,0,0,1">
+            <Grid Margin="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock FontSize="20" FontWeight="SemiBold" Text="{Binding ModelName}" />
+                    <TextBlock Margin="0,3,0,0" Foreground="{StaticResource MutedBrush}" Text="AnyCAD Rapid.NET · .NET 10 · STEP/B-Rep" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <ComboBox x:Name="RobotSelector" Width="220" Margin="0,0,14,0"
+                              DisplayMemberPath="DisplayName" SelectionChanged="RobotSelector_SelectionChanged"
+                              ToolTip="自动发现 Models 下所有 &lt;目录名&gt;.robot.json" />
+                    <Button Click="Isometric_Click" Content="等轴测" />
+                    <Button Click="Front_Click" Content="正视" />
+                    <Button Click="Top_Click" Content="俯视" />
+                    <Button Margin="0" Click="ZoomAll_Click" Content="适合窗口" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="0" Margin="14" Background="#EFF3F8" BorderBrush="#2A303A" BorderThickness="1" CornerRadius="7">
+            <Grid>
+                <anycad:RenderControl x:Name="RenderView" ViewerReady="RenderView_ViewerReady" />
+                <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14" Padding="10,6" Background="#CC171A20" CornerRadius="4">
+                    <TextBlock Foreground="#C7CEDA" Text="单位：mm  ·  坐标系：右手系 / Z 向上" />
+                </Border>
+                <Border HorizontalAlignment="Center" VerticalAlignment="Center" Padding="24,20" Background="#F4F7FA" BorderBrush="#AEB8C4" BorderThickness="1" CornerRadius="9"
+                        Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                    <StackPanel Width="310">
+                        <Grid Width="42" Height="42" HorizontalAlignment="Center">
+                            <Ellipse Stroke="#D9DFE6" StrokeThickness="4" />
+                            <Ellipse Stroke="#F47B20" StrokeThickness="4" StrokeDashArray="2,5" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                     RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform />
+                                </Ellipse.RenderTransform>
+                                <Ellipse.Triggers>
+                                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard RepeatBehavior="Forever">
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(RotateTransform.Angle)"
+                                                                 From="0" To="360" Duration="0:0:1.15" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Ellipse.Triggers>
+                            </Ellipse>
+                        </Grid>
+                        <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center" Foreground="#20252C" FontSize="15" FontWeight="SemiBold"
+                                   Text="正在准备机器人模型" />
+                        <TextBlock Margin="0,6,0,12" HorizontalAlignment="Center" Foreground="#687382" TextAlignment="Center" TextWrapping="Wrap"
+                                   Text="{Binding LoadingMessage}" />
+                        <Grid>
+                            <ProgressBar Height="8" Minimum="0" Maximum="100" Value="{Binding LoadProgress}" Foreground="{StaticResource AccentBrush}" Background="#DDE3E9" />
+                            <TextBlock Margin="0,13,0,0" HorizontalAlignment="Right" Foreground="#687382"
+                                       Text="{Binding LoadProgress, StringFormat={}{0:F0}%}" />
+                        </Grid>
+                        <TextBlock Margin="0,22,0,0" HorizontalAlignment="Center" Foreground="#87919D" FontSize="11"
+                                   Text="首次解析后会生成显示缓存，后续启动将明显加快" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="1" Margin="0,14,14,14" Background="{StaticResource PanelBrush}" BorderBrush="#2A303A" BorderThickness="1" CornerRadius="7">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Margin="16,16,16,10">
+                    <TextBlock FontSize="15" FontWeight="SemiBold" Text="运动控制" />
+                    <TextBlock Margin="0,5,0,0" Foreground="{StaticResource MutedBrush}" Text="Base → J1 → J2 → J3 → J4 → J5 → J6 → Tool" />
+                </StackPanel>
+
+                <TabControl Grid.Row="1" Margin="12,0,12,10" Background="Transparent" BorderBrush="#343A46">
+                    <TabItem Header="关节运动">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl Margin="8" ItemsSource="{Binding Joints}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,0,0,8" Padding="10" Background="{StaticResource CardBrush}" CornerRadius="5">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="38" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="72" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock FontWeight="Bold" Foreground="{StaticResource AccentBrush}" Text="{Binding ControllerAxis}" />
+                                                <TextBlock Grid.Column="1" Foreground="{StaticResource MutedBrush}">
+                                                    <Run Text="范围 " />
+                                                    <Run Text="{Binding Minimum, StringFormat={}{0:F0}}" />
+                                                    <Run Text="° ～ " />
+                                                    <Run Text="{Binding Maximum, StringFormat={}{0:F0}}" />
+                                                    <Run Text="°" />
+                                                </TextBlock>
+                                                <TextBox Grid.Column="2" HorizontalContentAlignment="Right"
+                                                         Text="{Binding Angle, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F1}}" />
+                                                <Slider Grid.Row="1" Grid.ColumnSpan="3" Margin="0,9,0,0"
+                                                        Minimum="{Binding Minimum}" Maximum="{Binding Maximum}"
+                                                        Value="{Binding Angle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="轴参数">
+                        <Grid Margin="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Margin="2,2,2,8" Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap"
+                                       Text="示教器角度按官方机械行程限位；模型实际转角 = 示教器角度 - CAD 基准角。可在此校准并保存。" />
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Joints}" AutoGenerateColumns="False"
+                                      CanUserAddRows="False" CanUserDeleteRows="False" HeadersVisibility="Column"
+                                      Background="#11141A" Foreground="White" RowBackground="#171A20"
+                                      AlternatingRowBackground="#1D2129" BorderBrush="#343A46" GridLinesVisibility="Horizontal"
+                                      HorizontalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="KUKA" Binding="{Binding ControllerAxis}" IsReadOnly="True" Width="50" />
+                                    <DataGridTextColumn Header="模型" Binding="{Binding Name}" IsReadOnly="True" Width="48" />
+                                    <DataGridTextColumn Header="CAD 基准°" Binding="{Binding ModelReferenceAngle, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F1}}" Width="76" />
+                                    <DataGridTextColumn Header="Ox" Binding="{Binding AxisOriginX, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F1}}" Width="62" />
+                                    <DataGridTextColumn Header="Oy" Binding="{Binding AxisOriginY, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F1}}" Width="62" />
+                                    <DataGridTextColumn Header="Oz" Binding="{Binding AxisOriginZ, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F1}}" Width="62" />
+                                    <DataGridTextColumn Header="Dx" Binding="{Binding AxisDirectionX, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F3}}" Width="58" />
+                                    <DataGridTextColumn Header="Dy" Binding="{Binding AxisDirectionY, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F3}}" Width="58" />
+                                    <DataGridTextColumn Header="Dz" Binding="{Binding AxisDirectionZ, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F3}}" Width="58" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Tool 坐标">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="10">
+                                <TextBlock FontWeight="SemiBold" Text="Tool 模型安装位姿" />
+                                <TextBlock Margin="0,4,0,8" Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap"
+                                           Text="Tool.STEP 局部坐标到机器人 CAD 基准坐标的变换。若 Tool 与机器人在同一装配中导出，六项保持 0。修改后重新载入模型。" />
+                                <UniformGrid Columns="3">
+                                    <StackPanel Margin="0,0,6,8"><TextBlock Text="X / mm" /><TextBox Text="{Binding ToolModelX, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                    <StackPanel Margin="3,0,3,8"><TextBlock Text="Y / mm" /><TextBox Text="{Binding ToolModelY, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                    <StackPanel Margin="6,0,0,8"><TextBlock Text="Z / mm" /><TextBox Text="{Binding ToolModelZ, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                    <StackPanel Margin="0,0,6,8"><TextBlock Text="A / °" /><TextBox Text="{Binding ToolModelA, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                    <StackPanel Margin="3,0,3,8"><TextBlock Text="B / °" /><TextBox Text="{Binding ToolModelB, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                    <StackPanel Margin="6,0,0,8"><TextBlock Text="C / °" /><TextBox Text="{Binding ToolModelC, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                </UniformGrid>
+
+                                <Separator Margin="0,8,0,12" Background="#48505E" />
+                                <TextBlock FontWeight="SemiBold" Text="KUKA TCP（$TOOL）" />
+                                <TextBlock Margin="0,4,0,8" Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap"
+                                           Text="相对于 A6 法兰坐标系；采用 KUKA X/Y/Z/A/B/C，旋转顺序 Rz(A)·Ry(B)·Rx(C)。" />
+                                <UniformGrid Columns="3">
+                                    <StackPanel Margin="0,0,6,8"><TextBlock Text="X / mm" /><TextBox Text="{Binding ToolTcpX, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                    <StackPanel Margin="3,0,3,8"><TextBlock Text="Y / mm" /><TextBox Text="{Binding ToolTcpY, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                    <StackPanel Margin="6,0,0,8"><TextBlock Text="Z / mm" /><TextBox Text="{Binding ToolTcpZ, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                    <StackPanel Margin="0,0,6,8"><TextBlock Text="A / °" /><TextBox Text="{Binding ToolTcpA, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                    <StackPanel Margin="3,0,3,8"><TextBlock Text="B / °" /><TextBox Text="{Binding ToolTcpB, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                    <StackPanel Margin="6,0,0,8"><TextBlock Text="C / °" /><TextBox Text="{Binding ToolTcpC, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" /></StackPanel>
+                                </UniformGrid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+
+                <StackPanel Grid.Row="2" Margin="16,0,16,16">
+                    <Border Margin="0,0,0,12" Padding="10,8" Background="#11141A" CornerRadius="4">
+                        <TextBlock Foreground="{StaticResource MutedBrush}" Text="{Binding ToolStatus}" />
+                    </Border>
+                    <UniformGrid Columns="2">
+                        <Button Margin="0,0,6,0" Click="Reset_Click" Content="回到初始位" />
+                        <Button Margin="6,0,0,0" Background="#B95716" BorderBrush="#E57A31" Click="Play_Click" Content="{Binding PlayButtonText}" />
+                    </UniformGrid>
+                    <UniformGrid Margin="0,10,0,0" Columns="2">
+                        <Button Margin="0,0,6,0" Click="SaveConfiguration_Click" Content="保存型号配置" />
+                        <Button Margin="6,0,0,0" Click="Reload_Click" Content="重新载入模型" />
+                    </UniformGrid>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Background="#171A20" BorderBrush="#2A303A" BorderThickness="0,1,0,0">
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Ellipse Width="8" Height="8" Margin="0,0,8,0" Fill="{StaticResource AccentBrush}" />
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Foreground="#C7CEDA" Text="{Binding StatusMessage}" />
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" Foreground="{StaticResource MutedBrush}" Text="AnyCAD 2026.8.6.1458" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

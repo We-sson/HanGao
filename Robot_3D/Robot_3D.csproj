@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
+    <DefaultItemExcludes>$(DefaultItemExcludes);RobotSimulator.AnyCAD\**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>

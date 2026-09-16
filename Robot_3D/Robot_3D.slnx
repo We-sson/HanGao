@@ -6,4 +6,5 @@
   <Project Path="Robot_3D.csproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="RobotSimulator.AnyCAD\RobotSimulator.AnyCAD.csproj" />
 </Solution>
