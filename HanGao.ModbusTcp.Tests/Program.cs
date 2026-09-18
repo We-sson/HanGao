@@ -25,7 +25,7 @@ internal static class ModbusTestApplication
 
             RunCodecTests();
             RunSnapshotTests();
-            RunRobotInfoRegisterMapTests();
+            RunAutomaticLayoutTests();
             await RunProtocolAndLifecycleTestsAsync();
             await RunConcurrentStressTestAsync(settings);
 
@@ -109,70 +109,62 @@ internal static class ModbusTestApplication
         Console.WriteLine("PASS: immutable snapshot tests");
     }
 
-    private static void RunRobotInfoRegisterMapTests()
+    private static void RunAutomaticLayoutTests()
     {
-        var updatedAt = DateTimeOffset.FromUnixTimeSeconds(1_800_000_000);
-        var values = new RobotInfoRegisterValues(
-            DailyRunMinutes: 1_440,
-            TotalRunSeconds: 31_536_000,
-            DowntimeMinutes: 525_600,
-            CurrentDowntimeMinutes: 100_000,
-            StatusCode: RobotInfoStatusCode.Standby,
-            DailyProduction: 350,
-            TotalProduction: 127_750,
-            PowerOnMinutes: 525_600,
-            UpdatedAtUtc: updatedAt);
+        IReadOnlyList<ModbusPointDefinition> definitions =
+            ModbusPointCatalog.FromType<AutomaticLayoutContract>();
+        ModbusRegisterLayout layout = ModbusRegisterLayoutBuilder.Build(400001, definitions);
 
-        ModbusRegisterSnapshot snapshot = RobotInfoRegisterMap.CreateSnapshot(
+        int[] expectedAddresses =
+            [400001, 400003, 400005, 400007, 400009, 400010, 400012, 400014];
+        AssertEqual(expectedAddresses.Length, layout.Points.Count, "Automatic layout point count");
+        AssertEqual(15, layout.RegisterCount, "Tightly packed automatic layout block length");
+
+        for (int index = 0; index < expectedAddresses.Length; index++)
+        {
+            AssertEqual(
+                expectedAddresses[index],
+                layout.Points[index].ReferenceAddress,
+                $"Automatic reference address #{index}");
+        }
+
+        IReadOnlyDictionary<int, ulong> values =
+            ModbusPointCatalog.ReadValues(new AutomaticLayoutContract());
+        AssertEqual(350UL, values[5], "Property initializer value indexed by unique Order");
+        ModbusRegisterSnapshot snapshot = ModbusRegisterLayoutEncoder.CreateSnapshot(
+            layout,
             values,
-            sequence: 0x1122_3344);
+            sequence: 1);
         ReadOnlySpan<ushort> registers = snapshot.Registers.Span;
 
-        AssertEqual(RobotInfoRegisterMap.RegisterCount, registers.Length, "Robot register-map length");
-        AssertEqual((ushort)0, snapshot.StartAddress, "40001 protocol address");
-        AssertEqual(
-            40001,
-            RobotInfoRegisterMap.ToReferenceAddress(RobotInfoRegisterMap.DailyRunMinutesAddress),
-            "40001 reference conversion");
-        AssertEqual(
-            (ushort)0,
-            ModbusAddressConverter.ToProtocolAddress(40001, ModbusRegisterArea.HoldingRegisters),
-            "40001 zero-based conversion");
-        AssertEqual(values.DailyRunMinutes, registers[RobotInfoRegisterMap.DailyRunMinutesAddress], "Daily run minutes");
-        AssertEqual(
-            values.TotalRunSeconds,
-            ModbusRegisterCodec.ReadUInt32(registers, RobotInfoRegisterMap.TotalRunSecondsAddress),
-            "Annual run seconds must use UInt32");
-        AssertEqual(
-            values.DowntimeMinutes,
-            ModbusRegisterCodec.ReadUInt32(registers, RobotInfoRegisterMap.DowntimeMinutesAddress),
-            "Annual downtime minutes must use UInt32");
-        AssertEqual(
-            values.CurrentDowntimeMinutes,
-            ModbusRegisterCodec.ReadUInt32(registers, RobotInfoRegisterMap.CurrentDowntimeMinutesAddress),
-            "Long single downtime must use UInt32");
-        AssertEqual(
-            (ushort)RobotInfoStatusCode.Standby,
-            registers[RobotInfoRegisterMap.StatusCodeAddress],
-            "Stable SCADA status code");
-        AssertEqual(
-            values.TotalProduction,
-            ModbusRegisterCodec.ReadUInt32(registers, RobotInfoRegisterMap.TotalProductionAddress),
-            "Annual production must use UInt32");
-        AssertEqual(
-            values.PowerOnMinutes,
-            ModbusRegisterCodec.ReadUInt32(registers, RobotInfoRegisterMap.PowerOnMinutesAddress),
-            "Annual power-on minutes must use UInt32");
-        AssertEqual(
-            RobotInfoRegisterMap.CurrentMapVersion,
-            registers[RobotInfoRegisterMap.MapVersionAddress],
-            "Register-map version");
-        AssertEqual(
-            0x1122_3344u,
-            ModbusRegisterCodec.ReadUInt32(registers, RobotInfoRegisterMap.SnapshotSequenceAddress),
-            "Snapshot sequence encoding");
+        AssertEqual((ushort)0, snapshot.StartAddress, "400001 must become PDU address 0");
+        AssertEqual(1_000u, ModbusRegisterCodec.ReadUInt32(registers, 0), "Automatic UInt32 encoding");
+        AssertEqual((ushort)2, registers[8], "Automatic UInt16 encoding");
+        AssertEqual(350u, ModbusRegisterCodec.ReadUInt32(registers, 9), "UInt32 immediately after UInt16");
 
-        Console.WriteLine("PASS: 40001 Robot_Info_Mes register-map tests");
+        AssertThrows<ArgumentOutOfRangeException>(
+            () => ModbusRegisterLayoutBuilder.Build(40001, definitions),
+            "Reject five-digit holding-register address");
+        AssertThrows<ArgumentOutOfRangeException>(
+            () => ModbusRegisterLayoutBuilder.Build(400000, definitions),
+            "Reject address below the six-digit holding-register range");
+        AssertThrows<ArgumentOutOfRangeException>(
+            () => ModbusRegisterLayoutBuilder.Build(465537, definitions),
+            "Reject address above the six-digit holding-register range");
+        AssertThrows<InvalidOperationException>(
+            () => ModbusRegisterLayoutBuilder.Build(
+                400001,
+                definitions.Concat(
+                [new ModbusPointDefinition(
+                    0,
+                    ModbusPointDataType.UInt16,
+                    "重复顺序",
+                    string.Empty,
+                    string.Empty,
+                    Enabled: false)])),
+            "Reject duplicate Order even when one point is disabled");
+
+        Console.WriteLine("PASS: Order identity, property defaults, six-digit conversion and tight layout tests");
     }
 
     private static async Task RunProtocolAndLifecycleTestsAsync()
@@ -183,7 +175,6 @@ internal static class ModbusTestApplication
             BindAddress = IPAddress.Loopback,
             Port = port,
             AcceptedUnitIdentifier = 1,
-            RegisterArea = ModbusRegisterArea.HoldingRegisters,
             RegisterCount = 64,
             MaxConnections = 8,
             ConnectionTimeout = TimeSpan.FromSeconds(10),
@@ -197,10 +188,12 @@ internal static class ModbusTestApplication
         server.Publish(new ModbusRegisterSnapshot(10, published, sequence: 1));
 
         using var client = CreateClient();
-        client.Connect(new IPEndPoint(IPAddress.Loopback, port), ModbusEndianness.LittleEndian);
+        client.Connect(new IPEndPoint(IPAddress.Loopback, port), ModbusEndianness.BigEndian);
 
         ushort[] read = client.ReadHoldingRegisters<ushort>(1, 10, published.Length).ToArray();
         AssertSequenceEqual(published, read, "FC03 holding-register read");
+
+        await AssertRawBigEndianResponseAsync(port);
 
         AssertModbusException(
             () => client.WriteSingleRegister(1, 0, (ushort)42),
@@ -210,7 +203,7 @@ internal static class ModbusTestApplication
         AssertModbusException(
             () => client.ReadInputRegisters(1, 0, 1),
             ModbusExceptionCode.IllegalFunction,
-            "FC04 must be rejected in 40001/FC03 mode");
+            "FC04 must be rejected in six-digit holding-register/FC03 mode");
 
         AssertModbusException(
             () => client.ReadHoldingRegisters(1, 63, 2),
@@ -232,21 +225,7 @@ internal static class ModbusTestApplication
         AssertEqual(ModbusServerState.Running, server.GetStatus().State, "Restart status");
         await server.StopAsync();
 
-        ModbusTcpServerOptions inputRegisterOptions = options with
-        {
-            RegisterArea = ModbusRegisterArea.InputRegisters,
-        };
-        await server.StartAsync(inputRegisterOptions);
-        server.Publish(new ModbusRegisterSnapshot(10, published, sequence: 2));
-        using var inputClient = CreateClient();
-        inputClient.Connect(new IPEndPoint(IPAddress.Loopback, port), ModbusEndianness.LittleEndian);
-        ushort[] inputRead = inputClient
-            .ReadInputRegisters<ushort>(1, 10, published.Length)
-            .ToArray();
-        AssertSequenceEqual(published, inputRead, "Configurable FC04 input-register read");
-        await server.StopAsync();
-
-        Console.WriteLine("PASS: FC03/40001, optional FC04, read-only and lifecycle integration tests");
+        Console.WriteLine("PASS: FC03-only holding-register, read-only and lifecycle integration tests");
     }
 
     private static async Task RunConcurrentStressTestAsync(StressSettings settings)
@@ -257,7 +236,6 @@ internal static class ModbusTestApplication
             BindAddress = IPAddress.Loopback,
             Port = port,
             AcceptedUnitIdentifier = 1,
-            RegisterArea = ModbusRegisterArea.HoldingRegisters,
             RegisterCount = 256,
             MaxConnections = settings.ClientCount + 16,
             ConnectionTimeout = TimeSpan.FromSeconds(30),
@@ -307,7 +285,7 @@ internal static class ModbusTestApplication
                     .ConfigureAwait(false);
 
                 modbusClient = CreateClient();
-                modbusClient.Initialize(tcpClient, ModbusEndianness.LittleEndian);
+                modbusClient.Initialize(tcpClient, ModbusEndianness.BigEndian);
                 clients[clientIndex] = modbusClient;
             }
             catch (OperationCanceledException) when (timeout.IsCancellationRequested)
@@ -480,7 +458,7 @@ internal static class ModbusTestApplication
         long expectedPublishes = 1L + (long)settings.PublisherCount * settings.PublishesPerPublisher;
 
         using var verificationClient = CreateClient();
-        verificationClient.Connect(endpoint, ModbusEndianness.LittleEndian);
+        verificationClient.Connect(endpoint, ModbusEndianness.BigEndian);
         ushort[] finalSnapshot = verificationClient
             .ReadHoldingRegisters<ushort>(1, 0, settings.RegisterCount)
             .ToArray();
@@ -579,6 +557,53 @@ internal static class ModbusTestApplication
         WriteTimeout = 10_000,
     };
 
+    /// <summary>
+    /// 使用原始 TCP 报文验证线路字节，避免服务端和同一协议库客户端采用相同错误字节序时测试仍然通过。
+    /// </summary>
+    private static async Task AssertRawBigEndianResponseAsync(int port)
+    {
+        using var tcpClient = new TcpClient();
+        await tcpClient.ConnectAsync(IPAddress.Loopback, port).ConfigureAwait(false);
+        await using NetworkStream stream = tcpClient.GetStream();
+
+        byte[] request =
+        [
+            0x12, 0x34, // Transaction ID
+            0x00, 0x00, // Protocol ID
+            0x00, 0x06, // 后续长度：Unit ID + FC03 请求 PDU
+            0x01,       // Unit ID
+            0x03,       // Read Holding Registers
+            0x00, 0x0A, // 零基起始地址 10
+            0x00, 0x04, // 读取 4 个寄存器
+        ];
+
+        byte[] expectedResponse =
+        [
+            0x12, 0x34, // Transaction ID
+            0x00, 0x00, // Protocol ID
+            0x00, 0x0B, // 后续长度：Unit ID + FC03 响应 PDU
+            0x01,       // Unit ID
+            0x03,       // Read Holding Registers
+            0x08,       // 4 个寄存器，共 8 字节
+            0x12, 0x34,
+            0xAB, 0xCD,
+            0x00, 0x01,
+            0xFF, 0xFF,
+        ];
+
+        await stream.WriteAsync(request).ConfigureAwait(false);
+        byte[] response = new byte[expectedResponse.Length];
+        await stream.ReadExactlyAsync(response).ConfigureAwait(false);
+
+        if (!expectedResponse.AsSpan().SequenceEqual(response))
+        {
+            throw new InvalidOperationException(
+                "Raw FC03 response is not Modbus big-endian. " +
+                $"Expected={Convert.ToHexString(expectedResponse)}; " +
+                $"Actual={Convert.ToHexString(response)}.");
+        }
+    }
+
     private static int GetFreeTcpPort()
     {
         var listener = new TcpListener(IPAddress.Loopback, 0);
@@ -664,6 +689,33 @@ internal static class ModbusTestApplication
         throw new InvalidOperationException(
             $"Assertion failed: {description}. Expected Modbus exception {expectedCode}.");
     }
+}
+
+internal sealed class AutomaticLayoutContract
+{
+    [ModbusPoint(0, ModbusPointDataType.UInt32, DisplayName = "当天运行时间")]
+    public uint DailyRun { get; init; } = 1_000;
+
+    [ModbusPoint(1, ModbusPointDataType.UInt32, DisplayName = "累计运行时间")]
+    public uint TotalRun { get; init; } = 31_536_000;
+
+    [ModbusPoint(2, ModbusPointDataType.UInt32, DisplayName = "停机时间")]
+    public uint Downtime { get; init; } = 3_000;
+
+    [ModbusPoint(3, ModbusPointDataType.UInt32, DisplayName = "单次停机时间")]
+    public uint CurrentDowntime { get; init; } = 40;
+
+    [ModbusPoint(4, ModbusPointDataType.UInt16, DisplayName = "状态信息")]
+    public ushort Status { get; init; } = 2;
+
+    [ModbusPoint(5, ModbusPointDataType.UInt32, DisplayName = "当天产量")]
+    public uint DailyProduction { get; init; } = 350;
+
+    [ModbusPoint(6, ModbusPointDataType.UInt32, DisplayName = "累计产量")]
+    public uint TotalProduction { get; init; } = 127_750;
+
+    [ModbusPoint(7, ModbusPointDataType.UInt32, DisplayName = "上电时间")]
+    public uint PowerOn { get; init; } = 60;
 }
 
 internal sealed record StressSettings(

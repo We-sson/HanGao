@@ -789,7 +789,7 @@ namespace Robot_Info_Mes.Model
                 Work_Number_Pallets = 0;
                 Robot_Work_ABCD_Cycle_List.Clear();
                 Robot_Robot_Time_Outside_List.Clear();
-
+                Robot_Time_Outside.Timer_Sec=0;
 
             }
 

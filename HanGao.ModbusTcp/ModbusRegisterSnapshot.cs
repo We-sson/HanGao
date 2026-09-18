@@ -5,7 +5,7 @@ namespace HanGao.ModbusTcp;
 /// </summary>
 /// <remarks>
 /// 构造时复制调用方数组，之后仅暴露只读内存。这样业务层可以继续复用自己的缓冲区，
-/// 而不会在服务发布过程中意外修改正在读取的数据。
+/// 而不会在服务端发布过程中意外修改正在读取的数据。
 /// </remarks>
 public sealed class ModbusRegisterSnapshot
 {
@@ -45,7 +45,7 @@ public sealed class ModbusRegisterSnapshot
     }
 
     /// <summary>
-    /// Modbus 报文中的零基起始地址；例如 SCADA 参考地址 40001 对应此处的 0。
+    /// Modbus 报文中的零基起始地址；例如 SCADA 六位参考地址 400001 对应此处的 0。
     /// </summary>
     public ushort StartAddress { get; }
 

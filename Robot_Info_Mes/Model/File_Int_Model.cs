@@ -170,6 +170,24 @@ namespace Robot_Info_Mes.Model
 
                     return _newVale;
 
+                case Type _T when _T == typeof(RobotInfoModbusConfiguration):
+                    // Modbus 配置与 Configs_Data.Xml 放在同一目录，但使用独立文件，便于现场单独备份和修改。
+                    _Path = GetXml_Path<RobotInfoModbusConfiguration>(Get_Xml_File_Enum.Folder_Path);
+                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
+                    _Path = GetXml_Path<RobotInfoModbusConfiguration>(Get_Xml_File_Enum.File_Path);
+
+                    if (!File.Exists(_Path))
+                    {
+                        _newVale = (T1)(object)RobotInfoModbusConfiguration.CreateDefault();
+                        Save_Xml(_newVale);
+                    }
+                    else
+                    {
+                        _newVale = (T1)(object)Read_Xml<RobotInfoModbusConfiguration>();
+                    }
+
+                    return _newVale;
+
                 case Type _T when _T == typeof(Mes_Robot_Info_Model):
                     // 客户端设备累计信息使用固定文件，便于重启后接续计时和计数。
                     _Path = GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.Folder_Path);
@@ -417,6 +435,12 @@ namespace Robot_Info_Mes.Model
                     // 不随月份变化的应用配置。
                     folderPath = Path.Combine(rootPath, "Configs");
                     filePath = Path.Combine(folderPath, "Configs_Data.Xml");
+                    break;
+
+                case Type type when type == typeof(RobotInfoModbusConfiguration):
+                    // 与主配置同目录保存，文件独立，避免寄存器表升级影响原有 Configs_Data.Xml。
+                    folderPath = Path.Combine(rootPath, "Configs");
+                    filePath = Path.Combine(folderPath, "ModbusTcp_Config.Xml");
                     break;
 
                 case Type type when type == typeof(Mes_Robot_Info_Model):

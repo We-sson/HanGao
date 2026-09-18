@@ -1,44 +1,61 @@
 # HanGao.ModbusTcp
 
-面向 HanGao 项目的独立 Modbus TCP 服务库，不依赖 WPF，也不直接依赖 `Robot_Info_Mes` 的 ViewModel 或数据模型。
+面向 HanGao 项目的独立 Modbus TCP 服务端库，不依赖 WPF，也不直接依赖 `Robot_Info_Mes` 的 ViewModel 或数据模型。
 
 ## 设计原则
 
-- 默认把 `40001` 作为只读保持寄存器块，SCADA 使用 FC03 读取；所有写功能码均拒绝。
-- 也可通过 `RegisterArea` 切换为 `30001`/FC04 输入寄存器模式。
-- 业务层先生成不可变快照，服务在协议读写共用锁内整体复制，防止一次读取出现新旧数据混合。
+- `Robot_Info_Mes` 是 Modbus TCP 服务端，只接受 `400001～465536` 六位保持寄存器参考地址；SCADA 客户端使用 FC03 读取，所有写功能码均拒绝。
+- 服务端固定提供 FC03 保持寄存器，不暴露寄存器区域选择；FC04 和写功能码均拒绝。
+- 每个 16 位寄存器在线路上固定使用 Modbus 大端字节序；`WordOrder` 只控制 UInt32 两个寄存器之间的高低字顺序。
+- 业务层先生成不可变快照，服务端在协议读写共用锁内整体复制，防止 SCADA 客户端一次读取出现新旧数据混合。
 - 启动、停止和释放串行执行；相同参数重复启动、重复停止均安全。
 - 诊断历史有容量上限，可供 WPF 显示连接数、请求数、拒绝数和最后错误。
-- 所有 SCADA 参考地址与报文零基地址的换算集中在 `ModbusAddressConverter`，避免在业务代码中散落 `40001 - 1`。
+- 所有六位参考地址与报文零基地址的换算集中在转换器中，避免业务代码重复换算。
 
 ## 地址约定
 
-SCADA 常用的 `40001` 是参考地址，不会原样出现在 Modbus 报文中：
+本项目配置和 UI 只使用六位参考地址；参考地址不会原样出现在 Modbus 报文中：
 
 ```text
-SCADA 40001  <=>  Modbus PDU 地址 0  <=>  FC03 保持寄存器
-SCADA 40002  <=>  Modbus PDU 地址 1
+SCADA 400001 <=> Modbus PDU 地址 0 <=> FC03 保持寄存器
+SCADA 400002 <=> Modbus PDU 地址 1
 ```
 
-部分 SCADA 驱动要求填写 `40001`，部分驱动要求填写 `0` 或 `1`。联调时必须确认驱动是否启用了“零基地址”。
+配置文件中的块起点必须位于 `400001～465536`。如果 SCADA 驱动的地址栏要求填写 PDU 地址，则首地址填写 `0`；不要在应用配置中填写五位地址。
 
-## Robot_Info_Mes 固定寄存器表（版本 1）
+默认 `HighWordFirst` 对应常见的 UInt32 `ABCD` 排列。例如十六进制值
+`0x11223344` 在线路上依次发送 `11 22 33 44`。如果选择 `LowWordFirst`，则只交换两个
+16 位寄存器，线路字节为 `33 44 11 22`；单个寄存器内部始终保持高字节在前。
 
-SCADA 建议一次读取 `40001～40018` 共 18 个寄存器。
+## Attribute 自动布局与本地 XML
 
-| SCADA 地址 | PDU 地址 | 字段 | 逻辑类型 | 单位 |
-|---|---:|---|---|---|
-| 40001 | 0 | 当天运行时间 | UInt16 | 分钟 |
-| 40002～40003 | 1～2 | 累计运行时间 | UInt32，高字在前 | 秒 |
-| 40004～40005 | 3～4 | 累计停机时间 | UInt32，高字在前 | 分钟 |
-| 40006～40007 | 5～6 | 当前单次停机时间 | UInt32，高字在前 | 分钟 |
-| 40008 | 7 | 状态信息 | UInt16 | 0 未知、1 离线、2 待机、3 运行、4 手动、5 故障 |
-| 40009 | 8 | 当天产量 | UInt16 | 件 |
-| 40010～40011 | 9～10 | 累计产量 | UInt32，高字在前 | 件 |
-| 40012～40013 | 11～12 | 本次上电时间 | UInt32，高字在前 | 分钟 |
-| 40014～40015 | 13～14 | 数据更新时间 | UInt32，高字在前 | UTC Unix 秒 |
-| 40016 | 15 | 寄存器表版本 | UInt16 | 当前为 1 |
-| 40017～40018 | 16～17 | 快照流水号低 32 位 | UInt32，高字在前 | 次 |
+`Robot_Info_Mes` 当前使用 `ModbusPointAttribute` 声明点位唯一 `Order`、UInt16/UInt32、单位和说明。运行时只配置寄存器块起点，`ModbusRegisterLayoutBuilder` 负责计算所有后续地址：
+
+- UInt16 占 1 个 16 位寄存器；
+- UInt32 占 2 个连续寄存器；
+- 所有字段按 Order 紧密连续排列，不插入对齐保留字；
+- Order 同时是发布值的唯一标识，XML 不再保存容易误改的字符串 Key；
+- 地址、类型、顺序或范围不合法时拒绝启动，不会带着重叠布局继续通信；
+- `400001` 自动转换为 PDU 地址 0，`400003` 自动转换为 PDU 地址 2。
+
+默认八个点位的自动结果为：
+
+| 地址 | 类型 | 字段 |
+|---:|---|---|
+| 400001～400002 | UInt32 | 当天运行时间 |
+| 400003～400004 | UInt32 | 累计运行时间 |
+| 400005～400006 | UInt32 | 停机时间 |
+| 400007～400008 | UInt32 | 单次停机时间 |
+| 400009 | UInt16 | 状态信息 |
+| 400010～400011 | UInt32 | 当天产量 |
+| 400012～400013 | UInt32 | 累计产量 |
+| 400014～400015 | UInt32 | 上电时间 |
+
+应用配置保存在 `C:\ProgramData\HanGao\Robot_Info_Mes\Configs\ModbusTcp_Config.Xml`，与 `Configs_Data.Xml` 同目录。UI 修改后会先校验并原子保存 XML，再单独重启 Modbus TCP 服务端。正在运行的服务端使用启动时冻结的布局，编辑中的数据不会提前改变线上寄存器含义。
+
+旧版配置在读取后会自动升级到 SchemaVersion 2 / MapVersion 2，并按 Order 保留现有点位设置；再次保存时会清理不再使用的旧字段。
+
+当前 `Robot_Info_Mes` 直接发布强类型寄存器数据属性的初始化值，尚未与 OEE 业务统计对接。正式接入时可先把属性初始化值改为 0，再替换为真实业务赋值。
 
 `UInt16` 最大值为 65535：按秒只能保存约 18.2 小时，按分钟只能保存约 45.5 天，因此不能保存一年的累计时间。累计秒、累计分钟和累计产量统一使用两个 UInt16 组成的 UInt32；UInt32 秒约可覆盖 136 年。
 
@@ -52,23 +69,23 @@ await server.StartAsync(new ModbusTcpServerOptions
     BindAddress = IPAddress.Any,
     Port = 502,
     AcceptedUnitIdentifier = 1,
-    RegisterArea = ModbusRegisterArea.HoldingRegisters,
     RegisterCount = 64,
     MaxConnections = 64,
 });
 
-var values = new RobotInfoRegisterValues(
-    DailyRunMinutes: 480,
-    TotalRunSeconds: 31_536_000,
-    DowntimeMinutes: 30,
-    CurrentDowntimeMinutes: 0,
-    StatusCode: RobotInfoStatusCode.Running,
-    DailyProduction: 350,
-    TotalProduction: 127_750,
-    PowerOnMinutes: 525_600,
-    UpdatedAtUtc: DateTimeOffset.UtcNow);
+ModbusPointDefinition[] definitions =
+[
+    new(0, ModbusPointDataType.UInt32, "当天运行时间", "分钟", "示例数据"),
+    new(1, ModbusPointDataType.UInt16, "状态信息", "", "0运行、1故障、2待机"),
+];
+ModbusRegisterLayout layout = ModbusRegisterLayoutBuilder.Build(400001, definitions);
+var values = new Dictionary<int, ulong>
+{
+    [0] = 480,
+    [1] = 0,
+};
 
-server.Publish(RobotInfoRegisterMap.CreateSnapshot(values, sequence: 1));
+server.Publish(ModbusRegisterLayoutEncoder.CreateSnapshot(layout, values, sequence: 1));
 ```
 
 ## UI 显示和调试

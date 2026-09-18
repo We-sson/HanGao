@@ -1,15 +1,16 @@
 using System.Collections.Concurrent;
+using System.Buffers.Binary;
 using System.Net;
 using FluentModbus;
 
 namespace HanGao.ModbusTcp;
 
 /// <summary>
-/// 基于 FluentModbus 的只读 Modbus TCP 服务实现。
+/// 基于 FluentModbus 的只读 Modbus TCP 服务端实现。
 /// </summary>
 /// <remarks>
-/// 服务根据配置开放 FC03 保持寄存器或 FC04 输入寄存器读取；所有写功能码都由请求校验器拒绝。
-/// 业务线程先构造不可变快照，再在底层服务的同步锁中整体复制，因此一次协议读取不会取得撕裂数据。
+/// 服务端固定开放 FC03 保持寄存器读取；FC04 和所有写功能码都由请求校验器拒绝。
+/// 业务线程先构造不可变快照，再在底层服务端的同步锁中整体复制，因此一次协议读取不会取得撕裂数据。
 /// 生命周期另由信号量串行化，避免 UI 连续点击启动/停止时创建多个监听器。
 /// </remarks>
 public sealed class FluentModbusTcpServer : IModbusTcpServer
@@ -17,7 +18,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
     // 串行化 Start/Stop/Dispose；这些操作包含端口和连接资源变化，不能并发执行。
     private readonly SemaphoreSlim _lifecycleGate = new(1, 1);
 
-    // 保护底层服务引用、选项和监听端点，保证 Publish/Stop/GetStatus 看见一致对象。
+    // 保护底层服务端引用、选项和监听端点，保证 Publish/Stop/GetStatus 看见一致对象。
     private readonly object _serverGate = new();
 
     // 多线程请求和 UI 线程都可能写入诊断，因此使用无锁并发队列。
@@ -45,7 +46,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
     public event EventHandler<ModbusDiagnosticEvent>? DiagnosticEmitted;
 
     /// <inheritdoc />
-    /// <remarks>返回的是不可变状态记录，适合 WPF 定时轮询，不会暴露底层服务对象。</remarks>
+    /// <remarks>返回的是不可变状态记录，适合 WPF 定时轮询，不会暴露底层服务端对象。</remarks>
     public ModbusTcpServerStatus GetStatus()
     {
         int connectionCount = 0;
@@ -82,7 +83,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
 
     /// <inheritdoc />
     /// <remarks>
-    /// 先校验全部参数，再创建底层服务；只有端口成功监听后才发布 Running 状态。
+    /// 先校验全部参数，再创建底层服务端；只有端口成功监听后才发布 Running 状态。
     /// 相同参数重复启动视为幂等操作，不同参数必须先停止再启动。
     /// </remarks>
     public async Task StartAsync(
@@ -105,10 +106,10 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
                     return;
                 }
 
-                throw new InvalidOperationException("服务已使用另一组参数运行；请先停止再重新启动。");
+                throw new InvalidOperationException("Modbus TCP 服务端已使用另一组参数运行；请先停止再重新启动。");
             }
 
-            SetState(ModbusServerState.Starting, "SERVER_STARTING", "Modbus TCP 服务正在启动。");
+            SetState(ModbusServerState.Starting, "SERVER_STARTING", "Modbus TCP 服务端正在启动。");
 
             var endpoint = new IPEndPoint(options.BindAddress, options.Port);
             var server = new ModbusTcpServer(isAsynchronous: true)
@@ -141,7 +142,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
                 SetState(
                     ModbusServerState.Running,
                     "SERVER_STARTED",
-                    $"Modbus TCP 服务已监听 {endpoint}。");
+                    $"Modbus TCP 服务端已监听 {endpoint}。");
             }
             catch (Exception exception)
             {
@@ -150,7 +151,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
                 SetState(
                     ModbusServerState.Faulted,
                     "SERVER_START_FAILED",
-                    $"Modbus TCP 服务无法在 {endpoint} 启动：{exception.Message}",
+                    $"Modbus TCP 服务端无法在 {endpoint} 启动：{exception.Message}",
                     exception);
                 throw;
             }
@@ -162,7 +163,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
     }
 
     /// <inheritdoc />
-    /// <remarks>停止过程会关闭全部客户端连接；相同实例可在停止后再次启动。</remarks>
+    /// <remarks>停止过程会关闭全部 Modbus TCP 客户端连接；相同实例可在停止后再次启动。</remarks>
     public async Task StopAsync(CancellationToken cancellationToken = default)
     {
         await StopCoreAsync(cancellationToken, disposing: false).ConfigureAwait(false);
@@ -170,7 +171,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
 
     /// <inheritdoc />
     /// <remarks>
-    /// 复制寄存器与更新最后发布元数据都放在同一个服务锁中，使 UI 状态与 SCADA 实际可读内容保持同一发布顺序。
+    /// 复制寄存器与更新最后发布元数据都放在同一个服务端锁中，使 UI 状态与 SCADA 客户端实际可读内容保持同一发布顺序。
     /// </remarks>
     public void Publish(ModbusRegisterSnapshot snapshot)
     {
@@ -182,7 +183,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
             if (_server is null || _options is null ||
                 (ModbusServerState)Volatile.Read(ref _state) != ModbusServerState.Running)
             {
-                throw new InvalidOperationException("Modbus TCP 服务尚未运行，不能发布寄存器快照。");
+                throw new InvalidOperationException("Modbus TCP 服务端尚未运行，不能发布寄存器快照。");
             }
 
             int endExclusive = snapshot.StartAddress + snapshot.Registers.Length;
@@ -195,23 +196,22 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
 
             lock (_server.Lock)
             {
-                Span<short> registerBank = _options.RegisterArea switch
-                {
-                    ModbusRegisterArea.HoldingRegisters =>
-                        _server.GetHoldingRegisters(_options.AcceptedUnitIdentifier),
-                    ModbusRegisterArea.InputRegisters =>
-                        _server.GetInputRegisters(_options.AcceptedUnitIdentifier),
-                    _ => throw new InvalidOperationException("服务包含未知的寄存器区域配置。"),
-                };
-
-                Span<short> destination = registerBank
-                    .Slice(snapshot.StartAddress, snapshot.Registers.Length);
+                Span<byte> registerBuffer =
+                    _server.GetHoldingRegisterBuffer(_options.AcceptedUnitIdentifier);
+                int byteStart = snapshot.StartAddress * sizeof(ushort);
+                Span<byte> destination = registerBuffer.Slice(
+                    byteStart,
+                    snapshot.Registers.Length * sizeof(ushort));
                 ReadOnlySpan<ushort> source = snapshot.Registers.Span;
 
-                // FluentModbus 的存储类型为 short，但寄存器本质是原始 16 位；unchecked 保留全部位模式。
+                // FluentModbus 服务端直接把寄存器字节缓冲区写入响应报文。
+                // Modbus 规定每个 16 位寄存器在线路上按高字节在前传输，因此不能把本机
+                // little-endian 的 ushort/short 直接复制到底层缓冲区。
                 for (int index = 0; index < source.Length; index++)
                 {
-                    destination[index] = unchecked((short)source[index]);
+                    BinaryPrimitives.WriteUInt16BigEndian(
+                        destination.Slice(index * sizeof(ushort), sizeof(ushort)),
+                        source[index]);
                 }
             }
 
@@ -242,7 +242,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
         EmitDiagnostic(
             ModbusDiagnosticSeverity.Information,
             "SERVER_DISPOSED",
-            "Modbus TCP 服务已释放。");
+            "Modbus TCP 服务端已释放。");
         _lifecycleGate.Dispose();
     }
 
@@ -267,7 +267,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
                 return;
             }
 
-            SetState(ModbusServerState.Stopping, "SERVER_STOPPING", "Modbus TCP 服务正在停止。");
+            SetState(ModbusServerState.Stopping, "SERVER_STOPPING", "Modbus TCP 服务端正在停止。");
 
             Exception? stopError = null;
             lock (_serverGate)
@@ -300,12 +300,12 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
                 SetState(
                     ModbusServerState.Faulted,
                     "SERVER_STOP_FAILED",
-                    $"Modbus TCP 服务停止时发生错误：{stopError.Message}",
+                    $"Modbus TCP 服务端停止时发生错误：{stopError.Message}",
                     stopError);
                 throw stopError;
             }
 
-            SetState(ModbusServerState.Stopped, "SERVER_STOPPED", "Modbus TCP 服务已停止。");
+            SetState(ModbusServerState.Stopped, "SERVER_STOPPED", "Modbus TCP 服务端已停止。");
         }
         finally
         {
@@ -317,7 +317,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
     /// 在底层库处理请求前检查 Unit ID、功能码和地址范围。
     /// </summary>
     /// <remarks>
-    /// 保持寄存器模式只允许 FC03，输入寄存器模式只允许 FC04；写功能码统一返回 IllegalFunction。
+    /// 只允许 FC03；FC04 和写功能码统一返回 IllegalFunction。
     /// Unit ID 或地址错误返回 IllegalDataAddress，避免向外暴露未配置的寄存器区。
     /// </remarks>
     private ModbusExceptionCode ValidateRequest(
@@ -329,13 +329,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
     {
         bool correctUnit = options.AcceptedUnitIdentifier == 0 ||
                            unitIdentifier == options.AcceptedUnitIdentifier;
-        ModbusFunctionCode expectedFunction = options.RegisterArea switch
-        {
-            ModbusRegisterArea.HoldingRegisters => ModbusFunctionCode.ReadHoldingRegisters,
-            ModbusRegisterArea.InputRegisters => ModbusFunctionCode.ReadInputRegisters,
-            _ => ModbusFunctionCode.Error,
-        };
-        bool correctFunction = functionCode == expectedFunction;
+        bool correctFunction = functionCode == ModbusFunctionCode.ReadHoldingRegisters;
         bool correctRange = quantity > 0 &&
                             (uint)startAddress + quantity <= options.RegisterCount;
         bool accepted = correctUnit && correctFunction && correctRange;
@@ -427,7 +421,7 @@ public sealed class FluentModbusTcpServer : IModbusTcpServer
             }
             catch
             {
-                // UI/日志订阅者不能破坏协议服务。
+                // UI/日志订阅者不能破坏协议服务端。
             }
         }
     }

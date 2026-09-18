@@ -35,207 +35,316 @@
         </Grid.RowDefinitions>
 
         <!--  顶栏：应用标识、页面标题和 Client→Server 实时连接状态。  -->
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="0"
-            Margin="20,0,20,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            FontFamily="{DynamicResource 全局_图标库}"
-            FontSize="32"
-            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-            Text="&#xe641;" />
 
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="0,0,0,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontFamily="{DynamicResource 全局_文字_中文字体}"
-            FontSize="32"
-            Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-            Text="设备OEE状态读取页面" />
 
-        <!--  Client 与 Server 看板之间的实际通信状态。  -->
-        <Border
-            Grid.Row="0"
-            Width="360"
-            Height=" 50"
-            Margin="0,0,5,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Panel.ZIndex="2"
-            Background="White"
-            BorderBrush="#D5DCE4"
-            BorderThickness="1"
-            CornerRadius="9"
-            Effect="{DynamicResource 全局背景阴影}">
+        <Grid Grid.Row=" 0" Grid.Column=" 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
 
-            <Grid Margin="10,0,10,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="105" />
-                    <ColumnDefinition Width="1" />
-                    <ColumnDefinition Width="160" />
-                    <ColumnDefinition Width="1" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="20,0,20,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontFamily="{DynamicResource 全局_图标库}"
+                FontSize="32"
+                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                Text="&#xe641;" />
 
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <Grid
-                        Width="18"
-                        Height="18"
-                        Margin="0,0,10,0">
-                        <Ellipse>
-                            <Ellipse.Style>
-                                <Style TargetType="Ellipse">
-                                    <Setter Property="Fill" Value="#E1E7ED" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Connecting}">
-                                            <Setter Property="Fill" Value="#DCEAF7" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
-                                            <Setter Property="Fill" Value="#D9F0E3" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
-                                            <Setter Property="Fill" Value="#F7E8C4" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Error}">
-                                            <Setter Property="Fill" Value="#F6D9D4" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Ellipse.Style>
-                        </Ellipse>
-                        <Ellipse Width="10" Height="10">
-                            <Ellipse.Style>
-                                <Style TargetType="Ellipse">
-                                    <Setter Property="Fill" Value="#8793A2" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Connecting}">
-                                            <Setter Property="Fill" Value="#3979A8" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
-                                            <Setter Property="Fill" Value="#2C8659" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
-                                            <Setter Property="Fill" Value="#D49A2E" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Error}">
-                                            <Setter Property="Fill" Value="#BD5141" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Ellipse.Style>
-                        </Ellipse>
-                    </Grid>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="0,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                FontSize="32"
+                Foreground="{DynamicResource 全局_按钮_蓝颜色}"
+                Text="设备OEE状态读取页面" />
 
-                    <StackPanel VerticalAlignment="Center">
+            <!--  Client 与 Server 看板之间的实际通信状态。  -->
+            <Border
+                Grid.Row="0"
+                Grid.Column="2"
+                Width="660"
+                Height=" 50"
+                Margin="0,0,5,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Panel.ZIndex="2"
+                Background="White"
+                BorderBrush="#D5DCE4"
+                BorderThickness="1"
+                CornerRadius="9"
+                Effect="{DynamicResource 全局背景阴影}">
+
+                <Grid Margin="10,0,10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="105" />
+                        <ColumnDefinition Width="1" />
+                        <ColumnDefinition Width="160" />
+                        <ColumnDefinition Width="1" />
+                        <ColumnDefinition Width="68" />
+                        <ColumnDefinition Width="1" />
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="1" />
+                        <ColumnDefinition Width="108" />
+                        <ColumnDefinition Width="1" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <Grid
+                            Width="18"
+                            Height="18"
+                            Margin="0,0,10,0">
+                            <Ellipse>
+                                <Ellipse.Style>
+                                    <Style TargetType="Ellipse">
+                                        <Setter Property="Fill" Value="#E1E7ED" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Connecting}">
+                                                <Setter Property="Fill" Value="#DCEAF7" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
+                                                <Setter Property="Fill" Value="#D9F0E3" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
+                                                <Setter Property="Fill" Value="#F7E8C4" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Error}">
+                                                <Setter Property="Fill" Value="#F6D9D4" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Ellipse.Style>
+                            </Ellipse>
+                            <Ellipse Width="10" Height="10">
+                                <Ellipse.Style>
+                                    <Style TargetType="Ellipse">
+                                        <Setter Property="Fill" Value="#8793A2" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Connecting}">
+                                                <Setter Property="Fill" Value="#3979A8" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
+                                                <Setter Property="Fill" Value="#2C8659" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
+                                                <Setter Property="Fill" Value="#D49A2E" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Error}">
+                                                <Setter Property="Fill" Value="#BD5141" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Ellipse.Style>
+                            </Ellipse>
+                        </Grid>
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="11"
+                                Foreground="#8793A2"
+                                Text="看板连接状态" />
+                            <TextBlock
+                                FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                FontSize="15"
+                                FontWeight="SemiBold"
+                                ToolTip="{Binding Mes_Info_Parameters.Last_Communication_Error}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#65758A" />
+                                        <Setter Property="Text" Value="等待连接" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Connecting}">
+                                                <Setter Property="Foreground" Value="#3979A8" />
+                                                <Setter Property="Text" Value="连接中" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
+                                                <Setter Property="Foreground" Value="#286E4A" />
+                                                <Setter Property="Text" Value="已连接" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
+                                                <Setter Property="Foreground" Value="#946814" />
+                                                <Setter Property="Text" Value="发送数据中" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Error}">
+                                                <Setter Property="Foreground" Value="#A14335" />
+                                                <Setter Property="Text" Value="重连中" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Border
+                        Grid.Column="1"
+                        Margin="0,2"
+                        Background="#DDE3E9" />
+
+                    <StackPanel
+                        Grid.Column="2"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center">
+
+                        <TextBlock
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="13"
+                            FontWeight="SemiBold"
+                            Foreground="#344F6D"
+                            Text="OEE 看板服务器信息" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            FontSize="14"
+                            Foreground="#8A96A5">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}:{1}">
+                                    <Binding Path="File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP" />
+                                    <Binding Path="File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <Border
+                        Grid.Column="3"
+                        Margin="0,2"
+                        Background="#DDE3E9" />
+
+                    <StackPanel
+                        Grid.Column="4"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        ToolTip="Ping 仅表示主机网络可达，不代表看板端口和业务回执正常。">
                         <TextBlock
                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                             FontSize="11"
                             Foreground="#8793A2"
-                            Text="看板连接状态" />
+                            Text="网络 Ping" />
                         <TextBlock
-                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontFamily="Consolas"
                             FontSize="15"
                             FontWeight="SemiBold"
-                            ToolTip="{Binding Mes_Info_Parameters.Last_Communication_Error}">
+                            Text="{Binding Mes_Info_Parameters.Ping_Latency_Text}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="#65758A" />
-                                    <Setter Property="Text" Value="等待连接" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Connecting}">
-                                            <Setter Property="Foreground" Value="#3979A8" />
-                                            <Setter Property="Text" Value="连接中" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Ready}">
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Ping_Is_Reachable}" Value="True">
                                             <Setter Property="Foreground" Value="#286E4A" />
-                                            <Setter Property="Text" Value="已连接" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Working}">
-                                            <Setter Property="Foreground" Value="#946814" />
-                                            <Setter Property="Text" Value="发送数据中" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Socket_Client_Type_State}" Value="{x:Static Robot:Socket_Robot_Type_Enum.Error}">
+                                        <DataTrigger Binding="{Binding Mes_Info_Parameters.Ping_Is_Reachable}" Value="False">
                                             <Setter Property="Foreground" Value="#A14335" />
-                                            <Setter Property="Text" Value="重连中" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
                     </StackPanel>
-                </StackPanel>
 
-                <Border
-                    Grid.Column="1"
-                    Margin="0,2"
-                    Background="#DDE3E9" />
+                    <Border
+                        Grid.Column="5"
+                        Margin="0,2"
+                        Background="#DDE3E9" />
 
-                <StackPanel
-                    Grid.Column="2"
-                    Margin="10,0,0,0"
-                    VerticalAlignment="Center">
+                    <!--  本机 Modbus TCP 服务端监听状态。  -->
+                    <StackPanel
+                        Grid.Column="6"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        ToolTip="{Binding ModbusLastErrorText}">
+                        <TextBlock
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="11"
+                            Foreground="#8793A2"
+                            Text="Modbus TCP 服务端" />
+                        <TextBlock
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Text="{Binding ModbusServerStateText}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#A14335" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ModbusServerIsRunning}" Value="True">
+                                            <Setter Property="Foreground" Value="#286E4A" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
 
-                    <TextBlock
-                        FontFamily="{DynamicResource 全局_文字_中文字体}"
-                        FontSize="13"
-                        FontWeight="SemiBold"
-                        Foreground="#344F6D"
-                        Text="OEE 看板服务器信息" />
-                    <TextBlock
-                        FontFamily="Consolas"
-                        FontSize="14"
-                        Foreground="#8A96A5">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}:{1}">
-                                <Binding Path="File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_IP" />
-                                <Binding Path="File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
+                    <Border
+                        Grid.Column="7"
+                        Margin="0,2"
+                        Background="#DDE3E9" />
 
-                <Border
-                    Grid.Column="3"
-                    Margin="0,2"
-                    Background="#DDE3E9" />
+                    <!--  Modbus TCP 服务端监听地址独立显示，避免与运行状态挤在同一列。  -->
+                    <StackPanel
+                        Grid.Column="8"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        ToolTip="{Binding ModbusEndpointText}">
+                        <TextBlock
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="11"
+                            Foreground="#8793A2"
+                            Text="服务端监听地址" />
+                        <TextBlock
+                            FontFamily="{DynamicResource 全局_文字_数字字体}"
+                            FontSize="13"
+                            Foreground="#344F6D"
+                            Text="{Binding ModbusEndpointText}"
+                            TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
 
-                <StackPanel
-                    Grid.Column="4"
-                    Margin="10,0,0,0"
-                    VerticalAlignment="Center"
-                    ToolTip="Ping 仅表示主机网络可达，不代表看板端口和业务回执正常。">
-                    <TextBlock
-                        FontFamily="{DynamicResource 全局_文字_中文字体}"
-                        FontSize="11"
-                        Foreground="#8793A2"
-                        Text="网络 Ping" />
-                    <TextBlock
-                        FontFamily="Consolas"
-                        FontSize="15"
-                        FontWeight="SemiBold"
-                        Text="{Binding Mes_Info_Parameters.Ping_Latency_Text}">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="#65758A" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Mes_Info_Parameters.Ping_Is_Reachable}" Value="True">
-                                        <Setter Property="Foreground" Value="#286E4A" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Mes_Info_Parameters.Ping_Is_Reachable}" Value="False">
-                                        <Setter Property="Foreground" Value="#A14335" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </StackPanel>
-            </Grid>
-        </Border>
+                    <Border
+                        Grid.Column="9"
+                        Margin="0,2"
+                        Background="#DDE3E9" />
 
+                    <!--  SCADA 客户端连接及最近一次读取状态。  -->
+                    <StackPanel
+                        Grid.Column="10"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        ToolTip="{Binding ModbusScadaDetailText}">
+                        <TextBlock
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="11"
+                            Foreground="#8793A2"
+                            Text="SCADA 客户端" />
+                        <TextBlock
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Text="{Binding ModbusScadaStateText}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#65758A" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ModbusScadaIsConnected}" Value="True">
+                                            <Setter Property="Foreground" Value="#286E4A" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        </Grid>
         <!--  命令栏：左侧编辑通信/工艺参数，右侧查看收发报文与运行日志。  -->
         <Grid
             x:Name="Set_UI"
@@ -295,6 +404,21 @@
                     PopupAnimation="Fade"
                     StaysOpen="False">
                     <View:Client_Communication_Settings_View />
+                </Popup>
+
+                <ToggleButton
+                    x:Name="ModbusSettingsButton"
+                    Content="Modbus服务端"
+                    Style="{StaticResource PopupCompareButtonStyle}" />
+                <Popup
+                    AllowsTransparency="True"
+                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                    IsOpen="{Binding IsChecked, ElementName=ModbusSettingsButton, Mode=TwoWay}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=ModbusSettingsButton}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False">
+                    <View:Client_Modbus_Settings_View />
                 </Popup>
 
                 <ToggleButton

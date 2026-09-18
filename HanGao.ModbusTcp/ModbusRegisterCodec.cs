@@ -17,7 +17,8 @@ public enum ModbusWordOrder
 /// </summary>
 /// <remarks>
 /// Modbus 规定每个寄存器为 16 位；UInt32/Int32 占两个连续寄存器，UInt64 占四个。
-/// 报文字节顺序由协议库处理，本类只负责多个寄存器之间的字顺序，避免把“字节序”和“字序”混为一谈。
+/// 每个寄存器在线路上的大端字节序由服务端适配层处理；本类只负责多个寄存器之间的字顺序，
+/// 避免把“寄存器内字节序”和“多个寄存器间字序”混为一谈。
 /// </remarks>
 public static class ModbusRegisterCodec
 {

@@ -2,10 +2,10 @@ using System.Net;
 
 namespace HanGao.ModbusTcp;
 
-/// <summary>Modbus TCP 服务的生命周期状态。</summary>
+/// <summary>Modbus TCP 服务端的生命周期状态。</summary>
 public enum ModbusServerState
 {
-    /// <summary>服务未监听端口。</summary>
+    /// <summary>服务端未监听端口。</summary>
     Stopped,
 
     /// <summary>正在创建监听器。</summary>
@@ -14,13 +14,13 @@ public enum ModbusServerState
     /// <summary>正在接受连接并处理请求。</summary>
     Running,
 
-    /// <summary>正在关闭监听器和客户端连接。</summary>
+    /// <summary>正在关闭服务端监听器和 Modbus TCP 客户端连接。</summary>
     Stopping,
 
     /// <summary>最近一次生命周期操作失败。</summary>
     Faulted,
 
-    /// <summary>服务已经永久释放，不能再次启动。</summary>
+    /// <summary>服务端已经永久释放，不能再次启动。</summary>
     Disposed,
 }
 
@@ -36,7 +36,7 @@ public enum ModbusDiagnosticSeverity
     /// <summary>可恢复问题或被拒绝的请求。</summary>
     Warning,
 
-    /// <summary>服务生命周期故障。</summary>
+    /// <summary>服务端生命周期故障。</summary>
     Error,
 }
 
@@ -53,7 +53,7 @@ public sealed record ModbusDiagnosticEvent(
     string Message,
     Exception? Exception = null);
 
-/// <summary>最近一次经过校验的客户端请求元数据。</summary>
+/// <summary>最近一次经过校验的 Modbus TCP 客户端请求元数据。</summary>
 /// <param name="TimestampUtc">收到请求的 UTC 时间。</param>
 /// <param name="UnitIdentifier">请求中的 Unit ID。</param>
 /// <param name="FunctionCode">请求功能码，例如 FC03 为 3。</param>
@@ -81,10 +81,10 @@ public sealed record ModbusPublishInfo(
     ushort StartAddress,
     int RegisterCount);
 
-/// <summary>适合 UI 绑定或健康检查的服务瞬时状态。</summary>
+/// <summary>适合 UI 绑定或健康检查的服务端瞬时状态。</summary>
 /// <param name="State">当前生命周期状态。</param>
 /// <param name="LocalEndpoint">实际监听端点；停止时为空。</param>
-/// <param name="ConnectedClients">当前已连接客户端数量。</param>
+/// <param name="ConnectedClients">当前已连接的 Modbus TCP 客户端数量。</param>
 /// <param name="TotalRequests">启动实例累计收到的请求数。</param>
 /// <param name="RejectedRequests">因功能码、站号或地址不合法而拒绝的请求数。</param>
 /// <param name="PublishedSnapshots">成功发布的业务快照数量。</param>
