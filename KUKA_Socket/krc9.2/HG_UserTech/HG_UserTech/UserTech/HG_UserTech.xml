@@ -58,17 +58,11 @@
       <SwitchParameter Key="Work_Name" Name="Work_Name" Enabled="true" SelectedCase="A">
         <CaseItem Key="A" Disp="A工装" StatementDisplay="A工装">
           <LineBreak />
-          <KrlLine>$ANOUT[5]=%Work_Back/ </KrlLine>
-          <KrlLine>$ANOUT[6]=%Work_Down/ </KrlLine>
-          <KrlLine>$ANOUT[7]=%Work_Push/ </KrlLine>
-          <KrlLine>$ANOUT[8]=%Work_Up/ </KrlLine>
+          <KrlLine>Work_Air_A_Set(%Work_Back/,%Work_Down/,%Work_Push/,%Work_Up/)</KrlLine>
         </CaseItem>
         <CaseItem Key="C" Disp="C工装" StatementDisplay="C工装">
           <LineBreak />
-          <KrlLine>$ANOUT[1]=%Work_Back/ </KrlLine>
-          <KrlLine>$ANOUT[2]=%Work_Down/ </KrlLine>
-          <KrlLine>$ANOUT[3]=%Work_Push/ </KrlLine>
-          <KrlLine>$ANOUT[4]=%Work_Up/ </KrlLine>
+          <KrlLine>Work_Air_C_Set(%Work_Back/,%Work_Down/,%Work_Push/,%Work_Up/)</KrlLine>
         </CaseItem>
       </SwitchParameter>
       <RealParameter Key="Work_Back" Name="Work_Back" Enabled="true" Unit="Mpa" Default="1" Min="0" Max="10" Step="0.1" />

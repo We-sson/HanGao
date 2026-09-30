@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FileManipulation>
+   <TargetFile>KRC:\R1\System\sps.sub</TargetFile>
+   <IsRecursiveSearch>false</IsRecursiveSearch>
+   <IgnoreFileHistoryOnReinstall>false</IgnoreFileHistoryOnReinstall>
+   <IgnoreFileHistoryOnUpdate>true</IgnoreFileHistoryOnUpdate>
+   <DependingOption />
+</FileManipulation>

@@ -1,0 +1,11 @@
+[Version]
+Version=1.0.0
+Type=Block
+
+
+[Insert_SPS_SUB PLC Loop]
+Type=INSERT
+Before=ENDLOOP
+What=Sps_Work_Lood.txt
+Start=;FOLD Work_Air Loop
+End=;ENDFOLD (Work_Air Loop)

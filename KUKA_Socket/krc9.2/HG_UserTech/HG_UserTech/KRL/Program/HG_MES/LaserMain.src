@@ -14,3 +14,51 @@ dArcpswdatWeld[No].C2=C2
 dArcpswdatWeld[No].C3=C3
 dArcpswdatWeld[No].C4=C4
 END
+
+GLOBAL DEF Work_Air_Int()
+
+$ANOUT[1]=C_Work_Back
+$ANOUT[2]=C_Work_Down
+$ANOUT[3]=C_Work_Push
+$ANOUT[4]=C_Work_Up
+
+$ANOUT[5]=A_Work_Back
+$ANOUT[6]=A_Work_Down
+$ANOUT[7]=A_Work_Push
+$ANOUT[8]=A_Work_Up
+END
+
+
+GLOBAL DEF Work_Air_A_Set(_Back:IN,_Down:IN,_Push:IN,_Up:IN)
+
+DECL REAL _Back,_Down,_Push,_Up
+
+A_Work_Back=_Back/10.0
+A_Work_Down=_Down/10.0
+A_Work_Push=_Push/10.0
+A_Work_Up=_Up/10.0
+
+$ANOUT[5]=A_Work_Back
+$ANOUT[6]=A_Work_Down
+$ANOUT[7]=A_Work_Push
+$ANOUT[8]=A_Work_Up
+
+
+END
+
+GLOBAL DEF Work_Air_C_Set(_Back:IN,_Down:IN,_Push:IN,_Up:IN)
+
+DECL REAL _Back,_Down,_Push,_Up
+
+C_Work_Back=_Back/10.0
+C_Work_Down=_Down/10.0
+C_Work_Push=_Push/10.0
+C_Work_Up=_Up/10.0
+
+$ANOUT[1]=C_Work_Back
+$ANOUT[2]=C_Work_Down
+$ANOUT[3]=C_Work_Push
+$ANOUT[4]=C_Work_Up
+
+
+END
