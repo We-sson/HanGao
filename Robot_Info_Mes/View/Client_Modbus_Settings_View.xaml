@@ -222,10 +222,27 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Row="0" Grid.Column="0">
-                            <TextBlock Style="{StaticResource ModbusFieldLabelStyle}" Text="监听 IP" />
-                            <TextBox
-                                Style="{StaticResource ModbusFieldTextBoxStyle}"
-                                Text="{Binding ModbusTcpConfiguration.BindAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock
+                                Style="{StaticResource ModbusFieldLabelStyle}"
+                                Text="监听 IP（全部）"
+                                ToolTip="服务端固定监听全部本机 IPv4；此处仅用于查看，无需选择或保存" />
+                            <!--  与通信设置的“本机 IP”保持相同交互，用下拉列表查看所有实际可访问地址。  -->
+                            <ComboBox
+                                IsEditable="False"
+                                ItemsSource="{Binding ModbusListeningIpAddresses}"
+                                MaxDropDownHeight="180"
+                                SelectedIndex="0"
+                                Style="{StaticResource ModbusComboBoxStyle}"
+                                ToolTip="服务端同时监听列表中的全部地址；切换当前显示项不会改变监听范围">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            HorizontalAlignment="Stretch"
+                                            Text="{Binding}"
+                                            TextAlignment="Center" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </StackPanel>
 
                         <StackPanel Grid.Row="0" Grid.Column="2">

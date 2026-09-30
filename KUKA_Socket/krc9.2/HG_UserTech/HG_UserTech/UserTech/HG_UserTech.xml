@@ -55,6 +55,26 @@
           <KrlLine>TRIGGER WHEN PATH = 0.0 ONSTART DELAY = 0 DO ArcCallChange({Action #enArcChange,WDAT{Weld %ArcParList/ ,Weave 0,Track 0,ThermalControl 0}}) PRIO = -1</KrlLine>
         </CaseItem>
       </SwitchParameter>
+      <SwitchParameter Key="Work_Name" Name="Work_Name" Enabled="true" SelectedCase="A">
+        <CaseItem Key="A" Disp="A工装" StatementDisplay="A工装">
+          <LineBreak />
+          <KrlLine>$ANOUT[5]=%Work_Back/ </KrlLine>
+          <KrlLine>$ANOUT[6]=%Work_Down/ </KrlLine>
+          <KrlLine>$ANOUT[7]=%Work_Push/ </KrlLine>
+          <KrlLine>$ANOUT[8]=%Work_Up/ </KrlLine>
+        </CaseItem>
+        <CaseItem Key="C" Disp="C工装" StatementDisplay="C工装">
+          <LineBreak />
+          <KrlLine>$ANOUT[1]=%Work_Back/ </KrlLine>
+          <KrlLine>$ANOUT[2]=%Work_Down/ </KrlLine>
+          <KrlLine>$ANOUT[3]=%Work_Push/ </KrlLine>
+          <KrlLine>$ANOUT[4]=%Work_Up/ </KrlLine>
+        </CaseItem>
+      </SwitchParameter>
+      <RealParameter Key="Work_Back" Name="Work_Back" Enabled="true" Unit="Mpa" Default="1" Min="0" Max="10" Step="0.1" />
+      <RealParameter Key="Work_Down" Name="Work_Down" Enabled="true" Unit="Mpa" Default="1" Min="0" Max="10" Step="0.1" />
+      <RealParameter Key="Work_Push" Name="Work_Push" Enabled="true" Unit="Mpa" KrlName="" Default="1" Min="0" Max="10" Step="0.1" />
+      <RealParameter Key="Work_Up" Name="Work_Up" Enabled="true" Unit="Mpa" Default="1" Min="0" Max="10" Step="0.1" />
     </Parameters>
     <Scripts>
       <Script Key="ReadArcParName">
@@ -62,7 +82,7 @@
       </Script>
     </Scripts>
     <Inlineforms>
-      <InlineForm Key="ArcParSet" Name="ArcParSet" Spline="false" Focus="0" OnOpen="Nothing" OnTouchUp="" OnAccept="ReadArcParName" OnSoftKey1Click="" OnSoftKey2Click="" OnSoftKey3Click="" OnSoftKey4Click="" InlineFormIcon="" DisplayText="HG:%ArcPar_Type/ %ArcParName/  Vel=%Rob_Vel/mm/s  Power:%Power/%  IO:%Laser_IO/  Duty:%PWM_Duty/%  Freq:%PWM_Freq/Hz  " EnableHotEdit="True">
+      <InlineForm Key="ArcParSet" Name="ArcParSet" Spline="false" Focus="0" OnOpen="Nothing" OnTouchUp="" OnAccept="ReadArcParName" OnSoftKey1Click="" OnSoftKey2Click="" OnSoftKey3Click="" OnSoftKey4Click="" InlineFormIcon="" DisplayText="HG:%ArcPar_Type/%ArcParName/ 速度=%Rob_Vel/mm/s 功率:%Power/% 焊接长度:%PWM_Duty/%  焊接频率:%PWM_Freq/Hz  焊接头序号:%Laser_IO/   " EnableHotEdit="True">
         <ParameterRef Key="ArcPar_Type" />
         <ParameterRef Key="ArcParList" />
         <ParameterRef Key="Power" />
@@ -71,6 +91,15 @@
         <ParameterRef Key="PWM_Freq" />
         <ParameterRef Key="Rob_Vel" />
         <KrlLine>%ArcPar_Type/ </KrlLine>
+        <LineBreak />
+      </InlineForm>
+      <InlineForm Key="Work_Air_Set" Name="Work_Air_Set" Spline="false" Focus="0" OnOpen="Nothing" OnTouchUp="" OnAccept="Nothing" OnSoftKey1Click="" OnSoftKey2Click="" OnSoftKey3Click="" OnSoftKey4Click="" InlineFormIcon="" DisplayText="%Work_Name/=夹爪夹紧:%Work_Back/Mpa  夹爪下降:%Work_Down/Mpa 侧推:%Work_Push/Mpa  底部顶起:%Work_Up/Mpa " EnableHotEdit="True">
+        <ParameterRef Key="Work_Name" />
+        <ParameterRef Key="Work_Back" />
+        <ParameterRef Key="Work_Down" />
+        <ParameterRef Key="Work_Push" />
+        <ParameterRef Key="Work_Up" />
+        <KrlLine>%Work_Name/ </KrlLine>
         <LineBreak />
       </InlineForm>
     </Inlineforms>

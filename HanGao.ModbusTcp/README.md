@@ -53,7 +53,7 @@ SCADA 400002 <=> Modbus PDU 地址 1
 
 应用配置保存在 `C:\ProgramData\HanGao\Robot_Info_Mes\Configs\ModbusTcp_Config.Xml`，与 `Configs_Data.Xml` 同目录。UI 修改后会先校验并原子保存 XML，再单独重启 Modbus TCP 服务端。正在运行的服务端使用启动时冻结的布局，编辑中的数据不会提前改变线上寄存器含义。
 
-旧版配置在读取后会自动升级到 SchemaVersion 2 / MapVersion 2，并按 Order 保留现有点位设置；再次保存时会清理不再使用的旧字段。
+配置不保存 XML 结构版本或寄存器表版本，也不执行旧结构迁移。读取、反序列化或完整校验任一步失败时，应用会明确报错并在本次运行中整份使用代码默认配置；无效文件不会被静默补齐或自动覆盖。
 
 当前 `Robot_Info_Mes` 直接发布强类型寄存器数据属性的初始化值，尚未与 OEE 业务统计对接。正式接入时可先把属性初始化值改为 0，再替换为真实业务赋值。
 

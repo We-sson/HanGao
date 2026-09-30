@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Threading;
 using Robot_Info_Mes.ViewModel;
 
 namespace Robot_Info_Mes
@@ -21,8 +22,10 @@ namespace Robot_Info_Mes
             Closing += ClientWindowOnClosing;
         }
 
-        /// <summary>窗口退出前等待 Modbus TCP 服务端监听和全部 SCADA 客户端连接释放完成。</summary>
-        private async void ClientWindowOnClosing(object? sender, CancelEventArgs eventArgs)
+        /// <summary>
+        /// 第一次关闭只取消窗口关闭并启动异步释放；清理完成后再由 Dispatcher 发起真正关闭。
+        /// </summary>
+        private void ClientWindowOnClosing(object? sender, CancelEventArgs eventArgs)
         {
             if (_modbusShutdownComplete)
             {
@@ -36,6 +39,14 @@ namespace Robot_Info_Mes
             }
 
             _modbusShutdownInProgress = true;
+            _ = ShutdownModbusAndCloseAsync();
+        }
+
+        /// <summary>
+        /// 释放 Modbus 端口和连接，并把第二次 Close 排入 UI 消息队列，避免重入 Closing 事件。
+        /// </summary>
+        private async Task ShutdownModbusAndCloseAsync()
+        {
             try
             {
                 if (DataContext is Robot_Info_VM viewModel)
@@ -51,7 +62,16 @@ namespace Robot_Info_Mes
             {
                 _modbusShutdownComplete = true;
                 _modbusShutdownInProgress = false;
-                Close();
+
+                // 即使 DisposeModbusServerAsync 同步完成，也不能在原 Closing 调用栈中再次 Close。
+                // BeginInvoke 保证原事件先返回，再执行最终关闭。
+                _ = Dispatcher.BeginInvoke(
+                    DispatcherPriority.ApplicationIdle,
+                    new Action(() =>
+                    {
+                        Closing -= ClientWindowOnClosing;
+                        Close();
+                    }));
             }
         }
     }

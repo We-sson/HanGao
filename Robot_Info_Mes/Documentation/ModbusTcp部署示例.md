@@ -12,6 +12,8 @@
 
 设备采集界面启动时会读取独立的 `ModbusTcp_Config.Xml`。配置启用时，主界面消息循环就绪后自动启动 Modbus TCP 服务端；窗口退出时释放服务端监听器。
 
+该配置不使用 XML 结构版本或寄存器表版本，也不提供旧结构迁移。文件读取失败、包含未知字段、缺少内置 Order 或参数/布局校验失败时，界面会直接显示错误，并在本次运行中使用完整默认配置。程序不会自动覆盖无效文件；确认默认配置后可点击“保存并重启服务端”写入当前结构。
+
 配置文件位置：
 
 ```text
@@ -19,7 +21,7 @@ C:\ProgramData\HanGao\Robot_Info_Mes\Configs\Configs_Data.Xml
 C:\ProgramData\HanGao\Robot_Info_Mes\Configs\ModbusTcp_Config.Xml
 ```
 
-主界面“参数配置 → Modbus服务端”可以编辑监听 IP、端口、Unit ID、块起点、刷新周期、字序、连接数和点位表。底部“开启服务端/关闭服务端”同时决定下次是否自动启动；点击“保存并重启服务端”后，不需要重启整个软件。
+主界面“参数配置 → Modbus服务端”可以编辑端口、Unit ID、块起点、刷新周期、字序、连接数和点位表。监听范围固定为本机全部 IPv4，不再保存或编辑 `0.0.0.0`；“监听 IP（全部）”下拉框只展示 SCADA 可以访问的具体本机地址。底部“开启服务端/关闭服务端”同时决定下次是否自动启动；点击“保存并重启服务端”后，不需要重启整个软件。
 
 ## WPF 窗口生命周期示例
 
@@ -30,41 +32,54 @@ private bool _closeInProgress;
 public Client_Window()
 {
     InitializeComponent();
+    Closing += ClientWindowOnClosing;
+}
 
-    Closing += async (_, eventArgs) =>
+private void ClientWindowOnClosing(object? sender, CancelEventArgs eventArgs)
+{
+    if (_modbusStopped)
     {
-        if (_modbusStopped)
-        {
-            return;
-        }
+        return;
+    }
 
-        // WPF 不会等待普通 async Closed 处理器。第一次 Closing 先取消关闭，
-        // 等端口和连接安全停止后再次 Close，第二次才真正退出。
-        eventArgs.Cancel = true;
-        if (_closeInProgress)
-        {
-            return;
-        }
+    // Closing 本身不等待异步任务，只负责取消第一次关闭并启动清理。
+    eventArgs.Cancel = true;
+    if (_closeInProgress)
+    {
+        return;
+    }
 
-        _closeInProgress = true;
-        try
+    _closeInProgress = true;
+    _ = ShutdownModbusAndCloseAsync();
+}
+
+private async Task ShutdownModbusAndCloseAsync()
+{
+    try
+    {
+        if (DataContext is Robot_Info_VM viewModel)
         {
-            if (DataContext is Robot_Info_VM viewModel)
+            await viewModel.DisposeModbusServerAsync();
+        }
+    }
+    finally
+    {
+        _modbusStopped = true;
+        _closeInProgress = false;
+
+        // 必须排队到原 Closing 事件返回以后，不能在同一个调用栈中直接 Close。
+        _ = Dispatcher.BeginInvoke(
+            DispatcherPriority.ApplicationIdle,
+            new Action(() =>
             {
-                await viewModel.DisposeModbusServerAsync();
-            }
-        }
-        finally
-        {
-            _modbusStopped = true;
-            _closeInProgress = false;
-            Close();
-        }
-    };
+                Closing -= ClientWindowOnClosing;
+                Close();
+            }));
+    }
 }
 ```
 
-不要在窗口构造函数中使用 `.Wait()` 或 `.Result`，否则可能阻塞 WPF UI 线程。
+不要在 `Closing` 事件内部等待后直接调用 `Close()`，也不要使用 `.Wait()` 或 `.Result`；前者可能重入 WPF 关闭流程，后者可能阻塞 UI 线程。
 
 ## SCADA 客户端连接参数
 
@@ -109,7 +124,7 @@ SCADA 或调试软件中的默认点位表应配置为：
 1. 每次产品完成时，与 `Robot_Work_ABCD_Number` 在同一个业务事件中递增；
 2. 日切只清空当日产量，不清空累计产量；
 3. XML 保存及退出保存都包含累计产量；
-4. 发布到 Modbus 前检查不超过 UInt32 最大值，超出时报警并升级寄存器表版本。
+4. 发布到 Modbus 前检查不超过 UInt32 最大值；超出时报警，并重新设计字段数据类型和同步更新 SCADA 点位表。
 
 ## Windows 部署检查
 
@@ -137,7 +152,8 @@ New-NetFirewallRule -DisplayName "Robot_Info_Mes Modbus TCP" -Direction Inbound 
 每 500～1000 ms 调用 `_modbusHost.GetStatus()`，显示：
 
 - `State`：Stopped/Running/Faulted；
-- `LocalEndpoint`：当前监听 IP 和端口；
+- `LocalEndpoint`：协议层通配监听端点；界面会把它转换为具体本机 IPv4，不显示 `0.0.0.0`；
+- 右上角“本机监听地址”：有 SCADA 连接时优先显示该连接实际使用的本机 IP，无连接时显示首个非回环地址；Tooltip 列出全部本机监听端点；
 - `ConnectedClients`：当前 SCADA 客户端连接数；
 - `TotalRequests` 和 `RejectedRequests`；
 - `LastRequest`：最后功能码、地址和长度；

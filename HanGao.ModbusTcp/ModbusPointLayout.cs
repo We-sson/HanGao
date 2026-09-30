@@ -143,6 +143,12 @@ public static class ModbusPointCatalog
     /// <summary>
     /// 按 Attribute 的 Order 读取一个强类型对象的当前属性值。
     /// </summary>
+    /// <typeparam name="TSnapshot">
+    /// 带 <see cref="ModbusPointAttribute"/> 的引用类型快照；<c>class</c> 约束排除值类型，
+    /// 使空引用校验和按对象读取公开属性的语义保持明确。
+    /// </typeparam>
+    /// <param name="snapshot">本次需要读取的业务快照实例。</param>
+    /// <returns>以唯一 Order 为键、无符号寄存器值为值的只读字典。</returns>
     /// <remarks>
     /// Order 是唯一通信标识，因此属性名或中文名称变化不会影响寄存器取值。
     /// </remarks>

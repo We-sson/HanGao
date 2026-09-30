@@ -68,9 +68,7 @@ public sealed class RobotInfoModbusServerHost : IAsyncDisposable
                 return;
             }
 
-            ValidateConfiguration(configuration);
-            ModbusRegisterLayout layout = configuration.RecalculateLayout();
-            IPAddress bindAddress = ParseBindAddress(configuration.BindAddress);
+            ModbusRegisterLayout layout = configuration.ValidateAndCreateLayout();
             int readableRegisterCount = checked(layout.StartProtocolAddress + layout.RegisterCount);
 
             _layout = layout;
@@ -92,7 +90,9 @@ public sealed class RobotInfoModbusServerHost : IAsyncDisposable
             await _server.StartAsync(
                 new ModbusTcpServerOptions
                 {
-                    BindAddress = bindAddress,
+                    // 一个 IPv4 通配监听器即可覆盖本机当前及后续启用的全部 IPv4 网卡。
+                    // UI 只展示可访问的具体地址，不把 0.0.0.0 暴露给现场人员。
+                    BindAddress = IPAddress.Any,
                     Port = configuration.Port,
                     AcceptedUnitIdentifier = configuration.UnitIdentifier,
                     RegisterCount = readableRegisterCount,
@@ -220,8 +220,7 @@ public sealed class RobotInfoModbusServerHost : IAsyncDisposable
             }
 
             values.Add(point.Order, point.PropertyDefaultValue);
-            point.UiPoint.CurrentValueText = point.PropertyDefaultValue.ToString(
-                System.Globalization.CultureInfo.InvariantCulture);
+            point.UiPoint.CurrentValueText = point.PropertyDefaultValue.ToString();
         }
 
         return values;
@@ -241,6 +240,7 @@ public sealed class RobotInfoModbusServerHost : IAsyncDisposable
         }
     }
 
+    /// <summary>逐个隔离通知订阅者，避免某个 UI 日志处理器破坏后续发布周期。</summary>
     private void NotifyPublishFailed(Exception exception)
     {
         Action<Exception>? handlers = PublishFailed;
@@ -262,50 +262,7 @@ public sealed class RobotInfoModbusServerHost : IAsyncDisposable
         }
     }
 
-    private static void ValidateConfiguration(RobotInfoModbusConfiguration configuration)
-    {
-        if (configuration.Port is <= IPEndPoint.MinPort or > IPEndPoint.MaxPort)
-        {
-            throw new InvalidOperationException("Modbus TCP 端口必须在 1～65535 之间。");
-        }
-
-        if (configuration.PublishIntervalMilliseconds is < 100 or > 60_000)
-        {
-            throw new InvalidOperationException("寄存器刷新周期必须在 100～60000 毫秒之间。");
-        }
-
-        if (configuration.MaxConnections is < 1 or > 10_000)
-        {
-            throw new InvalidOperationException("最大连接数必须在 1～10000 之间。");
-        }
-
-        if (configuration.ConnectionTimeoutSeconds is < 1 or > 86_400)
-        {
-            throw new InvalidOperationException("连接超时必须在 1～86400 秒之间。");
-        }
-
-        if (!Enum.IsDefined(configuration.WordOrder))
-        {
-            throw new InvalidOperationException("配置中的 UInt32 字顺序无效。");
-        }
-    }
-
-    private static IPAddress ParseBindAddress(string? text)
-    {
-        string candidate = text?.Trim() ?? string.Empty;
-        if (candidate is "" or "*" or "0.0.0.0")
-        {
-            return IPAddress.Any;
-        }
-
-        if (!IPAddress.TryParse(candidate, out IPAddress? address))
-        {
-            throw new InvalidOperationException($"监听地址“{candidate}”不是有效 IP 地址。");
-        }
-
-        return address;
-    }
-
+    /// <summary>阻止已经永久释放的宿主重新访问底层监听器。</summary>
     private void ThrowIfDisposed()
     {
         ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposed) != 0, this);

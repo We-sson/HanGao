@@ -70,7 +70,6 @@
             <Border
                 Grid.Row="0"
                 Grid.Column="2"
-                Width="660"
                 Height=" 50"
                 Margin="0,0,5,0"
                 HorizontalAlignment="Right"
@@ -82,17 +81,17 @@
                 CornerRadius="9"
                 Effect="{DynamicResource 全局背景阴影}">
 
-                <Grid Margin="10,0,10,0">
+                <Grid Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="105" />
+                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="1" />
-                        <ColumnDefinition Width="160" />
+                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="1" />
-                        <ColumnDefinition Width="68" />
+                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="1" />
-                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="1" />
-                        <ColumnDefinition Width="108" />
+                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="1" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
@@ -146,7 +145,7 @@
                             </Ellipse>
                         </Grid>
 
-                        <StackPanel VerticalAlignment="Center">
+                        <StackPanel Margin="0,0,5,0" VerticalAlignment="Center">
                             <TextBlock
                                 FontFamily="{DynamicResource 全局_文字_中文字体}"
                                 FontSize="11"
@@ -192,7 +191,7 @@
 
                     <StackPanel
                         Grid.Column="2"
-                        Margin="10,0,0,0"
+                        Margin="5,0,5,0"
                         VerticalAlignment="Center">
 
                         <TextBlock
@@ -221,7 +220,7 @@
 
                     <StackPanel
                         Grid.Column="4"
-                        Margin="10,0,0,0"
+                        Margin="5,0,5,0"
                         VerticalAlignment="Center"
                         ToolTip="Ping 仅表示主机网络可达，不代表看板端口和业务回执正常。">
                         <TextBlock
@@ -258,14 +257,14 @@
                     <!--  本机 Modbus TCP 服务端监听状态。  -->
                     <StackPanel
                         Grid.Column="6"
-                        Margin="10,0,0,0"
+                        Margin="5,0,5,0"
                         VerticalAlignment="Center"
                         ToolTip="{Binding ModbusLastErrorText}">
                         <TextBlock
                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                             FontSize="11"
                             Foreground="#8793A2"
-                            Text="Modbus TCP 服务端" />
+                            Text="Modbus服务端" />
                         <TextBlock
                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                             FontSize="14"
@@ -292,14 +291,14 @@
                     <!--  Modbus TCP 服务端监听地址独立显示，避免与运行状态挤在同一列。  -->
                     <StackPanel
                         Grid.Column="8"
-                        Margin="10,0,0,0"
+                        Margin="5,0,5,0"
                         VerticalAlignment="Center"
-                        ToolTip="{Binding ModbusEndpointText}">
+                        ToolTip="{Binding ModbusListeningAddressesToolTip}">
                         <TextBlock
                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                             FontSize="11"
                             Foreground="#8793A2"
-                            Text="服务端监听地址" />
+                            Text="本机监听地址" />
                         <TextBlock
                             FontFamily="{DynamicResource 全局_文字_数字字体}"
                             FontSize="13"
@@ -316,7 +315,7 @@
                     <!--  SCADA 客户端连接及最近一次读取状态。  -->
                     <StackPanel
                         Grid.Column="10"
-                        Margin="10,0,0,0"
+                        Margin="5,0,5,0"
                         VerticalAlignment="Center"
                         ToolTip="{Binding ModbusScadaDetailText}">
                         <TextBlock

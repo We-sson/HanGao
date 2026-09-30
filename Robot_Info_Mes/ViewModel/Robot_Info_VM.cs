@@ -228,8 +228,16 @@ namespace Robot_Info_Mes.ViewModel
         /// <summary>主界面和配置弹窗显示的服务状态。</summary>
         public string ModbusServerStateText { set; get; } = "未启动";
 
-        /// <summary>实际监听端点。</summary>
+        /// <summary>当前连接实际使用的本机端点；无连接时显示首个可访问的非回环端点。</summary>
         public string ModbusEndpointText { set; get; } = "—";
+
+        /// <summary>
+        /// 当前可供 SCADA 访问的本机 IPv4 地址。服务端通过一个通配套接字同时监听这些地址。
+        /// </summary>
+        public ObservableCollection<string> ModbusListeningIpAddresses { get; } = [];
+
+        /// <summary>右上角地址卡的提示文本，列出服务端覆盖的全部本机 IPv4 端点。</summary>
+        public string ModbusListeningAddressesToolTip { set; get; } = "尚未枚举本机 IPv4 地址";
 
         /// <summary>SCADA 客户端当前连接状态。</summary>
         public string ModbusScadaStateText { set; get; } = "等待连接";
@@ -410,7 +418,7 @@ namespace Robot_Info_Mes.ViewModel
         public IRelayCommand DeleteModbusPointCommand =>
             _deleteModbusPointCommand ??= new RelayCommand(DeleteSelectedModbusPoint);
 
-        /// <summary>读取独立 XML、补齐新增 Attribute 点位并启动 UI 状态刷新。</summary>
+        /// <summary>读取并严格校验独立 XML；失败时报告错误并整份使用默认配置。</summary>
         private void InitializeModbusConfiguration()
         {
             if (_modbusConfigurationInitialized)
@@ -418,20 +426,37 @@ namespace Robot_Info_Mes.ViewModel
                 return;
             }
 
-            ModbusTcpConfiguration =
-                File_Xml_Model.Read_Xml_File<RobotInfoModbusConfiguration>();
-            ModbusTcpConfiguration.ConfigurationFilePath =
+            string configurationPath =
                 File_Xml_Model.GetXml_Path<RobotInfoModbusConfiguration>(
                     Get_Xml_File_Enum.File_Path);
+            string? loadError = null;
+            try
+            {
+                RobotInfoModbusConfiguration loadedConfiguration =
+                    File_Xml_Model.Read_Xml_File<RobotInfoModbusConfiguration>();
+                loadedConfiguration.ConfigurationFilePath = configurationPath;
+                _ = loadedConfiguration.ValidateAndCreateLayout();
+                ModbusTcpConfiguration = loadedConfiguration;
+            }
+            catch (Exception exception)
+            {
+                ModbusTcpConfiguration = RobotInfoModbusConfiguration.CreateDefault();
+                ModbusTcpConfiguration.ConfigurationFilePath = configurationPath;
+                loadError =
+                    $"Modbus 配置读取或校验失败，已使用默认值。文件：{configurationPath}；" +
+                    $"原因：{exception.Message}";
+                ModbusLastErrorText = loadError;
+            }
 
-            bool configurationUpgraded = ModbusTcpConfiguration.MergeAttributeDefaults();
             AttachModbusConfigurationEvents();
             RefreshModbusLayoutPreview();
+            RefreshModbusListeningIpAddresses();
 
-            if (configurationUpgraded)
+            if (loadError is not null)
             {
-                File_Xml_Model.Save_Xml(ModbusTcpConfiguration);
-                User_Log_Add("Modbus 配置已升级到当前结构并补齐 Attribute 点位。");
+                ModbusTcpConfiguration.LayoutValidationMessage =
+                    "本地配置无效，当前使用默认值；保存后将写入当前结构";
+                User_Log_Add(loadError, MessageBoxImage.Error);
             }
 
             _modbusUiStatusTimer.Interval = TimeSpan.FromMilliseconds(500);
@@ -457,6 +482,7 @@ namespace Robot_Info_Mes.ViewModel
             }
         }
 
+        /// <summary>点位增删时维护属性订阅，并立即重算后续自动地址。</summary>
         private void ModbusRegisterPointsOnCollectionChanged(
             object? sender,
             NotifyCollectionChangedEventArgs eventArgs)
@@ -486,6 +512,7 @@ namespace Robot_Info_Mes.ViewModel
             RefreshModbusLayoutPreview();
         }
 
+        /// <summary>为一个点位建立唯一的变更订阅，避免重复订阅导致重复重算。</summary>
         private void AttachModbusPointEvent(ModbusRegisterPointConfiguration point)
         {
             if (point is INotifyPropertyChanged notifier)
@@ -495,6 +522,7 @@ namespace Robot_Info_Mes.ViewModel
             }
         }
 
+        /// <summary>六位块起点变化时刷新整张寄存器地址预览。</summary>
         private void ModbusConfigurationOnPropertyChanged(
             object? sender,
             PropertyChangedEventArgs eventArgs)
@@ -505,6 +533,7 @@ namespace Robot_Info_Mes.ViewModel
             }
         }
 
+        /// <summary>点位的顺序、启用状态或类型变化时，按占位宽度重新排位。</summary>
         private void ModbusPointOnPropertyChanged(
             object? sender,
             PropertyChangedEventArgs eventArgs)
@@ -540,6 +569,7 @@ namespace Robot_Info_Mes.ViewModel
             }
         }
 
+        /// <summary>分配下一个唯一 Order 并增加一个默认值为 0 的 XML 自定义点位。</summary>
         private void AddCustomModbusPoint(ModbusPointDataType dataType)
         {
             int order = ModbusTcpConfiguration.RegisterPoints.Count == 0
@@ -559,6 +589,7 @@ namespace Robot_Info_Mes.ViewModel
             User_Log_Add($"已增加 {dataType} 点位，唯一顺序为 {order}，地址由程序自动排位。");
         }
 
+        /// <summary>删除自定义点位；内置 Attribute 点位仅禁用，保留固定通信合同。</summary>
         private void DeleteSelectedModbusPoint()
         {
             ModbusRegisterPointConfiguration? point = SelectedModbusRegisterPoint;
@@ -616,9 +647,10 @@ namespace Robot_Info_Mes.ViewModel
                 ModbusTcpConfiguration.RecalculateLayout();
                 _modbusServerHost ??= CreateModbusServerHost();
                 await _modbusServerHost.StartAsync(ModbusTcpConfiguration);
+                RefreshModbusListeningIpAddresses();
                 RefreshModbusUiStatus();
                 User_Log_Add(
-                    $"Modbus TCP 服务端已启动：{ModbusTcpConfiguration.BindAddress}:{ModbusTcpConfiguration.Port}，" +
+                    $"Modbus TCP 服务端已监听全部本机 IPv4，端口 {ModbusTcpConfiguration.Port}，" +
                     $"Unit={ModbusTcpConfiguration.UnitIdentifier}，FC03，起点={ModbusTcpConfiguration.StartReferenceAddress}。");
             }
             finally
@@ -638,6 +670,7 @@ namespace Robot_Info_Mes.ViewModel
                     await _modbusServerHost.StopAsync();
                 }
 
+                RefreshModbusListeningIpAddresses();
                 RefreshModbusUiStatus();
                 User_Log_Add("Modbus TCP 服务端已停止。");
             }
@@ -652,7 +685,7 @@ namespace Robot_Info_Mes.ViewModel
         {
             try
             {
-                ModbusTcpConfiguration.RecalculateLayout();
+                _ = ModbusTcpConfiguration.ValidateAndCreateLayout();
                 File_Xml_Model.Save_Xml(ModbusTcpConfiguration);
 
                 await _modbusOperationGate.WaitAsync();
@@ -688,6 +721,7 @@ namespace Robot_Info_Mes.ViewModel
             }
         }
 
+        /// <summary>按当前状态启动或停止服务端，并同步下次启动时的自动开启标志。</summary>
         private async Task ToggleModbusServerAsync()
         {
             if (ModbusTcpConfiguration.Enabled)
@@ -711,6 +745,7 @@ namespace Robot_Info_Mes.ViewModel
             }
         }
 
+        /// <summary>创建应用层服务端宿主，并把后台发布错误接入统一 UI 日志。</summary>
         private RobotInfoModbusServerHost CreateModbusServerHost()
         {
             var host = new RobotInfoModbusServerHost();
@@ -722,8 +757,125 @@ namespace Robot_Info_Mes.ViewModel
             return host;
         }
 
+        /// <summary>定时把线程安全的协议诊断快照投影到 WPF 状态属性。</summary>
         private void ModbusUiStatusTimerOnTick(object? sender, EventArgs eventArgs) =>
             RefreshModbusUiStatus();
+
+        /// <summary>
+        /// 使用与“通信设置/本机 IP”相同的枚举入口刷新 Modbus 可访问地址。
+        /// </summary>
+        /// <remarks>
+        /// 地址列表仅用于展示。底层始终绑定 IPv4 通配地址，因此不需要用户选择某一块网卡，
+        /// 新启用的网卡也不需要改配置或新增监听器。
+        /// </remarks>
+        private void RefreshModbusListeningIpAddresses()
+        {
+            var discoveredAddresses = new List<string>();
+            try
+            {
+                _ = Socket_Receive.GetLocalIP(ref discoveredAddresses);
+            }
+            catch (Exception exception)
+            {
+                // 地址枚举失败不应阻止通配监听；至少保留本机联调入口，并把原因放到提示中。
+                discoveredAddresses = [IPAddress.Loopback.ToString()];
+                ModbusListeningAddressesToolTip =
+                    "本机 IPv4 枚举失败，当前仅显示回环地址。原因：" + exception.Message;
+            }
+
+            string[] normalizedAddresses = discoveredAddresses
+                .Where(text => IPAddress.TryParse(text, out IPAddress? address) &&
+                               address.AddressFamily == AddressFamily.InterNetwork)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(text => text == IPAddress.Loopback.ToString() ? 1 : 0)
+                .ThenBy(text => text, StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+
+            if (normalizedAddresses.Length == 0)
+            {
+                normalizedAddresses = [IPAddress.Loopback.ToString()];
+            }
+
+            ModbusListeningIpAddresses.Clear();
+            foreach (string address in normalizedAddresses)
+            {
+                ModbusListeningIpAddresses.Add(address);
+            }
+        }
+
+        /// <summary>
+        /// 从系统 TCP 表查找当前 SCADA 连接实际使用的本机端点。
+        /// </summary>
+        /// <remarks>
+        /// 通配监听本身只能报告 0.0.0.0；已建立连接的 LocalEndPoint 才是 SCADA
+        /// 真正连入的那块本机网卡地址。查询失败只影响界面展示，不影响协议服务。
+        /// </remarks>
+        private static IReadOnlyList<TcpConnectionInformation> GetActiveModbusConnections(int port)
+        {
+            try
+            {
+                return IPGlobalProperties.GetIPGlobalProperties()
+                    .GetActiveTcpConnections()
+                    .Where(connection =>
+                        connection.State == TcpState.Established &&
+                        connection.LocalEndPoint.Port == port &&
+                        connection.LocalEndPoint.Address.AddressFamily == AddressFamily.InterNetwork)
+                    .OrderBy(connection => connection.LocalEndPoint.Address.ToString(), StringComparer.Ordinal)
+                    .ThenBy(connection => connection.RemoteEndPoint.Address.ToString(), StringComparer.Ordinal)
+                    .ThenBy(connection => connection.RemoteEndPoint.Port)
+                    .ToArray();
+            }
+            catch
+            {
+                return [];
+            }
+        }
+
+        /// <summary>
+        /// 生成界面使用的具体本机端点；从不向用户显示仅供套接字绑定的 0.0.0.0。
+        /// </summary>
+        private IReadOnlyList<TcpConnectionInformation> RefreshModbusEndpointPresentation(
+            ModbusTcpServerStatus? status)
+        {
+            int actualPort = status?.LocalEndpoint?.Port ?? ModbusTcpConfiguration.Port;
+            IReadOnlyList<TcpConnectionInformation> activeConnections =
+                status?.ConnectedClients > 0
+                    ? GetActiveModbusConnections(actualPort)
+                    : [];
+
+            string[] activeLocalAddresses = activeConnections
+                .Select(connection => connection.LocalEndPoint.Address.ToString())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+            string primaryAddress = activeLocalAddresses.FirstOrDefault() ??
+                                    ModbusListeningIpAddresses.FirstOrDefault(
+                                        address => address != IPAddress.Loopback.ToString()) ??
+                                    ModbusListeningIpAddresses.FirstOrDefault() ??
+                                    IPAddress.Loopback.ToString();
+
+            ModbusEndpointText = $"{primaryAddress}:{actualPort}";
+            if (activeLocalAddresses.Length > 1)
+            {
+                ModbusEndpointText += $" +{activeLocalAddresses.Length - 1}";
+            }
+
+            string stateText = status?.State == ModbusServerState.Running
+                ? "服务端正在监听全部本机 IPv4："
+                : "服务端启动后监听全部本机 IPv4：";
+            string allEndpoints = string.Join(
+                Environment.NewLine,
+                ModbusListeningIpAddresses.Select(address => $"{address}:{actualPort}"));
+            ModbusListeningAddressesToolTip = stateText + Environment.NewLine + allEndpoints;
+
+            if (activeLocalAddresses.Length > 0)
+            {
+                ModbusListeningAddressesToolTip +=
+                    Environment.NewLine + "当前连接使用：" +
+                    string.Join(", ", activeLocalAddresses.Select(address => $"{address}:{actualPort}"));
+            }
+
+            return activeConnections;
+        }
 
         /// <summary>把底层诊断快照转换成适合右上角状态卡的短文本。</summary>
         private void RefreshModbusUiStatus()
@@ -733,7 +885,7 @@ namespace Robot_Info_Mes.ViewModel
                 ModbusServerIsRunning = false;
                 ModbusScadaIsConnected = false;
                 ModbusServerStateText = ModbusTcpConfiguration.Enabled ? "未启动" : "已禁用";
-                ModbusEndpointText = $"{ModbusTcpConfiguration.BindAddress}:{ModbusTcpConfiguration.Port}";
+                _ = RefreshModbusEndpointPresentation(status: null);
                 ModbusScadaStateText = "等待连接";
                 ModbusScadaDetailText = "0 个连接";
                 return;
@@ -754,8 +906,8 @@ namespace Robot_Info_Mes.ViewModel
                 ModbusServerState.Disposed => "已释放",
                 _ => status.State.ToString(),
             };
-            ModbusEndpointText = status.LocalEndpoint?.ToString() ??
-                                 $"{ModbusTcpConfiguration.BindAddress}:{ModbusTcpConfiguration.Port}";
+            IReadOnlyList<TcpConnectionInformation> activeConnections =
+                RefreshModbusEndpointPresentation(status);
             ModbusScadaStateText = ModbusScadaIsConnected
                 ? $"已连接 {status.ConnectedClients}"
                 : "等待连接";
@@ -764,6 +916,15 @@ namespace Robot_Info_Mes.ViewModel
                 : $"{status.ConnectedClients} 个连接 · " +
                   $"{status.LastRequest.TimestampUtc.ToLocalTime():HH:mm:ss} " +
                   $"FC{status.LastRequest.FunctionCode:D2} PDU {status.LastRequest.StartAddress}";
+            if (activeConnections.Count > 0)
+            {
+                string scadaEndpoints = string.Join(
+                    ", ",
+                    activeConnections
+                        .Select(connection => connection.RemoteEndPoint.ToString())
+                        .Distinct(StringComparer.OrdinalIgnoreCase));
+                ModbusScadaDetailText += Environment.NewLine + "客户端：" + scadaEndpoints;
+            }
             ModbusLastErrorText = status.LastError ??
                                   _modbusServerHost.LastPublishError ??
                                   "无";

@@ -36,4 +36,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Halcon_SDK\Halcon_SDK.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
 </Project>

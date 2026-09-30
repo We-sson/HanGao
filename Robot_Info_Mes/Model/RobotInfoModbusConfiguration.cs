@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net;
 using System.Xml.Serialization;
 using HanGao.ModbusTcp;
 using PropertyChanged;
@@ -17,12 +18,6 @@ namespace Robot_Info_Mes.Model;
 [AddINotifyPropertyChangedInterface]
 public sealed class RobotInfoModbusConfiguration : INotifyPropertyChanged
 {
-    /// <summary>当前 XML 结构版本；版本 2 改用 Order 唯一标识及强类型属性值。</summary>
-    public const int CurrentSchemaVersion = 2;
-
-    /// <summary>当前寄存器表版本；版本 2 取消 32 位字段的对齐保留字。</summary>
-    public const int CurrentMapVersion = 2;
-
     /// <summary>配置字段变化通知；由 PropertyChanged.Fody 注入各属性 setter。</summary>
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -30,17 +25,8 @@ public sealed class RobotInfoModbusConfiguration : INotifyPropertyChanged
     private void OnPropertyChanged(string propertyName) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-    /// <summary>配置结构版本；修改不兼容的 XML 结构时递增。</summary>
-    public int SchemaVersion { get; set; } = CurrentSchemaVersion;
-
-    /// <summary>寄存器业务表版本，提供给现场核对当前协议合同。</summary>
-    public int MapVersion { get; set; } = CurrentMapVersion;
-
     /// <summary>程序启动后是否自动开启 Modbus TCP 服务端。</summary>
     public bool Enabled { get; set; } = true;
-
-    /// <summary>监听网卡地址；0.0.0.0 表示本机全部 IPv4 网卡。</summary>
-    public string BindAddress { get; set; } = "0.0.0.0";
 
     /// <summary>Modbus TCP 监听端口，标准端口为 502。</summary>
     public int Port { get; set; } = 502;
@@ -63,7 +49,7 @@ public sealed class RobotInfoModbusConfiguration : INotifyPropertyChanged
     public int ConnectionTimeoutSeconds { get; set; } = 120;
 
     /// <summary>UInt32 跨两个寄存器时采用的字顺序。</summary>
-    public ModbusWordOrder WordOrder { get; set; } = ModbusWordOrder.HighWordFirst;
+    public ModbusWordOrder WordOrder { get; set; } = ModbusWordOrder.LowWordFirst;
 
     /// <summary>
     /// 点位顺序、类型及说明。ReferenceAddress 不进入 XML，因为它必须由程序重新计算。
@@ -102,62 +88,67 @@ public sealed class RobotInfoModbusConfiguration : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// 升级旧 XML 版本并补入新增的 Attribute 点位；用户已有配置和自定义点位不会被覆盖。
+    /// 严格校验整份当前配置并生成运行时布局；不迁移、不补齐缺失点位。
     /// </summary>
-    /// <returns>配置是否发生升级，需要重新保存。</returns>
-    public bool MergeAttributeDefaults()
+    /// <remarks>
+    /// XML 中缺少任一内置 Order 或存在非法参数时直接抛出异常，由调用方整份回退默认配置。
+    /// 自定义点位仍可追加；内置点位需要删除时应设为禁用，而不是从 XML 中移除。
+    /// </remarks>
+    public ModbusRegisterLayout ValidateAndCreateLayout()
     {
-        RegisterPoints ??= [];
-        bool changed = false;
-        if (SchemaVersion != CurrentSchemaVersion)
+        if (Port is <= IPEndPoint.MinPort or > IPEndPoint.MaxPort)
         {
-            SchemaVersion = CurrentSchemaVersion;
-            changed = true;
+            throw new InvalidOperationException("Modbus TCP 端口必须在 1～65535 之间。");
         }
 
-        if (MapVersion != CurrentMapVersion)
+        if (PublishIntervalMilliseconds is < 100 or > 60_000)
         {
-            MapVersion = CurrentMapVersion;
-            changed = true;
+            throw new InvalidOperationException("寄存器刷新周期必须在 100～60000 毫秒之间。");
+        }
+
+        if (MaxConnections is < 1 or > 10_000)
+        {
+            throw new InvalidOperationException("最大连接数必须在 1～10000 之间。");
+        }
+
+        if (ConnectionTimeoutSeconds is < 1 or > 86_400)
+        {
+            throw new InvalidOperationException("连接超时必须在 1～86400 秒之间。");
+        }
+
+        if (!Enum.IsDefined(WordOrder))
+        {
+            throw new InvalidOperationException("配置中的 UInt32 字顺序无效。");
+        }
+
+        if (RegisterPoints is null || RegisterPoints.Count == 0)
+        {
+            throw new InvalidOperationException("Modbus 点位表不能为空。");
         }
 
         IReadOnlyList<ModbusPointDefinition> defaults =
             ModbusPointCatalog.FromType<RobotInfoModbusRegisterData>();
         var builtInOrders = defaults.Select(item => item.Order).ToHashSet();
+        foreach (int order in builtInOrders)
+        {
+            int count = RegisterPoints.Count(item => item.Order == order);
+            if (count == 0)
+            {
+                throw new InvalidOperationException($"Modbus 点位表缺少内置 Order {order}。");
+            }
+
+            if (count > 1)
+            {
+                throw new InvalidOperationException($"Modbus 点位表中的 Order {order} 重复。");
+            }
+        }
 
         foreach (ModbusRegisterPointConfiguration point in RegisterPoints)
         {
             point.IsBuiltIn = builtInOrders.Contains(point.Order);
         }
 
-        foreach (ModbusPointDefinition definition in defaults)
-        {
-            ModbusRegisterPointConfiguration? existing = RegisterPoints.FirstOrDefault(
-                item => item.Order == definition.Order);
-            if (existing is not null)
-            {
-                // Order 是唯一身份；匹配后补齐空说明，并保留现场修改过的类型和启用状态。
-                existing.DisplayName = string.IsNullOrWhiteSpace(existing.DisplayName)
-                    ? definition.DisplayName
-                    : existing.DisplayName;
-                existing.Unit = string.IsNullOrWhiteSpace(existing.Unit)
-                    ? definition.Unit
-                    : existing.Unit;
-                existing.Comment = string.IsNullOrWhiteSpace(existing.Comment)
-                    ? definition.Comment
-                    : existing.Comment;
-                existing.IsBuiltIn = true;
-                continue;
-            }
-
-            RegisterPoints.Add(
-                ModbusRegisterPointConfiguration.FromDefinition(
-                    definition,
-                    isBuiltIn: true));
-            changed = true;
-        }
-
-        return changed;
+        return RecalculateLayout();
     }
 
     /// <summary>
@@ -194,8 +185,8 @@ public sealed class RobotInfoModbusConfiguration : INotifyPropertyChanged
                 _ => point.DataType.ToString(),
             };
             point.AddressText = point.Enabled ? "待计算" : "已禁用";
-            point.CurrentValueText = propertyValue.ToString(
-                System.Globalization.CultureInfo.InvariantCulture);
+            // 这里只供 WPF 显示无符号整数，不参与协议编码或文本反序列化，直接转换即可。
+            point.CurrentValueText = propertyValue.ToString();
         }
 
         ModbusRegisterLayout layout = ModbusRegisterLayoutBuilder.Build(
@@ -209,8 +200,7 @@ public sealed class RobotInfoModbusConfiguration : INotifyPropertyChanged
             point.ReferenceAddress = runtimePoint.ReferenceAddress;
             point.ProtocolAddress = runtimePoint.ProtocolAddress;
             point.RegisterCount = runtimePoint.RegisterCount;
-            point.AddressText = runtimePoint.ReferenceAddress.ToString(
-                System.Globalization.CultureInfo.InvariantCulture);
+            point.AddressText = runtimePoint.ReferenceAddress.ToString();
         }
 
         RuntimeRegisterCount = layout.RegisterCount;

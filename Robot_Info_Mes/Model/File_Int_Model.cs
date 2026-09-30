@@ -131,7 +131,10 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 读取指定模型的 XML；目录或文件不存在时自动创建并写入该类型的默认实例。
         /// </summary>
-        /// <typeparam name="T1">受支持且具有无参构造函数的持久化模型类型。</typeparam>
+        /// <typeparam name="T1">
+        /// 受支持的持久化模型类型；<c>new()</c> 约束保证它具有公开无参构造函数，
+        /// 因而本方法可以在文件不存在时直接创建 <c>new T1()</c> 默认实例。
+        /// </typeparam>
         /// <returns>磁盘中的模型；首次运行时返回并保存默认实例。</returns>
         /// <exception cref="Exception">请求了尚未登记路径规则的模型类型时抛出。</exception>
         public static T1 Read_Xml_File<T1>() where T1 : new()
@@ -183,7 +186,9 @@ namespace Robot_Info_Mes.Model
                     }
                     else
                     {
-                        _newVale = (T1)(object)Read_Xml<RobotInfoModbusConfiguration>();
+                        // Modbus 配置只接受当前结构；未知字段不会被静默忽略或按旧结构迁移。
+                        _newVale = (T1)(object)Read_Xml<RobotInfoModbusConfiguration>(
+                            rejectUnknownMembers: true);
                     }
 
                     return _newVale;
@@ -438,7 +443,7 @@ namespace Robot_Info_Mes.Model
                     break;
 
                 case Type type when type == typeof(RobotInfoModbusConfiguration):
-                    // 与主配置同目录保存，文件独立，避免寄存器表升级影响原有 Configs_Data.Xml。
+                    // 与主配置同目录保存，文件独立，避免 Modbus 点位修改影响原有 Configs_Data.Xml。
                     folderPath = Path.Combine(rootPath, "Configs");
                     filePath = Path.Combine(folderPath, "ModbusTcp_Config.Xml");
                     break;
@@ -522,7 +527,7 @@ namespace Robot_Info_Mes.Model
                         WriteEndDocumentOnClose = false
                     };
 
-                    // 清空默认命名空间，保持现场已有 XML 格式简洁且向后兼容。
+                    // 清空默认命名空间，保持现场 XML 格式简洁并便于人工检查。
                     var ns = new XmlSerializerNamespaces();
                     ns.Add("", "");
 
@@ -580,10 +585,13 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 从当前类型对应的 XML 文件反序列化完整模型。
         /// </summary>
-        /// <typeparam name="T1">目标模型类型。</typeparam>
+        /// <typeparam name="T1">
+        /// 目标模型类型；<c>new()</c> 约束允许先创建默认实例，并要求该类型提供公开无参构造函数。
+        /// </typeparam>
+        /// <param name="rejectUnknownMembers">是否把未知 XML 元素或属性视为结构错误。</param>
         /// <returns>反序列化后的模型实例。</returns>
         /// <exception cref="Exception">文件不存在、内容损坏或结构不匹配时抛出带原因的异常。</exception>
-        public static T1 Read_Xml<T1>() where T1 : new()
+        public static T1 Read_Xml<T1>(bool rejectUnknownMembers = false) where T1 : new()
         {
             T1 _Val = new();
 
@@ -599,6 +607,17 @@ namespace Robot_Info_Mes.Model
 
                 // XmlSerializer 会按照公开属性恢复对象图；[XmlIgnore] 的运行期对象由模型默认值重建。
                 var xmlSerializer = new XmlSerializer(typeof(T1));
+                if (rejectUnknownMembers)
+                {
+                    xmlSerializer.UnknownElement += (_, eventArgs) =>
+                        throw new InvalidOperationException(
+                            $"XML 包含未知元素 <{eventArgs.Element.Name}>，" +
+                            $"位置：第 {eventArgs.LineNumber} 行，第 {eventArgs.LinePosition} 列。");
+                    xmlSerializer.UnknownAttribute += (_, eventArgs) =>
+                        throw new InvalidOperationException(
+                            $"XML 包含未知属性 {eventArgs.Attr.Name}，" +
+                            $"位置：第 {eventArgs.LineNumber} 行，第 {eventArgs.LinePosition} 列。");
+                }
                 //if (!File.Exists(@"Date\XmlDate.xml")) ToXmlString();
                 using var reader = new StreamReader(_Path);
 
@@ -614,7 +633,9 @@ namespace Robot_Info_Mes.Model
             catch (Exception e)
             {
 
-                throw new Exception($"读取\"{nameof(T1)}\"文件失败! 原因：" + e.Message);
+                throw new Exception(
+                    $"读取“{typeof(T1).Name}”文件失败！原因：{e.GetBaseException().Message}",
+                    e);
             }
 
 
