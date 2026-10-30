@@ -44,14 +44,17 @@ public static class RobotImportService
         if (files.Length != 7 || files.Distinct(StringComparer.OrdinalIgnoreCase).Count() != 7)
             throw new InvalidDataException("请分别为 Base 和 J1～J6 选择七个不同的 STEP 文件。");
         foreach (var file in files)
-        {
-            if (string.IsNullOrWhiteSpace(file) || Path.GetFileName(file) != file
-                || !Path.GetExtension(file).Equals(".STEP", StringComparison.OrdinalIgnoreCase)
-                || !File.Exists(Path.Combine(directory, file)))
-                throw new InvalidDataException($"源目录中缺少 STEP 文件：{file}。");
-            if (new FileInfo(Path.Combine(directory, file)).Length == 0)
-                throw new InvalidDataException($"STEP 文件为空：{file}。");
-        }
+            ValidateFile(directory, file);
+    }
+
+    internal static void ValidateFile(string directory, string file)
+    {
+        if (string.IsNullOrWhiteSpace(file) || Path.GetFileName(file) != file
+            || !Path.GetExtension(file).Equals(".STEP", StringComparison.OrdinalIgnoreCase)
+            || !File.Exists(Path.Combine(directory, file)))
+            throw new InvalidDataException($"源目录中缺少 STEP 文件：{file}。");
+        if (new FileInfo(Path.Combine(directory, file)).Length == 0)
+            throw new InvalidDataException($"STEP 文件为空：{file}。");
     }
 
     public static string Save(string directory, RobotConfiguration configuration)

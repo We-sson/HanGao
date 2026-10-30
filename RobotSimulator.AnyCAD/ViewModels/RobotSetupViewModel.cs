@@ -34,21 +34,42 @@ public sealed partial class RobotSetupViewModel : ObservableObject
         _selectedJoint = _joints[0];
         BindJoints();
         BackCommand = new RelayCommand(() => SetStep(StepIndex - 1), () => CanGoBack);
-        NextCommand = new RelayCommand(Next, () => CanGoNext);
+        NextCommand = new RelayCommand(() => { if (StepIndex == 1) CheckAndNextJoint(); else Next(); }, () => CanGoNext);
         ValidateCommand = new RelayCommand(() => ValidateCurrent(), () => SourceDirectory.Length > 0);
+        PreviousJointCommand = new RelayCommand(() => SelectedJoint = Joints[JointIndex - 1], () => CanGoToPreviousJoint);
+        SetAxisDirectionCommand = new RelayCommand<string>(SetAxisDirection);
+        UseExportPoseCommand = new RelayCommand(UseExportPose);
     }
 
     public string SourceDirectory => _sourceDirectory;
     public string OutputPath => SourceDirectory.Length == 0 ? string.Empty : RobotImportService.GetConfigurationPath(SourceDirectory);
     public IReadOnlyList<string> ModelFiles => _modelFiles;
     public IReadOnlyList<JointSetupViewModel> Joints => _joints;
-    public JointSetupViewModel SelectedJoint { get => _selectedJoint; set => SetProperty(ref _selectedJoint, value); }
+    public JointSetupViewModel SelectedJoint
+    {
+        get => _selectedJoint;
+        set
+        {
+            if (value is null || !SetProperty(ref _selectedJoint, value)) return;
+            OnPropertyChanged(nameof(JointProgress));
+            OnPropertyChanged(nameof(JointConnection));
+            OnPropertyChanged(nameof(NextButtonText));
+            OnPropertyChanged(nameof(CanGoToPreviousJoint));
+            PreviousJointCommand.NotifyCanExecuteChanged();
+        }
+    }
+    private int JointIndex => Joints.ToList().IndexOf(SelectedJoint);
+    public string JointProgress => $"现在只配置 {SelectedJoint.Name}（{JointIndex + 1} / 6）";
+    public string JointConnection => $"在 CAD 中查看 {(JointIndex == 0 ? BaseFile : Joints[JointIndex - 1].ModelFile)} 与 {SelectedJoint.ModelFile} 的连接处，找到两者共用的旋转轴线。";
+    public bool CanGoToPreviousJoint => StepIndex == 1 && JointIndex > 0;
+    public string NextButtonText => StepIndex != 1 ? "下一步"
+        : JointIndex < 5 ? $"检查 {SelectedJoint.Name}，再配置 J{JointIndex + 2}" : "检查 J6，再进入法兰配置";
     public int StepIndex => _stepIndex;
     public string StepTitle => new[] { "1. 导入与模型对应", "2. 六轴关节参数", "3. 法兰坐标参数", "4. 校验与保存" }[StepIndex];
     public string StepDescription => new[]
     {
         "保留装配全局坐标，单位 mm；为基座和六轴分别选择一个 STEP 文件。",
-        "逐个选择 J1～J6，依据该型号手册和 CAD 装配测量填写；不要直接套用其他型号。",
+        "一次完成一个关节：选零件 → 抄行程 → 量轴心 → 定方向 → 核对姿态，检查通过再配置下一轴。",
         "填写原始 STEP 姿态下的法兰中心及方向，供独立 Tool 安装使用。",
         "校验通过后保存源配置，再重新构建内嵌资源，并在仿真中逐轴验证运动。"
     }[StepIndex];
@@ -61,6 +82,9 @@ public sealed partial class RobotSetupViewModel : ObservableObject
     public IRelayCommand BackCommand { get; }
     public IRelayCommand NextCommand { get; }
     public IRelayCommand ValidateCommand { get; }
+    public IRelayCommand PreviousJointCommand { get; }
+    public IRelayCommand<string> SetAxisDirectionCommand { get; }
+    public IRelayCommand UseExportPoseCommand { get; }
 
     public void SelectDirectory(string path)
     {
@@ -135,6 +159,69 @@ public sealed partial class RobotSetupViewModel : ObservableObject
         }
     }
 
+    private void CheckAndNextJoint()
+    {
+        if (StepIndex != 1) return;
+        try
+        {
+            ValidateJointDraft(SelectedJoint);
+            SetValidation(string.Empty, false);
+            var completed = SelectedJoint.Name;
+            if (JointIndex < 5) SelectedJoint = Joints[JointIndex + 1];
+            else { Next(); if (StepIndex != 2) return; }
+            _statusMessage = $"{completed} 的文件与数值检查通过；运动方向仍需在仿真中核对。";
+            OnPropertyChanged(nameof(StatusMessage));
+        }
+        catch (Exception exception) when (exception is InvalidDataException or IOException or UnauthorizedAccessException)
+        {
+            SetValidation(exception.Message, false);
+        }
+    }
+
+    private JointConfiguration ValidateJointDraft(JointSetupViewModel joint)
+    {
+        try
+        {
+            RobotImportService.ValidateFile(SourceDirectory, joint.ModelFile);
+            if (joint.ModelFile.Equals(BaseFile, StringComparison.OrdinalIgnoreCase)
+                || Joints.Any(other => other != joint && other.ModelFile.Equals(joint.ModelFile, StringComparison.OrdinalIgnoreCase)))
+                throw new InvalidDataException("模型文件与基座或其他关节重复，请重新选择。");
+            var configuration = joint.ToConfiguration();
+            RobotConfigurationStore.ValidateJoint(configuration, Joints.ToList().IndexOf(joint));
+            return configuration;
+        }
+        catch (Exception exception) when (exception is InvalidDataException or IOException or UnauthorizedAccessException)
+        {
+            SelectedJoint = joint;
+            if (StepIndex > 1) SetStep(1);
+            throw new InvalidDataException($"{joint.Name}：{exception.Message}", exception);
+        }
+    }
+
+    private void SetAxisDirection(string? axis)
+    {
+        var direction = axis switch
+        {
+            "+X" => (1, 0, 0), "-X" => (-1, 0, 0),
+            "+Y" => (0, 1, 0), "-Y" => (0, -1, 0),
+            "+Z" => (0, 0, 1), "-Z" => (0, 0, -1), _ => (0, 0, 0)
+        };
+        if (direction == (0, 0, 0)) return;
+        SelectedJoint.DirectionX = Format(direction.Item1);
+        SelectedJoint.DirectionY = Format(direction.Item2);
+        SelectedJoint.DirectionZ = Format(direction.Item3);
+    }
+
+    private void UseExportPose()
+    {
+        try
+        {
+            Parse(SelectedJoint.ModelReferenceAngle, $"{SelectedJoint.Name} 模型导出角度");
+            SelectedJoint.HomeAngle = SelectedJoint.ModelReferenceAngle;
+        }
+        catch (InvalidDataException exception) { SetValidation(exception.Message, false); }
+    }
+
     private bool ValidateCurrent()
     {
         try
@@ -156,7 +243,7 @@ public sealed partial class RobotSetupViewModel : ObservableObject
         var configuration = new RobotConfiguration
         {
             ModelName = ModelName.Trim(), BaseFile = BaseFile,
-            Joints = Joints.Select(joint => joint.ToConfiguration()).ToArray(),
+            Joints = Joints.Select(ValidateJointDraft).ToArray(),
             FlangeOrigin = includeFlange ? new VectorConfiguration
             {
                 X = Parse(FlangeX, "法兰中心 X"), Y = Parse(FlangeY, "法兰中心 Y"), Z = Parse(FlangeZ, "法兰中心 Z")
@@ -198,7 +285,11 @@ public sealed partial class RobotSetupViewModel : ObservableObject
         foreach (var joint in _joints) joint.PropertyChanged += OnJointChanged;
     }
 
-    private void OnJointChanged(object? sender, PropertyChangedEventArgs e) => Invalidate();
+    private void OnJointChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(JointSetupViewModel.ModelFile)) OnPropertyChanged(nameof(JointConnection));
+        Invalidate();
+    }
     private void Invalidate()
     {
         _hasUnsavedChanges = SourceDirectory.Length > 0;
@@ -215,7 +306,10 @@ public sealed partial class RobotSetupViewModel : ObservableObject
     private void UpdateCommands()
     {
         OnPropertyChanged(nameof(CanGoBack)); OnPropertyChanged(nameof(CanGoNext)); OnPropertyChanged(nameof(CanSave));
+        OnPropertyChanged(nameof(NextButtonText));
         BackCommand.NotifyCanExecuteChanged(); NextCommand.NotifyCanExecuteChanged(); ValidateCommand.NotifyCanExecuteChanged();
+        OnPropertyChanged(nameof(CanGoToPreviousJoint));
+        PreviousJointCommand.NotifyCanExecuteChanged();
     }
 
     private string MatchFile(string name) => ModelFiles.FirstOrDefault(file => file.Equals(name, StringComparison.OrdinalIgnoreCase)) ?? string.Empty;
@@ -249,8 +343,8 @@ public sealed partial class JointSetupViewModel(string name) : ObservableObject
         Name = Name, ModelFile = ModelFile,
         Minimum = RobotSetupViewModel.Parse(Minimum, $"{Name} 最小角"),
         Maximum = RobotSetupViewModel.Parse(Maximum, $"{Name} 最大角"),
-        HomeAngle = RobotSetupViewModel.Parse(HomeAngle, $"{Name} 初始角"),
-        ModelReferenceAngle = RobotSetupViewModel.Parse(ModelReferenceAngle, $"{Name} CAD 参考角"),
+        HomeAngle = RobotSetupViewModel.Parse(HomeAngle, $"{Name} 启动角"),
+        ModelReferenceAngle = RobotSetupViewModel.Parse(ModelReferenceAngle, $"{Name} 模型导出时的关节角"),
         AxisOrigin = new VectorConfiguration
         {
             X = RobotSetupViewModel.Parse(OriginX, $"{Name} 轴心 X"),

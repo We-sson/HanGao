@@ -1,17 +1,8 @@
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using RobotSimulator.ViewModels;
-using Binding = System.Windows.Data.Binding;
-using Brush = System.Windows.Media.Brush;
-using Brushes = System.Windows.Media.Brushes;
-using Button = System.Windows.Controls.Button;
-using Image = System.Windows.Controls.Image;
-using Orientation = System.Windows.Controls.Orientation;
 
 namespace RobotSimulator.Views;
 
@@ -30,7 +21,7 @@ public partial class RobotSetupWindow : Window
         DataContext = _viewModel;
         _viewModel.PropertyChanged += (_, e) =>
         {
-            if (e.PropertyName == nameof(_viewModel.StepIndex))
+            if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName is nameof(_viewModel.StepIndex) or nameof(_viewModel.SelectedJoint))
             {
                 SourceGuideScroll.ScrollToTop();
                 ParameterScroll.ScrollToTop();
@@ -62,54 +53,6 @@ public partial class RobotSetupWindow : Window
 
     private void ShowError(Exception exception) =>
         System.Windows.MessageBox.Show(this, exception.Message, "机器人配置未完成", MessageBoxButton.OK, MessageBoxImage.Error);
-
-    /// <summary>本地内置图示的大图查看器，缩放后仍可滚动检查原始尺寸和文字。</summary>
-    private void ShowReferenceImage(object sender, RoutedEventArgs e)
-    {
-        if (sender is not Button { Tag: string path } button) return;
-        try
-        {
-            var source = new BitmapImage(new Uri($"pack://application:,,,{path}", UriKind.Absolute));
-            var width = Math.Min(1160, SystemParameters.WorkArea.Width);
-            var height = Math.Min(860, SystemParameters.WorkArea.Height);
-            var scale = new ScaleTransform();
-            var image = new Image { Source = source, Stretch = Stretch.None, LayoutTransform = scale };
-            var zoom = new Slider
-            {
-                Minimum = 0.25, Maximum = 3, Width = 260,
-                Value = Math.Clamp(Math.Min((width - 60) / source.Width, (height - 120) / source.Height), 0.25, 1)
-            };
-            System.Windows.Automation.AutomationProperties.SetName(zoom, "图示缩放比例");
-            scale.ScaleX = scale.ScaleY = zoom.Value;
-            zoom.ValueChanged += (_, _) => scale.ScaleX = scale.ScaleY = zoom.Value;
-            var percentage = new TextBlock { Width = 115, VerticalAlignment = VerticalAlignment.Center };
-            percentage.SetBinding(TextBlock.TextProperty, new Binding(nameof(Slider.Value)) { Source = zoom, StringFormat = "缩放 {0:P0}" });
-            var toolbar = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(12) };
-            toolbar.Children.Add(percentage);
-            toolbar.Children.Add(zoom);
-            toolbar.Children.Add(new Button { Content = "关闭大图", IsCancel = true, Margin = new Thickness(16, 0, 0, 0) });
-            var scroll = new ScrollViewer
-            {
-                Content = image, Background = Brushes.White,
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto
-            };
-            var layout = new Grid();
-            layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            layout.RowDefinitions.Add(new RowDefinition());
-            layout.Children.Add(toolbar);
-            Grid.SetRow(scroll, 1);
-            layout.Children.Add(scroll);
-            new Window
-            {
-                Owner = this, Title = System.Windows.Automation.AutomationProperties.GetName(button),
-                Width = width, Height = height, MinWidth = 520, MinHeight = 400,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                Background = (Brush)FindResource("PanelBrush"), Foreground = Brushes.White, Content = layout
-            }.ShowDialog();
-        }
-        catch (Exception exception) { ShowError(exception); }
-    }
 
     protected override void OnClosing(CancelEventArgs e)
     {

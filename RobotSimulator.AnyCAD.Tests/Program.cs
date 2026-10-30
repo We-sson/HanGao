@@ -36,6 +36,7 @@ internal static class Program
             {
                 RobotColorChecks.Run(fixture);
                 RobotHpChecks.Run(fixture);
+                TestIrb2600Scene(fixture);
                 TestNativeScene(fixture);
                 TestKr35Scene(fixture);
                 Console.WriteLine("PASS: geometry/colors, independent Tool replacement, two robot flange frames, six joint axes and cache reuse");
@@ -284,6 +285,71 @@ internal static class Program
     {
         ToolName = name, ModelFile = "Tool.STEP", Tcp = new PoseConfiguration { Z = z }
     };
+
+    /// <summary>IRB 的名义零位保持装配，实测轴线驱动法兰与工具；不代替控制器标定。</summary>
+    private static void TestIrb2600Scene(string fixture)
+    {
+        const string modelId = "IRB2600_20_165";
+        var configuration = RobotConfigurationStore.Discover().Single(model => model.Id == modelId).Configuration;
+        Check(configuration.Joints.All(joint => joint.HomeAngle == 0 && joint.ModelReferenceAngle == 0),
+            "The IRB 2600 nominal home changed the exported STEP posture.");
+        var ranges = configuration.Joints.Select(joint => (joint.Minimum, joint.Maximum));
+        Check(ranges.SequenceEqual(new (double, double)[] { (-180, 180), (-95, 155), (-180, 75), (-400, 400), (-120, 120), (-400, 400) }),
+            "The IRB 2600 ranges differ from the supplied ABB datasheet.");
+        var cacheRoot = Path.Combine(fixture, "cache");
+        using (var scene = RobotSceneContent.Load(configuration, modelId, cacheRoot: cacheRoot))
+        using (var flange = FindGroup(scene.JointGroups[5], "FlangeFrame"))
+        using (var mount = FindGroup(flange, "ToolMount"))
+        using (var tcp = FindGroup(flange, "TcpFrame"))
+        {
+            Check(scene.JointGroups.Count == 6 && !scene.HasTool, "The IRB 2600 hierarchy is incomplete.");
+            using var basePart = FindGroup(scene.Root, "Base");
+            Check(basePart.GetCount() > 0, "The IRB 2600 base geometry is missing.");
+            for (var index = 0; index < 6; index++)
+            {
+                using var part = FindGroup(scene.JointGroups[index], $"J{index + 1}");
+                Check(part.GetCount() > 0, $"The IRB 2600 J{index + 1} geometry is missing.");
+            }
+            scene.SetToolTcp(new PoseConfiguration { Z = 100 });
+            scene.Root.UpdateTransform(Matrix4d.Identity);
+            double[] homeDirections = [0, 0, -1, 0, 1, 0, 1, 0, 0];
+            AssertFrame(flange, [1030, 0, 1260], homeDirections);
+            AssertFrame(tcp, [1130, 0, 1260], homeDirections);
+
+            // 期望位置由 CAD 实测尺寸独立计算；J3 取 -90°，保持在数据表行程内。
+            (double Delta, double[] Origin, double[] Directions)[] cases =
+            [
+                (90, [0, 1030, 1260], [0, 0, -1, -1, 0, 0, 0, 1, 0]),
+                (90, [965, 0, -435], [-1, 0, 0, 0, 1, 0, 0, 0, -1]),
+                (-90, [35, 0, 2025], [1, 0, 0, 0, 1, 0, 0, 0, 1]),
+                (90, [1030, 0, 1260], [0, 1, 0, 0, 0, 1, 1, 0, 0]),
+                (90, [945, 0, 1175], [-1, 0, 0, 0, 1, 0, 0, 0, -1]),
+                (90, [1030, 0, 1260], [0, 1, 0, 0, 0, 1, 1, 0, 0])
+            ];
+            for (var index = 0; index < cases.Length; index++)
+            {
+                var joint = configuration.Joints[index];
+                using var origin = new GPnt(joint.AxisOrigin.X, joint.AxisOrigin.Y, joint.AxisOrigin.Z);
+                using var direction = new GDir(joint.AxisDirection.X, joint.AxisDirection.Y, joint.AxisDirection.Z);
+                using var axis = new GAx1(origin, direction);
+                using var rotation = new GTrsf();
+                rotation.SetRotation(axis, cases[index].Delta * Math.PI / 180);
+                using var matrix = Matrix4d.From(rotation);
+                scene.JointGroups[index].SetTransform(matrix);
+                scene.Root.UpdateTransform(Matrix4d.Identity);
+                AssertFrame(flange, cases[index].Origin, cases[index].Directions);
+                AssertFrame(mount, cases[index].Origin, cases[index].Directions);
+                var tcpOrigin = Enumerable.Range(0, 3).Select(coordinate =>
+                    cases[index].Origin[coordinate] + 100 * cases[index].Directions[6 + coordinate]).ToArray();
+                AssertFrame(tcp, tcpOrigin, cases[index].Directions);
+                scene.JointGroups[index].SetTransform(Matrix4d.Identity);
+            }
+        }
+        var progress = new List<RobotLoadProgress>();
+        using var cached = RobotSceneContent.Load(configuration, modelId, progress.Add, cacheRoot);
+        Check(progress.Count(state => state.FromCache) == 7, "The IRB 2600 caches were not reused.");
+        Console.WriteLine("PASS: IRB 2600 embedded config, seven STEP parts, nominal home, six joint chains, flange/TCP and cache reuse");
+    }
 
     private static void TestKr35Scene(string fixture)
     {

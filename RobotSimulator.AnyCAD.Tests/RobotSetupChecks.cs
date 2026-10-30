@@ -33,7 +33,31 @@ internal static class RobotSetupChecks
         Check(output == Path.Combine(directory, "NewRobot.robot.json"), "Robot source config did not match its directory.");
         vm.SelectDirectory(directory);
         Check(vm.Joints[1].HomeAngle == "-90" && vm.FlangeZ == "1055", "Existing calibration was not loaded.");
-        vm.NextCommand.Execute(null); vm.NextCommand.Execute(null); vm.NextCommand.Execute(null);
+        vm.NextCommand.Execute(null);
+        vm.Joints[0].DirectionZ = "0";
+        vm.NextCommand.Execute(null);
+        Check(vm.StepIndex == 1 && vm.SelectedJoint.Name == "J1" && vm.ValidationMessage.Contains("J1"),
+            "An invalid current axis advanced to the next joint.");
+        vm.SetAxisDirectionCommand.Execute("-Z");
+        Check(vm.SelectedJoint.DirectionX == "0" && vm.SelectedJoint.DirectionY == "0" && vm.SelectedJoint.DirectionZ == "-1",
+            "A direction preset did not fill all three components.");
+        vm.NextCommand.Execute(null);
+        Check(vm.StepIndex == 1 && vm.SelectedJoint.Name == "J2" && vm.JointConnection.Contains("J1.STEP")
+            && vm.JointConnection.Contains("J2.STEP"), "Joint-by-joint navigation did not identify the mating parts.");
+        vm.SelectedJoint.HomeAngle = "0";
+        vm.UseExportPoseCommand.Execute(null);
+        Check(vm.SelectedJoint.HomeAngle == "-90", "Keeping the export pose did not copy the recorded angle.");
+        vm.PreviousJointCommand.Execute(null);
+        Check(vm.SelectedJoint.Name == "J1", "Previous-joint navigation lost the current step.");
+        for (var joint = 0; joint < 6; joint++) vm.NextCommand.Execute(null);
+        Check(vm.StepIndex == 2, "Six valid joint checks did not advance to the flange.");
+        vm.BackCommand.Execute(null);
+        vm.Joints[1].Minimum = "NaN";
+        vm.NextCommand.Execute(null);
+        Check(vm.StepIndex == 1 && vm.SelectedJoint.Name == "J2", "Full validation did not focus an earlier invalid joint.");
+        vm.Joints[1].Minimum = "-185";
+        for (var joint = 1; joint < 6; joint++) vm.NextCommand.Execute(null);
+        vm.NextCommand.Execute(null);
         Check(vm.StepIndex == 3 && vm.CanSave, "Valid configuration did not complete the wizard.");
         vm.ModelName = "New Robot";
         Check(!vm.CanSave && vm.HasUnsavedChanges && vm.ValidationMessage.Length == 0, "Editing left a stale validation result.");
@@ -81,6 +105,15 @@ internal static class RobotSetupChecks
         vm.BaseFile = "Stand.STEP";
         vm.NextCommand.Execute(null);
         Check(vm.StepIndex == 1, "Custom STEP names could not reach the joint mapping page.");
+        var firstJoint = vm.Joints[0];
+        firstJoint.ModelFile = "Shoulder.STEP";
+        firstJoint.Minimum = "-180"; firstJoint.Maximum = "180";
+        firstJoint.HomeAngle = firstJoint.ModelReferenceAngle = "0";
+        firstJoint.OriginX = firstJoint.OriginY = firstJoint.OriginZ = "0";
+        vm.SetAxisDirectionCommand.Execute("+Z");
+        vm.NextCommand.Execute(null);
+        Check(vm.SelectedJoint.Name == "J2" && vm.StepIndex == 1,
+            "Checking J1 incorrectly required the other five joints to be mapped first.");
 
         Console.WriteLine("PASS: developer robot wizard mapping, measured inputs, roundtrip, validation and non-destructive source saves");
     }

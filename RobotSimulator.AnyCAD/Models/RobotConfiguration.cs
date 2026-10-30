@@ -123,25 +123,28 @@ public static class RobotConfigurationStore
             || configuration.Joints is null || configuration.Joints.Count != 6)
             throw new InvalidDataException("机器人必须具有型号名称、基座和 J1～J6 六个关节。");
         for (var index = 0; index < configuration.Joints.Count; index++)
-        {
-            var joint = configuration.Joints[index];
-            if (joint is null || joint.Name != $"J{index + 1}" || string.IsNullOrWhiteSpace(joint.ModelFile))
-                throw new InvalidDataException($"第 {index + 1} 个关节的名称或模型文件无效。");
-            if (!double.IsFinite(joint.Minimum) || !double.IsFinite(joint.Maximum)
-                || !double.IsFinite(joint.HomeAngle) || !double.IsFinite(joint.ModelReferenceAngle)
-                || joint.Minimum >= joint.Maximum || joint.HomeAngle < joint.Minimum || joint.HomeAngle > joint.Maximum)
-                throw new InvalidDataException($"{joint.Name} 的行程、初始角或 CAD 参考角无效。");
-            ValidateVector(joint.AxisOrigin, $"{joint.Name} 轴心");
-            ValidateVector(joint.AxisDirection, $"{joint.Name} 方向");
-            var direction = joint.AxisDirection;
-            var length = Math.Sqrt(direction.X * direction.X + direction.Y * direction.Y + direction.Z * direction.Z);
-            if (!double.IsFinite(length) || length < 1e-9)
-                throw new InvalidDataException($"{joint.Name} 的方向向量不能为零或无限大。");
-        }
+            ValidateJoint(configuration.Joints[index], index);
         ValidateVector(configuration.FlangeOrigin, "法兰中心");
         var orientation = configuration.FlangeOrientation;
         if (orientation is null || !double.IsFinite(orientation.A) || !double.IsFinite(orientation.B) || !double.IsFinite(orientation.C))
             throw new InvalidDataException("法兰方向的 ABC 必须是有限数值。");
+    }
+
+    /// <summary>向导逐轴检查和完整配置读取共用同一套数值与轴线校验。</summary>
+    internal static void ValidateJoint(JointConfiguration joint, int index)
+    {
+        if (joint is null || joint.Name != $"J{index + 1}" || string.IsNullOrWhiteSpace(joint.ModelFile))
+            throw new InvalidDataException($"第 {index + 1} 个关节的名称或模型文件无效。");
+        if (!double.IsFinite(joint.Minimum) || !double.IsFinite(joint.Maximum)
+            || !double.IsFinite(joint.HomeAngle) || !double.IsFinite(joint.ModelReferenceAngle)
+            || joint.Minimum >= joint.Maximum || joint.HomeAngle < joint.Minimum || joint.HomeAngle > joint.Maximum)
+            throw new InvalidDataException($"{joint.Name} 的行程、初始角或 CAD 参考角无效。");
+        ValidateVector(joint.AxisOrigin, $"{joint.Name} 轴心");
+        ValidateVector(joint.AxisDirection, $"{joint.Name} 方向");
+        var direction = joint.AxisDirection;
+        var length = Math.Sqrt(direction.X * direction.X + direction.Y * direction.Y + direction.Z * direction.Z);
+        if (!double.IsFinite(length) || length < 1e-9)
+            throw new InvalidDataException($"{joint.Name} 的方向向量不能为零或无限大。");
     }
 
     /// <summary>检查全局坐标或方向中的 XYZ。</summary>

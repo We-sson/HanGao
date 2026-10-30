@@ -1,0 +1,50 @@
+{
+  "modelName": "ABB IRB 2600-20/1.65",
+  "baseFile": "Base.STEP",
+  "flangeOrigin": { "x": 1030, "y": 0, "z": 1260 },
+  "flangeOrientation": { "a": 0, "b": 90, "c": 0 },
+  "joints": [
+    {
+      "name": "J1", "modelFile": "J1.STEP",
+      "minimum": -180, "maximum": 180,
+      "homeAngle": 0, "modelReferenceAngle": 0,
+      "axisOrigin": { "x": 0, "y": 0, "z": 445 },
+      "axisDirection": { "x": 0, "y": 0, "z": 1 }
+    },
+    {
+      "name": "J2", "modelFile": "J2.STEP",
+      "minimum": -95, "maximum": 155,
+      "homeAngle": 0, "modelReferenceAngle": 0,
+      "axisOrigin": { "x": 150, "y": 0, "z": 445 },
+      "axisDirection": { "x": 0, "y": 1, "z": 0 }
+    },
+    {
+      "name": "J3", "modelFile": "J3.STEP",
+      "minimum": -180, "maximum": 75,
+      "homeAngle": 0, "modelReferenceAngle": 0,
+      "axisOrigin": { "x": 150, "y": 0, "z": 1145 },
+      "axisDirection": { "x": 0, "y": 1, "z": 0 }
+    },
+    {
+      "name": "J4", "modelFile": "J4.STEP",
+      "minimum": -400, "maximum": 400,
+      "homeAngle": 0, "modelReferenceAngle": 0,
+      "axisOrigin": { "x": 437.5, "y": 0, "z": 1260 },
+      "axisDirection": { "x": 1, "y": 0, "z": 0 }
+    },
+    {
+      "name": "J5", "modelFile": "J5.STEP",
+      "minimum": -120, "maximum": 120,
+      "homeAngle": 0, "modelReferenceAngle": 0,
+      "axisOrigin": { "x": 945, "y": 0, "z": 1260 },
+      "axisDirection": { "x": 0, "y": 1, "z": 0 }
+    },
+    {
+      "name": "J6", "modelFile": "J6.STEP",
+      "minimum": -400, "maximum": 400,
+      "homeAngle": 0, "modelReferenceAngle": 0,
+      "axisOrigin": { "x": 1030, "y": 0, "z": 1260 },
+      "axisDirection": { "x": 1, "y": 0, "z": 0 }
+    }
+  ]
+}
