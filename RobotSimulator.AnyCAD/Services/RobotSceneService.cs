@@ -88,7 +88,7 @@ public sealed class RobotSceneService : IRobotSceneService
         var tool = await Task.Run(() =>
         {
             using var source = ModelResources.OpenTool(toolId, configuration.ModelFile);
-            return CadModelPart.Load("Tool", source);
+            return CadModelPart.Load("Tool", source, null, state => progress?.Report(state));
         });
         if (_disposed || _content != owner)
         {
@@ -103,16 +103,47 @@ public sealed class RobotSceneService : IRobotSceneService
         progress?.Report(new RobotLoadProgress(1, 1, tool.LoadMessage, tool.FromCache));
     }
 
-    /// <summary>移除旧场景、接管新场景，并把相机调整到能看到整个机器人的范围。</summary>
+    /// <summary>工装复用装配模型读取器，成功后才替换，固定在机器人基坐标下。</summary>
+    public async Task LoadWorkAsync(string workId, WorkConfiguration configuration, IProgress<RobotLoadProgress>? progress = null)
+    {
+        WorkConfigurationStore.Validate(configuration);
+        var owner = _content ?? throw new InvalidOperationException("请先加载机器人。");
+        progress?.Report(new RobotLoadProgress(0, 1, $"正在读取工装：{configuration.WorkName}", false));
+        var work = await Task.Run(() =>
+        {
+            using var source = ModelResources.OpenWork(workId, configuration.ModelFile);
+            return CadModelPart.Load("Work", source, null, state => progress?.Report(state));
+        });
+        if (_disposed || _content != owner)
+        {
+            work.Dispose();
+            throw new ObjectDisposedException(nameof(RobotSceneService));
+        }
+        owner.ReplaceWork(work);
+        owner.SetWorkPose(configuration.Pose);
+        owner.Root.UpdateTransform(Matrix4d.Identity);
+        _renderControl.RequestDraw(EnumUpdateFlags.Scene);
+        ZoomAll();
+        progress?.Report(new RobotLoadProgress(1, 1, work.LoadMessage, work.FromCache));
+    }
+
+    /// <summary>新机器人准备完成后局部替换，保留 Tool、工装与相机；首次安装时适配窗口。</summary>
     public void Attach(RobotSceneContent content)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
-        Clear();
-        _content = content;
-
         InitializeViewport();
+        var previous = _content;
         _renderControl.ShowSceneNode(content.Root);
-        _renderControl.ZoomAll(1.15f);
+        previous?.MoveAttachmentsTo(content);
+        _content = content;
+        content.Root.UpdateTransform(Matrix4d.Identity);
+        if (previous is not null)
+        {
+            _renderControl.RemoveSceneNode(previous.Root.GetUuid());
+            previous.Dispose();
+        }
+        else ZoomAll();
+        _renderControl.RequestDraw(EnumUpdateFlags.Scene);
     }
 
     /// <summary>批量更新各关节变换，最后只更新一次世界变换并请求一帧绘制，减少动画开销。</summary>
@@ -164,6 +195,16 @@ public sealed class RobotSceneService : IRobotSceneService
         }
     }
 
+    public void SetWorkPose(PoseConfiguration pose)
+    {
+        if (IsLoaded)
+        {
+            _content!.SetWorkPose(pose);
+            _content.Root.UpdateTransform(Matrix4d.Identity);
+            _renderControl.RequestDraw(EnumUpdateFlags.Scene);
+        }
+    }
+
     /// <summary>把界面视角枚举映射到 AnyCAD 标准视图，再自动适配整个模型。</summary>
     public void SetView(RobotView view)
     {
@@ -181,12 +222,6 @@ public sealed class RobotSceneService : IRobotSceneService
     /// <summary>按整体包围盒适配相机并留出边距，不改变任何关节姿态。</summary>
     public void ZoomAll() => _renderControl.ZoomAll(1.15f);
 
-    /// <summary>移除并释放当前机器人，用于重载或切换型号；保留视口设置供新场景使用。</summary>
-    public void Clear()
-    {
-        ClearCore(isShuttingDown: false);
-    }
-
     /// <summary>最终关闭服务，释放机器人、背景并清除初始化标记，允许重复调用。</summary>
     public void Dispose()
     {
@@ -196,14 +231,14 @@ public sealed class RobotSceneService : IRobotSceneService
         }
 
         _disposed = true;
-        ClearCore(isShuttingDown: true);
+        ClearCore();
         _background?.Dispose();
         _background = null;
         _viewportInitialized = false;
     }
 
     /// <summary>先从渲染控件移除场景，再释放原生资源；关闭时兼容 SDK 已先销毁视口的情况。</summary>
-    private void ClearCore(bool isShuttingDown)
+    private void ClearCore()
     {
         var content = _content;
         _content = null;
@@ -219,7 +254,7 @@ public sealed class RobotSceneService : IRobotSceneService
                 _renderControl.ClearScene();
             }
         }
-        catch (NullReferenceException exception) when (isShuttingDown)
+        catch (NullReferenceException exception)
         {
             // 关闭窗口时 SDK 可能先释放内部视口，此时场景已被移除，只需继续释放持有的资源。
             AppLog.Write($"关闭时 AnyCAD 视图已先释放，跳过重复 ClearScene：{exception.Message}");

@@ -25,6 +25,7 @@ internal static class Program
         {
             SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
             TestConfiguration(fixture);
+            TestWorkConfiguration(fixture);
 #if DEBUG
             RobotSetupChecks.Run(fixture);
 #endif
@@ -37,7 +38,9 @@ internal static class Program
                 RobotColorChecks.Run(fixture);
                 RobotHpChecks.Run(fixture);
                 TestIrb2600Scene(fixture);
+                TestKr20Scene(fixture);
                 TestNativeScene(fixture);
+                TestWorkScene(fixture);
                 TestKr35Scene(fixture);
                 Console.WriteLine("PASS: geometry/colors, independent Tool replacement, two robot flange frames, six joint axes and cache reuse");
             }
@@ -118,13 +121,19 @@ internal static class Program
         var secondPath = Path.Combine(fixture, "second", "Tool.tool.json");
         ToolConfigurationStore.Save(secondPath, secondConfig);
         var second = new ToolModelDefinition("SecondTool", secondPath, secondConfig);
+        var work = WorkConfigurationStore.Discover(Path.Combine(fixture, "vm-work")).Single(model => model.Id == "双点焊工装");
+        var secondWorkConfig = MakeWork("第二套工装", 222);
+        var secondWorkPath = Path.Combine(fixture, "second-work", "双点焊工装.work.json");
+        WorkConfigurationStore.Save(secondWorkPath, secondWorkConfig);
+        var secondWork = new WorkModelDefinition("SecondWork", secondWorkPath, secondWorkConfig);
         var service = new FakeSceneService();
-        var vm = new MainViewModel(robots, [first, second], service);
+        var vm = new MainViewModel(robots, [first, second], [work, secondWork], service);
         var errors = new List<string>();
         vm.ErrorOccurred += (message, _) => errors.Add(message);
         Check(!vm.CanOperate && !vm.CanEditTool, "Controls were enabled before the viewer was ready.");
         await vm.ViewerReadyCommand.ExecuteAsync(null);
-        Check(vm.IsLoaded && service.RobotLoadCount == 1 && service.ToolLoadCount == 1, "Initial independent scene loading failed.");
+        Check(vm.IsLoaded && service.RobotLoadCount == 1 && service.ToolLoadCount == 1 && service.WorkLoadCount == 1,
+            "Initial independent scene loading failed.");
         Check(service.Visibility == (true, true, true), "Coordinate visibility was not initialized.");
         vm.ToolTcpZ = 123.45;
         Check(service.LastTcp?.Z == 123.45, "Live TCP edits did not update the scene.");
@@ -132,13 +141,24 @@ internal static class Program
         vm.ToolTcpX = double.NaN;
         Check(service.TcpUpdates == tcpUpdates, "Invalid TCP reached the scene.");
         vm.ToolTcpX = 0;
+        vm.WorkX = 125;
+        vm.WorkA = 90;
+        Check(service.LastWorkPose?.X == 125 && service.LastWorkPose.A == 90, "Live Work placement did not update.");
+        var workUpdates = service.WorkPoseUpdates;
+        vm.WorkB = double.NaN;
+        Check(service.WorkPoseUpdates == workUpdates, "Invalid Work placement reached the scene.");
+        vm.WorkB = 0;
+        vm.SaveWorkConfigurationCommand.Execute(null);
+        Check(WorkConfigurationStore.Load(work.ConfigurationPath).Pose.X == 125, "Work placement was not saved.");
         vm.SaveToolConfigurationCommand.Execute(null);
         Check(ToolConfigurationStore.Load(first.ConfigurationPath).Tcp.Z == 123.45, "The Tool TCP was not saved.");
         var anotherRobot = robots.Single(robot => robot.Id == Kr35ModelId);
         vm.SelectedRobot = anotherRobot;
         await vm.SelectRobotCommand.ExecuteAsync(anotherRobot);
-        Check(service.RobotLoadCount == 2 && vm.SelectedTool == first && vm.ToolTcpZ == 123.45,
+        Check(service.RobotLoadCount == 2 && service.ToolLoadCount == 1 && vm.SelectedTool == first && vm.ToolTcpZ == 123.45,
             "Robot switching changed the selected Tool or its TCP.");
+        Check(service.WorkLoadCount == 1 && vm.SelectedWork == work && vm.WorkX == 125 && vm.WorkA == 90,
+            "Robot switching lost the selected Work or its edited placement.");
         var joints = vm.Joints;
         vm.Joints[0].Angle = 30;
         vm.SelectedTool = second;
@@ -161,6 +181,42 @@ internal static class Program
         await vm.SelectToolCommand.ExecuteAsync(second);
         Check(vm.SelectedTool == first && vm.ToolTcpZ == 456.7 && vm.IsLoaded && !vm.IsBusy && errors.Count == 1,
             "A failed Tool selection did not preserve the active Tool and robot.");
+        var toolLoads = service.ToolLoadCount;
+        vm.SelectedWork = secondWork;
+        await vm.SelectWorkCommand.ExecuteAsync(secondWork);
+        Check(service.RobotLoadCount == 2 && service.ToolLoadCount == toolLoads && ReferenceEquals(joints, vm.Joints)
+            && vm.Joints[0].Angle == 30 && vm.ToolTcpZ == 456.7 && vm.WorkX == 222,
+            "Switching Work reloaded the robot or Tool, or reset its pose.");
+        vm.WorkX = 333;
+        vm.SaveWorkConfigurationCommand.Execute(null);
+        Check(WorkConfigurationStore.Load(secondWorkPath).Pose.X == 333
+            && WorkConfigurationStore.Load(work.ConfigurationPath).Pose.X == 125, "Saving Work changed another fixture.");
+        vm.SelectedWork = work;
+        await vm.SelectWorkCommand.ExecuteAsync(work);
+        Check(vm.WorkX == 125 && vm.WorkA == 90, "Returning to Work lost its own placement.");
+        WorkConfigurationStore.Save(work.ConfigurationPath, MakeWork(work.DisplayName, 456.7));
+        await vm.ReloadWorkCommand.ExecuteAsync(null);
+        Check(vm.WorkX == 456.7 && service.RobotLoadCount == 2 && service.ToolLoadCount == toolLoads
+            && ReferenceEquals(joints, vm.Joints) && vm.Joints[0].Angle == 30, "Reloading Work changed the robot or Tool.");
+        service.FailNextWork = true;
+        vm.SelectedWork = secondWork;
+        await vm.SelectWorkCommand.ExecuteAsync(secondWork);
+        Check(vm.SelectedWork == work && vm.WorkX == 456.7 && vm.IsLoaded && !vm.IsBusy && errors.Count == 2,
+            "Failed Work loading did not preserve the previous fixture and release the UI.");
+        var previousRobot = vm.SelectedRobot;
+        var previousJoints = vm.Joints;
+        var workLoads = service.WorkLoadCount;
+        service.PendingRobotLoad = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var pendingRobot = service.PendingRobotLoad;
+        vm.SelectedRobot = robots.Single(robot => robot.Id == ModelId);
+        var switching = vm.SelectRobotCommand.ExecuteAsync(vm.SelectedRobot);
+        Check(vm.IsBusy && vm.IsLoaded && vm.ShowLoadingOverlay && ReferenceEquals(vm.Joints, previousJoints),
+            "Robot switching hid or reset the previous scene before the new robot was ready.");
+        pendingRobot.SetException(new System.IO.InvalidDataException("测试机器人读取失败"));
+        await switching;
+        Check(vm.SelectedRobot == previousRobot && ReferenceEquals(vm.Joints, previousJoints) && vm.Joints[0].Angle == 30
+            && vm.IsLoaded && !vm.IsBusy && errors.Count == 3 && service.ToolLoadCount == toolLoads
+            && service.WorkLoadCount == workLoads, "Failed robot switching lost the previous scene or reloaded attachments.");
         var oldAngle = vm.Joints[0].Angle;
         vm.Joints[0].Angle = double.NaN;
         Check(vm.Joints[0].Angle == oldAngle, "Invalid joint angle was accepted.");
@@ -206,7 +262,7 @@ internal static class Program
             Check(closing.Cancel && !service.Disposed, "Closing interrupted a native load.");
             pending.SetResult(true);
             await loading;
-            Check(closeRequested && errors.Count == 1, "Deferred closing did not resume after loading.");
+            Check(closeRequested && errors.Count == 3, "Deferred closing did not resume after loading.");
             vm.ClosingCommand.Execute(new CancelEventArgs());
             Check(service.Disposed, "The scene service was not disposed.");
         }
@@ -217,17 +273,64 @@ internal static class Program
             window.Close();
         }
         var emptyService = new FakeSceneService();
-        var noTool = new MainViewModel(robots, [], emptyService);
+        var noTool = new MainViewModel(robots, [], [], emptyService);
         await noTool.ViewerReadyCommand.ExecuteAsync(null);
         Check(noTool.IsLoaded && !noTool.CanEditTool && emptyService.ToolLoadCount == 0, "Robot-only operation failed.");
         noTool.ClosingCommand.Execute(new CancelEventArgs());
         var failedService = new FakeSceneService { FailInitialization = true };
-        var failedViewer = new MainViewModel(robots, [], failedService);
+        var failedViewer = new MainViewModel(robots, [], [], failedService);
         var initializationErrors = 0;
         failedViewer.ErrorOccurred += (_, _) => initializationErrors++;
         await failedViewer.ViewerReadyCommand.ExecuteAsync(null);
         Check(initializationErrors == 1 && !failedViewer.IsLoaded, "Viewport initialization errors escaped the view model.");
         failedViewer.ClosingCommand.Execute(new CancelEventArgs());
+        var failedWorkService = new FakeSceneService { FailNextWork = true };
+        var failedWorkViewer = new MainViewModel(robots, [first], [work], failedWorkService);
+        await failedWorkViewer.ViewerReadyCommand.ExecuteAsync(null);
+        Check(failedWorkViewer.IsLoaded && failedWorkService.ToolLoadCount == 1 && failedWorkViewer.WorkStatus.Contains("加载失败"),
+            "Initial Work failure disabled the robot or prevented Tool loading.");
+        failedWorkViewer.ClosingCommand.Execute(new CancelEventArgs());
+        var failedToolService = new FakeSceneService { FailNextTool = true };
+        var failedToolViewer = new MainViewModel(robots, [first], [work], failedToolService);
+        await failedToolViewer.ViewerReadyCommand.ExecuteAsync(null);
+        Check(failedToolViewer.IsLoaded && failedToolService.WorkLoadCount == 1 && failedToolViewer.ToolStatus.Contains("加载失败"),
+            "Initial Tool failure prevented independent Work loading.");
+        failedToolViewer.ClosingCommand.Execute(new CancelEventArgs());
+    }
+
+    private static WorkConfiguration MakeWork(string name, double x) => new()
+    {
+        WorkName = name, ModelFile = "双点焊工装.STEP", Pose = new PoseConfiguration { X = x }
+    };
+
+    private static void TestWorkConfiguration(string fixture)
+    {
+        var root = Path.Combine(fixture, "work-config", "Work");
+        var work = WorkConfigurationStore.Discover(root).Single(model => model.Id == "双点焊工装");
+        Check(Path.GetFileName(work.ConfigurationPath) == "双点焊工装.work.json", "Work config/model basenames differ.");
+        Check(work.Configuration.Pose.X == 0 && work.Configuration.Pose.Y == 0 && work.Configuration.Pose.Z == 0
+            && work.Configuration.Pose.A == 0 && work.Configuration.Pose.B == 0 && work.Configuration.Pose.C == 0,
+            "Default Work placement must preserve exported CAD coordinates.");
+        using var source = ModelResources.OpenWork(work.Id, work.Configuration.ModelFile);
+        Check(source.Length > 0, "Work STEP is not embedded.");
+        WorkConfigurationStore.Save(work.ConfigurationPath, MakeWork(work.DisplayName, 123));
+        Check(WorkConfigurationStore.Discover(root).Single(model => model.Id == "双点焊工装").Configuration.Pose.X == 123, "Discovery overwrote saved Work placement.");
+        var saved = File.ReadAllBytes(work.ConfigurationPath);
+        foreach (var value in new[] { double.NaN, double.PositiveInfinity })
+        {
+            var rejected = false;
+            try { WorkConfigurationStore.Save(work.ConfigurationPath, MakeWork(work.DisplayName, value)); }
+            catch (System.IO.InvalidDataException) { rejected = true; }
+            Check(rejected && saved.SequenceEqual(File.ReadAllBytes(work.ConfigurationPath)), "Invalid Work pose overwrote saved data.");
+        }
+        var wrongPath = Path.Combine(root, "WrongName.work.json");
+        var wrongNameRejected = false;
+        try { WorkConfigurationStore.Save(wrongPath, work.Configuration); }
+        catch (System.IO.InvalidDataException) { wrongNameRejected = true; }
+        Check(wrongNameRejected && !File.Exists(wrongPath), "A differently named Work config was saved.");
+        Check(Directory.GetFiles(root, "*", System.IO.SearchOption.AllDirectories).All(file => file.EndsWith(".work.json"))
+            && !Directory.EnumerateFiles(root, "*.tmp", System.IO.SearchOption.AllDirectories).Any(), "Work discovery exported geometry or left temporary files.");
+        Console.WriteLine("PASS: Work embedded catalog, matching config filename, zero placement and atomic independent saves");
     }
 
     /// <summary>确认机器人不带内置 Tool，单独安装或替换时保留六轴并继续复用颜色缓存。</summary>
@@ -278,6 +381,100 @@ internal static class Program
     {
         using var source = ModelResources.OpenTool(ToolId, "Tool.STEP");
         return CadModelPart.Load("Tool", source, cacheRoot);
+    }
+
+    private static void TestWorkScene(string fixture)
+    {
+        const string workId = "双点焊工装";
+        var configuration = WorkConfigurationStore.LoadBuiltIn(workId);
+        var path = Path.Combine(fixture, configuration.ModelFile);
+        using (var source = ModelResources.OpenWork(workId, configuration.ModelFile))
+        using (var destination = File.Create(path)) source.CopyTo(destination);
+        using var original = ShapeIO.Open(path);
+        var expected = MeshStats.FromShape(original);
+        var cacheRoot = Path.Combine(fixture, "cache");
+        var robot = RobotConfigurationStore.LoadBuiltIn(ModelId);
+        using var scene = RobotSceneContent.Load(robot, ModelId, cacheRoot: cacheRoot);
+        scene.ReplaceTool(LoadTool(cacheRoot));
+        using var workMount = FindGroup(scene.Root, "WorkMount");
+        using var flange = FindGroup(scene.JointGroups[5], "FlangeFrame");
+        CadModelPart workPart;
+        using (var source = ModelResources.OpenWork(workId, configuration.ModelFile)) workPart = CadModelPart.Load("Work", source, cacheRoot);
+        Check(!workPart.FromCache, "The isolated first Work load did not parse STEP.");
+        scene.ReplaceWork(workPart);
+        scene.ReplaceWork(workPart);
+        scene.SetWorkPose(configuration.Pose);
+        scene.Root.UpdateTransform(Matrix4d.Identity);
+        AssertFrame(workMount, [0, 0, 0], [1, 0, 0, 0, 1, 0, 0, 0, 1]);
+        uint colorCount;
+        using (var work = FindGroup(workMount, "Work"))
+        {
+            colorCount = work.GetCount();
+            Check(colorCount > 1 && MeshStats.FromGroup(work).SameAs(expected),
+                "Work assembly colors, geometry or original placement were lost.");
+        }
+        scene.SetWorkPose(new PoseConfiguration { X = 120, Y = -40, Z = 10, A = 90 });
+        for (var index = 0; index < 6; index++)
+        {
+            var joint = robot.Joints[index];
+            using var origin = new GPnt(joint.AxisOrigin.X, joint.AxisOrigin.Y, joint.AxisOrigin.Z);
+            using var direction = new GDir(joint.AxisDirection.X, joint.AxisDirection.Y, joint.AxisDirection.Z);
+            using var axis = new GAx1(origin, direction);
+            using var rotation = new GTrsf();
+            rotation.SetRotation(axis, Math.PI / 18);
+            using var matrix = Matrix4d.From(rotation);
+            scene.JointGroups[index].SetTransform(matrix);
+            scene.Root.UpdateTransform(Matrix4d.Identity);
+            AssertFrame(workMount, [120, -40, 10], [0, 1, 0, -1, 0, 0, 0, 0, 1]);
+            scene.JointGroups[index].SetTransform(Matrix4d.Identity);
+        }
+        CadModelPart cachedPart;
+        using (var source = ModelResources.OpenWork(workId, configuration.ModelFile)) cachedPart = CadModelPart.Load("Work", source, cacheRoot);
+        Check(cachedPart.FromCache, "Work did not reuse its assembly cache.");
+        scene.ReplaceWork(cachedPart);
+        scene.Root.UpdateTransform(Matrix4d.Identity);
+        using (var work = FindGroup(workMount, "Work"))
+            Check(work.GetCount() == colorCount && MeshStats.FromGroup(work).SameAs(expected), "Warm Work cache lost assembly geometry or colors.");
+        Check(workMount.GetCount() == 1 && scene.HasWork && scene.HasTool, "Replacing Work retained old geometry or removed Tool.");
+        AssertFrame(flange, [930, 0, 1055], [0, 0, -1, 0, 1, 0, 1, 0, 0]);
+        scene.SetToolTcp(new PoseConfiguration { Z = 100 });
+        var brokenRobot = new RobotConfiguration
+        {
+            ModelName = robot.ModelName, BaseFile = "Missing.STEP", Joints = robot.Joints,
+            FlangeOrigin = robot.FlangeOrigin, FlangeOrientation = robot.FlangeOrientation
+        };
+        var rejected = false;
+        try { using var failed = RobotSceneContent.Load(brokenRobot, ModelId, cacheRoot: cacheRoot); }
+        catch (AggregateException exception)
+        {
+            rejected = exception.Flatten().InnerExceptions.Any(error => error is System.IO.FileNotFoundException);
+        }
+        Check(rejected && scene.HasTool && scene.HasWork, "Partial parallel failure damaged the active scene.");
+        using var originalToolMount = FindGroup(flange, "ToolMount");
+        using var originalTool = FindGroup(originalToolMount, "Tool");
+        using var originalWork = FindGroup(workMount, "Work");
+        var toolNodeId = originalTool.GetUuid();
+        var workNodeId = originalWork.GetUuid();
+        scene.MoveAttachmentsTo(scene);
+        using var next = RobotSceneContent.Load(RobotConfigurationStore.LoadBuiltIn("IRB2600_20_165"), "IRB2600_20_165", cacheRoot: cacheRoot);
+        scene.MoveAttachmentsTo(next);
+        Check(!scene.HasTool && !scene.HasWork && next.HasTool && next.HasWork, "Robot switch duplicated attachment ownership.");
+        scene.Dispose();
+        next.Root.UpdateTransform(Matrix4d.Identity);
+        using var nextWorkMount = FindGroup(next.Root, "WorkMount");
+        using var nextFlange = FindGroup(next.JointGroups[5], "FlangeFrame");
+        using var nextToolMount = FindGroup(nextFlange, "ToolMount");
+        using var nextTcp = FindGroup(nextFlange, "TcpFrame");
+        using var nextTool = FindGroup(nextToolMount, "Tool");
+        using var nextWork = FindGroup(nextWorkMount, "Work");
+        Check(nextTool.GetUuid() == toolNodeId && nextWork.GetUuid() == workNodeId && nextWork.GetCount() == colorCount,
+            "Robot switching recreated or disposed the existing Tool/Work geometry.");
+        AssertFrame(nextWorkMount, [120, -40, 10], [0, 1, 0, -1, 0, 0, 0, 0, 1]);
+        AssertFrame(nextToolMount, [1030, 0, 1260], [0, 0, -1, 0, 1, 0, 1, 0, 0]);
+        AssertFrame(nextTcp, [1130, 0, 1260], [0, 0, -1, 0, 1, 0, 1, 0, 0]);
+        next.ReplaceWork(null);
+        Check(!next.HasWork && nextWorkMount.GetCount() == 0 && next.HasTool, "Removing Work affected Tool or retained old geometry.");
+        Console.WriteLine("PASS: Work geometry/colors, parallel robot loading, six-axis independence and Tool/Work node reuse across robot switching");
     }
 
     /// <summary>创建测试用的独立工具配置。</summary>
@@ -411,6 +608,66 @@ internal static class Program
             "Reloading the KR 35 model did not reuse all seven robot caches.");
     }
 
+    private static void TestKr20Scene(string fixture)
+    {
+        const string modelId = "KR_20_R1810_2";
+        var configuration = RobotConfigurationStore.Discover().Single(model => model.Id == modelId).Configuration;
+        Check(configuration.Joints.Select(joint => (joint.Minimum, joint.Maximum)).SequenceEqual(
+            new (double, double)[] { (-185, 185), (-185, 65), (-138, 175), (-350, 350), (-130, 130), (-350, 350) }),
+            "KR 20 ranges differ from its V15.1 datasheet.");
+        Check(configuration.Joints.Select(joint => joint.HomeAngle).SequenceEqual(new double[] { 0, -90, 90, 0, 0, 0 })
+            && configuration.Joints.All(joint => joint.HomeAngle == joint.ModelReferenceAngle), "KR 20 home changed the exported pose.");
+        using var scene = RobotSceneContent.Load(configuration, modelId, cacheRoot: Path.Combine(fixture, "cache"));
+        using var flange = FindGroup(scene.JointGroups[5], "FlangeFrame");
+        using var tcp = FindGroup(flange, "TcpFrame");
+        for (var index = 0; index < 6; index++)
+        {
+            using var part = FindGroup(scene.JointGroups[index], $"J{index + 1}");
+            Check(part.GetCount() > 0, $"KR 20 J{index + 1} geometry is missing.");
+        }
+        using (var part = FindGroup(scene.JointGroups[5], "J6"))
+        {
+            scene.Root.UpdateTransform(Matrix4d.Identity);
+            using var bounds = part.GetWorldBBox();
+            using var minimum = bounds.getMinimum();
+            using var maximum = bounds.getMaximum();
+            Check(Math.Abs(minimum.x - 1159) < 0.01 && Math.Abs(maximum.x - 1173) < 0.01,
+                $"KR 20 J6 STEP assembly translation was lost: X=[{minimum.x},{maximum.x}].");
+        }
+        scene.SetToolTcp(new PoseConfiguration { Z = 100 });
+        scene.Root.UpdateTransform(Matrix4d.Identity);
+        double[] homeDirections = [0, 0, -1, 0, 1, 0, 1, 0, 0];
+        AssertFrame(flange, [1173, 0, 1450], homeDirections);
+        AssertFrame(tcp, [1273, 0, 1450], homeDirections);
+        (double Delta, double[] Origin, double[] Directions)[] cases =
+        [
+            (90, [0, -1173, 1450], [0, 0, -1, 1, 0, 0, 0, -1, 0]),
+            (90, [1090, 0, -493], [-1, 0, 0, 0, 1, 0, 0, 0, -1]),
+            (-90, [10, 0, 2313], [1, 0, 0, 0, 1, 0, 0, 0, 1]),
+            (90, [1173, 0, 1450], [0, -1, 0, 0, 0, -1, 1, 0, 0]),
+            (90, [1020, 0, 1297], [-1, 0, 0, 0, 1, 0, 0, 0, -1]),
+            (90, [1173, 0, 1450], [0, -1, 0, 0, 0, -1, 1, 0, 0])
+        ];
+        for (var index = 0; index < cases.Length; index++)
+        {
+            var joint = configuration.Joints[index];
+            using var origin = new GPnt(joint.AxisOrigin.X, joint.AxisOrigin.Y, joint.AxisOrigin.Z);
+            using var direction = new GDir(joint.AxisDirection.X, joint.AxisDirection.Y, joint.AxisDirection.Z);
+            using var axis = new GAx1(origin, direction);
+            using var rotation = new GTrsf();
+            rotation.SetRotation(axis, cases[index].Delta * Math.PI / 180);
+            using var matrix = Matrix4d.From(rotation);
+            scene.JointGroups[index].SetTransform(matrix);
+            scene.Root.UpdateTransform(Matrix4d.Identity);
+            AssertFrame(flange, cases[index].Origin, cases[index].Directions);
+            var tcpOrigin = Enumerable.Range(0, 3).Select(coordinate =>
+                cases[index].Origin[coordinate] + 100 * cases[index].Directions[6 + coordinate]).ToArray();
+            AssertFrame(tcp, tcpOrigin, cases[index].Directions);
+            scene.JointGroups[index].SetTransform(Matrix4d.Identity);
+        }
+        Console.WriteLine("PASS: KR 20 R1810-2 ranges, seven parts, STEP assembly translation, six joint chains and flange/TCP");
+    }
+
     private static void VerifyCoordinateFrames(RobotSceneContent scene)
     {
         using var baseAxes = FindNode(scene.Root, "BaseAxes");
@@ -526,19 +783,7 @@ internal static class Program
 
         using var tool = FindGroup(mount, "Tool");
         Check(tool.GetCount() > 1, "Tool STEP colors were not split into separate display groups.");
-        var combined = new MeshStats();
-        using (var iterator = tool.CreateIterator())
-        {
-            while (iterator.More())
-            {
-                using var node = iterator.Current();
-                using var brep = BrepSceneNode.Cast(node)
-                    ?? throw new InvalidOperationException("Tool color group is not a BREP node.");
-                using var shape = brep.GetTopoShape();
-                combined.Add(shape);
-                iterator.Next();
-            }
-        }
+        var combined = MeshStats.FromGroup(tool);
         Check(combined.SameAs(expected), $"Tool geometry changed when splitting colors: {combined} vs {expected}.");
 
         using var offset = Matrix4d.makeTranslate(12, -7, 3);
@@ -607,6 +852,22 @@ internal static class Program
             return result;
         }
 
+        public static MeshStats FromGroup(GroupSceneNode group)
+        {
+            var result = new MeshStats();
+            using var iterator = group.CreateIterator();
+            while (iterator.More())
+            {
+                using var node = iterator.Current();
+                using var brep = BrepSceneNode.Cast(node)
+                    ?? throw new InvalidOperationException("CAD color group is not a BREP node.");
+                using var shape = brep.GetTopoShape();
+                result.Add(shape);
+                iterator.Next();
+            }
+            return result;
+        }
+
         public void Add(TopoShape shape)
         {
             using var representation = GRepShape.Create(shape, null, null, 1.0, false);
@@ -648,6 +909,10 @@ internal static class Program
     {
         public int RobotLoadCount { get; private set; }
         public int ToolLoadCount { get; private set; }
+        public int WorkLoadCount { get; private set; }
+        public int WorkPoseUpdates { get; private set; }
+        public bool FailNextWork { get; set; }
+        public PoseConfiguration? LastWorkPose { get; private set; }
         public int ApplyAllCount { get; private set; }
         public int TcpUpdates { get; private set; }
         public bool Disposed { get; private set; }
@@ -656,21 +921,38 @@ internal static class Program
         public PoseConfiguration? LastTcp { get; private set; }
         public (bool, bool, bool) Visibility { get; private set; }
         public TaskCompletionSource<bool>? PendingToolLoad { get; set; }
+        public TaskCompletionSource<bool>? PendingRobotLoad { get; set; }
 
         public void InitializeViewport()
         {
             if (FailInitialization) throw new InvalidOperationException("测试视口初始化失败。");
         }
-        public Task LoadRobotAsync(RobotConfiguration configuration, string modelId, IProgress<RobotLoadProgress>? progress = null)
+        public async Task LoadRobotAsync(RobotConfiguration configuration, string modelId, IProgress<RobotLoadProgress>? progress = null)
         {
             RobotLoadCount++;
-            return Task.CompletedTask;
+            if (PendingRobotLoad is { } pending)
+            {
+                try { await pending.Task; }
+                finally { PendingRobotLoad = null; }
+            }
         }
         public async Task LoadToolAsync(string toolId, ToolConfiguration configuration, IProgress<RobotLoadProgress>? progress = null)
         {
             ToolLoadCount++;
             if (FailNextTool) { FailNextTool = false; throw new System.IO.InvalidDataException("测试工具加载失败。"); }
             if (PendingToolLoad is { } pending) { await pending.Task; PendingToolLoad = null; }
+        }
+        public Task LoadWorkAsync(string workId, WorkConfiguration configuration, IProgress<RobotLoadProgress>? progress = null)
+        {
+            WorkLoadCount++;
+            if (FailNextWork) { FailNextWork = false; throw new System.IO.InvalidDataException("测试工装加载失败。"); }
+            return Task.CompletedTask;
+        }
+        public void SetWorkPose(PoseConfiguration pose)
+        {
+            ObjectDisposedException.ThrowIf(Disposed, this);
+            LastWorkPose = pose;
+            WorkPoseUpdates++;
         }
         public void ApplyAll(IEnumerable<JointViewModel> joints)
         {

@@ -23,6 +23,8 @@ public interface IRobotSceneService : IDisposable
     Task LoadRobotAsync(RobotConfiguration configuration, string modelId, IProgress<RobotLoadProgress>? progress = null);
     /// <summary>独立加载并替换 Tool，不重新读取机器人，也不重置关节姿态。</summary>
     Task LoadToolAsync(string toolId, ToolConfiguration configuration, IProgress<RobotLoadProgress>? progress = null);
+    /// <summary>独立替换基坐标下的工装，保留机器人及 Tool。</summary>
+    Task LoadWorkAsync(string workId, WorkConfiguration configuration, IProgress<RobotLoadProgress>? progress = null);
     /// <summary>批量应用全部关节角度，最后统一刷新一帧，供复位和动画使用。</summary>
     void ApplyAll(IEnumerable<JointViewModel> joints);
     /// <summary>应用单个关节的角度或轴参数变化，同时让所有下游零件随动。</summary>
@@ -31,6 +33,8 @@ public interface IRobotSceneService : IDisposable
     void SetCoordinateVisibility(bool showBase, bool showFlange, bool showTcp);
     /// <summary>更新相对于法兰的 TCP 坐标轴；不重新解析或移动 Tool 几何。</summary>
     void SetToolTcp(PoseConfiguration pose);
+    /// <summary>整体调整工装相对于机器人基坐标的安装位置。</summary>
+    void SetWorkPose(PoseConfiguration pose);
     /// <summary>切换标准相机视角，并将整个模型适配到窗口。</summary>
     void SetView(RobotView view);
     /// <summary>调整相机缩放，使机器人整体位于视图内。</summary>

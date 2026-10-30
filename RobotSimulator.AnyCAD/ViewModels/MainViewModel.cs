@@ -9,7 +9,7 @@ using RobotSimulator.Services;
 
 namespace RobotSimulator.ViewModels;
 
-/// <summary>协调独立机器人与工具的选择；机器人参数固定，只有工具 TCP 可以编辑和保存。</summary>
+/// <summary>协调机器人、Tool 和工装；机器人参数固定，Tool TCP 与工装安装位置分别保存。</summary>
 public sealed class MainViewModel : ObservableObject
 {
     /// <summary>三维操作接口，保持 ViewModel 与控件分离。</summary>
@@ -28,6 +28,11 @@ public sealed class MainViewModel : ObservableObject
     private ToolConfiguration? _toolConfiguration;
     /// <summary>工具 TCP 的可编辑副本，所有机器人共用同一工具的这一组参数。</summary>
     private PoseConfiguration _toolTcp = new();
+    private WorkModelDefinition? _currentWork;
+    private WorkModelDefinition? _selectedWork;
+    private WorkConfiguration? _workConfiguration;
+    private PoseConfiguration _workPose = new();
+    private string _workStatus = "尚未安装工装";
     /// <summary>六轴运行状态，配置不可编辑，只有当前角度变化。</summary>
     private IReadOnlyList<JointViewModel> _joints = [];
     /// <summary>底部状态文字。</summary>
@@ -61,25 +66,32 @@ public sealed class MainViewModel : ObservableObject
     /// <summary>工具中心箭头显示状态。</summary>
     private bool _showTcpCoordinates = true;
 
-    /// <summary>接收两个独立资源库，并连接 XAML 使用的所有命令。</summary>
+    /// <summary>接收三个独立资源库，并连接 XAML 使用的所有命令。</summary>
     public MainViewModel(IReadOnlyList<RobotModelDefinition> robotModels, IReadOnlyList<ToolModelDefinition> toolModels,
-        IRobotSceneService sceneService)
+        IReadOnlyList<WorkModelDefinition> workModels, IRobotSceneService sceneService)
     {
         if (robotModels.Count == 0) throw new ArgumentException("至少需要一个机器人型号。", nameof(robotModels));
         RobotModels = robotModels;
         ToolModels = toolModels;
+        WorkModels = workModels;
         _sceneService = sceneService;
         _currentRobot = robotModels[0];
         _selectedRobot = _currentRobot;
         _currentTool = toolModels.FirstOrDefault();
         _selectedTool = _currentTool;
         if (_currentTool is not null) LoadToolConfiguration(_currentTool.Configuration);
+        _currentWork = workModels.FirstOrDefault();
+        _selectedWork = _currentWork;
+        if (_currentWork is not null) LoadWorkConfiguration(_currentWork.Configuration);
         LoadRobotConfiguration();
         ViewerReadyCommand = new AsyncRelayCommand(InitializeSceneAsync);
         SelectRobotCommand = new AsyncRelayCommand<RobotModelDefinition>(SelectRobotAsync);
         SelectToolCommand = new AsyncRelayCommand<ToolModelDefinition>(SelectToolAsync);
         ReloadToolCommand = new AsyncRelayCommand(ReloadToolAsync);
         SaveToolConfigurationCommand = new RelayCommand(SaveToolConfiguration);
+        SelectWorkCommand = new AsyncRelayCommand<WorkModelDefinition>(SelectWorkAsync);
+        ReloadWorkCommand = new AsyncRelayCommand(ReloadWorkAsync);
+        SaveWorkConfigurationCommand = new RelayCommand(SaveWorkConfiguration);
         ClosingCommand = new RelayCommand<CancelEventArgs>(OnClosing);
         ResetCommand = new RelayCommand(Reset);
         PlayCommand = new RelayCommand(Play);
@@ -98,6 +110,7 @@ public sealed class MainViewModel : ObservableObject
     public IReadOnlyList<RobotModelDefinition> RobotModels { get; }
     /// <summary>独立工具下拉框的数据源，可与任意机器人搭配。</summary>
     public IReadOnlyList<ToolModelDefinition> ToolModels { get; }
+    public IReadOnlyList<WorkModelDefinition> WorkModels { get; }
     /// <summary>渲染器就绪后启动第一次加载。</summary>
     public IAsyncRelayCommand ViewerReadyCommand { get; }
     /// <summary>选择机器人，只更换机器人参数与六轴，保留当前工具 TCP。</summary>
@@ -108,6 +121,9 @@ public sealed class MainViewModel : ObservableObject
     public IAsyncRelayCommand ReloadToolCommand { get; }
     /// <summary>只保存当前工具的配置，不输出机器人参数。</summary>
     public IRelayCommand SaveToolConfigurationCommand { get; }
+    public IAsyncRelayCommand<WorkModelDefinition> SelectWorkCommand { get; }
+    public IAsyncRelayCommand ReloadWorkCommand { get; }
+    public IRelayCommand SaveWorkConfigurationCommand { get; }
     /// <summary>接收窗口关闭事件参数，协调原生资源安全释放。</summary>
     public IRelayCommand<CancelEventArgs> ClosingCommand { get; }
     /// <summary>将六轴恢复到内置初始角度。</summary>
@@ -129,12 +145,14 @@ public sealed class MainViewModel : ObservableObject
     public RobotModelDefinition? SelectedRobot { get => _selectedRobot; set => SetProperty(ref _selectedRobot, value); }
     /// <summary>工具下拉框选中项，与机器人选择相互独立。</summary>
     public ToolModelDefinition? SelectedTool { get => _selectedTool; set => SetProperty(ref _selectedTool, value); }
+    public WorkModelDefinition? SelectedWork { get => _selectedWork; set => SetProperty(ref _selectedWork, value); }
     /// <summary>内置机器人名称。</summary>
     public string ModelName => _currentRobot.Configuration.ModelName;
     /// <summary>窗口标题，不包含可编辑的机器人配置入口。</summary>
     public string WindowTitle => $"{ModelName} · AnyCAD 运动仿真";
     /// <summary>当前工具名称。</summary>
     public string ToolName => _toolConfiguration?.ToolName ?? "未安装 Tool";
+    public string WorkName => _workConfiguration?.WorkName ?? "未安装工装";
     /// <summary>六轴运行状态集合，外部只能读取集合。</summary>
     public IReadOnlyList<JointViewModel> Joints { get => _joints; private set => SetProperty(ref _joints, value); }
     /// <summary>是否显示基坐标箭头。</summary>
@@ -155,10 +173,18 @@ public sealed class MainViewModel : ObservableObject
     public double ToolTcpB { get => _toolTcp.B; set => SetToolPoseValue(_toolTcp.B, value, v => _toolTcp.B = v); }
     /// <summary>TCP 相对于法兰的 C 角，单位度。</summary>
     public double ToolTcpC { get => _toolTcp.C; set => SetToolPoseValue(_toolTcp.C, value, v => _toolTcp.C = v); }
+    /// <summary>工装整体相对于机器人基坐标的 XYZ/ABC；全零保留导出位置。</summary>
+    public double WorkX { get => _workPose.X; set => SetWorkPoseValue(_workPose.X, value, v => _workPose.X = v); }
+    public double WorkY { get => _workPose.Y; set => SetWorkPoseValue(_workPose.Y, value, v => _workPose.Y = v); }
+    public double WorkZ { get => _workPose.Z; set => SetWorkPoseValue(_workPose.Z, value, v => _workPose.Z = v); }
+    public double WorkA { get => _workPose.A; set => SetWorkPoseValue(_workPose.A, value, v => _workPose.A = v); }
+    public double WorkB { get => _workPose.B; set => SetWorkPoseValue(_workPose.B, value, v => _workPose.B = v); }
+    public double WorkC { get => _workPose.C; set => SetWorkPoseValue(_workPose.C, value, v => _workPose.C = v); }
     /// <summary>底部操作状态文字。</summary>
     public string StatusMessage { get => _statusMessage; set => SetProperty(ref _statusMessage, value); }
     /// <summary>工具安装状态。</summary>
     public string ToolStatus { get => _toolStatus; set => SetProperty(ref _toolStatus, value); }
+    public string WorkStatus { get => _workStatus; set => SetProperty(ref _workStatus, value); }
     /// <summary>当前后台读取步骤。</summary>
     public string LoadingMessage { get => _loadingMessage; set => SetProperty(ref _loadingMessage, value); }
     /// <summary>当前读取阶段的进度，取值 0～100。</summary>
@@ -167,14 +193,18 @@ public sealed class MainViewModel : ObservableObject
     public bool IsBusy { get => _isBusy; private set { if (SetProperty(ref _isBusy, value)) NotifyAvailability(); } }
     /// <summary>机器人已加载；工具加载失败时仍可操作机器人或重新选择工具。</summary>
     public bool IsLoaded { get => _isLoaded; private set { if (SetProperty(ref _isLoaded, value)) NotifyAvailability(); } }
+    /// <summary>加载期间显示浮层和进度，重新载入工装时也有反馈。</summary>
+    public bool ShowLoadingOverlay => IsBusy;
     /// <summary>渲染器已就绪且不处于加载和关闭流程时允许选择机器人。</summary>
     public bool CanSelectRobot => _viewerReady && !IsBusy && !_closePending && !_isClosing;
     /// <summary>机器人可操作时允许选择独立 Tool。</summary>
     public bool CanSelectTool => CanOperate && ToolModels.Count > 0;
+    public bool CanSelectWork => CanOperate && WorkModels.Count > 0;
     /// <summary>当前允许控制关节、复位或播放动作。</summary>
     public bool CanOperate => IsLoaded && CanSelectRobot;
     /// <summary>有当前工具且没有加载任务时，允许编辑、保存和重载工具配置。</summary>
     public bool CanEditTool => CanOperate && _currentTool is not null;
+    public bool CanEditWork => CanOperate && _currentWork is not null;
     /// <summary>示例动作是否播放中，变化时更新按钮文字。</summary>
     public bool IsPlaying { get => _isPlaying; private set { if (SetProperty(ref _isPlaying, value)) OnPropertyChanged(nameof(PlayButtonText)); } }
     /// <summary>根据播放状态显示按钮文字。</summary>
@@ -186,6 +216,13 @@ public sealed class MainViewModel : ObservableObject
         ToolName = _toolConfiguration?.ToolName ?? throw new InvalidOperationException("未选择 Tool。"),
         ModelFile = _toolConfiguration.ModelFile,
         Tcp = CopyPose(_toolTcp)
+    };
+
+    public WorkConfiguration ToWorkConfiguration() => new()
+    {
+        WorkName = _workConfiguration?.WorkName ?? throw new InvalidOperationException("未选择工装。"),
+        ModelFile = _workConfiguration.ModelFile,
+        Pose = CopyPose(_workPose)
     };
 
     /// <summary>切换机器人时重新创建六轴状态，固定参数仍取自内置配置。</summary>
@@ -204,6 +241,13 @@ public sealed class MainViewModel : ObservableObject
         OnPropertyChanged(string.Empty);
     }
 
+    private void LoadWorkConfiguration(WorkConfiguration configuration)
+    {
+        _workConfiguration = configuration;
+        _workPose = CopyPose(configuration.Pose);
+        OnPropertyChanged(string.Empty);
+    }
+
     /// <summary>控件首次就绪后初始化视口并加载首个机器人与工具。</summary>
     private async Task InitializeSceneAsync()
     {
@@ -218,33 +262,73 @@ public sealed class MainViewModel : ObservableObject
         catch (Exception exception) { ReportError(exception, "三维视图初始化失败"); }
     }
 
-    /// <summary>切换机器人时重建机器人场景，再安装当前独立工具；不读取外部机器人 JSON。</summary>
-    private async Task LoadSceneAsync()
+    /// <summary>首次安装全部选择项，后续只替换机器人；加载失败保留当前场景与参数。</summary>
+    private async Task LoadSceneAsync(RobotModelDefinition? target = null)
     {
         if (IsBusy || _isClosing || !_viewerReady) return;
         StopAnimation();
         IsBusy = true;
-        IsLoaded = false;
-        var robotReady = false;
+        target ??= _currentRobot;
+        var installAttachments = !IsLoaded;
+        var robotReady = IsLoaded;
         try
         {
-            await _sceneService.LoadRobotAsync(_currentRobot.Configuration, _currentRobot.Id, CreateProgress());
+            await _sceneService.LoadRobotAsync(target.Configuration, target.Id, CreateProgress());
+            UnbindJointEvents();
+            _currentRobot = target;
+            SelectedRobot = target;
+            LoadRobotConfiguration();
             robotReady = true;
             _sceneService.ApplyAll(Joints);
-            ToolStatus = "未安装 Tool";
-            if (_currentTool is not null)
+            if (installAttachments)
             {
-                await _sceneService.LoadToolAsync(_currentTool.Id, ToToolConfiguration(), CreateProgress());
-                ToolStatus = $"已安装：{ToolName}";
+                ToolStatus = "未安装 Tool";
+                WorkStatus = "未安装工装";
             }
-            StatusMessage = "机器人与 Tool 已加载，机器人参数由程序内置，Tool 配置可独立保存。";
+            var installationFailed = false;
+            if (installAttachments && _currentTool is not null)
+            {
+                try
+                {
+                    await _sceneService.LoadToolAsync(_currentTool.Id, ToToolConfiguration(), CreateProgress());
+                    ToolStatus = $"已安装：{ToolName}";
+                }
+                catch (Exception exception)
+                {
+                    installationFailed = true;
+                    ToolStatus = "Tool 加载失败，可重新载入";
+                    ReportError(exception, "Tool 载入失败");
+                }
+            }
+            if (installAttachments && _currentWork is not null)
+            {
+                try
+                {
+                    await _sceneService.LoadWorkAsync(_currentWork.Id, ToWorkConfiguration(), CreateProgress());
+                    WorkStatus = $"已安装：{WorkName}（机器人基坐标）";
+                }
+                catch (Exception exception)
+                {
+                    installationFailed = true;
+                    WorkStatus = "工装加载失败，可重新载入";
+                    ReportError(exception, "工装载入失败");
+                }
+            }
+            if (!installationFailed) StatusMessage = installAttachments
+                ? "机器人及所选 Tool、工装已加载；工装固定于机器人基坐标。"
+                : "机器人已切换，Tool 与工装复用现有模型，相机视角保持不变。";
         }
-        catch (Exception exception) { ReportError(exception, "模型载入失败"); }
+        catch (Exception exception)
+        {
+            SelectedRobot = _currentRobot;
+            ReportError(exception, "模型载入失败");
+        }
         finally
         {
             IsLoaded = robotReady;
             IsBusy = false;
             UpdateToolTcp();
+            UpdateWorkPose();
             UpdateCoordinateVisibility();
             CompletePendingClose();
         }
@@ -255,12 +339,7 @@ public sealed class MainViewModel : ObservableObject
     {
         if (selected is null || selected.Id == _currentRobot.Id || !_viewerReady || _isClosing) return;
         if (IsBusy) { SelectedRobot = _currentRobot; return; }
-        StopAnimation();
-        UnbindJointEvents();
-        _currentRobot = selected;
-        SelectedRobot = selected;
-        LoadRobotConfiguration();
-        await LoadSceneAsync();
+        await LoadSceneAsync(selected);
     }
 
     /// <summary>读取所选工具的当前外部配置，成功解析模型后才替换旧工具；失败时恢复选择。</summary>
@@ -315,6 +394,53 @@ public sealed class MainViewModel : ObservableObject
         catch (Exception exception) { ReportError(exception, "保存 Tool 失败"); }
     }
 
+    private async Task SelectWorkAsync(WorkModelDefinition? selected)
+    {
+        if (selected is null || selected.Id == _currentWork?.Id) return;
+        if (!CanSelectWork) { SelectedWork = _currentWork; return; }
+        try { await ApplyWorkAsync(selected, WorkConfigurationStore.Load(selected.ConfigurationPath)); }
+        catch (Exception exception) { SelectedWork = _currentWork; ReportError(exception, "切换工装失败"); }
+    }
+
+    private async Task ReloadWorkAsync()
+    {
+        if (!CanEditWork || _currentWork is null) return;
+        try { await ApplyWorkAsync(_currentWork, WorkConfigurationStore.Load(_currentWork.ConfigurationPath)); }
+        catch (Exception exception) { ReportError(exception, "重新载入工装失败"); }
+    }
+
+    private async Task ApplyWorkAsync(WorkModelDefinition work, WorkConfiguration configuration)
+    {
+        StopAnimation();
+        IsBusy = true;
+        try
+        {
+            await _sceneService.LoadWorkAsync(work.Id, configuration, CreateProgress());
+            _currentWork = work;
+            SelectedWork = work;
+            LoadWorkConfiguration(configuration);
+            WorkStatus = $"已安装：{WorkName}（机器人基坐标）";
+            StatusMessage = "工装已更新，机器人当前姿态和 Tool 保持不变。";
+        }
+        finally
+        {
+            IsBusy = false;
+            UpdateWorkPose();
+            CompletePendingClose();
+        }
+    }
+
+    private void SaveWorkConfiguration()
+    {
+        if (!CanEditWork || _currentWork is null) return;
+        try
+        {
+            WorkConfigurationStore.Save(_currentWork.ConfigurationPath, ToWorkConfiguration());
+            StatusMessage = $"工装配置已保存：{_currentWork.ConfigurationPath}";
+        }
+        catch (Exception exception) { ReportError(exception, "保存工装失败"); }
+    }
+
     /// <summary>在 UI 线程创建进度对象，后台回调自动回到界面线程更新属性。</summary>
     private IProgress<RobotLoadProgress> CreateProgress() => new Progress<RobotLoadProgress>(state =>
     {
@@ -331,6 +457,9 @@ public sealed class MainViewModel : ObservableObject
         OnPropertyChanged(nameof(CanSelectTool));
         OnPropertyChanged(nameof(CanOperate));
         OnPropertyChanged(nameof(CanEditTool));
+        OnPropertyChanged(nameof(CanSelectWork));
+        OnPropertyChanged(nameof(CanEditWork));
+        OnPropertyChanged(nameof(ShowLoadingOverlay));
     }
 
     /// <summary>后台读取完成后继续处理此前延迟的关闭请求。</summary>
@@ -505,6 +634,24 @@ public sealed class MainViewModel : ObservableObject
         {
             _sceneService.SetToolTcp(CopyPose(_toolTcp));
         }
+    }
+
+    private void SetWorkPoseValue(double currentValue, double newValue, Action<double> setter,
+        [System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
+    {
+        if (!currentValue.Equals(newValue))
+        {
+            setter(newValue);
+            OnPropertyChanged(propertyName);
+            UpdateWorkPose();
+        }
+    }
+
+    private void UpdateWorkPose()
+    {
+        if (CanEditWork && double.IsFinite(_workPose.X) && double.IsFinite(_workPose.Y) && double.IsFinite(_workPose.Z)
+            && double.IsFinite(_workPose.A) && double.IsFinite(_workPose.B) && double.IsFinite(_workPose.C))
+            _sceneService.SetWorkPose(CopyPose(_workPose));
     }
 
     /// <summary>将三个坐标复选框的状态同步到当前场景；未加载时先保留界面状态。</summary>

@@ -26,7 +26,7 @@
     <!-- 三行：型号与视角工具栏、三维视图和运动控制、状态栏；左列自适应，右列为控制面板。 -->
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="64" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="34" />
         </Grid.RowDefinitions>
@@ -37,12 +37,17 @@
 
         <!-- 顶部工具栏：型号列表来自内置资源配置，视角按钮仅改变相机。 -->
         <Border
+            x:Name="ResourceToolbar"
             Grid.Row="0"
             Grid.ColumnSpan="2"
             Background="#171A20"
             BorderBrush="#2A303A"
             BorderThickness="0,0,0,1">
-            <Grid Margin="20,0">
+            <Grid Margin="20,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -61,39 +66,6 @@
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <!-- SelectedItem 保存选择；SelectionChanged 再通过 InvokeCommandAction 触发实际加载。 -->
-                    <ComboBox
-                        x:Name="RobotSelector"
-                        Width="200"
-                        Margin="0,0,14,0"
-                        DisplayMemberPath="DisplayName"
-                        IsEnabled="{Binding CanSelectRobot}"
-                        ItemsSource="{Binding RobotModels}"
-                        SelectedItem="{Binding SelectedRobot, Mode=TwoWay}"
-                        ToolTip="选择内置机器人；关节和法兰参数在开发阶段固定，不生成外部配置">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding SelectRobotCommand}" CommandParameter="{Binding SelectedItem, ElementName=RobotSelector}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
-                    <!-- 独立工具库：更换 Tool 只替换工具几何，当前机器人关节姿态保持不变。 -->
-                    <TextBlock Margin="0,0,6,0" VerticalAlignment="Center" Text="Tool" />
-                    <ComboBox
-                        x:Name="ToolSelector"
-                        Width="180"
-                        Margin="0,0,14,0"
-                        DisplayMemberPath="DisplayName"
-                        ItemsSource="{Binding ToolModels}"
-                        SelectedItem="{Binding SelectedTool, Mode=TwoWay}"
-                        IsEnabled="{Binding CanSelectTool}"
-                        ToolTip="选择独立 Tool，TCP 配置保存在 Tools/&lt;工具标识&gt;/&lt;模型名&gt;.tool.json，与 STEP 模型同名">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding SelectToolCommand}" CommandParameter="{Binding SelectedItem, ElementName=ToolSelector}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
                     <!-- 点击事件统一交给 ViewModel 命令，避免在窗口后台编写业务事件处理器。 -->
                     <Button Content="等轴测" IsEnabled="{Binding CanOperate}">
                         <i:Interaction.Triggers>
@@ -127,6 +99,50 @@
                         </i:Interaction.Triggers>
                     </Button>
                 </StackPanel>
+                <!-- 三类资源使用同一行选择列表，自适应窗口宽度。 -->
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" Text="机器人" />
+                    <ComboBox x:Name="RobotSelector" Grid.Column="1" MinHeight="30" Margin="0,0,18,0"
+                              AutomationProperties.Name="机器人型号" DisplayMemberPath="DisplayName"
+                              ItemsSource="{Binding RobotModels}" SelectedItem="{Binding SelectedRobot, Mode=TwoWay}"
+                              IsEnabled="{Binding CanSelectRobot}" ToolTip="切换机器人，保留当前 Tool、工装及相机视角">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectRobotCommand}" CommandParameter="{Binding SelectedItem, ElementName=RobotSelector}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <TextBlock Grid.Column="2" Margin="0,0,8,0" VerticalAlignment="Center" Text="Tool" />
+                    <ComboBox x:Name="ToolSelector" Grid.Column="3" MinHeight="30" Margin="0,0,18,0"
+                              AutomationProperties.Name="Tool 型号" DisplayMemberPath="DisplayName"
+                              ItemsSource="{Binding ToolModels}" SelectedItem="{Binding SelectedTool, Mode=TwoWay}"
+                              IsEnabled="{Binding CanSelectTool}" ToolTip="只替换 Tool，保留机器人和工装">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectToolCommand}" CommandParameter="{Binding SelectedItem, ElementName=ToolSelector}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <TextBlock Grid.Column="4" Margin="0,0,8,0" VerticalAlignment="Center" Text="工装" />
+                    <ComboBox x:Name="WorkSelector" Grid.Column="5" MinHeight="30"
+                              AutomationProperties.Name="工装型号" DisplayMemberPath="DisplayName"
+                              ItemsSource="{Binding WorkModels}" SelectedItem="{Binding SelectedWork, Mode=TwoWay}"
+                              IsEnabled="{Binding CanSelectWork}" ToolTip="每次显示一套工装，保留机器人姿态和 Tool">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectWorkCommand}" CommandParameter="{Binding SelectedItem, ElementName=WorkSelector}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </Grid>
             </Grid>
         </Border>
 
@@ -158,7 +174,7 @@
                     CornerRadius="4">
                     <TextBlock Foreground="#C7CEDA" Text="单位：mm  ·  坐标系：右手系 / Z 向上" />
                 </Border>
-                <!-- IsBusy 为 true 时显示加载浮层；进度与步骤来自后台读取器的进度上报。 -->
+                <!-- 只在首次加载显示浮层；替换模型时保留当前画面，进度显示于状态栏。 -->
                 <Border
                     Padding="24,20"
                     HorizontalAlignment="Center"
@@ -167,7 +183,7 @@
                     BorderBrush="#AEB8C4"
                     BorderThickness="1"
                     CornerRadius="9"
-                    Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                    Visibility="{Binding ShowLoadingOverlay, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <StackPanel Width="310">
                         <Grid
                             Width="42"
@@ -239,7 +255,7 @@
             </Grid>
         </Border>
 
-        <!-- 右侧控制面板只允许调整当前关节角度和 Tool TCP，机器人校准参数没有运行时编辑入口。 -->
+        <!-- 右侧调整关节、Tool TCP 与工装安装位置，机器人校准参数保持固定。 -->
         <Border
             Grid.Row="1"
             Grid.Column="1"
@@ -411,6 +427,59 @@
                                         <TextBox Text="{Binding ToolTcpC, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" />
                                     </StackPanel>
                                 </UniformGrid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem x:Name="WorkInstallationTab" Header="工装安装">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="10">
+                                <StackPanel.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Style>
+                                </StackPanel.Resources>
+                                <TextBlock Margin="0,0,0,12" FontWeight="SemiBold" Text="{Binding WorkName}" />
+                                <TextBlock Margin="0,0,0,12" Foreground="{StaticResource MutedBrush}"
+                                           Text="以机器人基坐标为安装基准。XYZ/ABC 全为 0 时，保留 CAD 导出的装配位置；调整数值会整体移动工装。工装不随关节运动。"
+                                           TextWrapping="Wrap" />
+                                <StackPanel IsEnabled="{Binding CanEditWork}">
+                                    <TextBlock FontWeight="SemiBold" Text="工装安装位置" />
+                                    <TextBlock Margin="0,4,0,8" Foreground="{StaticResource MutedBrush}"
+                                               Text="XYZ 单位 mm；ABC 单位度，旋转顺序 Rz(A)·Ry(B)·Rx(C)。"
+                                               TextWrapping="Wrap" />
+                                    <UniformGrid Columns="3">
+                                        <StackPanel Margin="0,0,6,8">
+                                            <TextBlock Text="X / mm" />
+                                            <TextBox AutomationProperties.Name="工装 X，毫米" Text="{Binding WorkX, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="3,0,3,8">
+                                            <TextBlock Text="Y / mm" />
+                                            <TextBox AutomationProperties.Name="工装 Y，毫米" Text="{Binding WorkY, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="6,0,0,8">
+                                            <TextBlock Text="Z / mm" />
+                                            <TextBox AutomationProperties.Name="工装 Z，毫米" Text="{Binding WorkZ, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,6,8">
+                                            <TextBlock Text="A / °" />
+                                            <TextBox AutomationProperties.Name="工装 A，度" Text="{Binding WorkA, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="3,0,3,8">
+                                            <TextBlock Text="B / °" />
+                                            <TextBox AutomationProperties.Name="工装 B，度" Text="{Binding WorkB, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="6,0,0,8">
+                                            <TextBlock Text="C / °" />
+                                            <TextBox AutomationProperties.Name="工装 C，度" Text="{Binding WorkC, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}" />
+                                        </StackPanel>
+                                    </UniformGrid>
+                                    <UniformGrid Margin="0,6,0,12" Columns="2">
+                                        <Button Margin="0,0,6,0" Content="保存工装配置" Command="{Binding SaveWorkConfigurationCommand}" />
+                                        <Button Margin="6,0,0,0" Content="重新载入工装" Command="{Binding ReloadWorkCommand}"
+                                                ToolTip="重新读取已保存的位置，替换未保存的修改" />
+                                    </UniformGrid>
+                                </StackPanel>
+                                <TextBlock Foreground="{StaticResource MutedBrush}" Text="{Binding WorkStatus}" TextWrapping="Wrap" />
                             </StackPanel>
                         </ScrollViewer>
                     </TabItem>

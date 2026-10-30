@@ -1,14 +1,17 @@
-# 独立机器人与 Tool 资源的 AnyCAD WPF 仿真
+# 独立机器人、Tool 与工装资源的 AnyCAD WPF 仿真
 
 项目采用 MVVM：`MainWindow.xaml` 通过 `InvokeCommandAction` 调用 `MainViewModel` 命令，三维加载和显示由场景服务完成。
 
 ## 资源和发布规则
 
-- 机器人与 Tool 是两个独立资源库，界面可自由组合，不为每个机器人复制 Tool。
+- 机器人、Tool 和 Work 工装是三个独立资源库，可自由组合，不为每个机器人复制 Tool 或工装。
 - 机器人 STEP、六轴参数和法兰参数全部内嵌。仿真运行时只读取内嵌配置；Debug 提供开发配置向导，Release 不包含此向导。
 - Tool STEP 和默认配置同样内嵌。配置与模型同名，例如 `Tool.STEP` 对应 `Tool.tool.json`；首次运行只生成 `Tools/<工具标识>/<模型名>.tool.json`。
+- Work STEP 与默认安装配置同样内嵌；首次运行只生成 `Work/<工装标识>/<模型名>.work.json`。每次选择一套工装，固定在机器人基坐标下。
 - 机器人只允许改变当前关节角度；行程、CAD 参考角、初始角、轴心、方向和法兰均在开发阶段固定。
 - 切换 Tool 只替换工具几何，不重新读取机器人，不重置当前六轴姿态；切换机器人保留当前 Tool 及其 TCP。
+- 切换或重载工装保留机器人姿态和 Tool；切换机器人保留所选工装及当前安装位姿。
+- 顶部统一提供机器人、Tool、工装三个选择列表。切换机器人时，旧场景保留到新机器人准备完成，只替换机器人节点；Tool 与工装复用现有几何，相机视角保持不变，读取失败保留原机器人。
 - 正式发布使用新的发布目录。程序不会读取或迁移之前版本留在其他目录的配置文件，不要把旧输出目录整包复制进新发布目录。
 
 ```text
@@ -22,10 +25,14 @@ RobotSimulator.AnyCAD/Resources/
 │     ├─ KR_35_R1820_2.robot.json
 │     ├─ Base.STEP
 │     └─ J1.STEP … J6.STEP
-└─ Tools/
-   └─ Tool/
-      ├─ Tool.tool.json
-      └─ Tool.STEP
+├─ Tools/
+│  └─ Tool/
+│     ├─ Tool.tool.json
+│     └─ Tool.STEP
+└─ Work/
+   └─ 双点焊工装/
+      ├─ 双点焊工装.work.json
+      └─ 双点焊工装.STEP
 ```
 
 机器人型号由同目录的 `<型号>.robot.json` 识别。Tool 目录中只放一份 STEP，按模型文件名读取同名 `.tool.json`，目录标识可与模型名不同。文件按目录通配内嵌，新增目录和配置后重新构建即可，无需修改 C# 或 XAML；Tool 命名或模型引用不一致会明确报错，不迁移旧命名。
@@ -50,6 +57,8 @@ RobotSimulator.AnyCAD/Resources/
 配置向导右侧为所有型号提供具体操作步骤和静态图解：要查看哪两个零件、在 CAD 中量什么、对应填哪个框，以及保存后怎样核对。图片直接显示在页面，不再提供放大窗口。与坐标轴平行的轴可用 ±X/±Y/±Z 按钮填写方向；斜轴手动填写轴线上两点之差。启动角可从已记录的导出角复制，保持原始装配姿态。
 
 `IRB2600_20_165` 已提供[机器人配置](Resources/Robots/IRB2600_20_165/IRB2600_20_165.robot.json)和[逐步测量记录](Resources/Robots/IRB2600_20_165/配置步骤与测量记录.md)，构建后可选择 `ABB IRB 2600-20/1.65`。行程来自 ABB 数据表，轴线和法兰中心来自 STEP；零位、方向及法兰朝向参考 ROS-Industrial 仿真模型，待本台控制器核对。
+
+`KR_20_R1810_2` 已提供[机器人配置及数据来源](Resources/Robots/KR_20_R1810_2/配置与参数来源.md)。行程按对应型号 V15.1 数据表填写，A5 为 ±130°；几何测量包含 J5/J6 的 STEP 装配平移。参考角与方向采用项目 KUKA 仿真映射，待控制器核对。
 
 在 `Resources/Robots/<型号>/` 放入七份 STEP，参考已有型号创建 `<型号>.robot.json`，只包含以下机器人字段：
 
@@ -76,6 +85,7 @@ RobotSimulator.AnyCAD/Resources/
 | KR_10_R1440-2 | 0 / -90 / 90 / 0 / 0 / 0 | 930 / 0 / 1055 | 0 / 90 / 0 |
 | KR_35_R1820_2 | 0 / -90 / 90 / 0 / 0 / 0 | 1153.3 / 0 / 1483.5 | 0 / 90 / 0 |
 | IRB2600_20_165 | 0 / 0 / 0 / 0 / 0 / 0 | 1030 / 0 / 1260 | 0 / 90 / 0 |
+| KR_20_R1810_2 | 0 / -90 / 90 / 0 / 0 / 0 | 1173 / 0 / 1450 | 0 / 90 / 0 |
 
 KR35 轴心已与 STEP 同轴圆柱面核对，其主要尺寸与用户提供的 `Spez_KR_20_R1820-2_E_zh.pdf` 第 27 页相符，法兰安装面参考第 30 页。当前 KR35 仿真行程参考该 KR20 手册第 26 页，KR35 的实际行程仍需用对应型号手册或控制器参数核对；这不是 KR35 的厂家确认值。
 
@@ -99,19 +109,40 @@ KR35 轴心已与 STEP 同轴圆柱面核对，其主要尺寸与用户提供的
 
 ## 现场修改工具
 
-1. 在顶部两个下拉框分别选择机器人和 Tool。
+1. 在顶部选择机器人和 Tool，旁边的工装列表可独立选择。
 2. 在“Tool 坐标”页填写 TCP，坐标箭头立即更新。
 3. 点击“保存 Tool 配置”，写入 `Tools/<工具标识>/<模型名>.tool.json`；同一工具搭配另一台机器人时仍使用这份配置。
 4. 外部修改 JSON 后点击“重新载入 Tool”。只重读工具，不重置机器人角度；未保存的 TCP 会被文件值替换。
 
 已有工具配置不会被启动或构建覆盖。文件被删除后，下次启动恢复内置默认值。工具配置校准后应备份；如果需要作为新安装的默认值，将结果同步回工具资源目录并重新构建。
 
+## 工装安装与后续新增
+
+1. 在顶部与机器人、Tool 并列的工装列表中选择一套工装；右侧“工装安装”页用于调整位置。首次启动自动安装工装列表中的第一套。
+2. 工装的 CAD 原点对齐机器人基坐标原点，方向也对齐。当前“双点焊工装”六项安装参数均为 0，保留模型内所有零件的原始装配位置，不按包围盒重新居中，也不挂在机器人法兰上。
+3. 调整 XYZ/ABC 时整体移动工装，位置相对于机器人基坐标。XYZ 为 mm，ABC 为度，旋转顺序为 `Rz(A)·Ry(B)·Rx(C)`。机器人六轴运动、复位及示例动作不会带动工装。
+4. 点击“保存工装配置”，写入程序目录的 `Work/<工装标识>/<模型名>.work.json`。外部修改 JSON 后点击“重新载入工装”；未保存的页面修改会被文件值替换。
+
+后续每套工装单独放入 `Resources/Work/<工装标识>/`，每个目录包含一份装配 STEP 和同模型名的 `.work.json`。例如 `夹具A.STEP` 对应 `夹具A.work.json`：
+
+```json
+{
+  "workName": "夹具A",
+  "modelFile": "夹具A.STEP",
+  "pose": { "x": 0, "y": 0, "z": 0, "a": 0, "b": 0, "c": 0 }
+}
+```
+
+添加目录后重新构建，工装会自动出现在下拉框中，无需修改 C# 或 XAML。模型始终内嵌，运行时只输出工装配置。已有工装配置不会被启动或构建覆盖；删除后下次启动恢复内置默认值。校准完成后可把保存结果同步回源资源目录，作为新安装的默认值。
+
 ## 显示与性能
 
+- 机器人 Base 与 J1～J6 最多四路并行读取，全部完成后一次组装并显示，保留六轴父子运动关系。XDE 文档创建与销毁串行保护，模型解析、颜色分组、网格及缓存读取分开处理。
+- 仅首次加载显示中央加载提示。后续切换期间保留当前模型，在状态栏显示进度；成功后替换对应模型，切换机器人不再重读 Tool 和工装，也不清空整个场景。
 - 基坐标保持在机器人原点，法兰和 TCP 随运动链更新；三个显示开关互相独立。
 - XYZ 以红、绿、蓝表示，无三维文字；箭头固定屏幕尺寸为基坐标/TCP 64px、法兰 48px，缩放相机时保持观察大小。
 - STEP 使用 XDE 保留装配、实体与逐面颜色。复合零件中的面先继承所属实体颜色，再应用面上的显式覆盖色；按同色面分组生成显示节点，线性颜色转换为 sRGB 后显示。
-- BREP 几何及颜色缓存放在 `%LOCALAPPDATA%/RobotSimulator.AnyCAD/ModelCache`，按部件内容 SHA-256 和格式版本识别，机器人/Tool 改目录不会让原缓存失效。缓存仍需在加载时生成显示网格。
+- BREP 几何及颜色缓存放在 `%LOCALAPPDATA%/RobotSimulator.AnyCAD/ModelCache`，按部件内容 SHA-256 和格式版本识别，机器人、Tool、工装改目录不会让原缓存失效。工具与工装共用装配展开和颜色读取逻辑，缓存仍需在加载时生成显示网格。
 - 实体颜色修正使用 `v7-solid-colors-1mm` 缓存，首次读取会重新生成；旧缓存不会继续遮蔽 Base 外壳和 KUKA 字样的实体颜色，无需手工删除模型或配置。
 - 缓存缺失时临时写出 STEP，关闭文件流后交给 XDE 读取，解析结束立即删除。不会向发布目录复制模型文件。
 - 显示网格采用 1 mm 弦高误差并关闭实时阴影。动画按 WPF 渲染事件推进，更新排在输入之后，减少播放时拖动视角的卡顿。
@@ -132,4 +163,4 @@ dotnet restore RobotSimulator.AnyCAD.Tests\RobotSimulator.AnyCAD.Tests.csproj --
 dotnet run --project RobotSimulator.AnyCAD.Tests\RobotSimulator.AnyCAD.Tests.csproj --no-restore
 ```
 
-代码阅读顺序：`Models/RobotConfiguration.cs`（固定机器人参数）、`Models/ToolConfiguration.cs`（可编辑工具）、`ViewModels/MainViewModel.cs`（选择和命令）、`Services/RobotSceneContent.cs`（层级与坐标）、`Services/CadModelPart.cs`（几何/颜色缓存）、`Services/RobotSceneService.cs`（控件显示）。属性、方法和关键逻辑均带中文注释。
+代码阅读顺序：`Models/RobotConfiguration.cs`（固定机器人参数）、`Models/ToolConfiguration.cs`（可编辑工具）、`Models/WorkConfiguration.cs`（工装安装）、`ViewModels/MainViewModel.cs`（选择和命令）、`Services/RobotSceneContent.cs`（层级与坐标）、`Services/CadModelPart.cs`（几何/颜色缓存）、`Services/RobotSceneService.cs`（控件显示）。

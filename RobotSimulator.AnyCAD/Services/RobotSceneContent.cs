@@ -12,6 +12,9 @@ public sealed class RobotSceneContent : IDisposable
     private readonly List<IDisposable> _cadResources = [];
     /// <summary>当前安装的工具，替换时立即释放旧工具。</summary>
     private CadModelPart? _toolPart;
+    /// <summary>固定于机器人基坐标的工装，与 Tool 分别管理生命周期。</summary>
+    private CadModelPart? _workPart;
+    private GroupSceneNode _workMount = null!;
     /// <summary>法兰下面的工具安装节点，局部变换为单位矩阵。</summary>
     private GroupSceneNode _toolMount = null!;
     /// <summary>法兰下面的 TCP 变换节点。</summary>
@@ -31,6 +34,7 @@ public sealed class RobotSceneContent : IDisposable
     public IReadOnlyList<GroupSceneNode> JointGroups { get; private set; } = [];
     /// <summary>当前是否安装了独立工具模型。</summary>
     public bool HasTool => _toolPart is not null;
+    public bool HasWork => _workPart is not null;
 
     /// <summary>通过 Load 创建场景，避免暴露未完整初始化的坐标节点。</summary>
     private RobotSceneContent() { }
@@ -45,17 +49,29 @@ public sealed class RobotSceneContent : IDisposable
             var files = new List<(string Name, string File)> { ("Base", configuration.BaseFile) };
             files.AddRange(configuration.Joints.Select(joint => (joint.Name, joint.ModelFile)));
             var nodes = new Dictionary<string, SceneNode>();
-            foreach (var (name, file) in files)
+            var loadSync = new object();
+            // 各部件使用独立 XDE 文档，最多四路解析；全部完成后再统一组装运动链。
+            Parallel.For(0, files.Count, new ParallelOptions { MaxDegreeOfParallelism = Math.Min(4, Environment.ProcessorCount) }, index =>
             {
-                report?.Invoke(new RobotLoadProgress(nodes.Count, files.Count, $"正在读取 {name}：{file}", false));
+                var (name, file) = files[index];
+                lock (loadSync)
+                    report?.Invoke(new RobotLoadProgress(nodes.Count, files.Count, $"正在并行读取 {name}：{file}", false));
                 using var source = ModelResources.OpenRobot(modelId, file);
                 var part = CadModelPart.Load(name, source, cacheRoot);
-                content._parts.Add(part);
-                nodes.Add(name, part.Node);
-                report?.Invoke(new RobotLoadProgress(nodes.Count, files.Count, part.LoadMessage, part.FromCache));
-            }
+                lock (loadSync)
+                {
+                    content._parts.Add(part);
+                    nodes.Add(name, part.Node);
+                    report?.Invoke(new RobotLoadProgress(nodes.Count, files.Count, part.LoadMessage, part.FromCache));
+                }
+            });
             content.Root.SetPickable(false);
             content.Root.AddNode(nodes["Base"]);
+            content._workMount = new GroupSceneNode();
+            content._cadResources.Add(content._workMount);
+            content._workMount.SetName("WorkMount");
+            content._workMount.SetPickable(false);
+            content.Root.AddNode(content._workMount);
             var groups = new List<GroupSceneNode>(6);
             var parent = content.Root;
             foreach (var joint in configuration.Joints)
@@ -84,6 +100,49 @@ public sealed class RobotSceneContent : IDisposable
         _toolPart = tool;
         if (tool is not null) _toolMount.AddNode(tool.Node);
         previous?.Dispose();
+    }
+
+    /// <summary>只替换固定工装，挂在基坐标下，不进入六轴运动链。</summary>
+    public void ReplaceWork(CadModelPart? work)
+    {
+        if (ReferenceEquals(work, _workPart)) return;
+        _workMount.Clear();
+        var previous = _workPart;
+        _workPart = work;
+        if (work is not null) _workMount.AddNode(work.Node);
+        previous?.Dispose();
+    }
+
+    /// <summary>机器人更换时转移现有附属模型的所有权，复用几何并保留安装参数。</summary>
+    public void MoveAttachmentsTo(RobotSceneContent target)
+    {
+        if (ReferenceEquals(target, this)) return;
+        using var workPose = _workMount.GetTransform();
+        using var tcpPose = _tcpFrame.GetTransform();
+        target._workMount.SetTransform(workPose);
+        target._tcpFrame.SetTransform(tcpPose);
+        if (_toolPart is { } tool)
+        {
+            if (!_toolMount.RemoveNode(tool.Node.GetUuid())) throw new InvalidOperationException("无法从原机器人移出 Tool。");
+            // RemoveNode 保留父节点引用，显式解除后才能挂接到新机器人。
+            tool.Node.SetParent(null);
+            _toolPart = null;
+            target.ReplaceTool(tool);
+        }
+        if (_workPart is { } work)
+        {
+            if (!_workMount.RemoveNode(work.Node.GetUuid())) throw new InvalidOperationException("无法从原机器人移出工装。");
+            work.Node.SetParent(null);
+            _workPart = null;
+            target.ReplaceWork(work);
+        }
+    }
+
+    /// <summary>基坐标下的整体安装位姿；全零保持 STEP 原有装配坐标。</summary>
+    public void SetWorkPose(PoseConfiguration pose)
+    {
+        using var transform = CreatePoseMatrix(pose);
+        _workMount.SetTransform(transform);
     }
 
     /// <summary>独立控制三组箭头，不隐藏法兰父节点，以免连带隐藏工具和 TCP。</summary>
@@ -145,6 +204,7 @@ public sealed class RobotSceneContent : IDisposable
         _disposed = true;
         Root.Dispose();
         _toolPart?.Dispose();
+        _workPart?.Dispose();
         foreach (var part in _parts) part.Dispose();
         for (var index = _cadResources.Count - 1; index >= 0; index--) _cadResources[index].Dispose();
         _parts.Clear();

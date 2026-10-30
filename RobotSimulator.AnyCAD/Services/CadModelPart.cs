@@ -11,8 +11,10 @@ public sealed class CadModelPart : IDisposable
 {
     /// <summary>网格弦高误差，单位 mm，兼顾显示细节和交互速度。</summary>
     private const double DisplayDeflectionMillimeters = 1.0;
-    /// <summary>实体颜色继承修正后重建几何/颜色缓存，避免继续显示旧的默认灰色。</summary>
-    private const string CacheVersion = "v7-solid-colors-1mm";
+    /// <summary>机器人、Tool 和工装统一按装配体提取颜色，旧缓存需要重建。</summary>
+    private const string CacheVersion = "v8-assembly-colors-1mm";
+    /// <summary>XDE 文档的创建与销毁使用应用级注册表，须串行进入。</summary>
+    private static readonly object XdeDocumentSync = new();
     /// <summary>颜色缓存清单使用紧凑 JSON。</summary>
     private static readonly JsonSerializerOptions CacheJsonOptions = new() { WriteIndented = false };
     /// <summary>原生几何及文档按反序释放，使文档比引用它的几何活得更久。</summary>
@@ -33,13 +35,15 @@ public sealed class CadModelPart : IDisposable
     private CadModelPart(string cacheRoot) => _cacheRoot = cacheRoot;
 
     /// <summary>读取一份独立资源，异常时释放已创建的原生对象，不影响原先正在显示的工具。</summary>
-    public static CadModelPart Load(string name, System.IO.Stream source, string? cacheRoot = null)
+    /// <param name="progress">可选的分阶段进度回调，用于在长时间解析时更新界面。</param>
+    public static CadModelPart Load(string name, System.IO.Stream source, string? cacheRoot = null,
+        Action<RobotLoadProgress>? progress = null)
     {
         var part = new CadModelPart(cacheRoot ?? IOPath.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RobotSimulator.AnyCAD", "ModelCache"));
         try
         {
-            var result = part.LoadPart(name, source);
+            var result = part.LoadPart(name, source, progress);
             part.Node = result.Node;
             part.FromCache = result.FromCache;
             part.LoadMessage = result.Message;
@@ -54,13 +58,21 @@ public sealed class CadModelPart : IDisposable
         if (_disposed) return;
         _disposed = true;
         Node?.Dispose();
-        for (var index = _cadResources.Count - 1; index >= 0; index--) _cadResources[index].Dispose();
+        for (var index = _cadResources.Count - 1; index >= 0; index--)
+        {
+            if (_cadResources[index] is XdeDocumentI document)
+            {
+                lock (XdeDocumentSync) document.Dispose();
+            }
+            else _cadResources[index].Dispose();
+        }
         _cadResources.Clear();
     }
 
     /// <summary>读取一个部件：先尝试内容哈希对应的 BREP 缓存，缺失时解析 STEP、提取颜色并生成缓存。</summary>
-    private PartLoadResult LoadPart(string name, System.IO.Stream source)
+    private PartLoadResult LoadPart(string name, System.IO.Stream source, Action<RobotLoadProgress>? progress)
     {
+        progress?.Invoke(new RobotLoadProgress(0, 1, "正在校验模型缓存…", false));
         // 使用文件内容而非路径或程序时间作为缓存标识，普通代码重新构建不会让模型缓存失效。
         var contentHash = Convert.ToHexString(SHA256.HashData(source));
         var cacheDirectory = GetCacheDirectory(name, contentHash, CacheVersion);
@@ -69,7 +81,9 @@ public sealed class CadModelPart : IDisposable
             return new PartLoadResult(cachedNode, true, $"{name} 已从 BREP 缓存载入：{cachedFaceCount} 个面");
         }
 
-        var document = new XdeDocumentI();
+        progress?.Invoke(new RobotLoadProgress(0, 1, "正在解析 STEP 文件…", false));
+        XdeDocumentI document;
+        lock (XdeDocumentSync) document = new XdeDocumentI();
         _cadResources.Add(document);
         // XDE 只能从路径读取；先写临时 STEP 并关闭文件流，解析结束后立即删除临时文件。
         var path = IOPath.Combine(IOPath.GetTempPath(), $"RobotSimulator-{Guid.NewGuid():N}.STEP");
@@ -81,9 +95,7 @@ public sealed class CadModelPart : IDisposable
                 source.CopyTo(temporaryFile);
             }
             if (!document.Open(path))
-            {
                 throw new System.IO.InvalidDataException($"AnyCAD 无法读取内置 {name} 模型。");
-            }
         }
         finally
         {
@@ -110,41 +122,13 @@ public sealed class CadModelPart : IDisposable
         var colorGroups = new Dictionary<(int R, int G, int B), FaceColorGroup>();
         try
         {
+            progress?.Invoke(new RobotLoadProgress(0, 1, "正在提取颜色和面…", false));
             for (var shapeIndex = 0; shapeIndex < shapeCount; shapeIndex++)
             {
                 using var shapeNode = document.GetShapeNode(shapeIndex);
-                if (string.Equals(name, "Tool", StringComparison.OrdinalIgnoreCase))
-                {
-                    using var fallback = new Vector3(0.72f, 0.72f, 0.72f);
-                    // Tool 往往是装配体，需要遍历零件实例并累计装配位置和继承颜色。
-                    CollectToolColors(document, shapeNode, null, fallback, colorGroups, 0);
-                    continue;
-                }
-
-                var shape = document.GetShape(shapeNode);
-                _cadResources.Add(shape);
-
-                using var neutralGray = new Vector3(0.72f, 0.72f, 0.72f);
-                using var shapeColor = document.GetColor(shapeNode, neutralGray);
-                colorCount.Add(ToColorKey(shapeColor));
-                var solidFaceColors = GetSolidFaceColors(document, shape, shapeColor);
-
-                using var faces = shape.GetChildren(EnumTopoShapeType.Topo_FACE);
-                for (var faceIndex = 0; faceIndex < faces.Count; faceIndex++)
-                {
-                    using var face = faces[faceIndex];
-                    using var bodyColor = solidFaceColors.TryGetValue(face.HashCode(), out var rgb)
-                        ? new Vector3(rgb.R, rgb.G, rgb.B) : null;
-                    using var faceColor = document.GetFaceColor(face, bodyColor ?? shapeColor);
-                    var colorKey = ToColorKey(faceColor);
-                    colorCount.Add(colorKey);
-                    if (!colorGroups.TryGetValue(colorKey, out var group))
-                    {
-                        group = new FaceColorGroup([faceColor.x, faceColor.y, faceColor.z]);
-                        colorGroups.Add(colorKey, group);
-                    }
-                    group.Faces.Add(face);
-                }
+                using var fallback = new Vector3(0.72f, 0.72f, 0.72f);
+                // 单零件导出也可能保留装配层级，颜色挂在子产品上；统一递归读取，避免退回灰色。
+                CollectAssemblyColors(document, shapeNode, null, fallback, colorGroups, 0);
             }
 
             foreach (var key in colorGroups.Keys)
@@ -153,25 +137,38 @@ public sealed class CadModelPart : IDisposable
             }
 
             // 每种颜色单独生成显示节点及 BREP 文件，缓存只保存几何和颜色，加载时仍需生成显示网格。
-            var colorIndex = 0;
-            foreach (var group in colorGroups.Values)
+            progress?.Invoke(new RobotLoadProgress(0, 1, "正在生成显示网格…", false));
+            var colorValues = colorGroups.Values.ToArray();
+            var colorShapes = new TopoShape[colorValues.Length];
+            var cachedShapes = new CachedShape[colorValues.Length];
+            for (var index = 0; index < colorValues.Length; index++)
             {
-                var colorShape = ShapeBuilder.MakeCompound(group.Faces)
+                var colorShape = ShapeBuilder.MakeCompound(colorValues[index].Faces)
                     ?? throw new InvalidOperationException($"AnyCAD 无法生成 {name} 的颜色分组形状。");
                 _cadResources.Add(colorShape);
                 shapesForCache.Add(colorShape);
-
-                var cachedShape = new CachedShape
+                colorShapes[index] = colorShape;
+                cachedShapes[index] = new CachedShape
                 {
-                    BrepFile = $"color-{colorIndex++}.brep",
-                    ShapeColor = group.Color
+                    BrepFile = $"color-{index}.brep",
+                    ShapeColor = colorValues[index].Color
                 };
-                var displayNode = CreateDisplayNode(name, colorShape, cachedShape);
-                faceCount += displayNode.GetFaceCount();
-                partGroup.AddNode(displayNode);
-                cacheManifest.Shapes.Add(cachedShape);
             }
 
+            // 各颜色组互不共享几何，可并行 tessellate；节点挂接仍留在当前线程。
+            var displayNodes = new BrepSceneNode[colorValues.Length];
+            Parallel.For(0, colorValues.Length, index =>
+                displayNodes[index] = CreateDisplayNode(name, colorShapes[index], cachedShapes[index]));
+
+            for (var index = 0; index < displayNodes.Length; index++)
+            {
+                _cadResources.Add(displayNodes[index]);
+                faceCount += displayNodes[index].GetFaceCount();
+                partGroup.AddNode(displayNodes[index]);
+                cacheManifest.Shapes.Add(cachedShapes[index]);
+            }
+
+            progress?.Invoke(new RobotLoadProgress(0, 1, "正在写入模型缓存…", false));
             var cacheSaved = TrySaveBrepCache(cacheDirectory, shapesForCache, cacheManifest);
             return new PartLoadResult(
                 partGroup,
@@ -187,14 +184,14 @@ public sealed class CadModelPart : IDisposable
         }
     }
 
-    /// <summary>递归展开 Tool 装配的零件实例，保留装配位置、实例颜色和逐面颜色，再按颜色合并。</summary>
+    /// <summary>递归展开 CAD 装配实例，保留位置、实例颜色和逐面颜色，再按颜色合并。</summary>
     /// <param name="document">保留装配关系和颜色信息的 XDE 文档。</param>
     /// <param name="node">当前装配或零件实例。</param>
     /// <param name="parentTransform">上层装配累计的变换；根层为空。</param>
     /// <param name="inheritedColor">当前节点未指定颜色时使用的上层颜色。</param>
-    /// <param name="colorGroups">最终颜色分组，坐标均统一到 Tool 模型坐标系。</param>
+    /// <param name="colorGroups">最终颜色分组，坐标均统一到模型原始坐标系。</param>
     /// <param name="depth">当前递归深度，用来阻止异常装配无限展开。</param>
-    private void CollectToolColors(
+    private void CollectAssemblyColors(
         XdeDocumentI document,
         XdeNode node,
         GTrsf? parentTransform,
@@ -204,13 +201,13 @@ public sealed class CadModelPart : IDisposable
     {
         if (depth > 128)
         {
-            throw new System.IO.InvalidDataException("Tool 装配层级过深或包含循环引用。");
+            throw new System.IO.InvalidDataException("CAD 装配层级过深或包含循环引用。");
         }
 
         using var reference = document.IsReference(node) ? document.GetReferencedShape(node) : null;
         if (reference?.IsNullLabel() == true)
         {
-            throw new System.IO.InvalidDataException("Tool 装配体包含无效的零件引用。");
+            throw new System.IO.InvalidDataException("CAD 装配体包含无效的零件引用。");
         }
 
         // 实例可以覆盖零件定义的颜色；没有覆盖时，依次使用定义颜色和上层默认颜色。
@@ -234,17 +231,17 @@ public sealed class CadModelPart : IDisposable
             while (children.More())
             {
                 using var child = children.Value();
-                CollectToolColors(document, child, transform, shapeColor, colorGroups, depth + 1);
+                CollectAssemblyColors(document, child, transform, shapeColor, colorGroups, depth + 1);
                 children.Next();
             }
             return;
         }
 
         var instanceShape = document.GetShape(node)
-            ?? throw new System.IO.InvalidDataException("Tool 装配零件没有几何形状。");
+            ?? throw new System.IO.InvalidDataException("CAD 装配零件没有几何形状。");
         _cadResources.Add(instanceShape);
         var definitionShape = reference is null ? instanceShape : document.GetShape(definition)
-            ?? throw new System.IO.InvalidDataException("Tool 装配零件定义没有几何形状。");
+            ?? throw new System.IO.InvalidDataException("CAD 装配零件定义没有几何形状。");
         if (reference is not null)
         {
             _cadResources.Add(definitionShape);
@@ -255,10 +252,10 @@ public sealed class CadModelPart : IDisposable
         using var definitionFaces = reference is null ? null : definitionShape.GetChildren(EnumTopoShapeType.Topo_FACE);
         if (definitionFaces is not null && definitionFaces.Count != faces.Count)
         {
-            throw new System.IO.InvalidDataException("Tool 装配零件与颜色定义的面数量不一致。");
+            throw new System.IO.InvalidDataException("CAD 装配零件与颜色定义的面数量不一致。");
         }
 
-        // 有上层变换时先局部收集，再整体变换到 Tool 坐标，避免同色但位于不同位置的实例混淆。
+        // 有上层变换时先局部收集，再变换到模型坐标，避免同色但位置不同的实例混淆。
         var groups = parentTransform is null
             ? colorGroups
             : new Dictionary<(int R, int G, int B), FaceColorGroup>();
@@ -271,7 +268,7 @@ public sealed class CadModelPart : IDisposable
                 using var definitionFace = definitionFaces is null ? null : definitionFaces[index];
                 if (definitionFace is not null && !face.IsPartnerShape(definitionFace))
                 {
-                    throw new System.IO.InvalidDataException("Tool 装配零件与颜色定义的面不匹配。");
+                    throw new System.IO.InvalidDataException("CAD 装配零件与颜色定义的面不匹配。");
                 }
 
                 var colorFace = definitionFace ?? face;
@@ -292,10 +289,10 @@ public sealed class CadModelPart : IDisposable
                 foreach (var (key, group) in groups)
                 {
                     var shape = ShapeBuilder.MakeCompound(group.Faces)
-                        ?? throw new InvalidOperationException("AnyCAD 无法生成 Tool 的颜色分组形状。");
+                        ?? throw new InvalidOperationException("AnyCAD 无法生成 CAD 装配的颜色分组形状。");
                     _cadResources.Add(shape);
                     var transformed = TransformTool.Transform(shape, parentTransform, false)
-                        ?? throw new InvalidOperationException("AnyCAD 无法定位 Tool 的装配零件。");
+                        ?? throw new InvalidOperationException("AnyCAD 无法定位 CAD 装配零件。");
                     _cadResources.Add(transformed);
                     if (!colorGroups.TryGetValue(key, out var target))
                     {
@@ -408,14 +405,23 @@ public sealed class CadModelPart : IDisposable
             partGroup.SetName(name);
             partGroup.SetPickable(false);
 
-            foreach (var cachedShape in manifest.Shapes)
+            var cachedShapes = manifest.Shapes.ToArray();
+            var cacheShapes = new TopoShape[cachedShapes.Length];
+            for (var index = 0; index < cachedShapes.Length; index++)
             {
-                var brepPath = IOPath.Combine(cacheDirectory, cachedShape.BrepFile);
-                var shape = ShapeIO.Open(brepPath)
+                var brepPath = IOPath.Combine(cacheDirectory, cachedShapes[index].BrepFile);
+                cacheShapes[index] = ShapeIO.Open(brepPath)
                     ?? throw new System.IO.InvalidDataException($"BREP 缓存无效：{brepPath}");
-                _cadResources.Add(shape);
+                _cadResources.Add(cacheShapes[index]);
+            }
 
-                var displayNode = CreateDisplayNode(name, shape, cachedShape);
+            // 各颜色组互不共享几何，可并行 tessellate；节点挂接仍留在当前线程。
+            var displayNodes = new BrepSceneNode[cachedShapes.Length];
+            Parallel.For(0, cachedShapes.Length, index =>
+                displayNodes[index] = CreateDisplayNode(name, cacheShapes[index], cachedShapes[index]));
+            foreach (var displayNode in displayNodes)
+            {
+                _cadResources.Add(displayNode);
                 faceCount += displayNode.GetFaceCount();
                 partGroup.AddNode(displayNode);
             }

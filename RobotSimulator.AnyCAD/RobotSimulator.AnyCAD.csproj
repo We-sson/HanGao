@@ -30,6 +30,9 @@
     <EmbeddedResource Include="Resources\Tools\**\*.STEP;Resources\Tools\**\*.tool.json"
                       LogicalName="ToolModels/%(RecursiveDir)%(Filename)%(Extension)"
                       WithCulture="false" />
+    <EmbeddedResource Include="Resources\Work\**\*.STEP;Resources\Work\**\*.work.json"
+                      LogicalName="WorkModels/%(RecursiveDir)%(Filename)%(Extension)"
+                      WithCulture="false" />
   </ItemGroup>
 
   <!-- 配置向导只用于开发阶段，Release 不包含源模型导入和机器人参数写入功能。 -->

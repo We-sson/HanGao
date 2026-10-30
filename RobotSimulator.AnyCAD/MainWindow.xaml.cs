@@ -9,11 +9,12 @@ namespace RobotSimulator;
 public partial class MainWindow : Window
 {
     /// <summary>接收已发现的型号，为本窗口创建场景服务，并设置所有界面绑定的数据源。</summary>
-    public MainWindow(IReadOnlyList<RobotModelDefinition> robotModels, IReadOnlyList<ToolModelDefinition> toolModels)
+    public MainWindow(IReadOnlyList<RobotModelDefinition> robotModels, IReadOnlyList<ToolModelDefinition> toolModels,
+        IReadOnlyList<WorkModelDefinition> workModels)
     {
         InitializeComponent();
 
-        var viewModel = new MainViewModel(robotModels, toolModels, new RobotSceneService(RenderView));
+        var viewModel = new MainViewModel(robotModels, toolModels, workModels, new RobotSceneService(RenderView));
         // 弹窗和真正关闭窗口属于视图职责，ViewModel 只发出请求，不直接依赖窗口控件。
         viewModel.ErrorOccurred += (message, title) =>
             System.Windows.MessageBox.Show(this, message, title, MessageBoxButton.OK, MessageBoxImage.Error);
