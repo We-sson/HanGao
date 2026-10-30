@@ -1,21 +1,14 @@
 {
   "modelName": "KUKA KR 10 R1440-2",
   "baseFile": "Base.STEP",
-  "toolFile": "Tool.STEP",
-  "toolModelPose": {
-    "x": 0.0,
+  "flangeOrigin": {
+    "x": 930.0,
     "y": 0.0,
-    "z": 0.0,
-    "a": 0.0,
-    "b": 0.0,
-    "c": 0.0
+    "z": 1055.0
   },
-  "toolTcp": {
-    "x": 0.0,
-    "y": 0.0,
-    "z": 0.0,
+  "flangeOrientation": {
     "a": 0.0,
-    "b": 0.0,
+    "b": 90.0,
     "c": 0.0
   },
   "joints": [
@@ -26,8 +19,16 @@
       "maximum": 170.0,
       "homeAngle": 0.0,
       "modelReferenceAngle": 0.0,
-      "axisOrigin": { "x": 0.0, "y": 0.0, "z": 203.0 },
-      "axisDirection": { "x": 0.0, "y": 0.0, "z": -1.0 }
+      "axisOrigin": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 203.0
+      },
+      "axisDirection": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -1.0
+      }
     },
     {
       "name": "J2",
@@ -36,8 +37,16 @@
       "maximum": 65.0,
       "homeAngle": -90.0,
       "modelReferenceAngle": -90.0,
-      "axisOrigin": { "x": 170.0, "y": 0.0, "z": 425.0 },
-      "axisDirection": { "x": 0.0, "y": 1.0, "z": 0.0 }
+      "axisOrigin": {
+        "x": 170.0,
+        "y": 0.0,
+        "z": 425.0
+      },
+      "axisDirection": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      }
     },
     {
       "name": "J3",
@@ -46,8 +55,16 @@
       "maximum": 163.0,
       "homeAngle": 90.0,
       "modelReferenceAngle": 90.0,
-      "axisOrigin": { "x": 170.0, "y": 0.0, "z": 1035.0 },
-      "axisDirection": { "x": 0.0, "y": 1.0, "z": 0.0 }
+      "axisOrigin": {
+        "x": 170.0,
+        "y": 0.0,
+        "z": 1035.0
+      },
+      "axisDirection": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      }
     },
     {
       "name": "J4",
@@ -56,8 +73,16 @@
       "maximum": 185.0,
       "homeAngle": 0.0,
       "modelReferenceAngle": 0.0,
-      "axisOrigin": { "x": 830.0, "y": 0.0, "z": 1055.0 },
-      "axisDirection": { "x": -1.0, "y": 0.0, "z": 0.0 }
+      "axisOrigin": {
+        "x": 830.0,
+        "y": 0.0,
+        "z": 1055.0
+      },
+      "axisDirection": {
+        "x": -1.0,
+        "y": 0.0,
+        "z": 0.0
+      }
     },
     {
       "name": "J5",
@@ -66,8 +91,16 @@
       "maximum": 120.0,
       "homeAngle": 0.0,
       "modelReferenceAngle": 0.0,
-      "axisOrigin": { "x": 830.0, "y": 0.0, "z": 1055.0 },
-      "axisDirection": { "x": 0.0, "y": 1.0, "z": 0.0 }
+      "axisOrigin": {
+        "x": 830.0,
+        "y": 0.0,
+        "z": 1055.0
+      },
+      "axisDirection": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      }
     },
     {
       "name": "J6",
@@ -76,8 +109,16 @@
       "maximum": 350.0,
       "homeAngle": 0.0,
       "modelReferenceAngle": 0.0,
-      "axisOrigin": { "x": 830.0, "y": 0.0, "z": 1055.0 },
-      "axisDirection": { "x": -1.0, "y": 0.0, "z": 0.0 }
+      "axisOrigin": {
+        "x": 830.0,
+        "y": 0.0,
+        "z": 1055.0
+      },
+      "axisDirection": {
+        "x": -1.0,
+        "y": 0.0,
+        "z": 0.0
+      }
     }
   ]
 }

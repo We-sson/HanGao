@@ -1,0 +1,50 @@
+{
+  "modelName": "KUKA KR 10 R1420 HP",
+  "baseFile": "Base.STEP",
+  "flangeOrigin": { "x": 890, "y": 0, "z": 1080 },
+  "flangeOrientation": { "a": 0, "b": 90, "c": 0 },
+  "joints": [
+    {
+      "name": "J1", "modelFile": "J1.STEP",
+      "minimum": -170, "maximum": 170,
+      "homeAngle": 0, "modelReferenceAngle": 0,
+      "axisOrigin": { "x": 0, "y": 0, "z": 237 },
+      "axisDirection": { "x": 0, "y": 0, "z": -1 }
+    },
+    {
+      "name": "J2", "modelFile": "J2.STEP",
+      "minimum": -185, "maximum": 65,
+      "homeAngle": -90, "modelReferenceAngle": -90,
+      "axisOrigin": { "x": 150, "y": 0, "z": 450 },
+      "axisDirection": { "x": 0, "y": 1, "z": 0 }
+    },
+    {
+      "name": "J3", "modelFile": "J3.STEP",
+      "minimum": -137, "maximum": 163,
+      "homeAngle": 90, "modelReferenceAngle": 90,
+      "axisOrigin": { "x": 150, "y": 0, "z": 1060 },
+      "axisDirection": { "x": 0, "y": 1, "z": 0 }
+    },
+    {
+      "name": "J4", "modelFile": "J4.STEP",
+      "minimum": -185, "maximum": 185,
+      "homeAngle": 0, "modelReferenceAngle": 0,
+      "axisOrigin": { "x": 810, "y": 0, "z": 1080 },
+      "axisDirection": { "x": -1, "y": 0, "z": 0 }
+    },
+    {
+      "name": "J5", "modelFile": "J5.STEP",
+      "minimum": -120, "maximum": 120,
+      "homeAngle": 0, "modelReferenceAngle": 0,
+      "axisOrigin": { "x": 810, "y": 0, "z": 1080 },
+      "axisDirection": { "x": 0, "y": 1, "z": 0 }
+    },
+    {
+      "name": "J6", "modelFile": "J6.STEP",
+      "minimum": -350, "maximum": 350,
+      "homeAngle": 0, "modelReferenceAngle": 0,
+      "axisOrigin": { "x": 810, "y": 0, "z": 1080 },
+      "axisDirection": { "x": -1, "y": 0, "z": 0 }
+    }
+  ]
+}

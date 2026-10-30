@@ -1,15 +1,20 @@
-<Application x:Class="RobotSimulator.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Startup="Application_Startup"
-             Exit="Application_Exit">
+<Application
+    x:Class="RobotSimulator.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Exit="Application_Exit"
+    Startup="Application_Startup">
+    <!-- 全应用共用资源；Startup/Exit 分别连接引擎初始化和释放，不使用 StartupUri 自动创建窗口。 -->
     <Application.Resources>
+        <!-- 将 ViewModel 的 IsBusy 转换为浮层的 Visible/Collapsed 状态。 -->
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <!-- 统一面板、卡片、强调色和次要文字颜色，界面通过 StaticResource 引用。 -->
         <SolidColorBrush x:Key="PanelBrush" Color="#171A20" />
         <SolidColorBrush x:Key="CardBrush" Color="#22262E" />
         <SolidColorBrush x:Key="AccentBrush" Color="#F47B20" />
         <SolidColorBrush x:Key="MutedBrush" Color="#9AA3B2" />
 
+        <!-- 未指定其他样式的 Button 统一使用此配色、内边距和手形鼠标。 -->
         <Style TargetType="Button">
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Background" Value="#343A46" />
@@ -19,6 +24,7 @@
             <Setter Property="Cursor" Value="Hand" />
         </Style>
 
+        <!-- 参数输入框的全局默认外观，不改变文本绑定或提交时机。 -->
         <Style TargetType="TextBox">
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Background" Value="#11141A" />
@@ -26,6 +32,7 @@
             <Setter Property="Padding" Value="5,3" />
         </Style>
 
+        <!-- 给关节滑块保留两侧操作空间。 -->
         <Style TargetType="Slider">
             <Setter Property="Margin" Value="8,0" />
         </Style>

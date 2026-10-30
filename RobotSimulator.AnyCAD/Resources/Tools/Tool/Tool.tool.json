@@ -1,0 +1,5 @@
+{
+  "toolName": "默认 Tool",
+  "modelFile": "Tool.STEP",
+  "tcp": { "x": -220, "y": -31, "z": 305, "a": 0.0, "b": 0.0, "c": 0.0 }
+}

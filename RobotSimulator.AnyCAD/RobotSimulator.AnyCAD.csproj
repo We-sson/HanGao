@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- 以 x64 Windows 桌面程序运行；WPF 负责界面，Windows Forms 支持用于兼容 AnyCAD 控件依赖。 -->
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
@@ -13,17 +14,31 @@
     <AssemblyName>RobotSimulator.AnyCAD</AssemblyName>
   </PropertyGroup>
 
+  <!-- 三维引擎、MVVM 属性/命令工具，以及 XAML 事件转命令行为。 -->
   <ItemGroup>
     <PackageReference Include="AnyCAD.Rapid.NET" Version="2026.8.6.1458" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
   </ItemGroup>
 
+  <!-- 机器人模型与固定参数全部内嵌，不生成外部 robot.json。 -->
   <ItemGroup>
-    <Content Include="..\模型文件\**\*.STEP"
-             Link="Models\%(RecursiveDir)%(Filename)%(Extension)"
-             CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="..\模型文件\**\*.robot.json"
-             Link="Models\%(RecursiveDir)%(Filename)%(Extension)"
-             CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="Resources\Robots\**\*.STEP;Resources\Robots\**\*.robot.json"
+                      LogicalName="RobotModels/%(RecursiveDir)%(Filename)%(Extension)"
+                      WithCulture="false" />
+    <!-- Tool 单独建库，只在首次运行时生成可编辑的工具配置，STEP 不导出。 -->
+    <EmbeddedResource Include="Resources\Tools\**\*.STEP;Resources\Tools\**\*.tool.json"
+                      LogicalName="ToolModels/%(RecursiveDir)%(Filename)%(Extension)"
+                      WithCulture="false" />
+  </ItemGroup>
+
+  <!-- 配置向导只用于开发阶段，Release 不包含源模型导入和机器人参数写入功能。 -->
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <Resource Include="Resources\SetupGuide\**\*.png" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' != 'Debug'">
+    <Page Remove="Views\RobotSetupWindow.xaml" />
+    <Compile Remove="Views\RobotSetupWindow.xaml.cs;ViewModels\RobotSetupViewModel.cs;Services\RobotImportService.cs" />
   </ItemGroup>
 
 </Project>

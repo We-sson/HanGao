@@ -1,0 +1,236 @@
+<Window x:Class="RobotSimulator.Views.RobotSetupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="新机器人配置向导 · 开发工具" Width="1320" Height="900" MinWidth="1100" MinHeight="700"
+        WindowStartupLocation="CenterOwner" Background="#0E1015" Foreground="White" FontSize="14">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style x:Key="HelpText" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+            <Setter Property="Margin" Value="0,5,0,16" />
+            <Setter Property="LineHeight" Value="23" />
+        </Style>
+        <Style x:Key="Field" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,16,14" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="MinHeight" Value="32" />
+            <Setter Property="Foreground" Value="#11141A" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="MinHeight" Value="32" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="SourceImageButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Padding" Value="6" />
+            <Setter Property="Margin" Value="0,6,0,8" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="ToolTip" Value="点击查看大图，可缩放；也可用 Tab 和 Enter 打开" />
+        </Style>
+    </Window.Resources>
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /><RowDefinition Height="*" />
+            <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="0,0,0,20">
+            <TextBlock Text="新机器人配置向导" FontSize="24" FontWeight="SemiBold" />
+            <TextBlock Margin="0,8,0,0" Foreground="{StaticResource MutedBrush}"
+                       Text="开发阶段校准 → 保存源配置 → 重新构建内嵌。运行中的机器人参数在重新构建后生效。" />
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="500" /></Grid.ColumnDefinitions>
+            <Border Padding="20" Margin="0,0,16,0" Background="{StaticResource PanelBrush}" CornerRadius="7">
+                <Grid>
+                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="01 模型导入   →   02 六轴参数   →   03 法兰参数   →   04 校验保存"
+                                   FontSize="12" Foreground="{StaticResource MutedBrush}" />
+                        <TextBlock Text="{Binding StepTitle}" FontSize="20" FontWeight="SemiBold" Margin="0,16,0,6" />
+                        <TextBlock Text="{Binding StepDescription}" Foreground="{StaticResource MutedBrush}" />
+                    </StackPanel>
+                    <ScrollViewer x:Name="ParameterScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <Grid Margin="0,0,12,0">
+                            <StackPanel>
+                                <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers><DataTrigger Binding="{Binding StepIndex}" Value="0"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
+                                </Style></StackPanel.Style>
+                                <Button HorizontalAlignment="Left" Content="选择机器人 STEP 目录…" Click="ChooseDirectory" Margin="0,0,0,12" />
+                                <TextBlock Text="模型源目录" />
+                                <TextBox Text="{Binding SourceDirectory, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" AutomationProperties.Name="模型源目录" Margin="0,4,0,16" />
+                                <TextBlock Text="机器人显示名称" />
+                                <TextBox Text="{Binding ModelName, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="机器人显示名称" Margin="0,4,0,16" />
+                                <TextBlock Text="基座 STEP 文件" />
+                                <ComboBox ItemsSource="{Binding ModelFiles}" SelectedItem="{Binding BaseFile}" AutomationProperties.Name="基座 STEP 文件" Margin="0,4,0,16" />
+                                <TextBlock Text="保存位置" />
+                                <TextBlock Text="{Binding OutputPath}" Style="{StaticResource HelpText}" />
+                                <TextBlock Text="可选择尚未配置的新型号目录，也可打开已有源配置继续修改。STEP 不会被移动、复制或覆盖。" Foreground="{StaticResource MutedBrush}" />
+                            </StackPanel>
+                            <StackPanel>
+                                <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers><DataTrigger Binding="{Binding StepIndex}" Value="1"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
+                                </Style></StackPanel.Style>
+                                <TextBlock Text="依次配置 J1 ～ J6；下一步会检查全部六轴。" Margin="0,0,0,8" />
+                                <ComboBox ItemsSource="{Binding Joints}" SelectedItem="{Binding SelectedJoint}" DisplayMemberPath="Name" AutomationProperties.Name="当前配置关节" Margin="0,0,0,16" />
+                                <StackPanel DataContext="{Binding SelectedJoint}">
+                                    <TextBlock Text="关节 STEP 文件" />
+                                    <ComboBox ItemsSource="{Binding DataContext.ModelFiles, RelativeSource={RelativeSource AncestorType=Window}}"
+                                              SelectedItem="{Binding ModelFile}" AutomationProperties.Name="关节 STEP 文件" Margin="0,4,0,16" />
+                                    <UniformGrid Columns="2">
+                                        <StackPanel Style="{StaticResource Field}"><TextBlock Text="最小角度（°）" /><TextBox Text="{Binding Minimum, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="最小角度，度" /></StackPanel>
+                                        <StackPanel Style="{StaticResource Field}"><TextBlock Text="最大角度（°）" /><TextBox Text="{Binding Maximum, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="最大角度，度" /></StackPanel>
+                                        <StackPanel Style="{StaticResource Field}"><TextBlock Text="启动 / 复位角度（°）" /><TextBox Text="{Binding HomeAngle, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="启动复位角度，度" /></StackPanel>
+                                        <StackPanel Style="{StaticResource Field}"><TextBlock Text="CAD 参考角（°）" /><TextBox Text="{Binding ModelReferenceAngle, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="CAD 参考角，度" /></StackPanel>
+                                    </UniformGrid>
+                                    <TextBlock Text="轴线上一点 · CAD 全局坐标（mm）" Margin="0,0,0,6" />
+                                    <UniformGrid Columns="3">
+                                        <StackPanel Style="{StaticResource Field}"><TextBlock Text="X" /><TextBox Text="{Binding OriginX, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="轴心 X，毫米" /></StackPanel>
+                                        <StackPanel Style="{StaticResource Field}"><TextBlock Text="Y" /><TextBox Text="{Binding OriginY, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="轴心 Y，毫米" /></StackPanel>
+                                        <StackPanel Style="{StaticResource Field}"><TextBlock Text="Z" /><TextBox Text="{Binding OriginZ, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="轴心 Z，毫米" /></StackPanel>
+                                    </UniformGrid>
+                                    <TextBlock Text="轴正方向 · CAD 全局向量（无单位）" Margin="0,0,0,6" />
+                                    <UniformGrid Columns="3">
+                                        <StackPanel Style="{StaticResource Field}"><TextBlock Text="X" /><TextBox Text="{Binding DirectionX, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="轴方向 X" /></StackPanel>
+                                        <StackPanel Style="{StaticResource Field}"><TextBlock Text="Y" /><TextBox Text="{Binding DirectionY, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="轴方向 Y" /></StackPanel>
+                                        <StackPanel Style="{StaticResource Field}"><TextBlock Text="Z" /><TextBox Text="{Binding DirectionZ, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="轴方向 Z" /></StackPanel>
+                                    </UniformGrid>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel>
+                                <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers><DataTrigger Binding="{Binding StepIndex}" Value="2"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
+                                </Style></StackPanel.Style>
+                                <TextBlock Text="法兰安装中心 · CAD 全局坐标（mm）" Margin="0,0,0,8" />
+                                <UniformGrid Columns="3">
+                                    <StackPanel Style="{StaticResource Field}"><TextBlock Text="X" /><TextBox Text="{Binding FlangeX, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="法兰 X，毫米" /></StackPanel>
+                                    <StackPanel Style="{StaticResource Field}"><TextBlock Text="Y" /><TextBox Text="{Binding FlangeY, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="法兰 Y，毫米" /></StackPanel>
+                                    <StackPanel Style="{StaticResource Field}"><TextBlock Text="Z" /><TextBox Text="{Binding FlangeZ, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="法兰 Z，毫米" /></StackPanel>
+                                </UniformGrid>
+                                <TextBlock Text="法兰原始朝向 · Rz(A) · Ry(B) · Rx(C)（°）" Margin="0,8,0,8" />
+                                <UniformGrid Columns="3">
+                                    <StackPanel Style="{StaticResource Field}"><TextBlock Text="A · 绕 Z" /><TextBox Text="{Binding FlangeA, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="法兰 A 绕 Z，度" /></StackPanel>
+                                    <StackPanel Style="{StaticResource Field}"><TextBlock Text="B · 绕 Y" /><TextBox Text="{Binding FlangeB, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="法兰 B 绕 Y，度" /></StackPanel>
+                                    <StackPanel Style="{StaticResource Field}"><TextBlock Text="C · 绕 X" /><TextBox Text="{Binding FlangeC, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="法兰 C 绕 X，度" /></StackPanel>
+                                </UniformGrid>
+                                <TextBlock Style="{StaticResource HelpText}" Text="这些数值描述原始 STEP 装配姿态下的法兰。Tool 自身的 TCP 在主界面的 Tool 坐标页配置。" />
+                            </StackPanel>
+                            <StackPanel>
+                                <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers><DataTrigger Binding="{Binding StepIndex}" Value="3"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
+                                </Style></StackPanel.Style>
+                                <TextBlock Text="配置保存到源目录" FontSize="17" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding OutputPath}" Margin="0,8,0,16" />
+                                <Button Content="重新校验全部参数" Command="{Binding ValidateCommand}" HorizontalAlignment="Left" Margin="0,0,0,20" />
+                                <TextBlock Text="保存后的接入流程" FontSize="17" FontWeight="SemiBold" />
+                                <TextBlock Style="{StaticResource HelpText}" Text="1. 将整个型号目录放入项目 Resources/Robots/（已在此目录则无需复制）。&#10;2. 重新构建 Debug，在仿真中选择新型号。&#10;3. 逐轴小幅增加角度，核对转向、轴心、初始姿态及法兰。&#10;4. 校准通过后构建 Release，机器人模型与参数会内嵌到程序。" />
+                                <TextBlock Text="数值和文件校验不能确认机械校准是否正确，必须完成上述运动核对。" Foreground="#FFD29A" />
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+            <Border Grid.Column="1" Padding="20" Background="{StaticResource CardBrush}" CornerRadius="7">
+                <ScrollViewer x:Name="SourceGuideScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="0,0,8,0">
+                        <TextBlock Text="参数从哪里取得 · 通用图解" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <TextBlock Style="{StaticResource HelpText}" Text="图示说明本工具支持的六个旋转关节的配置方法。具体数值应查对应型号的手册、控制器及原始 CAD 装配。点击图片可放大、缩放和滚动查看。" />
+                        <StackPanel>
+                            <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers><DataTrigger Binding="{Binding StepIndex}" Value="0"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
+                            </Style></StackPanel.Style>
+                            <TextBlock Text="模型准备：统一全局坐标，再拆分零件" FontWeight="SemiBold" />
+                            <Button Style="{StaticResource SourceImageButton}" Click="ShowReferenceImage"
+                                    Tag="/RobotSimulator.AnyCAD;component/Resources/SetupGuide/model-assembly.png"
+                                    AutomationProperties.Name="放大模型拆分与统一装配坐标示意图">
+                                <Image Source="/RobotSimulator.AnyCAD;component/Resources/SetupGuide/model-assembly.png" Stretch="Uniform"
+                                       AutomationProperties.Name="基座及六轴共用一个 CAD 全局原点，按运动链拆分导出" />
+                            </Button>
+                            <TextBlock Style="{StaticResource HelpText}" Text="数据来源：原始 CAD 装配。分别导出基座及 J1～J6，每份 STEP 保留相同全局原点、方向和 mm 单位；每轴文件包含随该轴刚性运动的部件。" />
+                            <TextBlock Text="文件对应：按机械连接顺序确认" FontWeight="SemiBold" />
+                            <TextBlock Style="{StaticResource HelpText}" Text="从固定基座向末端依次识别六轴，在下拉框对应模型文件。默认识别 Base.STEP、J1.STEP～J6.STEP；其他命名也可手动选择。文件名本身不能证明机械轴的顺序。" />
+                            <TextBlock Text="导出前保留两类记录" FontWeight="SemiBold" />
+                            <TextBlock Style="{StaticResource HelpText}" Text="记录 CAD 全局坐标基准，以及导出姿态对应的示教器角度或厂家姿态对照。STEP 几何本身通常不保存控制器关节角度。" />
+                        </StackPanel>
+                        <StackPanel>
+                            <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers><DataTrigger Binding="{Binding StepIndex}" Value="1"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
+                            </Style></StackPanel.Style>
+                            <TextBlock Margin="0,0,0,10" FontWeight="SemiBold"><Run Text="当前关节：" /><Run Text="{Binding SelectedJoint.Name, Mode=OneWay}" /></TextBlock>
+                            <TextBlock Text="行程、启动角、CAD 参考角：三种不同含义" FontWeight="SemiBold" />
+                            <Button Style="{StaticResource SourceImageButton}" Click="ShowReferenceImage"
+                                    Tag="/RobotSimulator.AnyCAD;component/Resources/SetupGuide/angle-reference.png"
+                                    AutomationProperties.Name="放大关节行程、启动角和 CAD 参考角原理图">
+                                <Image Source="/RobotSimulator.AnyCAD;component/Resources/SetupGuide/angle-reference.png" Stretch="Uniform"
+                                       AutomationProperties.Name="机械行程取自对应型号资料，CAD 参考角对应导出姿态，启动角由项目选择" />
+                            </Button>
+                            <TextBlock Style="{StaticResource HelpText}" Text="最小 / 最大角：查对应型号手册的各轴运动范围，或核对控制器轴限位，单位为度。区分运动范围与轴速度，并确认使用同一套示教器角度定义。" />
+                            <TextBlock Style="{StaticResource HelpText}" Text="CAD 参考角：使用导出时记录的示教器角度或已确认的厂家姿态映射。模型实际转角 = 当前角度 − CAD 参考角。没有记录时需要建立并验证映射，不能仅凭外形认定为零度。" />
+                            <TextBlock Style="{StaticResource HelpText}" Text="启动 / 复位角：由项目选择，必须在行程内。首次校准可令启动角 = CAD 参考角，让模型保持原始导出姿态；参考角也应与该型号实际角度定义核对。" />
+                            <TextBlock Text="轴心 XYZ、轴方向：在 CAD 中测量轴线" FontWeight="SemiBold" />
+                            <Button Style="{StaticResource SourceImageButton}" Click="ShowReferenceImage"
+                                    Tag="/RobotSimulator.AnyCAD;component/Resources/SetupGuide/joint-axis.png"
+                                    AutomationProperties.Name="放大轴线上一点与方向向量的 CAD 测量图解">
+                                <Image Source="/RobotSimulator.AnyCAD;component/Resources/SetupGuide/joint-axis.png" Stretch="Uniform"
+                                       AutomationProperties.Name="沿相邻配合圆柱面的旋转轴线取 P1 和 P2，全局坐标 P1 为轴心，P2 减 P1 为方向向量" />
+                            </Button>
+                            <TextBlock Style="{StaticResource HelpText}" Text="轴心：在相邻关节的配合圆柱面或 CAD 旋转中心线上取一点，读取装配全局 XYZ（mm）。轴线上任一点都可用，关键是点必须落在正确轴线上。" />
+                            <TextBlock Style="{StaticResource HelpText}" Text="方向：取同一轴线上的两点，向量 = P2 − P1，可归一化但不能全为零。按右手规则核对控制器正转方向；若相反，将 XYZ 同时取反。圆柱面的参数方向不能代替关节正转定义。" />
+                        </StackPanel>
+                        <StackPanel>
+                            <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers><DataTrigger Binding="{Binding StepIndex}" Value="2"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
+                            </Style></StackPanel.Style>
+                            <TextBlock Text="法兰中心与朝向：用 CAD 几何和定位基准共同确定" FontWeight="SemiBold" />
+                            <Button Style="{StaticResource SourceImageButton}" Click="ShowReferenceImage"
+                                    Tag="/RobotSimulator.AnyCAD;component/Resources/SetupGuide/flange-frame.png"
+                                    AutomationProperties.Name="放大全局坐标、法兰中心与局部坐标系图解">
+                                <Image Source="/RobotSimulator.AnyCAD;component/Resources/SetupGuide/flange-frame.png" Stretch="Uniform"
+                                       AutomationProperties.Name="法兰中心是末轴轴线与安装面的交点，法兰坐标朝向需结合厂家基准或控制器定义" />
+                            </Button>
+                            <TextBlock Style="{StaticResource HelpText}" Text="XYZ 来源：在原始 CAD 姿态中，找到末轴旋转轴线与法兰安装基准面的交点，读取其装配全局坐标（mm）。用对应型号机械接口图确认安装面、定位孔和基准。" />
+                            <TextBlock Style="{StaticResource HelpText}" Text="ABC 来源：按厂家定位基准或控制器法兰坐标定义，确定法兰 X/Y/Z 在 CAD 全局中的方向，再换算为本项目的 R = Rz(A)·Ry(B)·Rx(C)，单位为度。仅有轴线和安装面，仍不足以确定绕轴的 X/Y 零位。" />
+                            <Expander Header="已有旋转矩阵时，如何换算 ABC" Foreground="White" Margin="0,0,0,16">
+                                <TextBlock Style="{StaticResource HelpText}" Text="R 的三列分别为法兰 X、Y、Z 在全局中的方向。非奇异姿态（cos B ≠ 0）：&#10;A = atan2(r21, r11)&#10;B = atan2(−r31, √(r11²+r21²))&#10;C = atan2(r32, r33)&#10;弧度需转成度。B 接近 ±90° 时 A/C 不唯一，应核对旋转矩阵或 CAD 基准轴是否等价。" />
+                            </Expander>
+                            <TextBlock Style="{StaticResource HelpText}" Text="法兰参数描述机器人的安装接口。工具 TCP 是相对于法兰的另一组参数，在主界面的 Tool 坐标页单独配置。" />
+                        </StackPanel>
+                        <StackPanel>
+                            <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers><DataTrigger Binding="{Binding StepIndex}" Value="3"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
+                            </Style></StackPanel.Style>
+                            <TextBlock Text="保存前：按来源逐项核对" FontWeight="SemiBold" />
+                            <TextBlock Style="{StaticResource HelpText}" Text="对应型号手册 / 控制器：六轴行程、角度定义及正转方向。&#10;原始 CAD 装配：轴线、轴线上一点、法兰安装中心及基准方向。&#10;导出姿态记录：CAD 参考角。&#10;项目启动要求：行程内的启动 / 复位角。" />
+                            <Button Style="{StaticResource SourceImageButton}" Click="ShowReferenceImage"
+                                    Tag="/RobotSimulator.AnyCAD;component/Resources/SetupGuide/model-assembly.png"
+                                    AutomationProperties.Name="放大保存前的机械运动链核对示意图">
+                                <Image Source="/RobotSimulator.AnyCAD;component/Resources/SetupGuide/model-assembly.png" Stretch="Uniform"
+                                       AutomationProperties.Name="基座到六轴的机械连接顺序，关节转动时所有下游部件应一起运动" />
+                            </Button>
+                            <TextBlock Text="重新构建后逐轴验证" FontWeight="SemiBold" />
+                            <TextBlock Style="{StaticResource HelpText}" Text="每次只小幅增加一个关节角度，检查该轴和全部下游部件是否共同运动。连接处偏心时检查轴心；转向相反时检查向量符号；固定角度偏差时检查 CAD 参考角。再显示法兰坐标轴，与安装面和定位基准核对。" />
+                            <TextBlock Style="{StaticResource HelpText}" Text="保存到源目录并重新构建后，新参数才进入内嵌机器人库。文件与数值校验不能代替机械校准。" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+        <StackPanel Grid.Row="2" Margin="0,14,0,12">
+            <TextBlock x:Name="ValidationSummary" Text="{Binding ValidationMessage}" Foreground="#FFD29A" Focusable="True" AutomationProperties.LiveSetting="Assertive" />
+            <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource MutedBrush}" Margin="0,5,0,0" />
+        </StackPanel>
+        <DockPanel Grid.Row="3" LastChildFill="False">
+            <Button DockPanel.Dock="Left" Content="关闭" IsCancel="True" />
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                <Button Content="上一步" Command="{Binding BackCommand}" IsEnabled="{Binding CanGoBack}" />
+                <Button x:Name="NextButton" Content="下一步" Command="{Binding NextCommand}" IsEnabled="{Binding CanGoNext}" />
+                <Button Content="保存机器人源配置" Click="SaveConfiguration" IsEnabled="{Binding CanSave}" Margin="0"
+                        Background="{StaticResource AccentBrush}" Foreground="#11141A" FontWeight="SemiBold" />
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>
