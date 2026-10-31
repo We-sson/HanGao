@@ -65,6 +65,12 @@ public sealed class MainViewModel : ObservableObject
     private bool _showFlangeCoordinates = true;
     /// <summary>工具中心箭头显示状态。</summary>
     private bool _showTcpCoordinates = true;
+    /// <summary>相机环绕速度，单位度/秒；0 表示不旋转，加载完成后默认缓慢旋转。</summary>
+    private double _orbitSpeed = 15;
+    /// <summary>相机环绕起始方位角，单位度。</summary>
+    private double _orbitAngle = -45;
+    /// <summary>环绕仰角固定为标准等轴测角度。</summary>
+    private const double OrbitElevationDegrees = 35.264;
 
     /// <summary>接收三个独立资源库，并连接 XAML 使用的所有命令。</summary>
     public MainViewModel(IReadOnlyList<RobotModelDefinition> robotModels, IReadOnlyList<ToolModelDefinition> toolModels,
@@ -140,6 +146,24 @@ public sealed class MainViewModel : ObservableObject
     public IRelayCommand ZoomAllCommand { get; }
     /// <summary>同步三个坐标显示开关。</summary>
     public IRelayCommand UpdateCoordinateVisibilityCommand { get; }
+    /// <summary>相机环绕速度，度/秒；0 表示不旋转。</summary>
+    public double OrbitSpeed
+    {
+        get => _orbitSpeed;
+        set
+        {
+            if (SetProperty(ref _orbitSpeed, value)) UpdateOrbit();
+        }
+    }
+    /// <summary>相机环绕起始方位角，单位度。</summary>
+    public double OrbitAngle
+    {
+        get => _orbitAngle;
+        set
+        {
+            if (SetProperty(ref _orbitAngle, value)) UpdateOrbit();
+        }
+    }
 
     /// <summary>机器人下拉框选中项，实际加载通过选择命令触发。</summary>
     public RobotModelDefinition? SelectedRobot { get => _selectedRobot; set => SetProperty(ref _selectedRobot, value); }
@@ -314,9 +338,18 @@ public sealed class MainViewModel : ObservableObject
                     ReportError(exception, "工装载入失败");
                 }
             }
-            if (!installationFailed) StatusMessage = installAttachments
-                ? "机器人及所选 Tool、工装已加载；工装固定于机器人基坐标。"
-                : "机器人已切换，Tool 与工装复用现有模型，相机视角保持不变。";
+            if (!installationFailed)
+            {
+                StatusMessage = installAttachments
+                    ? "机器人及所选 Tool、工装已加载；工装固定于机器人基坐标。"
+                    : "机器人已切换，Tool 与工装复用现有模型，相机视角保持不变。";
+                // 首次安装完成后统一为等轴测视角，并按当前速度/角度启动相机环绕。
+                if (installAttachments)
+                {
+                    _sceneService.SetView(RobotView.Isometric);
+                    UpdateOrbit();
+                }
+            }
         }
         catch (Exception exception)
         {
@@ -661,6 +694,17 @@ public sealed class MainViewModel : ObservableObject
         {
             _sceneService.SetCoordinateVisibility(ShowBaseCoordinates, ShowFlangeCoordinates, ShowTcpCoordinates);
         }
+    }
+
+    /// <summary>把当前环绕速度、起始角度和固定仰角同步到场景。</summary>
+    private void UpdateOrbit()
+    {
+        if (!_viewerReady || _isClosing)
+        {
+            return;
+        }
+
+        _sceneService.SetOrbit(_orbitSpeed, _orbitAngle, OrbitElevationDegrees);
     }
 
     /// <summary>复制位姿的六个数值，避免界面编辑和后台场景读取同一个可变配置对象。</summary>

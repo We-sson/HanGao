@@ -39,4 +39,6 @@ public interface IRobotSceneService : IDisposable
     void SetView(RobotView view);
     /// <summary>调整相机缩放，使机器人整体位于视图内。</summary>
     void ZoomAll();
+    /// <summary>设置相机绕模型中心环绕的速度（度/秒）、起始方位角和仰角；速度为 0 时不旋转。</summary>
+    void SetOrbit(double speedDegreesPerSecond, double startAngleDegrees, double elevationDegrees);
 }

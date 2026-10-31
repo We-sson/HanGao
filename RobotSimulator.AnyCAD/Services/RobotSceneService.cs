@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Windows.Threading;
 using AnyCAD.Foundation;
 using AnyCAD.WPF;
 using RobotSimulator.Models;
@@ -29,6 +31,26 @@ public sealed class RobotSceneService : IRobotSceneService
     private bool _viewportInitialized;
     /// <summary>服务释放标记，阻止后台任务结束后再向已关闭的视图挂接场景。</summary>
     private bool _disposed;
+    /// <summary>相机环绕计时器；速度为 0 时停止。</summary>
+    private DispatcherTimer? _orbitTimer;
+    /// <summary>环绕计时使用的单调时钟，保证速度不受帧率抖动影响。</summary>
+    private readonly Stopwatch _orbitClock = new();
+    /// <summary>上一次环绕计时对应的时间，单位秒。</summary>
+    private double _lastOrbitSeconds;
+    /// <summary>环绕速度，单位度/秒；0 表示不旋转。</summary>
+    private double _orbitSpeed;
+    /// <summary>当前环绕方位角，单位度。</summary>
+    private double _orbitAzimuth = -45;
+    /// <summary>环绕仰角，单位度；35.264 对应标准等轴测视角。</summary>
+    private double _orbitElevation = 35.264;
+    /// <summary>按模型包围盒适配后的相机距离，环绕时保持该距离。</summary>
+    private double _orbitDistance;
+    /// <summary>环绕中心缓存的模型包围盒中心，避免每帧重新遍历场景。</summary>
+    private double _orbitCenterX;
+    private double _orbitCenterY;
+    private double _orbitCenterZ;
+    /// <summary>各部件包围盒角点缓存，用于计算旋转一圈的最大投影范围。</summary>
+    private readonly List<(double X, double Y, double Z)> _fitCorners = [];
 
     /// <summary>绑定当前窗口的渲染控件，此时尚不读取模型或访问未就绪的原生视口。</summary>
     public RobotSceneService(RenderControl renderControl)
@@ -205,7 +227,7 @@ public sealed class RobotSceneService : IRobotSceneService
         }
     }
 
-    /// <summary>把界面视角枚举映射到 AnyCAD 标准视图，再自动适配整个模型。</summary>
+    /// <summary>把界面视角枚举映射到 AnyCAD 标准方向，围绕当前目标点旋转相机后适配窗口。</summary>
     public void SetView(RobotView view)
     {
         var standardView = view switch
@@ -215,12 +237,224 @@ public sealed class RobotSceneService : IRobotSceneService
             RobotView.Top => EnumStandardView.Top,
             _ => throw new ArgumentOutOfRangeException(nameof(view))
         };
-        _renderControl.SetStandardView(standardView, true);
+
+        // SetStandardView 在加载流程中会留下无效相机，改为直接计算标准方向的相机位置。
+        using var driver = new CameraDriver();
+        driver.ComputeCameraDirection(standardView);
+        using var direction = driver.GetDirection();
+        using var up = driver.GetUp();
+        var camera = _renderControl.Camera;
+        using var target = camera.GetTarget();
+        var distance = camera.GetDistance();
+        using var position = new Vector3d(
+            target.x - direction.x * distance,
+            target.y - direction.y * distance,
+            target.z - direction.z * distance);
+        camera.LookAt(position, target, up);
         ZoomAll();
     }
 
-    /// <summary>按整体包围盒适配相机并留出边距，不改变任何关节姿态。</summary>
-    public void ZoomAll() => _renderControl.ZoomAll(1.15f);
+    /// <summary>按模型世界包围盒居中并填满窗口，保留少量边距避免贴边。</summary>
+    public void ZoomAll()
+    {
+        if (_content is null)
+        {
+            return;
+        }
+
+        using var box = _content.GetModelBoundingBox();
+        _renderControl.Viewer.ZoomToBox(box, 1.0f);
+        using var min = box.getMinimum();
+        using var max = box.getMaximum();
+
+        // 环绕中心使用模型包围盒中心，旋转时整体画面更稳定。
+        _orbitCenterX = (min.x + max.x) / 2;
+        _orbitCenterY = (min.y + max.y) / 2;
+        _orbitCenterZ = (min.z + max.z) / 2;
+        _orbitDistance = _renderControl.Camera.GetDistance();
+        RefreshFitCorners();
+
+        FitOrthoToParts(coverFullOrbit: false);
+        _renderControl.RequestDraw(EnumUpdateFlags.Scene);
+    }
+
+    /// <summary>缓存各部件包围盒的八个角点，供整圈旋转的最坏投影计算。</summary>
+    private void RefreshFitCorners()
+    {
+        _fitCorners.Clear();
+        if (_content is null)
+        {
+            return;
+        }
+
+        foreach (var partBox in _content.GetPartBoundingBoxes())
+        {
+            using (partBox)
+            {
+                using var partMin = partBox.getMinimum();
+                using var partMax = partBox.getMaximum();
+                _fitCorners.Add((partMin.x, partMin.y, partMin.z));
+                _fitCorners.Add((partMin.x, partMin.y, partMax.z));
+                _fitCorners.Add((partMin.x, partMax.y, partMin.z));
+                _fitCorners.Add((partMin.x, partMax.y, partMax.z));
+                _fitCorners.Add((partMax.x, partMin.y, partMin.z));
+                _fitCorners.Add((partMax.x, partMin.y, partMax.z));
+                _fitCorners.Add((partMax.x, partMax.y, partMin.z));
+                _fitCorners.Add((partMax.x, partMax.y, partMax.z));
+            }
+        }
+    }
+
+    /// <summary>按部件投影调整正交缩放；环绕时采样整圈角度，保证任何角度都不切边。</summary>
+    private void FitOrthoToParts(bool coverFullOrbit)
+    {
+        if (_content is null || _fitCorners.Count == 0)
+        {
+            return;
+        }
+
+        var controlWidth = _renderControl.ActualWidth;
+        var controlHeight = _renderControl.ActualHeight;
+        if (controlWidth <= 2 || controlHeight <= 2)
+        {
+            return;
+        }
+
+        var camera = _renderControl.Camera;
+        var baseOrtho = camera.GetOrthoZoomFactor();
+        var maxFraction = 0.0;
+        if (coverFullOrbit && _orbitSpeed != 0)
+        {
+            // 每 15° 采样一次，取旋转一圈中投影最大的角度作为适配依据。
+            for (var index = 0; index < 24; index++)
+            {
+                SetOrbitCamera(index * 15.0);
+                maxFraction = Math.Max(maxFraction, MeasureFitFraction(controlWidth, controlHeight));
+            }
+            SetOrbitCamera(_orbitAzimuth);
+        }
+        else
+        {
+            maxFraction = MeasureFitFraction(controlWidth, controlHeight);
+        }
+
+        if (maxFraction > 0)
+        {
+            // 留 3% 边距；正交缩放因子越大模型越小，因此乘以最大投影占比。
+            camera.SetOrthoZoomFactor(baseOrtho * maxFraction / 0.97);
+            camera.UpdateProjectionMatrix();
+            _renderControl.RequestDraw(EnumUpdateFlags.Scene);
+        }
+    }
+
+    /// <summary>把缓存的角点投影到屏幕，返回宽或高相对控件尺寸的最大占比。</summary>
+    private double MeasureFitFraction(double controlWidth, double controlHeight)
+    {
+        var screenMinX = double.MaxValue;
+        var screenMinY = double.MaxValue;
+        var screenMaxX = double.MinValue;
+        var screenMaxY = double.MinValue;
+        foreach (var (x, y, z) in _fitCorners)
+        {
+            using var point = new Vector3(x, y, z);
+            using var screen = _renderControl.Viewer.WorldPointToSceenPoint(point);
+            screenMinX = Math.Min(screenMinX, screen.x);
+            screenMinY = Math.Min(screenMinY, screen.y);
+            screenMaxX = Math.Max(screenMaxX, screen.x);
+            screenMaxY = Math.Max(screenMaxY, screen.y);
+        }
+
+        var screenWidth = screenMaxX - screenMinX;
+        var screenHeight = screenMaxY - screenMinY;
+        if (screenWidth <= 0 || screenHeight <= 0)
+        {
+            return 0;
+        }
+
+        return Math.Max(screenWidth / controlWidth, screenHeight / controlHeight);
+    }
+
+    /// <summary>设置相机绕模型包围盒中心的环绕速度、起始方位角和仰角；速度为 0 时只定位不旋转。</summary>
+    public void SetOrbit(double speedDegreesPerSecond, double startAngleDegrees, double elevationDegrees)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        _orbitSpeed = speedDegreesPerSecond;
+        _orbitAzimuth = startAngleDegrees;
+        _orbitElevation = Math.Clamp(elevationDegrees, -85, 85);
+        SetOrbitCamera(_orbitAzimuth);
+        // 环绕时按整圈最坏角度适配，静止时按当前角度适配。
+        FitOrthoToParts(coverFullOrbit: _orbitSpeed != 0);
+
+        if (_orbitSpeed == 0)
+        {
+            _orbitTimer?.Stop();
+            _orbitClock.Stop();
+            return;
+        }
+
+        _orbitTimer ??= CreateOrbitTimer();
+        _lastOrbitSeconds = _orbitClock.Elapsed.TotalSeconds;
+        _orbitClock.Start();
+        _orbitTimer.Start();
+    }
+
+    /// <summary>创建约 30 帧/秒的环绕计时器，只更新相机，不重建场景。</summary>
+    private DispatcherTimer CreateOrbitTimer()
+    {
+        var timer = new DispatcherTimer(DispatcherPriority.Render)
+        {
+            Interval = TimeSpan.FromMilliseconds(33),
+        };
+        timer.Tick += OnOrbitTick;
+        return timer;
+    }
+
+    /// <summary>按实际经过时间推进方位角，避免计时器抖动导致速度不一致。</summary>
+    private void OnOrbitTick(object? sender, EventArgs e)
+    {
+        if (_disposed || _content is null || _orbitSpeed == 0)
+        {
+            return;
+        }
+
+        var now = _orbitClock.Elapsed.TotalSeconds;
+        var elapsed = now - _lastOrbitSeconds;
+        _lastOrbitSeconds = now;
+        _orbitAzimuth = (_orbitAzimuth + _orbitSpeed * elapsed) % 360;
+        ApplyOrbitCamera();
+    }
+
+    /// <summary>围绕模型包围盒中心重新计算眼点，保持适配后的距离、仰角和正交缩放。</summary>
+    private void ApplyOrbitCamera()
+    {
+        if (_content is null)
+        {
+            return;
+        }
+
+        SetOrbitCamera(_orbitAzimuth);
+        _renderControl.Camera.UpdateProjectionMatrix();
+        _renderControl.RequestDraw(EnumUpdateFlags.Scene);
+    }
+
+    /// <summary>按指定方位角把相机放到环绕位置，保留当前正交缩放。</summary>
+    private void SetOrbitCamera(double azimuthDegrees)
+    {
+        var camera = _renderControl.Camera;
+        var ortho = camera.GetOrthoZoomFactor();
+        var distance = _orbitDistance > 0 ? _orbitDistance : camera.GetDistance();
+        var azimuth = azimuthDegrees * Math.PI / 180;
+        var elevation = _orbitElevation * Math.PI / 180;
+        using var eye = new Vector3d(
+            _orbitCenterX + distance * Math.Cos(elevation) * Math.Cos(azimuth),
+            _orbitCenterY + distance * Math.Cos(elevation) * Math.Sin(azimuth),
+            _orbitCenterZ + distance * Math.Sin(elevation));
+        using var target = new Vector3d(_orbitCenterX, _orbitCenterY, _orbitCenterZ);
+        using var up = new Vector3d(0, 0, 1);
+        camera.LookAt(eye, target, up);
+        // LookAt 会重置正交缩放；恢复当前比例，保证采样和旋转时大小不变。
+        camera.SetOrthoZoomFactor(ortho);
+    }
 
     /// <summary>最终关闭服务，释放机器人、背景并清除初始化标记，允许重复调用。</summary>
     public void Dispose()
@@ -231,6 +465,9 @@ public sealed class RobotSceneService : IRobotSceneService
         }
 
         _disposed = true;
+        _orbitTimer?.Stop();
+        _orbitClock.Stop();
+        _orbitTimer = null;
         ClearCore();
         _background?.Dispose();
         _background = null;

@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <!--  SkiaSharp.Views.WPF 3.119.0 只提供 net462 与 Windows 10.0.19041 资产；
+          使用 windows10.0.19041 目标避免回退到 .NET Framework 版 OpenTK 3.3.1。  -->
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -10,7 +12,7 @@
     <Platforms>x64</Platforms>
     <AnalysisLevel>preview</AnalysisLevel>
     <UseWindowsForms>True</UseWindowsForms>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <FileVersion></FileVersion>
     <AssemblyVersion></AssemblyVersion>
     <ApplicationIcon>Resources\软件图标.ico</ApplicationIcon>
@@ -67,7 +69,27 @@
     <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj" />
     <ProjectReference Include="..\HanGao.ModbusTcp\HanGao.ModbusTcp.csproj" />
     <ProjectReference Include="..\Roboto_Socket_Library\Roboto_Socket_Library.csproj" />
+    <!-- Modbus TCP 功能库：配置、服务端、状态和命令。 -->
+    <ProjectReference Include="..\HanGao.RobotInfo.Modbus\HanGao.RobotInfo.Modbus.csproj" />
+    <!-- 三维模型控件固定在主页面下方显示；控件与模型都在 RobotSimulator.AnyCAD 内。 -->
+    <ProjectReference Include="..\RobotSimulator.AnyCAD\RobotSimulator.AnyCAD.csproj" />
   </ItemGroup>
+
+  <!--
+    三维控件依赖 AnyCAD 的完整模块和原生库；这些文件由主程序构建后统一复制，
+    避免使用 NuGet 包中版本不一致的旧程序集覆盖编译期引用。
+  -->
+  <Target Name="CopyAnyCadRuntime" AfterTargets="Build">
+    <PropertyGroup>
+      <RobotSimulatorOutput>$(MSBuildThisFileDirectory)..\RobotSimulator.AnyCAD\bin\$(Configuration)\net10.0-windows\win-x64\</RobotSimulatorOutput>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(RobotSimulatorOutput)AnyCAD.Foundation.NET.dll')"
+           Text="未找到主程序输出目录：$(RobotSimulatorOutput)，请先构建 RobotSimulator.AnyCAD。" />
+    <ItemGroup>
+      <AnyCadRuntime Include="$(RobotSimulatorOutput)AnyCAD*.dll;$(RobotSimulatorOutput)TK*.dll;$(RobotSimulatorOutput)Ifc*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(AnyCadRuntime)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
 
   <ItemGroup>
     <Resource Include="Resources\1楼面板.png" />

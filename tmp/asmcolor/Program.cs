@@ -1,1 +1,6 @@
-M1Probe.Run(args.Length > 0 ? args[0] : "instanced");
+using AnyCAD.WPF;
+
+var type = typeof(RenderControl);
+Console.WriteLine($"base={type.BaseType?.FullName}");
+for (var current = type.BaseType; current is not null; current = current.BaseType)
+    Console.WriteLine("  -> " + current.FullName);

@@ -11,10 +11,4 @@
   <ItemGroup>
     <ProjectReference Include="..\RobotSimulator.AnyCAD\RobotSimulator.AnyCAD.csproj" />
   </ItemGroup>
-  <PropertyGroup Condition="'$(WorkQa)' == 'true'">
-    <StartupObject>WorkQaProgram</StartupObject>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(WorkQa)' == 'true'">
-    <Compile Include="C:\Users\zhiwei2.he\.codex\visualizations\2026\10\30\01a18a4c-8e1c-7913-aad7-c6cfeb3af2ef\work-qa\Program.cs" Link="WorkQa.cs" />
-  </ItemGroup>
 </Project>

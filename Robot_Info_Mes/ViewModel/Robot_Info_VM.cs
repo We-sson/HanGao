@@ -3,10 +3,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Generic_Extension;
-using HanGao.ModbusTcp;
 using PropertyChanged;
+using HanGao.RobotInfo.Modbus;
 using Robot_Info_Mes.Model;
-using Robot_Info_Mes.Services;
+using RobotSimulator.ViewModels;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
 using System.Collections.ObjectModel;
@@ -88,8 +88,28 @@ namespace Robot_Info_Mes.ViewModel
 
                         Work_Factor_Seried = File_Xml_Model.Read_Xml_File<Work_Factor_Seried_Model>();
 
-                        // Modbus 使用独立 XML；点位地址在读取后立即按“起点 + 类型占位”统一计算。
-                        InitializeModbusConfiguration();
+                        // Modbus 使用独立 XML；配置、状态和命令统一放在一个功能对象里。
+                        string modbusConfigurationPath =
+                            File_Xml_Model.GetXml_Path<RobotInfoModbusConfiguration>(
+                                Get_Xml_File_Enum.File_Path);
+                        Modbus = new RobotModbusFeature(
+                            modbusConfigurationPath,
+                            () =>
+                            {
+                                RobotInfoModbusConfiguration configuration =
+                                    File_Xml_Model.Read_Xml_File<RobotInfoModbusConfiguration>();
+                                configuration.ConfigurationFilePath = modbusConfigurationPath;
+                                return configuration;
+                            },
+                            configuration => File_Xml_Model.Save_Xml(configuration),
+                            () =>
+                            {
+                                var addresses = new List<string>();
+                                Socket_Receive.GetLocalIP(ref addresses);
+                                return addresses;
+                            },
+                            (message, icon) => User_Log_Add(message, icon));
+                        Modbus.Initialize();
 
 
                         // 上次保存若不属于今天，先清理只属于“当日”的指标。
@@ -114,7 +134,7 @@ namespace Robot_Info_Mes.ViewModel
                         // 等主窗口消息循环就绪后再监听端口，启动失败只进入日志和右上角状态，不阻塞界面加载。
                         Application.Current.Dispatcher.BeginInvoke(
                             DispatcherPriority.ApplicationIdle,
-                            new Action(async () => await StartConfiguredModbusServerSafelyAsync()));
+                            new Action(async () => await Modbus.StartIfEnabledAsync()));
 
 
 
@@ -128,8 +148,51 @@ namespace Robot_Info_Mes.ViewModel
 
             }
 
+            // 数字仿真的搭配和关节统一放在一个属性里，主页面只绑定它。
+            Digital_Simulation = new Digital_Simulation(File_Int_Parameters.Mes_Digital_Simulation);
 
+            // 窗口关闭前由主 VM 取消本次关闭、清理各功能，再重新关闭窗口。
+            WindowClosingCommand = new RelayCommand<CancelEventArgs>(OnWindowClosing);
         }
+
+        private bool _shutdownCompleted;
+        private bool _shutdownInProgress;
+
+        /// <summary>窗口 Closing 事件命令；取消关闭并在清理完成后重新关闭。</summary>
+        public IRelayCommand<CancelEventArgs> WindowClosingCommand { get; }
+
+        /// <summary>第一次关闭先取消并启动清理；完成后由 Dispatcher 再次关闭。</summary>
+        private void OnWindowClosing(CancelEventArgs? eventArgs)
+        {
+            if (eventArgs is null) return;
+            if (_shutdownCompleted) return;
+
+            eventArgs.Cancel = true;
+            if (_shutdownInProgress) return;
+
+            _shutdownInProgress = true;
+            _ = ShutdownAndCloseAsync();
+        }
+
+        /// <summary>释放 Modbus 等后台服务，然后把最终关闭排回 UI 队列。</summary>
+        private async Task ShutdownAndCloseAsync()
+        {
+            try
+            {
+                if (Modbus is not null) await Modbus.DisposeAsync();
+            }
+            catch
+            {
+                // 清理失败不能阻止窗口关闭。
+            }
+
+            _shutdownCompleted = true;
+            _shutdownInProgress = false;
+            Application.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.ApplicationIdle,
+                new Action(() => Application.Current.MainWindow?.Close()));
+        }
+
         /// <summary>
         /// 当前实例是否由 Visual Studio/Blend 设计器创建。
         /// </summary>
@@ -190,11 +253,6 @@ namespace Robot_Info_Mes.ViewModel
         // Server 端离线检查与文件保存解耦，避免保存周期被误当成通讯超时。
         private readonly DispatcherTimer _serverConnectionHealthTimer = new();
 
-        // Modbus 的启停、保存重启和窗口关闭可能同时发生，统一串行化以防两个监听器竞争同一端口。
-        private RobotInfoModbusServerHost? _modbusServerHost;
-        private readonly SemaphoreSlim _modbusOperationGate = new(1, 1);
-        private readonly DispatcherTimer _modbusUiStatusTimer = new();
-        private bool _modbusConfigurationInitialized;
 
 
 
@@ -205,60 +263,19 @@ namespace Robot_Info_Mes.ViewModel
         /// </summary>
         public Mes_Robot_Info_Model Mes_Robot_Info_Model_Data { set; get; } = new();
 
-        /// <summary>
-        /// 与 Configs_Data.Xml 同目录的 Modbus TCP 独立配置。
-        /// </summary>
-        public RobotInfoModbusConfiguration ModbusTcpConfiguration { set; get; } =
-            RobotInfoModbusConfiguration.CreateDefault();
-
-        /// <summary>点位类型下拉框使用的固定选项。</summary>
-        public IReadOnlyList<ModbusPointDataType> ModbusPointDataTypeOptions { get; } =
-            Enum.GetValues<ModbusPointDataType>();
-
-        /// <summary>UInt32 字序下拉框选项。</summary>
-        public IReadOnlyList<ModbusWordOrder> ModbusWordOrderOptions { get; } =
-            Enum.GetValues<ModbusWordOrder>();
-
-        /// <summary>寄存器表当前选中行，用于删除 XML 自定义点位。</summary>
-        public ModbusRegisterPointConfiguration? SelectedModbusRegisterPoint { set; get; }
-
-        /// <summary>当前协议服务原始状态；尚未创建时为空。</summary>
-        public ModbusTcpServerStatus? ModbusTcpStatus => _modbusServerHost?.GetStatus();
-
-        /// <summary>主界面和配置弹窗显示的服务状态。</summary>
-        public string ModbusServerStateText { set; get; } = "未启动";
-
-        /// <summary>当前连接实际使用的本机端点；无连接时显示首个可访问的非回环端点。</summary>
-        public string ModbusEndpointText { set; get; } = "—";
-
-        /// <summary>
-        /// 当前可供 SCADA 访问的本机 IPv4 地址。服务端通过一个通配套接字同时监听这些地址。
-        /// </summary>
-        public ObservableCollection<string> ModbusListeningIpAddresses { get; } = [];
-
-        /// <summary>右上角地址卡的提示文本，列出服务端覆盖的全部本机 IPv4 端点。</summary>
-        public string ModbusListeningAddressesToolTip { set; get; } = "尚未枚举本机 IPv4 地址";
-
-        /// <summary>SCADA 客户端当前连接状态。</summary>
-        public string ModbusScadaStateText { set; get; } = "等待连接";
-
-        /// <summary>连接数和最近一次 FC03 请求摘要。</summary>
-        public string ModbusScadaDetailText { set; get; } = "0 个连接";
-
-        /// <summary>服务或发布过程最近错误。</summary>
-        public string ModbusLastErrorText { set; get; } = "无";
-
-        /// <summary>供 XAML 状态颜色触发器使用。</summary>
-        public bool ModbusServerIsRunning { set; get; }
-
-        /// <summary>至少有一个 SCADA 客户端连接到 Modbus TCP 服务端时为 true。</summary>
-        public bool ModbusScadaIsConnected { set; get; }
 
 
         /// <summary>
         /// 从 Configs_Data.Xml 读取的启动、通信与工艺参数。
         /// </summary>
         public File_Int_Model File_Int_Parameters { set; get; } = new();
+
+        /// <summary>底部三维模型的全部状态和关节输入。</summary>
+        public Digital_Simulation Digital_Simulation { get; }
+
+        /// <summary>Modbus TCP 的配置、状态、命令和点位编辑。</summary>
+        public RobotModbusFeature Modbus { get; private set; } = null!;
+
 
 
 
@@ -382,576 +399,7 @@ namespace Robot_Info_Mes.ViewModel
         /// </summary>
         public User_Log_Models User_Log { set; get; } = new User_Log_Models();
 
-        private IAsyncRelayCommand? _saveAndRestartModbusServerCommand;
-        private IAsyncRelayCommand? _toggleModbusServerCommand;
-        private IRelayCommand? _refreshModbusLayoutCommand;
-        private IRelayCommand? _addModbusUInt16PointCommand;
-        private IRelayCommand? _addModbusUInt32PointCommand;
-        private IRelayCommand? _deleteModbusPointCommand;
 
-        /// <summary>保存 ModbusTcp_Config.Xml，并只重启 Modbus TCP 服务端使新参数立即生效。</summary>
-        public IAsyncRelayCommand SaveAndRestartModbusServerCommand =>
-            _saveAndRestartModbusServerCommand ??=
-                new AsyncRelayCommand(SaveAndRestartModbusServerAsync);
-
-        /// <summary>手动启动或停止 Modbus TCP 服务端。</summary>
-        public IAsyncRelayCommand ToggleModbusServerCommand =>
-            _toggleModbusServerCommand ??=
-                new AsyncRelayCommand(ToggleModbusServerAsync);
-
-        /// <summary>使用公共布局算法刷新 UI 中的自动地址。</summary>
-        public IRelayCommand RefreshModbusLayoutCommand =>
-            _refreshModbusLayoutCommand ??=
-                new RelayCommand(RefreshModbusLayoutPreview);
-
-        /// <summary>向 XML 增加一个 UInt16 自定义点位。</summary>
-        public IRelayCommand AddModbusUInt16PointCommand =>
-            _addModbusUInt16PointCommand ??=
-                new RelayCommand(() => AddCustomModbusPoint(ModbusPointDataType.UInt16));
-
-        /// <summary>向 XML 增加一个 UInt32 自定义点位。</summary>
-        public IRelayCommand AddModbusUInt32PointCommand =>
-            _addModbusUInt32PointCommand ??=
-                new RelayCommand(() => AddCustomModbusPoint(ModbusPointDataType.UInt32));
-
-        /// <summary>删除选中的自定义点；内置 Attribute 点位改为禁用，避免下次启动被自动补回。</summary>
-        public IRelayCommand DeleteModbusPointCommand =>
-            _deleteModbusPointCommand ??= new RelayCommand(DeleteSelectedModbusPoint);
-
-        /// <summary>读取并严格校验独立 XML；失败时报告错误并整份使用默认配置。</summary>
-        private void InitializeModbusConfiguration()
-        {
-            if (_modbusConfigurationInitialized)
-            {
-                return;
-            }
-
-            string configurationPath =
-                File_Xml_Model.GetXml_Path<RobotInfoModbusConfiguration>(
-                    Get_Xml_File_Enum.File_Path);
-            string? loadError = null;
-            try
-            {
-                RobotInfoModbusConfiguration loadedConfiguration =
-                    File_Xml_Model.Read_Xml_File<RobotInfoModbusConfiguration>();
-                loadedConfiguration.ConfigurationFilePath = configurationPath;
-                _ = loadedConfiguration.ValidateAndCreateLayout();
-                ModbusTcpConfiguration = loadedConfiguration;
-            }
-            catch (Exception exception)
-            {
-                ModbusTcpConfiguration = RobotInfoModbusConfiguration.CreateDefault();
-                ModbusTcpConfiguration.ConfigurationFilePath = configurationPath;
-                loadError =
-                    $"Modbus 配置读取或校验失败，已使用默认值。文件：{configurationPath}；" +
-                    $"原因：{exception.Message}";
-                ModbusLastErrorText = loadError;
-            }
-
-            AttachModbusConfigurationEvents();
-            RefreshModbusLayoutPreview();
-            RefreshModbusListeningIpAddresses();
-
-            if (loadError is not null)
-            {
-                ModbusTcpConfiguration.LayoutValidationMessage =
-                    "本地配置无效，当前使用默认值；保存后将写入当前结构";
-                User_Log_Add(loadError, MessageBoxImage.Error);
-            }
-
-            _modbusUiStatusTimer.Interval = TimeSpan.FromMilliseconds(500);
-            _modbusUiStatusTimer.Tick += ModbusUiStatusTimerOnTick;
-            _modbusUiStatusTimer.Start();
-            _modbusConfigurationInitialized = true;
-        }
-
-        /// <summary>订阅会影响自动排位的 XML 字段；运行时计算字段变化不会反复触发布局。</summary>
-        private void AttachModbusConfigurationEvents()
-        {
-            ModbusTcpConfiguration.RegisterPoints.CollectionChanged +=
-                ModbusRegisterPointsOnCollectionChanged;
-
-            if (ModbusTcpConfiguration is INotifyPropertyChanged configurationNotifier)
-            {
-                configurationNotifier.PropertyChanged += ModbusConfigurationOnPropertyChanged;
-            }
-
-            foreach (ModbusRegisterPointConfiguration point in ModbusTcpConfiguration.RegisterPoints)
-            {
-                AttachModbusPointEvent(point);
-            }
-        }
-
-        /// <summary>点位增删时维护属性订阅，并立即重算后续自动地址。</summary>
-        private void ModbusRegisterPointsOnCollectionChanged(
-            object? sender,
-            NotifyCollectionChangedEventArgs eventArgs)
-        {
-            if (eventArgs.OldItems is not null)
-            {
-                foreach (object item in eventArgs.OldItems)
-                {
-                    if (item is INotifyPropertyChanged notifier)
-                    {
-                        notifier.PropertyChanged -= ModbusPointOnPropertyChanged;
-                    }
-                }
-            }
-
-            if (eventArgs.NewItems is not null)
-            {
-                foreach (object item in eventArgs.NewItems)
-                {
-                    if (item is ModbusRegisterPointConfiguration point)
-                    {
-                        AttachModbusPointEvent(point);
-                    }
-                }
-            }
-
-            RefreshModbusLayoutPreview();
-        }
-
-        /// <summary>为一个点位建立唯一的变更订阅，避免重复订阅导致重复重算。</summary>
-        private void AttachModbusPointEvent(ModbusRegisterPointConfiguration point)
-        {
-            if (point is INotifyPropertyChanged notifier)
-            {
-                notifier.PropertyChanged -= ModbusPointOnPropertyChanged;
-                notifier.PropertyChanged += ModbusPointOnPropertyChanged;
-            }
-        }
-
-        /// <summary>六位块起点变化时刷新整张寄存器地址预览。</summary>
-        private void ModbusConfigurationOnPropertyChanged(
-            object? sender,
-            PropertyChangedEventArgs eventArgs)
-        {
-            if (eventArgs.PropertyName == nameof(RobotInfoModbusConfiguration.StartReferenceAddress))
-            {
-                RefreshModbusLayoutPreview();
-            }
-        }
-
-        /// <summary>点位的顺序、启用状态或类型变化时，按占位宽度重新排位。</summary>
-        private void ModbusPointOnPropertyChanged(
-            object? sender,
-            PropertyChangedEventArgs eventArgs)
-        {
-            if (eventArgs.PropertyName is nameof(ModbusRegisterPointConfiguration.Order)
-                or nameof(ModbusRegisterPointConfiguration.Enabled)
-                or nameof(ModbusRegisterPointConfiguration.DataType))
-            {
-                RefreshModbusLayoutPreview();
-            }
-        }
-
-        /// <summary>刷新地址预览；编辑中的无效值显示为错误，但不会中断 UI。</summary>
-        private void RefreshModbusLayoutPreview()
-        {
-            try
-            {
-                ModbusTcpConfiguration.RecalculateLayout();
-            }
-            catch (Exception exception)
-            {
-                foreach (ModbusRegisterPointConfiguration point in
-                         ModbusTcpConfiguration.RegisterPoints)
-                {
-                    point.ReferenceAddress = 0;
-                    point.ProtocolAddress = 0;
-                    point.AddressText = point.Enabled ? "配置错误" : "已禁用";
-                }
-
-                ModbusTcpConfiguration.LayoutValidationMessage =
-                    "配置无效：" + exception.Message;
-                ModbusTcpConfiguration.RuntimeRegisterCount = 0;
-            }
-        }
-
-        /// <summary>分配下一个唯一 Order 并增加一个默认值为 0 的 XML 自定义点位。</summary>
-        private void AddCustomModbusPoint(ModbusPointDataType dataType)
-        {
-            int order = ModbusTcpConfiguration.RegisterPoints.Count == 0
-                ? 0
-                : ModbusTcpConfiguration.RegisterPoints.Max(point => point.Order) + 1;
-            var point = new ModbusRegisterPointConfiguration
-            {
-                Order = order,
-                Enabled = true,
-                DataType = dataType,
-                DisplayName = "自定义点位",
-                Comment = "XML 自定义点位；未接入业务时默认发布 0",
-            };
-
-            ModbusTcpConfiguration.RegisterPoints.Add(point);
-            SelectedModbusRegisterPoint = point;
-            User_Log_Add($"已增加 {dataType} 点位，唯一顺序为 {order}，地址由程序自动排位。");
-        }
-
-        /// <summary>删除自定义点位；内置 Attribute 点位仅禁用，保留固定通信合同。</summary>
-        private void DeleteSelectedModbusPoint()
-        {
-            ModbusRegisterPointConfiguration? point = SelectedModbusRegisterPoint;
-            if (point is null)
-            {
-                User_Log_Add("请先在 Modbus 点位表选择一行。", MessageBoxImage.Warning);
-                return;
-            }
-
-            if (point.IsBuiltIn)
-            {
-                point.Enabled = false;
-                User_Log_Add($"内置点位 {point.DisplayName} 已改为禁用；保存并重启服务后生效。");
-                return;
-            }
-
-            ModbusTcpConfiguration.RegisterPoints.Remove(point);
-            SelectedModbusRegisterPoint = null;
-            User_Log_Add($"已删除顺序 {point.Order} 的自定义 Modbus 点位。");
-        }
-
-        /// <summary>应用启动时安全启动；失败只更新日志和状态，不抛到 Dispatcher。</summary>
-        private async Task StartConfiguredModbusServerSafelyAsync()
-        {
-            if (!ModbusTcpConfiguration.Enabled)
-            {
-                RefreshModbusUiStatus();
-                return;
-            }
-
-            try
-            {
-                await StartModbusServerAsync();
-            }
-            catch (Exception exception)
-            {
-                ModbusLastErrorText = exception.Message;
-                User_Log_Add("Modbus TCP 服务端自动启动失败：" + exception.Message, MessageBoxImage.Error);
-                RefreshModbusUiStatus();
-            }
-        }
-
-        /// <summary>按当前内存配置启动 FC03 只读服务端和寄存器数据发布。</summary>
-        public async Task StartModbusServerAsync()
-        {
-            await _modbusOperationGate.WaitAsync();
-            try
-            {
-                if (!ModbusTcpConfiguration.Enabled)
-                {
-                    ModbusServerStateText = "已禁用";
-                    return;
-                }
-
-                ModbusTcpConfiguration.RecalculateLayout();
-                _modbusServerHost ??= CreateModbusServerHost();
-                await _modbusServerHost.StartAsync(ModbusTcpConfiguration);
-                RefreshModbusListeningIpAddresses();
-                RefreshModbusUiStatus();
-                User_Log_Add(
-                    $"Modbus TCP 服务端已监听全部本机 IPv4，端口 {ModbusTcpConfiguration.Port}，" +
-                    $"Unit={ModbusTcpConfiguration.UnitIdentifier}，FC03，起点={ModbusTcpConfiguration.StartReferenceAddress}。");
-            }
-            finally
-            {
-                _modbusOperationGate.Release();
-            }
-        }
-
-        /// <summary>停止 Modbus TCP 服务端监听并断开当前 SCADA 客户端连接；重复调用安全。</summary>
-        public async Task StopModbusServerAsync()
-        {
-            await _modbusOperationGate.WaitAsync();
-            try
-            {
-                if (_modbusServerHost is not null)
-                {
-                    await _modbusServerHost.StopAsync();
-                }
-
-                RefreshModbusListeningIpAddresses();
-                RefreshModbusUiStatus();
-                User_Log_Add("Modbus TCP 服务端已停止。");
-            }
-            finally
-            {
-                _modbusOperationGate.Release();
-            }
-        }
-
-        /// <summary>校验并保存独立 XML，然后只重启 Modbus TCP 服务端，无需重启整个 Robot_Info_Mes。</summary>
-        private async Task SaveAndRestartModbusServerAsync()
-        {
-            try
-            {
-                _ = ModbusTcpConfiguration.ValidateAndCreateLayout();
-                File_Xml_Model.Save_Xml(ModbusTcpConfiguration);
-
-                await _modbusOperationGate.WaitAsync();
-                try
-                {
-                    if (_modbusServerHost is not null)
-                    {
-                        await _modbusServerHost.StopAsync();
-                    }
-
-                    if (ModbusTcpConfiguration.Enabled)
-                    {
-                        _modbusServerHost ??= CreateModbusServerHost();
-                        await _modbusServerHost.StartAsync(ModbusTcpConfiguration);
-                    }
-                }
-                finally
-                {
-                    _modbusOperationGate.Release();
-                }
-
-                RefreshModbusUiStatus();
-                User_Log_Add(
-                    "Modbus TCP 服务端配置已保存并重新加载：" +
-                    ModbusTcpConfiguration.ConfigurationFilePath);
-            }
-            catch (Exception exception)
-            {
-                ModbusTcpConfiguration.LayoutValidationMessage =
-                    "保存/重启失败：" + exception.Message;
-                ModbusLastErrorText = exception.Message;
-                User_Log_Add("保存或重启 Modbus TCP 服务端失败：" + exception.Message, MessageBoxImage.Error);
-            }
-        }
-
-        /// <summary>按当前状态启动或停止服务端，并同步下次启动时的自动开启标志。</summary>
-        private async Task ToggleModbusServerAsync()
-        {
-            if (ModbusTcpConfiguration.Enabled)
-            {
-                ModbusTcpConfiguration.Enabled = false;
-                await StopModbusServerAsync();
-            }
-            else
-            {
-                ModbusTcpConfiguration.Enabled = true;
-                try
-                {
-                    await StartModbusServerAsync();
-                }
-                catch (Exception exception)
-                {
-                    ModbusLastErrorText = exception.Message;
-                    User_Log_Add("启动 Modbus TCP 服务端失败：" + exception.Message, MessageBoxImage.Error);
-                    RefreshModbusUiStatus();
-                }
-            }
-        }
-
-        /// <summary>创建应用层服务端宿主，并把后台发布错误接入统一 UI 日志。</summary>
-        private RobotInfoModbusServerHost CreateModbusServerHost()
-        {
-            var host = new RobotInfoModbusServerHost();
-            host.PublishFailed += exception =>
-            {
-                ModbusLastErrorText = exception.Message;
-                User_Log_Add("Modbus TCP 服务端寄存器发布失败：" + exception.Message, MessageBoxImage.Error);
-            };
-            return host;
-        }
-
-        /// <summary>定时把线程安全的协议诊断快照投影到 WPF 状态属性。</summary>
-        private void ModbusUiStatusTimerOnTick(object? sender, EventArgs eventArgs) =>
-            RefreshModbusUiStatus();
-
-        /// <summary>
-        /// 使用与“通信设置/本机 IP”相同的枚举入口刷新 Modbus 可访问地址。
-        /// </summary>
-        /// <remarks>
-        /// 地址列表仅用于展示。底层始终绑定 IPv4 通配地址，因此不需要用户选择某一块网卡，
-        /// 新启用的网卡也不需要改配置或新增监听器。
-        /// </remarks>
-        private void RefreshModbusListeningIpAddresses()
-        {
-            var discoveredAddresses = new List<string>();
-            try
-            {
-                _ = Socket_Receive.GetLocalIP(ref discoveredAddresses);
-            }
-            catch (Exception exception)
-            {
-                // 地址枚举失败不应阻止通配监听；至少保留本机联调入口，并把原因放到提示中。
-                discoveredAddresses = [IPAddress.Loopback.ToString()];
-                ModbusListeningAddressesToolTip =
-                    "本机 IPv4 枚举失败，当前仅显示回环地址。原因：" + exception.Message;
-            }
-
-            string[] normalizedAddresses = discoveredAddresses
-                .Where(text => IPAddress.TryParse(text, out IPAddress? address) &&
-                               address.AddressFamily == AddressFamily.InterNetwork)
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .OrderBy(text => text == IPAddress.Loopback.ToString() ? 1 : 0)
-                .ThenBy(text => text, StringComparer.OrdinalIgnoreCase)
-                .ToArray();
-
-            if (normalizedAddresses.Length == 0)
-            {
-                normalizedAddresses = [IPAddress.Loopback.ToString()];
-            }
-
-            ModbusListeningIpAddresses.Clear();
-            foreach (string address in normalizedAddresses)
-            {
-                ModbusListeningIpAddresses.Add(address);
-            }
-        }
-
-        /// <summary>
-        /// 从系统 TCP 表查找当前 SCADA 连接实际使用的本机端点。
-        /// </summary>
-        /// <remarks>
-        /// 通配监听本身只能报告 0.0.0.0；已建立连接的 LocalEndPoint 才是 SCADA
-        /// 真正连入的那块本机网卡地址。查询失败只影响界面展示，不影响协议服务。
-        /// </remarks>
-        private static IReadOnlyList<TcpConnectionInformation> GetActiveModbusConnections(int port)
-        {
-            try
-            {
-                return IPGlobalProperties.GetIPGlobalProperties()
-                    .GetActiveTcpConnections()
-                    .Where(connection =>
-                        connection.State == TcpState.Established &&
-                        connection.LocalEndPoint.Port == port &&
-                        connection.LocalEndPoint.Address.AddressFamily == AddressFamily.InterNetwork)
-                    .OrderBy(connection => connection.LocalEndPoint.Address.ToString(), StringComparer.Ordinal)
-                    .ThenBy(connection => connection.RemoteEndPoint.Address.ToString(), StringComparer.Ordinal)
-                    .ThenBy(connection => connection.RemoteEndPoint.Port)
-                    .ToArray();
-            }
-            catch
-            {
-                return [];
-            }
-        }
-
-        /// <summary>
-        /// 生成界面使用的具体本机端点；从不向用户显示仅供套接字绑定的 0.0.0.0。
-        /// </summary>
-        private IReadOnlyList<TcpConnectionInformation> RefreshModbusEndpointPresentation(
-            ModbusTcpServerStatus? status)
-        {
-            int actualPort = status?.LocalEndpoint?.Port ?? ModbusTcpConfiguration.Port;
-            IReadOnlyList<TcpConnectionInformation> activeConnections =
-                status?.ConnectedClients > 0
-                    ? GetActiveModbusConnections(actualPort)
-                    : [];
-
-            string[] activeLocalAddresses = activeConnections
-                .Select(connection => connection.LocalEndPoint.Address.ToString())
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToArray();
-            string primaryAddress = activeLocalAddresses.FirstOrDefault() ??
-                                    ModbusListeningIpAddresses.FirstOrDefault(
-                                        address => address != IPAddress.Loopback.ToString()) ??
-                                    ModbusListeningIpAddresses.FirstOrDefault() ??
-                                    IPAddress.Loopback.ToString();
-
-            ModbusEndpointText = $"{primaryAddress}:{actualPort}";
-            if (activeLocalAddresses.Length > 1)
-            {
-                ModbusEndpointText += $" +{activeLocalAddresses.Length - 1}";
-            }
-
-            string stateText = status?.State == ModbusServerState.Running
-                ? "服务端正在监听全部本机 IPv4："
-                : "服务端启动后监听全部本机 IPv4：";
-            string allEndpoints = string.Join(
-                Environment.NewLine,
-                ModbusListeningIpAddresses.Select(address => $"{address}:{actualPort}"));
-            ModbusListeningAddressesToolTip = stateText + Environment.NewLine + allEndpoints;
-
-            if (activeLocalAddresses.Length > 0)
-            {
-                ModbusListeningAddressesToolTip +=
-                    Environment.NewLine + "当前连接使用：" +
-                    string.Join(", ", activeLocalAddresses.Select(address => $"{address}:{actualPort}"));
-            }
-
-            return activeConnections;
-        }
-
-        /// <summary>把底层诊断快照转换成适合右上角状态卡的短文本。</summary>
-        private void RefreshModbusUiStatus()
-        {
-            if (_modbusServerHost is null)
-            {
-                ModbusServerIsRunning = false;
-                ModbusScadaIsConnected = false;
-                ModbusServerStateText = ModbusTcpConfiguration.Enabled ? "未启动" : "已禁用";
-                _ = RefreshModbusEndpointPresentation(status: null);
-                ModbusScadaStateText = "等待连接";
-                ModbusScadaDetailText = "0 个连接";
-                return;
-            }
-
-            ModbusTcpServerStatus status = _modbusServerHost.GetStatus();
-            ModbusServerIsRunning = status.State == ModbusServerState.Running;
-            ModbusScadaIsConnected = status.ConnectedClients > 0;
-            ModbusServerStateText = !ModbusTcpConfiguration.Enabled && status.State == ModbusServerState.Stopped
-                ? "已禁用"
-                : status.State switch
-            {
-                ModbusServerState.Starting => "启动中",
-                ModbusServerState.Running => "运行中",
-                ModbusServerState.Stopping => "停止中",
-                ModbusServerState.Stopped => "已停止",
-                ModbusServerState.Faulted => "故障",
-                ModbusServerState.Disposed => "已释放",
-                _ => status.State.ToString(),
-            };
-            IReadOnlyList<TcpConnectionInformation> activeConnections =
-                RefreshModbusEndpointPresentation(status);
-            ModbusScadaStateText = ModbusScadaIsConnected
-                ? $"已连接 {status.ConnectedClients}"
-                : "等待连接";
-            ModbusScadaDetailText = status.LastRequest is null
-                ? $"{status.ConnectedClients} 个连接 · 尚无读取"
-                : $"{status.ConnectedClients} 个连接 · " +
-                  $"{status.LastRequest.TimestampUtc.ToLocalTime():HH:mm:ss} " +
-                  $"FC{status.LastRequest.FunctionCode:D2} PDU {status.LastRequest.StartAddress}";
-            if (activeConnections.Count > 0)
-            {
-                string scadaEndpoints = string.Join(
-                    ", ",
-                    activeConnections
-                        .Select(connection => connection.RemoteEndPoint.ToString())
-                        .Distinct(StringComparer.OrdinalIgnoreCase));
-                ModbusScadaDetailText += Environment.NewLine + "客户端：" + scadaEndpoints;
-            }
-            ModbusLastErrorText = status.LastError ??
-                                  _modbusServerHost.LastPublishError ??
-                                  "无";
-        }
-
-        /// <summary>窗口关闭时永久释放 Modbus 资源。</summary>
-        public async ValueTask DisposeModbusServerAsync()
-        {
-            _modbusUiStatusTimer.Stop();
-            _modbusUiStatusTimer.Tick -= ModbusUiStatusTimerOnTick;
-
-            await _modbusOperationGate.WaitAsync();
-            try
-            {
-                if (_modbusServerHost is not null)
-                {
-                    await _modbusServerHost.DisposeAsync();
-                    _modbusServerHost = null;
-                }
-            }
-            finally
-            {
-                _modbusOperationGate.Release();
-            }
-
-            RefreshModbusUiStatus();
-        }
 
         /// <summary>
         /// 旧版“启动全部本地机器人 Socket”入口；当前仅记录日志，实际启动由 Initialization_Robot_Sever_Start 完成。

@@ -1,4 +1,6 @@
-﻿using PropertyChanged;
+﻿using HanGao.RobotInfo.Modbus;
+using PropertyChanged;
+using RobotSimulator.Models;
 using Roboto_Socket_Library.Model;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -31,6 +33,12 @@ namespace Robot_Info_Mes.Model
         /// 用于 OEE 计算和图表参考线的工艺标准值。
         /// </summary>
         public Mes_Standard_Time_Model Mes_Standard_Time { set; get; } = new();
+
+
+        /// <summary>
+        /// 数字仿真模型的机器人/Tool/工装搭配，软件启动时用于初始化底部三维画面。
+        /// </summary>
+        public DigitalSimulationConfiguration Mes_Digital_Simulation { set; get; } = new();
 
 
 

@@ -1,9 +1,8 @@
 using System.Net;
 using System.Windows.Threading;
 using HanGao.ModbusTcp;
-using Robot_Info_Mes.Model;
 
-namespace Robot_Info_Mes.Services;
+namespace HanGao.RobotInfo.Modbus;
 
 /// <summary>
 /// 在 Robot_Info_Mes 进程中托管只读 Modbus TCP 服务端，并按 XML 自动布局发布数据。

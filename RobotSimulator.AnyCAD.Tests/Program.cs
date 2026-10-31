@@ -968,6 +968,8 @@ internal static class Program
             TcpUpdates++;
         }
         public void SetView(RobotView view) { }
+
+        public void SetOrbit(double speedDegreesPerSecond, double startAngleDegrees, double elevationDegrees) { }
         public void ZoomAll() { }
         public void Dispose() => Disposed = true;
     }

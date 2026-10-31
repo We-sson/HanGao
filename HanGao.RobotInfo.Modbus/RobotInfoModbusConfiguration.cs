@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 using HanGao.ModbusTcp;
 using PropertyChanged;
 
-namespace Robot_Info_Mes.Model;
+namespace HanGao.RobotInfo.Modbus;
 
 /// <summary>
 /// Robot_Info_Mes 的 Modbus TCP 本地 XML 配置。

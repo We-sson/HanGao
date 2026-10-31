@@ -325,6 +325,55 @@
                         <Run Text=" · " />
                         <Run Foreground="#83BDFF" Text="Z 蓝" />
                     </TextBlock>
+                    <!-- 相机环绕调试：速度 0 停止；角度为绕模型中心的起始方位角。 -->
+                    <Grid Margin="0,10,0,0" IsEnabled="{Binding CanOperate}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="56" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="#C7CEDA"
+                            Text="环绕速度" />
+                        <Slider
+                            Grid.Column="1"
+                            Margin="10,0"
+                            IsSnapToTickEnabled="True"
+                            Maximum="60"
+                            Minimum="0"
+                            TickFrequency="1"
+                            Value="{Binding OrbitSpeed, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Foreground="#C7CEDA"
+                            Text="{Binding OrbitSpeed, StringFormat={}{0:F0}°/s}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            VerticalAlignment="Center"
+                            Foreground="#C7CEDA"
+                            Text="起始角度" />
+                        <Slider
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,0"
+                            IsSnapToTickEnabled="True"
+                            Maximum="180"
+                            Minimum="-180"
+                            TickFrequency="1"
+                            Value="{Binding OrbitAngle, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Foreground="#C7CEDA"
+                            Text="{Binding OrbitAngle, StringFormat={}{0:F0}°}" />
+                    </Grid>
                 </StackPanel>
 
                 <TabControl

@@ -36,6 +36,45 @@ public sealed class RobotSceneContent : IDisposable
     public bool HasTool => _toolPart is not null;
     public bool HasWork => _workPart is not null;
 
+    /// <summary>返回机器人、Tool 和工装各部件独立的包围盒，供按实际投影范围适配相机。</summary>
+    public IReadOnlyList<AABox> GetPartBoundingBoxes()
+    {
+        var boxes = new List<AABox>();
+        void Add(SceneNode node) => boxes.Add(node.GetWorldBBox());
+        foreach (var part in _parts) Add(part.Node);
+        if (_toolPart is not null) Add(_toolPart.Node);
+        if (_workPart is not null) Add(_workPart.Node);
+        return boxes;
+    }
+
+    /// <summary>计算机器人、Tool 和工装几何的世界包围盒，不包含坐标轴等显示辅助对象。</summary>
+    public AABox GetModelBoundingBox()
+    {
+        var minX = double.MaxValue;
+        var minY = double.MaxValue;
+        var minZ = double.MaxValue;
+        var maxX = double.MinValue;
+        var maxY = double.MinValue;
+        var maxZ = double.MinValue;
+        void Include(SceneNode node)
+        {
+            using var box = node.GetWorldBBox();
+            using var min = box.getMinimum();
+            using var max = box.getMaximum();
+            minX = Math.Min(minX, min.x);
+            minY = Math.Min(minY, min.y);
+            minZ = Math.Min(minZ, min.z);
+            maxX = Math.Max(maxX, max.x);
+            maxY = Math.Max(maxY, max.y);
+            maxZ = Math.Max(maxZ, max.z);
+        }
+
+        foreach (var part in _parts) Include(part.Node);
+        if (_toolPart is not null) Include(_toolPart.Node);
+        if (_workPart is not null) Include(_workPart.Node);
+        return minX > maxX ? Root.GetWorldBBox() : new AABox(minX, minY, minZ, maxX, maxY, maxZ);
+    }
+
     /// <summary>通过 Load 创建场景，避免暴露未完整初始化的坐标节点。</summary>
     private RobotSceneContent() { }
 
