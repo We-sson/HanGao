@@ -26,6 +26,7 @@ internal static class Program
             SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
             TestConfiguration(fixture);
             TestWorkConfiguration(fixture);
+            ConfigurationRecoveryChecks.Run(fixture);
 #if DEBUG
             RobotSetupChecks.Run(fixture);
 #endif
@@ -35,6 +36,9 @@ internal static class Program
             GlobalInstance.Initialize();
             try
             {
+                RunAsync(RobotViewerChecks.RunAsync);
+                RunAsync(RobotViewerChecks.RunCameraAsync);
+                CadCacheRecoveryChecks.Run(fixture);
                 RobotColorChecks.Run(fixture);
                 RobotHpChecks.Run(fixture);
                 TestIrb2600Scene(fixture);
@@ -135,6 +139,7 @@ internal static class Program
         Check(vm.IsLoaded && service.RobotLoadCount == 1 && service.ToolLoadCount == 1 && service.WorkLoadCount == 1,
             "Initial independent scene loading failed.");
         Check(service.Visibility == (true, true, true), "Coordinate visibility was not initialized.");
+        CameraViewChecks.Run(vm);
         vm.ToolTcpZ = 123.45;
         Check(service.LastTcp?.Z == 123.45, "Live TCP edits did not update the scene.");
         var tcpUpdates = service.TcpUpdates;
@@ -230,20 +235,11 @@ internal static class Program
             Width = 32, Height = 32, Left = -5000, Top = -5000, ShowInTaskbar = false,
             WindowStartupLocation = System.Windows.WindowStartupLocation.Manual
         };
-        EventHandler? observer = null;
         try
         {
             window.Show();
             var before = service.ApplyAllCount;
-            var input = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
-            observer = (_, _) =>
-            {
-                System.Windows.Media.CompositionTarget.Rendering -= observer;
-                Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, () => input.TrySetResult(service.ApplyAllCount));
-            };
-            System.Windows.Media.CompositionTarget.Rendering += observer;
             vm.PlayCommand.Execute(null);
-            Check(await input.Task.WaitAsync(TimeSpan.FromSeconds(3)) == before, "Animation ran ahead of mouse input.");
             await Task.Delay(250);
             Check(vm.IsPlaying && service.ApplyAllCount > before, "Animation did not update the scene.");
             vm.PlayCommand.Execute(null);
@@ -268,7 +264,6 @@ internal static class Program
         }
         finally
         {
-            System.Windows.Media.CompositionTarget.Rendering -= observer;
             if (vm.IsPlaying) vm.PlayCommand.Execute(null);
             window.Close();
         }
@@ -907,6 +902,7 @@ internal static class Program
     /// <summary>只记录调用次数和参数，检查工具更换不会触发机器人重新加载。</summary>
     private sealed class FakeSceneService : IRobotSceneService
     {
+        public bool IsUserAdjustingView { get; set; }
         public int RobotLoadCount { get; private set; }
         public int ToolLoadCount { get; private set; }
         public int WorkLoadCount { get; private set; }

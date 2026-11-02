@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Windows.Input;
 using System.Windows.Threading;
 using AnyCAD.Foundation;
 using AnyCAD.WPF;
@@ -31,8 +32,14 @@ public sealed class RobotSceneService : IRobotSceneService
     private bool _viewportInitialized;
     /// <summary>服务释放标记，阻止后台任务结束后再向已关闭的视图挂接场景。</summary>
     private bool _disposed;
-    /// <summary>相机环绕计时器；速度为 0 时停止。</summary>
+    /// <summary>相机更新计时器；静止时也保留鼠标操作重绘。</summary>
     private DispatcherTimer? _orbitTimer;
+    /// <summary>用户正在用鼠标调整视角时暂停自转，避免自动相机覆盖手动操作。</summary>
+    private bool _orbitPaused;
+    /// <summary>本次按键是否从三维视口内开始；从界面其它位置按下的拖动不影响自转。</summary>
+    private bool _viewportPressed;
+    /// <summary>上一帧是否有鼠标按键按下，用于识别按下的瞬间。</summary>
+    private bool _wasMousePressed;
     /// <summary>环绕计时使用的单调时钟，保证速度不受帧率抖动影响。</summary>
     private readonly Stopwatch _orbitClock = new();
     /// <summary>上一次环绕计时对应的时间，单位秒。</summary>
@@ -60,6 +67,9 @@ public sealed class RobotSceneService : IRobotSceneService
 
     /// <summary>已挂接完整六轴场景时为 true，不要求存在可选 Tool。</summary>
     public bool IsLoaded => _content is not null && _content.JointGroups.Count == 6;
+
+    /// <summary>用户是否正在视口内调整视角；示例动作据此暂停，把渲染让给鼠标。</summary>
+    public bool IsUserAdjustingView => _orbitPaused;
 
     /// <summary>设置浅蓝 CAD 背景、紧凑视角立方体并关闭网格，在模型显示前执行一次。</summary>
     public void InitializeViewport()
@@ -227,7 +237,7 @@ public sealed class RobotSceneService : IRobotSceneService
         }
     }
 
-    /// <summary>把界面视角枚举映射到 AnyCAD 标准方向，围绕当前目标点旋转相机后适配窗口。</summary>
+    /// <summary>停止自转并切换到标准方向，围绕当前目标点旋转相机后适配窗口。</summary>
     public void SetView(RobotView view)
     {
         var standardView = view switch
@@ -237,6 +247,9 @@ public sealed class RobotSceneService : IRobotSceneService
             RobotView.Top => EnumStandardView.Top,
             _ => throw new ArgumentOutOfRangeException(nameof(view))
         };
+
+        // 只停止自转，保留计时器对鼠标拖动的重绘，避免下一帧覆盖标准视角。
+        _orbitSpeed = 0;
 
         // SetStandardView 在加载流程中会留下无效相机，改为直接计算标准方向的相机位置。
         using var driver = new CameraDriver();
@@ -272,6 +285,9 @@ public sealed class RobotSceneService : IRobotSceneService
         _orbitCenterY = (min.y + max.y) / 2;
         _orbitCenterZ = (min.z + max.z) / 2;
         _orbitDistance = _renderControl.Camera.GetDistance();
+        // 原生鼠标旋转同样绕几何中心，平移只改变构图，不把旋转支点移到空处。
+        using var pivot = new Vector3(_orbitCenterX, _orbitCenterY, _orbitCenterZ);
+        _renderControl.ViewContext.SetUserOrbitPivot(pivot);
         RefreshFitCorners();
 
         FitOrthoToParts(coverFullOrbit: false);
@@ -313,8 +329,9 @@ public sealed class RobotSceneService : IRobotSceneService
             return;
         }
 
-        var controlWidth = _renderControl.ActualWidth;
-        var controlHeight = _renderControl.ActualHeight;
+        // 投影接口返回原生像素，不能与 WPF 的 DIP 尺寸混算。
+        var controlWidth = _renderControl.Viewer.GetWidth();
+        var controlHeight = _renderControl.Viewer.GetHeight();
         if (controlWidth <= 2 || controlHeight <= 2)
         {
             return;
@@ -364,8 +381,9 @@ public sealed class RobotSceneService : IRobotSceneService
             screenMaxY = Math.Max(screenMaxY, screen.y);
         }
 
-        var screenWidth = screenMaxX - screenMinX;
-        var screenHeight = screenMaxY - screenMinY;
+        // 非对称装配的投影不一定关于包围盒中心对称，分别检查两侧边界。
+        var screenWidth = 2 * Math.Max(Math.Abs(screenMinX - controlWidth / 2), Math.Abs(screenMaxX - controlWidth / 2));
+        var screenHeight = 2 * Math.Max(Math.Abs(screenMinY - controlHeight / 2), Math.Abs(screenMaxY - controlHeight / 2));
         if (screenWidth <= 0 || screenHeight <= 0)
         {
             return 0;
@@ -385,34 +403,89 @@ public sealed class RobotSceneService : IRobotSceneService
         // 环绕时按整圈最坏角度适配，静止时按当前角度适配。
         FitOrthoToParts(coverFullOrbit: _orbitSpeed != 0);
 
-        if (_orbitSpeed == 0)
+        // 计时器即使速度为 0 也保持运行：拖动视角时需要它持续请求相机重绘，否则原生视口
+        // 的拖动只有约 40 帧/秒且帧间隔不均，表现为鼠标旋转时卡时不卡。
+        if (_orbitTimer is null)
         {
-            _orbitTimer?.Stop();
-            _orbitClock.Stop();
-            return;
+            _orbitTimer = new DispatcherTimer(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(16) };
+            _orbitTimer.Tick += OnOrbitFrame;
         }
-
-        _orbitTimer ??= CreateOrbitTimer();
         _lastOrbitSeconds = _orbitClock.Elapsed.TotalSeconds;
         _orbitClock.Start();
         _orbitTimer.Start();
     }
 
-    /// <summary>创建约 30 帧/秒的环绕计时器，只更新相机，不重建场景。</summary>
-    private DispatcherTimer CreateOrbitTimer()
+    /// <summary>停止环绕计时器；可重复调用，计时器保留以便再次启动。</summary>
+    private void StopOrbit()
     {
-        var timer = new DispatcherTimer(DispatcherPriority.Render)
-        {
-            Interval = TimeSpan.FromMilliseconds(33),
-        };
-        timer.Tick += OnOrbitTick;
-        return timer;
+        _orbitTimer?.Stop();
+        _orbitClock.Stop();
+        _orbitPaused = false;
+        _viewportPressed = false;
+        _wasMousePressed = false;
     }
 
-    /// <summary>按实际经过时间推进方位角，避免计时器抖动导致速度不一致。</summary>
-    private void OnOrbitTick(object? sender, EventArgs e)
+    /// <summary>本次按住鼠标是否从三维视口内开始；按下后拖到视口外仍保持暂停，直到松开。</summary>
+    private bool IsViewportInteraction()
     {
-        if (_disposed || _content is null || _orbitSpeed == 0)
+        var pressed = Mouse.LeftButton == MouseButtonState.Pressed || Mouse.MiddleButton == MouseButtonState.Pressed
+            || Mouse.RightButton == MouseButtonState.Pressed;
+        if (!pressed)
+        {
+            _viewportPressed = false;
+        }
+        else if (!_wasMousePressed && IsCursorOverViewport())
+        {
+            _viewportPressed = true;
+        }
+        _wasMousePressed = pressed;
+        return _viewportPressed;
+    }
+
+    /// <summary>用屏幕坐标判断光标是否在三维视口范围内；视口由原生窗口接收输入，WPF 的 IsMouseOver 不可用。</summary>
+    private bool IsCursorOverViewport()
+    {
+        if (!_renderControl.IsLoaded)
+        {
+            return false;
+        }
+
+        var topLeft = _renderControl.PointToScreen(new System.Windows.Point(0, 0));
+        var bottomRight = _renderControl.PointToScreen(
+            new System.Windows.Point(_renderControl.ActualWidth, _renderControl.ActualHeight));
+        var cursor = System.Windows.Forms.Cursor.Position;
+        return cursor.X >= topLeft.X && cursor.X < bottomRight.X
+            && cursor.Y >= topLeft.Y && cursor.Y < bottomRight.Y;
+    }
+
+    /// <summary>记录手动操作后的相机朝向；构图中心可以平移，但几何旋转支点保持不变。</summary>
+    private void ResumeOrbit()
+    {
+        if (!_orbitPaused)
+        {
+            return;
+        }
+
+        var camera = _renderControl.Camera;
+        using var position = camera.GetPosition();
+        using var target = camera.GetTarget();
+        var offsetX = position.x - target.x;
+        var offsetY = position.y - target.y;
+        var offsetZ = position.z - target.z;
+        var distance = Math.Sqrt(offsetX * offsetX + offsetY * offsetY + offsetZ * offsetZ);
+        if (distance > 1e-6)
+        {
+            _orbitDistance = distance;
+            _orbitAzimuth = Math.Atan2(offsetY, offsetX) * 180 / Math.PI;
+            _orbitElevation = Math.Clamp(Math.Asin(offsetZ / distance) * 180 / Math.PI, -85, 85);
+        }
+        _orbitPaused = false;
+    }
+
+    /// <summary>按实际经过时间推进方位角；AnyCAD 视口不转发 WPF 鼠标事件，因此直接查询按键状态。</summary>
+    private void OnOrbitFrame(object? sender, EventArgs e)
+    {
+        if (_disposed || _content is null)
         {
             return;
         }
@@ -420,21 +493,52 @@ public sealed class RobotSceneService : IRobotSceneService
         var now = _orbitClock.Elapsed.TotalSeconds;
         var elapsed = now - _lastOrbitSeconds;
         _lastOrbitSeconds = now;
-        _orbitAzimuth = (_orbitAzimuth + _orbitSpeed * elapsed) % 360;
-        ApplyOrbitCamera();
+        if (IsViewportInteraction())
+        {
+            _orbitPaused = true;
+            // 相机由鼠标控制，这里只强制重绘，让拖动也按计时器节奏出帧。
+            _renderControl.RequestDraw(EnumUpdateFlags.Scene);
+            return;
+        }
+        ResumeOrbit();
+        if (_orbitSpeed == 0)
+        {
+            return;
+        }
+
+        var delta = _orbitSpeed * elapsed;
+        _orbitAzimuth = (_orbitAzimuth + delta) % 360;
+        ApplyOrbitCamera(delta);
     }
 
-    /// <summary>围绕模型包围盒中心重新计算眼点，保持适配后的距离、仰角和正交缩放。</summary>
-    private void ApplyOrbitCamera()
+    /// <summary>眼点、观察点和上方向一起绕模型转动，保留手动平移后的构图和缩放。</summary>
+    private void ApplyOrbitCamera(double deltaDegrees)
     {
         if (_content is null)
         {
             return;
         }
 
-        SetOrbitCamera(_orbitAzimuth);
-        _renderControl.Camera.UpdateProjectionMatrix();
-        _renderControl.RequestDraw(EnumUpdateFlags.Scene);
+        var camera = _renderControl.Camera;
+        using var position = camera.GetPosition();
+        using var target = camera.GetTarget();
+        using var up = camera.GetUp();
+        var angle = deltaDegrees * Math.PI / 180;
+        var cosine = Math.Cos(angle);
+        var sine = Math.Sin(angle);
+        using var nextPosition = new Vector3d(
+            _orbitCenterX + cosine * (position.x - _orbitCenterX) - sine * (position.y - _orbitCenterY),
+            _orbitCenterY + sine * (position.x - _orbitCenterX) + cosine * (position.y - _orbitCenterY), position.z);
+        using var nextTarget = new Vector3d(
+            _orbitCenterX + cosine * (target.x - _orbitCenterX) - sine * (target.y - _orbitCenterY),
+            _orbitCenterY + sine * (target.x - _orbitCenterX) + cosine * (target.y - _orbitCenterY), target.z);
+        using var nextUp = new Vector3d(cosine * up.x - sine * up.y, sine * up.x + cosine * up.y, up.z);
+        var zoom = camera.GetOrthoZoomFactor();
+        camera.LookAt(nextPosition, nextTarget, nextUp);
+        camera.SetOrthoZoomFactor(zoom);
+        camera.UpdateProjectionMatrix();
+        // 自转只改相机，用 Camera 标志通知引擎刷新视图。
+        _renderControl.RequestDraw(EnumUpdateFlags.Camera);
     }
 
     /// <summary>按指定方位角把相机放到环绕位置，保留当前正交缩放。</summary>
@@ -452,7 +556,7 @@ public sealed class RobotSceneService : IRobotSceneService
         using var target = new Vector3d(_orbitCenterX, _orbitCenterY, _orbitCenterZ);
         using var up = new Vector3d(0, 0, 1);
         camera.LookAt(eye, target, up);
-        // LookAt 会重置正交缩放；恢复当前比例，保证采样和旋转时大小不变。
+        // 显式保留用户选择的比例，适配采样和自转都不逐帧缩放。
         camera.SetOrthoZoomFactor(ortho);
     }
 
@@ -465,9 +569,7 @@ public sealed class RobotSceneService : IRobotSceneService
         }
 
         _disposed = true;
-        _orbitTimer?.Stop();
-        _orbitClock.Stop();
-        _orbitTimer = null;
+        StopOrbit();
         ClearCore();
         _background?.Dispose();
         _background = null;

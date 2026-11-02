@@ -48,13 +48,26 @@ public static class WorkConfigurationStore
         return configuration;
     }
 
-    public static IReadOnlyList<WorkModelDefinition> Discover(string workRoot) => ModelResources.WorkIds.Select(id =>
+    /// <summary>不可用的工装单独报告并跳过，不覆盖原文件或回退到默认安装位姿。</summary>
+    public static IReadOnlyList<WorkModelDefinition> Discover(string workRoot, Action<string>? reportWarning = null)
     {
-        var defaults = LoadBuiltIn(id);
-        var path = Path.Combine(workRoot, id, GetConfigurationFileName(defaults.ModelFile));
-        if (!File.Exists(path)) Save(path, defaults);
-        return new WorkModelDefinition(id, path, Load(path));
-    }).ToArray();
+        var models = new List<WorkModelDefinition>();
+        foreach (var id in ModelResources.WorkIds)
+        {
+            var defaults = LoadBuiltIn(id);
+            var path = Path.Combine(workRoot, id, GetConfigurationFileName(defaults.ModelFile));
+            try
+            {
+                if (!File.Exists(path)) Save(path, defaults);
+                models.Add(new WorkModelDefinition(id, path, Load(path)));
+            }
+            catch (Exception exception) when (exception is JsonException or InvalidDataException or IOException or UnauthorizedAccessException)
+            {
+                reportWarning?.Invoke($"工装 {id} 配置不可用，已跳过：{Path.GetFullPath(path)}\n{exception.Message}");
+            }
+        }
+        return models;
+    }
 
     public static void Save(string path, WorkConfiguration configuration)
     {

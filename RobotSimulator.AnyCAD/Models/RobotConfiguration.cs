@@ -40,10 +40,13 @@ public sealed class PoseConfiguration
 public sealed class OrientationConfiguration
 {
     /// <summary>绕 Z 轴的 A 角，单位度。</summary>
+    [JsonRequired]
     public double A { get; init; }
     /// <summary>绕 Y 轴的 B 角，单位度。</summary>
+    [JsonRequired]
     public double B { get; init; }
     /// <summary>绕 X 轴的 C 角，单位度。</summary>
+    [JsonRequired]
     public double C { get; init; }
 }
 
@@ -64,12 +67,16 @@ public sealed class JointConfiguration
     /// <summary>当前机器人目录中的关节 STEP 文件名。</summary>
     public required string ModelFile { get; init; }
     /// <summary>最小示教器绝对角度，单位度。</summary>
+    [JsonRequired]
     public double Minimum { get; init; }
     /// <summary>最大示教器绝对角度，单位度。</summary>
+    [JsonRequired]
     public double Maximum { get; init; }
     /// <summary>启动和复位角度，单位度。</summary>
+    [JsonRequired]
     public double HomeAngle { get; init; }
     /// <summary>原始 STEP 的示教器角度；实际模型转角等于当前角度减去此值。</summary>
+    [JsonRequired]
     public double ModelReferenceAngle { get; init; }
     /// <summary>CAD 全局坐标下旋转轴线上的一点，单位 mm。</summary>
     public required VectorConfiguration AxisOrigin { get; init; }
@@ -81,10 +88,13 @@ public sealed class JointConfiguration
 public sealed class VectorConfiguration
 {
     /// <summary>X 坐标或方向分量。</summary>
+    [JsonRequired]
     public double X { get; init; }
     /// <summary>Y 坐标或方向分量。</summary>
+    [JsonRequired]
     public double Y { get; init; }
     /// <summary>Z 坐标或方向分量。</summary>
+    [JsonRequired]
     public double Z { get; init; }
 }
 

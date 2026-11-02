@@ -19,6 +19,8 @@ public interface IRobotSceneService : IDisposable
 {
     /// <summary>初始化背景、视角立方体等显示设置；只在渲染控件就绪后调用。</summary>
     void InitializeViewport();
+    /// <summary>用户是否正在三维视口内按住鼠标调整视角；此时自动运动应暂停让路。</summary>
+    bool IsUserAdjustingView { get; }
     /// <summary>只加载机器人基座及六轴，固定参数只能来自内置机器人配置。</summary>
     Task LoadRobotAsync(RobotConfiguration configuration, string modelId, IProgress<RobotLoadProgress>? progress = null);
     /// <summary>独立加载并替换 Tool，不重新读取机器人，也不重置关节姿态。</summary>
@@ -35,7 +37,7 @@ public interface IRobotSceneService : IDisposable
     void SetToolTcp(PoseConfiguration pose);
     /// <summary>整体调整工装相对于机器人基坐标的安装位置。</summary>
     void SetWorkPose(PoseConfiguration pose);
-    /// <summary>切换标准相机视角，并将整个模型适配到窗口。</summary>
+    /// <summary>停止自转并切换标准相机视角，将整个模型适配到窗口。</summary>
     void SetView(RobotView view);
     /// <summary>调整相机缩放，使机器人整体位于视图内。</summary>
     void ZoomAll();

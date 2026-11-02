@@ -22,13 +22,21 @@ public partial class App : System.Windows.Application
 
             // 机器人参数只读内嵌资源；Tool 和工装各自生成可编辑配置。
             var robotModels = RobotConfigurationStore.Discover();
-            var toolModels = ToolConfigurationStore.Discover(IOPath.Combine(AppContext.BaseDirectory, "Tools"));
-            var workModels = WorkConfigurationStore.Discover(IOPath.Combine(AppContext.BaseDirectory, "Work"));
+            var configurationWarnings = new List<string>();
+            var toolModels = ToolConfigurationStore.Discover(IOPath.Combine(AppContext.BaseDirectory, "Tools"), configurationWarnings.Add);
+            var workModels = WorkConfigurationStore.Discover(IOPath.Combine(AppContext.BaseDirectory, "Work"), configurationWarnings.Add);
 
             AppLog.Write($"发现 {robotModels.Count} 个机器人型号：{string.Join("、", robotModels.Select(model => model.Id))}");
             var window = new MainWindow(robotModels, toolModels, workModels);
             MainWindow = window;
             window.Show();
+            if (configurationWarnings.Count > 0)
+            {
+                foreach (var warning in configurationWarnings) AppLog.Write(warning);
+                System.Windows.MessageBox.Show(window,
+                    $"以下 Tool/工装配置未加载，已有文件保持原样。请修复配置后重新启动；其余型号可继续使用。\n\n{string.Join("\n\n", configurationWarnings)}",
+                    "部分附件配置未加载", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
         catch (Exception exception)
         {

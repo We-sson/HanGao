@@ -57,14 +57,26 @@ public static class ToolConfigurationStore
         return configuration;
     }
 
-    /// <summary>枚举内置工具，只为缺失的配置生成默认文件，已有 TCP 保持原样。</summary>
-    public static IReadOnlyList<ToolModelDefinition> Discover(string toolsRoot) => ModelResources.ToolIds.Select(id =>
+    /// <summary>只为缺失配置生成默认文件；不可用的工具单独报告并跳过，已有文件不覆盖。</summary>
+    public static IReadOnlyList<ToolModelDefinition> Discover(string toolsRoot, Action<string>? reportWarning = null)
     {
-        var defaults = LoadBuiltIn(id);
-        var path = Path.Combine(toolsRoot, id, GetConfigurationFileName(defaults.ModelFile));
-        if (!File.Exists(path)) Save(path, defaults);
-        return new ToolModelDefinition(id, path, Load(path));
-    }).ToArray();
+        var models = new List<ToolModelDefinition>();
+        foreach (var id in ModelResources.ToolIds)
+        {
+            var defaults = LoadBuiltIn(id);
+            var path = Path.Combine(toolsRoot, id, GetConfigurationFileName(defaults.ModelFile));
+            try
+            {
+                if (!File.Exists(path)) Save(path, defaults);
+                models.Add(new ToolModelDefinition(id, path, Load(path)));
+            }
+            catch (Exception exception) when (exception is JsonException or InvalidDataException or IOException or UnauthorizedAccessException)
+            {
+                reportWarning?.Invoke($"Tool {id} 配置不可用，已跳过：{Path.GetFullPath(path)}\n{exception.Message}");
+            }
+        }
+        return models;
+    }
 
     /// <summary>先校验，再写临时文件并替换正式文件，避免失败时破坏原配置。</summary>
     public static void Save(string path, ToolConfiguration configuration)

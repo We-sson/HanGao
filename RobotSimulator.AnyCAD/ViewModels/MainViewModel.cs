@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Media;
-using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RobotSimulator.Models;
@@ -57,8 +56,6 @@ public sealed class MainViewModel : ObservableObject
     private bool _isClosing;
     /// <summary>加载期间收到的延迟关闭请求。</summary>
     private bool _closePending;
-    /// <summary>动画更新是否已经排入 UI 队列。</summary>
-    private bool _animationUpdatePending;
     /// <summary>基坐标箭头显示状态。</summary>
     private bool _showBaseCoordinates = true;
     /// <summary>法兰坐标箭头显示状态。</summary>
@@ -101,9 +98,9 @@ public sealed class MainViewModel : ObservableObject
         ClosingCommand = new RelayCommand<CancelEventArgs>(OnClosing);
         ResetCommand = new RelayCommand(Reset);
         PlayCommand = new RelayCommand(Play);
-        IsometricCommand = new RelayCommand(() => _sceneService.SetView(RobotView.Isometric));
-        FrontCommand = new RelayCommand(() => _sceneService.SetView(RobotView.Front));
-        TopCommand = new RelayCommand(() => _sceneService.SetView(RobotView.Top));
+        IsometricCommand = new RelayCommand(() => SetStandardView(RobotView.Isometric));
+        FrontCommand = new RelayCommand(() => SetStandardView(RobotView.Front));
+        TopCommand = new RelayCommand(() => SetStandardView(RobotView.Top));
         ZoomAllCommand = new RelayCommand(_sceneService.ZoomAll);
         UpdateCoordinateVisibilityCommand = new RelayCommand(UpdateCoordinateVisibility);
     }
@@ -551,29 +548,28 @@ public sealed class MainViewModel : ObservableObject
         StatusMessage = "正在播放六轴示例动作。";
     }
 
-    /// <summary>每次渲染事件最多排入一个动画更新任务，防止帧回调过快导致队列积压。</summary>
-    private void AnimationFrame(object? sender, EventArgs e)
-    {
-        if (_animationUpdatePending)
-        {
-            return;
-        }
-
-        _animationUpdatePending = true;
-        // 以后台优先级更新动画，让鼠标拖动相机等输入先处理，减轻播放时的交互卡顿。
-        Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, UpdateAnimation);
-    }
+    /// <summary>每个渲染帧更新一次动画；用户拖动视角时直接返回，把渲染让给鼠标。</summary>
+    private void AnimationFrame(object? sender, EventArgs e) => UpdateAnimation();
 
     /// <summary>根据实际经过时间计算六轴正弦示例角度，再一次性应用全部关节。</summary>
     private void UpdateAnimation()
     {
-        _animationUpdatePending = false;
         if (!IsPlaying)
         {
             return;
         }
 
-        // 停止后队列中可能仍有一次回调；上面的 IsPlaying 判断使它不会继续改变关节。
+        // 用户拖动视角时让路：暂停计时器，松开后从暂停处继续，不跳姿态。
+        if (_sceneService.IsUserAdjustingView)
+        {
+            _animationClock.Stop();
+            return;
+        }
+        if (!_animationClock.IsRunning)
+        {
+            _animationClock.Start();
+        }
+
         var seconds = _animationClock.Elapsed.TotalSeconds;
         // 每轴使用不同摆幅和频率，只作为显示演示轨迹；Angle 属性仍会执行行程限位。
         var amplitudes = new[] { 40.0, 28.0, 32.0, 55.0, 38.0, 95.0 };
@@ -694,6 +690,13 @@ public sealed class MainViewModel : ObservableObject
         {
             _sceneService.SetCoordinateVisibility(ShowBaseCoordinates, ShowFlangeCoordinates, ShowTcpCoordinates);
         }
+    }
+
+    /// <summary>手动选择标准视角时停止自转，并同步页面显示的速度。</summary>
+    private void SetStandardView(RobotView view)
+    {
+        OrbitSpeed = 0;
+        _sceneService.SetView(view);
     }
 
     /// <summary>把当前环绕速度、起始角度和固定仰角同步到场景。</summary>

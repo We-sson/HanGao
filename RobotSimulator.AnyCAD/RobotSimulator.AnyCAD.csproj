@@ -21,6 +21,11 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
   </ItemGroup>
 
+  <!-- 回归测试可替换场景服务，验证真实控件的通信线程与加载时序。 -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="RobotSimulator.AnyCAD.Tests" />
+  </ItemGroup>
+
   <!-- 机器人模型与固定参数全部内嵌，不生成外部 robot.json。 -->
   <ItemGroup>
     <EmbeddedResource Include="Resources\Robots\**\*.STEP;Resources\Robots\**\*.robot.json"

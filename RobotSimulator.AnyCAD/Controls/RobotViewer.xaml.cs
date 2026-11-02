@@ -21,10 +21,18 @@ public partial class RobotViewer : UserControl, IDisposable
     private readonly object _updateSync = new();
     /// <summary>最新待应用角度，避免高频通信时堆积多帧。</summary>
     private readonly double[] _pendingAngles = new double[6];
+    /// <summary>加载前哪些轴已收到输入，未收到的轴仍使用各自初始角。</summary>
+    private readonly bool[] _pendingAxes = new bool[6];
+    /// <summary>场景创建入口，复用场景接口以验证加载失败与通信时序。</summary>
+    private readonly Func<AnyCAD.WPF.RenderControl, IRobotSceneService> _sceneFactory;
+    /// <summary>通知源的普通引用，通信回调不读取 WPF 依赖属性。</summary>
+    private volatile IRobotViewerModel? _boundModel;
     /// <summary>等待 AnyCAD 渲染器就绪后继续加载。</summary>
     private readonly TaskCompletionSource<bool> _viewerReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
     /// <summary>当前场景服务；释放后置空，阻止继续访问原生视口。</summary>
-    private RobotSceneService? _scene;
+    private IRobotSceneService? _scene;
+    /// <summary>正在进行的加载任务，公开加载与自动加载共用同一任务。</summary>
+    private Task? _loadTask;
     /// <summary>与场景六轴顺序一致的关节状态。</summary>
     private IReadOnlyList<JointViewModel> _joints = [];
     /// <summary>是否有尚未应用到场景的角度。</summary>
@@ -41,8 +49,12 @@ public partial class RobotViewer : UserControl, IDisposable
     // 生命周期与初始化
 
     /// <summary>创建视口并订阅渲染器就绪事件。</summary>
-    public RobotViewer()
+    public RobotViewer() : this(view => new RobotSceneService(view)) { }
+
+    /// <summary>以指定场景创建器构造控件，供加载与线程回归测试使用。</summary>
+    internal RobotViewer(Func<AnyCAD.WPF.RenderControl, IRobotSceneService> sceneFactory)
     {
+        _sceneFactory = sceneFactory;
         InitializeEngine();
         InitializeComponent();
         RenderView.ViewerReady += OnViewerReady;
@@ -79,62 +91,80 @@ public partial class RobotViewer : UserControl, IDisposable
     // 公开操作
 
     /// <summary>按 Model.Options 加载固定组合；只能在 UI 线程调用一次。</summary>
-    public async Task LoadAsync()
+    public Task LoadAsync()
     {
+        if (!Dispatcher.CheckAccess()) throw new InvalidOperationException("LoadAsync 必须在 UI 线程调用。");
         if (_disposed) throw new ObjectDisposedException(nameof(RobotViewer));
         if (_loaded) throw new InvalidOperationException("控件已经加载，不能重复调用 LoadAsync。");
-        if (!Dispatcher.CheckAccess()) throw new InvalidOperationException("LoadAsync 必须在 UI 线程调用。");
+        if (_loading) return _loadTask!;
         var options = Model?.Options ?? throw new InvalidOperationException("必须设置 Model.Options。");
+        _loading = true;
+        return _loadTask = LoadSceneAsync(options);
+    }
 
+    /// <summary>一次完整加载成功后应用最新角度；失败时清理场景并允许再次尝试。</summary>
+    private async Task LoadSceneAsync(RobotViewerOptions options)
+    {
         SetStatus("正在加载三维模型…");
         try
         {
             await _viewerReady.Task;
+            ObjectDisposedException.ThrowIf(_disposed, this);
             var robotId = ModelCatalog.GetId(options.Robot);
-            _scene = new RobotSceneService(RenderView);
-            _scene.InitializeViewport();
+            var scene = _sceneFactory(RenderView);
+            _scene = scene;
+            scene.InitializeViewport();
 
             var robot = RobotConfigurationStore.LoadBuiltIn(robotId);
-            await _scene.LoadRobotAsync(robot, robotId);
+            await scene.LoadRobotAsync(robot, robotId);
+            ObjectDisposedException.ThrowIf(_disposed, this);
             _joints = robot.Joints.Select((joint, index) => new JointViewModel(index, joint)).ToArray();
 
             var toolId = ModelCatalog.GetId(options.Tool);
             var tool = ToolConfigurationStore.LoadBuiltIn(toolId);
-            await _scene.LoadToolAsync(toolId, tool);
-            if (options.ToolTcp is not null) _scene.SetToolTcp(options.ToolTcp);
+            await scene.LoadToolAsync(toolId, tool);
+            ObjectDisposedException.ThrowIf(_disposed, this);
+            if (options.ToolTcp is not null) scene.SetToolTcp(options.ToolTcp);
 
             var workId = ModelCatalog.GetId(options.Work);
             var work = WorkConfigurationStore.LoadBuiltIn(workId);
-            await _scene.LoadWorkAsync(workId, work);
-            if (options.WorkPose is not null) _scene.SetWorkPose(options.WorkPose);
+            await scene.LoadWorkAsync(workId, work);
+            ObjectDisposedException.ThrowIf(_disposed, this);
+            if (options.WorkPose is not null) scene.SetWorkPose(options.WorkPose);
 
-            _scene.SetCoordinateVisibility(
+            scene.SetCoordinateVisibility(
                 options.ShowBaseCoordinates,
                 options.ShowFlangeCoordinates,
                 options.ShowTcpCoordinates);
 
-            // 加载前绑定过的角度优先，否则使用配置中的初始角。
+            scene.SetView(RobotView.Isometric);
+            scene.SetOrbit(options.OrbitSpeedDegreesPerSecond, options.OrbitStartAngleDegrees, options.OrbitElevationDegrees);
+
+            // 完整加载前不消费通信帧；仅对未收到输入的轴填入初始角。
             var home = _joints.Select(joint => joint.HomeAngle).ToArray();
             double[] angles;
             lock (_updateSync)
             {
-                if (!_hasPendingAngles) Array.Copy(home, _pendingAngles, _pendingAngles.Length);
+                for (var index = 0; index < home.Length; index++)
+                    if (!_pendingAxes[index]) _pendingAngles[index] = home[index];
                 _hasPendingAngles = false;
+                _loaded = true;
                 angles = (double[])_pendingAngles.Clone();
             }
             ApplyAngles(angles);
 
-            // 启动时固定为等轴测视角，并按配置启动相机环绕。
-            _scene.SetView(RobotView.Isometric);
-            _scene.SetOrbit(options.OrbitSpeedDegreesPerSecond, options.OrbitStartAngleDegrees, options.OrbitElevationDegrees);
-            _loaded = true;
             SetStatus("模型已加载");
         }
         catch (Exception exception)
         {
-            SetStatus($"三维模型加载失败：{exception.Message}");
+            _loaded = false;
+            _joints = [];
+            _scene?.Dispose();
+            _scene = null;
+            if (!_disposed) SetStatus($"三维模型加载失败：{exception.Message}");
             throw;
         }
+        finally { _loading = false; }
     }
 
     /// <summary>一次推送六轴角度，单位度；可在通信线程调用，只在 UI 帧内应用一次。</summary>
@@ -143,10 +173,14 @@ public partial class RobotViewer : UserControl, IDisposable
         if (degrees is null || degrees.Count < 6) throw new ArgumentException("需要 J1～J6 六个角度。", nameof(degrees));
         lock (_updateSync)
         {
+            if (_disposed) return;
             for (var index = 0; index < _pendingAngles.Length; index++)
+            {
                 _pendingAngles[index] = degrees[index];
+                _pendingAxes[index] = true;
+            }
+            ScheduleApply();
         }
-        ScheduleApply();
     }
 
     /// <summary>只更新一个关节，其余轴保持最近一次的值；可在通信线程调用。</summary>
@@ -155,12 +189,14 @@ public partial class RobotViewer : UserControl, IDisposable
         if (axis is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(axis));
         lock (_updateSync)
         {
+            if (_disposed) return;
             _pendingAngles[axis] = degrees;
+            _pendingAxes[axis] = true;
+            ScheduleApply();
         }
-        ScheduleApply();
     }
 
-    /// <summary>恢复等轴测视角；不改变关节角度。</summary>
+    /// <summary>恢复等轴测视角并停止自转；不改变关节角度。</summary>
     public void ResetView()
     {
         if (_disposed || _scene is null) return;
@@ -171,9 +207,11 @@ public partial class RobotViewer : UserControl, IDisposable
     public void Dispose()
     {
         if (_disposed) return;
-        _disposed = true;
+        lock (_updateSync) _disposed = true;
+        _viewerReady.TrySetCanceled();
         RenderView.ViewerReady -= OnViewerReady;
         if (Model is not null) Model.PropertyChanged -= OnModelPropertyChanged;
+        _boundModel = null;
         _scene?.Dispose();
         _scene = null;
     }
@@ -186,6 +224,7 @@ public partial class RobotViewer : UserControl, IDisposable
         var viewer = (RobotViewer)dependencyObject;
         if (eventArgs.OldValue is IRobotViewerModel oldModel)
             oldModel.PropertyChanged -= viewer.OnModelPropertyChanged;
+        viewer._boundModel = eventArgs.NewValue as IRobotViewerModel;
         if (eventArgs.NewValue is IRobotViewerModel newModel)
         {
             newModel.PropertyChanged += viewer.OnModelPropertyChanged;
@@ -197,25 +236,24 @@ public partial class RobotViewer : UserControl, IDisposable
     /// <summary>Model 的 Joints 更新时推送角度；Options 变化时重新尝试加载。</summary>
     private void OnModelPropertyChanged(object? sender, PropertyChangedEventArgs eventArgs)
     {
-        if (eventArgs.PropertyName == nameof(IRobotViewerModel.Joints)) ApplyBoundJoints(Model?.Joints);
-        else if (eventArgs.PropertyName == nameof(IRobotViewerModel.Options)) StartLoadIfReady();
+        if (sender is not IRobotViewerModel model || !ReferenceEquals(model, _boundModel)) return;
+        if (eventArgs.PropertyName == nameof(IRobotViewerModel.Joints)) ApplyBoundJoints(model.Joints);
+        else if (eventArgs.PropertyName == nameof(IRobotViewerModel.Options))
+        {
+            // Options 涉及 WPF 控件与原生视口，只在界面线程处理。
+            if (Dispatcher.CheckAccess()) StartLoadIfReady();
+            else Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (ReferenceEquals(model, _boundModel)) StartLoadIfReady();
+            }));
+        }
     }
 
     /// <summary>保存绑定角度；场景加载完成后由 LoadAsync 统一应用。</summary>
     private void ApplyBoundJoints(IReadOnlyList<double>? joints)
     {
         if (joints is null || joints.Count < 6) return;
-        if (_loaded)
-        {
-            SetJoints(joints);
-            return;
-        }
-        lock (_updateSync)
-        {
-            for (var index = 0; index < _pendingAngles.Length; index++)
-                _pendingAngles[index] = joints[index];
-            _hasPendingAngles = true;
-        }
+        SetJoints(joints);
     }
 
     // 加载流程
@@ -225,7 +263,6 @@ public partial class RobotViewer : UserControl, IDisposable
     {
         if (_disposed || _loaded || _loading || Model?.Options is null) return;
         if (!_viewerReady.Task.IsCompletedSuccessfully) return;
-        _loading = true;
         _ = LoadCoreAsync();
     }
 
@@ -262,7 +299,7 @@ public partial class RobotViewer : UserControl, IDisposable
         lock (_updateSync)
         {
             _hasPendingAngles = true;
-            if (_updateQueued) return;
+            if (_disposed || !_loaded || _updateQueued) return;
             _updateQueued = true;
         }
         Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(ApplyPendingAngles));
@@ -275,7 +312,7 @@ public partial class RobotViewer : UserControl, IDisposable
         lock (_updateSync)
         {
             _updateQueued = false;
-            if (!_hasPendingAngles) return;
+            if (_disposed || !_loaded || !_hasPendingAngles) return;
             _hasPendingAngles = false;
             angles = (double[])_pendingAngles.Clone();
         }

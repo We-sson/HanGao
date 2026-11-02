@@ -58,7 +58,13 @@ public sealed class CadModelPart : IDisposable
         if (_disposed) return;
         _disposed = true;
         Node?.Dispose();
-        for (var index = _cadResources.Count - 1; index >= 0; index--)
+        ReleaseResources(0);
+    }
+
+    /// <summary>反序释放指定位置之后的资源，供整体关闭和缓存失败回滚共用。</summary>
+    private void ReleaseResources(int startIndex)
+    {
+        for (var index = _cadResources.Count - 1; index >= startIndex; index--)
         {
             if (_cadResources[index] is XdeDocumentI document)
             {
@@ -66,7 +72,7 @@ public sealed class CadModelPart : IDisposable
             }
             else _cadResources[index].Dispose();
         }
-        _cadResources.Clear();
+        _cadResources.RemoveRange(startIndex, _cadResources.Count - startIndex);
     }
 
     /// <summary>读取一个部件：先尝试内容哈希对应的 BREP 缓存，缺失时解析 STEP、提取颜色并生成缓存。</summary>
@@ -156,13 +162,10 @@ public sealed class CadModelPart : IDisposable
             }
 
             // 各颜色组互不共享几何，可并行 tessellate；节点挂接仍留在当前线程。
-            var displayNodes = new BrepSceneNode[colorValues.Length];
-            Parallel.For(0, colorValues.Length, index =>
-                displayNodes[index] = CreateDisplayNode(name, colorShapes[index], cachedShapes[index]));
+            var displayNodes = CreateDisplayNodes(name, colorShapes, cachedShapes);
 
             for (var index = 0; index < displayNodes.Length; index++)
             {
-                _cadResources.Add(displayNodes[index]);
                 faceCount += displayNodes[index].GetFaceCount();
                 partGroup.AddNode(displayNodes[index]);
                 cacheManifest.Shapes.Add(cachedShapes[index]);
@@ -336,21 +339,44 @@ public sealed class CadModelPart : IDisposable
         return colors;
     }
 
-    /// <summary>将一个同色 BREP 几何生成可显示的网格节点，关闭拾取和实时阴影以减少交互负担。</summary>
+    /// <summary>并行创建整批颜色节点，全部成功后统一交给部件管理生命周期。</summary>
+    private BrepSceneNode[] CreateDisplayNodes(string name, TopoShape[] shapes, CachedShape[] cachedShapes)
+    {
+        var displayNodes = new BrepSceneNode[shapes.Length];
+        try
+        {
+            Parallel.For(0, shapes.Length, index =>
+                displayNodes[index] = CreateDisplayNode(name, shapes[index], cachedShapes[index]));
+        }
+        catch
+        {
+            // Parallel.For 已等待全部迭代退出，此时可安全释放成功的同批节点。
+            for (var index = displayNodes.Length - 1; index >= 0; index--) displayNodes[index]?.Dispose();
+            throw;
+        }
+        _cadResources.AddRange(displayNodes);
+        return displayNodes;
+    }
+
+    /// <summary>配置单个显示节点；初始化失败时释放尚未交给调用方的节点。</summary>
     private BrepSceneNode CreateDisplayNode(string name, TopoShape shape, CachedShape cachedShape)
     {
         // 一个节点只含一种颜色，网格优化即使调整面顺序，也不会再导致颜色错位。
         var displayNode = BrepSceneNode.Create(shape, DisplayDeflectionMillimeters, true)
             ?? throw new InvalidOperationException($"AnyCAD 无法生成 {name} 的显示节点。");
 
-        displayNode.SetPickable(false);
-        displayNode.SetSubShapePickable(false);
-        displayNode.SetCastShadow(false);
+        try
+        {
+            displayNode.SetPickable(false);
+            displayNode.SetSubShapePickable(false);
+            displayNode.SetCastShadow(false);
 
-        using var shapeColor = ToVector(cachedShape.ShapeColor);
-        displayNode.SetColor(shapeColor);
-        displayNode.RequestUpdate();
-        return displayNode;
+            using var shapeColor = ToVector(cachedShape.ShapeColor);
+            displayNode.SetColor(shapeColor);
+            displayNode.RequestUpdate();
+            return displayNode;
+        }
+        catch { displayNode.Dispose(); throw; }
     }
 
     /// <summary>把缓存中的线性 RGB 转换成显示材质使用的 sRGB 三分量颜色。</summary>
@@ -375,7 +401,6 @@ public sealed class CadModelPart : IDisposable
     /// <summary>组合“部件名 + 文件内容哈希 + 缓存版本”目录，区分型号几何并复用相同的资源。</summary>
     private string GetCacheDirectory(string name, string contentHash, string cacheVersion)
     {
-        System.IO.Directory.CreateDirectory(_cacheRoot);
         return IOPath.Combine(_cacheRoot, $"{name}-{contentHash}-{cacheVersion}");
     }
 
@@ -391,6 +416,7 @@ public sealed class CadModelPart : IDisposable
         }
 
         GroupSceneNode? partGroup = null;
+        var resourceStart = _cadResources.Count;
         try
         {
             var manifest = JsonSerializer.Deserialize<PartCacheManifest>(
@@ -416,12 +442,9 @@ public sealed class CadModelPart : IDisposable
             }
 
             // 各颜色组互不共享几何，可并行 tessellate；节点挂接仍留在当前线程。
-            var displayNodes = new BrepSceneNode[cachedShapes.Length];
-            Parallel.For(0, cachedShapes.Length, index =>
-                displayNodes[index] = CreateDisplayNode(name, cacheShapes[index], cachedShapes[index]));
+            var displayNodes = CreateDisplayNodes(name, cacheShapes, cachedShapes);
             foreach (var displayNode in displayNodes)
             {
-                _cadResources.Add(displayNode);
                 faceCount += displayNode.GetFaceCount();
                 partGroup.AddNode(displayNode);
             }
@@ -432,6 +455,8 @@ public sealed class CadModelPart : IDisposable
         catch (Exception exception)
         {
             partGroup?.Dispose();
+            ReleaseResources(resourceStart);
+            faceCount = 0;
             AppLog.Write($"BREP 缓存读取失败，将重新解析 STEP：{cacheDirectory}；{exception.Message}");
             return false;
         }
