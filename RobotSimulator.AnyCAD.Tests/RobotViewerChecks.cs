@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using AnyCAD.WPF;
+using Microsoft.Xaml.Behaviors;
+using RobotSimulator.Behaviors;
 using RobotSimulator.Controls;
 using RobotSimulator.Models;
 using RobotSimulator.Services;
@@ -18,6 +20,7 @@ internal static class RobotViewerChecks
         var model = new Digital_Simulation(new DigitalSimulationConfiguration { Robot_Model = RobotModelKind.KR_10_R1440_2 });
         using (var viewer = new RobotViewer(_ => scene) { Model = model })
         {
+            Check(!viewer.ZoomAllCommand.CanExecute(null), "模型加载前不应允许双击居中。");
             var load = viewer.LoadAsync();
             Check(ReferenceEquals(load, viewer.LoadAsync()), "自动和公开入口应共用同一次加载。");
             NotifyReady(viewer);
@@ -30,6 +33,13 @@ internal static class RobotViewerChecks
             scene.RobotGate!.TrySetResult(true);
             await load;
             Check(scene.Angles.SequenceEqual(new double[] { 12, -55, 80, 14, 15, 16 }), "加载完成没有应用最新角度。");
+            var render = (RenderControl)viewer.FindName("RenderView");
+            var action = Interaction.GetTriggers(render).OfType<ViewerDoubleClickTrigger>().Single()
+                .Actions.OfType<InvokeCommandAction>().Single();
+            Check(ReferenceEquals(action.Command, viewer.ZoomAllCommand), "嵌入视口的双击没有绑定控件自身的居中命令。");
+            Check(action.Command.CanExecute(null), "模型加载后居中命令未启用。");
+            action.Command.Execute(null);
+            Check(scene.ZoomAllCount == 1, "居中命令没有复用场景适配功能。");
 
             var before = scene.ApplyCount;
             // 多次通信通知到达同一界面帧时，只需要最后一帧。
@@ -40,6 +50,8 @@ internal static class RobotViewerChecks
             await DrainAsync();
             Check(scene.Angles[0] == 99 && scene.ApplyCount > before && scene.ApplyCount - before < 100,
                 "后台绑定更新丢失或未合并待处理帧。");
+            viewer.Dispose();
+            Check(!viewer.ZoomAllCommand.CanExecute(null), "控件释放后不应允许双击居中。");
         }
 
         var partialScene = new RecordingScene();
@@ -105,6 +117,7 @@ internal static class RobotViewerChecks
             await scene.LoadToolAsync("Tool", ToolConfigurationStore.LoadBuiltIn("Tool"));
             await scene.LoadWorkAsync("R边焊接工装", WorkConfigurationStore.LoadBuiltIn("R边焊接工装"));
             CameraViewChecks.RunNative(scene, render);
+            ViewerDoubleClickChecks.Run(scene, render);
             Console.WriteLine("PASS: real front/top/isometric views survive orbit timer frames without disabling mouse redraw");
         }
         finally { scene.Dispose(); window.Close(); }
@@ -139,6 +152,7 @@ internal static class RobotViewerChecks
         public bool FailInitialization { get; init; }
         public int RobotLoadCount { get; private set; }
         public int ApplyCount { get; private set; }
+        public int ZoomAllCount { get; private set; }
         public double[] Angles { get; private set; } = [];
         public bool Disposed { get; private set; }
         public bool IsUserAdjustingView => false;
@@ -161,7 +175,7 @@ internal static class RobotViewerChecks
         public void SetToolTcp(PoseConfiguration pose) { }
         public void SetWorkPose(PoseConfiguration pose) { }
         public void SetView(RobotView view) { }
-        public void ZoomAll() { }
+        public void ZoomAll() => ZoomAllCount++;
         public void SetOrbit(double speedDegreesPerSecond, double startAngleDegrees, double elevationDegrees) { }
         public void Dispose() => Disposed = true;
     }

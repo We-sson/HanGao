@@ -162,6 +162,9 @@
                         <behaviors:ViewerReadyTrigger>
                             <i:InvokeCommandAction Command="{Binding ViewerReadyCommand}" />
                         </behaviors:ViewerReadyTrigger>
+                        <behaviors:ViewerDoubleClickTrigger>
+                            <i:InvokeCommandAction Command="{Binding ZoomAllCommand}" />
+                        </behaviors:ViewerDoubleClickTrigger>
                     </i:Interaction.Triggers>
                 </anycad:RenderControl>
                 <!-- 此提示只说明模型单位和全局坐标约定，不参与三维场景变换。 -->

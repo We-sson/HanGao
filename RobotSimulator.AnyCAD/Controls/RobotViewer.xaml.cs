@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using AnyCAD.Foundation;
+using CommunityToolkit.Mvvm.Input;
 using RobotSimulator.Models;
 using RobotSimulator.Services;
 using RobotSimulator.ViewModels;
@@ -55,6 +56,7 @@ public partial class RobotViewer : UserControl, IDisposable
     internal RobotViewer(Func<AnyCAD.WPF.RenderControl, IRobotSceneService> sceneFactory)
     {
         _sceneFactory = sceneFactory;
+        ZoomAllCommand = new RelayCommand(() => _scene?.ZoomAll(), () => _loaded && !_disposed);
         InitializeEngine();
         InitializeComponent();
         RenderView.ViewerReady += OnViewerReady;
@@ -89,6 +91,9 @@ public partial class RobotViewer : UserControl, IDisposable
     }
 
     // 公开操作
+
+    /// <summary>保持当前观察方向，将完整模型居中并适配窗口；仅加载完成后可用。</summary>
+    public IRelayCommand ZoomAllCommand { get; }
 
     /// <summary>按 Model.Options 加载固定组合；只能在 UI 线程调用一次。</summary>
     public Task LoadAsync()
