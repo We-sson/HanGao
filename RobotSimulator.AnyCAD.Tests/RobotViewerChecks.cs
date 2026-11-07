@@ -18,6 +18,10 @@ internal static class RobotViewerChecks
     {
         var scene = new RecordingScene { RobotGate = new(TaskCreationOptions.RunContinuationsAsynchronously) };
         var model = new Digital_Simulation(new DigitalSimulationConfiguration { Robot_Model = RobotModelKind.KR_10_R1440_2 });
+        model.SetJoints([1, 2, 3, 4, 5, 6]);
+        Check(model.Joints.SequenceEqual(new double[] { 1, 2, 3, 4, 5, 6 }), "SetJoints 没有保存 J1～J6。");
+        model.ResetJointsToHome();
+        Check(model.Joints.SequenceEqual(new double[] { 0, -90, 90, 0, 0, 0 }), "ResetJointsToHome 没有回到内置初始角。");
         using (var viewer = new RobotViewer(_ => scene) { Model = model })
         {
             Check(!viewer.ZoomAllCommand.CanExecute(null), "模型加载前不应允许双击居中。");

@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 7883
+&ACCESS RVP
+&REL 7897
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
@@ -51,11 +51,10 @@ GLOBAL DEF Mes_InFo_Main()
    ;Mes_Work_Info(WORK_D_State,_Work_D_Stat,15,Work_D_Run_Nunber,Work_D_Run_Cycle_Time)
    
    Mes_Info_Send(_EKRL_Connect_Stat,_EKRL_Send_Stat)
-   
-   ;Mes_Info_Server(1,9)
-   
+
 END
 
+; Work timing helper, currently not called by Mes_InFo_Main.
 DEF Mes_Work_Info( _Work:IN,_Work_State:OUT, _Time_No:IN,_Work_Run_Nunber:OUT,_Work_Run_Cycle_Time:OUT)
    
    DECL BOOL _Work,_Work_State
@@ -104,66 +103,9 @@ DEF Mes_Mode_Info(_Aut_Time:OUT,_Stat:OUT,_Time_No:IN,_Mode:IN)
    
 END
 
-DEF Mes_Info_Server(_Falg_No:IN,_Time_No:IN)
-   
-   DECL INT _Falg_No,_Time_No
-   DECL CHAR EKRL_NAME[1024]
-   DECL EKI_STATUS RET
-   ;HALT
-   
-   EKRL_NAME[]="Xml_Mes_Robot_Info"
-   
-   IF _EKRL_Send_Stat==FALSE THEN
-      _EKRL_Send_Stat=TRUE
-      ;EKRL_Mes_Server("Xml_Mes_Robot_Info",_EKRL_Send_Stat)
-      $TIMER[_Time_No]=0
-      $TIMER_STOP[_Time_No]=false
-      
-      RET=EKI_Init(EKRL_NAME[])
-      ;EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
-      ;HALT
-      RET=EKI_OPEN(EKRL_NAME[])
-      EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
-      
-      IF RET.Msg_No<>0 THEN
-         _EKRL_Send_Stat=FALSE
-         RET=EKI_Clear(EKRL_NAME[])
-         ;RET=EKI_Close(EKRL_NAME[])
-         EKI_CHECK(RET,#NOTIFY,EKRL_NAME[])
-      ENDIF
-      
-   ENDIF
-   
-   IF (_EKRL_Send_Stat==TRUE) AND ($Flag[_Falg_No]==TRUE) AND (_EKRL_Server_Connt_Stat==false) THEN
-      _EKRL_Server_Connt_Stat=TRUE
-      ; Mes_EKRL_Server_Send(EKRL_NAME[])
-      
-   ENDIF
-   
-   IF ((_EKRL_Send_Stat==TRUE) AND ($Flag[_Falg_No]==TRUE)  AND  (_EKRL_Server_Connt_Stat==TRUE) AND  ($TIMER[_Time_No]>Socket_TimeOut) ) THEN
-      
-      ;HALT
- ;     Mes_EKRL_Server_Send(EKRL_NAME[])
-      $TIMER_STOP[_Time_No]=TRUE
-      $TIMER[_Time_No]=0
-      $TIMER_STOP[_Time_No]=false
-   ENDIF
-   
-   IF (_EKRL_Send_Stat==TRUE) AND ($Flag[_Falg_No]==FALSE)AND (_EKRL_Server_Connt_Stat==TRUE) THEN
-      _EKRL_Send_Stat=FALSE
-      _EKRL_Server_Connt_Stat=FALSE
-      $TIMER_STOP[_Time_No]=TRUE
-      $TIMER[_Time_No]=0
-      RET=EKI_Clear(EKRL_NAME[])
-      ; RET=EKI_Close(EKRL_NAME[])
-   ENDIF
-   
-END
-
 DEF Mes_Info_Send(_Connt_Stat:OUT,_Send_Stat:OUT)
    DECL BOOL _Connt_Stat,_Send_Stat
-   DECL INT _Time_No
-  
+
  
   ;$FLAG[2]=FALSE
    ;strat
@@ -175,7 +117,8 @@ DEF Mes_Info_Send(_Connt_Stat:OUT,_Send_Stat:OUT)
       EKRL_Connect("Xml_Mes_Robot_Info",FALSE,_Connt_Stat)
       IF _Connt_Stat THEN
         _Send_Stat=TRUE
-         
+      ELSE
+        _Send_Stat=FALSE
       ENDIF
    ENDIF
    
@@ -197,14 +140,17 @@ DEF Mes_Info_Send(_Connt_Stat:OUT,_Send_Stat:OUT)
       ;$TIMER_STOP[_Time_No]=TRUE
       ;$TIMER[_Time_No]=0
    ENDIF
-   
+
+   ; Wait before reconnect to avoid a tight retry loop in Submit.
+   IF _Connt_Stat==FALSE THEN
+      WAIT SEC Reconnect_Time
+   ENDIF
+
 END
 
 
 GLOBAL DEF Mes_InFo_Int()
    DECL int i
-   ;{DATE:CSEC 0,SEC 0,MIN 0,HOUR 0,DAY 0,MONTH 0,YEAR 0}
-   Robot_Run_Time=$DATE
    T1_Time=0
    Aut_Time=0
    Work_A_Run_Cycle_Time=0

@@ -11,16 +11,16 @@
 			<ALIVE Set_Flag="1"/>
          <ENVIRONMENT>Submit</ENVIRONMENT>
          <MESSAGES Logging="disabled" Display="disabled"/>
-         <TIMEOUT Connect="50"/>
+         <TIMEOUT Connect="2000"/>
 
 		</INTERNAL>
 	</CONFIGURATION>
 	<RECEIVE>
 		<XML>
 		 <ELEMENT Tag="Robot_Send/@IsStatus" Type="BOOL"/>  
-       <ELEMENT Tag="Robot_Send/Socket_Polling_Time" Type="INT"/> 
-		 <!-- <ELEMENT Tag="Robot_Send/Result_Pos" Type="FRAME"/> -->
-       <ELEMENT Tag="Robot_Send" Set_Flag="2"/> 
+       <!-- Retained for PC compatibility; KRC no longer uses this period. -->
+       <ELEMENT Tag="Robot_Send/Socket_Polling_Time" Type="INT"/>
+       <ELEMENT Tag="Robot_Send" Set_Flag="2"/>
 		</XML>
 	</RECEIVE>
 	<SEND>
@@ -35,6 +35,12 @@
          <ELEMENT Tag="Robot_Receive/Mes_Work_C_State" Type="BOOL"/>
          <ELEMENT Tag="Robot_Receive/Mes_Work_D_State" Type="BOOL"/>
          <ELEMENT Tag="Robot_Receive/Robot_Process_Int" Type="STRING"/>
+         <ELEMENT Tag="Robot_Receive/Robot_Axis/@J1" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Robot_Axis/@J2" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Robot_Axis/@J3" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Robot_Axis/@J4" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Robot_Axis/@J5" Type="REAL"/>
+         <ELEMENT Tag="Robot_Receive/Robot_Axis/@J6" Type="REAL"/>
     
 		</XML>
 	</SEND>

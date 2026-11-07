@@ -226,6 +226,54 @@ namespace Roboto_Socket_Library.Model
 
 
         /// <summary>
+        /// 机器人当前 J1～J6 角度；可选节点，缺省时为 null。
+        /// </summary>
+        [Serializable]
+        [XmlType("Robot_Axis")]
+        public class Robot_Axis_Model
+        {
+            /// <summary>J1 角度，单位度。</summary>
+            [XmlAttribute]
+            public double J1 { set; get; }
+
+            /// <summary>J2 角度，单位度。</summary>
+            [XmlAttribute]
+            public double J2 { set; get; }
+
+            /// <summary>J3 角度，单位度。</summary>
+            [XmlAttribute]
+            public double J3 { set; get; }
+
+            /// <summary>J4 角度，单位度。</summary>
+            [XmlAttribute]
+            public double J4 { set; get; }
+
+            /// <summary>J5 角度，单位度。</summary>
+            [XmlAttribute]
+            public double J5 { set; get; }
+
+            /// <summary>J6 角度，单位度。</summary>
+            [XmlAttribute]
+            public double J6 { set; get; }
+
+            /// <summary>创建全零角度，用于没有关节报文的品牌。</summary>
+            public Robot_Axis_Model()
+            {
+            }
+
+            /// <summary>创建角度副本，避免快照之间共享同一个可变对象。</summary>
+            public Robot_Axis_Model(Robot_Axis_Model _)
+            {
+                J1 = _.J1;
+                J2 = _.J2;
+                J3 = _.J3;
+                J4 = _.J4;
+                J5 = _.J5;
+                J6 = _.J6;
+            }
+        }
+
+        /// <summary>
         /// 机器人周期上传给上位机的生产/MES 状态格式。
         /// </summary>
         [Serializable]
@@ -257,7 +305,7 @@ namespace Roboto_Socket_Library.Model
                 Mes_Work_C_State = _.Mes_Work_C_State;
                 Mes_Work_D_State = _.Mes_Work_D_State;
 
-
+                Robot_Axis = _.Robot_Axis is null ? null : new Robot_Axis_Model(_.Robot_Axis);
             }
 
 
@@ -316,6 +364,11 @@ namespace Roboto_Socket_Library.Model
             /// 当前产线/机器人工艺标识，用于看板分组和工艺统计。
             /// </summary>
             public Robot_Process_Int_Enum Robot_Process_Int { set; get; } = Robot_Process_Int_Enum.R_Side_7;
+
+            /// <summary>
+            /// 可选的 J1～J6 角度；没有该节点的品牌或旧报文为 null，由仿真回到初始位。
+            /// </summary>
+            public Robot_Axis_Model? Robot_Axis { set; get; }
 
         }
         /// <summary>

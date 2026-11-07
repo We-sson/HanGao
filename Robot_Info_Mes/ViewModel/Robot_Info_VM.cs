@@ -1237,6 +1237,12 @@ namespace Robot_Info_Mes.ViewModel
             _Robot_Data.Robot_Info_Data.Mes_Work_C_State = _Receive.Robot_Mes_Info_Data.Mes_Work_C_State;
             _Robot_Data.Robot_Info_Data.Mes_Work_D_State = _Receive.Robot_Mes_Info_Data.Mes_Work_D_State;
 
+            // 快照保留 J1～J6；没有该节点时保持 null，由仿真回到初始位。
+            _Robot_Data.Robot_Info_Data.Robot_Axis =
+                _Receive.Robot_Mes_Info_Data.Robot_Axis is null
+                    ? null
+                    : new Robot_Axis_Model(_Receive.Robot_Mes_Info_Data.Robot_Axis);
+
             // 复制当前节拍、产量及节拍外统计。
             _Robot_Data.Robot_Work_AB_Cycle.Timer_UI = _Server_Date.Robot_Work_AB_Cycle;
             _Robot_Data.Robot_Work_CD_Cycle.Timer_UI = _Server_Date.Robot_Work_CD_Cycle;
@@ -1340,6 +1346,24 @@ namespace Robot_Info_Mes.ViewModel
 
             // 使用复制构造创建独立快照，避免 Socket 解析层复用对象时改写界面模型。
             Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data);
+
+            // 报文带 J1～J6 时驱动三维仿真；没有该数据时回到初始位。
+            if (_Data.Robot_Axis is not null)
+            {
+                Digital_Simulation.SetJoints(new[]
+                {
+                    _Data.Robot_Axis.J1,
+                    _Data.Robot_Axis.J2,
+                    _Data.Robot_Axis.J3,
+                    _Data.Robot_Axis.J4,
+                    _Data.Robot_Axis.J5,
+                    _Data.Robot_Axis.J6
+                });
+            }
+            else
+            {
+                Digital_Simulation.ResetJointsToHome();
+            }
 
 
 
