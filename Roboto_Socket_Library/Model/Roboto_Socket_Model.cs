@@ -733,6 +733,7 @@ namespace Roboto_Socket_Library.Model
                     _Sock.Sever_End();
                     Sever_IsRuning = false;
                 }
+                Receive_List.Clear();
                 Local_IP_UI.Clear();
             }
 

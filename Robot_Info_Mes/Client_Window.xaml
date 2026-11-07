@@ -547,7 +547,10 @@
             <!--  底部三维模型：固定机器人/Tool/工装的组合，只接收 J1～J6。  -->
             <Border Grid.Row="1" Margin="5,5,5,5">
                 <!--  状态提示由控件左下角直接显示。  -->
-                <viewer:RobotViewer Model="{Binding Digital_Simulation}" />
+                <viewer:RobotViewer Model="{Binding Digital_Simulation}"
+                                    JointResponseFrequencyHz="2.0"
+                                    JointMaxSpeedDegreesPerSecond="360"
+                                    JointMaxAccelerationDegreesPerSecondSquared="1440" />
             </Border>
         </Grid>
 

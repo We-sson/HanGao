@@ -40,6 +40,8 @@ internal static class ViewerDoubleClickChecks
             var handle = host!.Handle;
             var point = new IntPtr((render.Viewer.GetHeight() / 2 << 16) | render.Viewer.GetWidth() / 2);
             scene.SetView(RobotView.Isometric);
+            // 原生标准视角动画约 300ms，结束后再记录双击应恢复的比例。
+            Wait(600);
             var camera = render.Camera;
             var zoom = camera.GetOrthoZoomFactor();
             using var centeredTarget = camera.GetTarget();
@@ -89,6 +91,24 @@ internal static class ViewerDoubleClickChecks
             Console.WriteLine("PASS: native left double-click centers scene through command, preserves direction and detaches safely");
         }
         finally { triggers.Remove(trigger); }
+    }
+
+    /// <summary>等待原生相机动画和渲染帧继续运行。</summary>
+    private static void Wait(int milliseconds)
+    {
+        var frame = new DispatcherFrame();
+        var stop = new DispatcherTimer(DispatcherPriority.ApplicationIdle) { Interval = TimeSpan.FromMilliseconds(milliseconds) };
+        stop.Tick += (_, _) =>
+        {
+            stop.Stop();
+            frame.Continue = false;
+        };
+        try
+        {
+            stop.Start();
+            Dispatcher.PushFrame(frame);
+        }
+        finally { stop.Stop(); }
     }
 
     /// <summary>处理双击排入的命令及其绘制请求。</summary>

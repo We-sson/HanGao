@@ -79,13 +79,6 @@ namespace Generic_Extension
             if (index < 0)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            if (value==0)
-            {
-                return;
-
-            }
-
-
             while (collection.Count <= index)
             {
                 collection.Add(null);

@@ -285,6 +285,12 @@ namespace Robot_Info_Mes.Model
         public bool KanBan_Chart_Data_Scroll { set; get; } = false;
 
         /// <summary>
+        /// 图表数据同步对象；采集线程写集合与 LiveCharts 测量共用同一把锁。
+        /// </summary>
+        [XmlIgnore]
+        public object Sync { get; } = new();
+
+        /// <summary>
         /// 驱动轮播进度刷新及到期切换的 UI 线程定时器。
         /// </summary>
         private DispatcherTimer Mes_Data_View_List_Update { set; get; } = new DispatcherTimer();
@@ -883,10 +889,6 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         private void Mes_Data_View_List_Update_Tick(object? sender, EventArgs e)
         {
-            // 轮播发生在 Dispatcher 线程；提高当前线程优先级是为了降低繁忙看板上的切换延迟。
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
-
-
             // 以两个并行集合中较短者为边界，防止配置不一致时发生索引越界。
             int availableItemCount = Math.Min(
                 Mes_Data_View_List_Series.Count,
@@ -1053,36 +1055,6 @@ namespace Robot_Info_Mes.Model
             Robot_Work_Time_Max = _Receive.Mes_Server_Date.Robot_Work_Time_Max;
             Mes_Data_View_List_Sections[4].Yi = _Receive.Mes_Server_Date.Robot_Work_Time_Max;
             Mes_Data_View_List_Sections[4].Yj = _Receive.Mes_Server_Date.Robot_Work_Time_Max;
-
-        }
-
-
-        /// <summary>
-        /// 把上报快照中的“今日”指标写入按日趋势集合。
-        /// </summary>
-        /// <param name="_Receive">Client 当前状态快照。</param>
-        public void Mes_Data_View_List_Add(Mes_Server_Info_Data_Receive _Receive)
-        {
-
-
-            // 集合需先由 Mes_Date_Int 补齐；日期减一后可直接对应零基数组位置。
-            int _Month = DateTime.Now.Month;
-            int _Day = DateTime.Now.Day - 1;
-
-
-
-
-            Robot_Work_ABCD_Number_List[_Day] = _Receive.Mes_Server_Date.Robot_Work_ABCD_Number;
-
-            Work_Availability_Factor_List[_Day] = _Receive.Mes_Server_Date.Work_Availability_Factor;
-
-            Work_Performance_Factor_List[_Day] = _Receive.Mes_Server_Date.Work_Performance_Factor;
-
-            Robot_Work_Time_List[_Day] = _Receive.Mes_Server_Date.Robot_Run_Time.TotalHours;
-
-            Robot_Work_ABCD_Cycle_Mean_List[_Day] = _Receive.Mes_Server_Date.Robot_Work_ABCD_Cycle_Mean;
-
-
 
         }
 

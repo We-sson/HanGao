@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 using AnyCAD.Foundation;
 using CommunityToolkit.Mvvm.Input;
@@ -40,6 +41,24 @@ public partial class RobotViewer : UserControl, IDisposable
     private bool _hasPendingAngles;
     /// <summary>是否已经排入一次 UI 队列，避免同一帧重复排队。</summary>
     private bool _updateQueued;
+    /// <summary>当前显示角度，按渲染帧逐步逼近通信目标。</summary>
+    private readonly double[] _displayAngles = new double[6];
+    /// <summary>当前显示角速度，单位度/秒；六个轴共用速度、加速度上限。</summary>
+    private readonly double[] _displayVelocities = new double[6];
+    /// <summary>是否已经完成第一次角度应用；首次加载直接贴合目标。</summary>
+    private bool _hasAppliedAngles;
+    /// <summary>是否正在订阅渲染帧进行平滑。</summary>
+    private bool _smoothing;
+    /// <summary>上一渲染帧时间；null 表示下一帧只记录时间。</summary>
+    private TimeSpan? _lastRenderTime;
+    /// <summary>关节响应频率，单位 Hz；0 表示直接贴合目标。</summary>
+    public double JointResponseFrequencyHz { get; set; } = JointMotion.DefaultResponseFrequencyHz;
+    /// <summary>关节显示最大速度，单位度/秒；所有轴共用。</summary>
+    public double JointMaxSpeedDegreesPerSecond { get; set; } = JointMotion.DefaultMaxSpeedDegreesPerSecond;
+    /// <summary>关节显示最大加速度，单位度/秒²；所有轴共用。</summary>
+    public double JointMaxAccelerationDegreesPerSecondSquared { get; set; } = JointMotion.DefaultMaxAccelerationDegreesPerSecondSquared;
+    /// <summary>到达目标的容差，单位度。</summary>
+    public double JointPositionToleranceDegrees { get; set; } = JointMotion.DefaultToleranceDegrees;
     /// <summary>是否已按 Model.Options 完成加载。</summary>
     private bool _loaded;
     /// <summary>是否正在加载，防止重复触发。</summary>
@@ -142,7 +161,8 @@ public partial class RobotViewer : UserControl, IDisposable
                 options.ShowFlangeCoordinates,
                 options.ShowTcpCoordinates);
 
-            scene.SetView(RobotView.Isometric);
+            // 初始加载直接定位到配置的环绕起始角；SetView 的原生动画会与紧接着的
+            // SetOrbit 起始方向冲突，因此只在用户主动切换标准视角时使用动画。
             scene.SetOrbit(options.OrbitSpeedDegreesPerSecond, options.OrbitStartAngleDegrees, options.OrbitElevationDegrees);
 
             // 完整加载前不消费通信帧；仅对未收到输入的轴填入初始角。
@@ -156,6 +176,10 @@ public partial class RobotViewer : UserControl, IDisposable
                 _loaded = true;
                 angles = (double[])_pendingAngles.Clone();
             }
+            Array.Copy(angles, _displayAngles, _displayAngles.Length);
+            Array.Clear(_displayVelocities, 0, _displayVelocities.Length);
+            _hasAppliedAngles = true;
+            StopSmoothing();
             ApplyAngles(angles);
 
             SetStatus("模型已加载");
@@ -213,6 +237,7 @@ public partial class RobotViewer : UserControl, IDisposable
     {
         if (_disposed) return;
         lock (_updateSync) _disposed = true;
+        StopSmoothing();
         _viewerReady.TrySetCanceled();
         RenderView.ViewerReady -= OnViewerReady;
         if (Model is not null) Model.PropertyChanged -= OnModelPropertyChanged;
@@ -310,18 +335,88 @@ public partial class RobotViewer : UserControl, IDisposable
         Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(ApplyPendingAngles));
     }
 
-    /// <summary>在 UI 线程取最新一帧角度并替换场景变换，六轴只请求一次绘制。</summary>
+    /// <summary>在 UI 线程取最新一帧角度；首次直接贴合，之后按渲染帧平滑逼近。</summary>
     private void ApplyPendingAngles()
     {
-        double[] angles;
         lock (_updateSync)
         {
             _updateQueued = false;
             if (_disposed || !_loaded || !_hasPendingAngles) return;
             _hasPendingAngles = false;
-            angles = (double[])_pendingAngles.Clone();
         }
-        ApplyAngles(angles);
+
+        // 首次应用或关闭平滑时直接贴合，避免加载瞬间从零位滑入。
+        if (!_hasAppliedAngles || JointResponseFrequencyHz <= 0 || JointMaxSpeedDegreesPerSecond <= 0)
+        {
+            double[] angles;
+            lock (_updateSync) angles = (double[])_pendingAngles.Clone();
+            Array.Copy(angles, _displayAngles, _displayAngles.Length);
+            Array.Clear(_displayVelocities, 0, _displayVelocities.Length);
+            _hasAppliedAngles = true;
+            ApplyAngles(_displayAngles);
+            return;
+        }
+
+        StartSmoothing();
+    }
+
+    /// <summary>开始按 WPF 渲染帧逼近最新目标；已有循环时不重复订阅。</summary>
+    private void StartSmoothing()
+    {
+        if (_smoothing || _disposed) return;
+        _smoothing = true;
+        _lastRenderTime = null;
+        CompositionTarget.Rendering += OnSmoothingFrame;
+    }
+
+    /// <summary>停止渲染帧订阅，避免静止时持续更新场景。</summary>
+    private void StopSmoothing()
+    {
+        if (!_smoothing) return;
+        _smoothing = false;
+        _lastRenderTime = null;
+        CompositionTarget.Rendering -= OnSmoothingFrame;
+    }
+
+    /// <summary>每个渲染帧把显示角度向最新目标逼近；到达后停止。</summary>
+    private void OnSmoothingFrame(object? sender, EventArgs e)
+    {
+        if (_disposed || _scene is null || _joints.Count != 6)
+        {
+            StopSmoothing();
+            return;
+        }
+        if (e is not RenderingEventArgs renderArgs) return;
+        if (_lastRenderTime is null)
+        {
+            _lastRenderTime = renderArgs.RenderingTime;
+            return;
+        }
+
+        var deltaSeconds = (renderArgs.RenderingTime - _lastRenderTime.Value).TotalSeconds;
+        _lastRenderTime = renderArgs.RenderingTime;
+        if (deltaSeconds <= 0) return;
+        // 窗口卡顿或断线恢复时限制单帧步长，避免一帧跳很远。
+        deltaSeconds = Math.Min(deltaSeconds, 0.05);
+
+        double[] target;
+        lock (_updateSync) target = (double[])_pendingAngles.Clone();
+
+        var maxSpeed = Math.Max(JointMaxSpeedDegreesPerSecond, 0);
+        var maxAcceleration = Math.Max(JointMaxAccelerationDegreesPerSecondSquared, 1e-3);
+        var tolerance = Math.Max(JointPositionToleranceDegrees, 0);
+
+        var settled = true;
+        for (var index = 0; index < _displayAngles.Length; index++)
+        {
+            JointMotion.Step(ref _displayAngles[index], ref _displayVelocities[index], target[index],
+                deltaSeconds, JointResponseFrequencyHz, maxSpeed, maxAcceleration, tolerance);
+            if (Math.Abs(target[index] - _displayAngles[index]) > tolerance
+                || Math.Abs(_displayVelocities[index]) > 0.5)
+                settled = false;
+        }
+        ApplyAngles(_displayAngles);
+        if (settled) StopSmoothing();
     }
 
     /// <summary>把角度写入关节状态并批量更新场景；加载完成前调用会被忽略。</summary>

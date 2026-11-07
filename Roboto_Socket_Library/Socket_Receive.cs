@@ -214,6 +214,24 @@ namespace Roboto_Socket_Library
         /// </summary>
         public int ConnectNumber { set; get; } = 0;
 
+        /// <summary>服务端允许同时保留的客户端连接数；超过后立即关闭新连接。</summary>
+        public int MaxServerConnections { set; get; } = 64;
+
+        /// <summary>服务端单次接收允许等待的最长时间，超时视为空闲连接并释放。</summary>
+        public int ServerReceiveTimeoutMilliseconds { set; get; } = 120_000;
+
+        /// <summary>服务端响应写回允许等待的最长时间。</summary>
+        public int ServerSendTimeoutMilliseconds { set; get; } = 10_000;
+
+        /// <summary>当前服务端保留的客户端连接数；由接受/关闭路径维护。</summary>
+        private int _activeServerConnections;
+
+        /// <summary>最近一次监听启动是否成功；构造完成后可由宿主检查。</summary>
+        public bool ServerStarted { get; private set; }
+
+        /// <summary>最近一次监听启动失败原因；成功时为空。</summary>
+        public string ServerStartError { get; private set; } = string.Empty;
+
         /// <summary>
         /// 预留给界面展示的最近接收文本；当前收发主流程通过原始字节委托发布数据。
         /// </summary>
@@ -311,6 +329,7 @@ namespace Roboto_Socket_Library
 
             // 先置空实现幂等；Shutdown、Close 或 Dispose 中任一步失败都不阻止后续清理。
             _client!.Client_Socket = null;
+            Interlocked.Decrement(ref _activeServerConnections);
             CloseSocket(_s);
         }
 
@@ -873,9 +892,6 @@ namespace Roboto_Socket_Library
         /// </remarks>
         private void Client_ReceiveMessage(IAsyncResult ar)
         {
-            // 回执处理直接影响同步调用等待时间，因此历史实现提升了当前回调线程优先级。
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
-
             // 只有状态类型正确时才结束接收，避免把其他异步操作的状态误当客户端处理。
             if (ar!.AsyncState is Receive_State client)
             {
@@ -946,7 +962,8 @@ namespace Roboto_Socket_Library
         /// <param name="_Port">要绑定的 TCP 端口文本。</param>
         public void Server_Strat(string _IP, string _Port)
         {
-
+            ServerStarted = false;
+            ServerStartError = string.Empty;
 
             try
             {
@@ -967,10 +984,11 @@ namespace Roboto_Socket_Library
                 // BeginAccept 每次只接受一个连接，回调末尾会再次挂起形成持续循环。
                 Socket_Sever.BeginAccept(new AsyncCallback(ClienAppcet), Socket_Sever);
 
-
+                ServerStarted = true;
             }
             catch (Exception e)
             {
+                ServerStartError = e.Message;
 
                 Socket_ErrorInfo_delegate?.Invoke($"Error:-7,IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message, Socket_Sever);
 
@@ -1064,8 +1082,18 @@ namespace Roboto_Socket_Library
                     client.NoDelay = true;
                 }
                 Receive_State _Receive = new Receive_State() { Client_Socket = client };
-                if (null != ServerSocket)
+                if (null != ServerSocket && client is not null)
                 {
+                    if (Interlocked.Increment(ref _activeServerConnections) > MaxServerConnections)
+                    {
+                        Socket_ErrorInfo_delegate?.Invoke(
+                            $"Error:-17,连接数超过上限 {MaxServerConnections}，拒绝新连接。",
+                            client);
+                        Close_Client(_Receive);
+                        ServerSocket.BeginAccept(new AsyncCallback(ClienAppcet), ServerSocket);
+                        return;
+                    }
+
                     try
                     {
 
@@ -1125,15 +1153,6 @@ namespace Roboto_Socket_Library
         /// <param name="ar">AsyncState 中保存该客户端独有的 <see cref="Receive_State"/>。</param>
         private void ReceiveMessage(IAsyncResult ar)
         {
-
-            // 协议响应要求较低延迟，历史实现将回调线程提升为最高优先级。
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
-
-
-
-
-
-
             if (ar!.AsyncState is Receive_State client)
             {
                 try
@@ -1283,6 +1302,8 @@ namespace Roboto_Socket_Library
                 Socket_Send_Meg?.Invoke(Send_byte);
                 Socket responseSocket = client.Client_Socket
                     ?? throw new SocketException((int)SocketError.NotConnected);
+                // 客户端不读取回包时不能让发送线程无限阻塞。
+                responseSocket.SendTimeout = ServerSendTimeoutMilliseconds;
                 SendAll(responseSocket, Send_byte);
             }
             else
@@ -1317,9 +1338,22 @@ namespace Roboto_Socket_Library
 
                 while (true)
                 {
-                    int length = await socket.ReceiveAsync(
-                        readBuffer,
-                        SocketFlags.None).ConfigureAwait(false);
+                    int length;
+                    using (var idleTimeout = new CancellationTokenSource(ServerReceiveTimeoutMilliseconds))
+                    {
+                        try
+                        {
+                            length = await socket.ReceiveAsync(
+                                readBuffer.AsMemory(),
+                                SocketFlags.None,
+                                idleTimeout.Token).ConfigureAwait(false);
+                        }
+                        catch (OperationCanceledException) when (idleTimeout.IsCancellationRequested)
+                        {
+                            throw new TimeoutException(
+                                $"客户端连接空闲超过 {ServerReceiveTimeoutMilliseconds}ms，已释放。");
+                        }
+                    }
 
                     if (length == 0)
                     {

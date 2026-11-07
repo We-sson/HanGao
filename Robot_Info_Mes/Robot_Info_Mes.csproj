@@ -11,26 +11,15 @@
     <PlatformTarget>x64</PlatformTarget>
     <Platforms>x64</Platforms>
     <AnalysisLevel>preview</AnalysisLevel>
-    <UseWindowsForms>True</UseWindowsForms>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <FileVersion></FileVersion>
     <AssemblyVersion></AssemblyVersion>
     <ApplicationIcon>Resources\软件图标.ico</ApplicationIcon>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <!-- 版本号使用通配符，必须关闭确定性；放在无条件组里，保证 dotnet build 默认平台也能编译。 -->
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
     <DebugType>embedded</DebugType>
     <WarningLevel>8</WarningLevel>
-    <Deterministic>false</Deterministic>
-    <NoWarn>1701;1702;1416;DV2001;CA1416</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-    <DebugType>embedded</DebugType>
-    <WarningLevel>8</WarningLevel>
-    <Deterministic>false</Deterministic>
     <NoWarn>1701;1702;1416;DV2001;CA1416</NoWarn>
   </PropertyGroup>
 
@@ -60,14 +49,11 @@
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
-    <PackageReference Include="Nancy" Version="2.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Generic_Extension\Generic_Extension.csproj" />
-    <ProjectReference Include="..\HanGao.ModbusTcp\HanGao.ModbusTcp.csproj" />
     <ProjectReference Include="..\Roboto_Socket_Library\Roboto_Socket_Library.csproj" />
     <!-- Modbus TCP 功能库：配置、服务端、状态和命令。 -->
     <ProjectReference Include="..\HanGao.RobotInfo.Modbus\HanGao.RobotInfo.Modbus.csproj" />

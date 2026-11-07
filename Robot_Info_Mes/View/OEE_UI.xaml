@@ -438,7 +438,7 @@
                                         FontSize="40"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                                        Text="{Binding Mes_Robot_Info_Model_Data.Socket_Cycle_Time.Milliseconds, StringFormat='{}{0:}', FallbackValue=....}"
+                                        Text="{Binding Mes_Robot_Info_Model_Data.Socket_Cycle_Time.TotalMilliseconds, StringFormat='{}{0:F0}', FallbackValue=....}"
                                         TextAlignment="Left"
                                         TextWrapping="Wrap" />
                                     <TextBlock
@@ -1607,7 +1607,7 @@
                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                             FontSize="16"
                             Foreground="{DynamicResource 全局_按钮_蓝颜色}"
-                            Text="{Binding Mes_Robot_Info_Model_Data.Socket_Cycle_Time.Milliseconds, StringFormat='{}{0:}ms', FallbackValue=....}"
+                            Text="{Binding Mes_Robot_Info_Model_Data.Socket_Cycle_Time.TotalMilliseconds, StringFormat='{}{0:F0}ms', FallbackValue=....}"
                             TextAlignment="Left"
                             TextWrapping="Wrap" />
 
@@ -2467,6 +2467,7 @@
                     LegendTextSize="18"
                     Sections="{Binding Work_Factor_Seried.Mes_Data_View_List_Sections}"
                     Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
+                    SyncContext="{Binding Work_Factor_Seried.Sync}"
                     TooltipTextPaint="{Binding Work_Factor_Seried.TooltipTextPaint}"
                     XAxes="{Binding Work_Factor_Seried.XAxes}"
                     YAxes="{Binding Work_Factor_Seried.YAxes}" />

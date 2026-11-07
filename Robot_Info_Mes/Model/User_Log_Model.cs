@@ -117,24 +117,5 @@ namespace Robot_Info_Mes.Model
             }
         }
 
-        private string _User_Log_Cont =string.Empty;
-        /// <summary>
-        /// 兼容旧界面绑定保留的日志输出属性。
-        /// </summary>
-        /// <remarks>当前 getter 返回独立缓存，而 setter 会替换主日志缓冲区。</remarks>
-        public string User_Log_Cont
-        {
-            get
-            {
-
-                return _User_Log_Cont;
-            }
-            set
-            {
-
-                _User_Log = value;
-            }
-        }
-
     }
 }

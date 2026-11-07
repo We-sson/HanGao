@@ -22,7 +22,15 @@ internal static class RobotViewerChecks
         Check(model.Joints.SequenceEqual(new double[] { 1, 2, 3, 4, 5, 6 }), "SetJoints 没有保存 J1～J6。");
         model.ResetJointsToHome();
         Check(model.Joints.SequenceEqual(new double[] { 0, -90, 90, 0, 0, 0 }), "ResetJointsToHome 没有回到内置初始角。");
-        using (var viewer = new RobotViewer(_ => scene) { Model = model })
+        var stepAngle = 0.0;
+        var stepVelocity = 0.0;
+        JointMotion.Step(ref stepAngle, ref stepVelocity, 30, 1.0 / 60, 2.0, 360, 1440, 0.02);
+        Check(stepAngle > 0 && stepAngle < 30, "速度控制没有逐步逼近目标。");
+        for (var index = 0; index < 180; index++)
+            JointMotion.Step(ref stepAngle, ref stepVelocity, 30, 1.0 / 60, 2.0, 360, 1440, 0.02);
+        Check(Math.Abs(stepAngle - 30) <= 0.02 && Math.Abs(stepVelocity) <= 0.5,
+            "速度控制在 3 秒内没有停在目标。");
+        using (var viewer = new RobotViewer(_ => scene) { Model = model, JointResponseFrequencyHz = 0 })
         {
             Check(!viewer.ZoomAllCommand.CanExecute(null), "模型加载前不应允许双击居中。");
             var load = viewer.LoadAsync();
@@ -122,7 +130,7 @@ internal static class RobotViewerChecks
             await scene.LoadWorkAsync("R边焊接工装", WorkConfigurationStore.LoadBuiltIn("R边焊接工装"));
             CameraViewChecks.RunNative(scene, render);
             ViewerDoubleClickChecks.Run(scene, render);
-            Console.WriteLine("PASS: real front/top/isometric views survive orbit timer frames without disabling mouse redraw");
+            Console.WriteLine("PASS: real front/top/isometric views use native camera animation and stay stable after mouse interaction");
         }
         finally { scene.Dispose(); window.Close(); }
     }

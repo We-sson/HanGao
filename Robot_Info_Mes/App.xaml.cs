@@ -30,9 +30,8 @@ namespace Robot_Info_Mes
         private void Application_Startup(object sender, StartupEventArgs e)
 
         {
-            // Read_Xml_File 会在配置首次不存在时写入默认值，因此这里始终能得到完整配置对象。
-            File_Int_Model File_Int = new File_Int_Model();
-            File_Int = File_Xml_Model.Read_Xml_File<File_Int_Model>();
+            // 配置损坏时自动改名并用默认值继续启动，避免程序在创建窗口前退出。
+            File_Int_Model File_Int = File_Xml_Model.Read_Xml_File_Or_Default<File_Int_Model>();
             Application currApp = Application.Current;
 
 

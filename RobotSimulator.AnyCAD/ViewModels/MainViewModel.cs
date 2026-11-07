@@ -15,6 +15,22 @@ public sealed class MainViewModel : ObservableObject
     private readonly IRobotSceneService _sceneService;
     /// <summary>示例动作使用实际经过时间推进。</summary>
     private readonly Stopwatch _animationClock = new();
+    /// <summary>示例动作的目标点，按模拟通信帧间隔切换。</summary>
+    private double[][] _examplePoints = [];
+    /// <summary>示例动作当前显示角度和速度。</summary>
+    private readonly double[] _exampleAngles = new double[6];
+    private readonly double[] _exampleVelocities = new double[6];
+    /// <summary>示例动作最新目标；只在新数据帧到达时替换。</summary>
+    private double[] _exampleTarget = new double[6];
+    private int _examplePointIndex;
+    private double _nextExampleFrameSeconds;
+    private TimeSpan? _lastAnimationRenderTime;
+    private double _exampleResponseFrequencyHz = JointMotion.DefaultResponseFrequencyHz;
+    private double _exampleMaxSpeedDegreesPerSecond = JointMotion.DefaultMaxSpeedDegreesPerSecond;
+    private double _exampleMaxAccelerationDegreesPerSecondSquared = JointMotion.DefaultMaxAccelerationDegreesPerSecondSquared;
+    private double _exampleFrameIntervalMilliseconds = DefaultExampleFrameIntervalMilliseconds;
+    /// <summary>示例动作默认的模拟通信帧间隔，单位毫秒。</summary>
+    private const double DefaultExampleFrameIntervalMilliseconds = 200;
     /// <summary>当前使用的内置机器人。</summary>
     private RobotModelDefinition _currentRobot;
     /// <summary>机器人下拉框选中项。</summary>
@@ -98,6 +114,7 @@ public sealed class MainViewModel : ObservableObject
         ClosingCommand = new RelayCommand<CancelEventArgs>(OnClosing);
         ResetCommand = new RelayCommand(Reset);
         PlayCommand = new RelayCommand(Play);
+        ResetExampleMotionCommand = new RelayCommand(ResetExampleMotion);
         IsometricCommand = new RelayCommand(() => SetStandardView(RobotView.Isometric));
         FrontCommand = new RelayCommand(() => SetStandardView(RobotView.Front));
         TopCommand = new RelayCommand(() => SetStandardView(RobotView.Top));
@@ -133,6 +150,8 @@ public sealed class MainViewModel : ObservableObject
     public IRelayCommand ResetCommand { get; }
     /// <summary>开始或停止示例动作。</summary>
     public IRelayCommand PlayCommand { get; }
+    /// <summary>把示例动作的频率、速度、加速度和帧间隔恢复为默认值。</summary>
+    public IRelayCommand ResetExampleMotionCommand { get; }
     /// <summary>切换等轴测视角。</summary>
     public IRelayCommand IsometricCommand { get; }
     /// <summary>切换正视角。</summary>
@@ -230,6 +249,34 @@ public sealed class MainViewModel : ObservableObject
     public bool IsPlaying { get => _isPlaying; private set { if (SetProperty(ref _isPlaying, value)) OnPropertyChanged(nameof(PlayButtonText)); } }
     /// <summary>根据播放状态显示按钮文字。</summary>
     public string PlayButtonText => IsPlaying ? "停止动作" : "示例动作";
+
+    /// <summary>示例动作响应频率，单位 Hz；越低越柔和。</summary>
+    public double ExampleResponseFrequencyHz
+    {
+        get => _exampleResponseFrequencyHz;
+        set => SetProperty(ref _exampleResponseFrequencyHz, Math.Clamp(value, 0.5, 5.0));
+    }
+
+    /// <summary>示例动作最大显示速度，单位度/秒。</summary>
+    public double ExampleMaxSpeedDegreesPerSecond
+    {
+        get => _exampleMaxSpeedDegreesPerSecond;
+        set => SetProperty(ref _exampleMaxSpeedDegreesPerSecond, Math.Clamp(value, 30, 720));
+    }
+
+    /// <summary>示例动作最大显示加速度，单位度/秒²。</summary>
+    public double ExampleMaxAccelerationDegreesPerSecondSquared
+    {
+        get => _exampleMaxAccelerationDegreesPerSecondSquared;
+        set => SetProperty(ref _exampleMaxAccelerationDegreesPerSecondSquared, Math.Clamp(value, 100, 5000));
+    }
+
+    /// <summary>示例动作模拟的通信帧间隔，单位毫秒。</summary>
+    public double ExampleFrameIntervalMilliseconds
+    {
+        get => _exampleFrameIntervalMilliseconds;
+        set => SetProperty(ref _exampleFrameIntervalMilliseconds, Math.Clamp(value, 50, 500));
+    }
 
     /// <summary>导出独立工具配置，机器人参数不会进入保存结果。</summary>
     public ToolConfiguration ToToolConfiguration() => new()
@@ -544,20 +591,46 @@ public sealed class MainViewModel : ObservableObject
 
         IsPlaying = true;
         _animationClock.Restart();
+        _examplePoints = CreateExamplePoints();
+        _examplePointIndex = 0;
+        _nextExampleFrameSeconds = ExampleFrameIntervalMilliseconds / 1000.0;
+        _lastAnimationRenderTime = null;
+        for (var index = 0; index < Joints.Count; index++)
+        {
+            _exampleAngles[index] = Joints[index].Angle;
+            _exampleVelocities[index] = 0;
+            _exampleTarget[index] = Joints[index].Angle;
+        }
         CompositionTarget.Rendering += AnimationFrame;
-        StatusMessage = "正在播放六轴示例动作。";
+        StatusMessage = $"正在播放多点通信示例（{ExampleFrameIntervalMilliseconds:F0}ms 一帧）…";
     }
 
     /// <summary>每个渲染帧更新一次动画；用户拖动视角时直接返回，把渲染让给鼠标。</summary>
-    private void AnimationFrame(object? sender, EventArgs e) => UpdateAnimation();
+    private void AnimationFrame(object? sender, EventArgs e) => UpdateAnimation(e);
 
-    /// <summary>根据实际经过时间计算六轴正弦示例角度，再一次性应用全部关节。</summary>
-    private void UpdateAnimation()
+    /// <summary>按模拟通信帧更新目标，再用与正式通信相同的速度控制逼近目标。</summary>
+    private void UpdateAnimation(EventArgs e)
     {
-        if (!IsPlaying)
+        if (!IsPlaying || _examplePoints.Length == 0)
         {
             return;
         }
+        if (e is not RenderingEventArgs renderArgs)
+        {
+            return;
+        }
+
+        // 不论是否暂停都推进渲染时间，恢复时只按最后一帧步进，避免累计时间造成跳跃。
+        var renderTime = renderArgs.RenderingTime;
+        var deltaSeconds = _lastAnimationRenderTime is null
+            ? 0
+            : (renderTime - _lastAnimationRenderTime.Value).TotalSeconds;
+        _lastAnimationRenderTime = renderTime;
+        if (deltaSeconds <= 0)
+        {
+            return;
+        }
+        deltaSeconds = Math.Min(deltaSeconds, 0.05);
 
         // 用户拖动视角时让路：暂停计时器，松开后从暂停处继续，不跳姿态。
         if (_sceneService.IsUserAdjustingView)
@@ -570,19 +643,59 @@ public sealed class MainViewModel : ObservableObject
             _animationClock.Start();
         }
 
+        // 模拟正式通信：目标只在帧到达时更新，帧间隔由页面参数控制。
         var seconds = _animationClock.Elapsed.TotalSeconds;
-        // 每轴使用不同摆幅和频率，只作为显示演示轨迹；Angle 属性仍会执行行程限位。
-        var amplitudes = new[] { 40.0, 28.0, 32.0, 55.0, 38.0, 95.0 };
-        var frequencies = new[] { 0.42, 0.31, 0.37, 0.55, 0.48, 0.66 };
+        while (seconds >= _nextExampleFrameSeconds)
+        {
+            _exampleTarget = _examplePoints[_examplePointIndex];
+            _examplePointIndex = (_examplePointIndex + 1) % _examplePoints.Length;
+            _nextExampleFrameSeconds += ExampleFrameIntervalMilliseconds / 1000.0;
+        }
 
         _suppressJointUpdates = true;
         for (var index = 0; index < Joints.Count; index++)
         {
             var joint = Joints[index];
-            joint.Angle = joint.HomeAngle + amplitudes[index] * Math.Sin(seconds * frequencies[index] + index * 0.63);
+            JointMotion.Step(
+                ref _exampleAngles[index],
+                ref _exampleVelocities[index],
+                _exampleTarget[index],
+                deltaSeconds,
+                ExampleResponseFrequencyHz,
+                ExampleMaxSpeedDegreesPerSecond,
+                ExampleMaxAccelerationDegreesPerSecondSquared);
+            joint.Angle = _exampleAngles[index];
         }
         _suppressJointUpdates = false;
         _sceneService.ApplyAll(Joints);
+    }
+
+    /// <summary>恢复示例动作的默认速度控制参数。</summary>
+    private void ResetExampleMotion()
+    {
+        ExampleResponseFrequencyHz = JointMotion.DefaultResponseFrequencyHz;
+        ExampleMaxSpeedDegreesPerSecond = JointMotion.DefaultMaxSpeedDegreesPerSecond;
+        ExampleMaxAccelerationDegreesPerSecondSquared = JointMotion.DefaultMaxAccelerationDegreesPerSecondSquared;
+        ExampleFrameIntervalMilliseconds = DefaultExampleFrameIntervalMilliseconds;
+    }
+
+    /// <summary>按当前机器人的初始位和行程生成一组多点示例目标。</summary>
+    private double[][] CreateExamplePoints()
+    {
+        double[] Point(params double[] offsets) => Joints
+            .Select((joint, index) => Math.Clamp(joint.HomeAngle + offsets[index], joint.Minimum, joint.Maximum))
+            .ToArray();
+
+        return
+        [
+            Point(0, 0, 0, 0, 0, 0),
+            Point(35, -10, 10, 0, 20, 0),
+            Point(35, 15, 20, 45, 30, 60),
+            Point(0, 25, 30, 90, 40, 120),
+            Point(-35, 15, 20, 45, 30, 60),
+            Point(-35, -10, 10, 0, 20, 0),
+            Point(0, 0, 0, 0, 0, 0),
+        ];
     }
 
     /// <summary>处理关闭请求：加载中先取消本次关闭；空闲时停止动画、解除事件并释放场景。</summary>
@@ -614,6 +727,7 @@ public sealed class MainViewModel : ObservableObject
     {
         CompositionTarget.Rendering -= AnimationFrame;
         _animationClock.Stop();
+        _lastAnimationRenderTime = null;
         IsPlaying = false;
     }
 

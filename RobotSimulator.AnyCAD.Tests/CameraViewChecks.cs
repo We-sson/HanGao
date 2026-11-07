@@ -5,7 +5,7 @@ using AnyCAD.WPF;
 using RobotSimulator.Services;
 using RobotSimulator.ViewModels;
 
-/// <summary>检查标准视角停止自转，并保留静止视口的鼠标重绘能力。</summary>
+/// <summary>检查原生标准视角动画、CameraChanged 暂停自转和环绕构图稳定性。</summary>
 internal static class CameraViewChecks
 {
     /// <summary>可配合现有轻量场景服务检查三个命令与页面速度一致。</summary>
@@ -24,7 +24,7 @@ internal static class CameraViewChecks
         finally { viewModel.OrbitSpeed = originalSpeed; }
     }
 
-    /// <summary>在已加载的真实视口上检查后续计时帧；由具备图形环境的回归入口调用。</summary>
+    /// <summary>在已加载的真实视口上检查原生标准视角和后续渲染帧；由具备图形环境的回归入口调用。</summary>
     public static void RunNative(RobotSceneService scene, RenderControl renderControl)
     {
         Check(scene.IsLoaded && renderControl.IsReady, "相机回归检查需要已加载模型的真实视口。");
@@ -32,42 +32,51 @@ internal static class CameraViewChecks
         {
             scene.SetOrbit(15, -45, 35.264);
             scene.SetView(view);
+            // AnyCAD 原生标准视角动画约 300ms；等待结束后再取最终方向。
+            Wait(600);
             var expected = ReadDirection(renderControl);
-            var orbitTimer = (DispatcherTimer?)typeof(RobotSceneService)
-                .GetField("_orbitTimer", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(scene);
-            Check(orbitTimer?.IsEnabled == true, "停止自转时不应停止鼠标重绘计时器。");
-
-            // 运行多个真实计时帧，防止只检查设置后的瞬间而漏掉下一帧恢复旧方向。
-            var frame = new DispatcherFrame();
-            var stop = new DispatcherTimer(DispatcherPriority.ApplicationIdle) { Interval = TimeSpan.FromMilliseconds(100) };
-            stop.Tick += (_, _) => frame.Continue = false;
-            try
-            {
-                stop.Start();
-                Dispatcher.PushFrame(frame);
-            }
-            finally { stop.Stop(); }
-
+            Wait(150);
             var actual = ReadDirection(renderControl);
-            Check(Math.Abs(actual.X - expected.X) < 1e-6 && Math.Abs(actual.Y - expected.Y) < 1e-6
-                && Math.Abs(actual.Z - expected.Z) < 1e-6, $"{view} 在后续计时帧被旧环绕方向覆盖。");
+            Check(Math.Abs(actual.X - expected.X) < 1e-4 && Math.Abs(actual.Y - expected.Y) < 1e-4
+                && Math.Abs(actual.Z - expected.Z) < 1e-4, $"{view} 在标准视角动画结束后被旧环绕方向覆盖。");
         }
         CheckManualOrbit(scene, renderControl);
+
+        scene.SetView(RobotView.Front);
+        Wait(600);
+        scene.SetOrbit(15, 0, 0);
+        var beforeOrbit = ReadDirection(renderControl);
+        Wait(1000);
+        var afterOrbit = ReadDirection(renderControl);
+        var orbitAngle = Math.Acos(Math.Clamp(
+            beforeOrbit.X * afterOrbit.X + beforeOrbit.Y * afterOrbit.Y + beforeOrbit.Z * afterOrbit.Z, -1, 1)) * 180 / Math.PI;
+        Check(orbitAngle > 10 && orbitAngle < 20,
+            $"自转 1 秒的角度异常：{orbitAngle:F3}°，预期约 15°。");
+        Check(!scene.IsUserAdjustingView,
+            "自转产生的原生 CameraChanged 被误判为用户操作，示例动作会因此停止。");
+        Console.WriteLine($"manual orbit and auto orbit: {orbitAngle:F3}deg in 1s");
     }
 
-    /// <summary>用 SDK 导航模拟拖动和平移，再连续转两圈，检查构图、比例和距离不漂移。</summary>
+    /// <summary>用 SDK 导航模拟拖动和平移，再连续转两圈，检查原生交互暂停、恢复和构图不漂移。</summary>
     private static void CheckManualOrbit(RobotSceneService scene, RenderControl render)
     {
         var type = typeof(RobotSceneService);
         scene.SetView(RobotView.Isometric);
+        Wait(600);
         scene.SetOrbit(15, -45, 35.264);
-        var timer = (DispatcherTimer)type.GetField("_orbitTimer", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(scene)!;
-        timer.Stop();
+        Wait(100);
+
+        // 原生 CameraChanged 应暂停自转；停止操作后由渲染帧自动恢复。
         using var context = render.Viewer.GetContext();
         context.Pan(100, 50);
         context.Orbit(80, 20, false);
-        type.GetField("_orbitPaused", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(scene, true);
-        type.GetMethod("ResumeOrbit", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(scene, null);
+        Check(scene.IsUserAdjustingView, "用户调整视角后没有暂停自转。");
+
+        // 固定速度为 0，避免恢复自转时继续移动相机；恢复后只检查构图和裁切。
+        type.GetField("_orbitSpeed", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(scene, 0.0);
+        Wait(400);
+        Check(!scene.IsUserAdjustingView, "停止调整视角后没有恢复自转。");
+
         // 几何支点用真实包围盒中心独立计算，不相信服务内部已被平移覆盖的字段。
         var content = (RobotSceneContent)type.GetField("_content", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(scene)!;
         using var bounds = content.GetModelBoundingBox();
@@ -79,13 +88,11 @@ internal static class CameraViewChecks
         var initialDistance = camera.GetDistance();
         var initialZoom = camera.GetOrthoZoomFactor();
         Console.WriteLine($"manual orbit: distance={initialDistance:F3} zoom={initialZoom:F6} near={camera.GetNear():F3} far={camera.GetFar():F3}");
-        var clock = (System.Diagnostics.Stopwatch)type.GetField("_orbitClock", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(scene)!;
-        var frame = type.GetMethod("OnOrbitFrame", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        var apply = type.GetMethod("ApplyOrbitCamera", BindingFlags.Instance | BindingFlags.NonPublic)!;
         for (var index = 0; index < 48; index++)
         {
-            type.GetField("_lastOrbitSeconds", BindingFlags.Instance | BindingFlags.NonPublic)!
-                .SetValue(scene, clock.Elapsed.TotalSeconds - 1);
-            frame.Invoke(scene, [null, EventArgs.Empty]);
+            // 每帧 15°，共 720°，覆盖整圈。
+            apply.Invoke(scene, [15.0]);
             using var screen = render.Viewer.WorldPointToSceenPoint(center);
             Check(Math.Abs(screen.x - initialScreen.x) < .5 && Math.Abs(screen.y - initialScreen.y) < .5,
                 $"平移后续转发生构图漂移：第 {index} 帧，支点屏幕位置 {initialScreen.x},{initialScreen.y} -> {screen.x},{screen.y}。");
@@ -110,6 +117,24 @@ internal static class CameraViewChecks
             Check(depthMin >= camera.GetNear() - .1 && depthMax <= camera.GetFar() + .1,
                 $"旋转到第 {index} 帧时模型超出裁切范围：模型深度 {depthMin}..{depthMax}，相机 {camera.GetNear()}..{camera.GetFar()}。");
         }
+    }
+
+    /// <summary>在测试窗口中等待指定时间，让原生动画和渲染帧继续运行。</summary>
+    private static void Wait(int milliseconds)
+    {
+        var frame = new DispatcherFrame();
+        var stop = new DispatcherTimer(DispatcherPriority.ApplicationIdle) { Interval = TimeSpan.FromMilliseconds(milliseconds) };
+        stop.Tick += (_, _) =>
+        {
+            stop.Stop();
+            frame.Continue = false;
+        };
+        try
+        {
+            stop.Start();
+            Dispatcher.PushFrame(frame);
+        }
+        finally { stop.Stop(); }
     }
 
     private static (double X, double Y, double Z) ReadDirection(RenderControl renderControl)

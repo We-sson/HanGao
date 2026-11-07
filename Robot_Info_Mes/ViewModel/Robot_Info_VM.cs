@@ -53,8 +53,8 @@ namespace Robot_Info_Mes.ViewModel
                 Window_Version = Application.ResourceAssembly.GetName().Version!.ToString();
 
 
-                // 全局配置决定本机角色以及后续所有端口、周期和工艺目标。
-                File_Int_Parameters = File_Xml_Model.Read_Xml_File<File_Int_Model>();
+                // 全局配置决定本机角色以及后续所有端口、周期和工艺目标；文件损坏时自动回退默认值。
+                File_Int_Parameters = File_Xml_Model.Read_Xml_File_Or_Default<File_Int_Model>(Log_Xml_Recovery);
 
 
 
@@ -82,11 +82,15 @@ namespace Robot_Info_Mes.ViewModel
                         break;
                     case Window_Startup_Type_Enum.Client:
 
-                        // 恢复本机累计状态与本月趋势，避免软件重启造成统计归零。
+                        // 恢复本机累计状态与本月趋势，避免软件重启造成统计归零；损坏时回退默认值。
+                        Mes_Robot_Info_Model_Data =
+                            File_Xml_Model.Read_Xml_File_Or_Default<Mes_Robot_Info_Model>(Log_Xml_Recovery);
 
-                        Mes_Robot_Info_Model_Data = File_Xml_Model.Read_Xml_File<Mes_Robot_Info_Model>();
+                        Work_Factor_Seried =
+                            File_Xml_Model.Read_Xml_File_Or_Default<Work_Factor_Seried_Model>(Log_Xml_Recovery);
 
-                        Work_Factor_Seried = File_Xml_Model.Read_Xml_File<Work_Factor_Seried_Model>();
+                        // 只有采集端需要底部三维模型；看板端不创建，省去模型配置读取。
+                        Digital_Simulation = new Digital_Simulation(File_Int_Parameters.Mes_Digital_Simulation);
 
                         // Modbus 使用独立 XML；配置、状态和命令统一放在一个功能对象里。
                         string modbusConfigurationPath =
@@ -97,7 +101,7 @@ namespace Robot_Info_Mes.ViewModel
                             () =>
                             {
                                 RobotInfoModbusConfiguration configuration =
-                                    File_Xml_Model.Read_Xml_File<RobotInfoModbusConfiguration>();
+                                    File_Xml_Model.Read_Xml_File_Or_Default<RobotInfoModbusConfiguration>(Log_Xml_Recovery);
                                 configuration.ConfigurationFilePath = modbusConfigurationPath;
                                 return configuration;
                             },
@@ -114,8 +118,6 @@ namespace Robot_Info_Mes.ViewModel
 
                         // 上次保存若不属于今天，先清理只属于“当日”的指标。
                         Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
-
-                        //  Initialization_Local_Network_Robot_Socket();
 
 
                         // 对本机所有 IPv4 地址监听机器人连接，再恢复计时和看板上报链路。
@@ -148,12 +150,12 @@ namespace Robot_Info_Mes.ViewModel
 
             }
 
-            // 数字仿真的搭配和关节统一放在一个属性里，主页面只绑定它。
-            Digital_Simulation = new Digital_Simulation(File_Int_Parameters.Mes_Digital_Simulation);
-
             // 窗口关闭前由主 VM 取消本次关闭、清理各功能，再重新关闭窗口。
             WindowClosingCommand = new RelayCommand<CancelEventArgs>(OnWindowClosing);
         }
+
+        /// <summary>把 XML 恢复信息写入界面日志。</summary>
+        private void Log_Xml_Recovery(string message) => User_Log_Add(message, MessageBoxImage.Error);
 
         private bool _shutdownCompleted;
         private bool _shutdownInProgress;
@@ -270,8 +272,8 @@ namespace Robot_Info_Mes.ViewModel
         /// </summary>
         public File_Int_Model File_Int_Parameters { set; get; } = new();
 
-        /// <summary>底部三维模型的全部状态和关节输入。</summary>
-        public Digital_Simulation Digital_Simulation { get; }
+        /// <summary>底部三维模型的全部状态和关节输入；仅采集端创建。</summary>
+        public Digital_Simulation? Digital_Simulation { get; private set; }
 
         /// <summary>Modbus TCP 的配置、状态、命令和点位编辑。</summary>
         public RobotModbusFeature Modbus { get; private set; } = null!;
@@ -402,18 +404,6 @@ namespace Robot_Info_Mes.ViewModel
 
 
         /// <summary>
-        /// 旧版“启动全部本地机器人 Socket”入口；当前仅记录日志，实际启动由 Initialization_Robot_Sever_Start 完成。
-        /// </summary>
-        public void Initialization_Local_Network_Robot_Socket()
-        {
-            // 保留该方法用于兼容既有调用点，不在此重复创建监听器。
-            User_Log_Add("开启所有IP服务器连接：" + File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port.ToString());
-
-
-        }
-
-
-        /// <summary>
         /// 初始化 Client 的连续计时、OEE 参考线、周期保存以及向 Server 上报的通信回调。
         /// </summary>
         public void Int_Run_TIme()
@@ -429,6 +419,9 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Robot_Work_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_UI;
             Mes_Robot_Info_Model_Data.Robot_Run_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_UI;
             Mes_Robot_Info_Model_Data.Robot_Time_Outside.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Time_Outside.Timer_UI;
+
+            // 通讯周期是实时指标，不从上次运行恢复；首帧到达前保持 0。
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Time = TimeSpan.Zero;
 
 
 
@@ -467,13 +460,26 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time);
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Tick += (s, e) =>
             {
+                try
+                {
+                    DateTime now = DateTime.Now;
 
+                    // 采集线程会写图表集合；保存和日切清空必须与图表测量使用同一把锁。
+                    lock (Work_Factor_Seried.Sync)
+                    {
+                        // 程序跨过午夜仍在运行时，清空当日统计但保留跨日累计值。
+                        Mes_Robot_Info_Model_Data.Check_Day_Int_Time(now);
 
-                // 程序跨过午夜仍在运行时，清空当日统计但保留跨日累计值。
-                Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
+                        // 跨月时清空趋势集合，避免把上个月的数据写进新月份的 XML。
+                        if (Mes_Robot_Info_Model_Data.File_Update_Time.Year != now.Year
+                            || Mes_Robot_Info_Model_Data.File_Update_Time.Month != now.Month)
+                        {
+                            Work_Factor_Seried.Mes_Date_Int();
+                            Work_Factor_Seried.Mes_Data_Clear();
+                        }
 
-                // 保存时间既写入 XML，也作为下一次跨日判断的基准。
-                Mes_Robot_Info_Model_Data.File_Update_Time = DateTime.Now;
+                        // 保存时间既写入 XML，也作为下一次跨日判断的基准。
+                        Mes_Robot_Info_Model_Data.File_Update_Time = now;
                 // 时间稼动率采用毫秒比值，以保留短时间运行阶段的精度。
                 Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Millisecond, Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_Millisecond);
 
@@ -487,11 +493,11 @@ namespace Robot_Info_Mes.ViewModel
 
 
                 // 当天日期映射为零基索引；AddDataAt 会按需补齐尚不存在的日期槽位。
-                Work_Factor_Seried.Robot_Work_ABCD_Number_List.AddDataAt(DateTime.Now.Day - 1, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number);
-                Work_Factor_Seried.Work_Availability_Factor_List.AddDataAt(DateTime.Now.Day - 1, Work_Factor_Seried.Work_Availability_Factor.Value);
-                Work_Factor_Seried.Work_Performance_Factor_List.AddDataAt(DateTime.Now.Day - 1, Work_Factor_Seried.Work_Performance_Factor.Value);
-                Work_Factor_Seried.Robot_Work_Time_List.AddDataAt(DateTime.Now.Day - 1, Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours);
-                Work_Factor_Seried.Robot_Work_ABCD_Cycle_Mean_List.AddDataAt(DateTime.Now.Day - 1, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_Mean);
+                Work_Factor_Seried.Robot_Work_ABCD_Number_List.AddDataAt(now.Day - 1, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number);
+                Work_Factor_Seried.Work_Availability_Factor_List.AddDataAt(now.Day - 1, Work_Factor_Seried.Work_Availability_Factor.Value);
+                Work_Factor_Seried.Work_Performance_Factor_List.AddDataAt(now.Day - 1, Work_Factor_Seried.Work_Performance_Factor.Value);
+                Work_Factor_Seried.Robot_Work_Time_List.AddDataAt(now.Day - 1, Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Hours);
+                Work_Factor_Seried.Robot_Work_ABCD_Cycle_Mean_List.AddDataAt(now.Day - 1, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_Mean);
 
 
                 // 节拍外序列可能由状态模型替换，保存前再次确保图表持有当前集合。
@@ -503,15 +509,15 @@ namespace Robot_Info_Mes.ViewModel
                 // 分开保存实时/计时状态与月度趋势，避免任一模型职责混杂。
                 File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
                 File_Xml_Model.Save_Xml(Work_Factor_Seried);
+                    }
 
-
-
-
-
-
-                User_Log_Add("信息文件定时已到：" + File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time + "s，进行文件保存！");
-
-
+                    User_Log_Add("信息文件定时已到：" + File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time + "s，进行文件保存！");
+                }
+                catch (Exception exception)
+                {
+                    // 保存失败不能让定时器异常终止整个进程；记录后等待下一周期重试。
+                    User_Log_Add("信息文件定时保存失败！原因：" + exception.Message, MessageBoxImage.Error);
+                }
             };
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Start();
 
@@ -568,8 +574,8 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-            // 文件不存在时持久化层会创建预置工艺列表；存在时恢复本月最后快照。
-            Mes_Server_Info_Data = File_Xml_Model.Read_Xml_File<Mes_Server_Info_Data>();
+            // 文件不存在时持久化层会创建预置工艺列表；存在时恢复本月最后快照，损坏时回退默认值。
+            Mes_Server_Info_Data = File_Xml_Model.Read_Xml_File_Or_Default<Mes_Server_Info_Data>(Log_Xml_Recovery);
 
 
             // 为每台设备建立本月全部日期槽位，后续收到任意日期数据都可直接按下标写入。
@@ -585,7 +591,9 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time);
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Tick += (s, e) =>
             {
-
+                try
+                {
+                    DateTime now = DateTime.Now;
 
                 //当程序连续开的时候经过12点清除数据
                 //Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
@@ -607,14 +615,18 @@ namespace Robot_Info_Mes.ViewModel
 
 
                 // 月份变化时保留设备身份和集合结构，但清空所有上月日数据。
-                if (Mes_Server_Info_Data.File_Update_Time.Month != DateTime.Now.Month)
+                if (Mes_Server_Info_Data.File_Update_Time.Year != now.Year
+                    || Mes_Server_Info_Data.File_Update_Time.Month != now.Month)
                 {
 
                     /////检查日期缺失补齐
                     foreach (Mes_Server_Info_List_Model item in Mes_Server_Info_Data.Mes_Server_Model_List)
                     {
-                        item.Work_Factor_Seried.Mes_Date_Int();
-                        item.Work_Factor_Seried.Mes_Data_Clear();
+                        lock (item.Work_Factor_Seried.Sync)
+                        {
+                            item.Work_Factor_Seried.Mes_Date_Int();
+                            item.Work_Factor_Seried.Mes_Data_Clear();
+                        }
                     }
 
 
@@ -626,14 +638,18 @@ namespace Robot_Info_Mes.ViewModel
 
 
                 // 更新时间后整体原子保存，保证重启时能恢复一致的多设备快照。
-                Mes_Server_Info_Data.File_Update_Time = DateTime.Now;
+                Mes_Server_Info_Data.File_Update_Time = now;
 
                 File_Xml_Model.Save_Xml(Mes_Server_Info_Data);
 
 
                 User_Log_Add("信息文件定时已到：" + File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time + "s，进行文件保存！");
-
-
+                }
+                catch (Exception exception)
+                {
+                    // 保存失败不能让定时器异常终止整个进程；记录后等待下一周期重试。
+                    User_Log_Add("看板信息文件定时保存失败！原因：" + exception.Message, MessageBoxImage.Error);
+                }
             };
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Start();
 
@@ -839,8 +855,11 @@ namespace Robot_Info_Mes.ViewModel
         /// <returns>包含机器人状态、今日/累计计时、OEE 目标和趋势集合的完整消息。</returns>
         private Mes_Server_Info_Data_Receive Create_Mes_Server_Info_Snapshot()
         {
-            // 标量直接复制，集合创建新实例，避免 Socket 序列化枚举时源集合被定时器改写。
-            return new Mes_Server_Info_Data_Receive()
+            // 集合复制期间与采集线程、保存定时器使用同一把锁，避免枚举到正在修改的集合。
+            lock (Work_Factor_Seried.Sync)
+            {
+                // 标量直接复制，集合创建新实例，避免 Socket 序列化枚举时源集合被定时器改写。
+                return new Mes_Server_Info_Data_Receive()
             {
                 Vision_Model = Vision_Model_Enum.Mes_Server_Info_Send_Data,
                 Socket_Update_Time = DateTime.Now,
@@ -884,6 +903,7 @@ namespace Robot_Info_Mes.ViewModel
                     Robot_Robot_Time_Outside_List = new ObservableCollection<double?>(Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List),
                 }
             };
+            }
         }
 
 
@@ -900,9 +920,10 @@ namespace Robot_Info_Mes.ViewModel
                 Robot_Info_Parameters.Local_IP_UI = new ObservableCollection<string>(_List) { };
 
                 // 每个本地地址对应一个 Socket_Receive，统一使用机器人端口和所选厂商协议。
+                bool anyStarted = false;
                 foreach (var _Sever in Robot_Info_Parameters.Local_IP_UI)
                 {
-                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port)
+                    Socket_Receive listener = new(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port)
                     {
                         Socket_Robot = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model,
 
@@ -911,12 +932,23 @@ namespace Robot_Info_Mes.ViewModel
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
                         Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
                         Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
-                    });
+                    };
+                    Robot_Info_Parameters.Receive_List.Add(listener);
+
+                    // 构造函数内的启动错误会发生在回调赋值之前，必须由宿主读取结果并记录。
+                    if (listener.ServerStarted)
+                    {
+                        anyStarted = true;
+                    }
+                    else
+                    {
+                        User_Log_Add(
+                            $"开启机器人监听失败（{_Sever}:{File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port}）：{listener.ServerStartError}",
+                            MessageBoxImage.Error);
+                    }
                 }
 
-                //KUKA_Receive.Server_Strat(Local_IP_UI[IP_UI_Select].ToString(), Local_Port_UI.ToString());
-                // Receive 构造函数会启动底层监听；列表构建完成后向界面报告服务器已运行。
-                Robot_Info_Parameters.Sever_IsRuning = true;
+                Robot_Info_Parameters.Sever_IsRuning = anyStarted;
             }
 
         }
@@ -937,9 +969,10 @@ namespace Robot_Info_Mes.ViewModel
                 Robot_Info_Parameters.Local_IP_UI = new ObservableCollection<string>(_List) { };
 
                 // true 选择 MES 消息处理路径；设备归并、断线标记和日志分别由三个回调负责。
+                bool anyStarted = false;
                 foreach (var _Sever in Robot_Info_Parameters.Local_IP_UI)
                 {
-                    Robot_Info_Parameters.Receive_List.Add(new Socket_Receive(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port.ToString(),true)
+                    Socket_Receive listener = new(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port.ToString(), true)
                     {
                         Socket_Robot = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model,
 
@@ -948,12 +981,24 @@ namespace Robot_Info_Mes.ViewModel
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
                         //Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
                         //Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
-                      
-                    });
+
+                    };
+                    Robot_Info_Parameters.Receive_List.Add(listener);
+
+                    // 构造函数内的启动错误会发生在回调赋值之前，必须由宿主读取结果并记录。
+                    if (listener.ServerStarted)
+                    {
+                        anyStarted = true;
+                    }
+                    else
+                    {
+                        User_Log_Add(
+                            $"开启看板监听失败（{_Sever}:{File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port}）：{listener.ServerStartError}",
+                            MessageBoxImage.Error);
+                    }
                 }
 
-                //KUKA_Receive.Server_Strat(Local_IP_UI[IP_UI_Select].ToString(), Local_Port_UI.ToString());
-                Robot_Info_Parameters.Sever_IsRuning = true;
+                Robot_Info_Parameters.Sever_IsRuning = anyStarted;
             }
 
         }
@@ -1118,8 +1163,6 @@ namespace Robot_Info_Mes.ViewModel
             // 当前确认消息使用模型默认值；Client 收到它即视为本轮上报完成。
             Mes_Server_Info_Data_Send _Send = new();
 
-            // 快照更新直接影响看板实时性，提升接收线程优先级以减少高负载下的排队延迟。
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
             lock (_Mes_ServerLock)
             {
 
@@ -1142,6 +1185,10 @@ namespace Robot_Info_Mes.ViewModel
                         Mes_Server_Info_List_Model _New_Server = new();
                         _New_Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int = _Receive.Robot_Mes_Info_Data.Robot_Process_Int;
                         Mes_Server_Info_Data.Mes_Server_Model_List.Add(_New_Server);
+                        // 运行期新增的设备也必须启动指标轮播，否则卡片会一直停在第一项。
+                        _New_Server.Work_Factor_Seried.KanBan_List_Cycle_View_Time =
+                            File_Int_Parameters.Mes_Run_Parameters.KanBan_List_Cycle_View_Time;
+                        _New_Server.Work_Factor_Seried.Mes_Data_View_Int();
                     });
                 }
 
@@ -1214,6 +1261,9 @@ namespace Robot_Info_Mes.ViewModel
         /// <param name="_Socket">本次上报连接，用于记录远端端点。</param>
         private void Apply_Mes_Server_Info_Snapshot(Mes_Server_Info_List_Model _Server, Mes_Server_Info_Data_Receive _Receive, Socket? _Socket)
         {
+            // 图表集合由采集线程替换；与 LiveCharts 测量、月度清理使用同一把锁。
+            lock (_Server.Work_Factor_Seried.Sync)
+            {
             // 端点不进入 XML，只用于当前进程把后续 Socket 断开事件关联回设备。
             _Server.Connetc_Mes_IP = (IPEndPoint?)_Socket?.RemoteEndPoint;
 
@@ -1294,6 +1344,7 @@ namespace Robot_Info_Mes.ViewModel
 
             // 所有字段应用完后再置在线，避免界面提前显示尚未完成的半份快照。
             _Robot_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Connected;
+            }
         }
 
 
@@ -1332,9 +1383,13 @@ namespace Robot_Info_Mes.ViewModel
         public void Set_Robot_Info_Data(Robot_Mes_Info_Data_Receive _Data)
         {
             // 先用旧时间戳计算报文间隔，再记录本次到达时间。
-            Mes_Robot_Info_Model_Data.Socket_Cycle_Time = DateTime.Now - Mes_Robot_Info_Model_Data.Socket_Last_Update_Time;
+            DateTime now = DateTime.Now;
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Time =
+                Mes_Robot_Info_Model_Data.Socket_Last_Update_Time == default
+                    ? TimeSpan.Zero
+                    : now - Mes_Robot_Info_Model_Data.Socket_Last_Update_Time;
 
-            Mes_Robot_Info_Model_Data.Socket_Last_Update_Time = DateTime.Now;
+            Mes_Robot_Info_Model_Data.Socket_Last_Update_Time = now;
 
 
 
@@ -1344,13 +1399,17 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-            // 使用复制构造创建独立快照，避免 Socket 解析层复用对象时改写界面模型。
-            Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data);
+            // 状态机写入的节拍外集合被图表绑定；与保存、图表测量共用同一把锁。
+            lock (Work_Factor_Seried.Sync)
+            {
+                // 使用复制构造创建独立快照，避免 Socket 解析层复用对象时改写界面模型。
+                Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data);
+            }
 
             // 报文带 J1～J6 时驱动三维仿真；没有该数据时回到初始位。
             if (_Data.Robot_Axis is not null)
             {
-                Digital_Simulation.SetJoints(new[]
+                Digital_Simulation?.SetJoints(new[]
                 {
                     _Data.Robot_Axis.J1,
                     _Data.Robot_Axis.J2,
@@ -1362,7 +1421,7 @@ namespace Robot_Info_Mes.ViewModel
             }
             else
             {
-                Digital_Simulation.ResetJointsToHome();
+                Digital_Simulation?.ResetJointsToHome();
             }
 
 

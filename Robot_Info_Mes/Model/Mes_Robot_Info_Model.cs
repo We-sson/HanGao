@@ -117,7 +117,12 @@ namespace Robot_Info_Mes.Model
                             // R 边工位按成对区域计算：A、B 都经历一次后形成一个 AB 产品，C、D 同理。
                             Robot_Work_AB_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
 
+                            // 先累加 AB 增量，再计算 CD，保证两路同包完成时写入不同的产品序号。
+                            Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number;
+
                             Robot_Work_CD_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, ref Robot_Work_C_Cycle, ref Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
+
+                            Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_CD_Number;
 
 
 
@@ -165,7 +170,12 @@ namespace Robot_Info_Mes.Model
 
                             Robot_Work_AB_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, Robot_Work_A_Cycle, Robot_Work_B_Cycle, ref Robot_Work_AB_Number, ref Robot_Work_AB_Cycle_Aborted, ref Robot_Work_AB_Last_State);
 
+                            // 先累加 AB 增量，再计算 CD，保证两路同包完成时写入不同的产品序号。
+                            Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number;
+
                             Robot_Work_CD_Cycle.Timer_UI = Robot_Surrounding_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, Robot_Work_C_Cycle, Robot_Work_D_Cycle, ref Robot_Work_CD_Number, ref Robot_Work_CD_Cycle_Aborted, ref Robot_Work_CD_Last_State);
+
+                            Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_CD_Number;
 
 
 
@@ -182,8 +192,7 @@ namespace Robot_Info_Mes.Model
 
                     }
 
-                    // 两个状态机返回的是“本次上报新完成”的增量，累加后立即清零，防止下次重复计数。
-                    Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number + Robot_Work_CD_Number;
+                    // 两个状态机返回的是“本次上报新完成”的增量；产品总数已在各分支中先累加，这里只累计栈板数。
                     Work_Number_Pallets= Work_Number_Pallets+Robot_Work_AB_Number + Robot_Work_CD_Number;
 
 
@@ -273,13 +282,15 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 最近一次收到有效数据的本机时间，用于计算通信周期及 Server 端超时判断。
         /// </summary>
+        [XmlIgnore]
         public DateTime Socket_Last_Update_Time { set; get; } = new DateTime();
 
 
 
         /// <summary>
-        /// 相邻两次有效报文的到达间隔。
+        /// 相邻两次有效报文的到达间隔；仅代表本次运行，不从 XML 恢复。
         /// </summary>
+        [XmlIgnore]
         public TimeSpan Socket_Cycle_Time { set; get; } = new TimeSpan();
 
 
@@ -295,21 +306,6 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         [XmlIgnore]
         public DispatcherTimer Socket_Cycle_Check_Update { set; get; } = new DispatcherTimer();
-
-        /// <summary>
-        /// 预留的周期检查时间戳；用于需要手工比较定时器触发间隔的场景。
-        /// </summary>
-        [XmlIgnore]
-        public DateTime Socket_Cycle_Check_LastTime { set; get; } = new DateTime();
-
-
-        /// <summary>
-        /// 预留的客户端向看板推送定时器；当前实际上传由后台发送循环负责。
-        /// </summary>
-        [XmlIgnore]
-        public DispatcherTimer Server_Cycle_Update_Data { set; get; } = new DispatcherTimer();
-
-
 
         private string _Image_Source = string.Empty;
 
@@ -774,22 +770,27 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 若文件记录日与当前日不同，清空“当日”计时、产量和采样列表；累计计时不受影响。
         /// </summary>
-        public void Check_Day_Int_Time()
+        public void Check_Day_Int_Time() => Check_Day_Int_Time(DateTime.Now);
+
+        /// <summary>
+        /// 使用指定时间执行日切判断；测试可传入固定时间，运行时传入本机当前时间。
+        /// </summary>
+        public void Check_Day_Int_Time(DateTime now)
         {
-            // 当前规则按 Day 判断，适用于定时器跨过午夜后的日切场景。
-            if (File_Update_Time.Day != DateTime.Now.Day)
+            // 必须比较完整日期：跨月后可能出现“几号相同”的情况，只比 Day 会漏掉清空。
+            if (File_Update_Time.Date != now.Date)
             {
-                Robot_Error_Time.Timer_UI = TimeSpan.Zero;
-                Robot_Debug_Time.Timer_UI = TimeSpan.Zero;
-                Robot_Work_Time.Timer_UI = TimeSpan.Zero;
-                Robot_Run_Time.Timer_UI = TimeSpan.Zero;
+                Robot_Error_Time.ResetDaily();
+                Robot_Debug_Time.ResetDaily();
+                Robot_Work_Time.ResetDaily();
+                Robot_Run_Time.ResetDaily();
+                Robot_Time_Outside.ResetDaily();
                 Robot_Work_ABCD_Number = 0;
                 Robot_Work_ABCD_Cycle_Mean = 0;
                 Robot_Robot_Time_Outside_List_Mean = 0;
                 Work_Number_Pallets = 0;
                 Robot_Work_ABCD_Cycle_List.Clear();
                 Robot_Robot_Time_Outside_List.Clear();
-                Robot_Time_Outside.Timer_Sec=0;
 
             }
 
@@ -799,27 +800,6 @@ namespace Robot_Info_Mes.Model
 
 
         }
-
-        /// <summary>
-        /// 预留的按指定容量整理机器人采样列表入口；当前尚未实现，不会修改传入集合。
-        /// </summary>
-        /// <param name="_Cont">计划保留或补齐的元素数量。</param>
-        /// <param name="_List">待整理的采样集合。</param>
-        public void Robot_Data_Add_List(int _Cont, ref ObservableCollection<double?> _List)
-        {
-
-
-            for (int i = 0; i < _List.Count; i++)
-            {
-                // 方法目前仅保留遍历骨架，尚未定义补齐、裁剪或重排规则。
-            }
-
-
-
-        }
-
-
-
 
     }
 
@@ -926,8 +906,8 @@ namespace Robot_Info_Mes.Model
 
 
 
-        // UI 刷新间隔（毫秒）；无需逐毫秒重绘即可提供流畅的计时显示。
-        private const int UpdateInterval = 50;
+        // UI 刷新间隔（毫秒）；界面只显示到秒，250ms 足够且能减少 UI 线程刷新压力。
+        private const int UpdateInterval = 250;
         //private Stopwatch Time { set; get; } = new();
 
         /// <summary>
@@ -1030,6 +1010,28 @@ namespace Robot_Info_Mes.Model
             LastTime = DateTime.Now;
 
 
+        }
+
+        /// <summary>
+        /// 清零“当日”累计并保持原来的运行状态；跨日累计计时器不能调用。
+        /// </summary>
+        public void ResetDaily()
+        {
+            bool wasRunning = Timer.IsRunning;
+
+            // 先停止，避免 Stopwatch.Reset 后 UI 定时器仍把旧偏移量写回 Timer_UI。
+            Timer.Stop();
+            Timer.Reset();
+            Time_Update.Stop();
+            Time_Offset = TimeSpan.Zero;
+            Timer_UI = TimeSpan.Zero;
+            LastTime = DateTime.Now;
+
+            if (wasRunning)
+            {
+                Timer.Start();
+                Time_Update.Start();
+            }
         }
 
 

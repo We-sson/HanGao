@@ -94,26 +94,6 @@ namespace Robot_Info_Mes.Model
 
 
     }
-    /// <summary>
-    /// 预留的 MES 运行模式模型；目前没有持久化字段，保留类型用于后续扩展班次或模式配置。
-    /// </summary>
-    public class Mes_Run_Time_Mode
-    {
-        /// <summary>
-        /// 创建预留的运行模式对象。
-        /// </summary>
-        public Mes_Run_Time_Mode()
-        {
-
-        }
-
-
-
-
-
-
-
-    }
 
     /// <summary>
     /// 项目的 XML 持久化入口：按模型类型确定固定路径，并负责首次建档、读取及原子保存。
@@ -422,6 +402,52 @@ namespace Robot_Info_Mes.Model
 
         }
 
+        /// <summary>
+        /// 读取配置；读取失败时给原文件加 .bad-时间戳 后缀保留内容，本次使用默认参数并输出日志。
+        /// </summary>
+        public static T1 Read_Xml_File_Or_Default<T1>(Action<string>? onError = null) where T1 : new()
+        {
+            try
+            {
+                return Read_Xml_File<T1>();
+            }
+            catch (Exception exception)
+            {
+                string path;
+                try
+                {
+                    path = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path);
+                }
+                catch
+                {
+                    // 类型未登记路径时仍要输出原始读取错误，不能被二次异常覆盖。
+                    path = "（路径未知）";
+                }
+
+                // 给损坏文件加后缀保留原始内容；改名失败则保持原文件不动。
+                string damagedPath = path;
+                if (path != "（路径未知）")
+                {
+                    damagedPath = path + ".bad-" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    try
+                    {
+                        File.Move(path, damagedPath);
+                    }
+                    catch
+                    {
+                        // 文件被占用或权限不足时无法改名；只记录，不删除也不覆盖。
+                        damagedPath = path;
+                    }
+                }
+
+                onError?.Invoke(
+                    $"读取 {typeof(T1).Name} 失败，本次使用默认参数。原文件已保留为：{damagedPath}；" +
+                    $"原因：{exception.GetBaseException().Message}");
+
+                return new T1();
+            }
+        }
+
 
 
         /// <summary>
@@ -511,7 +537,7 @@ namespace Robot_Info_Mes.Model
                 // GetXml_Path 同时保证父目录存在。
                 GetXml_Path<T1>(Get_Xml_File_Enum.Folder_Path);
                 string _Path = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path);
-                string tempPath = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path) + ".tmp";
+                string tempPath = _Path + ".tmp";
 
                 // 清理上一次异常中断遗留的临时文件，保证本次写入从空文件开始。
                 if (File.Exists(tempPath))

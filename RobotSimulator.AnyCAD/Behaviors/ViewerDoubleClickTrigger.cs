@@ -6,7 +6,10 @@ using Microsoft.Xaml.Behaviors;
 
 namespace RobotSimulator.Behaviors;
 
-/// <summary>把原生视口的左键双击接入 XAML，由 InvokeCommandAction 执行居中命令。</summary>
+/// <summary>
+/// 把原生视口的左键双击接入 XAML，由 InvokeCommandAction 执行居中命令。
+/// AnyCAD 虽提供 ZoomByDoubleClick 配置，但 HwndHost 视口下实际不会触发，因此保留消息钩子。
+/// </summary>
 public sealed class ViewerDoubleClickTrigger : TriggerBase<RenderControl>
 {
     /// <summary>AnyCAD 的原生窗口宿主；WPF 鼠标事件无法覆盖此窗口的输入。</summary>
