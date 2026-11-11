@@ -63,6 +63,8 @@ public partial class RobotViewer : UserControl, IDisposable
     private RobotViewerOptions? _loadingOptions;
     /// <summary>释放标记，阻止加载或更新继续访问已销毁的控件。</summary>
     private bool _disposed;
+    /// <summary>最近一次应用的相机环绕参数；仅这些参数变化时才重置相机。</summary>
+    private (double Speed, double Start, double Elevation)? _appliedOrbit;
 
     // 生命周期与初始化
 
@@ -166,6 +168,7 @@ public partial class RobotViewer : UserControl, IDisposable
             // 初始加载直接定位到配置的环绕起始角；SetView 的原生动画会与紧接着的
             // SetOrbit 起始方向冲突，因此只在用户主动切换标准视角时使用动画。
             scene.SetOrbit(options.OrbitSpeedDegreesPerSecond, options.OrbitStartAngleDegrees, options.OrbitElevationDegrees);
+            _appliedOrbit = (options.OrbitSpeedDegreesPerSecond, options.OrbitStartAngleDegrees, options.OrbitElevationDegrees);
 
             // 完整加载前不消费通信帧；仅对未收到输入的轴填入初始角。
             var home = _joints.Select(joint => joint.HomeAngle).ToArray();
@@ -292,7 +295,13 @@ public partial class RobotViewer : UserControl, IDisposable
             StartLoadIfReady();
             return;
         }
-        _scene.SetOrbit(options.OrbitSpeedDegreesPerSecond, options.OrbitStartAngleDegrees, options.OrbitElevationDegrees);
+        // 只有环绕参数真的变化时才重置相机；焊接状态、坐标开关变化不能把自动旋转拉回起点。
+        var orbit = (options.OrbitSpeedDegreesPerSecond, options.OrbitStartAngleDegrees, options.OrbitElevationDegrees);
+        if (_appliedOrbit != orbit)
+        {
+            _scene.SetOrbit(orbit.OrbitSpeedDegreesPerSecond, orbit.OrbitStartAngleDegrees, orbit.OrbitElevationDegrees);
+            _appliedOrbit = orbit;
+        }
         _scene.SetCoordinateVisibility(
             options.ShowBaseCoordinates,
             options.ShowFlangeCoordinates,
