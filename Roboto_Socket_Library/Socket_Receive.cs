@@ -1071,11 +1071,11 @@ namespace Roboto_Socket_Library
         /// <param name="ar">AsyncState 中保存监听 Socket。</param>
         private void ClienAppcet(IAsyncResult ar)
         {
+            Socket? ServerSocket = ar.AsyncState as Socket;
             try
             {
                 // 计数在 EndAccept 前递增，沿用现有“接受尝试次数”语义。
                 ConnectNumber++;
-                Socket? ServerSocket = ar.AsyncState as Socket;
                 Socket? client = ServerSocket?.EndAccept(ar);
                 if (client != null)
                 {
@@ -1090,48 +1090,39 @@ namespace Roboto_Socket_Library
                             $"Error:-17,连接数超过上限 {MaxServerConnections}，拒绝新连接。",
                             client);
                         Close_Client(_Receive);
-                        ServerSocket.BeginAccept(new AsyncCallback(ClienAppcet), ServerSocket);
-                        return;
                     }
-
-                    try
+                    else
                     {
-
-                        if (UseXmlFragmentReceive)
+                        try
                         {
-                            // 流式 XmlReader 负责跨多个 TCP 包拼出完整顶层元素。
-                            _ = ReceiveXmlFragmentLoopAsync(_Receive);
+
+                            if (UseXmlFragmentReceive)
+                            {
+                                // 流式 XmlReader 负责跨多个 TCP 包拼出完整顶层元素。
+                                _ = ReceiveXmlFragmentLoopAsync(_Receive);
+
+                            }
+                            else
+                            {
+                                // 固定缓冲模式假设一次 EndReceive 对应一帧完整业务报文。
+                                client?.BeginReceive(_Receive.buffer, 0, _Receive.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), _Receive);
+
+                            }
 
                         }
-                        else
+                        catch (Exception e)
                         {
-                            // 固定缓冲模式假设一次 EndReceive 对应一帧完整业务报文。
-                            client?.BeginReceive(_Receive.buffer, 0, _Receive.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), _Receive);
+                            Socket_ErrorInfo_delegate?.Invoke($"Error:-15" + e.Message, client);
+                            // 接收循环无法启动时立即释放已接受的客户端，避免孤立连接堆积。
+                            Close_Client(_Receive);
+                            return;
+                        }
 
-                        }    
+                        Socket_ConnectInfo_delegate?.Invoke($"{ServerSocket.LocalEndPoint}:连接进来了", client);
 
-
-
-
+                        Console.WriteLine("第" + ConnectNumber + "连接进来了");
                     }
-                    catch (Exception e)
-                    {
-                        Socket_ErrorInfo_delegate?.Invoke($"Error:-15" + e.Message, client);
-                        // 接收循环无法启动时立即释放已接受的客户端，避免孤立连接堆积。
-                        Close_Client(_Receive);
-                        return;
-                    }
-
-                    Socket_ConnectInfo_delegate?.Invoke($"{ServerSocket.LocalEndPoint}:连接进来了", client);
-
-                    Console.WriteLine("第" + ConnectNumber + "连接进来了");
-
                 }
-
-
-
-                // 当前客户端已交给独立接收流程，监听器立即继续接受下一连接。
-                ServerSocket?.BeginAccept(new AsyncCallback(ClienAppcet), ServerSocket);
             }
             catch (Exception e)
             {
@@ -1139,6 +1130,22 @@ namespace Roboto_Socket_Library
                 Socket_ErrorInfo_delegate?.Invoke($"Error:-16" + e.Message);
 
 
+            }
+            finally
+            {
+                // 无论本次成功、超限还是客户端在 accept 前断开，都必须继续监听；
+                // 否则一次 EndAccept 异常就会让监听器永久失效，后续连接全部被拒绝。
+                if (ServerSocket is not null)
+                {
+                    try
+                    {
+                        ServerSocket.BeginAccept(new AsyncCallback(ClienAppcet), ServerSocket);
+                    }
+                    catch (Exception e)
+                    {
+                        Socket_ErrorInfo_delegate?.Invoke($"Error:-18" + e.Message);
+                    }
+                }
             }
         }
 

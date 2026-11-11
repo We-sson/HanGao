@@ -89,15 +89,9 @@ namespace Robot_Info_Mes.View
 
                 object[] attribArray = fieldInfo.GetCustomAttributes(false);
 
-                if (attribArray!.Length == 0 || attribArray == null)
-                {
-                    return enumObj.ToString()!;
-                }
-                else
-                {
-                    DescriptionAttribute? attrib = attribArray[0] as DescriptionAttribute;
-                    return attrib!.Description;
-                }
+                // 成员可能同时带 ModelId 等其它特性，按类型查找 Description，避免依赖声明顺序。
+                DescriptionAttribute? attrib = attribArray!.OfType<DescriptionAttribute>().FirstOrDefault();
+                return attrib?.Description ?? enumObj.ToString()!;
             }
             catch (Exception)
             {

@@ -1,5 +1,5 @@
-&ACCESS RVO1
-&REL 411
+&ACCESS RVO3
+&REL 412
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -148,7 +148,7 @@ END
 GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN,Send_Stae:OUT)
    DECL CHAR EKRL_NAME[],MODE_OP[1024],DATAPATH_NAME[1024]
    DECL EKI_STATUS RET
-
+   DECL E6AXIS Axis_Act
    DECL BOOL Rece_State,Send_Stae
    DECL INT OPFFSET
    DECL State_t _State
@@ -196,12 +196,13 @@ GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN,Send_Stae:OUT)
    RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Name[])
 
    ; J1-J6 current axis position.
-   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J1",$AXIS_ACT.A1)
-   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J2",$AXIS_ACT.A2)
-   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J3",$AXIS_ACT.A3)
-   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J4",$AXIS_ACT.A4)
-   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J5",$AXIS_ACT.A5)
-   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J6",$AXIS_ACT.A6)
+   Axis_Act=$AXIS_ACT
+   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J1",AXIS_ACT.A1)
+   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J2",AXIS_ACT.A2)
+   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J3",AXIS_ACT.A3)
+   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J4",AXIS_ACT.A4)
+   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J5",AXIS_ACT.A5)
+   RET=EKI_SetReal(EKRL_NAME[],"Robot_Receive/Robot_Axis/@J6",AXIS_ACT.A6)
 
    ;HALT
   ; wait sec 0.02

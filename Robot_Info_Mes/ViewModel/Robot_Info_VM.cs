@@ -112,7 +112,8 @@ namespace Robot_Info_Mes.ViewModel
                                 Socket_Receive.GetLocalIP(ref addresses);
                                 return addresses;
                             },
-                            (message, icon) => User_Log_Add(message, icon));
+                            // Modbus 功能库的日志回调仍带图标参数；统一只写日志，不弹窗。
+                            (message, _) => User_Log_Add(message));
                         Modbus.Initialize();
 
 
@@ -134,7 +135,7 @@ namespace Robot_Info_Mes.ViewModel
                         User_Log_Add("已经初始化软件！" + File_Xml_Model.GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path));
 
                         // 等主窗口消息循环就绪后再监听端口，启动失败只进入日志和右上角状态，不阻塞界面加载。
-                        Application.Current.Dispatcher.BeginInvoke(
+                        App_Dispatcher?.BeginInvoke(
                             DispatcherPriority.ApplicationIdle,
                             new Action(async () => await Modbus.StartIfEnabledAsync()));
 
@@ -155,7 +156,7 @@ namespace Robot_Info_Mes.ViewModel
         }
 
         /// <summary>把 XML 恢复信息写入界面日志。</summary>
-        private void Log_Xml_Recovery(string message) => User_Log_Add(message, MessageBoxImage.Error);
+        private void Log_Xml_Recovery(string message) => User_Log_Add(message);
 
         private bool _shutdownCompleted;
         private bool _shutdownInProgress;
@@ -190,9 +191,11 @@ namespace Robot_Info_Mes.ViewModel
 
             _shutdownCompleted = true;
             _shutdownInProgress = false;
-            Application.Current.Dispatcher.BeginInvoke(
+
+            // 退出阶段 Application.Current 可能已为空；没有 Dispatcher 时无需再关闭窗口。
+            App_Dispatcher?.BeginInvoke(
                 DispatcherPriority.ApplicationIdle,
-                new Action(() => Application.Current.MainWindow?.Close()));
+                new Action(() => Application.Current?.MainWindow?.Close()));
         }
 
         /// <summary>
@@ -383,7 +386,7 @@ namespace Robot_Info_Mes.ViewModel
                 catch (Exception _e)
                 {
 
-                    User_Log_Add(_e.Message, MessageBoxImage.Error);
+                    User_Log_Add(_e.Message);
 
                 }
 
@@ -516,7 +519,7 @@ namespace Robot_Info_Mes.ViewModel
                 catch (Exception exception)
                 {
                     // 保存失败不能让定时器异常终止整个进程；记录后等待下一周期重试。
-                    User_Log_Add("信息文件定时保存失败！原因：" + exception.Message, MessageBoxImage.Error);
+                    User_Log_Add("信息文件定时保存失败！原因：" + exception.Message);
                 }
             };
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Start();
@@ -648,7 +651,7 @@ namespace Robot_Info_Mes.ViewModel
                 catch (Exception exception)
                 {
                     // 保存失败不能让定时器异常终止整个进程；记录后等待下一周期重试。
-                    User_Log_Add("看板信息文件定时保存失败！原因：" + exception.Message, MessageBoxImage.Error);
+                    User_Log_Add("看板信息文件定时保存失败！原因：" + exception.Message);
                 }
             };
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Start();
@@ -838,12 +841,17 @@ namespace Robot_Info_Mes.ViewModel
                 Mes_Info_Parameters.Ping_Last_Update_Time = DateTime.Now;
             }
 
-            Dispatcher? dispatcher = Application.Current?.Dispatcher;
-            if (dispatcher == null || dispatcher.CheckAccess())
+            Dispatcher? dispatcher = App_Dispatcher;
+            if (dispatcher is null)
+            {
+                return;
+            }
+
+            if (dispatcher.CheckAccess())
             {
                 ApplyState();
             }
-            else if (!dispatcher.HasShutdownStarted)
+            else
             {
                 dispatcher.BeginInvoke(ApplyState);
             }
@@ -923,7 +931,8 @@ namespace Robot_Info_Mes.ViewModel
                 bool anyStarted = false;
                 foreach (var _Sever in Robot_Info_Parameters.Local_IP_UI)
                 {
-                    Socket_Receive listener = new(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port)
+                    // 流式接收：按 XML 根元素切帧，运动时帧变密也不会因粘包/拆包误判为非法报文。
+                    Socket_Receive listener = new(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port, true)
                     {
                         Socket_Robot = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model,
 
@@ -943,8 +952,7 @@ namespace Robot_Info_Mes.ViewModel
                     else
                     {
                         User_Log_Add(
-                            $"开启机器人监听失败（{_Sever}:{File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port}）：{listener.ServerStartError}",
-                            MessageBoxImage.Error);
+                            $"开启机器人监听失败（{_Sever}:{File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port}）：{listener.ServerStartError}");
                     }
                 }
 
@@ -993,8 +1001,7 @@ namespace Robot_Info_Mes.ViewModel
                     else
                     {
                         User_Log_Add(
-                            $"开启看板监听失败（{_Sever}:{File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port}）：{listener.ServerStartError}",
-                            MessageBoxImage.Error);
+                            $"开启看板监听失败（{_Sever}:{File_Int_Parameters.Mes_Run_Parameters.Sever_Mes_Info_Port}）：{listener.ServerStartError}");
                     }
                 }
 
@@ -1030,7 +1037,7 @@ namespace Robot_Info_Mes.ViewModel
                     {
                         //Initialization_Sever_STOP();
                         Robot_Info_Parameters.Server_List_End();
-                        User_Log_Add("停止所有IP服务器连接!", MessageBoxImage.Stop);
+                        User_Log_Add("停止所有IP服务器连接!");
 
                     }
                 }
@@ -1038,7 +1045,7 @@ namespace Robot_Info_Mes.ViewModel
                 {
                     Robot_Info_Parameters.Sever_IsRuning = false;
                     _Contol!.IsChecked = false;
-                    User_Log_Add("开启服务器接受失败！原因：" + _e.Message, MessageBoxImage.Error);
+                    User_Log_Add("开启服务器接受失败！原因：" + _e.Message);
 
                 }
 
@@ -1074,12 +1081,50 @@ namespace Robot_Info_Mes.ViewModel
                 catch (Exception _e)
                 {
 
-                    User_Log_Add("保存设置参数失败！原因：" + _e.Message, MessageBoxImage.Error);
+                    User_Log_Add("保存设置参数失败！原因：" + _e.Message);
 
                 }
 
 
 
+            });
+        }
+
+
+        /// <summary>
+        /// 保存仿真参数并立即按新参数重建三维显示；不需要重启软件。
+        /// </summary>
+        public ICommand Save_Simulation_Comm
+        {
+            get => new RelayCommand<RoutedEventArgs>((Sm) =>
+            {
+                try
+                {
+                    // 先持久化整份配置，保证下次启动仍使用当前仿真参数。
+                    File_Xml_Model.Save_Xml(File_Int_Parameters);
+
+                    // 只有机器人/Tool/工装切换才需要重建场景；自转、显示和跟随参数已在编辑时实时生效。
+                    var simulation = File_Int_Parameters.Mes_Digital_Simulation;
+                    if (Digital_Simulation is { } current
+                        && (current.LoadOptions.Robot != simulation.Robot_Model
+                            || current.LoadOptions.Tool != simulation.Tool_Model
+                            || current.LoadOptions.Work != simulation.Work_Model))
+                    {
+                        var refreshed = new Digital_Simulation(simulation);
+                        if (current.Joints.Length == 6) refreshed.SetJoints(current.Joints);
+                        current.Detach();
+                        Digital_Simulation = refreshed;
+                        User_Log_Add("仿真模型已保存并切换；其它参数已实时生效。");
+                    }
+                    else
+                    {
+                        User_Log_Add("仿真参数已保存并生效。");
+                    }
+                }
+                catch (Exception _e)
+                {
+                    User_Log_Add("保存仿真参数失败！原因：" + _e.Message);
+                }
             });
         }
 
@@ -1109,7 +1154,7 @@ namespace Robot_Info_Mes.ViewModel
                 catch (Exception _e)
                 {
 
-                    User_Log_Add("保存设置参数失败！原因：" + _e.Message, MessageBoxImage.Error);
+                    User_Log_Add("保存设置参数失败！原因：" + _e.Message);
 
                 }
 
@@ -1180,7 +1225,7 @@ namespace Robot_Info_Mes.ViewModel
                 // 新工艺可能不在首次建档预置列表中；集合变更必须切换到 WPF Dispatcher。
                 if (!_Process_Exists)
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
+                    Invoke_On_UI(() =>
                     {
                         Mes_Server_Info_List_Model _New_Server = new();
                         _New_Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int = _Receive.Robot_Mes_Info_Data.Robot_Process_Int;
@@ -1227,7 +1272,7 @@ namespace Robot_Info_Mes.ViewModel
                                 {
 
                                     // ObservableCollection.Move 会触发界面集合通知，必须由 UI 线程执行。
-                                    Application.Current.Dispatcher.Invoke(() =>
+                                    Invoke_On_UI(() =>
                                     {
                                         Mes_Server_Info_Data.Mes_Server_Model_List.Move(i, _i);
                                     });
@@ -1448,37 +1493,61 @@ namespace Robot_Info_Mes.ViewModel
         private readonly object _userLogLock = new();
 
         /// <summary>
-        /// 从任意线程安全地追加全局日志；需要时同时弹出指定图标的消息框。
+        /// 取 WPF 应用级 Dispatcher；应用尚未创建或正在退出时返回 null。
         /// </summary>
-
-
-        /// <param name="log">要追加的用户可读消息。</param>
-        /// <param name="messType">非 None 时显示模态提示框的图标类型。</param>
-        public void User_Log_Add(string log, MessageBoxImage messType = MessageBoxImage.None)
+        private static Dispatcher? App_Dispatcher
         {
+            get
+            {
+                Application? app = Application.Current;
+                if (app is null || app.Dispatcher.HasShutdownStarted)
+                {
+                    return null;
+                }
 
+                return app.Dispatcher;
+            }
+        }
+
+        /// <summary>
+        /// 在 UI 线程执行一个动作；没有可用 Dispatcher 时直接放弃，不抛异常。
+        /// </summary>
+        private static void Invoke_On_UI(Action action)
+        {
+            Dispatcher? dispatcher = App_Dispatcher;
+            if (dispatcher is null)
+            {
+                return;
+            }
+
+            if (dispatcher.CheckAccess())
+            {
+                action();
+            }
+            else
+            {
+                dispatcher.BeginInvoke(action);
+            }
+        }
+
+        /// <summary>
+        /// 从任意线程安全地追加全局日志；错误只写日志，不再弹出模态提示框。
+        /// </summary>
+        /// <param name="log">要追加的用户可读消息。</param>
+        public void User_Log_Add(string log)
+        {
             try
             {
-                // BeginInvoke 不阻塞 Socket 线程；日志属性和 MessageBox 都统一在 UI 线程访问。
-                Application.Current.Dispatcher.BeginInvoke(() =>
-                   {
-                       lock (_userLogLock)
-                       {
-                           User_Log.User_Log = log;
-
-                           if (messType != MessageBoxImage.None)
-                           {
-                               MessageBox.Show(log, "操作提示....", MessageBoxButton.OK, messType);
-                           }
-                       }
-                   });
-
-
-
+                Invoke_On_UI(() =>
+                {
+                    lock (_userLogLock)
+                    {
+                        User_Log.User_Log = log;
+                    }
+                });
             }
             catch (Exception)
             {
-
                 // 应用关闭期间 Dispatcher 可能已不可用；日志失败不能反过来中断退出或通信清理。
             }
         }

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RobotSimulator.Controls;
 using RobotSimulator.Models;
@@ -7,19 +8,65 @@ namespace RobotSimulator.ViewModels
     /// <summary>三维模型控件的全部状态；宿主主 VM 只暴露这一个属性。</summary>
     public sealed class Digital_Simulation : ObservableObject, IRobotViewerModel
     {
+        private readonly DigitalSimulationConfiguration _simulation;
+        private readonly RobotViewerOptions _loadOptions;
         private double[] _joints = [];
         private readonly double[] _homeJoints;
         private string _statusMessage = "正在加载三维模型…";
+        private RobotViewerOptions _options;
 
         /// <summary>把固定搭配转换为控件参数，并缓存复位用的初始角。</summary>
         public Digital_Simulation(DigitalSimulationConfiguration simulation)
         {
-            Options = CreateOptions(simulation);
+            _simulation = simulation;
+            _options = CreateOptions(simulation);
+            _loadOptions = _options;
             _homeJoints = LoadHomeJoints(simulation.Robot_Model);
+            // 配置变化即时通知控件；模型类变化由宿主保存时重建控件模型。
+            simulation.PropertyChanged += OnSimulationChanged;
         }
 
+        /// <summary>最近一次交给控件加载的模型组合；配置实时变化不会改写它，供宿主判断是否需要重建。</summary>
+        public RobotViewerOptions LoadOptions => _loadOptions;
+
         /// <summary>固定机器人、Tool 和工装组合。</summary>
-        public RobotViewerOptions Options { get; }
+        public RobotViewerOptions Options
+        {
+            get => _options;
+            private set => SetProperty(ref _options, value);
+        }
+
+        /// <summary>解除配置订阅；宿主替换模型前调用，避免旧对象继续响应。</summary>
+        public void Detach() => _simulation.PropertyChanged -= OnSimulationChanged;
+
+        /// <summary>配置变化时刷新参数快照，并通知控件实时应用。</summary>
+        private void OnSimulationChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            Options = CreateOptions(_simulation);
+            switch (e.PropertyName)
+            {
+                case nameof(DigitalSimulationConfiguration.Joint_Response_Frequency):
+                case nameof(DigitalSimulationConfiguration.Joint_Max_Speed):
+                case nameof(DigitalSimulationConfiguration.Joint_Max_Acceleration):
+                    OnPropertyChanged(nameof(JointResponseFrequencyHz));
+                    OnPropertyChanged(nameof(JointMaxSpeedDegreesPerSecond));
+                    OnPropertyChanged(nameof(JointMaxAccelerationDegreesPerSecondSquared));
+                    break;
+                default:
+                    // 自转、显示开关等参数由控件的 Options 变化直接应用。
+                    OnPropertyChanged(nameof(Options));
+                    break;
+            }
+        }
+
+        /// <summary>关节跟随响应频率，供宿主绑定到 RobotViewer.JointResponseFrequencyHz。</summary>
+        public double JointResponseFrequencyHz => Options.JointResponseFrequencyHz;
+
+        /// <summary>关节跟随最大显示速度，供宿主绑定到 RobotViewer.JointMaxSpeedDegreesPerSecond。</summary>
+        public double JointMaxSpeedDegreesPerSecond => Options.JointMaxSpeedDegreesPerSecond;
+
+        /// <summary>关节跟随最大显示加速度，供宿主绑定到 RobotViewer.JointMaxAccelerationDegreesPerSecondSquared。</summary>
+        public double JointMaxAccelerationDegreesPerSecondSquared => Options.JointMaxAccelerationDegreesPerSecondSquared;
 
         /// <summary>J1～J6 角度；通信层赋值新数组后自动推送到控件。</summary>
         public double[] Joints
@@ -83,6 +130,9 @@ namespace RobotSimulator.ViewModels
             OrbitSpeedDegreesPerSecond = simulation.Orbit_Speed,
             OrbitStartAngleDegrees = simulation.Orbit_Angle,
             OrbitElevationDegrees = simulation.Orbit_Elevation,
+            JointResponseFrequencyHz = simulation.Joint_Response_Frequency,
+            JointMaxSpeedDegreesPerSecond = simulation.Joint_Max_Speed,
+            JointMaxAccelerationDegreesPerSecondSquared = simulation.Joint_Max_Acceleration,
         };
     }
 }

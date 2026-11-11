@@ -1,10 +1,10 @@
-&ACCESS RVP
-&REL 7897
+&ACCESS RVP1
+&REL 7907
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\Program\HG
 DEF Mes_Info( )
-   Mes_Info_Int()
+  ; Mes_Info_Int()
    Work_A_State=false
    Work_B_State=false
    Work_C_State=false
@@ -12,9 +12,9 @@ DEF Mes_Info( )
    
    halt
    LOOP
-      Mes_Info_Main()
+     ; Mes_Info_Main()
 
-  ENDLOOP
+;  ENDLOOP
       Work_A_State=true
       wait sec 5
       Work_A_State=false
@@ -32,7 +32,7 @@ DEF Mes_Info( )
          ;ENDFOLD
          WAIT SEC 0.0
       ;ENDFOLD
-  ; ENDLOOP
+   ENDLOOP
    ;# DATE:2025-6-12
 END
 

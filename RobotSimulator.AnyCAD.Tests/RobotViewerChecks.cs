@@ -66,6 +66,58 @@ internal static class RobotViewerChecks
             Check(!viewer.ZoomAllCommand.CanExecute(null), "控件释放后不应允许双击居中。");
         }
 
+        // 在线替换 Model：已加载控件应释放旧场景、按新参数重建，并保留最近一帧角度。
+        var reloadScenes = new System.Collections.Generic.List<RecordingScene>();
+        using (var viewer = new RobotViewer(_ =>
+               {
+                   var scene = new RecordingScene();
+                   reloadScenes.Add(scene);
+                   return scene;
+               })
+               { Model = new Digital_Simulation(new DigitalSimulationConfiguration()) })
+        {
+            var load = viewer.LoadAsync();
+            NotifyReady(viewer);
+            await load;
+            Check(reloadScenes.Count == 1 && reloadScenes[0].RobotLoadCount == 1, "首次加载没有创建场景。");
+            viewer.SetJoints([11, -22, 33, 44, 55, 66]);
+            await DrainAsync();
+
+            viewer.Model = new Digital_Simulation(new DigitalSimulationConfiguration
+            {
+                Robot_Model = RobotModelKind.KR_10_R1440_2,
+                Orbit_Speed = 5
+            });
+            await WaitUntilAsync(() => reloadScenes.Count == 2 && reloadScenes[1].RobotLoadCount == 1);
+            Check(reloadScenes[0].Disposed, "重新加载前没有释放旧场景。");
+            Check(reloadScenes[1].Angles.SequenceEqual(new double[] { 11, -22, 33, 44, 55, 66 }),
+                "重新加载没有保留最近一帧角度。");
+        }
+
+        // 非模型参数变化直接应用到已加载场景，不重建模型。
+        var liveConfig = new DigitalSimulationConfiguration();
+        var liveScene = new RecordingScene();
+        using (var viewer = new RobotViewer(_ => liveScene) { Model = new Digital_Simulation(liveConfig) })
+        {
+            var load = viewer.LoadAsync();
+            NotifyReady(viewer);
+            await load;
+            var robotLoads = liveScene.RobotLoadCount;
+            var orbits = liveScene.OrbitCount;
+            liveConfig.Orbit_Speed = 5;
+            Check(liveScene.OrbitCount > orbits, "自转参数变化没有实时应用。");
+            var visibilities = liveScene.VisibilityCount;
+            liveConfig.Show_Base_Axes = false;
+            Check(liveScene.VisibilityCount > visibilities, "显示开关变化没有实时应用。");
+            Check(liveScene.RobotLoadCount == robotLoads, "非模型参数变化不应重建场景。");
+            // 机器人选择变化只更新实时参数，加载快照保持原值，宿主据此判断保存时是否重建。
+            var loadedRobot = viewer.Model is Digital_Simulation digital ? digital.LoadOptions.Robot : default;
+            liveConfig.Robot_Model = RobotModelKind.KR_10_R1440_2;
+            Check(viewer.Model is Digital_Simulation current
+                  && current.LoadOptions.Robot == loadedRobot && current.Options.Robot == liveConfig.Robot_Model,
+                "机器人选择变化没有保留加载快照。");
+        }
+
         var partialScene = new RecordingScene();
         using (var viewer = new RobotViewer(_ => partialScene) { Model = new Digital_Simulation(
                    new DigitalSimulationConfiguration { Robot_Model = RobotModelKind.KR_10_R1440_2 }) })
@@ -165,6 +217,8 @@ internal static class RobotViewerChecks
         public int RobotLoadCount { get; private set; }
         public int ApplyCount { get; private set; }
         public int ZoomAllCount { get; private set; }
+        public int OrbitCount { get; private set; }
+        public int VisibilityCount { get; private set; }
         public double[] Angles { get; private set; } = [];
         public bool Disposed { get; private set; }
         public bool IsUserAdjustingView => false;
@@ -183,12 +237,12 @@ internal static class RobotViewerChecks
             ApplyCount++;
         }
         public void ApplyJoint(JointViewModel joint) { }
-        public void SetCoordinateVisibility(bool showBase, bool showFlange, bool showTcp) { }
+        public void SetCoordinateVisibility(bool showBase, bool showFlange, bool showTcp) => VisibilityCount++;
         public void SetToolTcp(PoseConfiguration pose) { }
         public void SetWorkPose(PoseConfiguration pose) { }
         public void SetView(RobotView view) { }
         public void ZoomAll() => ZoomAllCount++;
-        public void SetOrbit(double speedDegreesPerSecond, double startAngleDegrees, double elevationDegrees) { }
+        public void SetOrbit(double speedDegreesPerSecond, double startAngleDegrees, double elevationDegrees) => OrbitCount++;
         public void Dispose() => Disposed = true;
     }
 }

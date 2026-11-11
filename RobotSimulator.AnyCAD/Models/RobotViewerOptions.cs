@@ -1,4 +1,6 @@
+using System.ComponentModel;
 using System.Reflection;
+using RobotSimulator.Services;
 
 namespace RobotSimulator.Models;
 
@@ -37,6 +39,15 @@ public sealed class RobotViewerOptions
 
     /// <summary>相机环绕仰角，单位度；默认值对应标准等轴测方向。</summary>
     public double OrbitElevationDegrees { get; init; } = 35.264;
+
+    /// <summary>关节跟随响应频率，单位 Hz；越低越柔和。</summary>
+    public double JointResponseFrequencyHz { get; init; } = JointMotion.DefaultResponseFrequencyHz;
+
+    /// <summary>关节跟随最大显示速度，单位度/秒。</summary>
+    public double JointMaxSpeedDegreesPerSecond { get; init; } = JointMotion.DefaultMaxSpeedDegreesPerSecond;
+
+    /// <summary>关节跟随最大显示加速度，单位度/秒²。</summary>
+    public double JointMaxAccelerationDegreesPerSecondSquared { get; init; } = JointMotion.DefaultMaxAccelerationDegreesPerSecondSquared;
 }
 
 /// <summary>内置机器人型号；枚举名用于代码选择，资源标识由特性固定。</summary>
@@ -58,7 +69,9 @@ public enum ToolKind
 /// <summary>内置工装。</summary>
 public enum WorkKind
 {
+    [Description("R边焊接工装")]
     [ModelId("R边焊接工装")] RSideWelding,
+    [Description("双点焊工装")]
     [ModelId("双点焊工装")] DoubleSpotWelding,
 }
 

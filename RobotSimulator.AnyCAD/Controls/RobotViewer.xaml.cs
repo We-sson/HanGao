@@ -52,17 +52,51 @@ public partial class RobotViewer : UserControl, IDisposable
     /// <summary>上一渲染帧时间；null 表示下一帧只记录时间。</summary>
     private TimeSpan? _lastRenderTime;
     /// <summary>关节响应频率，单位 Hz；0 表示直接贴合目标。</summary>
-    public double JointResponseFrequencyHz { get; set; } = JointMotion.DefaultResponseFrequencyHz;
+    public static readonly DependencyProperty JointResponseFrequencyHzProperty = DependencyProperty.Register(
+        nameof(JointResponseFrequencyHz), typeof(double), typeof(RobotViewer),
+        new PropertyMetadata(JointMotion.DefaultResponseFrequencyHz));
+
     /// <summary>关节显示最大速度，单位度/秒；所有轴共用。</summary>
-    public double JointMaxSpeedDegreesPerSecond { get; set; } = JointMotion.DefaultMaxSpeedDegreesPerSecond;
+    public static readonly DependencyProperty JointMaxSpeedDegreesPerSecondProperty = DependencyProperty.Register(
+        nameof(JointMaxSpeedDegreesPerSecond), typeof(double), typeof(RobotViewer),
+        new PropertyMetadata(JointMotion.DefaultMaxSpeedDegreesPerSecond));
+
     /// <summary>关节显示最大加速度，单位度/秒²；所有轴共用。</summary>
-    public double JointMaxAccelerationDegreesPerSecondSquared { get; set; } = JointMotion.DefaultMaxAccelerationDegreesPerSecondSquared;
+    public static readonly DependencyProperty JointMaxAccelerationDegreesPerSecondSquaredProperty = DependencyProperty.Register(
+        nameof(JointMaxAccelerationDegreesPerSecondSquared), typeof(double), typeof(RobotViewer),
+        new PropertyMetadata(JointMotion.DefaultMaxAccelerationDegreesPerSecondSquared));
+
+    /// <summary>关节响应频率，单位 Hz；0 表示直接贴合目标。</summary>
+    public double JointResponseFrequencyHz
+    {
+        get => (double)GetValue(JointResponseFrequencyHzProperty);
+        set => SetValue(JointResponseFrequencyHzProperty, value);
+    }
+
+    /// <summary>关节显示最大速度，单位度/秒；所有轴共用。</summary>
+    public double JointMaxSpeedDegreesPerSecond
+    {
+        get => (double)GetValue(JointMaxSpeedDegreesPerSecondProperty);
+        set => SetValue(JointMaxSpeedDegreesPerSecondProperty, value);
+    }
+
+    /// <summary>关节显示最大加速度，单位度/秒²；所有轴共用。</summary>
+    public double JointMaxAccelerationDegreesPerSecondSquared
+    {
+        get => (double)GetValue(JointMaxAccelerationDegreesPerSecondSquaredProperty);
+        set => SetValue(JointMaxAccelerationDegreesPerSecondSquaredProperty, value);
+    }
+
     /// <summary>到达目标的容差，单位度。</summary>
     public double JointPositionToleranceDegrees { get; set; } = JointMotion.DefaultToleranceDegrees;
     /// <summary>是否已按 Model.Options 完成加载。</summary>
     private bool _loaded;
     /// <summary>是否正在加载，防止重复触发。</summary>
     private bool _loading;
+    /// <summary>加载期间收到新参数；当前加载结束后立即重建。</summary>
+    private bool _reloadPending;
+    /// <summary>当前进行中的加载所用参数，用于识别加载期间参数是否被替换。</summary>
+    private RobotViewerOptions? _loadingOptions;
     /// <summary>释放标记，阻止加载或更新继续访问已销毁的控件。</summary>
     private bool _disposed;
 
@@ -123,6 +157,7 @@ public partial class RobotViewer : UserControl, IDisposable
         if (_loading) return _loadTask!;
         var options = Model?.Options ?? throw new InvalidOperationException("必须设置 Model.Options。");
         _loading = true;
+        _loadingOptions = options;
         return _loadTask = LoadSceneAsync(options);
     }
 
@@ -193,7 +228,16 @@ public partial class RobotViewer : UserControl, IDisposable
             if (!_disposed) SetStatus($"三维模型加载失败：{exception.Message}");
             throw;
         }
-        finally { _loading = false; }
+        finally
+        {
+            _loading = false;
+            _loadingOptions = null;
+            if (_reloadPending)
+            {
+                _reloadPending = false;
+                StartLoadIfReady();
+            }
+        }
     }
 
     /// <summary>一次推送六轴角度，单位度；可在通信线程调用，只在 UI 帧内应用一次。</summary>
@@ -271,12 +315,28 @@ public partial class RobotViewer : UserControl, IDisposable
         else if (eventArgs.PropertyName == nameof(IRobotViewerModel.Options))
         {
             // Options 涉及 WPF 控件与原生视口，只在界面线程处理。
-            if (Dispatcher.CheckAccess()) StartLoadIfReady();
+            if (Dispatcher.CheckAccess()) ApplyLiveOptions(model.Options);
             else Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (ReferenceEquals(model, _boundModel)) StartLoadIfReady();
+                if (ReferenceEquals(model, _boundModel)) ApplyLiveOptions(model.Options);
             }));
         }
+    }
+
+    /// <summary>只应用不需要重建场景的参数：相机自转和坐标箭头显示。</summary>
+    private void ApplyLiveOptions(RobotViewerOptions? options)
+    {
+        if (_disposed || options is null) return;
+        if (!_loaded || _scene is null)
+        {
+            StartLoadIfReady();
+            return;
+        }
+        _scene.SetOrbit(options.OrbitSpeedDegreesPerSecond, options.OrbitStartAngleDegrees, options.OrbitElevationDegrees);
+        _scene.SetCoordinateVisibility(
+            options.ShowBaseCoordinates,
+            options.ShowFlangeCoordinates,
+            options.ShowTcpCoordinates);
     }
 
     /// <summary>保存绑定角度；场景加载完成后由 LoadAsync 统一应用。</summary>
@@ -288,12 +348,35 @@ public partial class RobotViewer : UserControl, IDisposable
 
     // 加载流程
 
-    /// <summary>渲染器和 Model.Options 都就绪时开始加载，避免重复触发。</summary>
+    /// <summary>渲染器和 Model.Options 都就绪时开始加载；已加载时先释放旧场景再按新参数重建。</summary>
     private void StartLoadIfReady()
     {
-        if (_disposed || _loaded || _loading || Model?.Options is null) return;
+        if (_disposed || Model?.Options is null) return;
         if (!_viewerReady.Task.IsCompletedSuccessfully) return;
+        if (_loading)
+        {
+            // 只有参数对象被替换才需要在本次加载结束后重建；渲染器就绪通知不算。
+            if (!ReferenceEquals(Model?.Options, _loadingOptions)) _reloadPending = true;
+            return;
+        }
+        if (_loaded) ResetForReload();
         _ = LoadCoreAsync();
+    }
+
+    /// <summary>释放当前场景并回到未加载状态；保留最近一帧角度，重载后继续使用。</summary>
+    private void ResetForReload()
+    {
+        StopSmoothing();
+        _scene?.Dispose();
+        _scene = null;
+        _joints = [];
+        lock (_updateSync)
+        {
+            _loaded = false;
+            _hasPendingAngles = false;
+            _updateQueued = false;
+            _hasAppliedAngles = false;
+        }
     }
 
     /// <summary>依赖属性触发的加载；异常只写入 StatusMessage，不向 UI 线程抛出。</summary>

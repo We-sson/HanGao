@@ -91,7 +91,7 @@
 
                 <Grid Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="105" />
                         <ColumnDefinition Width="1" />
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="1" />
@@ -206,10 +206,10 @@
                             FontFamily="{DynamicResource 全局_文字_中文字体}"
                             FontSize="13"
                             FontWeight="SemiBold"
-                            Foreground="#344F6D"
+                            Foreground="#8793A2"
                             Text="OEE 看板服务器信息" />
                         <TextBlock
-                            FontFamily="Consolas"
+                            FontFamily="{DynamicResource 全局_文字_数字字体}"
                             FontSize="14"
                             Foreground="#8A96A5">
                             <TextBlock.Text>
@@ -309,8 +309,8 @@
                             Text="本机监听地址" />
                         <TextBlock
                             FontFamily="{DynamicResource 全局_文字_数字字体}"
-                            FontSize="13"
-                            Foreground="#344F6D"
+                            FontSize="14"
+                            Foreground="#8A96A5"
                             Text="{Binding Modbus.ModbusEndpointText}"
                             TextTrimming="CharacterEllipsis" />
                     </StackPanel>
@@ -443,6 +443,21 @@
                     <View:Client_Process_Settings_View />
                 </Popup>
 
+                <ToggleButton
+                    x:Name="SimulationSettingsButton"
+                    Content="仿真设置"
+                    Style="{StaticResource PopupCompareButtonStyle}" />
+                <Popup
+                    AllowsTransparency="True"
+                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                    IsOpen="{Binding IsChecked, ElementName=SimulationSettingsButton, Mode=TwoWay}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=SimulationSettingsButton}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False">
+                    <View:Client_Simulation_Settings_View />
+                </Popup>
+
 
 
 
@@ -547,10 +562,12 @@
             <!--  底部三维模型：固定机器人/Tool/工装的组合，只接收 J1～J6。  -->
             <Border Grid.Row="1" Margin="5,5,5,5">
                 <!--  状态提示由控件左下角直接显示。  -->
-                <viewer:RobotViewer Model="{Binding Digital_Simulation}"
-                                    JointResponseFrequencyHz="2.0"
-                                    JointMaxSpeedDegreesPerSecond="360"
-                                    JointMaxAccelerationDegreesPerSecondSquared="1440" />
+                <!--  关节跟随参数由 Configs_Data.Xml 的 Mes_Digital_Simulation 提供。  -->
+                <viewer:RobotViewer
+                    JointMaxAccelerationDegreesPerSecondSquared="{Binding Digital_Simulation.JointMaxAccelerationDegreesPerSecondSquared}"
+                    JointMaxSpeedDegreesPerSecond="{Binding Digital_Simulation.JointMaxSpeedDegreesPerSecond}"
+                    JointResponseFrequencyHz="{Binding Digital_Simulation.JointResponseFrequencyHz}"
+                    Model="{Binding Digital_Simulation}" />
             </Border>
         </Grid>
 

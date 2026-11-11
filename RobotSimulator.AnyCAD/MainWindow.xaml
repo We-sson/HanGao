@@ -604,7 +604,7 @@
                                 <TextBlock
                                     Margin="0,10,0,0"
                                     Foreground="{StaticResource MutedBrush}"
-                                    Text="这些参数只影响 AnyCAD 示例动作；调到合适值后，把对应数值填到 Robot_Info_Mes 的 RobotViewer 属性即可。"
+                                    Text="这些参数只影响 AnyCAD 示例动作；调到合适值后，把响应频率、最大速度、最大加速度填到 Configs_Data.Xml 的 Mes_Digital_Simulation 即可。"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                         </ScrollViewer>

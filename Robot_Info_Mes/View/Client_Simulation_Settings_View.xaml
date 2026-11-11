@@ -1,0 +1,665 @@
+<UserControl
+    x:Class="Robot_Info_Mes.View.Client_Simulation_Settings_View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Enum_Converter="clr-namespace:Robot_Info_Mes.View"
+    xmlns:Sim="clr-namespace:RobotSimulator.Models;assembly=RobotSimulator.AnyCAD"
+    xmlns:ViewModel="clr-namespace:Robot_Info_Mes.ViewModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance Type=ViewModel:Robot_Info_VM,
+                                     IsDesignTimeCreatable=False}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <!--  工装下拉显示资源目录的中文名，而不是枚举标识。  -->
+        <Enum_Converter:EnumDescriptionConverter x:Key="EnumDescription" />
+    </UserControl.Resources>
+
+    <!--  与通信/工艺设置共用同一套标题、表单和页脚尺寸。  -->
+    <Grid Width=" 500">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+
+        <Border
+            Panel.ZIndex="1"
+            Background="{DynamicResource 全局_按钮_白颜色}"
+            BorderBrush="{DynamicResource 全局_背景_蓝颜色}"
+            BorderThickness="3,3,3,0"
+            CornerRadius="12 12 0 0"
+            Effect="{DynamicResource 全局背景阴影}">
+            <Grid Margin="22,0,18,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="19"
+                        FontWeight="SemiBold"
+                        Foreground="#344F6D"
+                        Text="仿真设置" />
+                    <TextBlock
+                        Margin="18,3,0,0"
+                        VerticalAlignment="Center"
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="13"
+                        Foreground="#8793A2"
+                        Text="机器人组合、相机自转与关节跟随" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border
+            Grid.Row="1"
+            BorderBrush="{DynamicResource 全局_背景_蓝颜色}"
+            BorderThickness="3,0,3,0">
+
+            <ScrollViewer
+                Background="{DynamicResource 全局_背景_灰白颜色}"
+                HorizontalScrollBarVisibility="Disabled"
+                Style="{DynamicResource Vision_Data_List_ScrollViewerStyle}"
+                VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10" Orientation="Vertical">
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="机器人型号" />
+                        <ComboBox
+                            Grid.Column="1"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="16"
+                            IsDropDownOpen="False"
+                            IsSynchronizedWithCurrentItem="True"
+                            ItemsSource="{Enum_Converter:EnumBindingSource Sim:RobotModelKind}"
+                            SelectedValue="{Binding File_Int_Parameters.Mes_Digital_Simulation.Robot_Model}"
+                            Style="{DynamicResource Data_ComboBoxStyle}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Padding="0,4,0,4"
+                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                        FontSize="14"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="{Binding}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="Tool 型号" />
+                        <ComboBox
+                            Grid.Column="1"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="16"
+                            IsDropDownOpen="False"
+                            IsSynchronizedWithCurrentItem="True"
+                            ItemsSource="{Enum_Converter:EnumBindingSource Sim:ToolKind}"
+                            SelectedValue="{Binding File_Int_Parameters.Mes_Digital_Simulation.Tool_Model}"
+                            Style="{DynamicResource Data_ComboBoxStyle}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Padding="0,4,0,4"
+                                        FontFamily="{DynamicResource 全局_文字_数字字体}"
+                                        FontSize="14"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="{Binding}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="工装型号" />
+                        <ComboBox
+                            Grid.Column="1"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="16"
+                            IsDropDownOpen="False"
+                            IsSynchronizedWithCurrentItem="True"
+                            ItemsSource="{Enum_Converter:EnumBindingSource Sim:WorkKind}"
+                            SelectedValue="{Binding File_Int_Parameters.Mes_Digital_Simulation.Work_Model}"
+                            Style="{DynamicResource Data_ComboBoxStyle}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Padding="0,4,0,4"
+                                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                                        FontSize="14"
+                                        Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                                        Text="{Binding Converter={StaticResource EnumDescription}}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+
+                    <!--  三个箭头开关复用工艺设置中“滚动控制”的 ToggleButton 样式。  -->
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="基坐标" />
+                        <ToggleButton
+                            Grid.Column="1"
+                            Width="200"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Center"
+                            IsChecked="{Binding File_Int_Parameters.Mes_Digital_Simulation.Show_Base_Axes, Mode=TwoWay}"
+                            Style="{DynamicResource Window_ToggleButtonStyle}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="开启"
+                                    FontSize="14" />
+                                <Label
+                                    Grid.Column="1"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="关闭"
+                                    FontSize="14" />
+                            </Grid>
+                        </ToggleButton>
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="法兰" />
+                        <ToggleButton
+                            Grid.Column="1"
+                            Width="200"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Center"
+                            IsChecked="{Binding File_Int_Parameters.Mes_Digital_Simulation.Show_Flange_Axes, Mode=TwoWay}"
+                            Style="{DynamicResource Window_ToggleButtonStyle}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="开启"
+                                    FontSize="14" />
+                                <Label
+                                    Grid.Column="1"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="关闭"
+                                    FontSize="14" />
+                            </Grid>
+                        </ToggleButton>
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="TCP" />
+                        <ToggleButton
+                            Grid.Column="1"
+                            Width="200"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Center"
+                            IsChecked="{Binding File_Int_Parameters.Mes_Digital_Simulation.Show_Tcp_Axes, Mode=TwoWay}"
+                            Style="{DynamicResource Window_ToggleButtonStyle}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="开启"
+                                    FontSize="14" />
+                                <Label
+                                    Grid.Column="1"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="关闭"
+                                    FontSize="14" />
+                            </Grid>
+                        </ToggleButton>
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="自转速度" />
+                        <Slider
+                            x:Name="Orbit_Speed_UI"
+                            Grid.Column="1"
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            IsSnapToTickEnabled="True"
+                            Maximum="60"
+                            Minimum="0"
+                            SmallChange="1"
+                            Style="{DynamicResource Vision_SliderStyle}"
+                            TickFrequency="1"
+                            Value="{Binding File_Int_Parameters.Mes_Digital_Simulation.Orbit_Speed}" />
+                        <TextBox
+                            Grid.Column="2"
+                            Width="200"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                            BorderThickness="2"
+                            FontFamily="{DynamicResource 全局_文字_数字字体}"
+                            FontSize="18"
+                            Style="{DynamicResource Vision_TextBoxStyle}"
+                            Text="{Binding ElementName=Orbit_Speed_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
+                        <TextBlock
+                            Grid.Column="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="°/s" />
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="起始角度" />
+                        <Slider
+                            x:Name="Orbit_Angle_UI"
+                            Grid.Column="1"
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            IsSnapToTickEnabled="True"
+                            Maximum="180"
+                            Minimum="-180"
+                            SmallChange="1"
+                            Style="{DynamicResource Vision_SliderStyle}"
+                            TickFrequency="1"
+                            Value="{Binding File_Int_Parameters.Mes_Digital_Simulation.Orbit_Angle}" />
+                        <TextBox
+                            Grid.Column="2"
+                            Width="200"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                            BorderThickness="2"
+                            FontFamily="{DynamicResource 全局_文字_数字字体}"
+                            FontSize="18"
+                            Style="{DynamicResource Vision_TextBoxStyle}"
+                            Text="{Binding ElementName=Orbit_Angle_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
+                        <TextBlock
+                            Grid.Column="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="°" />
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="环绕仰角" />
+                        <Slider
+                            x:Name="Orbit_Elevation_UI"
+                            Grid.Column="1"
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            IsSnapToTickEnabled="True"
+                            Maximum="85"
+                            Minimum="-85"
+                            SmallChange="0.1"
+                            Style="{DynamicResource Vision_SliderStyle}"
+                            TickFrequency="0.1"
+                            Value="{Binding File_Int_Parameters.Mes_Digital_Simulation.Orbit_Elevation}" />
+                        <TextBox
+                            Grid.Column="2"
+                            Width="200"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                            BorderThickness="2"
+                            FontFamily="{DynamicResource 全局_文字_数字字体}"
+                            FontSize="18"
+                            Style="{DynamicResource Vision_TextBoxStyle}"
+                            Text="{Binding ElementName=Orbit_Elevation_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}" />
+                        <TextBlock
+                            Grid.Column="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="°" />
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="响应频率" />
+                        <Slider
+                            x:Name="Joint_Frequency_UI"
+                            Grid.Column="1"
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            IsSnapToTickEnabled="True"
+                            Maximum="5.0"
+                            Minimum="0.5"
+                            SmallChange="0.1"
+                            Style="{DynamicResource Vision_SliderStyle}"
+                            TickFrequency="0.1"
+                            Value="{Binding File_Int_Parameters.Mes_Digital_Simulation.Joint_Response_Frequency}" />
+                        <TextBox
+                            Grid.Column="2"
+                            Width="200"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                            BorderThickness="2"
+                            FontFamily="{DynamicResource 全局_文字_数字字体}"
+                            FontSize="18"
+                            Style="{DynamicResource Vision_TextBoxStyle}"
+                            Text="{Binding ElementName=Joint_Frequency_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F1}}" />
+                        <TextBlock
+                            Grid.Column="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="Hz" />
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="最大速度" />
+                        <Slider
+                            x:Name="Joint_Max_Speed_UI"
+                            Grid.Column="1"
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            IsSnapToTickEnabled="True"
+                            Maximum="720"
+                            Minimum="30"
+                            SmallChange="10"
+                            Style="{DynamicResource Vision_SliderStyle}"
+                            TickFrequency="10"
+                            Value="{Binding File_Int_Parameters.Mes_Digital_Simulation.Joint_Max_Speed}" />
+                        <TextBox
+                            Grid.Column="2"
+                            Width="200"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                            BorderThickness="2"
+                            FontFamily="{DynamicResource 全局_文字_数字字体}"
+                            FontSize="18"
+                            Style="{DynamicResource Vision_TextBoxStyle}"
+                            Text="{Binding ElementName=Joint_Max_Speed_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
+                        <TextBlock
+                            Grid.Column="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="°/s" />
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="最大加速度" />
+                        <Slider
+                            x:Name="Joint_Max_Acceleration_UI"
+                            Grid.Column="1"
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            IsSnapToTickEnabled="True"
+                            Maximum="5000"
+                            Minimum="100"
+                            SmallChange="50"
+                            Style="{DynamicResource Vision_SliderStyle}"
+                            TickFrequency="50"
+                            Value="{Binding File_Int_Parameters.Mes_Digital_Simulation.Joint_Max_Acceleration}" />
+                        <TextBox
+                            Grid.Column="2"
+                            Width="200"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                            BorderThickness="2"
+                            FontFamily="{DynamicResource 全局_文字_数字字体}"
+                            FontSize="18"
+                            Style="{DynamicResource Vision_TextBoxStyle}"
+                            Text="{Binding ElementName=Joint_Max_Acceleration_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
+                        <TextBlock
+                            Grid.Column="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="°/s²" />
+                    </Grid>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!--  保存后立即重建三维显示；XML 同时持久化，下次启动继续使用当前参数。  -->
+        <Border
+            Grid.Row="2"
+            Background="{DynamicResource 全局_按钮_白颜色}"
+            BorderBrush="{DynamicResource 全局_背景_蓝颜色}"
+            BorderThickness="3,0,3,3"
+            CornerRadius="0 0 12 12">
+            <Grid Margin="22,8">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#8793A2"
+                    Text="仿真参数保存后立即生效，并作为下次启动的默认值" />
+                <Button
+                    Width="102"
+                    Height="36"
+                    HorizontalAlignment="Right"
+                    Background="{DynamicResource 全局_按钮_蓝颜色}"
+                    Style="{DynamicResource Halcon_Window_Button}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        Text="保存参数" />
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction
+                                Command="{Binding Save_Simulation_Comm}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=EventArgsConverter}"
+                                PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+
+</UserControl>
