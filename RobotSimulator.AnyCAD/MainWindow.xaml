@@ -319,6 +319,13 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </CheckBox>
+                        <CheckBox Content="焊接光" IsChecked="{Binding ShowWeldBeam, Mode=TwoWay}" ToolTip="显示或隐藏从 TCP 沿工具 Z 轴射出的焊接光">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding UpdateCoordinateVisibilityCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </CheckBox>
                     </WrapPanel>
                     <TextBlock FontSize="12" Foreground="{StaticResource MutedBrush}">
                         <Run Text="XYZ 方向：" />

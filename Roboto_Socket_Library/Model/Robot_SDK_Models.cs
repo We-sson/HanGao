@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Sockets;
 using System.Reflection;
 
 namespace Roboto_Socket_Library.Models
@@ -140,69 +139,6 @@ namespace Roboto_Socket_Library.Models
     }
 
     /// <summary>
-    /// 保存旧版多客户端服务器中的单个客户端连接及其收发缓存。
-    /// </summary>
-    public class Socket_Models_Server
-    {
-
-
-        #region 属性
-
-        /// <summary>
-        /// 从该客户端接收数据时使用的缓冲区。
-        /// </summary>
-        public byte[] Server_Recv_Byte { set; get; } = Array.Empty<byte>();
-
-        /// <summary>
-        /// 预留的待发送文本；关闭连接时会清空。
-        /// </summary>
-        public string Server_Send_Data { set; get; } = string.Empty;
-
-        /// <summary>
-        /// 该状态对象对应的客户端 Socket。
-        /// </summary>
-        public Socket? Server_Client { set; get; } 
-
-
-
-
-        #endregion
-
-
-        #region 方法
-
-        /// <summary>
-        /// 按 Socket 的系统接收缓冲大小重新分配应用层接收缓冲。
-        /// </summary>
-        public void Ini_Byte()
-        {
-            if (Server_Client != null)
-            {
-                Server_Recv_Byte = new byte[Server_Client.ReceiveBufferSize];
-            }
-        }
-
-        /// <summary>
-        /// 双向关闭并释放当前客户端连接。
-        /// </summary>
-        public void Server_Closer()
-        {
-            if (Server_Client != null)
-            {
-                // Shutdown 先通知对端不再收发，Close 再释放本地句柄。
-                Server_Client.Shutdown(SocketShutdown.Both);
-                Server_Client.Close();
-
-            }
-
-        }
-
-
-        #endregion
-
-    }
-
-    /// <summary>
     /// KUKA 变量协议响应帧的解码结果。
     /// 字段顺序与线上的二进制布局一致，便于核对偏移和长度。
     /// </summary>
@@ -233,29 +169,6 @@ namespace Roboto_Socket_Library.Models
     }
 
     #region kuka获取指令拓展
-
-    /// <summary>
-    /// 标注枚举成员或其他目标应采用循环读取还是单次读取；未标注时默认为循环读取。
-    /// </summary>
-    public class SetReadTypeAttribute : Attribute
-    {
-        /// <summary>
-        /// 创建读取策略特性。
-        /// </summary>
-        /// <param name="_Read_Type">目标变量的读取策略。</param>
-        public SetReadTypeAttribute(Read_Type_Enum _Read_Type)
-        {
-
-            Read_Type = _Read_Type;
-        }
-        /// <summary>
-        /// 被标注变量的读取策略。
-        /// </summary>
-        public Read_Type_Enum Read_Type { set; get; } = Read_Type_Enum.Loop_Read;
-
-    }
-
-
 
     /// <summary>
     /// 在枚举成员上保存业务区域名称，供反射读取并用于变量分组。
@@ -377,34 +290,7 @@ namespace Roboto_Socket_Library.Models
 
 
         }
-        /// <summary>
-        /// 读取枚举成员的 <see cref="SetReadTypeAttribute"/>。
-        /// </summary>
-        /// <param name="enumValue">要检查的枚举值。</param>
-        /// <returns>标注的读取策略；未标注时返回 <see cref="Read_Type_Enum.Loop_Read"/>。</returns>
-        public static Read_Type_Enum GetValueReadTypeValue(this Enum enumValue)
-        {
-            FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-            SetReadTypeAttribute[]? attrs =
-                fieldInfo!.GetCustomAttributes(typeof(SetReadTypeAttribute), false) as SetReadTypeAttribute[];
 
-            return attrs!.Length > 0 ? attrs[0].Read_Type : Read_Type_Enum.Loop_Read;
-
-
-        }
-
-    }
-
-    /// <summary>
-    /// 指定变量是在持久循环中读取，还是按需读取一次。
-    /// </summary>
-    public enum Read_Type_Enum
-    {
-        /// <summary>连接存续期间重复轮询。</summary>
-        Loop_Read,
-
-        /// <summary>执行一次或一批读取后结束。</summary>
-        One_Read
     }
 
     /// <summary>

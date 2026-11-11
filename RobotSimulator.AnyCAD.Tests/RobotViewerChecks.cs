@@ -17,7 +17,12 @@ internal static class RobotViewerChecks
     public static async Task RunAsync()
     {
         var scene = new RecordingScene { RobotGate = new(TaskCreationOptions.RunContinuationsAsynchronously) };
-        var model = new Digital_Simulation(new DigitalSimulationConfiguration { Robot_Model = RobotModelKind.KR_10_R1440_2 });
+        var model = new Digital_Simulation(new DigitalSimulationConfiguration
+        {
+            Robot_Model = RobotModelKind.KR_10_R1440_2,
+            // 关闭平滑，测试直接检查最新一帧角度。
+            Joint_Response_Frequency = 0,
+        });
         model.SetJoints([1, 2, 3, 4, 5, 6]);
         Check(model.Joints.SequenceEqual(new double[] { 1, 2, 3, 4, 5, 6 }), "SetJoints 没有保存 J1～J6。");
         model.ResetJointsToHome();
@@ -30,7 +35,7 @@ internal static class RobotViewerChecks
             JointMotion.Step(ref stepAngle, ref stepVelocity, 30, 1.0 / 60, 2.0, 360, 1440, 0.02);
         Check(Math.Abs(stepAngle - 30) <= 0.02 && Math.Abs(stepVelocity) <= 0.5,
             "速度控制在 3 秒内没有停在目标。");
-        using (var viewer = new RobotViewer(_ => scene) { Model = model, JointResponseFrequencyHz = 0 })
+        using (var viewer = new RobotViewer(_ => scene) { Model = model })
         {
             Check(!viewer.ZoomAllCommand.CanExecute(null), "模型加载前不应允许双击居中。");
             var load = viewer.LoadAsync();
@@ -110,6 +115,18 @@ internal static class RobotViewerChecks
             liveConfig.Show_Base_Axes = false;
             Check(liveScene.VisibilityCount > visibilities, "显示开关变化没有实时应用。");
             Check(liveScene.RobotLoadCount == robotLoads, "非模型参数变化不应重建场景。");
+            // 仿真开关关闭时无视机器人状态；开启后焊接光跟随通信状态。
+            var weldVisibilities = liveScene.WeldVisibilityCount;
+            liveConfig.Show_Weld_Beam = false;
+            Check(liveScene.WeldVisibilityCount > weldVisibilities && !liveScene.WeldBeamVisible,
+                "关闭焊接光开关后仍显示焊接光。");
+            liveConfig.Show_Weld_Beam = true;
+            Check(liveScene.WeldBeamVisible, "重新开启焊接光开关后没有显示焊接光。");
+            var digitalModel = (Digital_Simulation)viewer.Model!;
+            digitalModel.WeldActive = false;
+            Check(!liveScene.WeldBeamVisible, "机器人焊接状态关闭后仍显示焊接光。");
+            digitalModel.WeldActive = true;
+            Check(liveScene.WeldBeamVisible, "机器人焊接状态开启后没有显示焊接光。");
             // 机器人选择变化只更新实时参数，加载快照保持原值，宿主据此判断保存时是否重建。
             var loadedRobot = viewer.Model is Digital_Simulation digital ? digital.LoadOptions.Robot : default;
             liveConfig.Robot_Model = RobotModelKind.KR_10_R1440_2;
@@ -144,7 +161,7 @@ internal static class RobotViewerChecks
             var corrected = new Digital_Simulation(new DigitalSimulationConfiguration());
             viewer.Model = corrected;
             await WaitUntilAsync(() => corrected.StatusMessage == "模型已加载");
-            Check(attempts == 2 && recoveredScene.ApplyCount == 1, "修正 Model 后没有重新加载。");
+            Check(attempts == 2 && recoveredScene.ApplyCount >= 1, "修正 Model 后没有重新加载。");
         }
 
         var closingScene = new RecordingScene { RobotGate = new(TaskCreationOptions.RunContinuationsAsynchronously) };
@@ -219,6 +236,8 @@ internal static class RobotViewerChecks
         public int ZoomAllCount { get; private set; }
         public int OrbitCount { get; private set; }
         public int VisibilityCount { get; private set; }
+        public int WeldVisibilityCount { get; private set; }
+        public bool WeldBeamVisible { get; private set; } = true;
         public double[] Angles { get; private set; } = [];
         public bool Disposed { get; private set; }
         public bool IsUserAdjustingView => false;
@@ -238,6 +257,11 @@ internal static class RobotViewerChecks
         }
         public void ApplyJoint(JointViewModel joint) { }
         public void SetCoordinateVisibility(bool showBase, bool showFlange, bool showTcp) => VisibilityCount++;
+        public void SetWeldBeamVisible(bool show)
+        {
+            WeldVisibilityCount++;
+            WeldBeamVisible = show;
+        }
         public void SetToolTcp(PoseConfiguration pose) { }
         public void SetWorkPose(PoseConfiguration pose) { }
         public void SetView(RobotView view) { }

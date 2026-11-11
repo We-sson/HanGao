@@ -51,42 +51,6 @@ public partial class RobotViewer : UserControl, IDisposable
     private bool _smoothing;
     /// <summary>上一渲染帧时间；null 表示下一帧只记录时间。</summary>
     private TimeSpan? _lastRenderTime;
-    /// <summary>关节响应频率，单位 Hz；0 表示直接贴合目标。</summary>
-    public static readonly DependencyProperty JointResponseFrequencyHzProperty = DependencyProperty.Register(
-        nameof(JointResponseFrequencyHz), typeof(double), typeof(RobotViewer),
-        new PropertyMetadata(JointMotion.DefaultResponseFrequencyHz));
-
-    /// <summary>关节显示最大速度，单位度/秒；所有轴共用。</summary>
-    public static readonly DependencyProperty JointMaxSpeedDegreesPerSecondProperty = DependencyProperty.Register(
-        nameof(JointMaxSpeedDegreesPerSecond), typeof(double), typeof(RobotViewer),
-        new PropertyMetadata(JointMotion.DefaultMaxSpeedDegreesPerSecond));
-
-    /// <summary>关节显示最大加速度，单位度/秒²；所有轴共用。</summary>
-    public static readonly DependencyProperty JointMaxAccelerationDegreesPerSecondSquaredProperty = DependencyProperty.Register(
-        nameof(JointMaxAccelerationDegreesPerSecondSquared), typeof(double), typeof(RobotViewer),
-        new PropertyMetadata(JointMotion.DefaultMaxAccelerationDegreesPerSecondSquared));
-
-    /// <summary>关节响应频率，单位 Hz；0 表示直接贴合目标。</summary>
-    public double JointResponseFrequencyHz
-    {
-        get => (double)GetValue(JointResponseFrequencyHzProperty);
-        set => SetValue(JointResponseFrequencyHzProperty, value);
-    }
-
-    /// <summary>关节显示最大速度，单位度/秒；所有轴共用。</summary>
-    public double JointMaxSpeedDegreesPerSecond
-    {
-        get => (double)GetValue(JointMaxSpeedDegreesPerSecondProperty);
-        set => SetValue(JointMaxSpeedDegreesPerSecondProperty, value);
-    }
-
-    /// <summary>关节显示最大加速度，单位度/秒²；所有轴共用。</summary>
-    public double JointMaxAccelerationDegreesPerSecondSquared
-    {
-        get => (double)GetValue(JointMaxAccelerationDegreesPerSecondSquaredProperty);
-        set => SetValue(JointMaxAccelerationDegreesPerSecondSquaredProperty, value);
-    }
-
     /// <summary>到达目标的容差，单位度。</summary>
     public double JointPositionToleranceDegrees { get; set; } = JointMotion.DefaultToleranceDegrees;
     /// <summary>是否已按 Model.Options 完成加载。</summary>
@@ -178,6 +142,8 @@ public partial class RobotViewer : UserControl, IDisposable
             await scene.LoadRobotAsync(robot, robotId);
             ObjectDisposedException.ThrowIf(_disposed, this);
             _joints = robot.Joints.Select((joint, index) => new JointViewModel(index, joint)).ToArray();
+            // 先用初始角完成机器人装配，避免加载 Tool/工装期间显示散开的 STEP 零件。
+            scene.ApplyAll(_joints);
 
             var toolId = ModelCatalog.GetId(options.Tool);
             var tool = ToolConfigurationStore.LoadBuiltIn(toolId);
@@ -195,6 +161,7 @@ public partial class RobotViewer : UserControl, IDisposable
                 options.ShowBaseCoordinates,
                 options.ShowFlangeCoordinates,
                 options.ShowTcpCoordinates);
+            scene.SetWeldBeamVisible(options.ShowWeldBeam);
 
             // 初始加载直接定位到配置的环绕起始角；SetView 的原生动画会与紧接着的
             // SetOrbit 起始方向冲突，因此只在用户主动切换标准视角时使用动画。
@@ -269,13 +236,6 @@ public partial class RobotViewer : UserControl, IDisposable
         }
     }
 
-    /// <summary>恢复等轴测视角并停止自转；不改变关节角度。</summary>
-    public void ResetView()
-    {
-        if (_disposed || _scene is null) return;
-        _scene.SetView(RobotView.Isometric);
-    }
-
     /// <summary>释放场景和原生视口；必须在 UI 线程调用。</summary>
     public void Dispose()
     {
@@ -323,7 +283,7 @@ public partial class RobotViewer : UserControl, IDisposable
         }
     }
 
-    /// <summary>只应用不需要重建场景的参数：相机自转和坐标箭头显示。</summary>
+    /// <summary>只应用不需要重建场景的参数：相机自转、坐标箭头和焊接光显示。</summary>
     private void ApplyLiveOptions(RobotViewerOptions? options)
     {
         if (_disposed || options is null) return;
@@ -337,6 +297,7 @@ public partial class RobotViewer : UserControl, IDisposable
             options.ShowBaseCoordinates,
             options.ShowFlangeCoordinates,
             options.ShowTcpCoordinates);
+        _scene.SetWeldBeamVisible(options.ShowWeldBeam);
     }
 
     /// <summary>保存绑定角度；场景加载完成后由 LoadAsync 统一应用。</summary>
@@ -429,7 +390,11 @@ public partial class RobotViewer : UserControl, IDisposable
         }
 
         // 首次应用或关闭平滑时直接贴合，避免加载瞬间从零位滑入。
-        if (!_hasAppliedAngles || JointResponseFrequencyHz <= 0 || JointMaxSpeedDegreesPerSecond <= 0)
+        var options = Model?.Options;
+        if (!_hasAppliedAngles
+            || options is null
+            || options.JointResponseFrequencyHz <= 0
+            || options.JointMaxSpeedDegreesPerSecond <= 0)
         {
             double[] angles;
             lock (_updateSync) angles = (double[])_pendingAngles.Clone();
@@ -485,15 +450,17 @@ public partial class RobotViewer : UserControl, IDisposable
         double[] target;
         lock (_updateSync) target = (double[])_pendingAngles.Clone();
 
-        var maxSpeed = Math.Max(JointMaxSpeedDegreesPerSecond, 0);
-        var maxAcceleration = Math.Max(JointMaxAccelerationDegreesPerSecondSquared, 1e-3);
+        var options = Model?.Options;
+        var response = options?.JointResponseFrequencyHz ?? 0;
+        var maxSpeed = Math.Max(options?.JointMaxSpeedDegreesPerSecond ?? 0, 0);
+        var maxAcceleration = Math.Max(options?.JointMaxAccelerationDegreesPerSecondSquared ?? 1e-3, 1e-3);
         var tolerance = Math.Max(JointPositionToleranceDegrees, 0);
 
         var settled = true;
         for (var index = 0; index < _displayAngles.Length; index++)
         {
             JointMotion.Step(ref _displayAngles[index], ref _displayVelocities[index], target[index],
-                deltaSeconds, JointResponseFrequencyHz, maxSpeed, maxAcceleration, tolerance);
+                deltaSeconds, response, maxSpeed, maxAcceleration, tolerance);
             if (Math.Abs(target[index] - _displayAngles[index]) > tolerance
                 || Math.Abs(_displayVelocities[index]) > 0.5)
                 settled = false;

@@ -761,23 +761,6 @@ namespace Roboto_Socket_Library
         }
 
         /// <summary>
-        /// 在已连接的客户端 Socket 上发送一个业务请求，并同步等待、解析服务器回执。
-        /// </summary>
-        /// <typeparam name="T1">与 <paramref name="_Model"/> 对应的发送 DTO 类型。</typeparam>
-        /// <param name="_Robot_Protocols">用于编码本次请求的机器人协议族。</param>
-        /// <param name="_Model">本次请求的业务功能码。</param>
-        /// <param name="_val">要序列化的业务数据。</param>
-        /// <param name="TimeOut">同步接收回执的毫秒超时。</param>
-        /// <remarks>
-        /// 该方法采用“一次发送、一次接收”的请求/应答模式，调用前必须先成功执行 <see cref="Connect"/>；
-        /// <paramref name="_Robot_Protocols"/> 还应与实例的 <see cref="Socket_Robot"/> 保持一致，否则请求和回执会按不同协议解释。
-        /// </remarks>
-        public void Send_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val, int TimeOut = 1000)
-        {
-            _ = TrySend_Val(_Robot_Protocols, _Model, _val, TimeOut);
-        }
-
-        /// <summary>
         /// 发送一个业务请求并返回是否收到、解析且处理了对应回执。
         /// </summary>
         public bool TrySend_Val<T1>(Socket_Robot_Protocols_Enum _Robot_Protocols, Vision_Model_Enum _Model, T1 _val, int TimeOut = 1000)
@@ -879,78 +862,6 @@ namespace Roboto_Socket_Library
                 return false;
             }
         }
-
-
-
-
-        /// <summary>
-        /// 处理主动客户端模式下的异步回执。
-        /// </summary>
-        /// <param name="ar">AsyncState 需要是包含客户端 Socket 和缓冲的 <see cref="Receive_State"/>。</param>
-        /// <remarks>
-        /// 当前 <see cref="Send_Val{T1}"/> 使用同步 Receive，本方法为旧版 BeginReceive 调用保留。
-        /// </remarks>
-        private void Client_ReceiveMessage(IAsyncResult ar)
-        {
-            // 只有状态类型正确时才结束接收，避免把其他异步操作的状态误当客户端处理。
-            if (ar!.AsyncState is Receive_State client)
-            {
-                try
-                {
-                    IPEndPoint? clientipe = (IPEndPoint)client.Client_Socket?.RemoteEndPoint!;
-                    int length = client.Client_Socket?.EndReceive(ar) ?? 0;
-                    if (length == 0)
-                    {
-                        // 主动客户端收到 0 字节表示服务器关闭了连接；先上报来源再结束回调。
-                        Socket_ErrorInfo_delegate?.Invoke($"Error:-4,{clientipe}: 断开连接! ", client.Client_Socket);
-                        //client?.Close();
-                        //client?.Dispose();
-                        //Client_Connect = false;
-                        return;
-                    }
-
-
-                    // 截取有效回执，并根据报文中的功能码选择 DTO。
-                    byte[] _Reveice_Meg = client.buffer.Skip(0).Take(length).ToArray();
-                    Robot_Socket_Protocol _Socket_Protocol = new(Socket_Robot, _Reveice_Meg);
-
-                    // 当前客户端异步路径只处理看板服务器确认回执。
-                    switch (_Socket_Protocol.Vision_Model)
-                    {
-
-
-                        case Vision_Model_Enum.Mes_Server_Info_Rece_Data:
-
-
-                            // 上位机到上位机看板链路：这里接收的是 Server 对 Client 上传包的回执。
-                            Mes_Server_Info_Data_Send? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Send>();
-
-                            Mes_Receive_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!);
-
-
-                            break;
-
-
-                    }
-
-                    // 业务回执已经消费，释放可能等待本次请求完成的线程并发布原始帧。
-                    Send_State.Set();
-                    Socket_Receive_Meg?.Invoke(_Reveice_Meg);
-                }
-                catch (Exception e)
-                {
-                    // 保留 Socket 供上层读取 RemoteEndPoint 并定位失败连接。
-                    Socket_ErrorInfo_delegate?.Invoke("Error:-5," + e.Message, client.Client_Socket);
-                    //client?.Close();
-                    //client?.Dispose();
-
-                    //断开连接
-                    //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);
-                }
-            }
-
-        }
-
 
 
 

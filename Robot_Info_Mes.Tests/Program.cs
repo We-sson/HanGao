@@ -21,6 +21,7 @@ internal static class Program
         Check_DayReset_SameDayOfMonth();
         Check_ResetDaily_KeepsRunningState();
         Check_TwoProductsInOnePacket_KeepBothSamples();
+        Check_WeldState_FromKukaXml();
         Check_ListenerStart_FailureIsReported();
         Check_ReadFailure_DoesNotTouchFile();
 
@@ -116,6 +117,17 @@ internal static class Program
             "第一件产品的节拍应写入产品序号 1。");
         Check(model.Robot_Work_ABCD_Cycle_List.ElementAtOrDefault(2).HasValue,
             "同一包内第二件产品应写入产品序号 2，而不是覆盖序号 1。");
+    }
+
+    /// <summary>KUKA 上报的 $OUT[1] 焊接状态应进入快照，并在复制构造时保留。</summary>
+    private static void Check_WeldState_FromKukaXml()
+    {
+        const string xml = "<Robot_Receive Robot_Type=\"KUKA\" Vision_Model=\"Mes_Info_Data\">"
+            + "<Mes_Weld_State>true</Mes_Weld_State></Robot_Receive>";
+        var data = KUKA_Send_Receive_Xml.String_Xml<Robot_Mes_Info_Data_Receive>(xml);
+
+        Check(data.Mes_Weld_State, "KUKA XML 应解析 $OUT[1] 焊接状态。");
+        Check(new Robot_Mes_Info_Data_Receive(data).Mes_Weld_State, "快照复制应保留焊接状态。");
     }
 
     /// <summary>

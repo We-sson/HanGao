@@ -334,6 +334,53 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="85" />
                             <ColumnDefinition />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="焊接光" />
+                        <ToggleButton
+                            Grid.Column="1"
+                            Width="200"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Center"
+                            IsChecked="{Binding File_Int_Parameters.Mes_Digital_Simulation.Show_Weld_Beam, Mode=TwoWay}"
+                            Style="{DynamicResource Window_ToggleButtonStyle}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="开启"
+                                    FontSize="14" />
+                                <Label
+                                    Grid.Column="1"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="关闭"
+                                    FontSize="14" />
+                            </Grid>
+                        </ToggleButton>
+                    </Grid>
+
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="30" />
                         </Grid.ColumnDefinitions>

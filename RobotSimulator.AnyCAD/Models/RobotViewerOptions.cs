@@ -31,6 +31,9 @@ public sealed class RobotViewerOptions
     /// <summary>是否显示 TCP 坐标箭头。</summary>
     public bool ShowTcpCoordinates { get; init; } = true;
 
+    /// <summary>是否显示 TCP 前方的焊接光显示模型；仅用于视觉效果。</summary>
+    public bool ShowWeldBeam { get; init; } = false;
+
     /// <summary>相机环绕速度，度/秒；0 表示不旋转，默认加载完成后缓慢旋转。</summary>
     public double OrbitSpeedDegreesPerSecond { get; init; } = 15;
 

@@ -33,6 +33,8 @@ public interface IRobotSceneService : IDisposable
     void ApplyJoint(JointViewModel joint);
     /// <summary>独立控制基坐标、法兰和 TCP 箭头的显示，不改变模型位置。</summary>
     void SetCoordinateVisibility(bool showBase, bool showFlange, bool showTcp);
+    /// <summary>独立控制 TCP 焊接光的显示，不改变 Tool 或坐标轴。</summary>
+    void SetWeldBeamVisible(bool show);
     /// <summary>更新相对于法兰的 TCP 坐标轴；不重新解析或移动 Tool 几何。</summary>
     void SetToolTcp(PoseConfiguration pose);
     /// <summary>整体调整工装相对于机器人基坐标的安装位置。</summary>

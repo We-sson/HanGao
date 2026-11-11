@@ -127,7 +127,53 @@
 
                     </Grid>
 
-
+                    <!--  只读显示机器人 $OUT[1] 的激光输出状态，不允许从 MES 控制。  -->
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="焊接开关"
+                            ToolTip="只读：机器人通信程序 $OUT[1] 的激光输出状态" />
+                        <ToggleButton
+                            Grid.Column="1"
+                            Width="200"
+                            HorizontalAlignment="Right"
+                            Focusable="False"
+                            IsChecked="{Binding Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Weld_State, Mode=OneWay}"
+                            IsHitTestVisible="False"
+                            Style="{DynamicResource Window_ToggleButtonStyle}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="开启"
+                                    FontSize="14" />
+                                <Label
+                                    Grid.Column="1"
+                                    Padding="0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="关闭"
+                                    FontSize="14" />
+                            </Grid>
+                        </ToggleButton>
+                    </Grid>
 
                     <Grid Height="35" Margin="0,8,0,8">
 

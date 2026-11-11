@@ -40,8 +40,8 @@ internal static class ViewerDoubleClickChecks
             var handle = host!.Handle;
             var point = new IntPtr((render.Viewer.GetHeight() / 2 << 16) | render.Viewer.GetWidth() / 2);
             scene.SetView(RobotView.Isometric);
-            // 原生标准视角动画约 300ms，结束后再记录双击应恢复的比例。
-            Wait(600);
+            // 原生标准视角动画约 300ms；留足余量，避免在动画最后一帧取样。
+            Wait(1200);
             var camera = render.Camera;
             var zoom = camera.GetOrthoZoomFactor();
             using var centeredTarget = camera.GetTarget();
@@ -67,10 +67,19 @@ internal static class ViewerDoubleClickChecks
             Check(Math.Abs(camera.GetOrthoZoomFactor() / zoom - 1) < 1e-5, "双击没有恢复适合窗口的比例。");
             using var actualEye = camera.GetPosition();
             using var actualTarget = camera.GetTarget();
-            var actualDistance = camera.GetDistance();
-            Check(Math.Abs((actualEye.x - actualTarget.x) / actualDistance - (eye.x - target.x) / distance) < 1e-6
-                && Math.Abs((actualEye.y - actualTarget.y) / actualDistance - (eye.y - target.y) / distance) < 1e-6
-                && Math.Abs((actualEye.z - actualTarget.z) / actualDistance - (eye.z - target.z) / distance) < 1e-6,
+            // 按实际 eye-target 向量长度归一化；GetDistance 与投影相关，可能含少量偏差。
+            var beforeX = eye.x - target.x;
+            var beforeY = eye.y - target.y;
+            var beforeZ = eye.z - target.z;
+            var beforeLength = Math.Sqrt(beforeX * beforeX + beforeY * beforeY + beforeZ * beforeZ);
+            var afterX = actualEye.x - actualTarget.x;
+            var afterY = actualEye.y - actualTarget.y;
+            var afterZ = actualEye.z - actualTarget.z;
+            var afterLength = Math.Sqrt(afterX * afterX + afterY * afterY + afterZ * afterZ);
+            Check(beforeLength > 1e-9 && afterLength > 1e-9
+                && Math.Abs(afterX / afterLength - beforeX / beforeLength) < 1e-6
+                && Math.Abs(afterY / afterLength - beforeY / beforeLength) < 1e-6
+                && Math.Abs(afterZ / afterLength - beforeZ / beforeLength) < 1e-6,
                 "双击居中改变了当前观察方向。");
             Check(Math.Abs(actualTarget.x - centeredTarget.x) < .01
                 && Math.Abs(actualTarget.y - centeredTarget.y) < .01

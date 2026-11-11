@@ -63,13 +63,6 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-        /// <summary>
-        /// 预留统一释放视图模型资源的入口；当前尚未注册需要显式清理的对象。
-        /// </summary>
-        public static void Cleanup()
-        {
-            // 后续若视图模型实现 IDisposable，可在这里集中停止计时器和 Socket。
-        }
     }
 
 

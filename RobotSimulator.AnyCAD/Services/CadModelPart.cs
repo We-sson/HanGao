@@ -112,6 +112,7 @@ public sealed class CadModelPart : IDisposable
         Node = partGroup;
         partGroup.SetName(name);
         partGroup.SetPickable(false);
+        partGroup.SetCulling(false);
         var shapeCount = document.GetShapeCount();
         if (shapeCount == 0)
         {
@@ -370,6 +371,8 @@ public sealed class CadModelPart : IDisposable
             displayNode.SetPickable(false);
             displayNode.SetSubShapePickable(false);
             displayNode.SetCastShadow(false);
+            // 关节变换后世界包围盒可能滞后一帧；关闭视锥剔除，避免整块零件被错误裁掉。
+            displayNode.SetCulling(false);
 
             using var shapeColor = ToVector(cachedShape.ShapeColor);
             displayNode.SetColor(shapeColor);
@@ -430,6 +433,7 @@ public sealed class CadModelPart : IDisposable
             partGroup = new GroupSceneNode();
             partGroup.SetName(name);
             partGroup.SetPickable(false);
+            partGroup.SetCulling(false);
 
             var cachedShapes = manifest.Shapes.ToArray();
             var cacheShapes = new TopoShape[cachedShapes.Length];

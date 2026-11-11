@@ -191,8 +191,10 @@ GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN,Send_Stae:OUT)
    RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_B_State",Work_B_State)
    RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_C_State",Work_C_State)
    RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Work_D_State",Work_D_State)
-   
- 
+   ; 激光输出状态，供上位机只读显示焊接开关。
+   RET=EKI_SetBool(EKRL_NAME[],"Robot_Receive/Mes_Weld_State",$OUT[1])
+
+
    RET=EKI_SetString(EKRL_NAME[],"Robot_Receive/Robot_Process_Int",Robot_Process_Name[])
 
    ; J1-J6 current axis position.

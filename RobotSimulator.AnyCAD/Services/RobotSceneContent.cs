@@ -25,6 +25,10 @@ public sealed class RobotSceneContent : IDisposable
     private AxisWidget _flangeAxes = null!;
     /// <summary>工具中心的显示箭头。</summary>
     private AxisWidget _tcpAxes = null!;
+    /// <summary>TCP 前方的焊接光显示模型；仅用于视觉效果，不计算母材落点。</summary>
+    private GroupSceneNode? _weldSpot;
+    /// <summary>焊接光沿 TCP 局部 Z 轴的偏移，同时也是连接光柱的长度，单位毫米。</summary>
+    private const float WeldSpotOffsetZ = 50f;
     /// <summary>防止重复释放。</summary>
     private bool _disposed;
 
@@ -105,11 +109,13 @@ public sealed class RobotSceneContent : IDisposable
                 }
             });
             content.Root.SetPickable(false);
+            content.Root.SetCulling(false);
             content.Root.AddNode(nodes["Base"]);
             content._workMount = new GroupSceneNode();
             content._cadResources.Add(content._workMount);
             content._workMount.SetName("WorkMount");
             content._workMount.SetPickable(false);
+            content._workMount.SetCulling(false);
             content.Root.AddNode(content._workMount);
             var groups = new List<GroupSceneNode>(6);
             var parent = content.Root;
@@ -118,6 +124,7 @@ public sealed class RobotSceneContent : IDisposable
                 var group = new GroupSceneNode();
                 content._cadResources.Add(group);
                 group.SetPickable(false);
+                group.SetCulling(false);
                 group.AddNode(nodes[joint.Name]);
                 parent.AddNode(group);
                 groups.Add(group);
@@ -208,6 +215,7 @@ public sealed class RobotSceneContent : IDisposable
         _cadResources.Add(flange);
         flange.SetName("FlangeFrame");
         flange.SetPickable(false);
+        flange.SetCulling(false);
         var origin = configuration.FlangeOrigin;
         var orientation = configuration.FlangeOrientation;
         using var transform = CreatePoseMatrix(new PoseConfiguration
@@ -225,16 +233,163 @@ public sealed class RobotSceneContent : IDisposable
         _cadResources.Add(_toolMount);
         _toolMount.SetName("ToolMount");
         _toolMount.SetPickable(false);
+        _toolMount.SetCulling(false);
         flange.AddNode(_toolMount);
         _tcpFrame = new GroupSceneNode();
         _cadResources.Add(_tcpFrame);
         _tcpFrame.SetName("TcpFrame");
         _tcpFrame.SetPickable(false);
+        _tcpFrame.SetCulling(false);
         flange.AddNode(_tcpFrame);
         _tcpAxes = CreateAxes("TcpAxes", 64);
         _tcpFrame.AddNode(_tcpAxes);
+        // 焊接光只是固定在 TCP 前方的显示模型，随工具运动，不参与母材求交。
+        _weldSpot = CreateWeldSpot();
+        using (var offset = Matrix4d.makeTranslate(0, 0, WeldSpotOffsetZ))
+        {
+            _weldSpot.SetTransform(offset);
+        }
+        _tcpFrame.AddNode(_weldSpot);
         SetToolTcp(new PoseConfiguration());
     }
+
+    /// <summary>创建 TCP 前方的焊接光显示模型：中心高亮、外围辉光和四周放射状火花。</summary>
+    private GroupSceneNode CreateWeldSpot()
+    {
+        var group = new GroupSceneNode();
+        _cadResources.Add(group);
+        group.SetName("WeldSpot");
+        group.SetPickable(false);
+        group.SetCulling(false);
+        group.SetInfiniteSize(false);
+
+        // 中心光点：三向短十字，任意视角都能看到高亮核心。
+        using var coreColor = new Vector3(1.0f, 0.95f, 0.7f);
+        var core = new SegmentsSceneNode(3, coreColor, 4);
+        _cadResources.Add(core);
+        core.SetName("WeldCore");
+        core.SetPickable(false);
+        core.SetInfiniteSize(false);
+        SetStar(core, 7f, coreColor);
+        core.Update();
+        core.UpdateBoundingBox();
+        group.AddNode(core);
+
+        // 外围辉光：更大的半透明十字，模拟光点周围的光晕。
+        using var glowColor = new Vector3(1.0f, 0.55f, 0.12f);
+        var glow = new SegmentsSceneNode(3, glowColor, 9);
+        _cadResources.Add(glow);
+        glow.SetName("WeldGlow");
+        glow.SetPickable(false);
+        glow.SetInfiniteSize(false);
+        SetStar(glow, 26f, glowColor);
+        using (var material = glow.GetMaterial())
+        {
+            if (material is not null)
+            {
+                material.SetTransparent(true);
+                material.SetOpacity(0.3f);
+                material.SetDepthWrite(false);
+                material.RequestUpdate();
+            }
+        }
+        glow.Update();
+        glow.UpdateBoundingBox();
+        group.AddNode(glow);
+
+        // 从 TCP 连到光点的淡红色锥形光柱，光点一端收成尖点。
+        AddWeldBeam(group, 2.0, 1.0f, 0.7f, 0.7f, 0.6f);
+
+        // 火花：从光点向外飞散的短线，密集分布并偏向上方。
+        const uint sparkCount = 36;
+        using var sparkColor = new Vector3(1.0f, 0.55f, 0.1f);
+        var sparks = new SegmentsSceneNode(sparkCount, sparkColor, 2);
+        _cadResources.Add(sparks);
+        sparks.SetName("WeldSparks");
+        sparks.SetPickable(false);
+        sparks.SetInfiniteSize(false);
+        var random = new Random(20261111);
+        for (uint index = 0; index < sparkCount; index++)
+        {
+            var angle = random.NextDouble() * Math.PI * 2;
+            var tilt = (random.NextDouble() - 0.2) * 0.9;
+            var horizontal = Math.Sqrt(Math.Max(0, 1 - tilt * tilt));
+            var start = 6 + random.NextDouble() * 6;
+            var end = start + 10 + random.NextDouble() * 20;
+            using var p0 = new Vector3(
+                (float)(Math.Cos(angle) * horizontal * start),
+                (float)(Math.Sin(angle) * horizontal * start),
+                (float)(tilt * start));
+            using var p1 = new Vector3(
+                (float)(Math.Cos(angle) * horizontal * end),
+                (float)(Math.Sin(angle) * horizontal * end),
+                (float)(tilt * end));
+            using var c0 = new Vector3(1.0f, 0.9f, 0.35f);
+            using var c1 = new Vector3(1.0f, (float)(0.35 + random.NextDouble() * 0.4), 0.05f);
+            sparks.SetPositions(index, p0, p1);
+            sparks.SetColors(index, c0, c1);
+        }
+        sparks.Update();
+        sparks.UpdateBoundingBox();
+        group.AddNode(sparks);
+
+        return group;
+    }
+
+    /// <summary>在焊接光组内创建一条从 TCP 指向光点的半透明锥形光柱，光点处为尖端。</summary>
+    private void AddWeldBeam(GroupSceneNode group, double radiusAtTcp, float red, float green, float blue, float opacity)
+    {
+        // 锥体从光点沿 -Z 延伸到 TCP；线段宽度受显卡限制只有 1 像素，必须用实体几何。
+        // 基圆半径 0 表示光点处收成尖点，TCP 端保留很小的半径。
+        using var origin = new GPnt(0, 0, 0);
+        using var direction = new GDir(0, 0, -1);
+        using var axis = new GAx2(origin, direction);
+        using var shape = ShapeBuilder.MakeCone(axis, 0, radiusAtTcp, WeldSpotOffsetZ, 2 * Math.PI)
+            ?? throw new InvalidOperationException("AnyCAD 无法创建焊接光柱。");
+        var beam = BrepSceneNode.Create(shape, 0.1, true)
+            ?? throw new InvalidOperationException("AnyCAD 无法生成焊接光柱显示节点。");
+        _cadResources.Add(beam);
+        beam.SetName("WeldBeam");
+        beam.SetPickable(false);
+        beam.SetCastShadow(false);
+        using var color = new Vector3(red, green, blue);
+        beam.SetColor(color);
+        // 光柱不需要黑色轮廓线，隐藏圆柱的边；面材质单独设为半透明。
+        for (uint index = 0; index < beam.GetEdgeCount(); index++) beam.SetEdgeVisible(index, false);
+        using (var material = beam.GetFaceMaterial())
+        {
+            if (material is not null)
+            {
+                material.SetTransparent(true);
+                material.SetOpacity(opacity);
+                material.SetDepthWrite(false);
+                material.RequestUpdate();
+            }
+        }
+        beam.ReComputeBoundingBox();
+        beam.RequestUpdate();
+        group.AddNode(beam);
+    }
+
+    /// <summary>在三个局部坐标轴上各生成一条 ±length 的线段，形成星形光点。</summary>
+    private static void SetStar(SegmentsSceneNode node, float length, Vector3 color)
+    {
+        using var negativeX = new Vector3(-length, 0, 0);
+        using var positiveX = new Vector3(length, 0, 0);
+        using var negativeY = new Vector3(0, -length, 0);
+        using var positiveY = new Vector3(0, length, 0);
+        using var negativeZ = new Vector3(0, 0, -length);
+        using var positiveZ = new Vector3(0, 0, length);
+        node.SetPositions(0, negativeX, positiveX);
+        node.SetPositions(1, negativeY, positiveY);
+        node.SetPositions(2, negativeZ, positiveZ);
+        node.SetColors(0, color, color);
+        node.SetColors(1, color, color);
+        node.SetColors(2, color, color);
+    }
+
+    /// <summary>显示或隐藏焊接光；不影响 TCP 坐标轴和 Tool 几何。</summary>
+    public void SetWeldBeamVisible(bool show) => _weldSpot?.SetVisible(show);
 
     /// <summary>先释放场景节点，再释放各独立部件和坐标资源，允许重复调用。</summary>
     public void Dispose()
@@ -260,6 +415,7 @@ public sealed class RobotSceneContent : IDisposable
         axes.SetName(name);
         axes.SetPickable(false);
         axes.SetChildrenPickable(false);
+        axes.SetCulling(false);
         // 不能设为无限尺寸：此标记会向上传播，使整个机器人退出相机范围计算，造成模型被裁掉。
         axes.SetInfiniteSize(false);
         axes.ShowText(false);

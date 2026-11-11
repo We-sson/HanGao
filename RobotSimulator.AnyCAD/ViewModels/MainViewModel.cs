@@ -78,6 +78,8 @@ public sealed class MainViewModel : ObservableObject
     private bool _showFlangeCoordinates = true;
     /// <summary>工具中心箭头显示状态。</summary>
     private bool _showTcpCoordinates = true;
+    /// <summary>TCP 焊接光显示状态。</summary>
+    private bool _showWeldBeam = true;
     /// <summary>相机环绕速度，单位度/秒；0 表示不旋转，加载完成后默认缓慢旋转。</summary>
     private double _orbitSpeed = 15;
     /// <summary>相机环绕起始方位角，单位度。</summary>
@@ -201,6 +203,9 @@ public sealed class MainViewModel : ObservableObject
     public bool ShowFlangeCoordinates { get => _showFlangeCoordinates; set => SetProperty(ref _showFlangeCoordinates, value); }
     /// <summary>是否显示 TCP 箭头。</summary>
     public bool ShowTcpCoordinates { get => _showTcpCoordinates; set => SetProperty(ref _showTcpCoordinates, value); }
+
+    /// <summary>是否显示从 TCP 沿工具 Z 轴的焊接光。</summary>
+    public bool ShowWeldBeam { get => _showWeldBeam; set => SetProperty(ref _showWeldBeam, value); }
     /// <summary>TCP 相对于法兰的 X 偏移，单位 mm。</summary>
     public double ToolTcpX { get => _toolTcp.X; set => SetToolPoseValue(_toolTcp.X, value, v => _toolTcp.X = v); }
     /// <summary>TCP 相对于法兰的 Y 偏移，单位 mm。</summary>
@@ -803,6 +808,7 @@ public sealed class MainViewModel : ObservableObject
         if (CanOperate)
         {
             _sceneService.SetCoordinateVisibility(ShowBaseCoordinates, ShowFlangeCoordinates, ShowTcpCoordinates);
+            _sceneService.SetWeldBeamVisible(ShowWeldBeam);
         }
     }
 

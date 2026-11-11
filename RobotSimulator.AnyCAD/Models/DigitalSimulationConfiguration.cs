@@ -15,6 +15,7 @@ namespace RobotSimulator.Models
         private bool _showBaseAxes = true;
         private bool _showFlangeAxes = true;
         private bool _showTcpAxes = true;
+        private bool _showWeldBeam = true;
         private double _orbitSpeed = 15;
         private double _orbitAngle = -45;
         private double _orbitElevation = 35.264;
@@ -40,6 +41,9 @@ namespace RobotSimulator.Models
         /// <summary>是否显示 TCP 坐标箭头。</summary>
         public bool Show_Tcp_Axes { get => _showTcpAxes; set => SetProperty(ref _showTcpAxes, value); }
 
+        /// <summary>焊接光显示总开关；开启后跟随机器人 $OUT[1] 状态，关闭时始终不显示。</summary>
+        public bool Show_Weld_Beam { get => _showWeldBeam; set => SetProperty(ref _showWeldBeam, value); }
+
         /// <summary>相机环绕速度，度/秒；0 表示不旋转，默认加载完成后缓慢旋转。</summary>
         public double Orbit_Speed { get => _orbitSpeed; set => SetProperty(ref _orbitSpeed, value); }
 
@@ -49,13 +53,13 @@ namespace RobotSimulator.Models
         /// <summary>相机环绕仰角，单位度；默认值对应标准等轴测方向。</summary>
         public double Orbit_Elevation { get => _orbitElevation; set => SetProperty(ref _orbitElevation, value); }
 
-        /// <summary>关节跟随响应频率，单位 Hz；对应 RobotViewer 的 JointResponseFrequencyHz。</summary>
+        /// <summary>关节跟随响应频率，单位 Hz；通过 RobotViewerOptions 传给控件。</summary>
         public double Joint_Response_Frequency { get => _jointResponseFrequency; set => SetProperty(ref _jointResponseFrequency, value); }
 
-        /// <summary>关节跟随最大显示速度，单位度/秒；对应 RobotViewer 的 JointMaxSpeedDegreesPerSecond。</summary>
+        /// <summary>关节跟随最大显示速度，单位度/秒；通过 RobotViewerOptions 传给控件。</summary>
         public double Joint_Max_Speed { get => _jointMaxSpeed; set => SetProperty(ref _jointMaxSpeed, value); }
 
-        /// <summary>关节跟随最大显示加速度，单位度/秒²；对应 RobotViewer 的 JointMaxAccelerationDegreesPerSecondSquared。</summary>
+        /// <summary>关节跟随最大显示加速度，单位度/秒²；通过 RobotViewerOptions 传给控件。</summary>
         public double Joint_Max_Acceleration { get => _jointMaxAcceleration; set => SetProperty(ref _jointMaxAcceleration, value); }
     }
 }

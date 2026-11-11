@@ -304,6 +304,7 @@ namespace Roboto_Socket_Library.Model
                 Mes_Work_B_State = _.Mes_Work_B_State;
                 Mes_Work_C_State = _.Mes_Work_C_State;
                 Mes_Work_D_State = _.Mes_Work_D_State;
+                Mes_Weld_State = _.Mes_Weld_State;
 
                 Robot_Axis = _.Robot_Axis is null ? null : new Robot_Axis_Model(_.Robot_Axis);
             }
@@ -357,6 +358,9 @@ namespace Roboto_Socket_Library.Model
 
             /// <summary>D 工位当前是否处于作业状态。</summary>
             public bool Mes_Work_D_State { set; get; }
+
+            /// <summary>机器人激光输出状态，对应 KUKA 程序中的 $OUT[1]；只读显示。</summary>
+            public bool Mes_Weld_State { set; get; }
 
 
 
@@ -544,28 +548,6 @@ namespace Roboto_Socket_Library.Model
                 {
                     Pos_1,Pos_2,Pos_3,Pos_4,Pos_5,Pos_6,Pos_7,Pos_8
                 };
-
-            }
-            /// <summary>
-            /// 用恰好八个输入点重建协议槽位。
-            /// </summary>
-            /// <param name="_List">按 Pos_1 至 Pos_8 顺序排列的点；数量必须等于 8。</param>
-            public void Set_Pos_List(List<Point_Models> _List)
-            {
-                // 固定数量是线上 XML/机器人数组契约，提前校验可避免部分更新。
-                _List.Count.Throw("坐标返回数量错误！").IfNotEquals(8);
-
-                // 为每个槽位创建新对象，避免调用方随后修改输入点时悄悄改变待发送报文。
-                Pos_1 = new Point_Models() { X = _List[0].X.ToString(), Y = _List[0].Y.ToString(), Z = _List[0].Z.ToString(), Rx = _List[0].Rx.ToString(), Ry = _List[0].Ry.ToString(), Rz = _List[0].Rz.ToString() };
-                Pos_2 = new Point_Models() { X = _List[1].X.ToString(), Y = _List[1].Y.ToString(), Z = _List[1].Z.ToString(), Rx = _List[1].Rx.ToString(), Ry = _List[1].Ry.ToString(), Rz = _List[1].Rz.ToString() };
-                Pos_3 = new Point_Models() { X = _List[2].X.ToString(), Y = _List[2].Y.ToString(), Z = _List[2].Z.ToString(), Rx = _List[2].Rx.ToString(), Ry = _List[2].Ry.ToString(), Rz = _List[2].Rz.ToString() };
-                Pos_4 = new Point_Models() { X = _List[3].X.ToString(), Y = _List[3].Y.ToString(), Z = _List[3].Z.ToString(), Rx = _List[3].Rx.ToString(), Ry = _List[3].Ry.ToString(), Rz = _List[3].Rz.ToString() };
-                Pos_5 = new Point_Models() { X = _List[4].X.ToString(), Y = _List[4].Y.ToString(), Z = _List[4].Z.ToString(), Rx = _List[4].Rx.ToString(), Ry = _List[4].Ry.ToString(), Rz = _List[4].Rz.ToString() };
-                Pos_6 = new Point_Models() { X = _List[5].X.ToString(), Y = _List[5].Y.ToString(), Z = _List[5].Z.ToString(), Rx = _List[5].Rx.ToString(), Ry = _List[5].Ry.ToString(), Rz = _List[5].Rz.ToString() };
-                Pos_7 = new Point_Models() { X = _List[6].X.ToString(), Y = _List[6].Y.ToString(), Z = _List[6].Z.ToString(), Rx = _List[6].Rx.ToString(), Ry = _List[6].Ry.ToString(), Rz = _List[6].Rz.ToString() };
-                Pos_8 = new Point_Models() { X = _List[7].X.ToString(), Y = _List[7].Y.ToString(), Z = _List[7].Z.ToString(), Rx = _List[7].Rx.ToString(), Ry = _List[7].Ry.ToString(), Rz = _List[7].Rz.ToString() };
-
-
 
             }
 

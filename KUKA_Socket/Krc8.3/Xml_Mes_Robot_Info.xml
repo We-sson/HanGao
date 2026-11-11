@@ -34,6 +34,7 @@
          <ELEMENT Tag="Robot_Receive/Mes_Work_B_State" Type="BOOL"/>
          <ELEMENT Tag="Robot_Receive/Mes_Work_C_State" Type="BOOL"/>
          <ELEMENT Tag="Robot_Receive/Mes_Work_D_State" Type="BOOL"/>
+         <ELEMENT Tag="Robot_Receive/Mes_Weld_State" Type="BOOL"/>
          <ELEMENT Tag="Robot_Receive/Robot_Process_Int" Type="STRING"/>
          <ELEMENT Tag="Robot_Receive/Robot_Axis/@J1" Type="REAL"/>
          <ELEMENT Tag="Robot_Receive/Robot_Axis/@J2" Type="REAL"/>

@@ -37,8 +37,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height=" auto" />
-            <!--  主业务区占满剩余高度，为底部三维模型让出固定空间。  -->
-            <RowDefinition Height="auto" />
+            <!--  主业务区占用剩余高度，底部三维模型继续向下占满。  -->
+            <RowDefinition Height="*" />
 
         </Grid.RowDefinitions>
 
@@ -551,8 +551,8 @@
         <!--  主业务区复用单设备 OEE 控件；高度不足时允许纵向滚动。  -->
         <Grid Grid.Row=" 2">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="330" />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
@@ -560,14 +560,43 @@
             </Grid>
 
             <!--  底部三维模型：固定机器人/Tool/工装的组合，只接收 J1～J6。  -->
-            <Border Grid.Row="1" Margin="5,5,5,5">
-                <!--  状态提示由控件左下角直接显示。  -->
+            <Border
+                Grid.Row="1"
+                Margin="5,5,5,5"
+                Background="Transparent"
+                BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                BorderThickness="3"
+                CornerRadius="10"
+                Effect="{DynamicResource 全局背景阴影}"
+                SnapsToDevicePixels="True"
+                UseLayoutRounding="True">
+                <!--  渐变与三维视口的 LightBlue 背景边缘一致，填充边框与视口之间的缝隙。  -->
+
                 <!--  关节跟随参数由 Configs_Data.Xml 的 Mes_Digital_Simulation 提供。  -->
-                <viewer:RobotViewer
-                    JointMaxAccelerationDegreesPerSecondSquared="{Binding Digital_Simulation.JointMaxAccelerationDegreesPerSecondSquared}"
-                    JointMaxSpeedDegreesPerSecond="{Binding Digital_Simulation.JointMaxSpeedDegreesPerSecond}"
-                    JointResponseFrequencyHz="{Binding Digital_Simulation.JointResponseFrequencyHz}"
-                    Model="{Binding Digital_Simulation}" />
+                <Grid>
+                    <viewer:RobotViewer
+                        x:Name="SimulationViewer"
+                        Margin="0"
+                        Model="{Binding Digital_Simulation}"
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True" />
+                    <!--  原生视口不支持 WPF 覆盖，使用小尺寸 Popup 把状态文字叠加在视口左下角。  -->
+                    <Popup
+                        x:Name="SimulationStatusPopup"
+                        AllowsTransparency="True"
+                        DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                        HorizontalOffset="8"
+                        IsHitTestVisible="False"
+                        Placement="Relative"
+                        PlacementTarget="{Binding ElementName=SimulationViewer}"
+                        PopupAnimation="None"
+                        StaysOpen="True">
+                        <TextBlock
+                            FontSize="12"
+                            Foreground="#1A2433"
+                            Text="{Binding Digital_Simulation.StatusMessage}" />
+                    </Popup>
+                </Grid>
             </Border>
         </Grid>
 

@@ -229,6 +229,9 @@ internal static class Program
         vm.ShowFlangeCoordinates = false;
         vm.UpdateCoordinateVisibilityCommand.Execute(null);
         Check(service.Visibility == (false, false, true), "Coordinate controls are no longer independent.");
+        vm.ShowWeldBeam = false;
+        vm.UpdateCoordinateVisibilityCommand.Execute(null);
+        Check(!service.WeldBeamVisible, "The weld beam visibility control did not reach the scene.");
 
         var window = new System.Windows.Window
         {
@@ -692,6 +695,11 @@ internal static class Program
             }
             Check(arrowParts >= 3, "Coordinate arrow render materials are missing.");
         }
+        using var weldSpot = FindNode(tcp, "WeldSpot");
+        Check(weldSpot.GetVisible(), "The weld spot is missing or hidden.");
+        scene.SetWeldBeamVisible(false);
+        Check(!weldSpot.GetVisible(), "The weld spot did not hide.");
+        scene.SetWeldBeamVisible(true);
         scene.Root.UpdateTransform(Matrix4d.Identity);
         Check(!scene.Root.GetInfiniteSize(), "Coordinate helpers excluded the robot from camera fitting and clipping bounds.");
         using (var robotBounds = scene.Root.GetWorldBBox())
@@ -957,6 +965,8 @@ internal static class Program
         }
         public void ApplyJoint(JointViewModel joint) => ObjectDisposedException.ThrowIf(Disposed, this);
         public void SetCoordinateVisibility(bool showBase, bool showFlange, bool showTcp) => Visibility = (showBase, showFlange, showTcp);
+        public bool WeldBeamVisible { get; private set; } = true;
+        public void SetWeldBeamVisible(bool show) => WeldBeamVisible = show;
         public void SetToolTcp(PoseConfiguration pose)
         {
             ObjectDisposedException.ThrowIf(Disposed, this);

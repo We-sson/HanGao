@@ -1331,6 +1331,7 @@ namespace Robot_Info_Mes.ViewModel
             _Robot_Data.Robot_Info_Data.Mes_Work_B_State = _Receive.Robot_Mes_Info_Data.Mes_Work_B_State;
             _Robot_Data.Robot_Info_Data.Mes_Work_C_State = _Receive.Robot_Mes_Info_Data.Mes_Work_C_State;
             _Robot_Data.Robot_Info_Data.Mes_Work_D_State = _Receive.Robot_Mes_Info_Data.Mes_Work_D_State;
+            _Robot_Data.Robot_Info_Data.Mes_Weld_State = _Receive.Robot_Mes_Info_Data.Mes_Weld_State;
 
             // 快照保留 J1～J6；没有该节点时保持 null，由仿真回到初始位。
             _Robot_Data.Robot_Info_Data.Robot_Axis =
@@ -1449,6 +1450,12 @@ namespace Robot_Info_Mes.ViewModel
             {
                 // 使用复制构造创建独立快照，避免 Socket 解析层复用对象时改写界面模型。
                 Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data);
+            }
+
+            // 机器人 $OUT[1] 的焊接状态直接控制三维焊接光显示。
+            if (Digital_Simulation is not null)
+            {
+                Digital_Simulation.WeldActive = _Data.Mes_Weld_State;
             }
 
             // 报文带 J1～J6 时驱动三维仿真；没有该数据时回到初始位。

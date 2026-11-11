@@ -240,6 +240,16 @@ public sealed class RobotSceneService : IRobotSceneService
         }
     }
 
+    /// <summary>显示或隐藏 TCP 焊接光；加载前调用会被忽略。</summary>
+    public void SetWeldBeamVisible(bool show)
+    {
+        if (IsLoaded)
+        {
+            _content!.SetWeldBeamVisible(show);
+            _renderControl.RequestDraw(EnumUpdateFlags.Scene);
+        }
+    }
+
     /// <summary>更新 TCP 局部位姿后重新计算世界变换，让箭头立即跟随新参数显示。</summary>
     public void SetToolTcp(PoseConfiguration pose)
     {

@@ -14,6 +14,8 @@ namespace RobotSimulator.ViewModels
         private readonly double[] _homeJoints;
         private string _statusMessage = "正在加载三维模型…";
         private RobotViewerOptions _options;
+        /// <summary>机器人激光输出状态；未收到报文前保持显示，收到后由通信实时驱动。</summary>
+        private bool _weldActive = true;
 
         /// <summary>把固定搭配转换为控件参数，并缓存复位用的初始角。</summary>
         public Digital_Simulation(DigitalSimulationConfiguration simulation)
@@ -36,37 +38,25 @@ namespace RobotSimulator.ViewModels
             private set => SetProperty(ref _options, value);
         }
 
-        /// <summary>解除配置订阅；宿主替换模型前调用，避免旧对象继续响应。</summary>
-        public void Detach() => _simulation.PropertyChanged -= OnSimulationChanged;
-
-        /// <summary>配置变化时刷新参数快照，并通知控件实时应用。</summary>
-        private void OnSimulationChanged(object? sender, PropertyChangedEventArgs e)
+        /// <summary>机器人激光输出状态；与配置中的显示开关共同决定焊接光是否可见。</summary>
+        public bool WeldActive
         {
-            Options = CreateOptions(_simulation);
-            switch (e.PropertyName)
+            get => _weldActive;
+            set
             {
-                case nameof(DigitalSimulationConfiguration.Joint_Response_Frequency):
-                case nameof(DigitalSimulationConfiguration.Joint_Max_Speed):
-                case nameof(DigitalSimulationConfiguration.Joint_Max_Acceleration):
-                    OnPropertyChanged(nameof(JointResponseFrequencyHz));
-                    OnPropertyChanged(nameof(JointMaxSpeedDegreesPerSecond));
-                    OnPropertyChanged(nameof(JointMaxAccelerationDegreesPerSecondSquared));
-                    break;
-                default:
-                    // 自转、显示开关等参数由控件的 Options 变化直接应用。
-                    OnPropertyChanged(nameof(Options));
-                    break;
+                if (!SetProperty(ref _weldActive, value)) return;
+                Options = CreateOptions(_simulation);
             }
         }
 
-        /// <summary>关节跟随响应频率，供宿主绑定到 RobotViewer.JointResponseFrequencyHz。</summary>
-        public double JointResponseFrequencyHz => Options.JointResponseFrequencyHz;
+        /// <summary>解除配置订阅；宿主替换模型前调用，避免旧对象继续响应。</summary>
+        public void Detach() => _simulation.PropertyChanged -= OnSimulationChanged;
 
-        /// <summary>关节跟随最大显示速度，供宿主绑定到 RobotViewer.JointMaxSpeedDegreesPerSecond。</summary>
-        public double JointMaxSpeedDegreesPerSecond => Options.JointMaxSpeedDegreesPerSecond;
-
-        /// <summary>关节跟随最大显示加速度，供宿主绑定到 RobotViewer.JointMaxAccelerationDegreesPerSecondSquared。</summary>
-        public double JointMaxAccelerationDegreesPerSecondSquared => Options.JointMaxAccelerationDegreesPerSecondSquared;
+        /// <summary>配置变化时刷新参数快照；控件直接读取 Options，不再逐项转发。</summary>
+        private void OnSimulationChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            Options = CreateOptions(_simulation);
+        }
 
         /// <summary>J1～J6 角度；通信层赋值新数组后自动推送到控件。</summary>
         public double[] Joints
@@ -119,7 +109,7 @@ namespace RobotSimulator.ViewModels
         }
 
         /// <summary>把配置中的枚举和显示开关映射成控件参数。</summary>
-        private static RobotViewerOptions CreateOptions(DigitalSimulationConfiguration simulation) => new()
+        private RobotViewerOptions CreateOptions(DigitalSimulationConfiguration simulation) => new()
         {
             Robot = simulation.Robot_Model,
             Tool = simulation.Tool_Model,
@@ -127,6 +117,7 @@ namespace RobotSimulator.ViewModels
             ShowBaseCoordinates = simulation.Show_Base_Axes,
             ShowFlangeCoordinates = simulation.Show_Flange_Axes,
             ShowTcpCoordinates = simulation.Show_Tcp_Axes,
+            ShowWeldBeam = simulation.Show_Weld_Beam && _weldActive,
             OrbitSpeedDegreesPerSecond = simulation.Orbit_Speed,
             OrbitStartAngleDegrees = simulation.Orbit_Angle,
             OrbitElevationDegrees = simulation.Orbit_Elevation,

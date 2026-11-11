@@ -1,28 +1,23 @@
 <UserControl
     x:Class="RobotSimulator.Controls.RobotViewer"
-    x:Name="ViewerRoot"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:anycad="clr-namespace:AnyCAD.WPF;assembly=AnyCAD.WPF.NET"
     xmlns:behaviors="clr-namespace:RobotSimulator.Behaviors"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
-    <!-- 视口占满主体，左下角直接显示状态文字。 -->
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <anycad:RenderControl x:Name="RenderView" Grid.Row="0">
-            <i:Interaction.Triggers>
-                <behaviors:ViewerDoubleClickTrigger>
-                    <i:InvokeCommandAction Command="{Binding ZoomAllCommand, ElementName=ViewerRoot}" />
-                </behaviors:ViewerDoubleClickTrigger>
-            </i:Interaction.Triggers>
-        </anycad:RenderControl>
-        <TextBlock
-            Grid.Row="1"
-            Margin="8,2,0,2"
-            Foreground="Black"
-            Text="{Binding Model.StatusMessage, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-    </Grid>
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    x:Name="ViewerRoot">
+    <!--  状态文字由宿主叠加显示；控件本身只保留三维视口。  -->
+    <!--  去掉控件默认的黑边框，避免与宿主的蓝色卡片边框之间出现一条黑线。  -->
+    <anycad:RenderControl
+        x:Name="RenderView"
+        Background="Transparent"
+        BorderBrush="{x:Null}"
+        BorderThickness="0"
+        Visibility="Visible">
+        <i:Interaction.Triggers>
+            <behaviors:ViewerDoubleClickTrigger>
+                <i:InvokeCommandAction Command="{Binding ZoomAllCommand, ElementName=ViewerRoot}" />
+            </behaviors:ViewerDoubleClickTrigger>
+        </i:Interaction.Triggers>
+    </anycad:RenderControl>
 </UserControl>
