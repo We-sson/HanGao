@@ -51,6 +51,9 @@ public sealed class RobotViewerOptions
 
     /// <summary>关节跟随最大显示加速度，单位度/秒²。</summary>
     public double JointMaxAccelerationDegreesPerSecondSquared { get; init; } = JointMotion.DefaultMaxAccelerationDegreesPerSecondSquared;
+
+    /// <summary>三维关节位置刷新频率，单位 Hz；低于渲染帧率可减轻 UI 线程压力。</summary>
+    public double JointApplyRateHz { get; init; } = JointMotion.DefaultApplyRateHz;
 }
 
 /// <summary>内置机器人型号；枚举名用于代码选择，资源标识由特性固定。</summary>

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RobotSimulator.Controls;
 using RobotSimulator.Models;
@@ -16,6 +17,12 @@ namespace RobotSimulator.ViewModels
         private RobotViewerOptions _options;
         /// <summary>机器人激光输出状态；未收到报文前保持显示，收到后由通信实时驱动。</summary>
         private bool _weldActive = true;
+        /// <summary>串行化最新目标与排队标记，通信线程和界面线程不会互相覆盖。</summary>
+        private readonly object _jointSync = new();
+        /// <summary>后台线程留下的最新目标；界面线程刷新时取走。</summary>
+        private double[]? _pendingJoints;
+        /// <summary>是否已有一次后台优先级刷新在排队，同一时刻只排一个。</summary>
+        private bool _jointUpdateQueued;
 
         /// <summary>把固定搭配转换为控件参数，并缓存复位用的初始角。</summary>
         public Digital_Simulation(DigitalSimulationConfiguration simulation)
@@ -67,23 +74,71 @@ namespace RobotSimulator.ViewModels
 
         IReadOnlyList<double>? IRobotViewerModel.Joints => Joints;
 
-        /// <summary>把 KUKA 报文中的 J1～J6 角度推送到三维控件。</summary>
+        /// <summary>把 KUKA 报文中的 J1～J6 角度推送到三维控件；可从任意线程调用。</summary>
         public void SetJoints(IReadOnlyList<double> degrees)
         {
             if (degrees.Count < 6) return;
-            if (_joints.Length == 6
-                && _joints[0] == degrees[0] && _joints[1] == degrees[1]
-                && _joints[2] == degrees[2] && _joints[3] == degrees[3]
-                && _joints[4] == degrees[4] && _joints[5] == degrees[5])
-                return;
-            Joints = [degrees[0], degrees[1], degrees[2], degrees[3], degrees[4], degrees[5]];
+            Publish([degrees[0], degrees[1], degrees[2], degrees[3], degrees[4], degrees[5]]);
         }
 
-        /// <summary>没有关节报文时回到所选机器人的初始位。</summary>
-        public void ResetJointsToHome()
+        /// <summary>没有关节报文时回到所选机器人的初始位；可从任意线程调用。</summary>
+        public void ResetJointsToHome() => Publish((double[])_homeJoints.Clone());
+
+        /// <summary>
+        /// 界面线程调用时同步生效；后台线程（通信回调）只保存最新目标并合并成一次后台优先级刷新，
+        /// 不再让通信线程等界面。没有 WPF 调度器（单元测试、退出阶段）时直接赋值。
+        /// </summary>
+        private void Publish(double[] joints)
         {
-            if (_joints.Length == 6 && _joints.SequenceEqual(_homeJoints)) return;
-            Joints = (double[])_homeJoints.Clone();
+            var dispatcher = System.Windows.Application.Current?.Dispatcher;
+            if (dispatcher is null || dispatcher.HasShutdownStarted || dispatcher.CheckAccess())
+            {
+                lock (_jointSync) _pendingJoints = null;
+                ApplyJoints(joints);
+                return;
+            }
+
+            lock (_jointSync)
+            {
+                _pendingJoints = joints;
+                if (_jointUpdateQueued) return;
+                _jointUpdateQueued = true;
+            }
+
+            try
+            {
+                // 仿真刷新让出界面队列给通信和输入；重复帧只保留最后值。
+                dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(FlushJoints));
+            }
+            catch (InvalidOperationException)
+            {
+                // 调度器正在退出：丢弃该帧并释放排队标记，异常不能回到 Socket 线程。
+                lock (_jointSync) _jointUpdateQueued = false;
+            }
+        }
+
+        /// <summary>在界面线程取走最新目标；期间到达的帧已经合并进同一份目标。</summary>
+        private void FlushJoints()
+        {
+            double[]? joints;
+            lock (_jointSync)
+            {
+                _jointUpdateQueued = false;
+                joints = _pendingJoints;
+                _pendingJoints = null;
+            }
+            if (joints is not null) ApplyJoints(joints);
+        }
+
+        /// <summary>写入 Joints；角度未变化时不触发绑定刷新。</summary>
+        private void ApplyJoints(double[] joints)
+        {
+            if (_joints.Length == 6
+                && _joints[0] == joints[0] && _joints[1] == joints[1]
+                && _joints[2] == joints[2] && _joints[3] == joints[3]
+                && _joints[4] == joints[4] && _joints[5] == joints[5])
+                return;
+            Joints = joints;
         }
 
         /// <summary>读取内嵌机器人配置的初始角；模型异常由控件加载流程统一提示。</summary>
@@ -124,6 +179,7 @@ namespace RobotSimulator.ViewModels
             JointResponseFrequencyHz = simulation.Joint_Response_Frequency,
             JointMaxSpeedDegreesPerSecond = simulation.Joint_Max_Speed,
             JointMaxAccelerationDegreesPerSecondSquared = simulation.Joint_Max_Acceleration,
+            JointApplyRateHz = simulation.Joint_Apply_Rate,
         };
     }
 }

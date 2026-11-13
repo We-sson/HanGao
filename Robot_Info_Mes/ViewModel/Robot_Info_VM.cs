@@ -1445,11 +1445,34 @@ namespace Robot_Info_Mes.ViewModel
 
 
 
-            // 状态机写入的节拍外集合被图表绑定；与保存、图表测量共用同一把锁。
-            lock (Work_Factor_Seried.Sync)
+            // J1～J6 每帧都在变，界面快照只在信号/显示字段变化时替换，否则运动时每帧替换
+            // Robot_Info_Data 会触发整批绑定刷新；但节拍状态机必须逐包推进，否则"生产节拍"
+            // 秒数要等到下一个信号沿才刷新，看起来冻结一个周期。
+            Robot_Mes_Info_Data_Receive _Current = Mes_Robot_Info_Model_Data.Robot_Info_Data;
+            bool _Info_Changed = _Current.Mes_Robot_Mode != _Data.Mes_Robot_Mode
+                || _Current.Mes_Work_A_State != _Data.Mes_Work_A_State
+                || _Current.Mes_Work_B_State != _Data.Mes_Work_B_State
+                || _Current.Mes_Work_C_State != _Data.Mes_Work_C_State
+                || _Current.Mes_Work_D_State != _Data.Mes_Work_D_State
+                || _Current.Mes_Weld_State != _Data.Mes_Weld_State
+                || _Current.Robot_Process_Int != _Data.Robot_Process_Int
+                || _Current.Robot_Type != _Data.Robot_Type
+                || _Current.Vision_Model != _Data.Vision_Model
+                || !string.Equals(_Current.Mes_Programs_Name, _Data.Mes_Programs_Name, StringComparison.Ordinal);
+
+            if (_Info_Changed)
             {
-                // 使用复制构造创建独立快照，避免 Socket 解析层复用对象时改写界面模型。
-                Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data);
+                // 状态机写入的节拍外集合被图表绑定；与保存、图表测量共用同一把锁。
+                lock (Work_Factor_Seried.Sync)
+                {
+                    // 使用复制构造创建独立快照，避免 Socket 解析层复用对象时改写界面模型。
+                    Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data);
+                }
+            }
+            else
+            {
+                // 只有 J1～J6 变化的运动报文：不替换界面快照，但仍推进节拍/时间状态机。
+                lock (Work_Factor_Seried.Sync) Mes_Robot_Info_Model_Data.Advance_Robot_Info_Data(_Data);
             }
 
             // 机器人 $OUT[1] 的焊接状态直接控制三维焊接光显示。

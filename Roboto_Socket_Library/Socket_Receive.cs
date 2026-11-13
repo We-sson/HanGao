@@ -1,5 +1,6 @@
 ﻿
 using Roboto_Socket_Library.Model;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -793,10 +794,11 @@ namespace Roboto_Socket_Library
                 {
                     Send_State.Reset();
 
-                    // 原始发送观察回调先于实际 Send，便于日志保持请求顺序。
-                    Socket_Send_Meg?.Invoke(Send_byte);
+                    // 先写 Socket 再通知监视器：日志回调排在 UI 队列里，不能挡在真实发送前面。
                     operation = "发送请求";
                     SendAll(socket, Send_byte);
+                    // 发送日志仍在接收日志之前发布，监视器看到的请求/响应顺序不变。
+                    Socket_Send_Meg?.Invoke(Send_byte);
 
                     // 按完整 XML 根元素收取回执，不能假设一次 Receive 就是一整帧。
                     // ReceiveTimeout 仍负责终止无响应等待。
@@ -1123,6 +1125,32 @@ namespace Roboto_Socket_Library
         /// <exception cref="Exception">功能码未知、协议不支持或未能生成应答时抛出。</exception>
         private void ProcessReceivedMessage(Receive_State client, byte[] _Reveice_Meg)
         {
+            // 报文处理临时提到 Highest：用户要求网络通信优先级最高，机器人运动时 UI 重绘
+            // 也不能让回执帧排在后面，否则同步等待回执的 KRL 会被拖慢。
+            ThreadPriority original = Thread.CurrentThread.Priority;
+            try
+            {
+                Thread.CurrentThread.Priority = ThreadPriority.Highest;
+            }
+            catch (Exception)
+            {
+                // 宿主线程不允许改优先级时保持原样。
+            }
+
+            try
+            {
+                ProcessReceivedMessageCore(client, _Reveice_Meg);
+            }
+            finally
+            {
+                try { Thread.CurrentThread.Priority = original; }
+                catch (Exception) { }
+            }
+        }
+
+        /// <summary>解析并分派一帧完整报文；由 <see cref="ProcessReceivedMessage"/> 提高优先级后调用。</summary>
+        private void ProcessReceivedMessageCore(Receive_State client, byte[] _Reveice_Meg)
+        {
             // 所有业务分支最终都把响应编码到同一缓冲，便于统一记录和发送。
             byte[] Send_byte = Array.Empty<byte>();
 
@@ -1214,15 +1242,16 @@ namespace Roboto_Socket_Library
             }
 
 
-            // 有应答时先通知监视器，再同步写回同一客户端，保持请求/响应日志顺序。
+            // 有应答时先写回客户端再通知监视器：回执不能排在 UI 日志回调后面，
+            // 发送日志与随后接收日志的相对顺序保持不变。
             if (Send_byte.Length > 0)
             {
-                Socket_Send_Meg?.Invoke(Send_byte);
                 Socket responseSocket = client.Client_Socket
                     ?? throw new SocketException((int)SocketError.NotConnected);
                 // 客户端不读取回包时不能让发送线程无限阻塞。
                 responseSocket.SendTimeout = ServerSendTimeoutMilliseconds;
                 SendAll(responseSocket, Send_byte);
+                Socket_Send_Meg?.Invoke(Send_byte);
             }
             else
             {
@@ -1436,6 +1465,10 @@ namespace Roboto_Socket_Library
     /// </summary>
     public class KUKA_Send_Receive_Xml
     {
+        // XmlSerializer 首次构造要生成并编译序列化代码，比一次转换贵一个数量级；
+        // 按 DTO 类型缓存后只留一份只读实例，供网络收发线程并发复用。
+        private static readonly ConcurrentDictionary<Type, XmlSerializer> Serializer_Cache = new();
+
         /// <summary>创建无状态 XML 转换器。</summary>
         public KUKA_Send_Receive_Xml()
         {
@@ -1470,7 +1503,7 @@ namespace Roboto_Socket_Library
 
             using (var xmlWriter = XmlWriter.Create(str, settings))
             {
-                var xmlSerializer = new XmlSerializer(typeof(T1));
+                var xmlSerializer = Serializer_Cache.GetOrAdd(typeof(T1), static type => new XmlSerializer(type));
                 xmlSerializer.Serialize(xmlWriter, _Type, ns);
             }
 
@@ -1497,8 +1530,8 @@ namespace Roboto_Socket_Library
 
             using (XmlReader xmlReader = XmlReader.Create(new StringReader(_Path)))
             {
-                // 每种 DTO 使用自身的 XmlType/XmlAttribute 元数据解释报文。
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T1));
+                // 每种 DTO 使用自身的 XmlType/XmlAttribute 元数据解释报文；序列化器复用缓存实例。
+                XmlSerializer xmlSerializer = Serializer_Cache.GetOrAdd(typeof(T1), static type => new XmlSerializer(type));
 
 
 

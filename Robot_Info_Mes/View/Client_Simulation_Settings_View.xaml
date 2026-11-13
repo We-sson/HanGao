@@ -425,6 +425,55 @@
                             Text="°/s" />
                     </Grid>
 
+                    <!--  三维位置刷新频率：低配电脑可下调，UI 渲染仍保持 60 帧。  -->
+                    <Grid Height="35" Margin="0,8,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="动作刷新" />
+                        <Slider
+                            x:Name="Joint_Apply_Rate_UI"
+                            Grid.Column="1"
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            IsSnapToTickEnabled="True"
+                            Maximum="60"
+                            Minimum="5"
+                            SmallChange="5"
+                            Style="{DynamicResource Vision_SliderStyle}"
+                            TickFrequency="5"
+                            Value="{Binding File_Int_Parameters.Mes_Digital_Simulation.Joint_Apply_Rate}" />
+                        <TextBox
+                            Grid.Column="2"
+                            Width="200"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="{DynamicResource 全局_按钮_黑颜色}"
+                            BorderThickness="2"
+                            FontFamily="{DynamicResource 全局_文字_数字字体}"
+                            FontSize="18"
+                            Style="{DynamicResource Vision_TextBoxStyle}"
+                            Text="{Binding ElementName=Joint_Apply_Rate_UI, Path=Value, Mode=TwoWay, StringFormat={}{0:F0}}" />
+                        <TextBlock
+                            Grid.Column="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{DynamicResource 全局_文字_中文字体}"
+                            FontSize="16"
+                            Foreground="{DynamicResource 全局_按钮_黑颜色}"
+                            Text="Hz" />
+                    </Grid>
+
                     <Grid Height="35" Margin="0,8,0,8">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="85" />

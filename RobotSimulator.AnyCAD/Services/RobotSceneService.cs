@@ -50,10 +50,14 @@ public sealed class RobotSceneService : IRobotSceneService
     private bool _frameSubscribed;
     /// <summary>上一渲染帧时间，单位秒。</summary>
     private double? _lastFrameSeconds;
+    /// <summary>上次相机自转重绘后累计的时间，单位秒。</summary>
+    private double _orbitElapsedSeconds;
     /// <summary>最近一次原生相机变化时间，单位秒；用于判断用户是否仍在调整视角。</summary>
     private double _lastCameraChangeSeconds;
     /// <summary>用户停止操作视角后恢复自转的等待时间，单位秒。</summary>
     private const double CameraResumeDelaySeconds = 0.25;
+    /// <summary>相机自转的最小刷新间隔，单位秒；渲染帧更快时累计时间，最多按 30fps 重绘相机。</summary>
+    private const double OrbitApplyIntervalSeconds = 1.0 / 30;
     /// <summary>原生标准视角动画结束后重新适配窗口的等待时间，单位秒。</summary>
     private const double ViewFitDelaySeconds = 0.15;
     /// <summary>程序主动修改相机时忽略原生 CameraChanged 通知。</summary>
@@ -503,6 +507,12 @@ public sealed class RobotSceneService : IRobotSceneService
         // 窗口卡顿或断线恢复时限制单帧步长，避免一帧跳很远。
         elapsed = Math.Clamp(elapsed, 0, 0.05);
 
+        // 控件不可见（如切到其它页）时只记录时间，暂停自转重绘；可见后自动恢复。
+        if (!_renderControl.IsVisible)
+        {
+            return;
+        }
+
         if (_content is null)
         {
             return;
@@ -532,10 +542,19 @@ public sealed class RobotSceneService : IRobotSceneService
 
         if (_orbitSpeed == 0 || elapsed <= 0)
         {
+            _orbitElapsedSeconds = 0;
             return;
         }
 
-        var delta = _orbitSpeed * elapsed;
+        // 自转限到 30fps：渲染帧更快时只累计时间，减少原生相机重绘占用界面线程。
+        _orbitElapsedSeconds += elapsed;
+        if (_orbitElapsedSeconds < OrbitApplyIntervalSeconds)
+        {
+            return;
+        }
+
+        var delta = _orbitSpeed * _orbitElapsedSeconds;
+        _orbitElapsedSeconds = 0;
         _orbitAzimuth = (_orbitAzimuth + delta) % 360;
         ApplyOrbitCamera(delta);
     }

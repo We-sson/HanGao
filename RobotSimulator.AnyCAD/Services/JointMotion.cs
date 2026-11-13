@@ -14,6 +14,8 @@ public static class JointMotion
     public const double DefaultMaxAccelerationDegreesPerSecondSquared = 1440;
     /// <summary>默认到达容差，单位度。</summary>
     public const double DefaultToleranceDegrees = 0.02;
+    /// <summary>默认三维位置刷新频率，单位 Hz；渲染仍按界面帧率进行。</summary>
+    public const double DefaultApplyRateHz = 20;
     /// <summary>到达目标时的速度判定，单位度/秒。</summary>
     private const double StopSpeedDegreesPerSecond = 0.5;
 

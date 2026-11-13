@@ -9,19 +9,6 @@ namespace Robot_Info_Mes
         public Client_Window()
         {
             InitializeComponent();
-            Loaded += (_, _) => UpdateSimulationStatusPopup();
-            Activated += (_, _) => UpdateSimulationStatusPopup();
-            Deactivated += (_, _) => SimulationStatusPopup.IsOpen = false;
-            Closed += (_, _) => SimulationStatusPopup.IsOpen = false;
-            SimulationViewer.SizeChanged += (_, _) => UpdateSimulationStatusPopup();
-        }
-
-        /// <summary>只在主窗口处于前台时显示状态浮层，避免它浮到其他软件上方。</summary>
-        private void UpdateSimulationStatusPopup()
-        {
-            // Popup 以视口左上角为原点；文字整体上移，落在三维画面左下角内部。
-            SimulationStatusPopup.VerticalOffset = Math.Max(0, SimulationViewer.ActualHeight - 48);
-            SimulationStatusPopup.IsOpen = IsActive && IsVisible && SimulationViewer.IsVisible;
         }
     }
 }

@@ -51,6 +51,8 @@ public partial class RobotViewer : UserControl, IDisposable
     private bool _smoothing;
     /// <summary>上一渲染帧时间；null 表示下一帧只记录时间。</summary>
     private TimeSpan? _lastRenderTime;
+    /// <summary>最近一次把角度写入三维场景的渲染时间。</summary>
+    private TimeSpan _lastApplyTime;
     /// <summary>到达目标的容差，单位度。</summary>
     public double JointPositionToleranceDegrees { get; set; } = JointMotion.DefaultToleranceDegrees;
     /// <summary>是否已按 Model.Options 完成加载。</summary>
@@ -385,7 +387,8 @@ public partial class RobotViewer : UserControl, IDisposable
             if (_disposed || !_loaded || _updateQueued) return;
             _updateQueued = true;
         }
-        Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(ApplyPendingAngles));
+        // 仿真应用只是显示，排到后台优先级，让通信回执、输入和渲染先走。
+        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(ApplyPendingAngles));
     }
 
     /// <summary>在 UI 线程取最新一帧角度；首次直接贴合，之后按渲染帧平滑逼近。</summary>
@@ -423,6 +426,7 @@ public partial class RobotViewer : UserControl, IDisposable
         if (_smoothing || _disposed) return;
         _smoothing = true;
         _lastRenderTime = null;
+        _lastApplyTime = TimeSpan.Zero;
         CompositionTarget.Rendering += OnSmoothingFrame;
     }
 
@@ -452,6 +456,8 @@ public partial class RobotViewer : UserControl, IDisposable
 
         var deltaSeconds = (renderArgs.RenderingTime - _lastRenderTime.Value).TotalSeconds;
         _lastRenderTime = renderArgs.RenderingTime;
+        // 控件不可见（如切到其它页）时只记录时间，保留待应用目标，可见后继续逼近。
+        if (!IsVisible) return;
         if (deltaSeconds <= 0) return;
         // 窗口卡顿或断线恢复时限制单帧步长，避免一帧跳很远。
         deltaSeconds = Math.Min(deltaSeconds, 0.05);
@@ -474,7 +480,17 @@ public partial class RobotViewer : UserControl, IDisposable
                 || Math.Abs(_displayVelocities[index]) > 0.5)
                 settled = false;
         }
-        ApplyAngles(_displayAngles);
+
+        // 插值每帧都算，但三维位置按 JointApplyRateHz 限速写入：
+        // WPF 渲染仍保持 60 帧，原生视口重绘减少，UI 线程才有余量刷新节拍等绑定。
+        var applyRate = options?.JointApplyRateHz ?? 0;
+        var applyDue = applyRate <= 0
+            || (renderArgs.RenderingTime - _lastApplyTime).TotalSeconds >= 1.0 / applyRate;
+        if (applyDue || settled)
+        {
+            _lastApplyTime = renderArgs.RenderingTime;
+            ApplyAngles(_displayAngles);
+        }
         if (settled) StopSmoothing();
     }
 

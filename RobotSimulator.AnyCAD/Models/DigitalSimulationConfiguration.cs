@@ -22,6 +22,7 @@ namespace RobotSimulator.Models
         private double _jointResponseFrequency = JointMotion.DefaultResponseFrequencyHz;
         private double _jointMaxSpeed = JointMotion.DefaultMaxSpeedDegreesPerSecond;
         private double _jointMaxAcceleration = JointMotion.DefaultMaxAccelerationDegreesPerSecondSquared;
+        private double _jointApplyRate = JointMotion.DefaultApplyRateHz;
 
         /// <summary>机器人型号，对应控件内的枚举。</summary>
         public RobotModelKind Robot_Model { get => _robotModel; set => SetProperty(ref _robotModel, value); }
@@ -61,5 +62,8 @@ namespace RobotSimulator.Models
 
         /// <summary>关节跟随最大显示加速度，单位度/秒²；通过 RobotViewerOptions 传给控件。</summary>
         public double Joint_Max_Acceleration { get => _jointMaxAcceleration; set => SetProperty(ref _jointMaxAcceleration, value); }
+
+        /// <summary>三维关节位置刷新频率，单位 Hz；降低可减轻现场低配电脑的 UI 压力。</summary>
+        public double Joint_Apply_Rate { get => _jointApplyRate; set => SetProperty(ref _jointApplyRate, value); }
     }
 }

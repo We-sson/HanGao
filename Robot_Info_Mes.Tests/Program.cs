@@ -21,6 +21,7 @@ internal static class Program
         Check_DayReset_SameDayOfMonth();
         Check_ResetDaily_KeepsRunningState();
         Check_TwoProductsInOnePacket_KeepBothSamples();
+        Check_JointOnlyPacket_StillAdvancesCycleDisplay();
         Check_WeldState_FromKukaXml();
         Check_ListenerStart_FailureIsReported();
         Check_ReadFailure_DoesNotTouchFile();
@@ -117,6 +118,34 @@ internal static class Program
             "第一件产品的节拍应写入产品序号 1。");
         Check(model.Robot_Work_ABCD_Cycle_List.ElementAtOrDefault(2).HasValue,
             "同一包内第二件产品应写入产品序号 2，而不是覆盖序号 1。");
+    }
+
+    /// <summary>只有 J1～J6 变化的报文也必须推进节拍状态机，否则界面上的生产节拍会冻结一个周期。</summary>
+    private static void Check_JointOnlyPacket_StillAdvancesCycleDisplay()
+    {
+        var model = new Mes_Robot_Info_Model
+        {
+            Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Connected,
+        };
+        var snapshot = new Robot_Mes_Info_Data_Receive
+        {
+            Mes_Robot_Mode = KUKA_Mode_OP_Enum.Run,
+            Robot_Process_Int = Robot_Process_Int_Enum.R_Side_7,
+            Mes_Work_A_State = true,
+        };
+        model.Robot_Info_Data = snapshot;
+
+        // 控制台测试没有 UI 帧循环，直接给 A 区计时器一个已累计值，模拟界面计时器已走过 10 秒。
+        model.Robot_Work_A_Cycle.Timer_UI = TimeSpan.FromSeconds(10);
+        var notifiedSnapshot = model.Robot_Info_Data;
+
+        // 运动报文每帧只有 J1～J6 变化，界面字段不变，走不替换快照的低开销推进路径。
+        model.Advance_Robot_Info_Data(new Robot_Mes_Info_Data_Receive(snapshot));
+
+        Check(model.Robot_Work_AB_Cycle.Timer_UI == TimeSpan.FromSeconds(10),
+            "只有关节变化的报文没有推进合成节拍显示。");
+        Check(ReferenceEquals(notifiedSnapshot, model.Robot_Info_Data),
+            "低开销推进不应替换界面快照，否则每帧都会整批刷新绑定。");
     }
 
     /// <summary>KUKA 上报的 $OUT[1] 焊接状态应进入快照，并在复制构造时保留。</summary>

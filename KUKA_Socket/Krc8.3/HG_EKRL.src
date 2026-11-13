@@ -1,5 +1,5 @@
-&ACCESS RVO3
-&REL 412
+&ACCESS RVO
+&REL 414
 &PARAM EDITMASK = *
 &PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
 &PARAM DISKPATH = KRC:\R1\KRL_HanGao\HG
@@ -222,9 +222,9 @@ GLOBAL DEF Mes_EKRL_Info_Send(EKRL_NAME:IN,Send_Stae:OUT)
 
    IF Rece_State THEN
       Send_Stae=TRUE
-      $FLAG[2]=FALSE
+    $FLAG[2]=FALSE
    ELSE
-      Send_Stae=FALSE
+     Send_Stae=FALSE
    ENDIF
 
    RET = EKI_ClearBuffer(EKRL_NAME[],"Robot_Send")

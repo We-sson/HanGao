@@ -574,28 +574,27 @@
 
                 <!--  关节跟随参数由 Configs_Data.Xml 的 Mes_Digital_Simulation 提供。  -->
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <viewer:RobotViewer
                         x:Name="SimulationViewer"
+                        Grid.Row="0"
                         Margin="0"
                         Model="{Binding Digital_Simulation}"
                         SnapsToDevicePixels="True"
                         UseLayoutRounding="True" />
-                    <!--  原生视口不支持 WPF 覆盖，使用小尺寸 Popup 把状态文字叠加在视口左下角。  -->
-                    <Popup
-                        x:Name="SimulationStatusPopup"
-                        AllowsTransparency="True"
-                        DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
-                        HorizontalOffset="8"
-                        IsHitTestVisible="False"
-                        Placement="Relative"
-                        PlacementTarget="{Binding ElementName=SimulationViewer}"
-                        PopupAnimation="None"
-                        StaysOpen="True">
-                        <TextBlock
-                            FontSize="12"
-                            Foreground="#1A2433"
-                            Text="{Binding Digital_Simulation.StatusMessage}" />
-                    </Popup>
+                    <!--  原生视口不支持 WPF 覆盖，状态文字放在视口下方的独立行，不再用 Popup 叠加。  -->
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="10,2,0,2"
+                        HorizontalAlignment="Center"
+                        Background="Transparent"
+                        FontSize="12"
+                        Foreground="#1A2433"
+                        Text="{Binding Digital_Simulation.StatusMessage}"
+                        TextWrapping="Wrap" />
                 </Grid>
             </Border>
         </Grid>
