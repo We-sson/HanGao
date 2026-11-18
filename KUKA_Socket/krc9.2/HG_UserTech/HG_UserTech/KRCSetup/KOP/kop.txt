@@ -1,2 +1,0 @@
-The only reason this file exists, is that the setup star operator cannot handle empty directories. In 
-this directory the kop file is copied, if the setup is delivered as cd and not as kop.
