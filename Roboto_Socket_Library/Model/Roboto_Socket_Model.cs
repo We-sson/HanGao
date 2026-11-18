@@ -232,45 +232,55 @@ namespace Roboto_Socket_Library.Model
         [XmlType("Robot_Axis")]
         public class Robot_Axis_Model
         {
+            private const byte AllAxes = 0b111111;
+            private byte _presentAxes;
+            private double _j1, _j2, _j3, _j4, _j5, _j6;
+
             /// <summary>J1 角度，单位度。</summary>
             [XmlAttribute]
-            public double J1 { set; get; }
+            public double J1 { get => _j1; set { _j1 = value; _presentAxes |= 1 << 0; } }
 
             /// <summary>J2 角度，单位度。</summary>
             [XmlAttribute]
-            public double J2 { set; get; }
+            public double J2 { get => _j2; set { _j2 = value; _presentAxes |= 1 << 1; } }
 
             /// <summary>J3 角度，单位度。</summary>
             [XmlAttribute]
-            public double J3 { set; get; }
+            public double J3 { get => _j3; set { _j3 = value; _presentAxes |= 1 << 2; } }
 
             /// <summary>J4 角度，单位度。</summary>
             [XmlAttribute]
-            public double J4 { set; get; }
+            public double J4 { get => _j4; set { _j4 = value; _presentAxes |= 1 << 3; } }
 
             /// <summary>J5 角度，单位度。</summary>
             [XmlAttribute]
-            public double J5 { set; get; }
+            public double J5 { get => _j5; set { _j5 = value; _presentAxes |= 1 << 4; } }
 
             /// <summary>J6 角度，单位度。</summary>
             [XmlAttribute]
-            public double J6 { set; get; }
+            public double J6 { get => _j6; set { _j6 = value; _presentAxes |= 1 << 5; } }
 
-            /// <summary>创建全零角度，用于没有关节报文的品牌。</summary>
+            /// <summary>创建供 XML 读取或逐轴赋值的对象。</summary>
             public Robot_Axis_Model()
             {
             }
 
             /// <summary>创建角度副本，避免快照之间共享同一个可变对象。</summary>
-            public Robot_Axis_Model(Robot_Axis_Model _)
+            public Robot_Axis_Model(Robot_Axis_Model source)
             {
-                J1 = _.J1;
-                J2 = _.J2;
-                J3 = _.J3;
-                J4 = _.J4;
-                J5 = _.J5;
-                J6 = _.J6;
+                _j1 = source._j1;
+                _j2 = source._j2;
+                _j3 = source._j3;
+                _j4 = source._j4;
+                _j5 = source._j5;
+                _j6 = source._j6;
+                _presentAxes = source._presentAxes;
             }
+
+            /// <summary>完整角度必须显式提供六根轴，并且每个值都是有限数。</summary>
+            public bool HasCompleteFiniteAxes() => _presentAxes == AllAxes
+                && double.IsFinite(J1) && double.IsFinite(J2) && double.IsFinite(J3)
+                && double.IsFinite(J4) && double.IsFinite(J5) && double.IsFinite(J6);
         }
 
         /// <summary>
@@ -370,7 +380,7 @@ namespace Roboto_Socket_Library.Model
             public Robot_Process_Int_Enum Robot_Process_Int { set; get; } = Robot_Process_Int_Enum.R_Side_7;
 
             /// <summary>
-            /// 可选的 J1～J6 角度；没有该节点的品牌或旧报文为 null，由仿真回到初始位。
+            /// 可选的 J1～J6 角度；没有该节点的品牌或旧报文为 null。
             /// </summary>
             public Robot_Axis_Model? Robot_Axis { set; get; }
 

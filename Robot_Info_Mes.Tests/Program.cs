@@ -1,8 +1,11 @@
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Xml.Serialization;
 using Generic_Extension;
 using Robot_Info_Mes.Model;
+using RobotSimulator.Models;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
@@ -25,9 +28,26 @@ internal static class Program
         Check_WeldState_FromKukaXml();
         Check_ListenerStart_FailureIsReported();
         Check_ReadFailure_DoesNotTouchFile();
+        Check_SimulationQuality_RestoresFromXml();
+        RobotAxisValidationChecks.Run();
+        Check_MesViewport();
 
         Console.WriteLine(_failures == 0 ? "ALL CHECKS PASSED" : $"{_failures} CHECK(S) FAILED");
         return _failures == 0 ? 0 : 1;
+    }
+
+    private static void Check_MesViewport()
+    {
+        try
+        {
+            CycleTimingChecks.Run();
+            MesViewportChecks.Run();
+        }
+        catch (Exception exception)
+        {
+            _failures++;
+            Console.Error.WriteLine(exception);
+        }
     }
 
     private static void Check_AddDataAt_WritesZero()
@@ -171,6 +191,23 @@ internal static class Program
 
         Check(error is null, "正常配置文件读取不应报错：" + error);
         Check(config is not null, "正常配置应返回实例。");
+    }
+
+    private static void Check_SimulationQuality_RestoresFromXml()
+    {
+        var serializer = new XmlSerializer(typeof(File_Int_Model));
+        using var previousXml = new StringReader("<File_Int_Model><Mes_Digital_Simulation /></File_Int_Model>");
+        var config = (File_Int_Model)serializer.Deserialize(previousXml)!;
+        Check(config.Mes_Digital_Simulation.Render_Quality == RenderQuality.High,
+            "配置缺少画质时，应使用高清档。");
+
+        config.Mes_Digital_Simulation.Render_Quality = RenderQuality.Balanced;
+        using var saved = new StringWriter();
+        serializer.Serialize(saved, config);
+        using var savedXml = new StringReader(saved.ToString());
+        var restored = (File_Int_Model)serializer.Deserialize(savedXml)!;
+        Check(restored.Mes_Digital_Simulation.Render_Quality == RenderQuality.Balanced,
+            "重新读取 MES 配置时，应恢复已保存的均衡档。");
     }
 
     private static void Check_ListenerStart_FailureIsReported()

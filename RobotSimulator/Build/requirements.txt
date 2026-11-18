@@ -1,0 +1,2 @@
+cadquery-ocp-novtk==8.0.1.1.0
+Brotli==1.2.0

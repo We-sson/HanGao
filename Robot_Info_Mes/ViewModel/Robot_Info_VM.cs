@@ -42,10 +42,20 @@ namespace Robot_Info_Mes.ViewModel
         /// <summary>
         /// 读取配置并按启动角色建立对应的通信、计时、持久化和图表流程。
         /// </summary>
-        public Robot_Info_VM()
+        public Robot_Info_VM() : this(null)
+        {
+        }
+
+        /// <summary>使用传入配置创建隔离的采集端状态，供本机回环和界面验证。</summary>
+        internal Robot_Info_VM(File_Int_Model? offlineConfiguration)
         {
             // 设计器只需要默认对象供 XAML 预览，不能在设计进程中启动 Socket、线程或文件写入。
-            if (!IsInDesignMode)
+            if (offlineConfiguration is not null)
+            {
+                File_Int_Parameters = offlineConfiguration;
+                Digital_Simulation = new Digital_Simulation(File_Int_Parameters.Mes_Digital_Simulation);
+            }
+            else if (!IsInDesignMode)
             {
 
 
@@ -118,7 +128,7 @@ namespace Robot_Info_Mes.ViewModel
 
 
                         // 上次保存若不属于今天，先清理只属于“当日”的指标。
-                        Mes_Robot_Info_Model_Data.Check_Day_Int_Time();
+                        EnsureClientStatisticsDate(DateTime.Now);
 
 
                         // 对本机所有 IPv4 地址监听机器人连接，再恢复计时和看板上报链路。
@@ -160,6 +170,11 @@ namespace Robot_Info_Mes.ViewModel
 
         private bool _shutdownCompleted;
         private bool _shutdownInProgress;
+        private readonly HashSet<Socket> _robotSenders = [];
+        private Socket? _lastRobotSender;
+        private Robot_Axis_Model? _latestRobotAxes;
+        private DateTime? _clientStatisticsDate;
+        private bool _invalidAxesReported;
 
         /// <summary>窗口 Closing 事件命令；取消关闭并在清理完成后重新关闭。</summary>
         public IRelayCommand<CancelEventArgs> WindowClosingCommand { get; }
@@ -326,9 +341,15 @@ namespace Robot_Info_Mes.ViewModel
 
                     //ScrollViewer? ScrollViewer = _Contol!.Template.FindName("PART_ScrollViewer", _Contol) as ScrollViewer;
 
-                    // 先对齐初始选中项；后续定时器捕获该 ListBox 并循环推进索引。
-                    _Contol!.ScrollIntoView(Mes_Server_Info_Data.Mes_Server_Model_List[Mes_Server_Model_List_View]);
-                    _Contol.SelectedIndex = Mes_Server_Model_List_View;
+                    // 空看板也要启动轮播，等待第一台设备上报。
+                    if (_Contol is null) return;
+                    var items = Mes_Server_Info_Data.Mes_Server_Model_List;
+                    if (items.Count > 0)
+                    {
+                        Mes_Server_Model_List_View = Math.Clamp(Mes_Server_Model_List_View, 0, items.Count - 1);
+                        _Contol.ScrollIntoView(items[Mes_Server_Model_List_View]);
+                        _Contol.SelectedIndex = Mes_Server_Model_List_View;
+                    }
 
 
 
@@ -470,18 +491,7 @@ namespace Robot_Info_Mes.ViewModel
                     // 采集线程会写图表集合；保存和日切清空必须与图表测量使用同一把锁。
                     lock (Work_Factor_Seried.Sync)
                     {
-                        // 程序跨过午夜仍在运行时，清空当日统计但保留跨日累计值。
-                        Mes_Robot_Info_Model_Data.Check_Day_Int_Time(now);
-
-                        // 跨月时清空趋势集合，避免把上个月的数据写进新月份的 XML。
-                        if (Mes_Robot_Info_Model_Data.File_Update_Time.Year != now.Year
-                            || Mes_Robot_Info_Model_Data.File_Update_Time.Month != now.Month)
-                        {
-                            Work_Factor_Seried.Mes_Date_Int();
-                            Work_Factor_Seried.Mes_Data_Clear();
-                        }
-
-                        // 保存时间既写入 XML，也作为下一次跨日判断的基准。
+                        EnsureClientStatisticsDate(now);
                         Mes_Robot_Info_Model_Data.File_Update_Time = now;
                 // 时间稼动率采用毫秒比值，以保留短时间运行阶段的精度。
                 Work_Factor_Seried.Work_Availability_Factor.Value = Work_Factor_Seried.Get_Work_Availability_Factor(Mes_Robot_Info_Model_Data.Robot_Work_Time.Timer_Millisecond, Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_Millisecond);
@@ -579,6 +589,7 @@ namespace Robot_Info_Mes.ViewModel
 
             // 文件不存在时持久化层会创建预置工艺列表；存在时恢复本月最后快照，损坏时回退默认值。
             Mes_Server_Info_Data = File_Xml_Model.Read_Xml_File_Or_Default<Mes_Server_Info_Data>(Log_Xml_Recovery);
+            RemoveDuplicateBoards();
 
 
             // 为每台设备建立本月全部日期槽位，后续收到任意日期数据都可直接按下标写入。
@@ -658,20 +669,7 @@ namespace Robot_Info_Mes.ViewModel
 
             // 每秒独立检查最后一次有效上报；至少容忍 15 秒或三个上报周期，避免单包延迟造成闪断。
             _serverConnectionHealthTimer.Interval = TimeSpan.FromSeconds(1);
-            _serverConnectionHealthTimer.Tick += (s, e) =>
-            {
-                double offlineTimeoutSeconds = GetServerOfflineTimeoutSeconds();
-                DateTime now = DateTime.Now;
-
-                foreach (var item in Mes_Server_Info_Data.Mes_Server_Model_List)
-                {
-                    if (item.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected
-                        && (now - item.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time).TotalSeconds > offlineTimeoutSeconds)
-                    {
-                        item.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
-                    }
-                }
-            };
+            _serverConnectionHealthTimer.Tick += (s, e) => UpdateServerOfflineBoards(DateTime.Now);
             _serverConnectionHealthTimer.Start();
 
 
@@ -866,12 +864,16 @@ namespace Robot_Info_Mes.ViewModel
             // 集合复制期间与采集线程、保存定时器使用同一把锁，避免枚举到正在修改的集合。
             lock (Work_Factor_Seried.Sync)
             {
+                EnsureClientStatisticsDate(DateTime.Now);
                 // 标量直接复制，集合创建新实例，避免 Socket 序列化枚举时源集合被定时器改写。
                 return new Mes_Server_Info_Data_Receive()
             {
                 Vision_Model = Vision_Model_Enum.Mes_Server_Info_Send_Data,
                 Socket_Update_Time = DateTime.Now,
-                Robot_Mes_Info_Data = new Robot_Mes_Info_Data_Receive(Mes_Robot_Info_Model_Data.Robot_Info_Data),
+                Robot_Mes_Info_Data = new Robot_Mes_Info_Data_Receive(Mes_Robot_Info_Model_Data.Robot_Info_Data)
+                {
+                    Robot_Axis = _latestRobotAxes is null ? null : new Robot_Axis_Model(_latestRobotAxes)
+                },
                 Mes_Server_Date = new Mes_Server_Date_Model()
                 {
                     Robot_Debug_All_Time = Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Timer_UI,
@@ -1035,8 +1037,13 @@ namespace Robot_Info_Mes.ViewModel
                     }
                     else
                     {
-                        //Initialization_Sever_STOP();
                         Robot_Info_Parameters.Server_List_End();
+                        lock (Work_Factor_Seried.Sync)
+                        {
+                            _robotSenders.Clear();
+                            _lastRobotSender = null;
+                            SetRobotDisconnected();
+                        }
                         User_Log_Add("停止所有IP服务器连接!");
 
                     }
@@ -1173,30 +1180,43 @@ namespace Robot_Info_Mes.ViewModel
         /// <returns>包含下一次轮询等待时间和处理成功标志的应答。</returns>
         public Robot_Mes_Info_Data_Send Robot_Mes_Info_Receive_Method(Robot_Mes_Info_Data_Receive _Receive, Socket? _socket)
         {
-
-
-            // 多个本地监听地址可能并发收到数据，单台设备模型必须串行推进节拍状态机。
-            lock (Mes_Robot_Info_Model_Data)
+            // 来源状态、计件和定时日切都由同一把锁串行处理。
+            lock (Work_Factor_Seried.Sync)
             {
-                Robot_Mes_Info_Data_Send _Send = new();
+                var reply = new Robot_Mes_Info_Data_Send
+                {
+                    Socket_Polling_Time = (int)(File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time * 1000)
+                };
+                if (IsClosedSocket(_socket)) return reply;
+                if (_Receive.Robot_Axis is { } axes && !axes.HasCompleteFiniteAxes())
+                {
+                    if (ReferenceEquals(_lastRobotSender, _socket))
+                        CancelRobotCycle();
+                    if (!_invalidAxesReported)
+                        User_Log_Add("机器人角度报文被拒绝：需要完整且有效的 J1～J6，三维保留最近有效姿态。");
+                    _invalidAxesReported = true;
+                    return reply;
+                }
+                _invalidAxesReported = false;
 
+                if (_socket is not null)
+                {
+                    _robotSenders.Add(_socket);
+                    if (_lastRobotSender is not null && !ReferenceEquals(_lastRobotSender, _socket))
+                    {
+                        CancelRobotCycle();
+                        Mes_Robot_Info_Model_Data.Socket_Last_Update_Time = default;
+                    }
+                    _lastRobotSender = _socket;
+                }
 
-                Set_Robot_Info_Data(_Receive);
-
-
-                // 协议字段使用毫秒，配置保存周期以秒存储。
-                _Send.Socket_Polling_Time = (int)(File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time * 1000);
-                _Send.IsStatus = true;
-
-
-                return _Send;
+                ApplyRobotData(_Receive);
+                reply.IsStatus = true;
+                return reply;
             }
-
         }
 
 
-        // 所有 Client 共用 Server 设备集合，用独立锁保护查找、新增、更新和排序这一完整事务。
-        private readonly object _Mes_ServerLock = new();
         /// <summary>
         /// 接收一个 Client 的完整 MES 快照，按工艺编号创建/更新设备项并把在线设备排到前面。
         /// </summary>
@@ -1205,97 +1225,80 @@ namespace Robot_Info_Mes.ViewModel
         /// <returns>发送给 Client 的确认消息。</returns>
         public Mes_Server_Info_Data_Send Mes_Server_Info_Data_Method(Mes_Server_Info_Data_Receive _Receive, Socket? _Socket)
         {
-            // 当前确认消息使用模型默认值；Client 收到它即视为本轮上报完成。
-            Mes_Server_Info_Data_Send _Send = new();
+            var dispatcher = App_Dispatcher ?? throw new InvalidOperationException("看板调度器已关闭。");
+            DateTime receivedAt = DateTime.Now;
+            var endpoint = _Socket?.RemoteEndPoint as IPEndPoint;
 
-            lock (_Mes_ServerLock)
+            // 首包也要完整应用后再确认。查找、建卡和排序在同一个 UI 调度器回调中完成。
+            dispatcher.Invoke(() =>
             {
-
-                bool _Process_Exists = false;
-                // Robot_Process_Int 是设备在看板集合中的业务唯一键，不使用临时 Socket 地址作为身份。
-                foreach (Mes_Server_Info_List_Model _Server in Mes_Server_Info_Data.Mes_Server_Model_List)
+                if (IsClosedSocket(_Socket)) throw new ObjectDisposedException(nameof(_Socket));
+                var items = Mes_Server_Info_Data.Mes_Server_Model_List;
+                var process = _Receive.Robot_Mes_Info_Data.Robot_Process_Int;
+                var item = items.FirstOrDefault(board =>
+                    board.Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int == process);
+                bool isNew = item is null;
+                item ??= new Mes_Server_Info_List_Model();
+                Apply_Mes_Server_Info_Snapshot(item, _Receive, endpoint, receivedAt);
+                if (isNew)
                 {
-                    if (_Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int == _Receive.Robot_Mes_Info_Data.Robot_Process_Int)
-                    {
-                        _Process_Exists = true;
-                        break;
-                    }
+                    item.Work_Factor_Seried.KanBan_List_Cycle_View_Time =
+                        File_Int_Parameters.Mes_Run_Parameters.KanBan_List_Cycle_View_Time;
+                    item.Work_Factor_Seried.Mes_Data_View_Int();
+                    items.Add(item);
                 }
+                MoveOnlineBoardsToFront();
+            });
 
-                // 新工艺可能不在首次建档预置列表中；集合变更必须切换到 WPF Dispatcher。
-                if (!_Process_Exists)
-                {
-                    Invoke_On_UI(() =>
-                    {
-                        Mes_Server_Info_List_Model _New_Server = new();
-                        _New_Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int = _Receive.Robot_Mes_Info_Data.Robot_Process_Int;
-                        Mes_Server_Info_Data.Mes_Server_Model_List.Add(_New_Server);
-                        // 运行期新增的设备也必须启动指标轮播，否则卡片会一直停在第一项。
-                        _New_Server.Work_Factor_Seried.KanBan_List_Cycle_View_Time =
-                            File_Int_Parameters.Mes_Run_Parameters.KanBan_List_Cycle_View_Time;
-                        _New_Server.Work_Factor_Seried.Mes_Data_View_Int();
-                    });
-                }
+            return new Mes_Server_Info_Data_Send();
+        }
 
-
-
-
-
-                // 找到匹配项后把整份报文作为同一快照应用，避免界面混合前后两次数据。
-                foreach (var _Server in Mes_Server_Info_Data.Mes_Server_Model_List)
-                {
-
-
-                    if (_Server.Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int == _Receive.Robot_Mes_Info_Data.Robot_Process_Int)
-                    {
-                        Apply_Mes_Server_Info_Snapshot(_Server, _Receive, _Socket);
-
-                    }
-
-
-
-                }
-
-
-                // 在线项向前移动，断线项留在后部，让大屏优先展示有实时数据的设备。
-                for (int i = 0; i < Mes_Server_Info_Data.Mes_Server_Model_List.Count; i++)
-                {
-                    if (Mes_Server_Info_Data.Mes_Server_Model_List[i].Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected)
-                    {
-                        // 把已连接项目向列表前部移动。
-                        for (int _i = 0; _i < Mes_Server_Info_Data.Mes_Server_Model_List.Count; _i++)
-                        {
-                            if (Mes_Server_Info_Data.Mes_Server_Model_List[_i].Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Disconnected)
-                            {
-                                // 只在当前在线项位于某个离线项之后时向前移动。
-                                if (i > _i)
-                                {
-
-                                    // ObservableCollection.Move 会触发界面集合通知，必须由 UI 线程执行。
-                                    Invoke_On_UI(() =>
-                                    {
-                                        Mes_Server_Info_Data.Mes_Server_Model_List.Move(i, _i);
-                                    });
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-
-
-                }
-
-
+        /// <summary>保持在线和离线各组原有顺序，把在线设备移到列表前部。</summary>
+        private void MoveOnlineBoardsToFront()
+        {
+            var items = Mes_Server_Info_Data.Mes_Server_Model_List;
+            int onlineIndex = 0;
+            for (int index = 0; index < items.Count; index++)
+            {
+                if (items[index].Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State != Socket_Robot_Connect_State_Enum.Connected)
+                    continue;
+                if (index != onlineIndex) items.Move(index, onlineIndex);
+                onlineIndex++;
             }
+        }
 
+        /// <summary>恢复旧快照时，同一工艺保留最近更新的完整卡片。</summary>
+        internal void RemoveDuplicateBoards()
+        {
+            var items = Mes_Server_Info_Data.Mes_Server_Model_List;
+            foreach (var group in items.GroupBy(item => item.Mes_Robot_Info_Model_Data.Robot_Info_Data.Robot_Process_Int).ToArray())
+            {
+                var newest = group.OrderByDescending(item => item.Mes_Robot_Info_Model_Data.File_Update_Time).First();
+                foreach (var duplicate in group.Where(item => !ReferenceEquals(item, newest)))
+                {
+                    duplicate.Mes_Robot_Info_Model_Data.Robot_Offline_Time.Stop();
+                    items.Remove(duplicate);
+                }
+            }
+        }
 
-            return _Send;
-
-
+        /// <summary>在 UI 线程检查设备离线宽限时间，并重排状态变化后的看板。</summary>
+        internal void UpdateServerOfflineBoards(DateTime now, IPEndPoint? endpoint = null)
+        {
+            double timeoutSeconds = GetServerOfflineTimeoutSeconds();
+            bool changed = false;
+            foreach (var item in Mes_Server_Info_Data.Mes_Server_Model_List)
+            {
+                if (endpoint is not null && !endpoint.Equals(item.Connetc_Mes_IP)) continue;
+                var robot = item.Mes_Robot_Info_Model_Data;
+                if (robot.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected
+                    && (now - robot.Socket_Last_Update_Time).TotalSeconds > timeoutSeconds)
+                {
+                    robot.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+                    changed = true;
+                }
+            }
+            if (changed) MoveOnlineBoardsToFront();
         }
 
         /// <summary>
@@ -1303,23 +1306,26 @@ namespace Robot_Info_Mes.ViewModel
         /// </summary>
         /// <param name="_Server">要更新的 Server 设备项。</param>
         /// <param name="_Receive">本次 Client 上报。</param>
-        /// <param name="_Socket">本次上报连接，用于记录远端端点。</param>
-        private void Apply_Mes_Server_Info_Snapshot(Mes_Server_Info_List_Model _Server, Mes_Server_Info_Data_Receive _Receive, Socket? _Socket)
+        /// <param name="endpoint">本次上报的远端端点。</param>
+        /// <param name="receivedAt">本机收到报文的时间。</param>
+        private void Apply_Mes_Server_Info_Snapshot(
+            Mes_Server_Info_List_Model _Server, Mes_Server_Info_Data_Receive _Receive, IPEndPoint? endpoint, DateTime receivedAt)
         {
-            // 图表集合由采集线程替换；与 LiveCharts 测量、月度清理使用同一把锁。
+            // 图表集合的替换与 LiveCharts 测量、月度清理共用一把锁。
             lock (_Server.Work_Factor_Seried.Sync)
             {
             // 端点不进入 XML，只用于当前进程把后续 Socket 断开事件关联回设备。
-            _Server.Connetc_Mes_IP = (IPEndPoint?)_Socket?.RemoteEndPoint;
+            _Server.Connetc_Mes_IP = endpoint;
 
-            DateTime _Now = DateTime.Now;
             Mes_Robot_Info_Model _Robot_Data = _Server.Mes_Robot_Info_Model_Data;
             Mes_Server_Date_Model _Server_Date = _Receive.Mes_Server_Date;
 
-            // 先计算与上一包的间隔，再覆盖时间戳；维护定时器会用该时间戳判断超时。
-            _Robot_Data.Socket_Cycle_Time = _Now - _Robot_Data.Socket_Last_Update_Time;
-            _Robot_Data.Socket_Last_Update_Time = _Now;
-            _Robot_Data.File_Update_Time = _Now;
+            // 首次上报或恢复在线时没有本轮的上一包。
+            DateTime previous = _Robot_Data.Socket_Last_Update_Time;
+            _Robot_Data.Socket_Cycle_Time = _Robot_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected
+                && previous != default && receivedAt >= previous ? receivedAt - previous : TimeSpan.Zero;
+            _Robot_Data.Socket_Last_Update_Time = receivedAt;
+            _Robot_Data.File_Update_Time = receivedAt;
 
             // 复制机器人原始状态字段，供设备身份、程序名、模式和区域状态绑定显示。
             _Robot_Data.Robot_Info_Data.Robot_Type = _Receive.Robot_Mes_Info_Data.Robot_Type;
@@ -1333,7 +1339,7 @@ namespace Robot_Info_Mes.ViewModel
             _Robot_Data.Robot_Info_Data.Mes_Work_D_State = _Receive.Robot_Mes_Info_Data.Mes_Work_D_State;
             _Robot_Data.Robot_Info_Data.Mes_Weld_State = _Receive.Robot_Mes_Info_Data.Mes_Weld_State;
 
-            // 快照保留 J1～J6；没有该节点时保持 null，由仿真回到初始位。
+            // 按来源快照复制有效六轴，保留各设备自己的关节数据。
             _Robot_Data.Robot_Info_Data.Robot_Axis =
                 _Receive.Robot_Mes_Info_Data.Robot_Axis is null
                     ? null
@@ -1428,8 +1434,15 @@ namespace Robot_Info_Mes.ViewModel
         /// <param name="_Data">已解析的机器人状态快照。</param>
         public void Set_Robot_Info_Data(Robot_Mes_Info_Data_Receive _Data)
         {
+            Robot_Mes_Info_Receive_Method(_Data, null);
+        }
+
+        /// <summary>有效报文在来源锁内更新，缺省轴组时保留上一份有效角度。</summary>
+        private void ApplyRobotData(Robot_Mes_Info_Data_Receive _Data)
+        {
             // 先用旧时间戳计算报文间隔，再记录本次到达时间。
             DateTime now = DateTime.Now;
+            EnsureClientStatisticsDate(now);
             Mes_Robot_Info_Model_Data.Socket_Cycle_Time =
                 Mes_Robot_Info_Model_Data.Socket_Last_Update_Time == default
                     ? TimeSpan.Zero
@@ -1466,7 +1479,12 @@ namespace Robot_Info_Mes.ViewModel
                 lock (Work_Factor_Seried.Sync)
                 {
                     // 使用复制构造创建独立快照，避免 Socket 解析层复用对象时改写界面模型。
-                    Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data);
+                    Mes_Robot_Info_Model_Data.Robot_Info_Data = new Robot_Mes_Info_Data_Receive(_Data)
+                    {
+                        Robot_Axis = _Data.Robot_Axis is not null
+                            ? new Robot_Axis_Model(_Data.Robot_Axis)
+                            : _latestRobotAxes is null ? null : new Robot_Axis_Model(_latestRobotAxes)
+                    };
                 }
             }
             else
@@ -1481,9 +1499,10 @@ namespace Robot_Info_Mes.ViewModel
                 Digital_Simulation.WeldActive = _Data.Mes_Weld_State;
             }
 
-            // 报文带 J1～J6 时驱动三维仿真；没有该数据时回到初始位。
+            // 没有轴组的状态报文照常推进计件，三维保持最近一次有效姿态。
             if (_Data.Robot_Axis is not null)
             {
+                _latestRobotAxes = new Robot_Axis_Model(_Data.Robot_Axis);
                 Digital_Simulation?.SetJoints(new[]
                 {
                     _Data.Robot_Axis.J1,
@@ -1493,10 +1512,6 @@ namespace Robot_Info_Mes.ViewModel
                     _Data.Robot_Axis.J5,
                     _Data.Robot_Axis.J6
                 });
-            }
-            else
-            {
-                Digital_Simulation?.ResetJointsToHome();
             }
 
 
@@ -1518,6 +1533,44 @@ namespace Robot_Info_Mes.ViewModel
 
         }
 
+        /// <summary>收包与定时保存共用日切标记，零点后先清昨日再记新产品。</summary>
+        internal void EnsureClientStatisticsDate(DateTime now)
+        {
+            var previousDate = _clientStatisticsDate ?? Mes_Robot_Info_Model_Data.File_Update_Time.Date;
+            if (previousDate == now.Date)
+            {
+                _clientStatisticsDate = now.Date;
+                return;
+            }
+            if (previousDate.Year != now.Year || previousDate.Month != now.Month)
+            {
+                Work_Factor_Seried.Mes_Date_Int();
+                Work_Factor_Seried.Mes_Data_Clear();
+            }
+            Mes_Robot_Info_Model_Data.Check_Day_Int_Time(now);
+            _clientStatisticsDate = now.Date;
+        }
+
+        private void CancelRobotCycle()
+        {
+            Mes_Robot_Info_Model_Data.CancelActiveCycles();
+            Work_Factor_Seried.Work_Cycle_Load_Factor.Value = 0;
+        }
+
+        private void SetRobotDisconnected()
+        {
+            CancelRobotCycle();
+            Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+            Mes_Robot_Info_Model_Data.Socket_Last_Update_Time = default;
+            if (Digital_Simulation is not null) Digital_Simulation.WeldActive = false;
+        }
+
+        /// <summary>停止或重启监听后，在途旧回调不能重新改写已清理的业务状态。</summary>
+        private static bool IsClosedSocket(Socket? socket)
+        {
+            try { return socket?.SafeHandle.IsClosed ?? false; }
+            catch (ObjectDisposedException) { return true; }
+        }
 
         // 网络回调来自多个线程，所有日志追加在 Dispatcher 中仍以专用锁串行化。
         private readonly object _userLogLock = new();
@@ -1589,12 +1642,21 @@ namespace Robot_Info_Mes.ViewModel
         /// 机器人侧通信错误回调：将 Client 设备标记离线并记录原因。
         /// </summary>
         /// <param name="_log">Socket 层错误说明。</param>
-        /// <param name="_Socket">发生错误的连接；当前单设备模型无需按端点区分。</param>
+        /// <param name="_Socket">发生错误的连接；其他仍有效的上报来源不会被置离线。</param>
         public void Socket_Robot_ErrorLog_Show(string _log, Socket? _Socket)
         {
 
 
-            Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
+            lock (Work_Factor_Seried.Sync)
+            {
+                if (_Socket is not null) _robotSenders.Remove(_Socket);
+                if (_Socket is null || ReferenceEquals(_lastRobotSender, _Socket))
+                {
+                    CancelRobotCycle();
+                    _lastRobotSender = null;
+                }
+                if (_robotSenders.Count == 0) SetRobotDisconnected();
+            }
 
 
             User_Log_Add(_log);
@@ -1648,20 +1710,7 @@ namespace Robot_Info_Mes.ViewModel
 
             if (remoteEndPoint != null)
             {
-                double offlineTimeoutSeconds = GetServerOfflineTimeoutSeconds();
-
-                lock (_Mes_ServerLock)
-                {
-                    foreach (var _Server in Mes_Server_Info_Data.Mes_Server_Model_List)
-                    {
-                        if (_Server.Connetc_Mes_IP?.Equals(remoteEndPoint) == true
-                            && _Server.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected
-                            && (DateTime.Now - _Server.Mes_Robot_Info_Model_Data.Socket_Last_Update_Time).TotalSeconds > offlineTimeoutSeconds)
-                        {
-                            _Server.Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State = Socket_Robot_Connect_State_Enum.Disconnected;
-                        }
-                    }
-                }
+                Invoke_On_UI(() => UpdateServerOfflineBoards(DateTime.Now, remoteEndPoint));
             }
 
             User_Log_Add(_log);

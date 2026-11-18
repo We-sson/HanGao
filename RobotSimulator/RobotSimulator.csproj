@@ -1,0 +1,145 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 以 x64 Windows 桌面程序运行，WPF 承载 Macad（OpenCascade）三维视口。 -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <RootNamespace>RobotSimulator</RootNamespace>
+    <AssemblyName>RobotSimulator</AssemblyName>
+  </PropertyGroup>
+
+  <Import Project="Build\Python.local.props" Condition="Exists('Build\Python.local.props')" />
+  <PropertyGroup>
+    <StepPython Condition="'$(StepPython)' == ''">python</StepPython>
+    <StepConverter>$(MSBuildProjectDirectory)\Build\ConvertStep.py</StepConverter>
+    <StepRequirements>$(MSBuildProjectDirectory)\Build\requirements.txt</StepRequirements>
+    <StepDependencies>$([System.IO.Path]::GetFullPath('$(BaseIntermediateOutputPath)StepConverter'))</StepDependencies>
+    <StepDependencyStamp>$(StepDependencies)\requirements.ready</StepDependencyStamp>
+    <CadModelsDir>$(BaseIntermediateOutputPath)CadModels\</CadModelsDir>
+  </PropertyGroup>
+
+  <!-- MVVM 属性/命令工具，以及 XAML 事件转命令行为。 -->
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
+    <None Update="THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!-- Macad（MIT）及其匹配版本的 Open CASCADE 程序集随程序发布。 -->
+  <ItemGroup>
+    <Reference Include="Macad.Common"><HintPath>ThirdParty\Macad\Macad.Common.dll</HintPath></Reference>
+    <Reference Include="Macad.Core"><HintPath>ThirdParty\Macad\Macad.Core.dll</HintPath></Reference>
+    <Reference Include="Macad.Exchange"><HintPath>ThirdParty\Macad\Macad.Exchange.dll</HintPath></Reference>
+    <Reference Include="Macad.Interaction"><HintPath>ThirdParty\Macad\Macad.Interaction.dll</HintPath></Reference>
+    <Reference Include="Macad.Managed"><HintPath>ThirdParty\Macad\Macad.Managed.dll</HintPath></Reference>
+    <Reference Include="Macad.Occt"><HintPath>ThirdParty\Macad\Macad.Occt.dll</HintPath></Reference>
+    <Reference Include="Macad.Presentation"><HintPath>ThirdParty\Macad\Macad.Presentation.dll</HintPath></Reference>
+    <Reference Include="Macad.Resources"><HintPath>ThirdParty\Macad\Macad.Resources.dll</HintPath></Reference>
+    <Reference Include="AvalonDock"><HintPath>ThirdParty\Macad\AvalonDock.dll</HintPath></Reference>
+    <Reference Include="AvalonDock.Themes.VS2013"><HintPath>ThirdParty\Macad\AvalonDock.Themes.VS2013.dll</HintPath></Reference>
+    <Reference Include="ControlzEx"><HintPath>ThirdParty\Macad\ControlzEx.dll</HintPath></Reference>
+    <Reference Include="Fluent"><HintPath>ThirdParty\Macad\Fluent.dll</HintPath></Reference>
+  </ItemGroup>
+
+  <!-- OpenCascade 原生 DLL 必须放在可执行文件同目录（Windows 不会搜索子目录），
+       Link 让它们以内容项复制到输出根目录，并随项目引用传给宿主程序。 -->
+  <ItemGroup>
+    <None Update="ThirdParty\Macad\TK*.dll;ThirdParty\Macad\tbb*.dll;ThirdParty\Macad\freetype.dll;ThirdParty\Macad\Ijwhost.dll">
+      <Link>%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- 回归测试可替换场景服务，验证真实控件的通信线程与加载时序。 -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="RobotSimulator.Tests" />
+  </ItemGroup>
+
+  <!-- 机器人模型与固定参数全部内嵌，不生成外部 robot.json。 -->
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Robots\**\*.robot.json"
+                      LogicalName="RobotModels/%(RecursiveDir)%(Filename)%(Extension)"
+                      WithCulture="false" />
+    <!-- Tool 单独建库，只在首次运行时生成可编辑配置。STEP 源文件只用于开发端转换。 -->
+    <EmbeddedResource Include="Resources\Tools\**\*.tool.json"
+                      LogicalName="ToolModels/%(RecursiveDir)%(Filename)%(Extension)"
+                      WithCulture="false" />
+    <EmbeddedResource Include="Resources\Work\**\*.work.json"
+                      LogicalName="WorkModels/%(RecursiveDir)%(Filename)%(Extension)"
+                      WithCulture="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_StepSource Include="Resources\Robots\**\*.STEP" Catalog="RobotModels" />
+    <_StepSource Include="Resources\Tools\**\*.STEP" Catalog="ToolModels" />
+    <_StepSource Include="Resources\Work\**\*.STEP" Catalog="WorkModels" />
+    <UpToDateCheckInput Include="@(_StepSource);$(StepConverter);$(StepRequirements)" />
+  </ItemGroup>
+
+  <!-- 模型缓存与编译配置无关，Debug 和 Release 共用。 -->
+  <Target Name="ResolveStepDisplayModels">
+    <ItemGroup>
+      <_StepDisplayModel Include="%(_StepSource.Identity)"
+                         CadDir="$(CadModelsDir)%(_StepSource.RelativeDir)"
+                         CadPath="$(CadModelsDir)%(_StepSource.RelativeDir)%(_StepSource.Filename).cad"
+                         ResourceName="%(_StepSource.Catalog)/%(_StepSource.RecursiveDir)%(_StepSource.Filename).cad" />
+    </ItemGroup>
+  </Target>
+
+  <!-- Visual Studio 比较每份 STEP 与自己的生成文件。执行此检查不启动转换器。 -->
+  <Target Name="CollectStepDisplayModelOutputs" BeforeTargets="CollectUpToDateCheckBuiltDesignTime"
+          DependsOnTargets="ResolveStepDisplayModels">
+    <ItemGroup>
+      <UpToDateCheckBuilt Include="%(_StepDisplayModel.CadPath)" Original="%(_StepDisplayModel.FullPath)" />
+    </ItemGroup>
+  </Target>
+
+  <!-- 构建机还原固定版本的 XDE 读取依赖。客户只加载内嵌的显示缓存。 -->
+  <Target Name="RestoreStepConverter" Inputs="$(StepRequirements)" Outputs="$(StepDependencyStamp)"
+          Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
+    <MakeDir Directories="$(StepDependencies)" />
+    <Exec Command="&quot;$(StepPython)&quot; -m pip install --disable-pip-version-check --no-cache-dir --upgrade --index-url https://pypi.org/simple --requirement &quot;$(StepRequirements)&quot; --target &quot;$(StepDependencies)&quot;" />
+    <Touch Files="$(StepDependencyStamp)" AlwaysCreate="true" />
+  </Target>
+
+  <!-- 每个 STEP 独立增量构建。几何与原色来自同一次 XDE 读取。 -->
+  <Target Name="ConvertStepDisplayModels" DependsOnTargets="ResolveStepDisplayModels;RestoreStepConverter"
+          Inputs="%(_StepDisplayModel.FullPath);$(StepConverter);$(StepRequirements)" Outputs="%(_StepDisplayModel.CadPath)"
+          Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
+    <PropertyGroup>
+      <StepJobFile>$([System.IO.Path]::GetFullPath('$(IntermediateOutputPath)step-job.txt'))</StepJobFile>
+    </PropertyGroup>
+    <MakeDir Directories="%(_StepDisplayModel.CadDir);$(IntermediateOutputPath)" />
+    <!-- 中英文路径使用同一份 UTF-8 响应文件。 -->
+    <WriteLinesToFile File="$(StepJobFile)"
+                      Lines="%(_StepDisplayModel.FullPath)|%(_StepDisplayModel.CadPath)"
+                      Overwrite="true" Encoding="UTF-8" />
+    <Exec Command="&quot;$(StepPython)&quot; -X utf8 &quot;$(StepConverter)&quot; --site-dir &quot;$(StepDependencies)&quot; --job &quot;$(StepJobFile)&quot;"
+          WorkingDirectory="$(MSBuildProjectDirectory)" UseUtf8Encoding="Always" />
+  </Target>
+
+  <!-- 每次都从现有 STEP 清单注册资源，包括跳过转换的缓存，排除已删除的旧模型。 -->
+  <Target Name="EmbedStepDisplayModels" BeforeTargets="AssignTargetPaths" DependsOnTargets="ConvertStepDisplayModels"
+          Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
+    <ItemGroup>
+      <EmbeddedResource Include="%(_StepDisplayModel.CadPath)" LogicalName="%(_StepDisplayModel.ResourceName)" WithCulture="false" />
+      <FileWrites Include="@(_StepDisplayModel->'%(CadPath)');$(StepJobFile)" />
+    </ItemGroup>
+  </Target>
+
+  <!-- 配置向导只用于开发阶段，Release 不包含源模型导入和机器人参数写入功能。 -->
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <Resource Include="Resources\SetupGuide\**\*.png" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' != 'Debug'">
+    <Page Remove="Views\RobotSetupWindow.xaml" />
+    <Compile Remove="Views\RobotSetupWindow.xaml.cs;ViewModels\RobotSetupViewModel.cs;Services\RobotImportService.cs" />
+  </ItemGroup>
+
+</Project>

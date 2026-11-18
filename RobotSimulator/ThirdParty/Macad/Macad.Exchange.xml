@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Macad.Exchange</name>
+    </assembly>
+    <members>
+        <member name="T:Macad.Exchange.Dxf.DxfExportSettingsPanel">
+            <summary>
+            DxfExportSettingsPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Exchange.Dxf.DxfExportSettingsPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Exchange.Dxf.DxfImportSettingsPanel">
+            <summary>
+            DxfImportSettingsPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Exchange.Dxf.DxfImportSettingsPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Exchange.Gltf.GltfSettingsPanel">
+            <summary>
+            GltfSettingsPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Exchange.Gltf.GltfSettingsPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Exchange.Iges.IgesSettingsPanel">
+            <summary>
+            IgesSettingsPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Exchange.Iges.IgesSettingsPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Exchange.Obj.ObjSettingsPanel">
+            <summary>
+            ObjSettingsPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Exchange.Obj.ObjSettingsPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Exchange.OpenCascade.OpenCascadeSettingsPanel">
+            <summary>
+            OpenCascadeSettingsPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Exchange.OpenCascade.OpenCascadeSettingsPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Exchange.Step.StepSettingsPanel">
+            <summary>
+            StepSettingsPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Exchange.Step.StepSettingsPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Exchange.Stl.StlSettingsPanel">
+            <summary>
+            StlSettingsPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Exchange.Stl.StlSettingsPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Exchange.Svg.SvgSettingsPanel">
+            <summary>
+            SvgSettingsPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Exchange.Svg.SvgSettingsPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,723 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Macad.Interaction</name>
+    </assembly>
+    <members>
+        <member name="T:Macad.Interaction.Dialogs.ExchangerSettings">
+            <summary>
+            Interaction logic for ExchangerSettings.xaml
+            </summary>
+            <summary>
+            ExchangerSettings
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Dialogs.ExchangerSettings.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Dialogs.ExportViewportHlr">
+            <summary>
+            ExportViewportHlr
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Dialogs.ExportViewportHlr.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Dialogs.ShortcutCheatSheet">
+            <summary>
+            ShortcutCheatSheet
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Dialogs.ShortcutCheatSheet.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Auxiliary.DatumPlanePropertyPanel">
+            <summary>
+            Interaction logic for DatumPlanePropertyPanel.xaml
+            </summary>
+            <summary>
+            DatumPlanePropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Auxiliary.DatumPlanePropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.BoxJointPropertyPanel">
+            <summary>
+            BoxJointPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.BoxJointPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.HalvedJointPropertyPanel">
+            <summary>
+            HalvedJointPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.HalvedJointPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.ExtrudePropertyPanel">
+            <summary>
+            ExtrudePropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.ExtrudePropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.LoftPropertyPanel">
+            <summary>
+            LoftPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.LoftPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.PipePropertyPanel">
+            <summary>
+            PipePropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.PipePropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.RevolvePropertyPanel">
+            <summary>
+            RevolvePropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.RevolvePropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.CrossSectionPropertyPanel">
+            <summary>
+            CrossSectionPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.CrossSectionPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.BooleanPropertyPanel">
+            <summary>
+            BooleanPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.BooleanPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.ChamferPropertyPanel">
+            <summary>
+            Interaction logic for ChamferPropertyPanel.xaml
+            </summary>
+            <summary>
+            ChamferPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.ChamferPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.CreateImprintTool.#ctor(Macad.Core.Topology.Body,Macad.Core.Shapes.Imprint.ImprintMode)">
+            <summary>
+            Create a new imprint by selecting a target face.
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.CreateImprintTool.#ctor(Macad.Core.Shapes.Imprint)">
+            <summary>
+            Reselect target face of an imprint shape.
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.CreateTaperTool.#ctor(Macad.Core.Topology.Body)">
+            <summary>
+            Create a new taper shape by selecting a target face.
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.CreateTaperTool.#ctor(Macad.Core.Shapes.Taper)">
+            <summary>
+            Reselect target face of an taper shape.
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.FilletPropertyPanel">
+            <summary>
+            Interaction logic for FilletPropertyPanel.xaml
+            </summary>
+            <summary>
+            FilletPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.FilletPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.ImprintPropertyPanel">
+            <summary>
+            ImprintPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.ImprintPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.OffsetPropertyPanel">
+            <summary>
+            OffsetPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.OffsetPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.ScalePropertyPanel">
+            <summary>
+            ScalePropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.ScalePropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.TaperPropertyPanel">
+            <summary>
+            TaperPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.TaperPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.CircularArrayPropertyPanel">
+            <summary>
+            CircularArrayPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.CircularArrayPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.LinearArrayPropertyPanel">
+            <summary>
+            Interaction logic for MultiplyMirrorPropertyPanel.xaml
+            </summary>
+            <summary>
+            LinearArrayPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.LinearArrayPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.MirrorPropertyPanel">
+            <summary>
+            MirrorPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.MirrorPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.BoxPropertyPanel">
+            <summary>
+            Interaction logic for BoxPropertyPanel.xaml
+            </summary>
+            <summary>
+            BoxPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.BoxPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.CylinderPropertyPanel">
+            <summary>
+            CylinderPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.CylinderPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.ReferencePropertyPanel">
+            <summary>
+            Interaction logic for ReferencePropertyPanel.xaml
+            </summary>
+            <summary>
+            ReferencePropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.ReferencePropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.SpherePropertyPanel">
+            <summary>
+            SpherePropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.SpherePropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.CreateFlangeSheetTool.#ctor(Macad.Core.Topology.Body)">
+            <summary>
+            Create a new flange by selecting a target face.
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.CreateFlangeSheetTool.#ctor(Macad.Core.Shapes.FlangeSheet)">
+            <summary>
+            Reselect target face of an flange shape.
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.FlangeSheetPropertyPanel">
+            <summary>
+            Interaction logic for ChamferPropertyPanel.xaml
+            </summary>
+            <summary>
+            FlangeSheetPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.FlangeSheetPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.UnfoldSheetPropertyPanel">
+            <summary>
+            Interaction logic for ChamferPropertyPanel.xaml
+            </summary>
+            <summary>
+            UnfoldSheetPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.UnfoldSheetPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.SketchConstraintsPropertyPanel">
+            <summary>
+            SketchConstraintsPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.SketchConstraintsPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.SketchPointsPropertyPanel">
+            <summary>
+            SketchPointsPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.SketchPointsPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.SketchPropertyPanel">
+            <summary>
+            SketchPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.SketchPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Shapes.SketchSegmentsPropertyPanel">
+            <summary>
+            SketchSegmentsPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Shapes.SketchSegmentsPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Toolkits.EtchingMaskPropertyPanel">
+            <summary>
+            EtchingMaskPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Toolkits.EtchingMaskPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Toolkits.SliceContourPropertyPanel">
+            <summary>
+            SliceContourPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Toolkits.SliceContourPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Topology.BodyPropertyPanel">
+            <summary>
+            BodyPropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Topology.BodyPropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Editors.Topology.BodyShapePropertyPanel">
+            <summary>
+            BodyShapePropertyPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Editors.Topology.BodyShapePropertyPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.InteractiveScriptContext">
+            <summary>
+            The base class for all scripts running in an interactive environment.
+            The script class will be derived from this and can access all members directly.
+            This is the usual base class when running scripts in the application.
+            </summary>
+        </member>
+        <member name="P:Macad.Interaction.InteractiveScriptContext.WorkspaceController">
+            <summary>
+            Controller for the workspace, implements all functions for interactive workspace management.
+            </summary>
+        </member>
+        <member name="P:Macad.Interaction.InteractiveScriptContext.Selection">
+            <summary>
+            Handles workspace selection of bodies.
+            </summary>
+        </member>
+        <member name="P:Macad.Interaction.InteractiveScriptContext.DocumentController">
+            <summary>
+            Controller for the document (e.g. the model), implements all functions for document management.
+            </summary>
+        </member>
+        <member name="P:Macad.Interaction.InteractiveScriptContext.EditorState">
+            <summary>
+            Holds the state of several editing functions.
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Coord2DHudElement">
+            <summary>
+            Coord2DHudElement
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Coord2DHudElement.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Coord3DHudElement">
+            <summary>
+            Coord3DHudElement
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Coord3DHudElement.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Delta2DHudElement">
+            <summary>
+            Delta2DHudElement
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Delta2DHudElement.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Delta3DHudElement">
+            <summary>
+            Delta3DHudElement
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Delta3DHudElement.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.DeltaHudElement">
+            <summary>
+            DeltaHudElement
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.DeltaHudElement.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.LabelHudElement">
+            <summary>
+            LabelHudElement
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.LabelHudElement.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.MultiValueHudElement">
+            <summary>
+            MultiValueHudElement
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.MultiValueHudElement.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.ValueHudElement">
+            <summary>
+            ValueHudElement
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.ValueHudElement.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.BoxScaleLiveAction">
+            <summary>
+            Snapping will be executed for Edge, Vertex and Face. It will snap only in a primary axis direction (x, y or z)
+            depending on which result point is more close to the origin. This seems to be unfamiliar, but since the move axis
+            will almost never touch the snap target, this seems to be the only variant which can be useful in most situations.
+            To activate snapping, the target entity must be set in the constructor.
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.RotateLiveAction">
+            <summary>
+            Snapping will be executed for Edge, Vertex and Face. It will snap only in a primary axis direction (x, y or z)
+            depending on which result point is more close to the origin. This seems to be unfamiliar, but since the axis
+            will almost never touch the snap target, this seems to be the only variant which can be useful in most situations.
+            To activate snapping, the target entity must be set in the constructor.
+            </summary>
+        </member>
+        <member name="P:Macad.Interaction.RotateLiveAction.SnapAngleOffset">
+            <summary>
+            Angle offset in rad which defines the rotated axis to snap to. Set this if the axis to snap to is
+            not aligned to the current rotation direction.
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.RotateLiveAction.#ctor(Macad.Core.Topology.InteractiveEntity)">
+            <param name="targetEntity">The entity which is the target of the operation. It will be excluded from snapping.</param>
+        </member>
+        <member name="T:Macad.Interaction.TranslateAxisLiveAction">
+            <summary>
+            Snapping will be executed for Edge, Vertex and Face. It will snap only in a primary axis direction (x, y or z)
+            depending on which result point is more close to the origin. This seems to be unfamiliar, but since the axis
+            will almost never touch the snap target, this seems to be the only variant which can be useful in most situations.
+            To activate snapping, the target entity must be set in the constructor.
+            </summary>
+        </member>
+        <member name="P:Macad.Interaction.TranslateAxisLiveAction.SnapOffset">
+            <summary>
+            Parameter of the axis which defines the point to snap to. Set this if the point to snap to is
+            not the axis origin.
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.TranslateAxisLiveAction.#ctor(Macad.Core.Topology.InteractiveEntity)">
+            <param name="targetEntity">The entity which is the target of the operation. It will be excluded from snapping.</param>
+        </member>
+        <member name="T:Macad.Interaction.Panels.DocumentExplorerPanel">
+            <summary>
+            DocumentExplorerPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.DocumentExplorerPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.LayersPanel">
+            <summary>
+            LayersPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.LayersPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.LayerVisualPanel">
+            <summary>
+            Interaction logic for LayerVisualPanel.xaml
+            </summary>
+            <summary>
+            LayerVisualPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.LayerVisualPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.BodyShapeReferenceGroup">
+            <summary>
+            Interaction logic for BodyShapeReferenceGroup.xaml
+            </summary>
+            <summary>
+            BodyShapeReferenceGroup
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.BodyShapeReferenceGroup.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.InteractivePropertyGroup">
+            <summary>
+            Interaction logic for InteractivePropertyGroup.xaml
+            </summary>
+            <summary>
+            InteractivePropertyGroup
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.InteractivePropertyGroup.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.TransformablePropertyGroup">
+            <summary>
+            Interaction logic for TransformablePropertyGroup.xaml
+            </summary>
+            <summary>
+            TransformablePropertyGroup
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.TransformablePropertyGroup.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.PropertiesPanel">
+            <summary>
+            PropertiesPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.PropertiesPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.MessagesPanel">
+            <summary>
+            MessagesPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.MessagesPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.ShapeInspectorPanel">
+            <summary>
+            ShapeInspectorPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.ShapeInspectorPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.ViewportContextMenu">
+            <summary>
+            Interaction logic for ViewportContextMenu.xaml
+            </summary>
+            <summary>
+            ViewportContextMenu
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.ViewportContextMenu.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.ViewportGridInfo">
+            <summary>
+            ViewportGridInfo
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.ViewportGridInfo.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.ViewportMessageBar">
+            <summary>
+            ViewportMessageBar
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.ViewportMessageBar.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Interaction.Panels.ViewportPanel">
+            <summary>
+            ViewportPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.Panels.ViewportPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:Macad.Interaction.ViewportController.PanToCenter(Macad.Occt.Pnt)">
+            <summary>
+            Pans the viewport center on the specified position.
+            </summary>
+            <param name="position">The target position to center the viewport on.</param>
+        </member>
+        <member name="M:Macad.Interaction.ViewportController.ZoomFit(Macad.Occt.Bnd_Box)">
+            <summary>
+            Adjusts the view to fit the specified bounding box within the viewport.
+            </summary>
+            <remarks>If the bounding box has a too small square extent, the method does nothing.
+            A margin of 10% will be added around the bounding box.</remarks>
+            <param name="boxToFit">The bounding box to fit within the viewport. Must have a positive square extent.</param>
+        </member>
+    </members>
+</doc>

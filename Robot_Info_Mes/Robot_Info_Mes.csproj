@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -57,25 +57,26 @@
     <ProjectReference Include="..\Roboto_Socket_Library\Roboto_Socket_Library.csproj" />
     <!-- Modbus TCP 功能库：配置、服务端、状态和命令。 -->
     <ProjectReference Include="..\HanGao.RobotInfo.Modbus\HanGao.RobotInfo.Modbus.csproj" />
-    <!-- 三维模型控件固定在主页面下方显示；控件与模型都在 RobotSimulator.AnyCAD 内。 -->
-    <ProjectReference Include="..\RobotSimulator.AnyCAD\RobotSimulator.AnyCAD.csproj" />
+    <!-- 三维模型控件固定在主页面下方显示；控件与模型都在 RobotSimulator 内。 -->
+    <ProjectReference Include="..\RobotSimulator\RobotSimulator.csproj" />
   </ItemGroup>
 
-  <!--
-    三维控件依赖 AnyCAD 的完整模块和原生库；这些文件由主程序构建后统一复制，
-    避免使用 NuGet 包中版本不一致的旧程序集覆盖编译期引用。
-  -->
-  <Target Name="CopyAnyCadRuntime" AfterTargets="Build">
-    <PropertyGroup>
-      <RobotSimulatorOutput>$(MSBuildThisFileDirectory)..\RobotSimulator.AnyCAD\bin\$(Configuration)\net10.0-windows\win-x64\</RobotSimulatorOutput>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(RobotSimulatorOutput)AnyCAD.Foundation.NET.dll')"
-           Text="未找到主程序输出目录：$(RobotSimulatorOutput)，请先构建 RobotSimulator.AnyCAD。" />
-    <ItemGroup>
-      <AnyCadRuntime Include="$(RobotSimulatorOutput)AnyCAD*.dll;$(RobotSimulatorOutput)TK*.dll;$(RobotSimulatorOutput)Ifc*.dll" />
-    </ItemGroup>
-    <Copy SourceFiles="@(AnyCadRuntime)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
-  </Target>
+  <!-- Macad 视口运行时还会加载随附的 WPF 第三方程序集（AvalonDock 等）。
+       项目引用不会把这些 HintPath 依赖传递到宿主程序，显式引用以便复制并写入 deps.json。 -->
+  <ItemGroup>
+    <Reference Include="AvalonDock">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock.Themes.VS2013">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\AvalonDock.Themes.VS2013.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Fluent">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Fluent.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Resources\1楼面板.png" />

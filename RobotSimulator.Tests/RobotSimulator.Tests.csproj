@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RobotSimulator\RobotSimulator.csproj" />
+  </ItemGroup>
+  <!-- 测试直接断言 Macad 几何类型；项目引用的 HintPath 依赖不会传递到编译引用。 -->
+  <ItemGroup>
+    <Reference Include="Macad.Common">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Macad.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Macad.Core">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Macad.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Macad.Exchange">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Macad.Exchange.dll</HintPath>
+    </Reference>
+    <Reference Include="Macad.Interaction">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Macad.Interaction.dll</HintPath>
+    </Reference>
+    <Reference Include="Macad.Managed">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Macad.Managed.dll</HintPath>
+    </Reference>
+    <Reference Include="Macad.Occt">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Macad.Occt.dll</HintPath>
+    </Reference>
+    <Reference Include="Macad.Presentation">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Macad.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="Macad.Resources">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Macad.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock.Themes.VS2013">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\AvalonDock.Themes.VS2013.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Fluent">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Fluent.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <!-- 项目引用不传递原生依赖；测试进程加载 Macad 前必须把 OpenCascade 运行时放到输出目录。 -->
+  <ItemGroup>
+    <None Include="..\RobotSimulator\ThirdParty\Macad\TK*.dll;..\RobotSimulator\ThirdParty\Macad\tbb*.dll;..\RobotSimulator\ThirdParty\Macad\freetype.dll;..\RobotSimulator\ThirdParty\Macad\Ijwhost.dll"
+          Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

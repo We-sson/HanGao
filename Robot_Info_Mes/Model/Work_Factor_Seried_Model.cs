@@ -731,6 +731,9 @@ namespace Robot_Info_Mes.Model
         /// <returns>四舍五入后的百分比；无有效样本返回 0，显示上限为 120。</returns>
         public double Get_Work_Availability_Factor(double _Work_Time, double _Work_Run_Time)
         {
+            if (!double.IsFinite(_Work_Time) || !double.IsFinite(_Work_Run_Time)
+                || _Work_Time < 0 || _Work_Run_Time <= 0)
+                return 0;
             // 同单位相除后乘 100；120% 封顶可容纳少量超目标，又避免异常值撑坏坐标轴。
             var _Work_Availability = (_Work_Time / _Work_Run_Time) * 100;
             return Math.Round(double.IsNaN(_Work_Availability) ? 0 : (_Work_Availability <= 120 ? _Work_Availability : 120), 0);
@@ -753,7 +756,8 @@ namespace Robot_Info_Mes.Model
         /// <returns>当前周期负荷百分比；没有活动周期时保持上一次值，显示上限为 120。</returns>
         public double Get_Work_Cycle_Load_Factor(Robot_Process_Int_Enum _Process, ref Time_Model _A_Cycle_Time, ref Time_Model _B_Cycle_Time, ref Time_Model _C_Cycle_Time, ref Time_Model _D_Cycle_Time, double Work_Standard_Time)
         {
-
+            if (!double.IsFinite(Work_Standard_Time) || Work_Standard_Time <= 0)
+                return 0;
 
             // 没有计时器运行时沿用最后值，避免现场信号间隙令仪表瞬间跳回零。
             double _Facyor = Work_Cycle_Load_Factor.Value ?? 0;
@@ -782,7 +786,7 @@ namespace Robot_Info_Mes.Model
 
                     break;
 
-                case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1 or Robot_Process_Int_Enum.Panel_Welding_2 or Robot_Process_Int_Enum.LaserCutting_1 or Robot_Process_Int_Enum.Spot_Surround_1 or Robot_Process_Int_Enum.Spot_Sink_9 or Robot_Process_Int_Enum.Spot_Sink_8 :
+                case Robot_Process_Int_Enum.Panel_Surround_7 or Robot_Process_Int_Enum.Panel_Surround_8 or Robot_Process_Int_Enum.Panel_Surround_9 or Robot_Process_Int_Enum.Panel_Welding_1 or Robot_Process_Int_Enum.Panel_Welding_2 or Robot_Process_Int_Enum.LaserCutting_1 or Robot_Process_Int_Enum.Spot_Surround_1 or Robot_Process_Int_Enum.Spot_Surround_2 or Robot_Process_Int_Enum.Spot_Sink_9 or Robot_Process_Int_Enum.Spot_Sink_8 :
                     // 其余已支持工艺分别用 A 或 C 单路周期代表两条生产路径。
                     if (_A_Cycle_Time.Timer.IsRunning)
                     {
@@ -825,7 +829,7 @@ namespace Robot_Info_Mes.Model
 
 
 
-            return Math.Round(double.IsNaN(_Facyor) ? 0 : (_Facyor <= 120 ? _Facyor : 120), 0);
+            return double.IsFinite(_Facyor) ? Math.Round(Math.Clamp(_Facyor, 0, 120), 0) : 0;
 
 
 
@@ -842,6 +846,10 @@ namespace Robot_Info_Mes.Model
         /// <returns>四舍五入后的百分比；无有效样本返回 0，显示上限为 120。</returns>
         public double Get_Work_Performance_Factor(double _Work_Standard_Time, double _Robot_Work_ABCD_Number, double _Robot_Work_Time)
         {
+            if (!double.IsFinite(_Work_Standard_Time) || !double.IsFinite(_Robot_Work_ABCD_Number)
+                || !double.IsFinite(_Robot_Work_Time) || _Work_Standard_Time <= 0
+                || _Robot_Work_ABCD_Number < 0 || _Robot_Work_Time <= 0)
+                return 0;
             // 标准节拍乘产量得到理论用时，与实际用时之比反映当前产出速度。
             var _time = _Work_Standard_Time * _Robot_Work_ABCD_Number;
             var _Work_Performance = (_time / _Robot_Work_Time) * 100;

@@ -1,0 +1,281 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Macad.Common</name>
+    </assembly>
+    <members>
+        <member name="P:Macad.Common.Evaluator.Context.CurrentStackSize">
+            <summary>
+            check current stacksize
+            is used for debugging purposes and error handling
+            to prevent stackoverflows
+            </summary>
+        </member>
+        <member name="M:Macad.Common.Evaluator.Context.Reset">
+            <summary>
+            resets the context to its defaults
+            </summary> 
+        </member>
+        <member name="P:Macad.Common.Evaluator.Function.Arguments">
+            <summary>
+            define the arguments of the dynamic function
+            </summary>
+        </member>
+        <member name="P:Macad.Common.Evaluator.Function.Name">
+            <summary>
+            name of the function
+            </summary>
+        </member>
+        <member name="P:Macad.Common.Evaluator.Function.MaxParameters">
+            <summary>
+            minimum number of allowed parameters (default = 0)
+            </summary>
+        </member>
+        <member name="P:Macad.Common.Evaluator.Function.MinParameters">
+            <summary>
+            maximum number of allowed parameters (default = 0)
+            </summary>
+        </member>
+        <member name="F:Macad.Common.Evaluator.DynamicFunction.Node">
+            <summary>
+            points to the RHS of the assignment of this function
+            this branch will be evaluated each time this function is executed
+            </summary>
+        </member>
+        <member name="M:Macad.Common.Evaluator.DynamicFunction.Eval(System.Object[],Macad.Common.Evaluator.ParseTreeEvaluator)">
+            <summary>
+            the list of parameters must correspond the the required set of Arguments
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Macad.Common.Evaluator.StaticFunction.FunctionDelegate">
+            <summary>
+            the actual function implementation
+            </summary>
+        </member>
+        <member name="M:Macad.Common.Evaluator.Functions.Avg(System.Object[])">
+            <summary>
+            calculates the average over a list of numeric values
+            </summary>
+            <param name="ps">list of numeric values</param>
+            <returns>the average value</returns>
+        </member>
+        <member name="M:Macad.Common.Evaluator.Functions.Median(System.Object[])">
+            <summary>
+            calculates the median over a list of numeric values
+            </summary>
+            <param name="ps">list of numeric values</param>
+            <returns>the median value</returns>
+        </member>
+        <member name="M:Macad.Common.Evaluator.Functions.Var(System.Object[])">
+            <summary>
+            calculates the statistical variance over a list of numeric values
+            </summary>
+            <param name="ps">list of numeric values</param>
+            <returns>the variance</returns>
+        </member>
+        <member name="M:Macad.Common.Evaluator.Functions.StDev(System.Object[])">
+            <summary>
+            calculates the statistical standard deviation over a list of numeric values
+            </summary>
+            <param name="ps">list of numeric values</param>
+            <returns>the standard deviation</returns>
+        </member>
+        <member name="M:Macad.Common.Evaluator.Functions.Log(System.Object[])">
+            <summary>
+            generic Log implementation, allows 1 or 2 parameters
+            </summary>
+            <param name="ps">numeric values</param>
+            <returns>Log of the value</returns>
+        </member>
+        <member name="M:Macad.Common.Evaluator.ParseTree.Eval(System.Object[])">
+            <summary>
+            this is the entry point for executing and evaluating the parse tree.
+            </summary>
+            <param name="paramlist">additional optional input parameters</param>
+            <returns>the output of the evaluation function</returns>
+        </member>
+        <member name="M:Macad.Common.Evaluator.ParseNode.Eval(Macad.Common.Evaluator.ParseTree,System.Object[])">
+            <summary>
+            this implements the evaluation functionality, cannot be used directly
+            </summary>
+            <param name="tree">the parsetree itself</param>
+            <param name="paramlist">optional input parameters</param>
+            <returns>a partial result of the evaluation</returns>
+        </member>
+        <member name="M:Macad.Common.Evaluator.ParseTreeEvaluator.CreateNode(Macad.Common.Evaluator.Token,System.String)">
+            <summary>
+            required to override this function from base otherwise the parsetree will consist of incorrect types of nodes
+            </summary>
+            <param name="token"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Macad.Common.Evaluator.Scanner.Scan(Macad.Common.Evaluator.TokenType[])">
+            <summary>
+            executes a lookahead of the next token
+            and will advance the scan on the input string
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Macad.Common.Evaluator.Scanner.LookAhead(Macad.Common.Evaluator.TokenType[])">
+            <summary>
+            returns token with longest best match
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Macad.Common.Evaluator.Variables.Clone">
+            <summary>
+            clones this set of variables
+            this is required in order to support local scope and recursion
+            a copy of the set of variables (arguments in a function) will be pushed on the scope stack
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Macad.Common.PathUtils.MakePathRelative(System.String,System.String)">
+            <summary>
+            Creates a relative path from one file
+            or folder to another.
+            </summary>
+            <param name="fromDirectory">
+            Contains the directory that defines the 
+            start of the relative path.
+            </param>
+            <param name="toPath">
+            Contains the path that defines the
+            endpoint of the relative path.
+            </param>
+            <returns>
+            The relative path from the start
+            directory to the end path.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:Macad.Common.Interop.HRESULT">
+            <summary>Wrapper for HRESULT status codes.</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.S_OK">
+            <summary>S_OK</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.S_FALSE">
+            <summary>S_FALSE</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.E_NOTIMPL">
+            <summary>E_NOTIMPL</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.E_NOINTERFACE">
+            <summary>E_NOINTERFACE</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.E_POINTER">
+            <summary>E_POINTER</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.E_ABORT">
+            <summary>E_ABORT</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.E_FAIL">
+            <summary>E_FAIL</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.E_UNEXPECTED">
+            <summary>E_UNEXPECTED</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.DISP_E_MEMBERNOTFOUND">
+            <summary>DISP_E_MEMBERNOTFOUND</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.DISP_E_TYPEMISMATCH">
+            <summary>DISP_E_TYPEMISMATCH</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.DISP_E_UNKNOWNNAME">
+            <summary>DISP_E_UNKNOWNNAME</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.DISP_E_EXCEPTION">
+            <summary>DISP_E_EXCEPTION</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.DISP_E_OVERFLOW">
+            <summary>DISP_E_OVERFLOW</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.DISP_E_BADINDEX">
+            <summary>DISP_E_BADINDEX</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.DISP_E_BADPARAMCOUNT">
+            <summary>DISP_E_BADPARAMCOUNT</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.DISP_E_PARAMNOTOPTIONAL">
+            <summary>DISP_E_PARAMNOTOPTIONAL</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.SCRIPT_E_REPORTED">
+            <summary>SCRIPT_E_REPORTED</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.STG_E_INVALIDFUNCTION">
+            <summary>STG_E_INVALIDFUNCTION</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.DESTS_E_NO_MATCHING_ASSOC_HANDLER">
+            <summary>DESTS_E_NO_MATCHING_ASSOC_HANDLER.</summary>
+            <remarks>
+            Win7 error code for Jump Lists.  There is no associated handler for the given item registered by the specified application.
+            </remarks>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.E_ACCESSDENIED">
+            <summary>E_ACCESSDENIED</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.E_OUTOFMEMORY">
+            <summary>E_OUTOFMEMORY</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.E_INVALIDARG">
+            <summary>E_INVALIDARG</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.COR_E_OBJECTDISPOSED">
+            <summary>COR_E_OBJECTDISPOSED</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.WC_E_GREATERTHAN">
+            <summary>WC_E_GREATERTHAN</summary>
+        </member>
+        <member name="F:Macad.Common.Interop.HRESULT.WC_E_SYNTAX">
+            <summary>WC_E_SYNTAX</summary>
+        </member>
+        <member name="T:Macad.Common.Interop.Win32Api.SyncObjectAccess">
+            http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/synchronization_object_security_and_access_rights.asp
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_SUCCESS">
+            <summary>The operation completed successfully.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_INVALID_FUNCTION">
+            <summary>Incorrect function.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_FILE_NOT_FOUND">
+            <summary>The system cannot find the file specified.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_PATH_NOT_FOUND">
+            <summary>The system cannot find the path specified.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_TOO_MANY_OPEN_FILES">
+            <summary>The system cannot open the file.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_ACCESS_DENIED">
+            <summary>Access is denied.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_INVALID_HANDLE">
+            <summary>The handle is invalid.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_OUTOFMEMORY">
+            <summary>Not enough storage is available to complete this operation.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_NO_MORE_FILES">
+            <summary>There are no more files.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_SHARING_VIOLATION">
+            <summary>The process cannot access the file because it is being used by another process.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_INVALID_PARAMETER">
+            <summary>The parameter is incorrect.</summary>
+        </member>
+        <member name="F:Macad.Common.Win32Error.ERROR_ALREADY_EXISTS">
+            <summary>Cannot create a file when that file already exists.</summary>
+        </member>
+        <member name="T:Macad.Common.Color">
+            <summary>
+            Color value in sRGB.
+            </summary>
+        </member>
+    </members>
+</doc>

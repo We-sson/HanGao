@@ -211,7 +211,7 @@ namespace Roboto_Socket_Library
 
         //private  byte[] buffer { set; get; } = new byte[1024 * 2048];
         /// <summary>
-        /// 服务端累计维护的连接计数；接受连接时增加，部分断开/异常路径会减少。
+        /// 服务端累计接受的连接次数；断开连接不回退此诊断计数。
         /// </summary>
         public int ConnectNumber { set; get; } = 0;
 
@@ -224,8 +224,10 @@ namespace Roboto_Socket_Library
         /// <summary>服务端响应写回允许等待的最长时间。</summary>
         public int ServerSendTimeoutMilliseconds { set; get; } = 10_000;
 
-        /// <summary>当前服务端保留的客户端连接数；由接受/关闭路径维护。</summary>
-        private int _activeServerConnections;
+        /// <summary>启动、停止、接受和关闭连接共用的状态锁。</summary>
+        private readonly object _serverSync = new();
+        /// <summary>当前监听器接受的全部连接，停止服务时一并释放。</summary>
+        private readonly Dictionary<Receive_State, Socket> _serverClients = new();
 
         /// <summary>最近一次监听启动是否成功；构造完成后可由宿主检查。</summary>
         public bool ServerStarted { get; private set; }
@@ -318,20 +320,29 @@ namespace Roboto_Socket_Library
 
 
 
-        /// <summary>
-        /// 关闭并释放一个客户端连接（幂等，可重复调用）。
-        /// 必须在错误委托之后调用，因为上层错误处理可能仍需读取 <see cref="Socket.RemoteEndPoint"/> 来匹配客户端。
-        /// </summary>
-        /// <param name="_client">要清理的服务端客户端状态；为空或已经清理时直接返回。</param>
-        private void Close_Client(Receive_State? _client)
+        /// <summary>确认该连接仍属于当前服务，阻止停止后的旧回调继续派发报文。</summary>
+        private bool IsServerClientActive(Receive_State client)
         {
-            Socket? _s = _client?.Client_Socket;
-            if (_s == null) return;
+            lock (_serverSync) return _serverClients.ContainsKey(client);
+        }
 
-            // 先置空实现幂等；Shutdown、Close 或 Dispose 中任一步失败都不阻止后续清理。
-            _client!.Client_Socket = null;
-            Interlocked.Decrement(ref _activeServerConnections);
-            CloseSocket(_s);
+        /// <summary>先通知有效连接的业务层，再保证连接被释放；停止服务产生的回调无需重复报错。</summary>
+        private void CloseServerClientWithError(Receive_State client, string message, Socket? socket)
+        {
+            Socket? tracked;
+            lock (_serverSync)
+            {
+                if (!_serverClients.Remove(client, out tracked)) return;
+                client.Client_Socket = null;
+            }
+            try
+            {
+                Socket_ErrorInfo_delegate?.Invoke(message, socket ?? tracked);
+            }
+            finally
+            {
+                CloseSocket(tracked);
+            }
         }
 
 
@@ -875,64 +886,56 @@ namespace Roboto_Socket_Library
         /// <param name="_Port">要绑定的 TCP 端口文本。</param>
         public void Server_Strat(string _IP, string _Port)
         {
-            ServerStarted = false;
-            ServerStartError = string.Empty;
-
-            try
+            Exception? failure = null;
+            Socket? listener = null;
+            lock (_serverSync)
             {
-                // 地址和端口在启动时解析，配置问题会由统一错误委托上报。
-                IPEndPoint ipe = new(IPAddress.Parse(_IP), int.Parse(_Port));
-
-                Socket_Sever = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                // 服务重启时允许尽快重新绑定仍处于系统回收期的地址。
-                Socket_Sever.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-
-                //Socket_Sever.SetSocketOption(SocketOptionLevel.Socket,SocketOptionName.KeepAlive, true);
-                //Socket_Sever.SetSocketOption(SocketOptionLevel.Socket,SocketOptionName.TcpKeepAliveTime, 30);
-
-                // 绑定后用较大的待连接队列承接多机器人同时上线。
-                Socket_Sever.Bind(ipe);
-                Socket_Sever.Listen(100);
-
-                // BeginAccept 每次只接受一个连接，回调末尾会再次挂起形成持续循环。
-                Socket_Sever.BeginAccept(new AsyncCallback(ClienAppcet), Socket_Sever);
-
-                ServerStarted = true;
+                Sever_End();
+                ServerStartError = string.Empty;
+                try
+                {
+                    IPEndPoint endpoint = new(IPAddress.Parse(_IP), int.Parse(_Port));
+                    listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    listener.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                    listener.Bind(endpoint);
+                    listener.Listen(100);
+                    Socket_Sever = listener;
+                    ServerStarted = true;
+                    listener.BeginAccept(new AsyncCallback(ClienAppcet), listener);
+                }
+                catch (Exception error)
+                {
+                    failure = error;
+                    ServerStartError = error.Message;
+                    ServerStarted = false;
+                    Socket_Sever = null;
+                    CloseSocket(listener);
+                }
             }
-            catch (Exception e)
-            {
-                ServerStartError = e.Message;
-
-                Socket_ErrorInfo_delegate?.Invoke($"Error:-7,IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + e.Message, Socket_Sever);
-
-                //Socket_Sever.Close();
-                //Socket_Sever.Dispose();
-
-
-            }
-
-
+            if (failure is not null)
+                Socket_ErrorInfo_delegate?.Invoke(
+                    $"Error:-7,IP：{_IP}，Port：{_Port}，开启服务失败！原因：" + failure.Message, listener);
         }
 
         /// <summary>
-        /// 停止服务端监听并释放监听 Socket。
+        /// 停止监听并释放全部已接受的连接；旧回调无法重新接入下一次启动。
         /// </summary>
         public void Sever_End()
         {
-
-            try
+            lock (_serverSync)
             {
-                // Shutdown 终止挂起的收发；若监听 Socket 状态不允许 Shutdown，则由 catch 直接 Dispose。
-                Socket_Sever?.Shutdown(SocketShutdown.Both);
-                Socket_Sever?.Close();
+                ServerStarted = false;
+                var listener = Socket_Sever;
+                Socket_Sever = null;
+                var clients = _serverClients.ToArray();
+                _serverClients.Clear();
+                foreach (var client in clients)
+                {
+                    client.Key.Client_Socket = null;
+                    CloseSocket(client.Value);
+                }
+                CloseSocket(listener);
             }
-            catch (Exception)
-            {
-
-                Socket_Sever?.Dispose();
-
-            }
-
         }
 
 
@@ -985,80 +988,68 @@ namespace Roboto_Socket_Library
         private void ClienAppcet(IAsyncResult ar)
         {
             Socket? ServerSocket = ar.AsyncState as Socket;
+            Socket? client = null;
+            Receive_State? received = null;
             try
             {
-                // 计数在 EndAccept 前递增，沿用现有“接受尝试次数”语义。
-                ConnectNumber++;
-                Socket? client = ServerSocket?.EndAccept(ar);
-                if (client != null)
+                client = ServerSocket?.EndAccept(ar);
+                if (client is null) return;
+                client.NoDelay = true;
+                bool rejected = false;
+                lock (_serverSync)
                 {
-                    client.NoDelay = true;
-                }
-                Receive_State _Receive = new Receive_State() { Client_Socket = client };
-                if (null != ServerSocket && client is not null)
-                {
-                    if (Interlocked.Increment(ref _activeServerConnections) > MaxServerConnections)
+                    // 已停止监听器的在途 Accept 必须关闭，不能进入新一轮服务。
+                    if (!ServerStarted || !ReferenceEquals(ServerSocket, Socket_Sever)) return;
+                    if (_serverClients.Count >= MaxServerConnections)
                     {
-                        Socket_ErrorInfo_delegate?.Invoke(
-                            $"Error:-17,连接数超过上限 {MaxServerConnections}，拒绝新连接。",
-                            client);
-                        Close_Client(_Receive);
+                        rejected = true;
                     }
                     else
                     {
-                        try
-                        {
-
-                            if (UseXmlFragmentReceive)
-                            {
-                                // 流式 XmlReader 负责跨多个 TCP 包拼出完整顶层元素。
-                                _ = ReceiveXmlFragmentLoopAsync(_Receive);
-
-                            }
-                            else
-                            {
-                                // 固定缓冲模式假设一次 EndReceive 对应一帧完整业务报文。
-                                client?.BeginReceive(_Receive.buffer, 0, _Receive.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), _Receive);
-
-                            }
-
-                        }
-                        catch (Exception e)
-                        {
-                            Socket_ErrorInfo_delegate?.Invoke($"Error:-15" + e.Message, client);
-                            // 接收循环无法启动时立即释放已接受的客户端，避免孤立连接堆积。
-                            Close_Client(_Receive);
-                            return;
-                        }
-
-                        Socket_ConnectInfo_delegate?.Invoke($"{ServerSocket.LocalEndPoint}:连接进来了", client);
-
-                        Console.WriteLine("第" + ConnectNumber + "连接进来了");
+                        received = new Receive_State { Client_Socket = client };
+                        _serverClients.Add(received, client);
+                        ConnectNumber++;
                     }
                 }
+                if (rejected)
+                {
+                    Socket_ErrorInfo_delegate?.Invoke(
+                        $"Error:-17,连接数超过上限 {MaxServerConnections}，拒绝新连接。", client);
+                    return;
+                }
+                if (UseXmlFragmentReceive)
+                    _ = ReceiveXmlFragmentLoopAsync(received!);
+                else
+                    client.BeginReceive(received!.buffer, 0, received.buffer.Length, SocketFlags.None,
+                        new AsyncCallback(ReceiveMessage), received);
+                Socket_ConnectInfo_delegate?.Invoke($"{ServerSocket!.LocalEndPoint}:连接进来了", client);
             }
             catch (Exception e)
             {
-
-                Socket_ErrorInfo_delegate?.Invoke($"Error:-16" + e.Message);
-
-
+                if (received is not null)
+                    CloseServerClientWithError(received, "Error:-16" + e.Message, client);
+                else if (ServerStarted && ReferenceEquals(ServerSocket, Socket_Sever))
+                    Socket_ErrorInfo_delegate?.Invoke("Error:-16" + e.Message);
             }
             finally
             {
-                // 无论本次成功、超限还是客户端在 accept 前断开，都必须继续监听；
-                // 否则一次 EndAccept 异常就会让监听器永久失效，后续连接全部被拒绝。
-                if (ServerSocket is not null)
+                if (received is null) CloseSocket(client);
+                Exception? acceptError = null;
+                lock (_serverSync)
                 {
-                    try
+                    if (ServerStarted && ReferenceEquals(ServerSocket, Socket_Sever))
                     {
-                        ServerSocket.BeginAccept(new AsyncCallback(ClienAppcet), ServerSocket);
-                    }
-                    catch (Exception e)
-                    {
-                        Socket_ErrorInfo_delegate?.Invoke($"Error:-18" + e.Message);
+                        try { ServerSocket!.BeginAccept(new AsyncCallback(ClienAppcet), ServerSocket); }
+                        catch (Exception error)
+                        {
+                            acceptError = error;
+                            ServerStartError = error.Message;
+                            Sever_End();
+                        }
                     }
                 }
+                if (acceptError is not null)
+                    Socket_ErrorInfo_delegate?.Invoke("Error:-18" + acceptError.Message);
             }
         }
 
@@ -1077,16 +1068,13 @@ namespace Roboto_Socket_Library
             {
                 try
                 {
+                    if (!IsServerClientActive(client)) return;
                     IPEndPoint clientipe = (IPEndPoint)client.Client_Socket?.RemoteEndPoint!;
                     int length = client.Client_Socket?.EndReceive(ar) ?? 0;
                     if (length == 0)
                     {
                         // 0 字节是 TCP 有序关闭信号；先通知业务层，再释放 Socket。
-                        Socket_ErrorInfo_delegate?.Invoke($"Error:-9,{clientipe}: 断开连接! ", client.Client_Socket);
-                        //client?.Close();
-                        //client?.Dispose();
-                        //Client_Connect = false;
-                        Close_Client(client);
+                        CloseServerClientWithError(client, $"Error:-9,{clientipe}: 断开连接! ", client.Client_Socket);
                         return;
                     }
 
@@ -1103,11 +1091,8 @@ namespace Roboto_Socket_Library
                 }
                 catch (Exception e)
                 {
-                    // 错误委托必须先执行，因为 Close_Client 后 RemoteEndPoint 将不可读取。
-                    Socket_ErrorInfo_delegate?.Invoke("Error:-11," + e.Message, client.Client_Socket);
-
-                    ConnectNumber--;
-                    Close_Client(client);
+                    // 错误委托执行时保留来源端点，通知完成后再关闭连接。
+                    CloseServerClientWithError(client, "Error:-11," + e.Message, client.Client_Socket);
 
                     //断开连接
                     //WriteLine(clientipe + " is disconnected，total connects " + (connectCount), ConsoleColor.Red);
@@ -1125,6 +1110,7 @@ namespace Roboto_Socket_Library
         /// <exception cref="Exception">功能码未知、协议不支持或未能生成应答时抛出。</exception>
         private void ProcessReceivedMessage(Receive_State client, byte[] _Reveice_Meg)
         {
+            if (!IsServerClientActive(client)) return;
             // 报文处理临时提到 Highest：用户要求网络通信优先级最高，机器人运动时 UI 重绘
             // 也不能让回执帧排在后面，否则同步等待回执的 KRL 会被拖慢。
             ThreadPriority original = Thread.CurrentThread.Priority;
@@ -1151,6 +1137,8 @@ namespace Roboto_Socket_Library
         /// <summary>解析并分派一帧完整报文；由 <see cref="ProcessReceivedMessage"/> 提高优先级后调用。</summary>
         private void ProcessReceivedMessageCore(Receive_State client, byte[] _Reveice_Meg)
         {
+            var sourceSocket = client.Client_Socket;
+            if (sourceSocket is null || !IsServerClientActive(client)) return;
             // 所有业务分支最终都把响应编码到同一缓冲，便于统一记录和发送。
             byte[] Send_byte = Array.Empty<byte>();
 
@@ -1212,7 +1200,7 @@ namespace Roboto_Socket_Library
                     // 机器人上传生产状态，业务层返回是否接受及下一次轮询周期。
                     Robot_Mes_Info_Data_Receive? _Mes_Info_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Robot_Mes_Info_Data_Receive>();
 
-                    Robot_Mes_Info_Data_Send? _Mes_Info_Send = Robot_Info_Model_Data_Delegate?.Invoke(_Mes_Info_Rece!);
+                    Robot_Mes_Info_Data_Send? _Mes_Info_Send = Robot_Info_Model_Data_Delegate?.Invoke(_Mes_Info_Rece!, sourceSocket);
 
                     Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Mes_Info_Send ?? new Robot_Mes_Info_Data_Send()) ?? Array.Empty<byte>();
 
@@ -1225,7 +1213,7 @@ namespace Roboto_Socket_Library
                     // 上位机到上位机看板链路：这里接收的是 Client 周期上传给 Server 的看板快照。
                     Mes_Server_Info_Data_Receive? _Mes_Server_Rece = _Socket_Protocol.Socket_Receive_Get_Date<Mes_Server_Info_Data_Receive>();
 
-                    Mes_Server_Info_Data_Send? _Mes_Server_Send = Mes_Server_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!, client.Client_Socket);
+                    Mes_Server_Info_Data_Send? _Mes_Server_Send = Mes_Server_Info_Data_Delegate?.Invoke(_Mes_Server_Rece!, sourceSocket);
 
                     Send_byte = _Socket_Protocol.Socket_Send_Set_Data(_Mes_Server_Send ?? new Mes_Server_Info_Data_Send()) ?? Array.Empty<byte>();
 
@@ -1275,8 +1263,8 @@ namespace Roboto_Socket_Library
         /// </remarks>
         private async Task ReceiveXmlFragmentLoopAsync(Receive_State client)
         {
-            Socket socket = client.Client_Socket
-                ?? throw new InvalidOperationException("客户端 Socket 为空。");
+            Socket? socket = client.Client_Socket;
+            if (socket is null) return;
 
             try
             {
@@ -1302,6 +1290,7 @@ namespace Roboto_Socket_Library
                         }
                     }
 
+                    if (!IsServerClientActive(client)) return;
                     if (length == 0)
                     {
                         if (pending.Any(value => !IsXmlWhitespace(value)))
@@ -1309,8 +1298,7 @@ namespace Roboto_Socket_Library
                             throw new XmlException("连接关闭时仍有未完成的 XML 报文。");
                         }
 
-                        Socket_ErrorInfo_delegate?.Invoke("Error:-9,客户端断开连接！", socket);
-                        Close_Client(client);
+                        CloseServerClientWithError(client, "Error:-9,客户端断开连接！", socket);
                         return;
                     }
 
@@ -1348,19 +1336,13 @@ namespace Roboto_Socket_Library
             catch (XmlException ex)
             {
                 // XML 结构错误通常无法在同一流上可靠恢复，记录后关闭此客户端。
-                Socket_ErrorInfo_delegate?.Invoke(
-                    "Error:-11,XML 报文不完整或格式错误：" + ex.Message,
-                    socket);
-                Close_Client(client);
+                CloseServerClientWithError(client, "Error:-11,XML 报文不完整或格式错误：" + ex.Message, socket);
 
             }
             catch (Exception ex)
             {
                 // 网络断开和业务处理异常共用清理路径，避免遗留客户端句柄。
-                Socket_ErrorInfo_delegate?.Invoke(
-                    "Error:-11," + ex.Message,
-                    socket);
-                Close_Client(client);
+                CloseServerClientWithError(client, "Error:-11," + ex.Message, socket);
 
             }
  

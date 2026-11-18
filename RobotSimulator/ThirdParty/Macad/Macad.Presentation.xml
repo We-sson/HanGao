@@ -1,0 +1,1871 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Macad.Presentation</name>
+    </assembly>
+    <members>
+        <member name="T:Macad.Presentation.RelayCommand">
+            <summary>
+            Defines a command that is relayed to a pre-defined delegate handler.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.RelayCommand.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.RelayCommand"/> class.
+            </summary>
+            <param name="execute">A method to execute when the command fires.</param>
+        </member>
+        <member name="M:Macad.Presentation.RelayCommand.#ctor(System.Action,System.Func{System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.RelayCommand"/> class.
+            </summary>
+            <param name="execute">A method to execute when the command fires.</param>
+            <param name="canExecute">A method to execute to determine whether the command can execure.</param>
+        </member>
+        <member name="M:Macad.Presentation.RelayCommand.CanExecute(System.Object)">
+            <summary>
+            Defines the method that determines whether the command can execute in its current state.
+            </summary>
+            <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+            <returns>
+            true if this command can be executed; otherwise, false.
+            </returns>
+        </member>
+        <member name="E:Macad.Presentation.RelayCommand.CanExecuteChanged">
+            <summary>
+            Occurs when changes occur that affect whether or not the command should execute.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.RelayCommand.Execute(System.Object)">
+            <summary>
+            Defines the method to be called when the command is invoked.
+            </summary>
+            <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+        </member>
+        <member name="T:Macad.Presentation.RelayCommand`1">
+            <summary>
+            Defines a command that is relayed to a pre-defined delegate handler.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.RelayCommand`1.#ctor(System.Action{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.RelayCommand"/> class.
+            </summary>
+            <param name="execute">A method to execute when the command fires.</param>
+        </member>
+        <member name="M:Macad.Presentation.RelayCommand`1.#ctor(System.Action{`0},System.Predicate{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.RelayCommand"/> class.
+            </summary>
+            <param name="execute">A method to execute when the command fires.</param>
+            <param name="canExecute">A method to execute to determine whether the command can execure.</param>
+        </member>
+        <member name="M:Macad.Presentation.RelayCommand`1.#ctor(System.Action{`0},System.Func{System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.RelayCommand"/> class.
+            </summary>
+            <param name="execute">A method to execute when the command fires.</param>
+            <param name="canExecute">A method to execute to determine whether the command can execure.</param>
+        </member>
+        <member name="M:Macad.Presentation.RelayCommand`1.CanExecute(System.Object)">
+            <summary>
+            Defines the method that determines whether the command can execute in its current state.
+            </summary>
+            <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+            <returns>
+            true if this command can be executed; otherwise, false.
+            </returns>
+        </member>
+        <member name="E:Macad.Presentation.RelayCommand`1.CanExecuteChanged">
+            <summary>
+            Occurs when changes occur that affect whether or not the command should execute.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.RelayCommand`1.Execute(System.Object)">
+            <summary>
+            Defines the method to be called when the command is invoked.
+            </summary>
+            <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+        </member>
+        <member name="M:Macad.Presentation.RelayCommand`1.Execute(`0)">
+            <summary>
+            Defines the method to be called when the command is invoked.
+            </summary>
+            <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+        </member>
+        <member name="T:Macad.Presentation.AutoGreyableImage">
+            <summary>
+            Class used to have an image that is able to be gray when the control is not enabled.
+            Based on the version by Thomas LEBRUN (http://blogs.developpeur.org/tom)
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.AutoGreyableImage.#cctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.AutoGreyableImage"/> class.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.AutoGreyableImage.OnAutoGreyScaleImageSourcePropertyChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Called when [auto grey scale image source property changed].
+            </summary>
+            <param name="source">The source.</param>
+            <param name="args">The <see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Macad.Presentation.AutoGreyableImage.OnAutoGreyScaleImageIsEnabledPropertyChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Called when [auto grey scale image is enabled property changed].
+            </summary>
+            <param name="source">The source.</param>
+            <param name="args">The <see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="T:Macad.Presentation.ColorPickerPanel">
+            <summary>
+            Interaction logic for ColorPickerPanel.xaml
+            </summary>
+            <summary>
+            ColorPickerPanel
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.ColorPickerPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.DropShadow.#ctor">
+            <summary>
+            Instantiates a new instance of a SystemDropShadowChrome
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.DropShadow.ColorProperty">
+            <summary>
+            DependencyProperty for <see cref="P:Macad.Presentation.DropShadow.Color" /> property.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.DropShadow.Color">
+            <summary>
+            The Color property defines the Color used to fill the shadow region.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.DropShadow.CornerRadiusProperty">
+            <summary>
+            DependencyProperty for <see cref="P:Macad.Presentation.DropShadow.CornerRadius" /> property.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.DropShadow.CornerRadius">
+            <summary>
+            The CornerRadius property defines the CornerRadius of the object casting the shadow.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.DropShadow.OnRender(System.Windows.Media.DrawingContext)">
+            <summary>
+            Render callback.  
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.HexagonGrid.HexagonSideLengthProperty">
+            <summary>
+            HexagonSideLength Dependency Property
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.HexagonGrid.HexagonSideLength">
+            <summary>
+            Gets or sets the HexagonSideLength property. This dependency property 
+            represents the length of 1 side of the hexagon.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.HexagonGrid.RowsProperty">
+            <summary>
+            Rows Dependency Property
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.HexagonGrid.Rows">
+            <summary>
+            Gets or sets the Rows property.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.HexagonGrid.ColumnsProperty">
+            <summary>
+            Columns Dependency Property
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.HexagonGrid.Columns">
+            <summary>
+            Gets or sets the Columns property.
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.Popup">
+            <summary>
+            Popup
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.Popup.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.CommandLink">
+            <summary>
+            Interaction logic for CommandLink.xaml
+            </summary>
+            <summary>
+            CommandLink
+            </summary>
+        </member>
+        <member name="E:Macad.Presentation.CommandLink.Click">
+            <summary>
+            Occurs when a <see cref="T:Macad.Presentation.CommandLink"/> is clicked.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.CommandLink.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.CommandLink"/> class.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.CommandLink.CommandLink_Loaded(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Handles the Loaded event of the CommandLink control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Macad.Presentation.CommandLink.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.CommandLinkTextConverter">
+            <summary>
+            Chops up multiline command link text appropriately.
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.CommandLinkExtraTextVisibilityConverter">
+            <summary>
+            Determines visibility for command link extra text.
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialog">
+            <summary>
+            Displays a task dialog.
+            </summary>
+            <summary>
+            TaskDialog
+            </summary>
+        </member>
+        <member name="E:Macad.Presentation.TaskDialog.Showing">
+            <summary>
+            Occurs when a task dialog is about to show.
+            </summary>
+            <remarks>
+            Use this event for both notification and modification of all task
+            dialog showings. Changes made to the configuration options will be
+            persisted.
+            </remarks>
+        </member>
+        <member name="E:Macad.Presentation.TaskDialog.Closed">
+            <summary>
+            Occurs when a task dialog has been closed.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialog.Show(Macad.Presentation.TaskDialogOptions)">
+            <summary>
+            Displays a task dialog with the given configuration options.
+            </summary>
+            <param name="options">
+            A <see cref="T:Macad.Presentation.TaskDialogOptions"/> that specifies the
+            configuration options for the dialog.
+            </param>
+            <returns>
+            A <see cref="T:Macad.Presentation.TaskDialogResult"/> value that specifies
+            which button is clicked by the user.
+            </returns>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialog.ShowMessage(System.Windows.Window,System.String)">
+            <summary>
+            Displays a task dialog that has a message and that returns a result.
+            </summary>
+            <param name="owner">
+            The <see cref="T:System.Windows.Window"/> that owns this dialog.
+            </param>
+            <param name="messageText">
+            A <see cref="T:System.String"/> that specifies the text to display.
+            </param>
+            <returns>
+            A <see cref="T:Macad.Presentation.TaskDialogResults"/> value that
+            specifies which button is clicked by the user.
+            </returns>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialog.ShowMessage(System.Windows.Window,System.String,System.String)">
+            <summary>
+            Displays a task dialog that has a message and that returns a result.
+            </summary>
+            <param name="owner">
+            The <see cref="T:System.Windows.Window"/> that owns this dialog.
+            </param>
+            <param name="messageText">
+            A <see cref="T:System.String"/> that specifies the text to display.
+            </param>
+            <param name="caption">
+            A <see cref="T:System.String"/> that specifies the title bar
+            caption to display.
+            </param>
+            <returns>
+            A <see cref="T:Macad.Presentation.TaskDialogResults"/> value that
+            specifies which button is clicked by the user.
+            </returns>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialog.ShowMessage(System.Windows.Window,System.String,System.String,Macad.Presentation.TaskDialogCommonButtons)">
+            <summary>
+            Displays a task dialog that has a message and that returns a result.
+            </summary>
+            <param name="owner">
+            The <see cref="T:System.Windows.Window"/> that owns this dialog.
+            </param>
+            <param name="messageText">
+            A <see cref="T:System.String"/> that specifies the text to display.
+            </param>
+            <param name="caption">
+            A <see cref="T:System.String"/> that specifies the title bar
+            caption to display.
+            </param>
+            <param name="buttons">
+            A <see cref="T:Macad.Presentation.TaskDialogCommonButtons"/> value that
+            specifies which button or buttons to display.
+            </param>
+            <returns>
+            A <see cref="T:Macad.Presentation.TaskDialogResults"/> value that
+            specifies which button is clicked by the user.
+            </returns>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialog.ShowMessage(System.Windows.Window,System.String,System.String,Macad.Presentation.TaskDialogCommonButtons,Macad.Presentation.TaskDialogIcon)">
+            <summary>
+            Displays a task dialog that has a message and that returns a result.
+            </summary>
+            <param name="owner">
+            The <see cref="T:System.Windows.Window"/> that owns this dialog.
+            </param>
+            <param name="messageText">
+            A <see cref="T:System.String"/> that specifies the text to display.
+            </param>
+            <param name="caption">
+            A <see cref="T:System.String"/> that specifies the title bar
+            caption to display.
+            </param>
+            <param name="buttons">
+            A <see cref="T:Macad.Presentation.TaskDialogCommonButtons"/> value that
+            specifies which button or buttons to display.
+            </param>
+            <param name="icon">
+            A <see cref="T:Macad.Presentation.TaskDialogIcon"/> that specifies the
+            icon to display.
+            </param>
+            <returns>
+            A <see cref="T:Macad.Presentation.TaskDialogResults"/> value that
+            specifies which button is clicked by the user.
+            </returns>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialog.ShowMessage(System.Windows.Window,System.String,System.String,System.String,System.String,System.String,System.String,Macad.Presentation.TaskDialogCommonButtons,Macad.Presentation.TaskDialogIcon,Macad.Presentation.TaskDialogIcon)">
+            <summary>
+            Displays a task dialog that has a message and that returns a result.
+            </summary>
+            <param name="owner">
+            The <see cref="T:System.Windows.Window"/> that owns this dialog.
+            </param>
+            <param name="title">
+            A <see cref="T:System.String"/> that specifies the title bar
+            caption to display.
+            </param>
+            <param name="mainInstruction">
+            A <see cref="T:System.String"/> that specifies the main text to display.
+            </param>
+            <param name="content">
+            A <see cref="T:System.String"/> that specifies the body text to display.
+            </param>
+            <param name="expandedInfo">
+            A <see cref="T:System.String"/> that specifies the expanded text to display when toggled.
+            </param>
+            <param name="verificationText">
+            A <see cref="T:System.String"/> that specifies the text to display next to a checkbox.
+            </param>
+            <param name="footerText">
+            A <see cref="T:System.String"/> that specifies the footer text to display.
+            </param>
+            <param name="buttons">
+            A <see cref="T:Macad.Presentation.TaskDialogCommonButtons"/> value that
+            specifies which button or buttons to display.
+            </param>
+            <param name="mainIcon">
+            A <see cref="T:Macad.Presentation.TaskDialogIcon"/> that specifies the
+            main icon to display.
+            </param>
+            <param name="footerIcon">
+            A <see cref="T:Macad.Presentation.TaskDialogIcon"/> that specifies the
+            footer icon to display.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialog.OnShowing(Macad.Presentation.TaskDialogShowingEventArgs)">
+            <summary>
+            Raises the <see cref="E:Showing"/> event.
+            </summary>
+            <param name="e">The <see cref="T:Macad.Presentation.TaskDialogShowingEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialog.OnClosed(Macad.Presentation.TaskDialogClosedEventArgs)">
+            <summary>
+            Raises the <see cref="E:Closed"/> event.
+            </summary>
+            <param name="e">The <see cref="T:Macad.Presentation.TaskDialogClosedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialog.#ctor(System.Windows.Window)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.TaskDialog"/> class.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialog.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogData">
+            <summary>
+            Provides commands and properties to the emulated TaskDialog view.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogData.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.TaskDialogData"/> class.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogData.#ctor(Macad.Presentation.TaskDialogOptions)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.TaskDialogData"/> class.
+            </summary>
+            <param name="options">Options to use.</param>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.StartPosition">
+            <summary>
+            Gets the window start position.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.Title">
+            <summary>
+            Gets the window caption.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.MainInstruction">
+            <summary>
+            Gets the principal text for the dialog.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.Content">
+            <summary>
+            Gets the supplemental text for the dialog.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.ContentExpandedInfo">
+            <summary>
+            Gets the expanded info text for the dialog's content area.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.FooterExpandedInfo">
+            <summary>
+            Gets the expanded info text for the dialog's footer area.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.HasExpandedInfo">
+            <summary>
+            Gets a value indicating whether or not any expanded info text has
+            been set.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.ExpandedInfoVisible">
+            <summary>
+            Gets or sets a value indicating whether expanded info is visible.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.ContentExpandedInfoVisible">
+            <summary>
+            Gets or sets a value indicating whether content area expanded info is visible.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.FooterExpandedInfoVisible">
+            <summary>
+            Gets or sets a value indicating whether footer area expanded info is visible.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.VerificationText">
+            <summary>
+            Gets the verification text.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.VerificationChecked">
+            <summary>
+            Gets or sets whether the verification checkbox was checked.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.FooterText">
+            <summary>
+            Gets the footer text.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.MainIconType">
+            <summary>
+            Gets the type of the main icon.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.MainIcon">
+            <summary>
+            Gets the main icon.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.FooterIcon">
+            <summary>
+            Gets the footer icon.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.DefaultButtonIndex">
+            <summary>
+            Gets the default button index.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.AllowDialogCancellation">
+            <summary>
+            Gets a value indicating whether or not Alt-F4, Esc, and the red X
+            close button should work.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.ShowProgressBar">
+            <summary>
+            Gets a value indicating whether to show a progress bar.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.ProgressBarIndeterminate">
+            <summary>
+            Gets a value indicating whether to show an indeterminate progress bar or a regular one.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.ProgressBarMinimum">
+            <summary>
+            Gets or sets the progress bar's minimum value.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.ProgressBarMaximum">
+            <summary>
+            Gets or sets the progress bar's maximum value.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.ProgressBarValue">
+            <summary>
+            Gets or sets the progress bar's current value.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.NormalButtons">
+            <summary>
+            Gets the button labels.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.CommandLinks">
+            <summary>
+            Gets the command link labels.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.RadioButtons">
+            <summary>
+            Gets the radio button labels.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.DialogResult">
+            <summary>
+            Gets the value of the button or command that was ultimately chosen.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.RadioResult">
+            <summary>
+            Gets the value of the chosen radio option.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.NormalButtonCommand">
+            <summary>
+            Gets the command associated with custom and common buttons.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.CommandLinkCommand">
+            <summary>
+            Gets the command associated with command links.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.RadioButtonCommand">
+            <summary>
+            Gets the command associated with radio buttons.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogData.HyperlinkCommand">
+            <summary>
+            Gets the command associated with hyperlinks.
+            </summary>
+        </member>
+        <member name="E:Macad.Presentation.TaskDialogData.RequestClose">
+            <summary>
+            Occurs when a close call should be performed.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogData.ShouldCancelClosing">
+            <summary>
+            Returns a value indicating whether or not the dialog should cancel a closing event.
+            </summary>
+            <returns><c>true</c> if dialog closing should be canceled; otherwise, <c>false</c></returns>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogData.NotifyConstructed">
+            <summary>
+            Notifies any callback handlers that the dialog has been constructed but not yet shown.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogData.NotifyCreated">
+            <summary>
+            Notifies any callback handlers that the dialog has been created but not yet shown.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogData.NotifyShown">
+            <summary>
+            Notifies any callback handlers periodically if a callback timer has been set.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogData.NotifyClosed">
+            <summary>
+            Notifies any callback handlers that the dialog is destroyed.
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogShowingEventArgs">
+            <summary>
+            Provides data for the <see cref="T:TaskDialogInterop.TaskDialog.Showing"/> event.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogShowingEventArgs.ConfigurationOptions">
+            <summary>
+            Gets the configuration options for the TaskDialog.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogShowingEventArgs.#ctor(Macad.Presentation.TaskDialogOptions@)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.TaskDialogShowingEventArgs"/> class.
+            </summary>
+            <param name="configOptions">The configuration options for the TaskDialog.</param>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogClosedEventArgs">
+            <summary>
+            Provides data for the <see cref="T:TaskDialogInterop.TaskDialog.Closed"/> event.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogClosedEventArgs.Result">
+            <summary>
+            Gets the result of the TaskDialog.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogClosedEventArgs.#ctor(Macad.Presentation.TaskDialogResult)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.TaskDialogClosedEventArgs"/> class.
+            </summary>
+            <param name="result">The result of the TaskDialog.</param>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogShowingEventHandler">
+            <summary>
+            Represents the method that will handle the
+            <see cref="T:TaskDialogInterop.TaskDialog.Showing"/> event.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">
+            A <see cref="T:Macad.Presentation.TaskDialogShowingEventArgs"/> that contains the event data.
+            </param>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogClosedEventHandler">
+            <summary>
+            Represents the method that will handle the
+            <see cref="T:TaskDialogInterop.TaskDialog.Closed"/> event.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">
+            A <see cref="T:Macad.Presentation.TaskDialogClosedEventArgs"/> that contains the event data.
+            </param>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogResults">
+            <summary>
+            Specifies identifiers to indicate the return value of a task dialog box.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogResults.None">
+            <summary>
+            Nothing is returned from the dialog box.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogResults.Ok">
+            <summary>
+            The dialog box return value is Ok (usually sent from a button
+            labeled Ok).
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogResults.Yes">
+            <summary>
+            The dialog box return value is Yes (usually sent from a button
+            labeled Yes).
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogResults.No">
+            <summary>
+            The dialog box return value is No (usually sent from a button
+            labeled No).
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogResults.Cancel">
+            <summary>
+            The dialog box return value is Cancel (usually sent from a button
+            labeled Cancel). Can also be as a result of clicking the red X in
+            the top right corner.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogResults.Retry">
+            <summary>
+            The dialog box return value is Retry (usually sent from a button
+            labeled Retry).
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogResults.Close">
+            <summary>
+            The dialog box return value is Close (usually sent from a button
+            labeled Close),
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogResults.Command">
+            <summary>
+            The dialog box return value is a custom command (usually sent from
+            a command button).
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogResults.Custom">
+            <summary>
+            The dialog box return value is a custom button (usually sent from
+            a custom-defined button).
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogResult">
+            <summary>
+            Specifies data for the return values of a task dialog box.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogResult.Empty">
+            <summary>
+            Represents a result with no data.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogResult.Result">
+            <summary>
+            Gets the <see cref="T:TaskDialogResults"/> of the TaskDialog.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogResult.VerificationChecked">
+            <summary>
+            Gets a value indicating whether or not the verification checkbox
+            was checked. A null value indicates that the checkbox wasn't shown.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogResult.RadioButtonResult">
+            <summary>
+            Gets the zero-based index of the radio button that was clicked.
+            A null value indicates that no radio button was clicked.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogResult.CommandButtonResult">
+            <summary>
+            Gets the zero-based index of the command button that was clicked.
+            A null value indicates that no command button was clicked.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogResult.CustomButtonResult">
+            <summary>
+            Gets the zero-based index of the custom button that was clicked.
+            A null value indicates that no custom button was clicked.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogResult.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:TaskDialog.TaskDialogResult"/> class.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogResult.#ctor(Macad.Presentation.TaskDialogResults,System.Nullable{System.Boolean},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.TaskDialogResult"/> class.
+            </summary>
+            <param name="result">The simple TaskDialog result.</param>
+            <param name="verificationChecked">Wether the verification checkbox was checked.</param>
+            <param name="radioButtonResult">The radio button result, if any.</param>
+            <param name="commandButtonResult">The command button result, if any.</param>
+            <param name="customButtonResult">The custom button result, if any.</param>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogCallback">
+            <summary>
+            The signature of the callback that recieves notificaitons from a Task Dialog.
+            </summary>
+            <param name="dialog">The active dialog. Use this to manipulate various properties of the dialog as it is displayed.</param>
+            <param name="args">The notification arguments including the type of notification and information for the notification.</param>
+            <param name="callbackData">The value set on TaskDialog.CallbackData</param>
+            <returns>Return value meaning varies depending on the Notification member of args.</returns>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogCommonButtons">
+            <summary>
+            Specifies the standard buttons that are displayed on a task dialog.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.None">
+            <summary>
+            No common buttons.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.OK">
+            <summary>
+            OK common button. If selected Task Dialog will return DialogResult.OK.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.Yes">
+            <summary>
+            Yes common button. If selected Task Dialog will return DialogResult.Yes.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.No">
+            <summary>
+            No common button. If selected Task Dialog will return DialogResult.No.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.Cancel">
+            <summary>
+            Cancel common button. If selected Task Dialog will return DialogResult.Cancel.
+            If this button is specified, the dialog box will respond to typical cancel actions (Alt-F4 and Escape).
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.Retry">
+            <summary>
+            Retry common button. If selected Task Dialog will return DialogResult.Retry.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.Close">
+            <summary>
+            Close common button. If selected Task Dialog will return this value.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.YesNo">
+            <summary>
+            The message box displays Yes and No buttons.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.YesNoCancel">
+            <summary>
+            The message box displays Yes, No, and Cancel buttons.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.OKCancel">
+            <summary>
+            The message box displays OK and Cancel buttons.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogCommonButtons.RetryCancel">
+            <summary>
+            The message box displays Retry and Cancel buttons.
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogOptions">
+            <summary>
+            Defines configuration options for showing a task dialog.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.Default">
+            <summary>
+            The default <see cref="T:TaskDialogOptions"/> to be used
+            by all new <see cref="T:TaskDialog"/>s.
+            </summary>
+            <remarks>
+            Use this to make application-wide defaults, such as for
+            the caption.
+            </remarks>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.Owner">
+            <summary>
+            The owner window of the task dialog box.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.Title">
+            <summary>
+            Caption of the window.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.MainIcon">
+            <summary>
+            A large 32x32 icon that signifies the purpose of the dialog, using
+            one of the built-in system icons.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.CustomMainIcon">
+            <summary>
+            A large 32x32 icon that signifies the purpose of the dialog, using
+            a custom Icon resource. If defined <see cref="F:Macad.Presentation.TaskDialogOptions.MainIcon"/> will be
+            ignored.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.MainInstruction">
+            <summary>
+            Principal text.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.Content">
+            <summary>
+            Supplemental text that expands on the principal text.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.ExpandedInfo">
+            <summary>
+            Extra text that will be hidden by default.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.ExpandedByDefault">
+            <summary>
+            Indicates that the expanded info should be displayed when the
+            dialog is initially displayed.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.ExpandToFooter">
+            <summary>
+            Indicates that the expanded info should be displayed at the bottom
+            of the dialog's footer area instead of immediately after the
+            dialog's content.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.CommonButtons">
+            <summary>
+            Standard buttons.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.RadioButtons">
+            <summary>
+            Application-defined options for the user.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.CustomButtons">
+            <summary>
+            Buttons that are not from the set of standard buttons. Use an
+            ampersand to denote an access key.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.CommandButtons">
+            <summary>
+            Command link buttons.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.DefaultButtonIndex">
+            <summary>
+            Zero-based index of the button to have focus by default.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.VerificationText">
+            <summary>
+            Text accompanied by a checkbox, typically for user feedback such as
+            Do-not-show-this-dialog-again options.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.VerificationByDefault">
+            <summary>
+            Indicates that the verification checkbox in the dialog is checked
+            when the dialog is initially displayed.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.FooterIcon">
+            <summary>
+            A small 16x16 icon that signifies the purpose of the footer text,
+            using one of the built-in system icons.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.CustomFooterIcon">
+            <summary>
+            A small 16x16 icon that signifies the purpose of the footer text,
+            using a custom Icon resource. If defined <see cref="F:Macad.Presentation.TaskDialogOptions.FooterIcon"/>
+            will be ignored.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.FooterText">
+            <summary>
+            Additional footer text.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.AllowDialogCancellation">
+            <summary>
+            Indicates that the dialog should be able to be closed using Alt-F4,
+            Escape, and the title bar's close button even if no cancel button
+            is specified the CommonButtons.
+            </summary>
+            <remarks>
+            You'll want to set this to true if you use CustomButtons and have
+            a Cancel-like button in it.
+            </remarks>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.ShowProgressBar">
+            <summary>
+            Indicates that a Progress Bar is to be displayed.
+            </summary>
+            <remarks>
+            You can set the state, whether paused, in error, etc., as well as
+            the range and current value by setting a callback and timer to
+            control the dialog at custom intervals.
+            </remarks>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.ShowMarqueeProgressBar">
+            <summary>
+            Indicates that an Marquee Progress Bar is to be displayed.
+            </summary>
+            <remarks>
+            You can set start and stop the animation by setting a callback and
+            timer to control the dialog at custom intervals.
+            </remarks>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.Callback">
+            <summary>
+            A callback that receives messages from the Task Dialog when
+            various events occur.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.CallbackData">
+            <summary>
+            Reference object that is passed to the callback.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogOptions.EnableCallbackTimer">
+            <summary>
+            Indicates that the task dialog's callback is to be called
+            approximately every 200 milliseconds.
+            </summary>
+            <remarks>
+            Enable this in order to do updates on the task dialog periodically,
+            such as for a progress bar, current download speed, or estimated
+            time to complete, etc.
+            </remarks>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogButtonData">
+            <summary>
+            Provides data for all task dialog buttons.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogButtonData.ID">
+            <summary>
+            Gets the button's ID value to return when clicked.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogButtonData.Text">
+            <summary>
+            Gets the button's text label.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogButtonData.IsDefault">
+            <summary>
+            Gets a value indicating whether or not the button should be the default.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogButtonData.IsCancel">
+            <summary>
+            Gets a value indicating whether or not the button should be a cancel.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogButtonData.Command">
+            <summary>
+            Gets the button's command.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogButtonData.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.TaskDialogButtonData"/> class.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TaskDialogButtonData.#ctor(System.Int32,System.String,System.Windows.Input.ICommand,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Macad.Presentation.TaskDialogButtonData"/> struct.
+            </summary>
+            <param name="id">The id value for the button.</param>
+            <param name="text">The text label.</param>
+            <param name="command">The command to associate.</param>
+            <param name="isDefault">Whether the button should be the default.</param>
+            <param name="isCancel">Whether the button should be a cancel.</param>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogProgressBarState">
+            <summary>
+            Progress bar state.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogProgressBarState.Normal">
+            <summary>
+            Normal.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogProgressBarState.Error">
+            <summary>
+            Error state.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogProgressBarState.Paused">
+            <summary>
+            Paused state.
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.IActiveTaskDialog">
+            <summary>
+            Defines methods for manipulating an active dialog during a callback.
+            </summary>
+            
+        </member>
+        <member name="M:Macad.Presentation.IActiveTaskDialog.SetMarqueeProgressBar(System.Boolean)">
+            <summary>
+            Used to indicate whether the hosted progress bar should be displayed in marquee mode or not.
+            </summary>
+            <param name="marquee">Specifies whether the progress bar sbould be shown in Marquee mode.
+            A value of true turns on Marquee mode.</param>
+            <returns>If the function succeeds the return value is true.</returns>
+        </member>
+        <member name="M:Macad.Presentation.IActiveTaskDialog.SetProgressBarState(Macad.Presentation.TaskDialogProgressBarState)">
+            <summary>
+            Sets the state of the progress bar.
+            </summary>
+            <param name="newState">The state to set the progress bar.</param>
+            <returns>If the function succeeds the return value is true.</returns>
+        </member>
+        <member name="M:Macad.Presentation.IActiveTaskDialog.SetProgressBarRange(System.Int16,System.Int16)">
+            <summary>
+            Set the minimum and maximum values for the hosted progress bar.
+            </summary>
+            <param name="minRange">Minimum range value. By default, the minimum value is zero.</param>
+            <param name="maxRange">Maximum range value.  By default, the maximum value is 100.</param>
+            <returns>If the function succeeds the return value is true.</returns>
+        </member>
+        <member name="M:Macad.Presentation.IActiveTaskDialog.SetProgressBarPosition(System.Int32)">
+            <summary>
+            Set the current position for a progress bar.
+            </summary>
+            <param name="newPosition">The new position.</param>
+            <returns>Returns the previous value if successful, or zero otherwise.</returns>
+        </member>
+        <member name="M:Macad.Presentation.IActiveTaskDialog.SetProgressBarMarquee(System.Boolean,System.UInt32)">
+            <summary>
+            Sets the animation state of the Marquee Progress Bar.
+            </summary>
+            <param name="startMarquee">true starts the marquee animation and false stops it.</param>
+            <param name="speed">The time in milliseconds between refreshes.</param>
+        </member>
+        <member name="M:Macad.Presentation.IActiveTaskDialog.UpdateMainIcon(Macad.Presentation.TaskDialogIcon)">
+            <summary>
+            Updates the main instruction icon. Note the type (standard via enum or
+            custom via Icon type) must be used when upating the icon.
+            </summary>
+            <param name="icon">Task Dialog standard icon.</param>
+        </member>
+        <member name="M:Macad.Presentation.IActiveTaskDialog.UpdateMainIcon(System.Drawing.Icon)">
+            <summary>
+            Updates the main instruction icon. Note the type (standard via enum or
+            custom via Icon type) must be used when upating the icon.
+            </summary>
+            <param name="icon">The icon to set.</param>
+        </member>
+        <member name="M:Macad.Presentation.IActiveTaskDialog.UpdateFooterIcon(Macad.Presentation.TaskDialogIcon)">
+            <summary>
+            Updates the footer icon. Note the type (standard via enum or
+            custom via Icon type) must be used when upating the icon.
+            </summary>
+            <param name="icon">Task Dialog standard icon.</param>
+        </member>
+        <member name="M:Macad.Presentation.IActiveTaskDialog.UpdateFooterIcon(System.Drawing.Icon)">
+            <summary>
+            Updates the footer icon. Note the type (standard via enum or
+            custom via Icon type) must be used when upating the icon.
+            </summary>
+            <param name="icon">The icon to set.</param>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogNotification">
+            <summary>
+            Task Dialog callback notifications. 
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotification.Created">
+            <summary>
+            Sent by the Task Dialog once the dialog has been created and before it is displayed.
+            The value returned by the callback is ignored.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotification.ButtonClicked">
+            <summary>
+            Sent by the Task Dialog when the user selects a button or command link in the task dialog.
+            The button ID corresponding to the button selected will be available in the
+            TaskDialogNotificationArgs. To prevent the Task Dialog from closing, the application must
+            return true, otherwise the Task Dialog will be closed and the button ID returned to via
+            the original application call.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotification.HyperlinkClicked">
+            <summary>
+            Sent by the Task Dialog when the user clicks on a hyperlink in the Task Dialog’s content.
+            The string containing the HREF of the hyperlink will be available in the
+            TaskDialogNotificationArgs. To prevent the TaskDialog from shell executing the hyperlink,
+            the application must return TRUE, otherwise ShellExecute will be called.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotification.Timer">
+            <summary>
+            Sent by the Task Dialog approximately every 200 milliseconds when TaskDialog.CallbackTimer
+            has been set to true. The number of milliseconds since the dialog was created or the
+            notification returned true is available on the TaskDialogNotificationArgs. To reset
+            the tickcount, the application must return true, otherwise the tickcount will continue to
+            increment.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotification.Destroyed">
+            <summary>
+            Sent by the Task Dialog when it is destroyed and its window handle no longer valid.
+            The value returned by the callback is ignored.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotification.RadioButtonClicked">
+            <summary>
+            Sent by the Task Dialog when the user selects a radio button in the task dialog.
+            The button ID corresponding to the button selected will be available in the
+            TaskDialogNotificationArgs.
+            The value returned by the callback is ignored.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotification.DialogConstructed">
+            <summary>
+            Sent by the Task Dialog once the dialog has been constructed and before it is displayed.
+            The value returned by the callback is ignored.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotification.VerificationClicked">
+            <summary>
+            Sent by the Task Dialog when the user checks or unchecks the verification checkbox.
+            The verificationFlagChecked value is available on the TaskDialogNotificationArgs.
+            The value returned by the callback is ignored.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotification.Help">
+            <summary>
+            Sent by the Task Dialog when the user presses F1 on the keyboard while the dialog has focus.
+            The value returned by the callback is ignored.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotification.ExpandoButtonClicked">
+            <summary>
+            Sent by the task dialog when the user clicks on the dialog's expando button.
+            The expanded value is available on the TaskDialogNotificationArgs.
+            The value returned by the callback is ignored.
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogNotificationArgs">
+            <summary>
+            Arguments passed to the TaskDialog callback.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotificationArgs.notification">
+            <summary>
+            What the TaskDialog callback is a notification of.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotificationArgs.buttonId">
+            <summary>
+            The button ID if the notification is about a button. This a DialogResult
+            value or the ButtonID member of a TaskDialogButton set in the
+            TaskDialog.Buttons or TaskDialog.RadioButtons members.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotificationArgs.hyperlink">
+            <summary>
+            The HREF string of the hyperlink the notification is about.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotificationArgs.timerTickCount">
+            <summary>
+            The number of milliseconds since the dialog was opened or the last time the
+            callback for a timer notification reset the value by returning true.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotificationArgs.verificationFlagChecked">
+            <summary>
+            The state of the verification flag when the notification is about the verification flag.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogNotificationArgs.expanded">
+            <summary>
+            The state of the dialog expando when the notification is about the expando.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogNotificationArgs.Notification">
+            <summary>
+            What the TaskDialog callback is a notification of.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogNotificationArgs.ButtonId">
+            <summary>
+            The button ID if the notification is about a button. This a DialogResult
+            value or the ButtonID member of a TaskDialogButton set in the
+            TaskDialog.Buttons member.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogNotificationArgs.Hyperlink">
+            <summary>
+            The HREF string of the hyperlink the notification is about.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogNotificationArgs.TimerTickCount">
+            <summary>
+            The number of milliseconds since the dialog was opened or the last time the
+            callback for a timer notification reset the value by returning true.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogNotificationArgs.VerificationFlagChecked">
+            <summary>
+            The state of the verification flag when the notification is about the verification flag.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogNotificationArgs.Expanded">
+            <summary>
+            The state of the dialog expando when the notification is about the expando.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TaskDialogNotificationArgs.Config">
+            <summary>
+            Gets or sets the configuration options for the dialog.
+            </summary>
+            <remarks>
+            Changes to any of the options will be ignored.
+            </remarks>
+        </member>
+        <member name="T:Macad.Presentation.TaskDialogIcon">
+            <summary>
+            The System icons the TaskDialog supports.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogIcon.None">
+            <summary>
+            No Icon.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogIcon.Warning">
+            <summary>
+            System warning icon.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogIcon.Error">
+            <summary>
+            System Error icon.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TaskDialogIcon.Information">
+            <summary>
+            System Information icon.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.ToggleButton.RemoveFromGroup(System.String,Macad.Presentation.ToggleButton)">
+            <summary>
+            Remove from group
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.ToggleButton.AddToGroup(System.String,Macad.Presentation.ToggleButton)">
+            <summary>
+            Add to group
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.ToggleButton.GetButtonsInGroup(System.String)">
+            <summary>
+            Gets all buttons in the given group
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.ToggleButtonAutomationPeer.#ctor(Macad.Presentation.ToggleButton)">
+            
+        </member>
+        <member name="M:Macad.Presentation.ToggleButtonAutomationPeer.GetClassNameCore">
+            
+        </member>
+        <member name="M:Macad.Presentation.ToggleButtonAutomationPeer.GetAutomationControlTypeCore">
+            
+        </member>
+        <member name="M:Macad.Presentation.ToggleButtonAutomationPeer.GetPattern(System.Windows.Automation.Peers.PatternInterface)">
+            
+        </member>
+        <member name="M:Macad.Presentation.TreeView.DragNDropController.TryScroll(System.Windows.Point)">
+            <summary>
+            Scrolls if mouse is pressed and over scroll border. 
+            </summary>
+            <param name="position">Mouse position relative to treeView control.</param>
+            <returns>Returns true if over scroll border, otherwise false.</returns>
+        </member>
+        <member name="T:Macad.Presentation.TreeView.EditTextBox">
+            <summary>
+            Text box which focuses itself on load and selects all text in it.
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.TreeView.InputSubscriberBase">
+            <summary>
+            Base for a class, which wants to be provided with mouse events.
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.TreeView.SelectionMultiple">
+            <summary>
+            Logic for the multiple selection
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.TreeViewElementFinder.FindFirst(Macad.Presentation.TreeView.TreeViewEx,System.Boolean)">
+            <summary>
+            Returns the first item. If tree is virtualized, it is the first realized item.
+            </summary>
+            <param name="treeView">The tree.</param>
+            <returns>Returns a TreeViewExItem.</returns>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.TreeViewElementFinder.FindLast(Macad.Presentation.TreeView.TreeViewEx,System.Boolean)">
+            <summary>
+            Returns the last item. If tree is virtualized, it is the last realized item.
+            </summary>
+            <param name="treeView">The tree.</param>
+            <returns>Returns a TreeViewExItem.</returns>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.TreeViewElementFinder.FindAll(Macad.Presentation.TreeView.TreeViewEx,System.Boolean)">
+            <summary>
+            Returns all items in tree recursively. If virtualization is enabled, only realized items are returned.
+            </summary>
+            <param name="treeView">The tree.</param>
+            <param name="visibleOnly">True if only visible items should be returned.</param>
+            <returns>Returns an enumerable of items.</returns>
+        </member>
+        <member name="P:Macad.Presentation.TreeView.TreeViewEx.LastSelectedItem">
+            <summary>
+              Gets the last selected item.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TreeView.TreeViewEx.SelectedItems">
+            <summary>
+              Gets or sets a list of selected items and can be bound to another list. If the source list implements <see
+               cref="T:System.ComponentModel.INotifyPropertyChanged" /> the changes are automatically taken over.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.TreeViewEx.PrepareContainerForItemOverride(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Send down the IsVirtualizing property if it's set on this element.
+            </summary>
+            <param name="element"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.TreeViewEx.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+                This method is invoked when the Items property changes.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.TreeViewExAutomationPeer.CreateItemAutomationPeer(System.Object)">
+            <summary>
+            When overridden in a derived class, creates a new instance of the <see cref="T:System.Windows.Automation.Peers.ItemAutomationPeer"/> for a data item in the <see cref="P:System.Windows.Controls.ItemsControl.Items"/> collection of this <see cref="T:System.Windows.Controls.ItemsControl"/>.
+            </summary>
+            <param name="item">
+            The data item that is associated with this <see cref="T:System.Windows.Automation.Peers.ItemAutomationPeer"/>.
+            </param>
+            <returns>
+            The new <see cref="T:System.Windows.Automation.Peers.ItemAutomationPeer"/> created.
+            </returns>
+        </member>
+        <member name="T:Macad.Presentation.TreeView.TreeViewExItem">
+            <summary>
+            An item of the TreeViewEx.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.TreeViewExItem.PrepareContainerForItemOverride(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Send down the IsVirtualizing property if it's set on this element.
+            </summary>
+            <param name="element"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.TreeViewExItem.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+                This method is invoked when the Items property changes.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.TreeViewExItem.IsItemItsOwnContainerOverride(System.Object)">
+            <summary>
+                Returns true if the item is or should be its own container.
+            </summary>
+            <param name="item">The item to test.</param>
+            <returns>true if its type matches the container type.</returns>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.TreeViewExItem.GetContainerForItemOverride">
+            <summary>
+                Create or identify the element used to display the given item.
+            </summary>
+            <returns>The container.</returns>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.VirtualizingTreePanel.MeasureOverride(System.Windows.Size)">
+            <summary>
+            Measure the children
+            </summary>
+            <param name="availableSize">Size available</param>
+            <returns>Size desired</returns>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.VirtualizingTreePanel.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            Arrange the children
+            </summary>
+            <param name="finalSize">Size available</param>
+            <returns>Size used</returns>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.VirtualizingTreePanel.CleanUpItems(System.Int32,System.Int32)">
+            <summary>
+            Revirtualize items that are no longer visible
+            </summary>
+            <param name="minDesiredGenerated">first item index that should be visible</param>
+            <param name="maxDesiredGenerated">last item index that should be visible</param>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.VirtualizingTreePanel.OnItemsChanged(System.Object,System.Windows.Controls.Primitives.ItemsChangedEventArgs)">
+            <summary>
+            When items are removed, remove the corresponding UI if necessary
+            </summary>
+            <param name="sender"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Macad.Presentation.TreeView.VirtualizingTreePanel.GetCachedOrEstimatedHeight(Macad.Presentation.TreeView.TreeViewEx,System.Int32)">
+            <summary>
+            Returns the size of the container for a given item.  The size can come from the container, a lookup, or a guess depending
+            on the virtualization state of the item.
+            </summary>
+            <returns>The cached or estimated size.</returns>
+            <remarks>This estimation looks if the given index is cached. If not it returns the maximum height of the cached
+            containers. If no container is cached, returns zero. 
+            One case it fails is, if all cached items are bigger
+            than the estimated items. This leads to jumping scrollbars. The effect is not that bad, if many items will be visualized.</remarks>
+        </member>
+        <member name="T:Macad.Presentation.TwoColumnGrid">
+            <summary>
+            Defines a table that has two columns with any number of rows. 
+            </summary>
+            <remarks>
+            This panel is designed for use in configuration/settings windows where you typically
+            have a pairs of "Label: SomeControl" organized in rows.
+            
+            The width of the first column is determined by the widest item that column and the width of the 
+            second column is expanded to occupy all remaining space.
+            
+            Written by: Isak Savo, isak.savo@gmail.com
+            Licensed under the Code Project Open License http://www.codeproject.com/info/cpol10.aspx
+            </remarks>
+        </member>
+        <member name="P:Macad.Presentation.TwoColumnGrid.RowSpacing">
+            <summary>
+            Gets or sets the amount of spacing (in device independent pixels) between the rows.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TwoColumnGrid.RowSpacingProperty">
+            <summary>
+            Identifies the ColumnSpacing dependency property
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.TwoColumnGrid.ColumnSpacing">
+            <summary>
+            Gets or sets the amount of spacing (in device independent pixels) between the columns.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.TwoColumnGrid.ColumnSpacingProperty">
+            <summary>
+            Identifies the ColumnSpacing dependency property
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.TwoColumnGrid.MeasureOverride(System.Windows.Size)">
+            <summary>
+            Measures the size required for all the child elements in this panel.
+            </summary>
+            <param name="constraint">The size constraint given by our parent.</param>
+            <returns>The requested size for this panel including all children</returns>
+        </member>
+        <member name="M:Macad.Presentation.TwoColumnGrid.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            Position elements and determine the final size for this panel.
+            </summary>
+            <param name="arrangeSize">The final area where child elements should be positioned.</param>
+            <returns>The final size required by this panel</returns>
+        </member>
+        <member name="F:Macad.Presentation.ColorToStringConverter.colors">
+            <summary>
+            The string to color map.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.ColorToStringConverter.ColorMap">
+            <summary>
+            Gets the string to color map.
+            </summary>
+            <value>The color map.</value>
+        </member>
+        <member name="M:Macad.Presentation.ColorToStringConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value.
+            </summary>
+            <param name="value">The value produced by the binding source.</param>
+            <param name="targetType">The type of the binding target property.</param>
+            <param name="parameter">The converter parameter to use.</param>
+            <param name="culture">The culture to use in the converter.</param>
+            <returns>
+            A converted value. If the method returns <c>null</c>, the valid <c>null</c> value is used.
+            </returns>
+        </member>
+        <member name="M:Macad.Presentation.ColorToStringConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value.
+            </summary>
+            <param name="value">The value that is produced by the binding target.</param>
+            <param name="targetType">The type to convert to.</param>
+            <param name="parameter">The converter parameter to use.</param>
+            <param name="culture">The culture to use in the converter.</param>
+            <returns>
+            A converted value. If the method returns <c>null</c>, the valid <c>null</c> value is used.
+            </returns>
+        </member>
+        <member name="T:Macad.Presentation.SwitchCase">
+            <summary>
+            An individual case in the switch statement.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.SwitchCase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SwitchCase"/> class.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.SwitchCase.WhenProperty">
+            <summary>
+            Dependency property for the <see cref="P:When"/> property.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.SwitchCase.When">
+            <summary>
+            The value to match against the input value.
+            </summary>
+        </member>
+        <member name="F:Macad.Presentation.SwitchCase.ThenProperty">
+            <summary>
+            Dependency property for the <see cref="P:Then"/> property.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.SwitchCase.Then">
+            <summary>
+            The output value to use if the current case matches.
+            </summary>
+        </member>
+        <member name="T:Macad.Presentation.SwitchCaseCollection">
+            <summary>
+            A collection of switch cases.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.SwitchCaseCollection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SwitchCaseCollection"/> class.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.SwitchCaseCollection.Add(System.Object,System.Object)">
+            <summary>
+            Adds a new case to the collection.
+            </summary>
+            <param name="when">The value to compare against the input.</param>
+            <param name="then">The output value to use if the case matches.</param>
+        </member>
+        <member name="T:Macad.Presentation.SwitchConverter">
+            <summary>
+            Produces an output value based upon a collection of case statements.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.SwitchConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SwitchConverter"/> class.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.SwitchConverter.#ctor(Macad.Presentation.SwitchCaseCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SwitchConverter"/> class.
+            </summary>
+            <param name="cases">The case collection.</param>
+        </member>
+        <member name="P:Macad.Presentation.SwitchConverter.Cases">
+            <summary>
+            Holds a collection of switch cases that determine which output
+            value will be produced for a given input value.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.SwitchConverter.StringComparison">
+            <summary>
+            Specifies the type of comparison performed when comparing the input
+            value against a case.
+            </summary>
+        </member>
+        <member name="P:Macad.Presentation.SwitchConverter.Else">
+            <summary>
+            An optional value that will be output if none of the cases match.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.SwitchConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value.
+            </summary>
+            <param name="value">The value produced by the binding source.</param>
+            <param name="targetType">The type of the binding target property.</param>
+            <param name="parameter">The converter parameter to use.</param>
+            <param name="culture">The culture to use in the converter.</param>
+            <returns>A converted value. If the method returns null, the valid null value is used.</returns>
+        </member>
+        <member name="M:Macad.Presentation.SwitchConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value.
+            </summary>
+            <param name="value">The value that is produced by the binding target.</param>
+            <param name="targetType">The type to convert to.</param>
+            <param name="parameter">The converter parameter to use.</param>
+            <param name="culture">The culture to use in the converter.</param>
+            <returns>A converted value. If the method returns null, the valid null value is used.</returns>
+        </member>
+        <member name="M:Macad.Presentation.SwitchConverter.TryConvert(System.Globalization.CultureInfo,System.Object,System.Object@)">
+            <summary>
+            Attempts to use the IConvertible interface to convert <paramref name="value2"/> into a type
+            compatible with <paramref name="value1"/>.
+            </summary>
+            <param name="culture">The culture.</param>
+            <param name="value1">The input value.</param>
+            <param name="value2">The case value.</param>
+            <returns>True if conversion was performed, otherwise false.</returns>
+        </member>
+        <member name="F:Macad.Presentation.MouseHorizontalWheelEnabler.AutoEnableMouseHorizontalWheelSupport">
+            <summary>
+              When true it will try to enable Horizontal Wheel support on parent windows/popups/context menus automatically
+              so the programmer does not need to call it.
+              Defaults to true.
+            </summary>
+        </member>
+        <member name="M:Macad.Presentation.MouseHorizontalWheelEnabler.EnableMouseHorizontalWheelSupport(System.Windows.Window)">
+            <summary>
+              Enable Horizontal Wheel support for all the controls inside the window.
+              This method does not need to be called if AutoEnableMouseHorizontalWheelSupport is true.
+              This does not include popups or context menus.
+              If it was already enabled it will do nothing.
+            </summary>
+            <param name="window">Window to enable support for.</param>
+        </member>
+        <member name="M:Macad.Presentation.MouseHorizontalWheelEnabler.EnableMouseHorizontalWheelSupport(System.Windows.Controls.Primitives.Popup)">
+            <summary>
+              Enable Horizontal Wheel support for all the controls inside the popup.
+              This method does not need to be called if AutoEnableMouseHorizontalWheelSupport is true.
+              This does not include sub-popups or context menus.
+              If it was already enabled it will do nothing.
+            </summary>
+            <param name="popup">Popup to enable support for.</param>
+        </member>
+        <member name="M:Macad.Presentation.MouseHorizontalWheelEnabler.EnableMouseHorizontalWheelSupport(System.Windows.Controls.ContextMenu)">
+            <summary>
+              Enable Horizontal Wheel support for all the controls inside the context menu.
+              This method does not need to be called if AutoEnableMouseHorizontalWheelSupport is true.
+              This does not include popups or sub-context menus.
+              If it was already enabled it will do nothing.
+            </summary>
+            <param name="contextMenu">Context menu to enable support for.</param>
+        </member>
+        <member name="M:Macad.Presentation.MouseHorizontalWheelEnabler.EnableMouseHorizontalWheelSupport(System.IntPtr)">
+            <summary>
+              Enable Horizontal Wheel support for all the controls inside the HWND.
+              This method does not need to be called if AutoEnableMouseHorizontalWheelSupport is true.
+              This does not include popups or sub-context menus.
+              If it was already enabled it will do nothing.
+            </summary>
+            <param name="handle">HWND handle to enable support for.</param>
+            <returns>True if it was enabled or already enabled, false if it couldn't be enabled.</returns>
+        </member>
+        <member name="M:Macad.Presentation.MouseHorizontalWheelEnabler.DisableMouseHorizontalWheelSupport(System.IntPtr)">
+            <summary>
+              Disable Horizontal Wheel support for all the controls inside the HWND.
+              This method does not need to be called in most cases.
+              This does not include popups or sub-context menus.
+              If it was already disabled it will do nothing.
+            </summary>
+            <param name="handle">HWND handle to disable support for.</param>
+            <returns>True if it was disabled or already disabled, false if it couldn't be disabled.</returns>
+        </member>
+        <member name="M:Macad.Presentation.MouseHorizontalWheelEnabler.DisableMouseHorizontalWheelSupport(System.Windows.Window)">
+            <summary>
+              Disable Horizontal Wheel support for all the controls inside the window.
+              This method does not need to be called in most cases.
+              This does not include popups or sub-context menus.
+              If it was already disabled it will do nothing.
+            </summary>
+            <param name="window">Window to disable support for.</param>
+            <returns>True if it was disabled or already disabled, false if it couldn't be disabled.</returns>
+        </member>
+        <member name="M:Macad.Presentation.MouseHorizontalWheelEnabler.DisableMouseHorizontalWheelSupport(System.Windows.Controls.Primitives.Popup)">
+            <summary>
+              Disable Horizontal Wheel support for all the controls inside the popup.
+              This method does not need to be called in most cases.
+              This does not include popups or sub-context menus.
+              If it was already disabled it will do nothing.
+            </summary>
+            <param name="popup">Popup to disable support for.</param>
+            <returns>True if it was disabled or already disabled, false if it couldn't be disabled.</returns>
+        </member>
+        <member name="M:Macad.Presentation.MouseHorizontalWheelEnabler.DisableMouseHorizontalWheelSupport(System.Windows.Controls.ContextMenu)">
+            <summary>
+              Disable Horizontal Wheel support for all the controls inside the context menu.
+              This method does not need to be called in most cases.
+              This does not include popups or sub-context menus.
+              If it was already disabled it will do nothing.
+            </summary>
+            <param name="contextMenu">Context menu to disable support for.</param>
+            <returns>True if it was disabled or already disabled, false if it couldn't be disabled.</returns>
+        </member>
+        <member name="M:Macad.Presentation.MouseHorizontalWheelEnabler.EnableMouseHorizontalWheelSupportForParentOf(System.Windows.UIElement)">
+            <summary>
+              Enable Horizontal Wheel support for all that control and all controls hosted by the same window/popup/context menu.
+              This method does not need to be called if AutoEnableMouseHorizontalWheelSupport is true.
+              If it was already enabled it will do nothing.
+            </summary>
+            <param name="uiElement">UI Element to enable support for.</param>
+        </member>
+        <member name="T:Macad.Presentation.BooleanConditionalMultiConverter">
+            <summary>
+            The BooleanConditionalMultiConverter class is a multi-value converter that selects one of two values based on a boolean condition.
+            It requires three values: the first value must be a boolean, and the second and third values are the options to be selected based on the boolean value.
+            The converter parameter can be set to "UpdateFirst", "UpdateSecond", or "UpdateBoth" to specify which of the two source values should be updated when the target value changes.
+            </summary>
+            <example>
+                <TextBlock>
+                  <TextBlock.Text>
+                    <MultiBinding Converter="{mmp:BooleanConditionalMultiConverter}" ConverterParameter="UpdateFirst" >
+                      <Binding Path="Condition"/>
+                      <Binding Path="TrueValue" />
+                      <Binding Path="FalseValue" />
+                    </MultiBinding>
+                  </TextBlock.Text>
+                </TextBlock>
+            </example>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
+        </member>
+    </members>
+</doc>

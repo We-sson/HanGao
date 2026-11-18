@@ -61,64 +61,34 @@ namespace Robot_Info_Mes.Model
             // 只有通信已确认连接时才把输入当作有效生产事件，避免离线默认值推进状态机。
             if (Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Connected)
             {
+                if (_Robot_Info_Data.Robot_Process_Int != value.Robot_Process_Int)
+                    CancelActiveCycles();
+
                 // 机器人模式决定调试/故障计时；实际作业计时还需结合下方工位占用信号。
                 switch (value.Mes_Robot_Mode)
                 {
                     case KUKA_Mode_OP_Enum.T1:
                         // 手动 T1 视为调试，不再累计故障时间。
-                        Robot_Error_Time.Stop();
-                        Robot_Error_All_Time.Stop();
-                        //Robot_Work_Time.Stop();
-                        //Robot_Work_All_Time.Stop();
-
-
-
+                        Robot_Error_Time.StopCycle();
+                        Robot_Error_All_Time.StopCycle();
                         Robot_Debug_Time.Start();
                         Robot_Debug_All_Time.Start();
-
-                        break;
-                    case KUKA_Mode_OP_Enum.Run:
-                        // 自动运行模式先结束调试和故障计时；是否“作业”由 A~D 区信号决定。
-                        Robot_Debug_Time.Stop();
-                        Robot_Debug_All_Time.Stop();
-                        Robot_Error_Time.Stop();
-                        Robot_Error_All_Time.Stop();
-
-
-
-                        //Robot_Work_Time.Start();
-                        //Robot_Work_All_Time.Start();
-
                         break;
                     case KUKA_Mode_OP_Enum.Error:
                         // 故障模式只累计故障时长，暂停调试时长。
-                        Robot_Debug_Time.Stop();
-                        Robot_Debug_All_Time.Stop();
-                        //Robot_Work_Time.Stop();
-                        //Robot_Work_All_Time.Stop();
-
-
+                        Robot_Debug_Time.StopCycle();
+                        Robot_Debug_All_Time.StopCycle();
                         Robot_Error_Time.Start();
                         Robot_Error_All_Time.Start();
-
-
-
+                        break;
+                    default:
+                        // 离开 T1 或 Error 时立即采样，其他模式不沿用此前的调试或故障计时。
+                        Robot_Debug_Time.StopCycle();
+                        Robot_Debug_All_Time.StopCycle();
+                        Robot_Error_Time.StopCycle();
+                        Robot_Error_All_Time.StopCycle();
                         break;
                 }
-
-
-
-                // 完成过产品且当前所有工位均空闲时，从零开始记录下一次开工前的节拍外时间。
-                // Time_Model.Reset 的语义是“清零并重新启动”，前置 Stop 用于固定旧区间。
-                if (Robot_Work_ABCD_Number != 0 && !Robot_Time_Outside.Timer.IsRunning && (!Robot_Work_A_Cycle.Timer.IsRunning && !Robot_Work_B_Cycle.Timer.IsRunning && !Robot_Work_C_Cycle.Timer.IsRunning && !Robot_Work_D_Cycle.Timer.IsRunning))
-                {
-                    Robot_Time_Outside.Stop();
-                    Robot_Time_Outside.Reset();
-
-                }
-
-
-
 
 
 
@@ -126,13 +96,13 @@ namespace Robot_Info_Mes.Model
                 switch (value.Robot_Process_Int)
                 {
                     case Robot_Process_Int_Enum.R_Side_7 or Robot_Process_Int_Enum.R_Side_8 or Robot_Process_Int_Enum.R_Side_9:
-                        // R 边工位按成对区域计算：A、B 都经历一次后形成一个 AB 产品，C、D 同理。
-                        Robot_Work_AB_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_B_State, ref Robot_Work_A_Cycle_State, ref Robot_Work_B_Cycle_State, ref Robot_Work_A_Cycle, ref Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
+                        // R 边必须连续完成 A→B→空闲才计一件，C→D 同理。
+                        Robot_Work_AB_Cycle.Timer_UI = UpdatePairedCycle(value.Mes_Robot_Mode, value.Mes_Work_A_State, value.Mes_Work_B_State, ref _abPairedStage, Robot_Work_A_Cycle, Robot_Work_B_Cycle, ref Robot_Work_AB_Number);
 
                         // 先累加 AB 增量，再计算 CD，保证两路同包完成时写入不同的产品序号。
                         Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_AB_Number;
 
-                        Robot_Work_CD_Cycle.Timer_UI = Robot_R_Process_Work_State_Update(value.Mes_Robot_Mode, value.Mes_Work_C_State, value.Mes_Work_D_State, ref Robot_Work_C_Cycle_State, ref Robot_Work_D_Cycle_State, ref Robot_Work_C_Cycle, ref Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
+                        Robot_Work_CD_Cycle.Timer_UI = UpdatePairedCycle(value.Mes_Robot_Mode, value.Mes_Work_C_State, value.Mes_Work_D_State, ref _cdPairedStage, Robot_Work_C_Cycle, Robot_Work_D_Cycle, ref Robot_Work_CD_Number);
 
                         Robot_Work_ABCD_Number = Robot_Work_ABCD_Number + Robot_Work_CD_Number;
 
@@ -207,13 +177,18 @@ namespace Robot_Info_Mes.Model
                 // 两个状态机返回的是“本次上报新完成”的增量；产品总数已在各分支中先累加，这里只累计栈板数。
                 Work_Number_Pallets= Work_Number_Pallets+Robot_Work_AB_Number + Robot_Work_CD_Number;
 
+                // 完工的当前报文立即开始空闲计时，不能等下一份报文才开始累计。
+                if (Robot_Work_ABCD_Number != 0 && !Robot_Time_Outside.Timer.IsRunning
+                    && !Robot_Work_A_Cycle.Timer.IsRunning && !Robot_Work_B_Cycle.Timer.IsRunning
+                    && !Robot_Work_C_Cycle.Timer.IsRunning && !Robot_Work_D_Cycle.Timer.IsRunning)
+                    Robot_Time_Outside.Reset();
 
 
                 // 任一新周期开始时结束空闲区间，并按当前累计产量索引保存该段节拍外时间。
                 if (Robot_Work_ABCD_Number != 0 && Robot_Time_Outside.Timer.IsRunning && (Robot_Work_A_Cycle.Timer.IsRunning || Robot_Work_B_Cycle.Timer.IsRunning || Robot_Work_C_Cycle.Timer.IsRunning || Robot_Work_D_Cycle.Timer.IsRunning))
                 {
 
-                    Robot_Time_Outside.Stop();
+                    Robot_Time_Outside.StopCycle();
                     Robot_Time_Outside.Time_Offset = TimeSpan.Zero;
                     //Robot_Robot_Time_Outside_List.Add(Robot_Time_Outside.Timer_Sec);
 
@@ -243,8 +218,8 @@ namespace Robot_Info_Mes.Model
                 }
                 else
                 {
-                    Robot_Work_Time.Stop();
-                    Robot_Work_All_Time.Stop();
+                    Robot_Work_Time.StopCycle();
+                    Robot_Work_All_Time.StopCycle();
 
                 }
 
@@ -266,6 +241,7 @@ namespace Robot_Info_Mes.Model
             get { return _Socket_Robot_Connect_State; }
             set
             {
+                if (_Socket_Robot_Connect_State == value) return;
                 switch (value)
                 {
                     case Socket_Robot_Connect_State_Enum.Connected:
@@ -273,6 +249,7 @@ namespace Robot_Info_Mes.Model
                         Robot_Offline_Time.Stop();
                         break;
                     case Socket_Robot_Connect_State_Enum.Disconnected:
+                        CancelActiveCycles();
                         // Reset 会清零并启动，开始计量这一轮断线持续时间。
                         Robot_Offline_Time.Reset();
 
@@ -488,6 +465,11 @@ namespace Robot_Info_Mes.Model
         private bool Robot_Work_C_Cycle_State = false;
         private bool Robot_Work_D_Cycle_State = false;
 
+        // 两条 R 边通道分别记录空闲、首区、次区和异常后等待空闲四个阶段。
+        private enum PairedCycleStage { Idle, First, Second, WaitForIdle }
+        private PairedCycleStage _abPairedStage;
+        private PairedCycleStage _cdPairedStage;
+
         // 单工位周期若中途退出 Run，会锁定到 MES 信号回落，防止恢复后误计为完整产品。
         private bool Robot_Work_AB_Cycle_Aborted = false;
         private bool Robot_Work_CD_Cycle_Aborted = false;
@@ -575,126 +557,93 @@ namespace Robot_Info_Mes.Model
         public Time_Model Robot_Error_All_Time { set; get; } = new();
 
 
-        /// <summary>
-        /// 推进 R 边“双区域组成一件产品”的节拍状态机。
-        /// </summary>
-        /// <param name="KUKA_Mode_OP">当前机器人运行模式，只有 Run 允许周期继续计时。</param>
-        /// <param name="_Mes_Work_A_State">第一生产区域当前是否作业。</param>
-        /// <param name="_Mes_Work_B_State">第二生产区域当前是否作业。</param>
-        /// <param name="_Robot_Work_A_Cycle_State">第一生产区域在本周期中是否已被触发。</param>
-        /// <param name="_Robot_Work_B_Cycle_State">第二生产区域在本周期中是否已被触发。</param>
-        /// <param name="_Robot_Work_A_Cycle">第一生产区域计时器。</param>
-        /// <param name="_Robot_Work_B_Cycle">第二生产区域计时器。</param>
-        /// <param name="_Robot_Work_AB_Number">本次调用新增的产品数量。</param>
-        /// <returns>两个区域计时之和，即当前/刚完成的合成节拍。</returns>
-        public TimeSpan Robot_R_Process_Work_State_Update(KUKA_Mode_OP_Enum KUKA_Mode_OP, bool _Mes_Work_A_State, bool _Mes_Work_B_State, ref bool _Robot_Work_A_Cycle_State, ref bool _Robot_Work_B_Cycle_State, ref Time_Model _Robot_Work_A_Cycle, ref Time_Model _Robot_Work_B_Cycle, ref int _Robot_Work_AB_Number)
+        /// <summary>按首区、次区、两区空闲的顺序确认一个 R 边产品。</summary>
+        private TimeSpan UpdatePairedCycle(
+            KUKA_Mode_OP_Enum mode, bool firstActive, bool secondActive, ref PairedCycleStage stage,
+            Time_Model first, Time_Model second, ref int completed)
         {
-            TimeSpan _Robot_Work_AB_Cycle = new();
+            bool idle = !firstActive && !secondActive;
+            bool inFirst = mode == KUKA_Mode_OP_Enum.Run && firstActive && !secondActive;
+            bool inSecond = mode == KUKA_Mode_OP_Enum.Run && !firstActive && secondActive;
 
-            // 仅在自动运行且至少一侧有效时推进；其他模式暂停当前两个计时器。
-            if ((_Mes_Work_A_State || _Mes_Work_B_State) && KUKA_Mode_OP == KUKA_Mode_OP_Enum.Run)
+            switch (stage)
             {
-
-
-                // 两个区域互斥运行：进入一侧时暂停另一侧，并只在首次进入时清零本侧周期。
-                if (_Mes_Work_A_State && !_Mes_Work_B_State)
-                {
-
-
-                    if (_Robot_Work_A_Cycle_State == false && !_Robot_Work_A_Cycle.Timer.IsRunning)
-                    {
-
-                        _Robot_Work_B_Cycle.Stop();
-                        _Robot_Work_A_Cycle.Reset();
-
-                        _Robot_Work_A_Cycle_State = true;
-
-
-                    }
-
-
-                    if (_Robot_Work_A_Cycle_State && KUKA_Mode_OP == KUKA_Mode_OP_Enum.Run && !_Robot_Work_A_Cycle.Timer.IsRunning)
-                    {
-                        _Robot_Work_A_Cycle.Start();
-                    }
-
-
-                    if (_Robot_Work_B_Cycle_State == false)
-                    {
-                        _Robot_Work_B_Cycle.Stop();
-                        _Robot_Work_B_Cycle.Timer_UI = TimeSpan.Zero;
-                    }
-                }
-
-                if (_Mes_Work_B_State && !_Mes_Work_A_State)
-                {
-                    if (_Robot_Work_B_Cycle_State == false && !_Robot_Work_B_Cycle.Timer.IsRunning)
-                    {
-                        _Robot_Work_A_Cycle.Stop();
-                        _Robot_Work_B_Cycle.Reset();
-                        _Robot_Work_B_Cycle_State = true;
-                    }
-
-
-                    if (_Robot_Work_B_Cycle_State && KUKA_Mode_OP == KUKA_Mode_OP_Enum.Run && !_Robot_Work_B_Cycle.Timer.IsRunning)
-                    {
-                        _Robot_Work_B_Cycle.Start();
-                    }
-
-
-                    if (_Robot_Work_A_Cycle_State == false)
-                    {
-
-                        _Robot_Work_A_Cycle.Stop();
-                        _Robot_Work_A_Cycle.Timer_UI = TimeSpan.Zero;
-                    }
-
-
-                }
-
-            }
-            else
-            {
-
-                _Robot_Work_A_Cycle.Stop();
-                _Robot_Work_B_Cycle.Stop();
-
-
+                case PairedCycleStage.Idle when idle:
+                case PairedCycleStage.First when inFirst:
+                case PairedCycleStage.Second when inSecond:
+                    break;
+                case PairedCycleStage.Idle when inFirst:
+                    second.Timer_UI = TimeSpan.Zero;
+                    first.Reset();
+                    stage = PairedCycleStage.First;
+                    break;
+                case PairedCycleStage.First when inSecond:
+                    first.StopCycle();
+                    second.Reset();
+                    stage = PairedCycleStage.Second;
+                    break;
+                case PairedCycleStage.Second when idle && mode == KUKA_Mode_OP_Enum.Run:
+                    second.StopCycle();
+                    Robot_Work_ABCD_Cycle_List.AddDataAt(Robot_Work_ABCD_Number + 1,
+                        (first.Timer_UI + second.Timer_UI).TotalSeconds);
+                    Robot_Work_ABCD_Cycle_Mean = Math.Round(Robot_Work_ABCD_Cycle_List.AverageOutNull() ?? 0, 2);
+                    completed++;
+                    stage = PairedCycleStage.Idle;
+                    break;
+                default:
+                    // 异常报文丢弃在途节拍，看到两区空闲后才接受下一件。
+                    if (stage is PairedCycleStage.First or PairedCycleStage.Second)
+                        ClearCycleTimers(first, second);
+                    stage = idle ? PairedCycleStage.Idle : PairedCycleStage.WaitForIdle;
+                    break;
             }
 
-            // 合成值持续反馈到 UI，即使产品尚未完成也能看到当前节拍增长。
-            _Robot_Work_AB_Cycle = _Robot_Work_A_Cycle.Timer_UI + _Robot_Work_B_Cycle.Timer_UI;
-
-
-
-
-
-            // 两侧都曾作业且当前都回到空闲，才确认一件完整产品，避免只经过单侧就误计数。
-            if (_Robot_Work_A_Cycle_State && _Robot_Work_B_Cycle_State && !_Mes_Work_A_State && !_Mes_Work_B_State)
-            {
-
-
-                _Robot_Work_AB_Number++;
-                _Robot_Work_B_Cycle_State = false;
-                _Robot_Work_A_Cycle_State = false;
-
-
-
-         
-
-                // +1 对应即将由外层累加的产品序号。
-                Robot_Work_ABCD_Cycle_List.AddDataAt(Robot_Work_ABCD_Number+1, _Robot_Work_AB_Cycle.TotalSeconds);
-                Robot_Work_ABCD_Cycle_Mean =Math.Round( Robot_Work_ABCD_Cycle_List.AverageOutNull() ?? 0,2);
-
-
-
-            }
-
-
-
-            return _Robot_Work_AB_Cycle;
-
+            return first.Timer_UI + second.Timer_UI;
         }
+
+        /// <summary>清除被作废产品的两段显示值，并保持计时停止。</summary>
+        private static void ClearCycleTimers(Time_Model first, Time_Model second)
+        {
+            first.Stop();
+            second.Stop();
+            first.Timer_UI = TimeSpan.Zero;
+            second.Timer_UI = TimeSpan.Zero;
+        }
+
+        /// <summary>作废在途产品并冻结生产状态时长，避免报文中断期间继续累计。</summary>
+        internal void CancelActiveCycles()
+        {
+            CancelActiveCycle(ref _abPairedStage, ref Robot_Work_A_Cycle_State, ref Robot_Work_AB_Cycle_Aborted,
+                Robot_Work_A_Cycle, Robot_Work_B_Cycle, Robot_Work_AB_Cycle);
+            CancelActiveCycle(ref _cdPairedStage, ref Robot_Work_C_Cycle_State, ref Robot_Work_CD_Cycle_Aborted,
+                Robot_Work_C_Cycle, Robot_Work_D_Cycle, Robot_Work_CD_Cycle);
+            Robot_Work_Time.StopCycle();
+            Robot_Work_All_Time.StopCycle();
+            Robot_Error_Time.StopCycle();
+            Robot_Error_All_Time.StopCycle();
+            Robot_Debug_Time.StopCycle();
+            Robot_Debug_All_Time.StopCycle();
+            Robot_Time_Outside.StopCycle();
+        }
+
+        /// <summary>只作废当前通道的在途周期，已完成产品及其历史保持可查询。</summary>
+        private static void CancelActiveCycle(
+            ref PairedCycleStage stage, ref bool singleActive, ref bool singleAborted,
+            Time_Model first, Time_Model second, Time_Model total)
+        {
+            bool pairedActive = stage is PairedCycleStage.First or PairedCycleStage.Second;
+            if (!pairedActive && !singleActive) return;
+
+            if (pairedActive) stage = PairedCycleStage.WaitForIdle;
+            if (singleActive)
+            {
+                singleActive = false;
+                singleAborted = true;
+            }
+            ClearCycleTimers(first, second);
+            total.Timer_UI = TimeSpan.Zero;
+        }
+
         /// <summary>
         /// 推进围边/面板等“单个 MES 信号完成一件产品”的沿触发节拍状态机。
         /// </summary>
@@ -740,7 +689,7 @@ namespace Robot_Info_Mes.Model
                 else if (!_Mes_Work_A_State && lastMes) // MES true→false
                 {
                     // 正常下降沿表示工艺完成；保存本次节拍并产生一个产量增量。
-                    _Robot_Work_A_Cycle.Stop();
+                    _Robot_Work_A_Cycle.StopCycle();
                     //Robot_Work_ABCD_Cycle_List.Add(_Robot_Work_A_Cycle.Timer_Sec);
                     //Robot_Work_ABCD_Cycle_Mean = Robot_Work_ABCD_Cycle_List.Average() ?? 0;
                     Robot_Work_ABCD_Cycle_List.AddDataAt(Robot_Work_ABCD_Number+1, _Robot_Work_A_Cycle.Timer_Sec);
@@ -903,7 +852,10 @@ namespace Robot_Info_Mes.Model
             Time_Update.Tick += (s, e) =>
             {
                 // 恢复值与本次进程的经过时间相加，形成连续的显示/持久化值。
-                Timer_UI = Time_Offset + Timer.Elapsed;
+                var elapsed = Time_Offset + Timer.Elapsed;
+                // 定时刷新可合并小变化，周期结束和复位的显式赋值仍必须精确。
+                if (Math.Abs((elapsed - Timer_UI).TotalMilliseconds) >= 100)
+                    Timer_UI = elapsed;
 
 
             };
@@ -946,8 +898,7 @@ namespace Robot_Info_Mes.Model
             get { return _Timer_UI; }
             set
             {
-                // 界面只显示到秒；小于 100ms 的变化不触发绑定刷新，避免逐帧赋值刷屏。
-                if (Math.Abs((value - _Timer_UI).TotalMilliseconds) < 100) return;
+                if (value == _Timer_UI) return;
 
                 Timer_Sec = value.TotalSeconds;
                 Timer_Millisecond = value.TotalMilliseconds;
@@ -999,6 +950,15 @@ namespace Robot_Info_Mes.Model
             Timer.Stop();
             Time_Update.Stop();
 
+        }
+
+        /// <summary>冻结实际的周期耗时，避免节拍记录漏掉最后一次界面刷新后的时间。</summary>
+        internal void StopCycle()
+        {
+            var wasRunning = Timer.IsRunning;
+            Stop();
+            if (wasRunning)
+                Timer_UI = Time_Offset + Timer.Elapsed;
         }
 
 

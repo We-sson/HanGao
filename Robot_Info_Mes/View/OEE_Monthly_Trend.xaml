@@ -1,0 +1,175 @@
+﻿<UserControl
+    x:Class="Robot_Info_Mes.View.OEE_Monthly_Trend"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Enum_Converter="clr-namespace:Robot_Info_Mes.View"
+    xmlns:Robot="clr-namespace:Roboto_Socket_Library.Model;assembly=Roboto_Socket_Library"
+    xmlns:View="clr-namespace:Robot_Info_Mes.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:Robot_Info_Mes.View"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{Binding Robot_Info_VM, Source={StaticResource ViewModelLocator}}"
+    d:Height="320"
+    d:Width="1440"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <!--  枚举转换器显示设备中文名称；索引转换器连接趋势选择按钮与后台轮播索引。  -->
+        <Enum_Converter:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+        <Enum_Converter:IndexEqualsConverter x:Key="IndexEqualsConverter" />
+    </UserControl.Resources>
+        <Grid
+            Margin="5,10,5,0"
+            Background="Transparent"
+            ClipToBounds="True"
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="18" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!--  根据工艺设置决定鼠标悬停时是否暂停轮播，便于查看具体数据点。  -->
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter">
+                    <i:InvokeCommandAction Command="{Binding Work_Factor_Seried.Mes_Data_View_Pause_Comm}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeave">
+                    <i:InvokeCommandAction Command="{Binding Work_Factor_Seried.Mes_Data_View_Resume_Comm}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+
+            <Border
+                Grid.RowSpan="2"
+                Background="{DynamicResource 全局_背景_白颜色}"
+                BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
+                BorderThickness="3"
+                CornerRadius="10" />
+
+            <!--  当前指标的剩余展示周期；颜色随六种指标语义色同步切换。  -->
+            <ProgressBar
+                Grid.Row="0"
+                Height="6"
+                Margin="10,7,10,0"
+                VerticalAlignment="Top"
+                Panel.ZIndex="1"
+                d:Value="50"
+                IsHitTestVisible="False"
+                Maximum="100"
+                Minimum="0"
+                Value="{Binding Work_Factor_Seried.Mes_Data_View_Progress, Mode=OneWay}">
+                <ProgressBar.Style>
+                    <Style BasedOn="{StaticResource OeeRotationProgressBarStyle}" TargetType="{x:Type ProgressBar}">
+                        <Setter Property="Foreground" Value="{StaticResource OEE_时间稼动率_颜色}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index}" Value="1">
+                                <Setter Property="Foreground" Value="{StaticResource OEE_性能稼动率_颜色}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index}" Value="2">
+                                <Setter Property="Foreground" Value="{StaticResource OEE_生产数量_颜色}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index}" Value="3">
+                                <Setter Property="Foreground" Value="{StaticResource OEE_平均节拍_颜色}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index}" Value="4">
+                                <Setter Property="Foreground" Value="{StaticResource OEE_作业时间_颜色}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index}" Value="5">
+                                <Setter Property="Foreground" Value="{StaticResource OEE_节拍外时间_颜色}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
+
+
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!--  六个按钮直接写入 Mes_Data_View_Selected_Index，也会被自动轮播反向更新。  -->
+                <StackPanel
+                    Grid.Column="0"
+                    Margin="10,0,0,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <RadioButton
+                        Background="{StaticResource OEE_时间稼动率_浅颜色}"
+                        BorderBrush="{StaticResource OEE_时间稼动率_颜色}"
+                        Content="时间稼动率"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=0, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                    <RadioButton
+                        Background="{StaticResource OEE_性能稼动率_浅颜色}"
+                        BorderBrush="{StaticResource OEE_性能稼动率_颜色}"
+                        Content="性能稼动率"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=1, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                    <RadioButton
+                        Background="{StaticResource OEE_生产数量_浅颜色}"
+                        BorderBrush="{StaticResource OEE_生产数量_颜色}"
+                        Content="生产数量"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=2, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                    <RadioButton
+                        Background="{StaticResource OEE_平均节拍_浅颜色}"
+                        BorderBrush="{StaticResource OEE_平均节拍_颜色}"
+                        Content="平均节拍"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=3, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                    <RadioButton
+                        Background="{StaticResource OEE_作业时间_浅颜色}"
+                        BorderBrush="{StaticResource OEE_作业时间_颜色}"
+                        Content="作业时间"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=4, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                    <RadioButton
+                        Background="{StaticResource OEE_节拍外时间_浅颜色}"
+                        BorderBrush="{StaticResource OEE_节拍外时间_颜色}"
+                        Content="节拍外时间"
+                        IsChecked="{Binding Work_Factor_Seried.Mes_Data_View_Selected_Index, Converter={StaticResource IndexEqualsConverter}, ConverterParameter=5, Mode=TwoWay}"
+                        Style="{StaticResource OeeMetricRadioButtonStyle}" />
+                </StackPanel>
+
+
+
+
+
+
+
+
+                <!--  曲线、参考线及双轴均由 Work_Factor_Seried_Model 统一构造和切换。  -->
+                <lvc:CartesianChart
+                    Grid.Column="1"
+                    Margin="0,10,10,10"
+                    Background="Transparent"
+                    EasingFunction="{x:Null}"
+                    LegendBackgroundPaint="{Binding Work_Factor_Seried.LedgendBackgroundPaint}"
+                    LegendPosition="Hidden"
+                    LegendTextPaint="{Binding Work_Factor_Seried.LegendTextPaint}"
+                    LegendTextSize="18"
+                    Sections="{Binding Work_Factor_Seried.Mes_Data_View_List_Sections}"
+                    Series="{Binding Work_Factor_Seried.Mes_Data_View_List_Series}"
+                    SyncContext="{Binding Work_Factor_Seried.Sync}"
+                    TooltipTextPaint="{Binding Work_Factor_Seried.TooltipTextPaint}"
+                    XAxes="{Binding Work_Factor_Seried.XAxes}"
+                    YAxes="{Binding Work_Factor_Seried.YAxes}" />
+
+            </Grid>
+
+
+
+
+
+
+
+
+
+
+
+        </Grid>
+</UserControl>

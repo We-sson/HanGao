@@ -9,5 +9,24 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Robot_Info_Mes\Robot_Info_Mes.csproj" />
+    <ProjectReference Include="..\Robot_Info_Mes.MotionClient\Robot_Info_Mes.MotionClient.csproj" />
+    <Reference Include="Macad.Interaction">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Macad.Interaction.dll</HintPath>
+    </Reference>
+    <Reference Include="Macad.Occt">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Macad.Occt.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock.Themes.VS2013">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\AvalonDock.Themes.VS2013.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Fluent">
+      <HintPath>..\RobotSimulator\ThirdParty\Macad\Fluent.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

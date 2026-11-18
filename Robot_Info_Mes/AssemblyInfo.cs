@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 [assembly: ThemeInfo(
@@ -9,3 +10,4 @@ using System.Windows;
 
 // 使用自动生成的 build/revision，窗口标题会通过 Robot_Info_VM.Window_Version 展示该版本。
 [assembly: AssemblyVersion("1.5.*")]
+[assembly: InternalsVisibleTo("Robot_Info_Mes.Tests")]

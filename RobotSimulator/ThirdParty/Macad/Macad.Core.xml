@@ -1,0 +1,252 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Macad.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Macad.Core.ScriptContext">
+            <summary>
+            This is the base class for scripts.
+            Every script class can access these members directly.
+            </summary>
+        </member>
+        <member name="P:Macad.Core.ScriptContext.Document">
+            <summary>
+            The model holds all bodies, and references to every entity.
+            </summary>
+        </member>
+        <member name="P:Macad.Core.ScriptContext.Layers">
+            <summary>
+            The layer collection is a collection of layers defining shared attributes
+            regarding visibility, interactivity and visualization of bodies.
+            </summary>
+        </member>
+        <member name="P:Macad.Core.ScriptContext.Workspace">
+            <summary>
+            The workspace holds all functionality for visualization and interactivity.
+            </summary>
+        </member>
+        <member name="P:Macad.Core.ScriptContext.Viewport">
+            <summary>
+            The viewport is the window into a workspace.
+            </summary>
+        </member>
+        <member name="T:Macad.Core.Geom.BendAnalyzer">
+             <summary>
+             Provides functionality to find and analyze bend sections within a given shape.
+             </summary>
+             <remarks>
+             This class is designed to identify and analyze bend sections in a solid shape.
+             Bend sections are identified using topological criteria. Together with the unbent sections,
+             the recognised bend sections form a hierarchical order in the sequence and dependency of their
+             bends, starting with the section to which the start face is assigned.
+            
+             To recognise a bend section, it must have the following structure:
+             - Four faces, two of them cylinder (top/bottom), two of them planar, bezier or bspline (side faces)
+             - All edges connecting these four faces must be a circular or elliptical arc
+             - The circles (projections in case of elliptical arc) of all edges must have coaxial axes with only two different positions
+             - The curves of all edges must have one of two radii (minor radius for elliptical arc)
+            
+             This class is particularly useful for applications involving sheet metal design or similar domains
+             where bend sections are a key feature.
+             </remarks>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.Flags.DebugOutput">
+            <summary>
+            Indicates that debug output should be enabled.
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.Flags.PrepareShape">
+            <summary>
+            Prepare a shape before analysis, e.g. isolate faces of bend sections if they are unified together
+            with side faces of unbent sections. This may be needed to correctly identify the bend sections.
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.Flags.Default">
+            <summary>
+            Recommended default set of flags.
+            </summary>
+        </member>
+        <member name="P:Macad.Core.Geom.BendAnalyzer.History">
+            <summary>
+            Gets the history of operations performed on the BRep model. This currently is only valid when
+            the source shape was modified in the preparation step.
+            </summary>
+        </member>
+        <member name="P:Macad.Core.Geom.BendAnalyzer.RootSection">
+            <summary>
+            Gets the root section of the identified bend hierarchy. Valid after successful analyse.
+            </summary>
+        </member>
+        <member name="M:Macad.Core.Geom.BendAnalyzer.FindBendSections(Macad.Occt.TopoDS_Shape,Macad.Occt.TopoDS_Face,Macad.Core.Geom.BendAnalyzer.Flags)">
+            <summary>
+            Identifies and analyzes bend sections within the specified shape, starting from the given face.
+            </summary>
+            <remarks>This method performs a topology analysis on the provided shape to identify bend sections. If
+            the parameter includes <see cref="F:Macad.Core.Geom.BendAnalyzer.Flags.PrepareShape"/>, the shape will be preprocessed
+            to split side faces before analysis.</remarks>
+            <param name="shape">The shape to analyze for bend sections. Cannot be <see langword="null"/>.</param>
+            <param name="startFace">The face from which the analysis begins. Cannot be <see langword="null"/>.</param>
+            <param name="flags">Flags that control the behavior of the analysis, such as whether to prepare the shape before processing.</param>
+            <returns><see langword="true"/> if the bend sections were successfully identified and analyzed; otherwise, <see
+            langword="false"/>.</returns>
+        </member>
+        <member name="T:Macad.Core.Geom.BendAnalyzer.Section">
+            <summary>
+            The section class represents parts of the shape which can be connected.
+            Each section with normal geometry is connected to a number of bend sections,
+            bend sections can have only one further connection(the parent section does not count
+            here), this can be a bend section or normal geometry section.
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.BendParameter.Faces">
+            <summary>
+            Each bend section has exactly four faces. The numbering is:
+            0 - top/bottom face
+            1/2 - side faces
+            3 - opposite top/bottom face
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.BendParameter.Edges">
+            <summary>
+            These edges connect the bend section faces, they are all circular
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.BendParameter.ConnectedInFaces">
+            <summary>
+            In[0] is the face which has encountered the bend section as a
+            connected face.In[1] is the opposite face belonging to the same
+            section. This is the parent section.
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.BendParameter.ConnectedInEdges">
+            <summary>
+            Edges the bend faces share with <see cref="F:Macad.Core.Geom.BendAnalyzer.BendParameter.ConnectedInFaces"/>,
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.BendParameter.ConnectedOutFaces">
+            <summary>
+            Out[0] and Out[1] are the faces connected to the top/bottom face
+            of the section on the other side, they are part of the connected section.
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.BendParameter.ConnectedOutEdges">
+            <summary>
+            Edges the bend faces share with <see cref="F:Macad.Core.Geom.BendAnalyzer.BendParameter.ConnectedOutEdges"/>,
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.BendParameter.Axis">
+            <summary>
+            The axis of the bend.
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.BendParameter.InnerRadius">
+            <summary>
+            The inner (smaller) radius of the bend.
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.BendParameter.OuterRadius">
+            <summary>
+            The outer (greater) radius of the bend.
+            </summary>
+        </member>
+        <member name="F:Macad.Core.Geom.BendAnalyzer.BendParameter.AngleRad">
+            <summary>
+            The angle of the bend section in radians.
+            </summary>
+        </member>
+        <member name="T:Macad.Core.Geom.EarClippingTriangulator">
+            <summary>
+            Triangulates simple polygons (convex/concave, no holes) using
+            the common Ear-Clipping algorithm. It works on a list of vertices
+            and an ordered list of indices into the vertex list. The result
+            is a list of indices for all triangles (3 indices per triangle).
+            All triangles are returned in CCW order, regardless of the
+            winding order of the polygon.
+            </summary>
+        </member>
+        <member name="M:Macad.Core.Geom.EdgeAlgo.FindLongestEdge(Macad.Occt.TopoDS_Shape)">
+            <summary>
+            Searches for the longest edge of a shape, and find the longest parallel edge
+            </summary>
+        </member>
+        <member name="M:Macad.Core.Geom.EdgeAlgo.FindSmallestAndLargestAdjacentFaces(Macad.Occt.TopoDS_Shape,Macad.Occt.TopoDS_Edge)">
+            <summary>
+            Searches for the smallest and biggest adjacent face
+            </summary>
+        </member>
+        <member name="M:Macad.Core.Geom.EdgeAlgo.FindAdjacentFaces(Macad.Occt.TopoDS_Shape,Macad.Occt.TopoDS_Edge)">
+            <summary>
+            Searches for adjacent faces
+            </summary>
+        </member>
+        <member name="M:Macad.Core.Geom.FaceAlgo.FindFaceByAreaSize(Macad.Occt.TopoDS_Shape,System.Func{System.Double,System.Double,System.Boolean})">
+            <summary>
+            Searches for the face of a shape, and find the parallel face, both by area comparison
+            </summary>
+        </member>
+        <member name="M:Macad.Core.Geom.FaceAlgo.FindOppositeFace(Macad.Occt.TopoDS_Shape,Macad.Occt.TopoDS_Face,System.Boolean,Macad.Core.Geom.FaceAlgo.FaceDistanceMethod,System.Double)">
+            <summary>
+            Find the opposite face to the given reference face which satisfies the distance requirement.
+            </summary>
+        </member>
+        <member name="M:Macad.Core.Geom.FaceAlgo.FindOppositeVertex(Macad.Occt.TopoDS_Shape,Macad.Occt.TopoDS_Face,System.Boolean,Macad.Core.Geom.FaceAlgo.FaceDistanceMethod,System.Double)">
+            <summary>
+            Find the vertex which satisfies the distance requirement. The distance is calculated using the shortest
+            distance between the selected distance method of the face and the vertex position.
+            </summary>
+            <returns>The position of the vertex.</returns>
+        </member>
+        <member name="M:Macad.Core.Geom.TopoUtils.MakeEdge(Macad.Occt.Geom2d_Curve,Macad.Occt.Pln)">
+            <summary>
+            Creates a 3D edge from a 2D curve and a plane.
+            </summary>
+            <param name="curve2d">The 2D curve to be converted into a 3D edge.</param>
+            <param name="plane">The plane used to define the spatial context for the 2D curve.</param>
+            <returns>A 3D edge constructed from the specified 2D curve and plane.</returns>
+        </member>
+        <member name="M:Macad.Core.Geom.TopoUtils.MakeFace(Macad.Occt.Pnt[])">
+            <summary>
+            Creates a face from a set of four points.
+            </summary>
+            <remarks>This method attempts to create a planar face using the provided points. If the planar face
+            creation fails, it falls back to constructing a B-spline surface. The points must define a closed wire, with
+            the last point connecting back to the first.</remarks>
+            <param name="points">An array of four points representing the vertices of the face. The points must be provided in sequential order,
+            forming a closed wire.</param>
+            <returns>The constructed face.</returns>
+        </member>
+        <member name="T:Macad.Core.CoreContext">
+            <summary>
+            The CoreContext is a singleton holding the global state of the core module. Most functionality
+            of the classes in the core module access the state using this class.
+            </summary>
+        </member>
+        <member name="P:Macad.Core.CoreContext.Current">
+            <summary>
+            The current instance of the CoreContext. It will be set automatically when a new context
+            class is instantiated.
+            </summary>
+        </member>
+        <member name="M:Macad.Core.Shapes.CrossSection.ProposePlane(Macad.Core.Topology.Body,Macad.Occt.Pln)">
+            Propose a plane which makes more sense than the base plane.
+            This is an utility for the creation to find a plane that is a good place to start based on
+            the current working plane.
+        </member>
+        <member name="M:Macad.Core.Shapes.Sketch._CheckForInvalidReferences(System.Boolean)">
+            <summary>
+            Checks all segments and constraints to references wo points or segments which do not exist and removes them.
+            </summary>
+        </member>
+        <member name="M:Macad.Core.Topology.Body.RemoveShape(Macad.Core.Shapes.Shape,System.Boolean)">
+            <summary>
+            Removes the specified shape from the topology.
+            </summary>
+            <remarks>Only modifiers can be removed, the primitive shape must not be removed. When a shape is removed, its
+            dependents are updated to reference the predecessor shape, ensuring the topology remains consistent.</remarks>
+            <param name="shape">The shape to be removed. Must not be a primitive shape.</param>
+            <param name="saveUndo">Whether to save the current topology state to the undo stack.</param>
+            <returns><see langword="true"/> if the shape was successfully removed and replaced; otherwise, <see langword="false"/>.</returns>
+        </member>
+    </members>
+</doc>
