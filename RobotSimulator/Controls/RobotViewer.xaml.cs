@@ -1,8 +1,10 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Macad.Interaction.Panels;
 using RobotSimulator.Models;
@@ -25,6 +27,10 @@ public partial class RobotViewer : UserControl, IDisposable
     private readonly Func<ViewportPanel, IRobotSceneService> _sceneFactory;
     /// <summary>通知源的普通引用，通信回调不读取 WPF 依赖属性。</summary>
     private volatile IRobotViewerModel? _boundModel;
+    /// <summary>视口浮层状态对象；独立于 ViewportPanel 默认 DataContext，统一在 UI 线程刷新。</summary>
+    private readonly SimulationOverlayState _overlayState = new();
+    private const double OverlayJointRefreshIntervalSeconds = 0.15;
+    private long _lastOverlayRefreshTimestamp;
     /// <summary>进入可视树后开始加载场景。</summary>
     private readonly TaskCompletionSource<bool> _viewerReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
     /// <summary>宿主窗口关闭时释放场景，标签页临时卸载时保留场景。</summary>
@@ -81,15 +87,36 @@ public partial class RobotViewer : UserControl, IDisposable
         // ViewportPanel 依赖 Macad 全局交互上下文，必须在 XAML 创建视口之前准备好。
         MacadViewportBootstrap.EnsureContext();
         InitializeComponent();
+        AttachOverlayDataContext();
+        RefreshOverlayState();
         // 面板延后到控件加载完成再挂回，避免宿主窗口首次 Show 期间建原生视口。
         DeferredViewportHost.Defer(this, (Grid)Content, RenderView, () => _disposed);
         Loaded += OnControlLoaded;
+        Unloaded += OnControlUnloaded;
+        IsVisibleChanged += OnControlVisibilityChanged;
         RenderView.Loaded += OnViewportLoaded;
         RenderView.Unloaded += OnViewportUnloaded;
         RenderView.IsVisibleChanged += OnViewportVisibilityChanged;
     }
 
-    private void OnControlLoaded(object sender, RoutedEventArgs e) => AttachOwnerWindow();
+    private void OnControlLoaded(object sender, RoutedEventArgs e)
+    {
+        AttachOwnerWindow();
+        UpdateViewportVisibility();
+    }
+
+    private void OnControlUnloaded(object sender, RoutedEventArgs e) => UpdateViewportVisibility();
+
+    private void OnControlVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e) => UpdateViewportVisibility();
+
+    private void UpdateViewportVisibility()
+    {
+        if (_disposed) return;
+        // 切走标签页时 TabControl 仅移除可视树不改 Visibility，显式折叠视口和浮层以免浮窗滞留在其他页面上。
+        var targetVisibility = IsLoaded && IsVisible ? Visibility.Visible : Visibility.Collapsed;
+        if (RenderView.Visibility != targetVisibility) RenderView.Visibility = targetVisibility;
+        RefreshOverlayState();
+    }
 
     private void AttachOwnerWindow()
     {
@@ -116,6 +143,7 @@ public partial class RobotViewer : UserControl, IDisposable
     {
         if (Model?.Options is { } options) ApplyRenderQuality(options.RenderQuality);
         SetUpdatesSuspended(!RenderView.IsVisible);
+        RefreshOverlayState();
     }
 
     private void OnOwnerClosed(object? sender, EventArgs e) => Dispose();
@@ -178,6 +206,7 @@ public partial class RobotViewer : UserControl, IDisposable
             var robotId = ModelCatalog.GetId(options.Robot);
             var scene = _sceneFactory(RenderView);
             _scene = scene;
+            if (scene is RobotSceneService liveScene) liveScene.AdjustingStateChanged += OnSceneAdjustingStateChanged;
             scene.InitializeViewport();
             var liveOptions = Model?.Options ?? options;
             ApplyRenderQuality(liveOptions.RenderQuality);
@@ -237,6 +266,8 @@ public partial class RobotViewer : UserControl, IDisposable
         {
             _loaded = false;
             _joints = [];
+            if (_scene is RobotSceneService failedLiveScene)
+                failedLiveScene.AdjustingStateChanged -= OnSceneAdjustingStateChanged;
             _scene?.Dispose();
             _scene = null;
             if (!_disposed) SetStatus($"三维模型加载失败：{exception.Message}");
@@ -296,6 +327,8 @@ public partial class RobotViewer : UserControl, IDisposable
         StopSmoothing();
         _viewerReady.TrySetCanceled();
         Loaded -= OnControlLoaded;
+        Unloaded -= OnControlUnloaded;
+        IsVisibleChanged -= OnControlVisibilityChanged;
         RenderView.Loaded -= OnViewportLoaded;
         RenderView.Unloaded -= OnViewportUnloaded;
         RenderView.IsVisibleChanged -= OnViewportVisibilityChanged;
@@ -303,6 +336,7 @@ public partial class RobotViewer : UserControl, IDisposable
         _ownerWindow = null;
         if (Model is not null) Model.PropertyChanged -= OnModelPropertyChanged;
         _boundModel = null;
+        if (_scene is RobotSceneService liveScene) liveScene.AdjustingStateChanged -= OnSceneAdjustingStateChanged;
         _scene?.Dispose();
         _scene = null;
     }
@@ -322,6 +356,7 @@ public partial class RobotViewer : UserControl, IDisposable
             viewer.ApplyBoundJoints(newModel.Joints);
             viewer.StartLoadIfReady();
         }
+        viewer.QueueOverlayRefresh();
     }
 
     /// <summary>Model 的 Joints 更新时推送角度；Options 变化时重新尝试加载。</summary>
@@ -329,6 +364,7 @@ public partial class RobotViewer : UserControl, IDisposable
     {
         if (sender is not IRobotViewerModel model || !ReferenceEquals(model, _boundModel)) return;
         if (eventArgs.PropertyName == nameof(IRobotViewerModel.Joints)) ApplyBoundJoints(model.Joints);
+        else if (eventArgs.PropertyName == nameof(IRobotViewerModel.StatusMessage)) QueueOverlayRefresh();
         else if (eventArgs.PropertyName == nameof(IRobotViewerModel.Options))
         {
             // Options 涉及 WPF 控件与原生视口，只在界面线程处理。
@@ -366,6 +402,7 @@ public partial class RobotViewer : UserControl, IDisposable
             options.ShowFlangeCoordinates,
             options.ShowTcpCoordinates);
         _scene.SetWeldBeamVisible(options.ShowWeldBeam);
+        RefreshOverlayState();
     }
 
     /// <summary>切换画质会重建渲染缓冲区，隐藏时推迟到视口再次可见。</summary>
@@ -403,6 +440,7 @@ public partial class RobotViewer : UserControl, IDisposable
     private void ResetForReload()
     {
         StopSmoothing();
+        if (_scene is RobotSceneService liveScene) liveScene.AdjustingStateChanged -= OnSceneAdjustingStateChanged;
         _scene?.Dispose();
         _scene = null;
         _joints = [];
@@ -413,6 +451,7 @@ public partial class RobotViewer : UserControl, IDisposable
             _updateQueued = false;
             _hasAppliedAngles = false;
         }
+        RefreshOverlayState();
     }
 
     /// <summary>依赖属性触发的加载；异常只写入 StatusMessage，不向 UI 线程抛出。</summary>
@@ -570,6 +609,7 @@ public partial class RobotViewer : UserControl, IDisposable
         for (var index = 0; index < _joints.Count; index++)
             _joints[index].Angle = angles[index];
         _scene.ApplyAll(_joints);
+        RefreshOverlayState(throttled: true);
     }
 
     // 状态回写
@@ -578,5 +618,108 @@ public partial class RobotViewer : UserControl, IDisposable
     private void SetStatus(string message)
     {
         if (Model is not null) Model.StatusMessage = message;
+        RefreshOverlayState();
+    }
+
+    private void AttachOverlayDataContext()
+    {
+        if (RenderView.OverlayContent is FrameworkElement overlay)
+        {
+            overlay.DataContext = _overlayState;
+        }
+    }
+
+    private void OnSceneAdjustingStateChanged() => QueueOverlayRefresh();
+
+    private void QueueOverlayRefresh()
+    {
+        if (_disposed) return;
+        if (Dispatcher.CheckAccess()) RefreshOverlayState();
+        else Dispatcher.BeginInvoke(new Action(() => RefreshOverlayState()));
+    }
+
+    private void RefreshOverlayState(bool throttled = false)
+    {
+        if (_disposed) return;
+        var now = Stopwatch.GetTimestamp();
+        if (throttled
+            && _lastOverlayRefreshTimestamp != 0
+            && (now - _lastOverlayRefreshTimestamp) / (double)Stopwatch.Frequency < OverlayJointRefreshIntervalSeconds)
+        {
+            return;
+        }
+        _lastOverlayRefreshTimestamp = now;
+
+        var model = _boundModel ?? Model;
+        var status = model?.StatusMessage ?? string.Empty;
+        var options = model?.Options;
+        var adjusting = _scene?.IsUserAdjustingView == true;
+        var viewportVisible = IsLoaded && IsVisible && RenderView.Visibility == Visibility.Visible;
+
+        var weldAndOrbit = string.Empty;
+        if (options is not null)
+        {
+            var weldText = options.ShowWeldBeam ? "焊接光：开启" : "焊接光：待机";
+            var orbitText = options.OrbitSpeedDegreesPerSecond == 0
+                ? "自转：已关闭"
+                : adjusting
+                    ? $"自转：操作暂歇 ({options.OrbitSpeedDegreesPerSecond:0.#}°/s)"
+                    : $"自转：{options.OrbitSpeedDegreesPerSecond:0.#}°/s";
+            weldAndOrbit = $"{weldText}  ·  {orbitText}";
+        }
+
+        var jointSummary = string.Empty;
+        if (_loaded && _joints.Count == 6)
+        {
+            jointSummary = string.Join("  ", _joints.Select(joint => $"{joint.Name} {joint.Angle,6:F1}°"));
+        }
+        else if (model?.Joints is { Count: >= 6 } rawJoints)
+        {
+            jointSummary = $"J1 {rawJoints[0],6:F1}°  J2 {rawJoints[1],6:F1}°  J3 {rawJoints[2],6:F1}°  J4 {rawJoints[3],6:F1}°  J5 {rawJoints[4],6:F1}°  J6 {rawJoints[5],6:F1}°";
+        }
+
+        _overlayState.Update(status, weldAndOrbit, jointSummary, _loaded, adjusting, viewportVisible);
+    }
+
+    private sealed class SimulationOverlayState : ObservableObject
+    {
+        private string _statusMessage = string.Empty;
+        private string _weldAndOrbitSummary = string.Empty;
+        private string _jointAnglesSummary = string.Empty;
+        private bool _hasStatus;
+        private bool _hasWeldAndOrbit;
+        private bool _hasJointAngles;
+        private bool _isLoaded;
+        private bool _isAdjusting;
+        private bool _isViewportVisible;
+
+        public string StatusMessage { get => _statusMessage; private set => SetProperty(ref _statusMessage, value); }
+        public string WeldAndOrbitSummary { get => _weldAndOrbitSummary; private set => SetProperty(ref _weldAndOrbitSummary, value); }
+        public string JointAnglesSummary { get => _jointAnglesSummary; private set => SetProperty(ref _jointAnglesSummary, value); }
+        public bool HasStatus { get => _hasStatus; private set => SetProperty(ref _hasStatus, value); }
+        public bool HasWeldAndOrbit { get => _hasWeldAndOrbit; private set => SetProperty(ref _hasWeldAndOrbit, value); }
+        public bool HasJointAngles { get => _hasJointAngles; private set => SetProperty(ref _hasJointAngles, value); }
+        public bool IsLoaded { get => _isLoaded; private set => SetProperty(ref _isLoaded, value); }
+        public bool IsAdjusting { get => _isAdjusting; private set => SetProperty(ref _isAdjusting, value); }
+        public bool IsViewportVisible { get => _isViewportVisible; private set => SetProperty(ref _isViewportVisible, value); }
+
+        public void Update(
+            string statusMessage,
+            string weldAndOrbitSummary,
+            string jointAnglesSummary,
+            bool isLoaded,
+            bool isAdjusting,
+            bool isViewportVisible)
+        {
+            StatusMessage = statusMessage;
+            WeldAndOrbitSummary = weldAndOrbitSummary;
+            JointAnglesSummary = jointAnglesSummary;
+            HasStatus = !string.IsNullOrWhiteSpace(statusMessage);
+            HasWeldAndOrbit = !string.IsNullOrWhiteSpace(weldAndOrbitSummary);
+            HasJointAngles = !string.IsNullOrWhiteSpace(jointAnglesSummary);
+            IsLoaded = isLoaded;
+            IsAdjusting = isAdjusting;
+            IsViewportVisible = isViewportVisible;
+        }
     }
 }

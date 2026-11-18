@@ -505,11 +505,11 @@ namespace Robot_Info_Mes.Model
             IsVisible = true,
             Name = "达成率",
             NameTextSize = 16,
-           MaxLimit=140,
+            MaxLimit=140,
             MinLimit =0,
-            MinStep =2,
+            MinStep =10,
             SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色,2),
-
+            ForceStepToMin = true,
             NamePaint =new SolidColorPaint(Line_蓝_主颜色),
             Labeler = (point)=>$"{point} %",
             NamePadding = new LiveChartsCore.Drawing.Padding(0, 10),
@@ -526,9 +526,9 @@ namespace Robot_Info_Mes.Model
             IsVisible = false,
             Name = "生产数量",
             NameTextSize = 16,
-
+                  ForceStepToMin = true,
             MinLimit=0,
-            MinStep =2,
+            MinStep =50,
             NamePaint =new SolidColorPaint(Line_棕红_配颜色),
             Labeler = (point)=>$"{point} Psc",
             SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色,2),
@@ -547,9 +547,9 @@ namespace Robot_Info_Mes.Model
             NameTextSize = 16,
 
             MinLimit=0,
-            MinStep =2,
+            MinStep =5,
             SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色, 2),
-
+               ForceStepToMin = true,
             NamePaint =new SolidColorPaint(Line_浅绿_配颜色),
             Labeler = (point)=>$"{point} 秒",
             LabelsPaint =new SolidColorPaint(Line_浅绿_配颜色),
@@ -567,9 +567,9 @@ namespace Robot_Info_Mes.Model
             NameTextSize = 16,
           
             MinLimit=0,
-            MinStep =0.1,
+            MinStep =0.5,
             SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色, 2),
-
+               ForceStepToMin = true,
             NamePaint =new SolidColorPaint(Line_黑色_配颜色),
             Labeler = (point)=>$"{point.ToString("F1")} 小时",
             LabelsPaint =new SolidColorPaint(Line_黑色_配颜色),
@@ -588,9 +588,9 @@ namespace Robot_Info_Mes.Model
             NameTextSize = 16,
 
             MinLimit=0,
-            MinStep =1,
+            MinStep =5,
             SeparatorsPaint=new SolidColorPaint(Line_灰_配颜色,2),
-
+               ForceStepToMin = true,
             NamePaint =new SolidColorPaint(Line_深蓝_配颜色),
             Labeler = (point)=>$"{point} 秒",
             LabelsPaint =new SolidColorPaint(Line_深蓝_配颜色),

@@ -11,6 +11,7 @@
    <Receive Format="XML" Separator="Robot_Send" Event="$FLAG[2]">
       <Message> 
        <Value Name="IsStatus"  Rule="Robot_Send/@IsStatus" Type="BOOL"/>
+       <!-- Retained for PC compatibility; KRC no longer uses this period. -->
 		 <Value Name="Socket_Polling_Time" Rule="Robot_Send/Socket_Polling_Time" Type="INT"/>
 		</Message>
    </Receive>
@@ -23,7 +24,9 @@
   <Mes_Work_B_State>$$Mes_Work_B_State:Bool$$</Mes_Work_B_State>
   <Mes_Work_C_State>$$Mes_Work_C_State:Bool$$</Mes_Work_C_State>
   <Mes_Work_D_State>$$Mes_Work_D_State:Bool$$</Mes_Work_D_State>
+  <Mes_Weld_State>$$Mes_Weld_State:Bool$$</Mes_Weld_State>
   <Robot_Process_Int>$$Robot_Process_Int:String$$</Robot_Process_Int>
+  <Robot_Axis J1="$$Robot_Axis_J1:Real$$" J2="$$Robot_Axis_J2:Real$$" J3="$$Robot_Axis_J3:Real$$" J4="$$Robot_Axis_J4:Real$$" J5="$$Robot_Axis_J5:Real$$" J6="$$Robot_Axis_J6:Real$$"/>
   </Robot_Receive>]]></Message>
    </Send>
 </Channel>

@@ -13,7 +13,18 @@ namespace RobotSimulator.Services;
 /// </summary>
 public sealed class RobotViewportMouseControl : IViewportMouseControl
 {
+    readonly Action<bool>? _onPointerInteraction;
     ViewportController? _viewportController;
+    bool _wasPressed;
+
+    public RobotViewportMouseControl()
+    {
+    }
+
+    internal RobotViewportMouseControl(Action<bool> onPointerInteraction)
+    {
+        _onPointerInteraction = onPointerInteraction ?? throw new ArgumentNullException(nameof(onPointerInteraction));
+    }
 
     /// <summary>由 <see cref="ViewportPanel"/> 在视图控制器就绪或更换时注入。</summary>
     public ViewportController ViewportController
@@ -23,6 +34,18 @@ public sealed class RobotViewportMouseControl : IViewportMouseControl
 
     public void MouseMove(Point pos, MouseDevice mouseDevice, ModifierKeys modifierKeys)
     {
+        var pressed = HasActiveMouseButton(mouseDevice);
+        if (pressed)
+        {
+            _wasPressed = true;
+            NotifyInteraction(true);
+        }
+        else if (_wasPressed)
+        {
+            _wasPressed = false;
+            NotifyInteraction(false);
+        }
+
         var controller = ResolveController();
         if (controller is null) return;
 
@@ -40,6 +63,10 @@ public sealed class RobotViewportMouseControl : IViewportMouseControl
         var controller = ResolveController();
         if (controller is null || delta == 0) return;
 
+        var pressed = HasActiveMouseButton(device as MouseDevice);
+        _wasPressed = pressed;
+        NotifyInteraction(pressed);
+
         // Ctrl 缩小滚轮步长，与 Macad 默认控件的精细缩放一致。
         if ((modifierKeys & ModifierKeys.Control) != 0) delta /= 10;
 
@@ -53,20 +80,45 @@ public sealed class RobotViewportMouseControl : IViewportMouseControl
 
     public void MouseDown(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice, ModifierKeys modifierKeys)
     {
+        var pressed = HasActiveMouseButton(mouseDevice)
+            || changedButton is MouseButton.Left or MouseButton.Right or MouseButton.Middle;
+        _wasPressed = pressed;
+        NotifyInteraction(pressed);
+
         // 左键只用于拖动旋转，不触发 Macad 的选择/框选，因此不调用 ViewportController.MouseDown。
         ResolveController()?.MouseMove(pos, modifierKeys);
     }
 
     public void MouseUp(Point pos, MouseButton changedButton, MouseDevice mouseDevice, ModifierKeys modifierKeys)
     {
+        var stillPressed = mouseDevice is not null && changedButton switch
+        {
+            MouseButton.Left => mouseDevice.RightButton == MouseButtonState.Pressed || mouseDevice.MiddleButton == MouseButtonState.Pressed,
+            MouseButton.Right => mouseDevice.LeftButton == MouseButtonState.Pressed || mouseDevice.MiddleButton == MouseButtonState.Pressed,
+            MouseButton.Middle => mouseDevice.LeftButton == MouseButtonState.Pressed || mouseDevice.RightButton == MouseButtonState.Pressed,
+            _ => HasActiveMouseButton(mouseDevice),
+        };
+        _wasPressed = stillPressed;
+        NotifyInteraction(stillPressed);
+
         // 松开按键后回到普通悬停状态，让控制器结束旋转/平移。
         ResolveController()?.MouseMove(pos, modifierKeys);
     }
 
     public void Cancel()
     {
+        _wasPressed = false;
+        NotifyInteraction(false);
         ResolveController()?.MouseMove(new Point(-1.0, -1.0));
     }
+
+    static bool HasActiveMouseButton(MouseDevice? mouseDevice)
+        => mouseDevice is not null
+           && (mouseDevice.LeftButton == MouseButtonState.Pressed
+               || mouseDevice.RightButton == MouseButtonState.Pressed
+               || mouseDevice.MiddleButton == MouseButtonState.Pressed);
+
+    void NotifyInteraction(bool pointerHeld) => _onPointerInteraction?.Invoke(pointerHeld);
 
     // ViewportPanel 可能在控件构造后才注入视图控制器；兜底从全局交互上下文取。
     ViewportController? ResolveController()

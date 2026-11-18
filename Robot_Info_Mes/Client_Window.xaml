@@ -28,37 +28,38 @@
     <Window.Resources>
         <!--  将机器人/工艺枚举显示为 DescriptionAttribute 中的现场中文名称。  -->
         <Enum_Converter:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
-        <!--  工作区 Tab：默认浅蓝标签，选中/悬停为品牌蓝，内容区透明无边框。  -->
-        <Style x:Key="Client_Workspace_TabItem" TargetType="{x:Type TabItem}">
-            <Setter Property="Height" Value="32" />
-            <Setter Property="Margin" Value="0,0,8,8" />
-            <Setter Property="Padding" Value="16,0" />
+        <!--  工作区切换器已移至顶部命令栏居中，此处隐藏 TabPanel 头部，保留 TabControl 结构与页面按需卸载语义。  -->
+        <Style x:Key="Client_Workspace_SwitchItem" TargetType="{x:Type RadioButton}">
+            <Setter Property="Height" Value="28" />
+            <Setter Property="MinWidth" Value="92" />
+            <Setter Property="Padding" Value="14,0" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="FontFamily" Value="{DynamicResource 全局_文字_中文字体}" />
             <Setter Property="FontSize" Value="13" />
-            <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+            <Setter Property="Foreground" Value="#3B4D63" />
+            <Setter Property="GroupName" Value="WorkspaceViewSwitch" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TabItem}">
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
                         <Border
-                            x:Name="TabBorder"
+                            x:Name="SegmentBorder"
                             Padding="{TemplateBinding Padding}"
-                            Background="{DynamicResource 全局_按钮_白颜色}"
-                            BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
-                            BorderThickness="1"
-                            CornerRadius="8">
-                            <ContentPresenter
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                ContentSource="Header" />
+                            Background="Transparent"
+                            CornerRadius="7">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="TabBorder" Property="Background" Value="{DynamicResource 全局_背景_白颜色}" />
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="TabBorder" Property="Background" Value="{DynamicResource 全局_背景_蓝颜色}" />
-                                <Setter TargetName="TabBorder" Property="BorderBrush" Value="{DynamicResource 全局_背景_蓝颜色}" />
-                                <Setter TargetName="TabBorder" Property="Effect" Value="{DynamicResource 全局背景阴影}" />
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="IsChecked" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="SegmentBorder" Property="Background" Value="#CCFFFFFF" />
+                                <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_蓝颜色}" />
+                            </MultiTrigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="SegmentBorder" Property="Background" Value="{DynamicResource 全局_背景_蓝颜色}" />
+                                <Setter TargetName="SegmentBorder" Property="Effect" Value="{DynamicResource 全局背景阴影}" />
                                 <Setter Property="Foreground" Value="{DynamicResource 全局_按钮_白颜色}" />
                                 <Setter Property="FontWeight" Value="SemiBold" />
                             </Trigger>
@@ -76,14 +77,14 @@
                     <ControlTemplate TargetType="{x:Type TabControl}">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="0" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <TabPanel
                                 Grid.Row="0"
-                                Margin="0,0,0,0"
                                 Background="Transparent"
-                                IsItemsHost="True" />
+                                IsItemsHost="True"
+                                Visibility="Collapsed" />
                             <Border
                                 Grid.Row="1"
                                 Background="Transparent"
@@ -438,8 +439,9 @@
                 </Style>
             </Grid.Style>-->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <!--  配置类 Popup 继承按钮所在窗口的 DataContext，修改值直接进入 File_Int_Parameters。  -->
@@ -534,9 +536,32 @@
 
             </StackPanel>
 
+            <!--  视图切换胶囊置于命令栏正中，避免顶栏指标卡与主工作区之间出现孤立的标签条。  -->
+            <Border
+                Grid.Column="1"
+                Margin="12,0"
+                Padding="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderBrush="#CBD5E1"
+                BorderThickness="2"
+                CornerRadius="10">
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton
+                        Content="当月数据"
+                        IsChecked="{Binding IsSelected, ElementName=MonthlyTrendTab, Mode=TwoWay}"
+                        Style="{StaticResource Client_Workspace_SwitchItem}" />
+                    <RadioButton
+                        Content="三维仿真"
+                        IsChecked="{Binding IsSelected, ElementName=SimulationTab, Mode=TwoWay}"
+                        Style="{StaticResource Client_Workspace_SwitchItem}" />
+                </StackPanel>
+            </Border>
+
             <!--  诊断类 Popup 使用只读监视视图，不干扰主 OEE 面板的布局。  -->
             <StackPanel
-                Grid.Column=" 1"
+                Grid.Column="2"
                 Margin="8,0"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
@@ -631,16 +656,19 @@
 
             <!--  工作区：同一块空间按需切换，三维切走时不渲染。  -->
             <TabControl
+                x:Name="WorkspaceTabControl"
                 Grid.Row="1"
                 Margin="8,8,8,8"
-                ItemContainerStyle="{StaticResource Client_Workspace_TabItem}"
                 Style="{StaticResource Client_Workspace_TabControl}">
-                <TabItem Header="当月数据">
+                <TabItem x:Name="MonthlyTrendTab" Header="当月数据">
                     <View:OEE_Monthly_Trend DataContext="{Binding}" />
                 </TabItem>
 
-                <TabItem Header="三维仿真" IsSelected="True">
-                    <!--  三维模型：固定机器人/Tool/工装的组合，只接收 J1～J6。  -->
+                <TabItem
+                    x:Name="SimulationTab"
+                    Header="三维仿真"
+                    IsSelected="True">
+                    <!--  三维模型：固定机器人/Tool/工装的组合，只接收 J1～J6；状态信息由视口内浮层承载。  -->
                     <Border
                         Background="Transparent"
                         BorderBrush="{DynamicResource 全局_按钮_蓝颜色}"
@@ -650,29 +678,12 @@
                         SnapsToDevicePixels="True"
                         UseLayoutRounding="True">
                         <!--  关节跟随参数由 Configs_Data.Xml 的 Mes_Digital_Simulation 提供。  -->
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <viewer:RobotViewer
-                                x:Name="SimulationViewer"
-                                Grid.Row="0"
-                                Margin="0"
-                                Model="{Binding Digital_Simulation}"
-                                SnapsToDevicePixels="True"
-                                UseLayoutRounding="True" />
-                            <!--  原生视口不支持 WPF 覆盖，状态文字放在视口下方的独立行，不再用 Popup 叠加。  -->
-                            <TextBlock
-                                Grid.Row="1"
-                                Margin="10,2,0,2"
-                                HorizontalAlignment="Center"
-                                Background="Transparent"
-                                FontSize="12"
-                                Foreground="#1A2433"
-                                Text="{Binding Digital_Simulation.StatusMessage}"
-                                TextWrapping="Wrap" />
-                        </Grid>
+                        <viewer:RobotViewer
+                            x:Name="SimulationViewer"
+                            Margin="0"
+                            Model="{Binding Digital_Simulation}"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True" />
                     </Border>
                 </TabItem>
             </TabControl>

@@ -290,7 +290,9 @@ namespace Robot_Info_Mes.Model
         /// 周期检查/保存定时器；仅属于当前进程，不能进入 XML。
         /// </summary>
         [XmlIgnore]
-        public DispatcherTimer Socket_Cycle_Check_Update { set; get; } = new DispatcherTimer();
+        public DispatcherTimer Socket_Cycle_Check_Update { set; get; } = new(
+            DispatcherPriority.Normal,
+            System.Windows.Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher);
 
         private string _Image_Source = string.Empty;
 
@@ -598,7 +600,7 @@ namespace Robot_Info_Mes.Model
                     break;
             }
 
-            return first.Timer_UI + second.Timer_UI;
+            return first.LiveElapsed + second.LiveElapsed;
         }
 
         /// <summary>清除被作废产品的两段显示值，并保持计时停止。</summary>
@@ -719,7 +721,7 @@ namespace Robot_Info_Mes.Model
             // 保存本次电平，供下次调用进行边沿判断。
             lastMes = _Mes_Work_A_State;
 
-            return _Robot_Work_A_Cycle.Timer_UI;
+            return _Robot_Work_A_Cycle.LiveElapsed;
         }
 
 
@@ -886,8 +888,10 @@ namespace Robot_Info_Mes.Model
 
         // DispatcherTimer 在 UI 线程更新绑定属性，避免后台线程直接触碰 WPF 绑定目标。
         private DispatcherTimer Time_Update { get; } = new(
-            DispatcherPriority.Background,
+            DispatcherPriority.Normal,
             System.Windows.Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher);
+
+        internal TimeSpan LiveElapsed => Timer.IsRunning ? Time_Offset + Timer.Elapsed : Timer_UI;
 
 
         private TimeSpan _Timer_UI = TimeSpan.Zero;
@@ -954,7 +958,7 @@ namespace Robot_Info_Mes.Model
             else
             {
                 dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
+                    DispatcherPriority.Normal,
                     new Action(() =>
                     {
                         if (!dispatcher.HasShutdownStarted && !dispatcher.HasShutdownFinished)

@@ -1,0 +1,13 @@
+&ACCESS RVP
+&REL 2
+DEF Mes_Loop_Main( )
+   
+Mes_InFo_Int()
+loop
+Mes_InFo_Main()
+
+WAIT SEC 0
+endloop
+
+
+END

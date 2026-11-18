@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using Macad.Interaction;
 using Macad.Interaction.Panels;
@@ -26,8 +27,9 @@ public readonly record struct RobotLoadProgress(int Completed, int Total, string
 /// </summary>
 public sealed class RobotSceneService : IRobotSceneService
 {
-    const double OrbitApplyInterval = 1.0 / 30.0;
-    const double CameraResumeDelay = 0.25;
+    const double OrbitApplyInterval = 1.0 / 24.0;
+    const double MinRedrawCooldown = 0.016;
+    const double CameraResumeDelay = 2.0;
     const double AxisBaseLength = 64.0;
     const double AxisFlangeLength = 48.0;
     const double AxisTcpLength = 64.0;
@@ -43,14 +45,15 @@ public sealed class RobotSceneService : IRobotSceneService
 
     bool _orbitActive;
     bool _orbitPaused;
+    bool _pointerHeld;
     bool _userAdjusting;
+    bool _lastReportedAdjusting;
     double _orbitSpeed;
     double _orbitStartAngle;
     double _orbitElevation;
     double _orbitElapsed;
     long _lastOrbitFrame;
     long _lastInteraction;
-    long _lastJointApplyTimestamp;
     Pnt _orbitCenter = Pnt.Origin;
 
     bool _cameraTracked;
@@ -60,6 +63,9 @@ public sealed class RobotSceneService : IRobotSceneService
     long _lastCameraChange;
 
     bool _pendingZoomAll;
+    bool _pendingOrbitPose;
+    bool _sceneDirty;
+    long _lastRedrawTimestamp;
     (double Ox, double Oy, double Oz, double Ux, double Uy, double Uz)? _pendingEye;
 
     public RobotSceneService(ViewportPanel panel)
@@ -67,7 +73,9 @@ public sealed class RobotSceneService : IRobotSceneService
         _panel = panel ?? throw new ArgumentNullException(nameof(panel));
     }
 
-    public bool IsUserAdjustingView => _userAdjusting || (_orbitActive && _orbitPaused);
+    public bool IsUserAdjustingView => _pointerHeld || _userAdjusting || (_orbitActive && _orbitPaused);
+
+    internal event Action? AdjustingStateChanged;
 
     static V3d_View? ReadyView
     {
@@ -110,7 +118,7 @@ public sealed class RobotSceneService : IRobotSceneService
             ?? throw new InvalidOperationException("Macad 工作区尚未就绪。");
 
         // 只读仿真视口使用项目约定的手势：左键旋转、右键平移、滚轮缩放，不启用 Macad 的框选/选择。
-        _panel.MouseControl = new RobotViewportMouseControl
+        _panel.MouseControl = new RobotViewportMouseControl(OnPointerInteraction)
         {
             ViewportController = context.ViewportController,
         };
@@ -228,18 +236,17 @@ public sealed class RobotSceneService : IRobotSceneService
     {
         ArgumentNullException.ThrowIfNull(joints);
         _joints = joints as IReadOnlyList<JointViewModel> ?? joints.ToList();
-        _lastJointApplyTimestamp = Stopwatch.GetTimestamp();
         _content?.SetJoints(_joints);
-        RequestRedraw();
+        // 合并到渲染节拍统一刷新，避免与 TickOrbit 同帧重复触发两遍三维重绘而拖慢上位机 UI 绑定。
+        _sceneDirty = true;
     }
 
     public void ApplyJoint(JointViewModel joint)
     {
         ArgumentNullException.ThrowIfNull(joint);
         if (_content is null || _joints is null) return;
-        _lastJointApplyTimestamp = Stopwatch.GetTimestamp();
         _content.SetJoints(_joints);
-        RequestRedraw();
+        _sceneDirty = true;
     }
 
     public void SetCoordinateVisibility(bool showBaseAxes, bool showFlangeAxes, bool showTcpAxes)
@@ -272,6 +279,7 @@ public sealed class RobotSceneService : IRobotSceneService
         _orbitActive = false;
         _orbitPaused = false;
         _orbitElapsed = 0;
+        _pendingOrbitPose = false;
 
         var (ox, oy, oz, ux, uy, uz) = view switch
         {
@@ -280,6 +288,7 @@ public sealed class RobotSceneService : IRobotSceneService
             _ => (1.0, -1.0, 1.0, 0.0, 0.0, 1.0),
         };
         ApplyEyeDirection(ox, oy, oz, ux, uy, uz);
+        NotifyAdjustingStateIfChanged();
     }
 
     public void ZoomAll()
@@ -322,6 +331,7 @@ public sealed class RobotSceneService : IRobotSceneService
         _userAdjusting = false;
         _orbitActive = speedDegreesPerSecond != 0;
         ApplyOrbitPose();
+        NotifyAdjustingStateIfChanged();
     }
 
     public void SetRenderQuality(RenderQuality quality)
@@ -335,9 +345,34 @@ public sealed class RobotSceneService : IRobotSceneService
 
     // ── 内部：原生鼠标操作检测 ─────────────────────────────────────────
 
+    void OnPointerInteraction(bool pointerHeld)
+    {
+        var now = Stopwatch.GetTimestamp();
+        _pointerHeld = pointerHeld;
+        _orbitPaused = true;
+        _orbitElapsed = 0;
+        _lastInteraction = now;
+        _lastOrbitFrame = now;
+        _userAdjusting = true;
+        _lastCameraChange = now;
+        NotifyAdjustingStateIfChanged();
+    }
+
+    void NotifyAdjustingStateIfChanged()
+    {
+        var current = IsUserAdjustingView;
+        if (current == _lastReportedAdjusting) return;
+        _lastReportedAdjusting = current;
+        AdjustingStateChanged?.Invoke();
+    }
+
+    static bool IsAnyMouseButtonPressed()
+        => Mouse.LeftButton == MouseButtonState.Pressed
+           || Mouse.RightButton == MouseButtonState.Pressed
+           || Mouse.MiddleButton == MouseButtonState.Pressed;
+
     /// <summary>
-    /// 视口鼠标手势由 <see cref="RobotViewportMouseControl"/> 处理，不会回调场景服务；
-    /// 因此每帧比较相机状态，识别用户旋转/平移/缩放，用于暂停自动环绕与示例动作。
+    /// 在按键交互之外继续比对相机状态，兜底覆盖非鼠标控制路径导致的视角变化。
     /// </summary>
     bool DetectUserCameraChange(V3d_View view)
     {
@@ -397,7 +432,19 @@ public sealed class RobotSceneService : IRobotSceneService
                 _pendingEye = null;
                 ApplyEyeDirectionCore(view, eye.Ox, eye.Oy, eye.Oz, eye.Ux, eye.Uy, eye.Uz);
             }
+            else if (_pendingOrbitPose)
+            {
+                ApplyOrbitPose();
+            }
             if (_pendingZoomAll) ZoomAll();
+        }
+
+        if (_pointerHeld && !IsAnyMouseButtonPressed())
+        {
+            _pointerHeld = false;
+            var releaseNow = Stopwatch.GetTimestamp();
+            _lastInteraction = releaseNow;
+            _lastCameraChange = releaseNow;
         }
 
         if (DetectUserCameraChange(view))
@@ -410,6 +457,17 @@ public sealed class RobotSceneService : IRobotSceneService
         }
 
         TickOrbit(view);
+        if (_sceneDirty)
+        {
+            var now = Stopwatch.GetTimestamp();
+            if ((now - _lastRedrawTimestamp) / (double)Stopwatch.Frequency >= OrbitApplyInterval)
+            {
+                _sceneDirty = false;
+                RequestRedraw();
+                _lastRedrawTimestamp = Stopwatch.GetTimestamp();
+            }
+        }
+        NotifyAdjustingStateIfChanged();
     }
 
     void ApplyViewSettings(V3d_View view)
@@ -434,6 +492,7 @@ public sealed class RobotSceneService : IRobotSceneService
         if (view is null)
         {
             _pendingEye = (ox, oy, oz, ux, uy, uz);
+            _pendingOrbitPose = false;
             _pendingZoomAll = false;
             return;
         }
@@ -470,10 +529,13 @@ public sealed class RobotSceneService : IRobotSceneService
         var view = ReadyView;
         if (view is null)
         {
+            _pendingOrbitPose = true;
             _pendingEye = null;
             _pendingZoomAll = false;
             return;
         }
+        _pendingOrbitPose = false;
+        _pendingZoomAll = false;
 
         var box = _content?.GetModelBounds();
         var center = box is not null && !box.IsVoid() ? BoxCenter(box) : Pnt.Origin;
@@ -491,10 +553,13 @@ public sealed class RobotSceneService : IRobotSceneService
         camera.SetUp(new Dir(0, 0, 1));
         camera.SetProjectionType(Graphic3d_Camera.Projection.Orthographic);
         view.SetCamera(camera);
-        view.FitAll(FitMargin, false);
+        if (box is not null && !box.IsVoid()) view.FitAll(box, FitMargin, false);
+        else view.FitAll(FitMargin, false);
         view.ZFitAll();
         _orbitCenter = center;
         UpdateCoordinateScale();
+        _sceneDirty = false;
+        _lastRedrawTimestamp = Stopwatch.GetTimestamp();
         view.Redraw();
         RememberCamera(view);
     }
@@ -504,17 +569,25 @@ public sealed class RobotSceneService : IRobotSceneService
         if (!_orbitActive || _orbitSpeed == 0) return;
 
         var now = Stopwatch.GetTimestamp();
-        // 实体机器人运动刷新刚写入关节时暂让相机自动环绕避让，避免同时触发双份三维重绘。
-        if (_lastJointApplyTimestamp != 0
-            && (now - _lastJointApplyTimestamp) / (double)Stopwatch.Frequency < 0.25)
+        if (_pointerHeld)
         {
+            _lastInteraction = now;
+            _lastOrbitFrame = now;
+            _orbitElapsed = 0;
             return;
         }
         if (_orbitPaused)
         {
             var idle = (now - _lastInteraction) / (double)Stopwatch.Frequency;
-            if (idle < CameraResumeDelay) return;
+            if (idle < CameraResumeDelay)
+            {
+                _lastOrbitFrame = now;
+                return;
+            }
             _orbitPaused = false;
+            _lastOrbitFrame = now;
+            _orbitElapsed = 0;
+            return;
         }
 
         if (_lastOrbitFrame == 0)
@@ -525,15 +598,50 @@ public sealed class RobotSceneService : IRobotSceneService
 
         var delta = (now - _lastOrbitFrame) / (double)Stopwatch.Frequency;
         _lastOrbitFrame = now;
-        _orbitElapsed += Math.Clamp(delta, 0.0, 0.05);
+        _orbitElapsed += Math.Clamp(delta, 0.0, 0.1);
         if (_orbitElapsed < OrbitApplyInterval) return;
+        if (_lastRedrawTimestamp != 0
+            && (now - _lastRedrawTimestamp) / (double)Stopwatch.Frequency < MinRedrawCooldown)
+            return;
 
         var degrees = _orbitSpeed * _orbitElapsed;
         _orbitElapsed = 0;
-        var controller = InteractiveContext.Current?.ViewportController;
-        if (controller is null) return;
-        controller.Rotate(degrees, 0, 0);
+        if (!double.IsFinite(degrees) || Math.Abs(degrees) <= 1e-9) return;
+
+        // 绕模型包围盒中心（_orbitCenter）同时旋转相机 Eye 与 Center，保证平移后再自转也严格围绕模型盒子中心。
+        var camera = view.Camera();
+        var center = camera.Center();
+        var eye = camera.Eye();
+        var pivot = _orbitCenter;
+        var nextEye = RotateEyeAroundZ(eye, pivot, degrees);
+        var nextCenter = RotateEyeAroundZ(center, pivot, degrees);
+        var dx = nextEye.X - nextCenter.X;
+        var dy = nextEye.Y - nextCenter.Y;
+        var dz = nextEye.Z - nextCenter.Z;
+        if (dx * dx + dy * dy <= Math.Max(1e-6, dz * dz * 1e-4)) return;
+
+        camera.SetEyeAndCenter(nextEye, nextCenter);
+        camera.SetUp(new Dir(0, 0, 1));
+        view.SetCamera(camera);
+        UpdateCoordinateScale();
+        _sceneDirty = false;
+        view.Redraw();
+        // 在 Redraw 完成之后记录冷却起点，确保即使低配工控机单帧较慢，UI 消息队列与生产数据绑定也能喘息执行。
+        _lastRedrawTimestamp = Stopwatch.GetTimestamp();
         RememberCamera(view);
+    }
+
+    internal static Pnt RotateEyeAroundZ(Pnt eye, Pnt center, double degrees)
+    {
+        var radians = degrees * Math.PI / 180.0;
+        var cos = Math.Cos(radians);
+        var sin = Math.Sin(radians);
+        var dx = eye.X - center.X;
+        var dy = eye.Y - center.Y;
+        return new Pnt(
+            center.X + dx * cos - dy * sin,
+            center.Y + dx * sin + dy * cos,
+            eye.Z);
     }
 
     // ── 坐标轴/像素尺寸 ────────────────────────────────────────────────
@@ -608,5 +716,6 @@ public sealed class RobotSceneService : IRobotSceneService
         _content = null;
         _joints = null;
         _configuredView = null;
+        AdjustingStateChanged = null;
     }
 }

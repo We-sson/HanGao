@@ -1,0 +1,28 @@
+&ACCESS RVO3
+&REL 25
+&PARAM DISKPATH = KRC:\R1\HG_Mes
+DEFDAT  TOOLING_MAIN PUBLIC
+
+;==============================================================
+; Fixture A  (buttons IN17/IN18, lamps OUT3/OUT4, action OUT17..22)
+;==============================================================
+GLOBAL BOOL Grip_1_A=FALSE
+GLOBAL BOOL Grip_2_A=FALSE
+GLOBAL BOOL Grip_OK_A=FALSE
+GLOBAL BOOL Grip_Reset_A=TRUE
+GLOBAL BOOL Reset_Tooling_A=FALSE
+BOOL Button_1_On_A=FALSE
+BOOL Button_2_On_A=FALSE
+
+;==============================================================
+; Fixture B  (buttons IN19/IN20, lamps OUT5/OUT6, action OUT23..28)
+;==============================================================
+GLOBAL BOOL Grip_1_B=FALSE
+GLOBAL BOOL Grip_2_B=FALSE
+GLOBAL BOOL Grip_OK_B=FALSE
+GLOBAL BOOL Grip_Reset_B=TRUE
+GLOBAL BOOL Reset_Tooling_B=FALSE
+BOOL Button_1_On_B=FALSE
+BOOL Button_2_On_B=FALSE
+
+ENDDAT

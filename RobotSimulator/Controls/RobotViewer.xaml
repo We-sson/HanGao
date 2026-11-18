@@ -3,13 +3,125 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:macad="clr-namespace:Macad.Interaction.Panels;assembly=Macad.Interaction"
-    Background="{DynamicResource 全局_按钮_白颜色}"
-    x:Name="ViewerRoot">
-    <!--  状态文字由宿主显示，控件本身只保留三维视口。  -->
+    x:Name="ViewerRoot"
+    Background="{DynamicResource 全局_按钮_白颜色}">
+    <!--  状态文字叠加在视口底部的 OverlayContent 中，让三维视口铺满控件全高。  -->
     <Grid>
-        <macad:ViewportPanel
-            x:Name="RenderView"
-            ToolTip="左键拖动旋转 · 右键拖动平移 · 滚轮缩放">
+        <macad:ViewportPanel x:Name="RenderView">
+            <!--  ViewportPanel 会把自身 DataContext 覆盖为 ViewportPanelModel，且其内部已含独立 XAML 名称范围，OverlayContent 内不可定义 x:Name（会触发 MC3093），由代码固定同步 _overlayState。  -->
+            <Grid IsHitTestVisible="False">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsViewportVisible}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <!--  底部状态与实时六轴角度浮层：状态摘要、焊接/自转状态与 J1～J6 角度。  -->
+                <Border
+                    Margin="12,0,12,10"
+                    Padding="14,5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Background="#E6F1F4F6"
+                    BorderBrush="#994B6587"
+                    BorderThickness="1"
+                    CornerRadius="12">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasStatus}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <Ellipse
+                                Width="8"
+                                Height="8"
+                                Margin="0,0,6,0"
+                                VerticalAlignment="Center">
+                                <Ellipse.Style>
+                                    <Style TargetType="Ellipse">
+                                        <Setter Property="Fill" Value="#D97706" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsLoaded}" Value="True">
+                                                <Setter Property="Fill" Value="#2F855A" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsAdjusting}" Value="True">
+                                                <Setter Property="Fill" Value="#2B6CB0" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Ellipse.Style>
+                            </Ellipse>
+                            <TextBlock
+                                MaxWidth="680"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Foreground="#1A2433"
+                                Text="{Binding StatusMessage}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasWeldAndOrbit}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <Border
+                                Width="1"
+                                Height="12"
+                                Margin="10,0"
+                                VerticalAlignment="Center"
+                                Background="#994B6587" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="#2A3C55"
+                                Text="{Binding WeldAndOrbitSummary}" />
+                        </StackPanel>
+
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasJointAngles}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <Border
+                                Width="1"
+                                Height="12"
+                                Margin="10,0"
+                                VerticalAlignment="Center"
+                                Background="#994B6587" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontFamily="Consolas, Microsoft YaHei UI"
+                                FontSize="12"
+                                Foreground="#1A2433"
+                                Text="{Binding JointAnglesSummary}" />
+                        </StackPanel>
+                    </WrapPanel>
+                </Border>
+            </Grid>
         </macad:ViewportPanel>
     </Grid>
 </UserControl>
