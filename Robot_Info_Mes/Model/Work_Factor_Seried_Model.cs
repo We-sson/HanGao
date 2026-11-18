@@ -1094,7 +1094,10 @@ namespace Robot_Info_Mes.Model
             else if (_Count > _Month)
             {
                 // 正常跨月最多只多出月末槽位，移除最后一个以贴合较短月份。
-                _List.RemoveAt(_Count - 1);
+                while (_List.Count > _Month)
+                {
+                    _List.RemoveAt(_List.Count - 1);
+                }
             }
 
 

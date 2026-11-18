@@ -1,4 +1,5 @@
 ﻿
+using System.Buffers;
 using Roboto_Socket_Library.Model;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -1018,7 +1019,7 @@ namespace Roboto_Socket_Library
                     return;
                 }
                 if (UseXmlFragmentReceive)
-                    _ = ReceiveXmlFragmentLoopAsync(received!);
+                    StartXmlFragmentReceiveThread(received!);
                 else
                     client.BeginReceive(received!.buffer, 0, received.buffer.Length, SocketFlags.None,
                         new AsyncCallback(ReceiveMessage), received);
@@ -1253,6 +1254,28 @@ namespace Roboto_Socket_Library
         }
 
         /// <summary>
+        /// 为流式 XML 接收启动专用最高优先级后台线程，避免 3D 渲染或 UI 忙碌时通信回执被线程池调度拖延。
+        /// </summary>
+        private void StartXmlFragmentReceiveThread(Receive_State client)
+        {
+            Thread receiveThread = new(() => ReceiveXmlFragmentLoop(client))
+            {
+                IsBackground = true,
+                Name = "HanGao.RobotSocketReceive"
+            };
+            try
+            {
+                receiveThread.Priority = ThreadPriority.Highest;
+            }
+            catch (Exception)
+            {
+                // 宿主环境不允许修改线程优先级时保持默认优先级运行。
+            }
+
+            receiveThread.Start();
+        }
+
+        /// <summary>
         /// 在一个客户端连接上持续累计 TCP 字节，并按完整 XML 根元素逐帧处理。
         /// </summary>
         /// <param name="client">拥有网络流的客户端状态。</param>
@@ -1261,33 +1284,29 @@ namespace Roboto_Socket_Library
         /// 为读取根元素后的下一个节点而继续等待，和同步等待回执的客户端形成互等。这里先在累计
         /// 字节中定位闭合根元素，再交给协议层解析，同时兼容拆包、粘包和旧版无分隔符 XML。
         /// </remarks>
-        private async Task ReceiveXmlFragmentLoopAsync(Receive_State client)
+        private void ReceiveXmlFragmentLoop(Receive_State client)
         {
             Socket? socket = client.Client_Socket;
             if (socket is null) return;
 
+            byte[] readBuffer = ArrayPool<byte>.Shared.Rent(Xml_Read_Buffer_Size);
             try
             {
-                byte[] readBuffer = new byte[Xml_Read_Buffer_Size];
+                socket.ReceiveTimeout = ServerReceiveTimeoutMilliseconds;
                 List<byte> pending = new(Receive_Buffer_Size);
 
                 while (true)
                 {
                     int length;
-                    using (var idleTimeout = new CancellationTokenSource(ServerReceiveTimeoutMilliseconds))
+                    try
                     {
-                        try
-                        {
-                            length = await socket.ReceiveAsync(
-                                readBuffer.AsMemory(),
-                                SocketFlags.None,
-                                idleTimeout.Token).ConfigureAwait(false);
-                        }
-                        catch (OperationCanceledException) when (idleTimeout.IsCancellationRequested)
-                        {
-                            throw new TimeoutException(
-                                $"客户端连接空闲超过 {ServerReceiveTimeoutMilliseconds}ms，已释放。");
-                        }
+                        length = socket.Receive(readBuffer, 0, Xml_Read_Buffer_Size, SocketFlags.None);
+                    }
+                    catch (SocketException ex) when (ex.SocketErrorCode == SocketError.TimedOut)
+                    {
+                        throw new TimeoutException(
+                            $"客户端连接空闲超过 {ServerReceiveTimeoutMilliseconds}ms，已释放。",
+                            ex);
                     }
 
                     if (!IsServerClientActive(client)) return;
@@ -1302,10 +1321,7 @@ namespace Roboto_Socket_Library
                         return;
                     }
 
-                    for (int index = 0; index < length; index++)
-                    {
-                        pending.Add(readBuffer[index]);
-                    }
+                    pending.AddRange(readBuffer.AsSpan(0, length));
 
                     if (pending.Count > Max_Xml_Frame_Size)
                     {
@@ -1345,7 +1361,11 @@ namespace Roboto_Socket_Library
                 CloseServerClientWithError(client, "Error:-11," + ex.Message, socket);
 
             }
- 
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(readBuffer);
+            }
+
         }
 
 

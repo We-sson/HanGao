@@ -21,6 +21,8 @@
     <DebugType>embedded</DebugType>
     <WarningLevel>8</WarningLevel>
     <NoWarn>1701;1702;1416;DV2001;CA1416</NoWarn>
+    <!-- 传递引用的 Macad 预编译程序集包含 WindowsDesktop 版本引用，仅启用 WPF 时由 RAR 报 MSB3277；运行时共享框架已提供对应程序集。 -->
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,8 +49,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.161" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="all" />
   </ItemGroup>
 
@@ -96,5 +98,11 @@
     <Resource Include="Resources\光华点焊围边焊接_1.jpg" />
     <Content Include="Resources\软件图标.ico" />
   </ItemGroup>
+
+  <!-- VS 解决方案生成默认传入 BuildingInsideVisualStudio=true 与 BuildProjectReferences=false；
+       在真实生成（BuildingProject=true）解析项目引用前按 Common.CurrentVersion.targets 相同参数编译各依赖项目。 -->
+  <Target Name="EnsureProjectReferencesBuiltInVs" AfterTargets="PrepareProjectReferences" BeforeTargets="ResolveProjectReferences" Condition="'$(BuildingInsideVisualStudio)' == 'true' and '$(BuildingProject)' == 'true' and '@(_MSBuildProjectReferenceExistent)' != ''">
+    <MSBuild Projects="@(_MSBuildProjectReferenceExistent)" Targets="%(_MSBuildProjectReferenceExistent.Targets)" BuildInParallel="$(BuildInParallel)" Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration); %(_MSBuildProjectReferenceExistent.SetPlatform); %(_MSBuildProjectReferenceExistent.SetTargetFramework); BuildingInsideVisualStudio=false; BuildProjectReferences=true" Condition="'%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true'" ContinueOnError="$(ContinueOnError)" RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)$(_GlobalPropertiesToRemoveFromProjectReferences)" />
+  </Target>
 
 </Project>

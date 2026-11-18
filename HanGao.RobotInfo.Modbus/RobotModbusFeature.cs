@@ -24,6 +24,7 @@ public sealed class RobotModbusFeature : ObservableObject, IAsyncDisposable
     private readonly Action<RobotInfoModbusConfiguration> _saveConfiguration;
     private readonly Func<IReadOnlyList<string>> _discoverLocalAddresses;
     private readonly Action<string, MessageBoxImage> _log;
+    private readonly Func<RobotInfoModbusRegisterData>? _readLiveData;
     private readonly SemaphoreSlim _operationGate = new(1, 1);
     private readonly DispatcherTimer _uiStatusTimer = new();
 
@@ -55,18 +56,21 @@ public sealed class RobotModbusFeature : ObservableObject, IAsyncDisposable
     /// <param name="saveConfiguration">保存配置到 XML。</param>
     /// <param name="discoverLocalAddresses">枚举本机 IPv4 地址文本。</param>
     /// <param name="log">写入宿主运行日志；第二个参数为消息级别。</param>
+    /// <param name="readLiveData">可选实时寄存器读取委托；为空时使用属性默认值。</param>
     public RobotModbusFeature(
         string configurationPath,
         Func<RobotInfoModbusConfiguration> loadConfiguration,
         Action<RobotInfoModbusConfiguration> saveConfiguration,
         Func<IReadOnlyList<string>> discoverLocalAddresses,
-        Action<string, MessageBoxImage> log)
+        Action<string, MessageBoxImage> log,
+        Func<RobotInfoModbusRegisterData>? readLiveData = null)
     {
         _configurationPath = configurationPath;
         _loadConfiguration = loadConfiguration;
         _saveConfiguration = saveConfiguration;
         _discoverLocalAddresses = discoverLocalAddresses;
         _log = log;
+        _readLiveData = readLiveData;
     }
 
     /// <summary>与 Configs_Data.Xml 同目录的 Modbus TCP 独立配置。</summary>
@@ -502,7 +506,9 @@ public sealed class RobotModbusFeature : ObservableObject, IAsyncDisposable
     /// <summary>创建应用层服务端宿主，并把后台发布错误接入统一日志。</summary>
     private RobotInfoModbusServerHost CreateServerHost()
     {
-        var host = new RobotInfoModbusServerHost();
+        var host = _readLiveData is not null
+            ? new RobotInfoModbusServerHost(_readLiveData)
+            : new RobotInfoModbusServerHost();
         host.PublishFailed += exception =>
         {
             ModbusLastErrorText = exception.Message;

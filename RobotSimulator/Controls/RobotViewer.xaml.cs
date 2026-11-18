@@ -83,12 +83,15 @@ public partial class RobotViewer : UserControl, IDisposable
         InitializeComponent();
         // 面板延后到控件加载完成再挂回，避免宿主窗口首次 Show 期间建原生视口。
         DeferredViewportHost.Defer(this, (Grid)Content, RenderView, () => _disposed);
+        Loaded += OnControlLoaded;
         RenderView.Loaded += OnViewportLoaded;
         RenderView.Unloaded += OnViewportUnloaded;
         RenderView.IsVisibleChanged += OnViewportVisibilityChanged;
     }
 
-    private void OnViewportLoaded(object sender, RoutedEventArgs e)
+    private void OnControlLoaded(object sender, RoutedEventArgs e) => AttachOwnerWindow();
+
+    private void AttachOwnerWindow()
     {
         var window = Window.GetWindow(this);
         if (window is not null && _ownerWindow != window)
@@ -97,6 +100,11 @@ public partial class RobotViewer : UserControl, IDisposable
             _ownerWindow = window;
             _ownerWindow.Closed += OnOwnerClosed;
         }
+    }
+
+    private void OnViewportLoaded(object sender, RoutedEventArgs e)
+    {
+        AttachOwnerWindow();
 
         OnViewerReady();
         SetUpdatesSuspended(!RenderView.IsVisible);
@@ -287,6 +295,7 @@ public partial class RobotViewer : UserControl, IDisposable
         lock (_updateSync) _disposed = true;
         StopSmoothing();
         _viewerReady.TrySetCanceled();
+        Loaded -= OnControlLoaded;
         RenderView.Loaded -= OnViewportLoaded;
         RenderView.Unloaded -= OnViewportUnloaded;
         RenderView.IsVisibleChanged -= OnViewportVisibilityChanged;

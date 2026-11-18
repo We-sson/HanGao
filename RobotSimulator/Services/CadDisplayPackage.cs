@@ -53,6 +53,8 @@ internal sealed class CadDisplayPackage
         var colorCount = reader.ReadInt32();
         if (faceCount < 0 || colorCount < 0)
             throw new InvalidDataException(".cad 三维模型的面数无效。");
+        if (faceCount > 10_000_000 || colorCount > 1_000_000)
+            throw new InvalidDataException(".cad 三维模型头部计数超出合理上限。");
 
         var palette = new byte[colorCount * 3];
         for (var i = 0; i < palette.Length; i++) palette[i] = reader.ReadByte();
@@ -65,6 +67,8 @@ internal sealed class CadDisplayPackage
             throw new InvalidDataException(".cad 三维模型缺少 BREP 数据。");
 
         var brep = reader.ReadBytes(brepLength);
+        if (brep.Length != brepLength)
+            throw new InvalidDataException(".cad 三维模型的 BREP 数据长度不完整。");
         var shape = BRepExchange.ReadBinary(brep)
             ?? throw new InvalidDataException(".cad 三维模型的 BREP 反序列化失败。");
         return new CadDisplayPackage(shape, palette, faceColorIndices);

@@ -873,7 +873,7 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 本轮开始/复位时的墙上时钟，仅供诊断，不参与耗时计算。
         /// </summary>
-        [XmlIgnore]
+        [XmlIgnore, DoNotNotify]
         public DateTime LastTime { set; get; }
 
         /// <summary>
@@ -885,7 +885,9 @@ namespace Robot_Info_Mes.Model
         //private TimeSpan Time_Cycls=new TimeSpan(0,0,1);
 
         // DispatcherTimer 在 UI 线程更新绑定属性，避免后台线程直接触碰 WPF 绑定目标。
-        private DispatcherTimer Time_Update { set; get; } = new();
+        private DispatcherTimer Time_Update { get; } = new(
+            DispatcherPriority.Background,
+            System.Windows.Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher);
 
 
         private TimeSpan _Timer_UI = TimeSpan.Zero;
@@ -934,10 +936,44 @@ namespace Robot_Info_Mes.Model
         /// <summary>
         /// 开始或继续本轮计时，并启动 UI 投影刷新。
         /// </summary>
+        /// <summary>
+        /// 统一在 Dispatcher 上以低优先级启停 UI 刷新定时器，避免高频通信线程阻塞在界面线程上。
+        /// </summary>
+        private void SetUiTimerEnabled(bool enabled)
+        {
+            Dispatcher dispatcher = Time_Update.Dispatcher;
+            if (dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
+            {
+                return;
+            }
+
+            if (dispatcher.CheckAccess())
+            {
+                Time_Update.IsEnabled = enabled;
+            }
+            else
+            {
+                dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() =>
+                    {
+                        if (!dispatcher.HasShutdownStarted && !dispatcher.HasShutdownFinished)
+                        {
+                            Time_Update.IsEnabled = enabled;
+                        }
+                    }));
+            }
+        }
+
         public void Start()
         {
+            if (Timer.IsRunning)
+            {
+                return;
+            }
+
             Timer.Start();
-            Time_Update.Start();
+            SetUiTimerEnabled(true);
 
             LastTime = DateTime.Now;
         }
@@ -947,8 +983,13 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         public void Stop()
         {
+            if (!Timer.IsRunning && !Time_Update.IsEnabled)
+            {
+                return;
+            }
+
             Timer.Stop();
-            Time_Update.Stop();
+            SetUiTimerEnabled(false);
 
         }
 
@@ -969,11 +1010,8 @@ namespace Robot_Info_Mes.Model
         /// <remarks>该方法不是“清零并保持停止”；需要保持停止时应在调用后再次执行 <see cref="Stop"/>。</remarks>
         public void Reset()
         {
-            Timer.Stop();
-            Timer.Reset();
-            Time_Update.Stop();
-            Timer.Start();
-            Time_Update.Start();
+            Timer.Restart();
+            SetUiTimerEnabled(true);
 
             Timer_UI = TimeSpan.Zero;
 
@@ -992,7 +1030,7 @@ namespace Robot_Info_Mes.Model
             // 先停止，避免 Stopwatch.Reset 后 UI 定时器仍把旧偏移量写回 Timer_UI。
             Timer.Stop();
             Timer.Reset();
-            Time_Update.Stop();
+            SetUiTimerEnabled(false);
             Time_Offset = TimeSpan.Zero;
             Timer_UI = TimeSpan.Zero;
             LastTime = DateTime.Now;
@@ -1000,7 +1038,7 @@ namespace Robot_Info_Mes.Model
             if (wasRunning)
             {
                 Timer.Start();
-                Time_Update.Start();
+                SetUiTimerEnabled(true);
             }
         }
 

@@ -24,6 +24,12 @@ namespace Robot_Info_Mes
         }
 
 
+        /// <summary>启动时已读取的应用配置，供首个 ViewModel 直接复用，避免重复读盘。</summary>
+        internal static File_Int_Model? StartupConfiguration { get; private set; }
+
+        /// <summary>若启动读取配置发生损坏恢复，保存告警文本供 ViewModel 记录日志。</summary>
+        internal static string? StartupRecoveryMessage { get; private set; }
+
         /// <summary>
         /// 读取公共配置目录中的启动角色，并把对应窗口设为本次进程的启动页。
         /// </summary>
@@ -31,7 +37,11 @@ namespace Robot_Info_Mes
 
         {
             // 配置损坏时自动改名并用默认值继续启动，避免程序在创建窗口前退出。
-            File_Int_Model File_Int = File_Xml_Model.Read_Xml_File_Or_Default<File_Int_Model>();
+            string? recoveryMessage = null;
+            File_Int_Model File_Int = File_Xml_Model.Read_Xml_File_Or_Default<File_Int_Model>(
+                message => recoveryMessage = message);
+            StartupConfiguration = File_Int;
+            StartupRecoveryMessage = recoveryMessage;
             Application currApp = Application.Current;
 
 

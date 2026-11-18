@@ -522,28 +522,52 @@ namespace Robot_Info_Mes.Model
 
 
         /// <summary>
-        /// 将模型序列化为无命名空间的 UTF-8 XML，并通过临时文件原子替换目标文件。
+        /// 在内存中把模型序列化为无命名空间的 UTF-8 XML 字节，使调用方可以在加锁临界区外执行磁盘写入。
         /// </summary>
-        /// <typeparam name="T1">已在路径映射中登记的模型类型。</typeparam>
-        /// <param name="_Data">要完整写入磁盘的模型快照。</param>
-        /// <exception cref="Exception">目录、序列化或文件替换失败时抛出带原因的异常。</exception>
-        public static void Save_Xml<T1>(T1 _Data)
+        internal static byte[] Serialize_Xml<T1>(T1 _Data)
         {
-
-
             try
             {
+                var settings = new XmlWriterSettings
+                {
+                    OmitXmlDeclaration = true,
+                    Encoding = new UTF8Encoding(false), // 无 BOM
+                    Indent = true,
+                    WriteEndDocumentOnClose = false
+                };
 
-                // GetXml_Path 同时保证父目录存在。
+                var ns = new XmlSerializerNamespaces();
+                ns.Add("", "");
+
+                using var ms = new MemoryStream(16 * 1024);
+                using (var writer = XmlWriter.Create(ms, settings))
+                {
+                    var serializer = new XmlSerializer(typeof(T1));
+                    serializer.Serialize(writer, _Data, ns);
+                }
+
+                return ms.ToArray();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("保存文件失败！,原因：" + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 通过临时文件和 WriteThrough 将已序列化 XML 字节原子替换到目标文件。
+        /// </summary>
+        internal static void Write_Xml_Bytes<T1>(byte[] bytes)
+        {
+            try
+            {
                 GetXml_Path<T1>(Get_Xml_File_Enum.Folder_Path);
                 string _Path = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path);
                 string tempPath = _Path + ".tmp";
 
-                // 清理上一次异常中断遗留的临时文件，保证本次写入从空文件开始。
                 if (File.Exists(tempPath))
                     File.Delete(tempPath);
 
-                // WriteThrough 尽量把内容及时提交到磁盘，降低突然断电时留下半份配置的概率。
                 using (var fs = new FileStream(
                     tempPath,
                     FileMode.Create,
@@ -552,30 +576,9 @@ namespace Robot_Info_Mes.Model
                     bufferSize: 4096,
                     options: FileOptions.WriteThrough))
                 {
-                    // 使用易读缩进和无 BOM UTF-8，便于人工查看及其他程序解析。
-                    var settings = new XmlWriterSettings
-                    {
-                        OmitXmlDeclaration = true,
-                        Encoding = new UTF8Encoding(false), // 无 BOM
-                        Indent = true,
-                        WriteEndDocumentOnClose = false
-                    };
-
-                    // 清空默认命名空间，保持现场 XML 格式简洁并便于人工检查。
-                    var ns = new XmlSerializerNamespaces();
-                    ns.Add("", "");
-
-                    // 序列化完整快照到临时文件；目标文件此时仍保持可读。
-                    using (var writer = XmlWriter.Create(fs, settings))
-                    {
-                        var serializer = new XmlSerializer(typeof(T1));
-                        serializer.Serialize(writer, _Data, ns);
-                    }
-
-                    // fs.Flush(true); // 不需要显式 flush，using 已自动 flush & dispose
+                    fs.Write(bytes, 0, bytes.Length);
                 }
 
-                // 已有文件使用原子替换；首次保存没有旧目标，只能把临时文件移动为正式文件。
                 if (File.Exists(_Path))
                 {
                     File.Replace(tempPath, _Path, null);
@@ -584,34 +587,21 @@ namespace Robot_Info_Mes.Model
                 {
                     File.Move(tempPath, _Path);
                 }
-
-
-
-
-
-
-
-
-                //using (FileStream _File = new FileStream(_Path, FileMode.Create))
-                //{
-                //    var xmlWriter = XmlWriter.Create(_File, settings);
-                //    //反序列化
-                //    Xml.Serialize(xmlWriter, _Data, ns);
-
-                //}
-
-                //User_Log_Add("保存文件成功: " + _Path, Log_Show_Window_Enum.Home);
-
-
             }
             catch (Exception e)
             {
-
                 throw new Exception("保存文件失败！,原因：" + e.Message);
             }
-
-
         }
+
+        /// <summary>
+        /// 将模型序列化为无命名空间的 UTF-8 XML，并通过临时文件原子替换目标文件。
+        /// </summary>
+        /// <typeparam name="T1">已在路径映射中登记的模型类型。</typeparam>
+        /// <param name="_Data">要完整写入磁盘的模型快照。</param>
+        /// <exception cref="Exception">目录、序列化或文件替换失败时抛出带原因的异常。</exception>
+        public static void Save_Xml<T1>(T1 _Data)
+            => Write_Xml_Bytes<T1>(Serialize_Xml(_Data));
 
 
 

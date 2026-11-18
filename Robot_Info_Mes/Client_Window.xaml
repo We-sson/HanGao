@@ -639,7 +639,7 @@
                     <View:OEE_Monthly_Trend DataContext="{Binding}" />
                 </TabItem>
 
-                <TabItem Header="三维仿真">
+                <TabItem Header="三维仿真" IsSelected="True">
                     <!--  三维模型：固定机器人/Tool/工装的组合，只接收 J1～J6。  -->
                     <Border
                         Background="Transparent"

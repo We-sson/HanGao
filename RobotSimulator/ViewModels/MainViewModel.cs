@@ -407,12 +407,12 @@ public sealed class MainViewModel : ObservableObject
                 StatusMessage = installAttachments
                     ? "机器人及所选 Tool、工装已加载；工装固定于机器人基坐标。"
                     : "机器人已切换，Tool 与工装复用现有模型，相机视角保持不变。";
-                // 首次安装完成后统一为等轴测视角，并按当前速度/角度启动相机环绕。
-                if (installAttachments)
-                {
-                    _sceneService.SetView(RobotView.Isometric);
-                    UpdateOrbit();
-                }
+            }
+            // 首次安装完成后即使部分附件加载失败，只要机器人主体就绪也统一对准等轴测并启动相机环绕。
+            if (installAttachments)
+            {
+                _sceneService.SetView(RobotView.Isometric);
+                UpdateOrbit();
             }
         }
         catch (Exception exception)

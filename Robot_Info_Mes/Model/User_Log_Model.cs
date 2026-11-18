@@ -82,7 +82,7 @@ namespace Robot_Info_Mes.Model
             }
             get
             {
-                return _User_Log_Number++;
+                return _User_Log_Number;
             }
         }
 
@@ -95,24 +95,20 @@ namespace Robot_Info_Mes.Model
         /// </summary>
         public string User_Log
         {
-            get
-            {
-                // 限制长期运行时的界面文本规模；超过 500 条后从新一轮日志开始。
-                if (_User_Log_Number > 500)
-                {
-                    _User_Log = string.Empty;
-                    User_Log_Number = 0;
-                }
-                return _User_Log;
-
-            }
+            get => _User_Log;
             set
             {
 
 
 
-                // User_Log_Number 的 getter 同时推进序号，因此每次赋值只生成一个编号。
-                _User_Log += User_Log_Number.ToString("D3") + " | " + DateTime.Now.ToLongTimeString().ToString() + "——" + value + HttpUtility.HtmlDecode("&#x000A;");
+                // User_Log_Number 不再在 getter 内产生副作用；满 500 条先清空再写入第 501 条。
+                if (_User_Log_Number >= 500)
+                {
+                    _User_Log = string.Empty;
+                    _User_Log_Number = 0;
+                }
+                _User_Log += _User_Log_Number.ToString("D3") + " | " + DateTime.Now.ToLongTimeString().ToString() + "——" + value + HttpUtility.HtmlDecode("&#x000A;");
+                _User_Log_Number++;
 
             }
         }

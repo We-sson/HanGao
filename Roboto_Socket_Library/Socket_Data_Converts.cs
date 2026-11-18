@@ -59,12 +59,8 @@ namespace Roboto_Socket_Library
 
                         break;
                     case Socket_Data_Type_Enum.HEX:
-                        // X2 保证每个字节固定显示两位，空格便于人工核对报文边界。
-                        for (int i = 0; i < Raw_Data.Length; i++)
-                        {
-                            _Data_string += Raw_Data[i].ToString("X2") + " ";
-
-                        }
+                        // X2 保证每个字节固定显示两位，空格便于人工核对报文边界；BitConverter 一次生成避免 O(N²) 拼接。
+                        _Data_string = BitConverter.ToString(Raw_Data).Replace('-', ' ') + " ";
                         break;
                 }
 
@@ -88,4 +84,3 @@ namespace Roboto_Socket_Library
         HEX
     }
 }
-    

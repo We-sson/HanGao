@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Macad.Occt;
 using RobotSimulator.Models;
@@ -23,6 +24,8 @@ internal sealed class RobotSceneContent : IDisposable
     readonly CadModelPart?[] _parts = new CadModelPart?[JointCount + 1];
     readonly AIS_ColoredShape?[] _partDisplays = new AIS_ColoredShape?[JointCount + 1];
     readonly Trsf[] _partWorlds = new Trsf[JointCount + 1];
+    readonly double[] _appliedJointAngles = new double[JointCount];
+    bool _hasAppliedJointAngles;
 
     readonly AIS_Trihedron _baseAxes;
     readonly AIS_Trihedron _flangeAxes;
@@ -100,16 +103,37 @@ internal sealed class RobotSceneContent : IDisposable
         var parts = new CadModelPart[files.Length];
         var completed = 0;
         var sync = new object();
-        Parallel.For(0, files.Length, new ParallelOptions { MaxDegreeOfParallelism = 4 }, index =>
+        // 限制模型解码并发并降为 BelowNormal，让出 CPU 给实机通信线程。
+        var maxParallelism = Math.Clamp(Environment.ProcessorCount / 2, 1, 2);
+        Parallel.For(0, files.Length, new ParallelOptions { MaxDegreeOfParallelism = maxParallelism }, index =>
         {
-            using var source = ModelResources.OpenRobot(modelId, files[index]);
-            var name = index == 0 ? "Base" : configuration.Joints[index - 1].Name;
-            var part = CadModelPart.Load(name, source);
-            parts[index] = part;
-            lock (sync)
+            var currentThread = Thread.CurrentThread;
+            var originalPriority = currentThread.Priority;
+            try
             {
-                completed++;
-                progress?.Report(new RobotLoadProgress(completed, files.Length, part.LoadMessage));
+                currentThread.Priority = ThreadPriority.BelowNormal;
+            }
+            catch (Exception)
+            {
+                // 宿主环境不允许调整线程优先级时保持默认优先级。
+            }
+
+            try
+            {
+                using var source = ModelResources.OpenRobot(modelId, files[index]);
+                var name = index == 0 ? "Base" : configuration.Joints[index - 1].Name;
+                var part = CadModelPart.Load(name, source);
+                parts[index] = part;
+                lock (sync)
+                {
+                    completed++;
+                    progress?.Report(new RobotLoadProgress(completed, files.Length, part.LoadMessage));
+                }
+            }
+            finally
+            {
+                try { currentThread.Priority = originalPriority; }
+                catch (Exception) { }
             }
         });
         return parts;
@@ -131,7 +155,7 @@ internal sealed class RobotSceneContent : IDisposable
     internal void SetJoints(IReadOnlyList<JointViewModel> joints)
     {
         _joints = joints;
-        ApplyTransforms();
+        ApplyJointTransforms();
     }
 
     internal void ReplaceTool(CadModelPart part)
@@ -232,6 +256,7 @@ internal sealed class RobotSceneContent : IDisposable
         return box;
     }
 
+    /// <summary>全量更新全部件及固定场景元素变换（加载、换工具、换工装时调用）。</summary>
     void ApplyTransforms()
     {
         UpdateWorlds();
@@ -245,6 +270,52 @@ internal sealed class RobotSceneContent : IDisposable
         _toolDisplay?.SetLocalTransformation(_flangeWorld);
         _workDisplay?.SetLocalTransformation(_workPose);
         ApplyAxisScale();
+        RecordAppliedJointAngles();
+    }
+
+    /// <summary>关节运动增量更新：只刷新角度发生变化及其下游连杆与末端附件，跳过底座、静态坐标和工装。</summary>
+    void ApplyJointTransforms()
+    {
+        if (!_hasAppliedJointAngles || _joints is not { Count: >= JointCount })
+        {
+            ApplyTransforms();
+            return;
+        }
+
+        var firstChanged = JointCount;
+        for (var i = 0; i < JointCount; i++)
+        {
+            if (_joints[i].Angle != _appliedJointAngles[i])
+            {
+                firstChanged = i;
+                break;
+            }
+        }
+
+        if (firstChanged >= JointCount) return;
+
+        UpdateWorlds();
+        for (var i = firstChanged; i < JointCount; i++)
+            _partDisplays[i + 1]?.SetLocalTransformation(_partWorlds[i + 1]);
+
+        _flangeAxes.SetLocalTransformation(_flangeWorld);
+        _tcpAxes.SetLocalTransformation(_tcpWorld);
+        _weldSpot.SetLocalTransformation(_tcpWorld);
+        _toolDisplay?.SetLocalTransformation(_flangeWorld);
+        RecordAppliedJointAngles();
+    }
+
+    void RecordAppliedJointAngles()
+    {
+        if (_joints is not { Count: >= JointCount })
+        {
+            _hasAppliedJointAngles = false;
+            return;
+        }
+
+        for (var i = 0; i < JointCount; i++)
+            _appliedJointAngles[i] = _joints[i].Angle;
+        _hasAppliedJointAngles = true;
     }
 
     void UpdateWorlds()

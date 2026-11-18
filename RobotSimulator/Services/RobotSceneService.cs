@@ -50,6 +50,7 @@ public sealed class RobotSceneService : IRobotSceneService
     double _orbitElapsed;
     long _lastOrbitFrame;
     long _lastInteraction;
+    long _lastJointApplyTimestamp;
     Pnt _orbitCenter = Pnt.Origin;
 
     bool _cameraTracked;
@@ -227,6 +228,7 @@ public sealed class RobotSceneService : IRobotSceneService
     {
         ArgumentNullException.ThrowIfNull(joints);
         _joints = joints as IReadOnlyList<JointViewModel> ?? joints.ToList();
+        _lastJointApplyTimestamp = Stopwatch.GetTimestamp();
         _content?.SetJoints(_joints);
         RequestRedraw();
     }
@@ -235,6 +237,7 @@ public sealed class RobotSceneService : IRobotSceneService
     {
         ArgumentNullException.ThrowIfNull(joint);
         if (_content is null || _joints is null) return;
+        _lastJointApplyTimestamp = Stopwatch.GetTimestamp();
         _content.SetJoints(_joints);
         RequestRedraw();
     }
@@ -501,6 +504,12 @@ public sealed class RobotSceneService : IRobotSceneService
         if (!_orbitActive || _orbitSpeed == 0) return;
 
         var now = Stopwatch.GetTimestamp();
+        // 实体机器人运动刷新刚写入关节时暂让相机自动环绕避让，避免同时触发双份三维重绘。
+        if (_lastJointApplyTimestamp != 0
+            && (now - _lastJointApplyTimestamp) / (double)Stopwatch.Frequency < 0.25)
+        {
+            return;
+        }
         if (_orbitPaused)
         {
             var idle = (now - _lastInteraction) / (double)Stopwatch.Frequency;

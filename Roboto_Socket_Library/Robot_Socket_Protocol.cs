@@ -3,7 +3,8 @@
 
 using Roboto_Socket_Library.Model;
 using System.Text;
-using System.Xml.Linq;
+using System.Runtime.InteropServices;
+using System.Xml;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 
 namespace Roboto_Socket_Library
@@ -62,6 +63,14 @@ namespace Roboto_Socket_Library
         /// </summary>
         public List<byte> Receice_byte = new();
 
+        private string? _cachedUtf8Xml;
+
+        /// <summary>
+        /// 惰性将接收字节按 UTF-8 解码并缓存，避免识别功能码与反序列化同一帧时重复解码。
+        /// </summary>
+        private string GetUtf8Text()
+            => _cachedUtf8Xml ??= Encoding.UTF8.GetString(CollectionsMarshal.AsSpan(Receice_byte));
+
         /// <summary>
         /// 按厂商协议从报文头提取 <see cref="Vision_Model_Enum"/>。
         /// </summary>
@@ -75,9 +84,21 @@ namespace Roboto_Socket_Library
                 case Socket_Robot_Protocols_Enum.KUKA:
                     try
                     {
-                        // KUKA 报文根元素通过 Vision_Model 属性携带功能码。
-                        XElement _KUKA_Receive = XElement.Parse(Encoding.UTF8.GetString(Receice_byte.ToArray()));
-                        return Enum.Parse<Vision_Model_Enum>(_KUKA_Receive.Attribute("Vision_Model")!.Value.ToString());
+                        // KUKA 报文根元素通过 Vision_Model 属性携带功能码；用 XmlReader 直接读取根节点属性，避免构造整棵 XElement DOM。
+                        using StringReader stringReader = new(GetUtf8Text());
+                        using XmlReader reader = XmlReader.Create(stringReader);
+                        if (reader.MoveToContent() != XmlNodeType.Element)
+                        {
+                            return Vision_Model_Enum.Unknown;
+                        }
+
+                        string? visionModel = reader.GetAttribute("Vision_Model");
+                        if (string.IsNullOrEmpty(visionModel))
+                        {
+                            return Vision_Model_Enum.Unknown;
+                        }
+
+                        return Enum.Parse<Vision_Model_Enum>(visionModel);
                     }
                     catch (Exception)
                     {
@@ -309,7 +330,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
                     // KUKA 直接把 XML 根元素映射到 DTO。
-                    HandEye_Calibration_Receive _Kuka_HandEye_Calib_Rece = KUKA_Send_Receive_Xml.String_Xml<HandEye_Calibration_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
+                    HandEye_Calibration_Receive _Kuka_HandEye_Calib_Rece = KUKA_Send_Receive_Xml.String_Xml<HandEye_Calibration_Receive>(GetUtf8Text());
 
 
                     return _Kuka_HandEye_Calib_Rece;
@@ -501,7 +522,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
                     // KUKA 请求由 XML 序列化特性直接映射。
-                    _Robot_Creation_Model_Rece = KUKA_Send_Receive_Xml.String_Xml<Vision_Creation_Model_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
+                    _Robot_Creation_Model_Rece = KUKA_Send_Receive_Xml.String_Xml<Vision_Creation_Model_Receive>(GetUtf8Text());
 
 
 
@@ -586,7 +607,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
                     // 初始化请求的 XML 通常只包含 Vision_Model 属性。
-                    _Ini_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Vision_Ini_Data_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
+                    _Ini_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Vision_Ini_Data_Receive>(GetUtf8Text());
 
 
                     break;
@@ -621,7 +642,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
                     // KUKA 使用 XML 属性和元素直接映射全部状态字段。
-                    _Mes_Robot_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Robot_Mes_Info_Data_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
+                    _Mes_Robot_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Robot_Mes_Info_Data_Receive>(GetUtf8Text());
 
 
                     break;
@@ -744,7 +765,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
                     // 上位机看板链路复用 KUKA XML 序列化格式，与实际机器人品牌无关。
-                    _Mes_Robot_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Mes_Server_Info_Data_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
+                    _Mes_Robot_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Mes_Server_Info_Data_Receive>(GetUtf8Text());
 
 
                     break;
@@ -777,7 +798,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
                     // 看板回执当前使用紧凑 XML。
-                    _Mes_Robot_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Mes_Server_Info_Data_Send>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
+                    _Mes_Robot_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Mes_Server_Info_Data_Send>(GetUtf8Text());
 
 
                     break;
@@ -993,7 +1014,7 @@ namespace Roboto_Socket_Library
             {
                 case Socket_Robot_Protocols_Enum.KUKA:
                     // KUKA 查找请求使用 Robot_Receive XML。
-                    _Find_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Vision_Find_Data_Receive>(Encoding.UTF8.GetString(Receice_byte.ToArray()));
+                    _Find_Data_Receive = KUKA_Send_Receive_Xml.String_Xml<Vision_Find_Data_Receive>(GetUtf8Text());
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:

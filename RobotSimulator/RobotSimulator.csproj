@@ -3,7 +3,9 @@
   <!-- 以 x64 Windows 桌面程序运行，WPF 承载 Macad（OpenCascade）三维视口。 -->
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <!-- 与宿主 Robot_Info_Mes 保持同一 Windows SDK 目标版本，确保 CommunityToolkit.Mvvm 与 WinRT.Runtime 在 deps.json 中一致。 -->
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -11,6 +13,10 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <RootNamespace>RobotSimulator</RootNamespace>
     <AssemblyName>RobotSimulator</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <NoWarn>1701;1702;1416;CA1416</NoWarn>
+    <!-- Macad 预编译程序集引用 WindowsDesktop 的 Microsoft.VisualBasic 10.1 / System.Drawing 8.0；仅启用 WPF 时编译期引用包仅暴露 CoreCLR 门面版本，运行时共享框架已提供完整程序集。 -->
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
   </PropertyGroup>
 
   <Import Project="Build\Python.local.props" Condition="Exists('Build\Python.local.props')" />
@@ -29,7 +35,7 @@
   <!-- MVVM 属性/命令工具，以及 XAML 事件转命令行为。 -->
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.161" />
     <None Update="THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
@@ -66,16 +72,10 @@
 
   <!-- 机器人模型与固定参数全部内嵌，不生成外部 robot.json。 -->
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Robots\**\*.robot.json"
-                      LogicalName="RobotModels/%(RecursiveDir)%(Filename)%(Extension)"
-                      WithCulture="false" />
+    <EmbeddedResource Include="Resources\Robots\**\*.robot.json" LogicalName="RobotModels/%(RecursiveDir)%(Filename)%(Extension)" WithCulture="false" />
     <!-- Tool 单独建库，只在首次运行时生成可编辑配置。STEP 源文件只用于开发端转换。 -->
-    <EmbeddedResource Include="Resources\Tools\**\*.tool.json"
-                      LogicalName="ToolModels/%(RecursiveDir)%(Filename)%(Extension)"
-                      WithCulture="false" />
-    <EmbeddedResource Include="Resources\Work\**\*.work.json"
-                      LogicalName="WorkModels/%(RecursiveDir)%(Filename)%(Extension)"
-                      WithCulture="false" />
+    <EmbeddedResource Include="Resources\Tools\**\*.tool.json" LogicalName="ToolModels/%(RecursiveDir)%(Filename)%(Extension)" WithCulture="false" />
+    <EmbeddedResource Include="Resources\Work\**\*.work.json" LogicalName="WorkModels/%(RecursiveDir)%(Filename)%(Extension)" WithCulture="false" />
   </ItemGroup>
 
   <ItemGroup>
@@ -88,33 +88,26 @@
   <!-- 模型缓存与编译配置无关，Debug 和 Release 共用。 -->
   <Target Name="ResolveStepDisplayModels">
     <ItemGroup>
-      <_StepDisplayModel Include="%(_StepSource.Identity)"
-                         CadDir="$(CadModelsDir)%(_StepSource.RelativeDir)"
-                         CadPath="$(CadModelsDir)%(_StepSource.RelativeDir)%(_StepSource.Filename).cad"
-                         ResourceName="%(_StepSource.Catalog)/%(_StepSource.RecursiveDir)%(_StepSource.Filename).cad" />
+      <_StepDisplayModel Include="%(_StepSource.Identity)" CadDir="$(CadModelsDir)%(_StepSource.RelativeDir)" CadPath="$(CadModelsDir)%(_StepSource.RelativeDir)%(_StepSource.Filename).cad" ResourceName="%(_StepSource.Catalog)/%(_StepSource.RecursiveDir)%(_StepSource.Filename).cad" />
     </ItemGroup>
   </Target>
 
   <!-- Visual Studio 比较每份 STEP 与自己的生成文件。执行此检查不启动转换器。 -->
-  <Target Name="CollectStepDisplayModelOutputs" BeforeTargets="CollectUpToDateCheckBuiltDesignTime"
-          DependsOnTargets="ResolveStepDisplayModels">
+  <Target Name="CollectStepDisplayModelOutputs" BeforeTargets="CollectUpToDateCheckBuiltDesignTime" DependsOnTargets="ResolveStepDisplayModels">
     <ItemGroup>
       <UpToDateCheckBuilt Include="%(_StepDisplayModel.CadPath)" Original="%(_StepDisplayModel.FullPath)" />
     </ItemGroup>
   </Target>
 
   <!-- 构建机还原固定版本的 XDE 读取依赖。客户只加载内嵌的显示缓存。 -->
-  <Target Name="RestoreStepConverter" Inputs="$(StepRequirements)" Outputs="$(StepDependencyStamp)"
-          Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
+  <Target Name="RestoreStepConverter" Inputs="$(StepRequirements)" Outputs="$(StepDependencyStamp)" Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
     <MakeDir Directories="$(StepDependencies)" />
     <Exec Command="&quot;$(StepPython)&quot; -m pip install --disable-pip-version-check --no-cache-dir --upgrade --index-url https://pypi.org/simple --requirement &quot;$(StepRequirements)&quot; --target &quot;$(StepDependencies)&quot;" WorkingDirectory="$(MSBuildProjectDirectory)" />
     <Touch Files="$(StepDependencyStamp)" AlwaysCreate="true" />
   </Target>
 
   <!-- 每个 STEP 独立增量构建。几何与原色来自同一次 XDE 读取。 -->
-  <Target Name="ConvertStepDisplayModels" DependsOnTargets="ResolveStepDisplayModels;RestoreStepConverter"
-          Inputs="%(_StepDisplayModel.FullPath);$(StepConverter);$(StepRequirements)" Outputs="%(_StepDisplayModel.CadPath)"
-          Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
+  <Target Name="ConvertStepDisplayModels" DependsOnTargets="ResolveStepDisplayModels;RestoreStepConverter" Inputs="%(_StepDisplayModel.FullPath);$(StepConverter);$(StepRequirements)" Outputs="%(_StepDisplayModel.CadPath)" Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
     <PropertyGroup>
       <!-- 任务文件同样锚定项目目录；MSBuild 任务的工作目录随调用方变化。 -->
       <StepJobDir>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(IntermediateOutputPath)'))</StepJobDir>
@@ -122,16 +115,12 @@
     </PropertyGroup>
     <MakeDir Directories="%(_StepDisplayModel.CadDir);$(StepJobDir)" />
     <!-- 中英文路径使用同一份 UTF-8 响应文件。 -->
-    <WriteLinesToFile File="$(StepJobFile)"
-                      Lines="%(_StepDisplayModel.FullPath)|%(_StepDisplayModel.CadPath)"
-                      Overwrite="true" Encoding="UTF-8" />
-    <Exec Command="&quot;$(StepPython)&quot; -X utf8 &quot;$(StepConverter)&quot; --site-dir &quot;$(StepDependencies)&quot; --job &quot;$(StepJobFile)&quot;"
-          WorkingDirectory="$(MSBuildProjectDirectory)" UseUtf8Encoding="Always" />
+    <WriteLinesToFile File="$(StepJobFile)" Lines="%(_StepDisplayModel.FullPath)|%(_StepDisplayModel.CadPath)" Overwrite="true" Encoding="UTF-8" />
+    <Exec Command="&quot;$(StepPython)&quot; -X utf8 &quot;$(StepConverter)&quot; --site-dir &quot;$(StepDependencies)&quot; --job &quot;$(StepJobFile)&quot;" WorkingDirectory="$(MSBuildProjectDirectory)" UseUtf8Encoding="Always" />
   </Target>
 
   <!-- 每次都从现有 STEP 清单注册资源，包括跳过转换的缓存，排除已删除的旧模型。 -->
-  <Target Name="EmbedStepDisplayModels" BeforeTargets="AssignTargetPaths" DependsOnTargets="ConvertStepDisplayModels"
-          Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
+  <Target Name="EmbedStepDisplayModels" BeforeTargets="AssignTargetPaths" DependsOnTargets="ConvertStepDisplayModels" Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
     <ItemGroup>
       <EmbeddedResource Include="%(_StepDisplayModel.CadPath)" LogicalName="%(_StepDisplayModel.ResourceName)" WithCulture="false" />
       <FileWrites Include="@(_StepDisplayModel->'%(CadPath)');$(StepJobFile)" />

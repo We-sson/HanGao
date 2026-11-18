@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Halcon_SDK_DLL</RootNamespace>
     <AssemblyName>Halcon_SDK_DLL</AssemblyName>
@@ -53,14 +53,13 @@
     <Content Include="Halcon样图测试\9点标定板样图\Image_20221028151800086.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fody" Version="6.9.1">
+    <PackageReference Include="Fody" Version="6.9.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
-    <PackageReference Include="Microsoft.QualityTools.Testing.Fakes" Version="17.12.0" />
-    <PackageReference Include="MVTec.HalconDotNet-Windows" Version="24111.0.0" />
+    <PackageReference Include="Microsoft.QualityTools.Testing.Fakes" Version="18.10.0" />
+    <PackageReference Include="MVTec.HalconDotNet-Windows" Version="26111.0.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="Throw" Version="1.4.0" />
   </ItemGroup>

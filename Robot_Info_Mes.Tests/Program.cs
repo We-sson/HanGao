@@ -4,7 +4,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Xml.Serialization;
 using Generic_Extension;
+using HanGao.RobotInfo.Modbus;
 using Robot_Info_Mes.Model;
+using Robot_Info_Mes.ViewModel;
 using RobotSimulator.Models;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
@@ -29,6 +31,10 @@ internal static class Program
         Check_ListenerStart_FailureIsReported();
         Check_ReadFailure_DoesNotTouchFile();
         Check_SimulationQuality_RestoresFromXml();
+        Check_UserLog_Rollover_KeepsEntry501();
+        Check_MesDateInt_ShrinksExcessDays();
+        Check_Snapshot_RetainsRobotCycleList();
+        Check_ModbusServerHost_PublishesLiveDelegateValues();
         RobotAxisValidationChecks.Run();
         Check_MesViewport();
 
@@ -225,6 +231,109 @@ internal static class Program
         finally
         {
             occupied.Stop();
+        }
+    }
+
+    /// <summary>日志达到 500 条回卷清空后应保留第 501 条记录，且读取序号本身不产生副作用。</summary>
+    private static void Check_UserLog_Rollover_KeepsEntry501()
+    {
+        var log = new User_Log_Models();
+        int initialNumber = log.User_Log_Number;
+        Check(initialNumber == 0 && log.User_Log_Number == 0,
+            "读取 User_Log_Number 不应改变当前序号。");
+
+        for (int i = 0; i < 500; i++)
+        {
+            log.User_Log = $"msg-{i}";
+        }
+        Check(log.User_Log_Number == 500, "连续写入 500 条日志后序号应为 500。");
+
+        log.User_Log = "entry-501";
+        Check(log.User_Log_Number == 1, "第 501 条日志写入触发回卷后序号应推进为 1。");
+        string rendered = log.User_Log;
+        Check(rendered.Contains("000 | ") && rendered.Contains("entry-501"),
+            "满 500 条回卷后应保留第 501 条新日志，而不是在 getter 中直接清空。");
+    }
+
+    /// <summary>当月天数少于已有月度槽位时，Mes_Date_Int 应一次性裁剪全部多余尾部元素。</summary>
+    private static void Check_MesDateInt_ShrinksExcessDays()
+    {
+        var series = new Work_Factor_Seried_Model();
+        for (int i = 0; i < 35; i++)
+        {
+            series.Robot_Work_ABCD_Number_List.Add(i);
+            series.Work_Availability_Factor_List.Add(i);
+            series.Work_Performance_Factor_List.Add(i);
+            series.Robot_Work_Time_List.Add(i);
+            series.Robot_Work_ABCD_Cycle_Mean_List.Add(i);
+        }
+
+        DateTime now = DateTime.Now;
+        int expectedDays = DateTime.DaysInMonth(now.Year, now.Month);
+        series.Mes_Date_Int();
+
+        Check(series.Robot_Work_ABCD_Number_List.Count == expectedDays,
+            $"Mes_Date_Int 应将月度产量集合裁剪为当月 {expectedDays} 天。");
+        Check(series.Work_Availability_Factor_List.Count == expectedDays
+            && series.Work_Performance_Factor_List.Count == expectedDays
+            && series.Robot_Work_Time_List.Count == expectedDays
+            && series.Robot_Work_ABCD_Cycle_Mean_List.Count == expectedDays,
+            "Mes_Date_Int 应将其余月度趋势集合一并裁剪到当月天数。");
+    }
+
+    /// <summary>Client 上报快照应携带机器人逐件节拍样本，而不是空的 Work_Factor_Seried 集合。</summary>
+    private static void Check_Snapshot_RetainsRobotCycleList()
+    {
+        var vm = new Robot_Info_VM(new File_Int_Model());
+        try
+        {
+            vm.Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_List.AddDataAt(1, 18.5);
+            var snapshot = vm.Create_Mes_Server_Info_Snapshot();
+            Check(snapshot.Mes_Server_Date.Robot_Work_ABCD_Cycle_List.ElementAtOrDefault(1) == 18.5,
+                "Create_Mes_Server_Info_Snapshot 应复制设备模型中的逐件节拍样本列表。");
+        }
+        finally
+        {
+            vm.Digital_Simulation?.Detach();
+        }
+    }
+
+    /// <summary>Modbus TCP 托管宿主应通过实时读取委托刷新各内置寄存器值文本。</summary>
+    private static void Check_ModbusServerHost_PublishesLiveDelegateValues()
+    {
+        var probe = new TcpListener(IPAddress.Any, 0);
+        probe.Start();
+        int port = ((IPEndPoint)probe.LocalEndpoint).Port;
+        probe.Stop();
+
+        var config = RobotInfoModbusConfiguration.CreateDefault();
+        config.Port = port;
+
+        uint production = 321;
+        ushort status = 1;
+        var host = new RobotInfoModbusServerHost(() => new RobotInfoModbusRegisterData
+        {
+            DailyProduction = production,
+            StatusCode = status,
+        });
+
+        try
+        {
+            host.StartAsync(config).GetAwaiter().GetResult();
+            var statusPoint = config.RegisterPoints.First(p => p.Order == 4);
+            var productionPoint = config.RegisterPoints.First(p => p.Order == 5);
+            Check(statusPoint.CurrentValueText == "1", "Modbus 启动首帧应发布实时状态值。");
+            Check(productionPoint.CurrentValueText == "321", "Modbus 启动首帧应发布实时当天产量。");
+
+            production = 654;
+            status = 0;
+            host.PublishNow();
+            Check(statusPoint.CurrentValueText == "0", "PublishNow 应刷新实时状态值。");
+            Check(productionPoint.CurrentValueText == "654", "PublishNow 应刷新实时当天产量。");
+        }
+        finally
+        {
+            host.DisposeAsync().AsTask().GetAwaiter().GetResult();
         }
     }
 

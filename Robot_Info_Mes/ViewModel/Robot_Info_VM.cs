@@ -64,7 +64,19 @@ namespace Robot_Info_Mes.ViewModel
 
 
                 // 全局配置决定本机角色以及后续所有端口、周期和工艺目标；文件损坏时自动回退默认值。
-                File_Int_Parameters = File_Xml_Model.Read_Xml_File_Or_Default<File_Int_Model>(Log_Xml_Recovery);
+                // 全局配置决定本机角色以及后续所有端口、周期和工艺目标；优先复用启动页已读配置，避免重复读盘。
+                if (App.StartupConfiguration is { } startupConfig)
+                {
+                    File_Int_Parameters = startupConfig;
+                    if (!string.IsNullOrEmpty(App.StartupRecoveryMessage))
+                    {
+                        Log_Xml_Recovery(App.StartupRecoveryMessage);
+                    }
+                }
+                else
+                {
+                    File_Int_Parameters = File_Xml_Model.Read_Xml_File_Or_Default<File_Int_Model>(Log_Xml_Recovery);
+                }
 
 
 
@@ -123,7 +135,8 @@ namespace Robot_Info_Mes.ViewModel
                                 return addresses;
                             },
                             // Modbus 功能库的日志回调仍带图标参数；统一只写日志，不弹窗。
-                            (message, _) => User_Log_Add(message));
+                            (message, _) => User_Log_Add(message),
+                            CreateLiveModbusRegisterData);
                         Modbus.Initialize();
 
 
@@ -168,6 +181,43 @@ namespace Robot_Info_Mes.ViewModel
         /// <summary>把 XML 恢复信息写入界面日志。</summary>
         private void Log_Xml_Recovery(string message) => User_Log_Add(message);
 
+        /// <summary>采集当前设备运行统计并映射到只读 Modbus TCP 寄存器。</summary>
+        private RobotInfoModbusRegisterData CreateLiveModbusRegisterData()
+        {
+            double downtimeMinutes = Mes_Robot_Info_Model_Data.Robot_Error_Time.Timer_Minute
+                + Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_Minute;
+            double currentDowntimeMinutes = Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Disconnected
+                ? Mes_Robot_Info_Model_Data.Robot_Offline_Time.Timer_Minute
+                : Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode switch
+                {
+                    KUKA_Mode_OP_Enum.Error => Mes_Robot_Info_Model_Data.Robot_Error_Time.Timer_Minute,
+                    KUKA_Mode_OP_Enum.T1 => Mes_Robot_Info_Model_Data.Robot_Debug_Time.Timer_Minute,
+                    _ => 0,
+                };
+            ushort statusCode = Mes_Robot_Info_Model_Data.Socket_Robot_Connect_State == Socket_Robot_Connect_State_Enum.Disconnected
+                ? (ushort)2
+                : Mes_Robot_Info_Model_Data.Robot_Info_Data.Mes_Robot_Mode switch
+                {
+                    KUKA_Mode_OP_Enum.Error => (ushort)1,
+                    KUKA_Mode_OP_Enum.Run => (ushort)0,
+                    _ => (ushort)2,
+                };
+            uint dailyProduction = (uint)Math.Max(0, Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Number);
+            uint dailyRunMinutes = (uint)Math.Clamp(Math.Round(Mes_Robot_Info_Model_Data.Robot_Run_Time.Timer_Minute), 0d, uint.MaxValue);
+
+            return new RobotInfoModbusRegisterData
+            {
+                DailyRunMinutes = dailyRunMinutes,
+                TotalRunSeconds = (uint)Math.Clamp(Math.Round(Mes_Robot_Info_Model_Data.Robot_Run_All_Time.Timer_Sec), 0d, uint.MaxValue),
+                DowntimeMinutes = (uint)Math.Clamp(Math.Round(downtimeMinutes), 0d, uint.MaxValue),
+                CurrentDowntimeMinutes = (uint)Math.Clamp(Math.Round(currentDowntimeMinutes), 0d, uint.MaxValue),
+                StatusCode = statusCode,
+                DailyProduction = dailyProduction,
+                TotalProduction = dailyProduction,
+                PowerOnMinutes = dailyRunMinutes,
+            };
+        }
+
         private bool _shutdownCompleted;
         private bool _shutdownInProgress;
         private readonly HashSet<Socket> _robotSenders = [];
@@ -197,6 +247,7 @@ namespace Robot_Info_Mes.ViewModel
         {
             try
             {
+                Digital_Simulation?.Detach();
                 if (Modbus is not null) await Modbus.DisposeAsync();
             }
             catch
@@ -328,12 +379,14 @@ namespace Robot_Info_Mes.ViewModel
         /// <summary>
         /// 在 Server 设备列表加载后启动整页自动滚动，使每台设备按配置时长依次进入视口。
         /// </summary>
+        // Server 设备列表自动滚动定时器；每次 Loaded 复用并停止旧实例，避免重复叠加滚动速度。
+        private DispatcherTimer? _serverListScrollTimer;
+
         public ICommand Server_Window_Scrolling_Comm
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                // 命令绑定在 ListBox.Loaded 事件，事件源即需要控制的设备列表。
-                ListBox? _Contol = Sm!.Source as ListBox;
+                ListBox? _Contol = Sm?.Source as ListBox;
                 try
                 {
 
@@ -354,10 +407,12 @@ namespace Robot_Info_Mes.ViewModel
 
 
                     // DispatcherTimer 保证 ScrollIntoView 和 SelectedIndex 均在 UI 线程执行。
-                    DispatcherTimer _timer = new DispatcherTimer
+                    _serverListScrollTimer?.Stop();
+                    _serverListScrollTimer = new DispatcherTimer
                     {
-                        Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.KanBan_ALLList_Cycle_View_Time)
+                        Interval = TimeSpan.FromSeconds(Math.Max(1.0, File_Int_Parameters.Mes_Run_Parameters.KanBan_ALLList_Cycle_View_Time))
                     };
+                    DispatcherTimer _timer = _serverListScrollTimer;
                     _timer.Tick += (s, e) =>
                     {
 
@@ -430,9 +485,33 @@ namespace Robot_Info_Mes.ViewModel
         /// <summary>
         /// 初始化 Client 的连续计时、OEE 参考线、周期保存以及向 Server 上报的通信回调。
         /// </summary>
+        /// <summary>将配置中的 OEE 参考目标、轮播时长和保存周期统一同步到运行态模型与图表参考线。</summary>
+        private void ApplyClientStandardAndCycleSettings()
+        {
+            Work_Factor_Seried.Work_Availability_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[0].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[0].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max;
+            Work_Factor_Seried.Work_Performance_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[1].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[1].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max;
+            Work_Factor_Seried.Robot_Work_ABCD_Number_Max = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[2].Yi = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[2].Yj = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max;
+            Work_Factor_Seried.Work_Standard_Time_Max = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[3].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[3].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time;
+            Work_Factor_Seried.Robot_Work_Time_Max = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[4].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours;
+            Work_Factor_Seried.Mes_Data_View_List_Sections[4].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours;
+            Work_Factor_Seried.KanBan_List_Cycle_View_Time = File_Int_Parameters.Mes_Run_Parameters.KanBan_List_Cycle_View_Time;
+            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval =
+                TimeSpan.FromSeconds(Math.Max(1.0, File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time));
+        }
+
         public void Int_Run_TIme()
         {
 
+            Work_Factor_Seried.Mes_Date_Int();
             // XML 只恢复 Timer_UI；把它转成 offset 后，新 Stopwatch 才能从保存点继续累计。
             Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Debug_All_Time.Timer_UI;
             Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Time_Offset = Mes_Robot_Info_Model_Data.Robot_Error_All_Time.Timer_UI;
@@ -462,33 +541,20 @@ namespace Robot_Info_Mes.ViewModel
             Work_Factor_Seried.Mes_Data_View_List_Sections[5].Yj = Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List_Mean;
 
             // 把持久化工艺目标同时写入显示属性和对应水平参考线。
-            Work_Factor_Seried.Work_Availability_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max;
-            Work_Factor_Seried.Mes_Data_View_List_Sections[0].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max;
-            Work_Factor_Seried.Mes_Data_View_List_Sections[0].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Availability_Factor_Max;
-            Work_Factor_Seried.Work_Performance_Factor_Max = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max;
-            Work_Factor_Seried.Mes_Data_View_List_Sections[1].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max;
-            Work_Factor_Seried.Mes_Data_View_List_Sections[1].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Performance_Factor_Max;
-            Work_Factor_Seried.Robot_Work_ABCD_Number_Max = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max;
-            Work_Factor_Seried.Mes_Data_View_List_Sections[2].Yi = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max;
-            Work_Factor_Seried.Mes_Data_View_List_Sections[2].Yj = File_Int_Parameters.Mes_Standard_Time.Robot_Work_ABCD_Number_Max;
-            Work_Factor_Seried.Work_Standard_Time_Max = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time;
-            Work_Factor_Seried.Mes_Data_View_List_Sections[3].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time;
-            Work_Factor_Seried.Mes_Data_View_List_Sections[3].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time;
-            Work_Factor_Seried.Robot_Work_Time_Max = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours;
-            Work_Factor_Seried.Mes_Data_View_List_Sections[4].Yi = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours;
-            Work_Factor_Seried.Mes_Data_View_List_Sections[4].Yj = File_Int_Parameters.Mes_Standard_Time.Work_Standard_Hours;
+            ApplyClientStandardAndCycleSettings();
 
 
             // 复用模型内的 DispatcherTimer，按配置周期计算指标并保存两个独立 XML 快照。
             //Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.AutoReset = true;
-            Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Interval = TimeSpan.FromSeconds(File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time);
             Mes_Robot_Info_Model_Data.Socket_Cycle_Check_Update.Tick += (s, e) =>
             {
                 try
                 {
                     DateTime now = DateTime.Now;
 
-                    // 采集线程会写图表集合；保存和日切清空必须与图表测量使用同一把锁。
+                    byte[] robotXmlBytes;
+                    byte[] seriesXmlBytes;
+                    // 采集线程会写图表集合；计算与内存序列化在同一锁内完成，磁盘 WriteThrough 写入放到锁外，避免阻塞最高优先级通信线程。
                     lock (Work_Factor_Seried.Sync)
                     {
                         EnsureClientStatisticsDate(now);
@@ -520,9 +586,12 @@ namespace Robot_Info_Mes.ViewModel
 
 
                 // 分开保存实时/计时状态与月度趋势，避免任一模型职责混杂。
-                File_Xml_Model.Save_Xml(Mes_Robot_Info_Model_Data);
-                File_Xml_Model.Save_Xml(Work_Factor_Seried);
+                robotXmlBytes = File_Xml_Model.Serialize_Xml(Mes_Robot_Info_Model_Data);
+                seriesXmlBytes = File_Xml_Model.Serialize_Xml(Work_Factor_Seried);
                     }
+
+                    File_Xml_Model.Write_Xml_Bytes<Mes_Robot_Info_Model>(robotXmlBytes);
+                    File_Xml_Model.Write_Xml_Bytes<Work_Factor_Seried_Model>(seriesXmlBytes);
 
                     User_Log_Add("信息文件定时已到：" + File_Int_Parameters.Mes_Run_Parameters.File_Save_Cycle_Time + "s，进行文件保存！");
                 }
@@ -551,8 +620,8 @@ namespace Robot_Info_Mes.ViewModel
             Mes_Info_Parameters.Socket_Client.Mes_Receive_Info_Data_Delegate = Mes_Receive_Info_Data_Method;
             Mes_Info_Parameters.Socket_Client.Socket_ErrorInfo_delegate = Socket_Cycle_Update_ErrorLog_Show;
             Mes_Info_Parameters.Socket_Client.Socket_ConnectInfo_delegate = Socket_ConnectLog_Show;
-            Mes_Info_Parameters.Socket_Client.Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method;
-            Mes_Info_Parameters.Socket_Client.Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method;
+            Mes_Info_Parameters.Socket_Client.Socket_Receive_Meg = Queue_Receive_Monitor;
+            Mes_Info_Parameters.Socket_Client.Socket_Send_Meg = Queue_Send_Monitor;
 
             // 最后启动独立的网络可达性检测和业务上报循环，确保回调与待发送数据均已初始化。
             Start_KanBan_Ping_Monitor();
@@ -859,7 +928,7 @@ namespace Robot_Info_Mes.ViewModel
         /// 创建一份与当前可变模型解耦的 Client 上报快照。
         /// </summary>
         /// <returns>包含机器人状态、今日/累计计时、OEE 目标和趋势集合的完整消息。</returns>
-        private Mes_Server_Info_Data_Receive Create_Mes_Server_Info_Snapshot()
+        internal Mes_Server_Info_Data_Receive Create_Mes_Server_Info_Snapshot()
         {
             // 集合复制期间与采集线程、保存定时器使用同一把锁，避免枚举到正在修改的集合。
             lock (Work_Factor_Seried.Sync)
@@ -909,7 +978,7 @@ namespace Robot_Info_Mes.ViewModel
                     Work_Performance_Factor_List = new ObservableCollection<double?>(Work_Factor_Seried.Work_Performance_Factor_List),
                     Robot_Work_Time_List = new ObservableCollection<double?>(Work_Factor_Seried.Robot_Work_Time_List),
                     Robot_Work_ABCD_Cycle_Mean_List = new ObservableCollection<double?>(Work_Factor_Seried.Robot_Work_ABCD_Cycle_Mean_List),
-                    Robot_Work_ABCD_Cycle_List = new ObservableCollection<double?>(Work_Factor_Seried.Robot_Work_ABCD_Cycle_List),
+                    Robot_Work_ABCD_Cycle_List = new ObservableCollection<double?>(Mes_Robot_Info_Model_Data.Robot_Work_ABCD_Cycle_List),
                     Robot_Robot_Time_Outside_List = new ObservableCollection<double?>(Mes_Robot_Info_Model_Data.Robot_Robot_Time_Outside_List),
                 }
             };
@@ -923,6 +992,7 @@ namespace Robot_Info_Mes.ViewModel
         /// </summary>
         public void Initialization_Robot_Sever_Start()
         {
+            Robot_Info_Parameters.Server_List_End();
             // 一台工控机可能同时有产线网卡和管理网卡，逐地址监听可覆盖各网段连接。
             List<string> _List = [];
             if (Socket_Receive.GetLocalIP(ref _List))
@@ -934,15 +1004,15 @@ namespace Robot_Info_Mes.ViewModel
                 foreach (var _Sever in Robot_Info_Parameters.Local_IP_UI)
                 {
                     // 流式接收：按 XML 根元素切帧，运动时帧变密也不会因粘包/拆包误判为非法报文。
-                    Socket_Receive listener = new(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port, true)
+                    Socket_Receive listener = new(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port, false)
                     {
                         Socket_Robot = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model,
 
                         Robot_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
                         Socket_ErrorInfo_delegate = Socket_Robot_ErrorLog_Show,
                         Socket_ConnectInfo_delegate = Socket_ConnectLog_Show,
-                        Socket_Receive_Meg = Robot_Info_Parameters.Receive_information.Data_Converts_Str_Method,
-                        Socket_Send_Meg = Robot_Info_Parameters.Send_information.Data_Converts_Str_Method,
+                        Socket_Receive_Meg = Queue_Receive_Monitor,
+                        Socket_Send_Meg = Queue_Send_Monitor,
                     };
                     Robot_Info_Parameters.Receive_List.Add(listener);
 
@@ -973,6 +1043,7 @@ namespace Robot_Info_Mes.ViewModel
         /// </summary>
         public void Initialization_Mes_Sever_Start()
         {
+            Robot_Info_Parameters.Server_List_End();
             List<string> _List = [];
             if (Socket_Receive.GetLocalIP(ref _List))
             {
@@ -1069,7 +1140,7 @@ namespace Robot_Info_Mes.ViewModel
         {
             get => new RelayCommand<RoutedEventArgs>((Sm) =>
             {
-                Button? _Contol = Sm!.Source as Button;
+                Button? _Contol = Sm?.Source as Button;
                 try
                 {
 
@@ -1077,6 +1148,7 @@ namespace Robot_Info_Mes.ViewModel
 
                     // 统一持久化整个配置对象，Slider/TextBox 的双向绑定值会一并保存。
                     File_Xml_Model.Save_Xml(File_Int_Parameters);
+                    ApplyClientStandardAndCycleSettings();
 
 
                     User_Log_Add("保存设置参数成功！重启软件生效。");
@@ -1443,10 +1515,14 @@ namespace Robot_Info_Mes.ViewModel
             // 先用旧时间戳计算报文间隔，再记录本次到达时间。
             DateTime now = DateTime.Now;
             EnsureClientStatisticsDate(now);
-            Mes_Robot_Info_Model_Data.Socket_Cycle_Time =
-                Mes_Robot_Info_Model_Data.Socket_Last_Update_Time == default
-                    ? TimeSpan.Zero
-                    : now - Mes_Robot_Info_Model_Data.Socket_Last_Update_Time;
+            TimeSpan nextCycleTime = Mes_Robot_Info_Model_Data.Socket_Last_Update_Time == default
+                ? TimeSpan.Zero
+                : now - Mes_Robot_Info_Model_Data.Socket_Last_Update_Time;
+            if (nextCycleTime == TimeSpan.Zero
+                || Math.Abs((nextCycleTime - Mes_Robot_Info_Model_Data.Socket_Cycle_Time).TotalMilliseconds) >= 1.0)
+            {
+                Mes_Robot_Info_Model_Data.Socket_Cycle_Time = nextCycleTime;
+            }
 
             Mes_Robot_Info_Model_Data.Socket_Last_Update_Time = now;
 
@@ -1522,12 +1598,16 @@ namespace Robot_Info_Mes.ViewModel
 
 
             // 节拍 setter 更新计时器后，再依据当前活动路径计算实时负荷仪表值。
-            Work_Factor_Seried.Work_Cycle_Load_Factor.Value = Work_Factor_Seried.Get_Work_Cycle_Load_Factor(_Data.Robot_Process_Int,
+            double nextLoadFactor = Work_Factor_Seried.Get_Work_Cycle_Load_Factor(_Data.Robot_Process_Int,
                                                                                                                                                                                ref Mes_Robot_Info_Model_Data.Robot_Work_A_Cycle,
                                                                                                                                                                                ref Mes_Robot_Info_Model_Data.Robot_Work_B_Cycle,
                                                                                                                                                                                ref Mes_Robot_Info_Model_Data.Robot_Work_C_Cycle,
                                                                                                                                                                                ref Mes_Robot_Info_Model_Data.Robot_Work_D_Cycle,
                                                                                                                                                                                  File_Int_Parameters.Mes_Standard_Time.Work_Standard_Time);
+            if (Work_Factor_Seried.Work_Cycle_Load_Factor.Value != nextLoadFactor)
+            {
+                Work_Factor_Seried.Work_Cycle_Load_Factor.Value = nextLoadFactor;
+            }
 
 
 
@@ -1595,6 +1675,52 @@ namespace Robot_Info_Mes.ViewModel
         /// <summary>
         /// 在 UI 线程执行一个动作；没有可用 Dispatcher 时直接放弃，不抛异常。
         /// </summary>
+        private MonitorUpdateChannel? _receiveMonitorChannel;
+        private MonitorUpdateChannel? _sendMonitorChannel;
+
+        /// <summary>在最低渲染优先级（ContextIdle）合并收包监视格式化，绝不占满或拖累最高优先级机器人通信线程。</summary>
+        private void Queue_Receive_Monitor(byte[] rawData)
+            => (_receiveMonitorChannel ??= new MonitorUpdateChannel(() => Robot_Info_Parameters.Receive_information)).Enqueue(rawData);
+
+        /// <summary>在最低渲染优先级（ContextIdle）合并发包监视格式化，只展示最新一帧原始字节。</summary>
+        private void Queue_Send_Monitor(byte[] rawData)
+            => (_sendMonitorChannel ??= new MonitorUpdateChannel(() => Robot_Info_Parameters.Send_information)).Enqueue(rawData);
+
+        /// <summary>按 DispatcherPriority.ContextIdle 合并高频 Socket 原始帧的监视文本格式化。</summary>
+        private sealed class MonitorUpdateChannel(Func<Socket_Data_Converts> targetAccessor)
+        {
+            private byte[]? _pendingBytes;
+            private int _queued;
+
+            public void Enqueue(byte[] rawData)
+            {
+                Volatile.Write(ref _pendingBytes, rawData);
+                if (Interlocked.Exchange(ref _queued, 1) != 0)
+                {
+                    return;
+                }
+
+                Dispatcher? dispatcher = App_Dispatcher;
+                if (dispatcher is null || dispatcher.CheckAccess())
+                {
+                    Flush();
+                    return;
+                }
+
+                dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(Flush));
+            }
+
+            private void Flush()
+            {
+                Interlocked.Exchange(ref _queued, 0);
+                byte[]? latest = Interlocked.Exchange(ref _pendingBytes, null);
+                if (latest is not null)
+                {
+                    targetAccessor().Data_Converts_Str_Method(latest);
+                }
+            }
+        }
+
         private static void Invoke_On_UI(Action action)
         {
             Dispatcher? dispatcher = App_Dispatcher;

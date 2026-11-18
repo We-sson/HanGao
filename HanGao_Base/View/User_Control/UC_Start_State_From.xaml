@@ -296,9 +296,9 @@
                               VerticalContentAlignment="Stretch"
                               InitialRotation="-225"
                               MaxAngle="270"
+                              MaxValue="2"
                               Series="{Binding Robot_Speed_Series}"
-                              TooltipPosition="Hidden"
-                              Total="2" />
+                              TooltipPosition="Hidden" />
 
                 <TextBlock Grid.Row="0"
                            Text="机器人速度"
@@ -328,9 +328,9 @@
                               VerticalContentAlignment="Center"
                               InitialRotation="-225"
                               MaxAngle="270"
+                              MaxValue="100"
                               Series="{Binding Welding_Power_Series}"
-                              TooltipPosition="Hidden"
-                              Total="100" />
+                              TooltipPosition="Hidden" />
 
                 <TextBlock Grid.Row="0"
                            Text="焊接功率"

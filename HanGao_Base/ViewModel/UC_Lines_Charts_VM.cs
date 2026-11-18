@@ -4,6 +4,8 @@ using LiveChartsCore.Defaults;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Drawing;
+using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
+using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using LiveChartsCore.SkiaSharpView.WPF;
@@ -187,9 +189,9 @@ namespace HanGao.ViewModel
             },
        };
             //初始化机器人速度UI显示样式
-            Robot_Speed_Series = new ObservableCollection<ISeries>(Robot_Speed_Data.AddValue(Robot_Speed_Val, "m/s").BuildSeries());
-            Welding_Power_Series = new ObservableCollection<ISeries>(Welding_Power_Data.AddValue(Weding_Power_Val, "%").BuildSeries());
+            Robot_Speed_Series = CreateGaugeSeries(Robot_Speed_Val, "m/s");
             //初始化焊接功率UI显示样式
+            Welding_Power_Series = CreateGaugeSeries(Weding_Power_Val, "%");
         }
         //说明文档:https://lvcharts.com/docs/wpf/2.0.0-beta.700/Overview.Installation%20and%20first%20chart
         /// <summary>
@@ -208,8 +210,27 @@ namespace HanGao.ViewModel
         /// 竖坐标样式
         /// </summary>
         public Axis[] X_xAxis { set; get; } = new[] { new Axis() { } };
-        public LabelVisual X_Title { set; get; }=new LabelVisual() { Text = "X 方向误差",Padding=new LiveChartsCore.Drawing.Padding (8) , TextSize = 20, Paint = new SolidColorPaint { Color = SKColors.Black, SKTypeface = SKFontManager.Default.MatchCharacter('汉') } };
-        public LabelVisual Y_Title { set; get; }=new LabelVisual() { Text = "Y 方向误差", Padding = new LiveChartsCore.Drawing.Padding(8),TextSize = 20, Paint = new SolidColorPaint { Color = SKColors.Black , SKTypeface = SKFontManager.Default.MatchCharacter('汉') } };
+        public DrawnLabelVisual X_Title { set; get; } = CreateTitleVisual("X 方向误差");
+        public DrawnLabelVisual Y_Title { set; get; } = CreateTitleVisual("Y 方向误差");
+
+        /// <summary>
+        /// 构建支持中文字符集的图表标题视觉元素。
+        /// </summary>
+        private static DrawnLabelVisual CreateTitleVisual(string text)
+        {
+            return new DrawnLabelVisual(
+                new LabelGeometry
+                {
+                    Text = text,
+                    Padding = new LiveChartsCore.Drawing.Padding(8),
+                    TextSize = 20,
+                    Paint = new SolidColorPaint
+                    {
+                        Color = SKColors.Black,
+                        SKTypeface = SKFontManager.Default.MatchCharacter('汉')
+                    }
+                });
+        }
         /// <summary>
         /// 竖坐标样式
         /// </summary>
@@ -230,30 +251,35 @@ namespace HanGao.ViewModel
         /// 机器人状态显示
         /// </summary>
         public ObservableCollection<ISeries> Robot_Speed_Series { get; set; }
-        //机器人速度圆弧样式
-        public GaugeBuilder Robot_Speed_Data { get; set; } =
-        new GaugeBuilder()
-        {
-            LabelsSize = 25,
-            InnerRadius = 55,
-            BackgroundInnerRadius = 55,
-            LabelsPosition = PolarLabelsPosition.ChartCenter,
-            Background = new SolidColorPaint(new SKColor(222, 222, 222)),
-        }.WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}");
-        //焊接功率圆弧样式
-        public GaugeBuilder Welding_Power_Data { get; set; } =
-        new GaugeBuilder()
-        {
-            LabelsSize = 25,
-            InnerRadius = 55,
-            BackgroundInnerRadius = 55,
-            LabelsPosition = PolarLabelsPosition.ChartCenter,
-            Background = new SolidColorPaint(new SKColor(222, 222, 222)),
-        }.WithLabelFormatter(point => $"{point.PrimaryValue} {point.Context.Series.Name}");
         /// <summary>
-        /// 机器人状态显示
+        /// 焊接功率状态显示
         /// </summary>
         public ObservableCollection<ISeries> Welding_Power_Series { get; set; }
+
+        /// <summary>
+        /// 构建用于仪表盘展示的实心圆弧系列，兼容 LiveChartsCore 2.0.5 API。
+        /// </summary>
+        private static ObservableCollection<ISeries> CreateGaugeSeries(ObservableValue value, string unit)
+        {
+            return new ObservableCollection<ISeries>(
+                GaugeGenerator.BuildSolidGauge(
+                    new GaugeItem(value, series =>
+                    {
+                        series.Name = unit;
+                        series.ShowDataLabels = true;
+                        series.DataLabelsSize = 25;
+                        series.InnerRadius = 55;
+                        series.DataLabelsPosition = PolarLabelsPosition.ChartCenter;
+                        series.DataLabelsPaint = new SolidColorPaint(SKColors.Black);
+                        series.DataLabelsFormatter = point => $"{point.Coordinate.PrimaryValue} {point.Context.Series.Name}";
+                    }),
+                    new GaugeItem(GaugeItem.Background, series =>
+                    {
+                        series.InnerRadius = 55;
+                        series.ShowDataLabels = false;
+                        series.Fill = new SolidColorPaint(new SKColor(222, 222, 222));
+                    })));
+        }
         /// <summary>
         /// 定义X误差图表显示样式
         /// </summary>

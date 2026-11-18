@@ -14,6 +14,7 @@ namespace HanGao.RobotInfo.Modbus;
 public sealed class RobotInfoModbusServerHost : IAsyncDisposable
 {
     private readonly IModbusTcpServer _server;
+    private readonly Func<RobotInfoModbusRegisterData>? _readLiveData;
     private readonly DispatcherTimer _publishTimer;
     private readonly SemaphoreSlim _lifecycleGate = new(1, 1);
 
@@ -26,15 +27,25 @@ public sealed class RobotInfoModbusServerHost : IAsyncDisposable
 
     /// <summary>使用生产协议服务创建应用层托管实例。</summary>
     public RobotInfoModbusServerHost()
-        : this(new FluentModbusTcpServer())
+        : this(new FluentModbusTcpServer(), null)
     {
     }
 
+    /// <summary>使用生产协议服务与实时业务数据读取委托创建托管实例。</summary>
+    public RobotInfoModbusServerHost(Func<RobotInfoModbusRegisterData> readLiveData)
+        : this(new FluentModbusTcpServer(), readLiveData)
+    {
+        ArgumentNullException.ThrowIfNull(readLiveData);
+    }
+
     /// <summary>注入协议服务，供测试或后续替换底层实现。</summary>
-    internal RobotInfoModbusServerHost(IModbusTcpServer server)
+    internal RobotInfoModbusServerHost(
+        IModbusTcpServer server,
+        Func<RobotInfoModbusRegisterData>? readLiveData = null)
     {
         ArgumentNullException.ThrowIfNull(server);
         _server = server;
+        _readLiveData = readLiveData;
         _publishTimer = new DispatcherTimer(DispatcherPriority.Background)
         {
             Interval = TimeSpan.FromSeconds(1),
@@ -123,7 +134,7 @@ public sealed class RobotInfoModbusServerHost : IAsyncDisposable
         }
     }
 
-    /// <summary>立即读取强类型属性默认值并原子发布一份完整寄存器快照。</summary>
+    /// <summary>立即读取实时业务数据（未配置委托时回退强类型属性默认值）并原子发布完整寄存器快照。</summary>
     public void PublishNow()
     {
         ThrowIfDisposed();
@@ -133,7 +144,7 @@ public sealed class RobotInfoModbusServerHost : IAsyncDisposable
         }
 
         long sequence = Interlocked.Increment(ref _sequence);
-        Dictionary<int, ulong> values = CreateRegisterValues(_runtimePoints);
+        Dictionary<int, ulong> values = CreateRegisterValues(_runtimePoints, _readLiveData);
         _server.Publish(
             ModbusRegisterLayoutEncoder.CreateSnapshot(
                 _layout,
@@ -196,15 +207,22 @@ public sealed class RobotInfoModbusServerHost : IAsyncDisposable
     }
 
     /// <summary>
-    /// 按唯一 Order 生成发布值。Attribute 内置点位取属性初始化值，XML 自定义点位默认发布 0。
+    /// 按唯一 Order 生成发布值。内置点位优先读取实时业务数据委托，未配置或未命中的 XML 自定义点位回退属性/默认 0。
     /// </summary>
     private static Dictionary<int, ulong> CreateRegisterValues(
-        IReadOnlyList<RuntimeRegisterPoint> runtimePoints)
+        IReadOnlyList<RuntimeRegisterPoint> runtimePoints,
+        Func<RobotInfoModbusRegisterData>? readLiveData)
     {
+        IReadOnlyDictionary<int, ulong>? liveValues = readLiveData is not null
+            ? ModbusPointCatalog.ReadValues(readLiveData())
+            : null;
         var values = new Dictionary<int, ulong>();
 
         foreach (RuntimeRegisterPoint point in runtimePoints)
         {
+            ulong value = liveValues is not null && liveValues.TryGetValue(point.Order, out ulong liveValue)
+                ? liveValue
+                : point.PropertyDefaultValue;
             ulong maximum = point.DataType switch
             {
                 ModbusPointDataType.UInt16 => ushort.MaxValue,
@@ -212,14 +230,14 @@ public sealed class RobotInfoModbusServerHost : IAsyncDisposable
                 _ => throw new InvalidOperationException(
                     $"顺序 {point.Order} 使用了不支持的数据类型 {point.DataType}。"),
             };
-            if (point.PropertyDefaultValue > maximum)
+            if (value > maximum)
             {
                 throw new OverflowException(
-                    $"顺序 {point.Order} 的属性默认值 {point.PropertyDefaultValue} 超出 {point.DataType} 范围。");
+                    $"顺序 {point.Order} 的当前值 {value} 超出 {point.DataType} 范围。");
             }
 
-            values.Add(point.Order, point.PropertyDefaultValue);
-            point.UiPoint.CurrentValueText = point.PropertyDefaultValue.ToString();
+            values.Add(point.Order, value);
+            point.UiPoint.CurrentValueText = value.ToString();
         }
 
         return values;
