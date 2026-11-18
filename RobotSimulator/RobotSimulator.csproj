@@ -18,11 +18,14 @@
     <StepPython Condition="'$(StepPython)' == ''">python</StepPython>
     <StepConverter>$(MSBuildProjectDirectory)\Build\ConvertStep.py</StepConverter>
     <StepRequirements>$(MSBuildProjectDirectory)\Build\requirements.txt</StepRequirements>
-    <StepDependencies>$([System.IO.Path]::GetFullPath('$(BaseIntermediateOutputPath)StepConverter'))</StepDependencies>
+    <!-- 构建进程的工作目录不一定是项目目录（Visual Studio 生成时是本机 IDE 目录），
+         相对中间目录必须先锚定项目目录，否则 pip 会往 IDE 目录写依赖并被拒绝访问。
+         Path.Combine 在第二段是绝对路径时原样返回，因此也兼容自定义的绝对中间目录。 -->
+    <StepIntermediateDir>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(BaseIntermediateOutputPath)'))</StepIntermediateDir>
+    <StepDependencies>$([System.IO.Path]::Combine('$(StepIntermediateDir)', 'StepConverter'))</StepDependencies>
     <StepDependencyStamp>$(StepDependencies)\requirements.ready</StepDependencyStamp>
-    <CadModelsDir>$(BaseIntermediateOutputPath)CadModels\</CadModelsDir>
+    <CadModelsDir>$([System.IO.Path]::Combine('$(StepIntermediateDir)', 'CadModels'))\</CadModelsDir>
   </PropertyGroup>
-
   <!-- MVVM 属性/命令工具，以及 XAML 事件转命令行为。 -->
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
@@ -104,7 +107,7 @@
   <Target Name="RestoreStepConverter" Inputs="$(StepRequirements)" Outputs="$(StepDependencyStamp)"
           Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
     <MakeDir Directories="$(StepDependencies)" />
-    <Exec Command="&quot;$(StepPython)&quot; -m pip install --disable-pip-version-check --no-cache-dir --upgrade --index-url https://pypi.org/simple --requirement &quot;$(StepRequirements)&quot; --target &quot;$(StepDependencies)&quot;" />
+    <Exec Command="&quot;$(StepPython)&quot; -m pip install --disable-pip-version-check --no-cache-dir --upgrade --index-url https://pypi.org/simple --requirement &quot;$(StepRequirements)&quot; --target &quot;$(StepDependencies)&quot;" WorkingDirectory="$(MSBuildProjectDirectory)" />
     <Touch Files="$(StepDependencyStamp)" AlwaysCreate="true" />
   </Target>
 
@@ -113,9 +116,11 @@
           Inputs="%(_StepDisplayModel.FullPath);$(StepConverter);$(StepRequirements)" Outputs="%(_StepDisplayModel.CadPath)"
           Condition="'$(DesignTimeBuild)' != 'true' and '@(_StepSource)' != ''">
     <PropertyGroup>
-      <StepJobFile>$([System.IO.Path]::GetFullPath('$(IntermediateOutputPath)step-job.txt'))</StepJobFile>
+      <!-- 任务文件同样锚定项目目录；MSBuild 任务的工作目录随调用方变化。 -->
+      <StepJobDir>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(IntermediateOutputPath)'))</StepJobDir>
+      <StepJobFile>$([System.IO.Path]::Combine('$(StepJobDir)', 'step-job.txt'))</StepJobFile>
     </PropertyGroup>
-    <MakeDir Directories="%(_StepDisplayModel.CadDir);$(IntermediateOutputPath)" />
+    <MakeDir Directories="%(_StepDisplayModel.CadDir);$(StepJobDir)" />
     <!-- 中英文路径使用同一份 UTF-8 响应文件。 -->
     <WriteLinesToFile File="$(StepJobFile)"
                       Lines="%(_StepDisplayModel.FullPath)|%(_StepDisplayModel.CadPath)"

@@ -81,7 +81,6 @@ public partial class RobotViewer : UserControl, IDisposable
         // ViewportPanel 依赖 Macad 全局交互上下文，必须在 XAML 创建视口之前准备好。
         MacadViewportBootstrap.EnsureContext();
         InitializeComponent();
-        Behaviors.ViewportDoubleClickTrigger.SetCommand(RenderView, ZoomAllCommand);
         // 面板延后到控件加载完成再挂回，避免宿主窗口首次 Show 期间建原生视口。
         DeferredViewportHost.Defer(this, (Grid)Content, RenderView, () => _disposed);
         RenderView.Loaded += OnViewportLoaded;

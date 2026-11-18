@@ -84,7 +84,7 @@ public sealed class MainViewModel : ObservableObject
     private double _orbitSpeed = 15;
     /// <summary>相机环绕起始方位角，单位度。</summary>
     private double _orbitAngle = -45;
-    /// <summary>渲染画质档位；切换只影响抗锯齿，不重载模型。</summary>
+    /// <summary>渲染画质档位；切换只影响抗锯齿与超采样，不重载模型。</summary>
     private RenderQuality _renderQuality = RenderQuality.High;
     /// <summary>环绕仰角固定为标准等轴测角度。</summary>
     private const double OrbitElevationDegrees = 35.264;
@@ -175,7 +175,7 @@ public sealed class MainViewModel : ObservableObject
             if (SetProperty(ref _orbitSpeed, value)) UpdateOrbit();
         }
     }
-    /// <summary>渲染画质档位；切换只影响抗锯齿，不重载模型。</summary>
+    /// <summary>渲染画质档位；切换只影响抗锯齿与超采样，不重载模型。</summary>
     public RenderQuality RenderQuality
     {
         get => _renderQuality;

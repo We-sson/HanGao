@@ -1,6 +1,5 @@
 using System.Windows;
 using System.Windows.Controls;
-using RobotSimulator.Behaviors;
 using RobotSimulator.Models;
 using RobotSimulator.Services;
 using RobotSimulator.ViewModels;
@@ -27,7 +26,6 @@ public partial class MainWindow : Window
             System.Windows.MessageBox.Show(this, message, title, MessageBoxButton.OK, MessageBoxImage.Error);
         viewModel.CloseRequested += () => Dispatcher.BeginInvoke(Close);
         DataContext = viewModel;
-        ViewportDoubleClickTrigger.SetCommand(RenderView, viewModel.ZoomAllCommand);
         // ViewportPanel 构造时把 ViewportPanelModel 设为自身 DataContext，XAML 命令和浮层绑定都拿不到本窗口的 ViewModel；
         // 视口就绪改成这里订阅，浮层内容也显式接到同一个 ViewModel，加载进度才能显示。
         if (RenderView.OverlayContent is FrameworkElement overlay) overlay.DataContext = viewModel;

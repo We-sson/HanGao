@@ -52,6 +52,7 @@ internal static class ViewportSmokeChecks
 
             scene = new RobotSceneService(panel);
             scene.InitializeViewport();
+            Check(panel.MouseControl is RobotViewportMouseControl, "视口没有使用项目约定的左键旋转手势。");
 
             var robot = RobotConfigurationStore.LoadBuiltIn(RobotId);
             await scene.LoadRobotAsync(robot, RobotId);

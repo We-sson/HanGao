@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:behaviors="clr-namespace:RobotSimulator.Behaviors"
     xmlns:macad="clr-namespace:Macad.Interaction.Panels;assembly=Macad.Interaction"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:RobotSimulator.ViewModels"
@@ -66,7 +65,7 @@
                     <TextBlock
                         Margin="0,3,0,0"
                         Foreground="{StaticResource MutedBrush}"
-                        Text="三维仿真 · GLB 模型" />
+                        Text="三维仿真 · Macad 三维视口" />
                 </StackPanel>
                 <StackPanel
                     Grid.Column="1"
@@ -165,12 +164,7 @@
             <Grid>
                 <macad:ViewportPanel
                     x:Name="RenderView"
-                    ToolTip="中键拖动旋转 · 右键拖动平移 · 滚轮缩放 · 双击左键适合窗口">
-                    <i:Interaction.Triggers>
-                        <behaviors:ViewportDoubleClickTrigger>
-                            <i:InvokeCommandAction />
-                        </behaviors:ViewportDoubleClickTrigger>
-                    </i:Interaction.Triggers>
+                    ToolTip="左键拖动旋转 · 右键拖动平移 · 滚轮缩放">
                     <!-- 视口就绪改由 MainWindow 构造时用代码订阅：ViewportPanel 会把自身 DataContext 设为 ViewportPanelModel，XAML 命令绑定取不到本窗口的 ViewModel。 -->
                     <!-- 原生视口之上的内容必须放进 OverlayContent，否则会被 HwndHost 遮挡。 -->
                     <Grid IsHitTestVisible="False">
@@ -344,7 +338,7 @@
                         <Run Text=" · " />
                         <Run Foreground="#83BDFF" Text="Z 蓝" />
                     </TextBlock>
-                    <!--  画质三档只切换抗锯齿，模型不重新加载；现场低配机先看性能档。  -->
+                    <!--  画质档只切换抗锯齿与超采样，模型不重新加载；现场低配机先看性能档。  -->
                     <Grid Margin="0,10,0,0" IsEnabled="{Binding CanOperate}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />

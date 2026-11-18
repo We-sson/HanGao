@@ -2,8 +2,6 @@
     x:Class="RobotSimulator.Controls.RobotViewer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:behaviors="clr-namespace:RobotSimulator.Behaviors"
     xmlns:macad="clr-namespace:Macad.Interaction.Panels;assembly=Macad.Interaction"
     Background="{DynamicResource 全局_按钮_白颜色}"
     x:Name="ViewerRoot">
@@ -11,12 +9,7 @@
     <Grid>
         <macad:ViewportPanel
             x:Name="RenderView"
-            ToolTip="中键拖动旋转 · 右键拖动平移 · 滚轮缩放 · 双击左键适合窗口">
-            <i:Interaction.Triggers>
-                <behaviors:ViewportDoubleClickTrigger>
-                    <i:InvokeCommandAction />
-                </behaviors:ViewportDoubleClickTrigger>
-            </i:Interaction.Triggers>
+            ToolTip="左键拖动旋转 · 右键拖动平移 · 滚轮缩放">
         </macad:ViewportPanel>
     </Grid>
 </UserControl>

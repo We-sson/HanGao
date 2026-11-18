@@ -6,9 +6,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Macad.Interaction;
 using Macad.Interaction.Panels;
-using Microsoft.Xaml.Behaviors;
 using RobotSimulator;
-using RobotSimulator.Behaviors;
 using RobotSimulator.Models;
 using RobotSimulator.Services;
 using RobotSimulator.ViewModels;
@@ -43,9 +41,6 @@ internal static class MainWindowChecks
             Check(renderView.OverlayContent is FrameworkElement overlay && ReferenceEquals(overlay.DataContext, viewModel),
                 "视口浮层没有接到主窗口的 ViewModel，加载进度和就绪状态会失效。");
             await WaitAsync(() => viewModel.IsLoaded, "主窗口视口没有完成首次模型载入。", TimeSpan.FromSeconds(60));
-            var doubleClick = Interaction.GetTriggers(renderView).OfType<ViewportDoubleClickTrigger>().Single();
-            var action = doubleClick.Actions.OfType<InvokeCommandAction>().Single();
-            Check(ReferenceEquals(action.Command, viewModel.ZoomAllCommand), "原生视口没有接到左键双击适合窗口命令。");
 
             var view = InteractiveContext.Current?.ViewportController?.V3dView
                 ?? throw new InvalidOperationException("Macad 视口未就绪，无法截图。");

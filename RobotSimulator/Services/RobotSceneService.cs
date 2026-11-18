@@ -108,6 +108,12 @@ public sealed class RobotSceneService : IRobotSceneService
         var workspace = context.WorkspaceController
             ?? throw new InvalidOperationException("Macad 工作区尚未就绪。");
 
+        // 只读仿真视口使用项目约定的手势：左键旋转、右键平移、滚轮缩放，不启用 Macad 的框选/选择。
+        _panel.MouseControl = new RobotViewportMouseControl
+        {
+            ViewportController = context.ViewportController,
+        };
+
         workspace.V3dViewer.SetDefaultLights();
         workspace.V3dViewer.SetLightOn();
         workspace.AisContext.SetAutoActivateSelection(false);
@@ -327,7 +333,7 @@ public sealed class RobotSceneService : IRobotSceneService
     // ── 内部：原生鼠标操作检测 ─────────────────────────────────────────
 
     /// <summary>
-    /// Macad 视口使用原生 <see cref="IViewportMouseControl"/>，不会回调本项目；
+    /// 视口鼠标手势由 <see cref="RobotViewportMouseControl"/> 处理，不会回调场景服务；
     /// 因此每帧比较相机状态，识别用户旋转/平移/缩放，用于暂停自动环绕与示例动作。
     /// </summary>
     bool DetectUserCameraChange(V3d_View view)
