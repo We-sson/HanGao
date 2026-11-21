@@ -79,14 +79,48 @@ public enum RenderQuality
     Ultra,
 }
 
-/// <summary>内置机器人型号；枚举名用于代码选择，资源标识由特性固定。</summary>
+/// <summary>内置机器人型号；枚举名用于代码选择，资源标识由特性固定，所属品牌由内嵌机器人配置文件定义。</summary>
 public enum RobotModelKind
 {
-    [ModelId("KR_10_R1420_HP")] KR_10_R1420_HP,
-    [ModelId("KR_10_R1440-2")] KR_10_R1440_2,
-    [ModelId("KR_20_R1810_2")] KR_20_R1810_2,
-    [ModelId("KR_35_R1820_2")] KR_35_R1820_2,
-    [ModelId("IRB2600_20_165")] IRB2600_20_165,
+    [ModelId("KR_10_R1420_HP")]
+    KR_10_R1420_HP,
+
+    [ModelId("KR_10_R1440-2")]
+    KR_10_R1440_2,
+
+    [ModelId("KR_20_R1810_2")]
+    KR_20_R1810_2,
+
+    [ModelId("KR_35_R1820_2")]
+    KR_35_R1820_2,
+
+    [ModelId("IRB2600_20_165")]
+    IRB2600_20_165,
+}
+
+/// <summary>从内嵌 <c>.robot.json</c> 配置文件读取机器人品牌，供界面或宿主核对协议一致性。</summary>
+public static class RobotModelCatalog
+{
+    private static readonly Lazy<IReadOnlyDictionary<RobotModelKind, string>> Brands = new(LoadBrands);
+
+    /// <summary>获取内置机器人型号配置文件中声明的控制器品牌。</summary>
+    public static string GetBrand(RobotModelKind model)
+        => Brands.Value.TryGetValue(model, out string? brand)
+            ? brand
+            : throw new InvalidOperationException($"机器人型号 {model} 未配置有效品牌。");
+
+    private static IReadOnlyDictionary<RobotModelKind, string> LoadBrands()
+    {
+        var map = new Dictionary<RobotModelKind, string>();
+        foreach (RobotModelKind model in Enum.GetValues<RobotModelKind>())
+        {
+            string modelId = ModelCatalog.GetId(model);
+            RobotConfiguration config = RobotConfigurationStore.LoadBuiltIn(modelId);
+            map[model] = config.Brand.Trim();
+        }
+
+        return map;
+    }
 }
 
 /// <summary>内置 Tool；当前只有默认工具。</summary>

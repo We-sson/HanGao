@@ -13,17 +13,22 @@ namespace RobotSimulator.Services;
 /// </summary>
 public sealed class RobotViewportMouseControl : IViewportMouseControl
 {
+    const double DegreesPerPixel = 1.0 / 6.0;
+
     readonly Action<bool>? _onPointerInteraction;
+    readonly Action<double, double>? _onOrbitRotate;
     ViewportController? _viewportController;
+    Point? _lastRotatePosition;
     bool _wasPressed;
 
     public RobotViewportMouseControl()
     {
     }
 
-    internal RobotViewportMouseControl(Action<bool> onPointerInteraction)
+    internal RobotViewportMouseControl(Action<bool> onPointerInteraction, Action<double, double>? onOrbitRotate = null)
     {
         _onPointerInteraction = onPointerInteraction ?? throw new ArgumentNullException(nameof(onPointerInteraction));
+        _onOrbitRotate = onOrbitRotate;
     }
 
     /// <summary>由 <see cref="ViewportPanel"/> 在视图控制器就绪或更换时注入。</summary>
@@ -46,13 +51,28 @@ public sealed class RobotViewportMouseControl : IViewportMouseControl
             NotifyInteraction(false);
         }
 
+        if (mouseDevice?.LeftButton == MouseButtonState.Pressed && _onOrbitRotate is not null)
+        {
+            if (_lastRotatePosition is { } previous)
+            {
+                var yawDegrees = (previous.X - pos.X) * DegreesPerPixel;
+                var pitchDegrees = (previous.Y - pos.Y) * DegreesPerPixel;
+                if (Math.Abs(yawDegrees) > 1e-6 || Math.Abs(pitchDegrees) > 1e-6)
+                {
+                    _onOrbitRotate(yawDegrees, pitchDegrees);
+                }
+            }
+
+            _lastRotatePosition = pos;
+            return;
+        }
+
+        _lastRotatePosition = null;
         var controller = ResolveController();
         if (controller is null) return;
 
-        // 模式由物理按键状态决定：左键旋转、右键平移；松开后 mode 回到 None，控制器自行结束手势。
-        if (mouseDevice?.LeftButton == MouseButtonState.Pressed)
-            controller.MouseMove(pos, modifierKeys, ViewportController.MouseMoveMode.Rotating);
-        else if (mouseDevice?.RightButton == MouseButtonState.Pressed)
+        // 左键已由 _onOrbitRotate 绕模型中心转盘旋转；右键平移与普通悬停仍交由控制器处理。
+        if (mouseDevice?.RightButton == MouseButtonState.Pressed)
             controller.MouseMove(pos, modifierKeys, ViewportController.MouseMoveMode.Panning);
         else
             controller.MouseMove(pos, modifierKeys);
@@ -72,6 +92,8 @@ public sealed class RobotViewportMouseControl : IViewportMouseControl
 
         if (wheel == Macad.Interaction.Panels.MouseWheel.Vertical)
             controller.Zoom(pos, delta / 200.0);
+        else if (_onOrbitRotate is not null)
+            _onOrbitRotate(delta / -50.0, 0.0);
         else
             controller.Rotate(delta / -50.0, 0.0, 0.0);
 
@@ -80,17 +102,21 @@ public sealed class RobotViewportMouseControl : IViewportMouseControl
 
     public void MouseDown(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice, ModifierKeys modifierKeys)
     {
+        var wasPressed = _wasPressed;
         var pressed = HasActiveMouseButton(mouseDevice)
             || changedButton is MouseButton.Left or MouseButton.Right or MouseButton.Middle;
         _wasPressed = pressed;
-        NotifyInteraction(pressed);
+        if (pressed || wasPressed) NotifyInteraction(pressed);
 
-        // 左键只用于拖动旋转，不触发 Macad 的选择/框选，因此不调用 ViewportController.MouseDown。
+        _lastRotatePosition = changedButton == MouseButton.Left && _onOrbitRotate is not null ? pos : null;
+
+        // 左键只用于拖动旋转，不触发 Macad 的选择/框选，因此不调用 ViewportController.MouseDown；同时同步指针位置供右键平移起算。
         ResolveController()?.MouseMove(pos, modifierKeys);
     }
 
     public void MouseUp(Point pos, MouseButton changedButton, MouseDevice mouseDevice, ModifierKeys modifierKeys)
     {
+        var wasPressed = _wasPressed;
         var stillPressed = mouseDevice is not null && changedButton switch
         {
             MouseButton.Left => mouseDevice.RightButton == MouseButtonState.Pressed || mouseDevice.MiddleButton == MouseButtonState.Pressed,
@@ -99,16 +125,20 @@ public sealed class RobotViewportMouseControl : IViewportMouseControl
             _ => HasActiveMouseButton(mouseDevice),
         };
         _wasPressed = stillPressed;
-        NotifyInteraction(stillPressed);
+        if (wasPressed || stillPressed) NotifyInteraction(stillPressed);
 
-        // 松开按键后回到普通悬停状态，让控制器结束旋转/平移。
+        _lastRotatePosition = null;
+        // 松开按键后回到普通悬停状态，让控制器结束平移。
         ResolveController()?.MouseMove(pos, modifierKeys);
     }
 
     public void Cancel()
     {
+        var wasPressed = _wasPressed;
         _wasPressed = false;
-        NotifyInteraction(false);
+        _lastRotatePosition = null;
+        // ViewportPanel.OnMouseLeave 在指针移出视口时会无条件调用 Cancel；仅在曾按住按键时通知结束交互，避免空闲划过边界误暂停自转。
+        if (wasPressed) NotifyInteraction(false);
         ResolveController()?.MouseMove(new Point(-1.0, -1.0));
     }
 

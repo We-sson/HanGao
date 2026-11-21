@@ -36,6 +36,11 @@ internal static class Program
         Check_Snapshot_RetainsRobotCycleList();
         Check_ModbusServerHost_PublishesLiveDelegateValues();
         RobotAxisValidationChecks.Run();
+        AbbMesCommunicationChecks.RunProtocolChecks();
+        AbbMesCommunicationChecks.RunXmlPersistenceChecks();
+        AbbMesCommunicationChecks.RunHeadlessLoopbackAsync().GetAwaiter().GetResult();
+        AbbMesCommunicationChecks.RunHeadlessEdgeChecksAsync().GetAwaiter().GetResult();
+        SocketLifecycleChecks.RunAsync().GetAwaiter().GetResult();
         Check_MesViewport();
 
         Console.WriteLine(_failures == 0 ? "ALL CHECKS PASSED" : $"{_failures} CHECK(S) FAILED");

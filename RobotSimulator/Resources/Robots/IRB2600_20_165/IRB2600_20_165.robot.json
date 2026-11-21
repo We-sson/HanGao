@@ -1,5 +1,6 @@
 {
   "modelName": "ABB IRB 2600-20/1.65",
+  "brand": "ABB",
   "baseFile": "Base.STEP",
   "flangeOrigin": { "x": 1030, "y": 0, "z": 1260 },
   "flangeOrientation": { "a": 0, "b": 90, "c": 0 },

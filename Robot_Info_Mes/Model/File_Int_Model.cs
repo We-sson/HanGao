@@ -2,6 +2,7 @@
 using PropertyChanged;
 using RobotSimulator.Models;
 using Roboto_Socket_Library.Model;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
@@ -104,6 +105,7 @@ namespace Robot_Info_Mes.Model
     /// </remarks>
     public class File_Xml_Model
     {
+        private static readonly ConcurrentDictionary<string, object> FileWriteLocks = new(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// 创建持久化服务实例；所有操作均为静态方法，构造函数仅为兼容既有用法保留。
@@ -116,6 +118,20 @@ namespace Robot_Info_Mes.Model
         }
 
 
+        private static readonly Robot_Process_Int_Enum[] DefaultServerProcesses =
+        [
+            Robot_Process_Int_Enum.R_Side_7,
+            Robot_Process_Int_Enum.R_Side_8,
+            Robot_Process_Int_Enum.R_Side_9,
+            Robot_Process_Int_Enum.Panel_Surround_7,
+            Robot_Process_Int_Enum.Panel_Surround_8,
+            Robot_Process_Int_Enum.Panel_Surround_9,
+            Robot_Process_Int_Enum.Panel_Welding_1,
+            Robot_Process_Int_Enum.Panel_Welding_2,
+            Robot_Process_Int_Enum.LaserCutting_1,
+            Robot_Process_Int_Enum.Spot_Surround_1,
+        ];
+
         /// <summary>
         /// 读取指定模型的 XML；目录或文件不存在时自动创建并写入该类型的默认实例。
         /// </summary>
@@ -127,279 +143,49 @@ namespace Robot_Info_Mes.Model
         /// <exception cref="Exception">请求了尚未登记路径规则的模型类型时抛出。</exception>
         public static T1 Read_Xml_File<T1>() where T1 : new()
         {
-            string _Path = "";
-
-            // 先构造默认值，文件不存在时它既是返回值也是首次落盘内容。
-            T1 _newVale = new();
-
-
-            switch (typeof(T1))
+            string filePath = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path);
+            if (!File.Exists(filePath))
             {
-
-                case Type _T when _T == typeof(File_Int_Model):
-                    // 全局配置使用固定文件名，跨月份持续沿用。
-                    _Path = GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.Folder_Path);
-
-                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                    // 先确保目录存在，再判断是否需要创建默认配置文件。
-                    _Path = GetXml_Path<File_Int_Model>(Get_Xml_File_Enum.File_Path);
-
-
-
-                    if (!File.Exists(_Path))
-                    {
-                        // 首次运行：将模型默认值写入配置文件。
-                        Save_Xml(_newVale);
-
-                    }
-                    else
-                    {
-                        // 后续运行：恢复用户上一次保存的配置。
-                        _newVale = (T1)(object)Read_Xml<File_Int_Model>();
-
-                    }
-
-                    return _newVale;
-
-                case Type _T when _T == typeof(RobotInfoModbusConfiguration):
-                    // Modbus 配置与 Configs_Data.Xml 放在同一目录，但使用独立文件，便于现场单独备份和修改。
-                    _Path = GetXml_Path<RobotInfoModbusConfiguration>(Get_Xml_File_Enum.Folder_Path);
-                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                    _Path = GetXml_Path<RobotInfoModbusConfiguration>(Get_Xml_File_Enum.File_Path);
-
-                    if (!File.Exists(_Path))
-                    {
-                        _newVale = (T1)(object)RobotInfoModbusConfiguration.CreateDefault();
-                        Save_Xml(_newVale);
-                    }
-                    else
-                    {
-                        // Modbus 配置只接受当前结构；未知字段不会被静默忽略或按旧结构迁移。
-                        _newVale = (T1)(object)Read_Xml<RobotInfoModbusConfiguration>(
-                            rejectUnknownMembers: true);
-                    }
-
-                    return _newVale;
-
-                case Type _T when _T == typeof(Mes_Robot_Info_Model):
-                    // 客户端设备累计信息使用固定文件，便于重启后接续计时和计数。
-                    _Path = GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.Folder_Path);
-
-                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                    //检查存放文件目录
-                    _Path = GetXml_Path<Mes_Robot_Info_Model>(Get_Xml_File_Enum.File_Path);
-
-
-                    if (!File.Exists(_Path))
-                    {
-
-                        //初始化参数读取文件
-                        Save_Xml(_newVale);
-
-                    }
-                    else
-                    {
-                        // 读取已保存的客户端设备状态。
-                        _newVale = (T1)(object)Read_Xml<Mes_Robot_Info_Model>();
-
-                    }
-
-
-                    return _newVale;
-
-                case Type _T when _T == typeof(Work_Factor_Seried_Model):
-                    // 趋势数据按月分文件，避免长期运行导致单个 XML 无限增长。
-                    _Path = GetXml_Path<Work_Factor_Seried_Model>(Get_Xml_File_Enum.Folder_Path);
-
-                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                    //检查存放文件目录
-                    _Path = GetXml_Path<Work_Factor_Seried_Model>(Get_Xml_File_Enum.File_Path);
-
-
-                    if (!File.Exists(_Path))
-                    {
-
-                        //初始化参数读取文件
-                        Save_Xml(_newVale);
-
-                    }
-                    else
-                    {
-                        // 读取本月趋势数据。
-                        _newVale = (T1)(object)Read_Xml<Work_Factor_Seried_Model>();
-
-                    }
-
-
-                    return _newVale;
-
-
-                case Type _T when _T == typeof(Mes_Server_Info_Data):
-                    // Server 汇总快照同样按月归档；首次启动时预置已知生产工艺。
-                    _Path = GetXml_Path<Mes_Server_Info_Data>(Get_Xml_File_Enum.Folder_Path);
-
-                    if (!Directory.Exists(_Path)) { Directory.CreateDirectory(_Path); }
-                    //检查存放文件目录
-                    _Path = GetXml_Path<Mes_Server_Info_Data>(Get_Xml_File_Enum.File_Path);
-
-
-
-
-
-                    if (!File.Exists(_Path))
-                    {
-                        //_vision_Data.Vision_List = new ObservableCollection<Vision_Xml_Models> { new Vision_Xml_Models() { ID = "0", } };
-                        //_newVale = (T1)(object)new Vision_Data() { Vision_List = [new Vision_Xml_Models()] };
-
-                        // 初始列表只写入工艺标识，其余状态由各 Client 首次上报后填充。
-                        _newVale = (T1)(object)new Mes_Server_Info_Data()
-                        {
-                            Mes_Server_Model_List = new ObservableCollection<Mes_Server_Info_List_Model>()
-
-            {
-            new ()
-            {
-                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
-                    Robot_Info_Data=new  (){
-                        Robot_Process_Int= Robot_Process_Int_Enum.R_Side_7,
-                    },
-
-                }
-            },
-            new ()
-            {
-                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
-                    Robot_Info_Data=new  (){
-                        Robot_Process_Int= Robot_Process_Int_Enum.R_Side_8,
-                    },
-
-                }
-            },
-            new ()
-            {
-                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
-                    Robot_Info_Data=new  (){
-                        Robot_Process_Int= Robot_Process_Int_Enum.R_Side_9,
-                    },
-
-                }
-            },
-            new ()
-            {
-                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
-                    Robot_Info_Data=new  (){
-                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Surround_7,
-                    },
-
-                }
-            },
-            new ()
-            {
-                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
-                    Robot_Info_Data=new  (){
-                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Surround_8,
-                    },
-
-                }
-            },
-            new ()
-            {
-                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
-                    Robot_Info_Data=new  (){
-                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Surround_9,
-                    },
-
-                }
-            },
-            new ()
-            {
-                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
-                    Robot_Info_Data=new  (){
-                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Welding_1,
-                    },
-
-                }
-            },
-            new ()
-            {
-                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
-                    Robot_Info_Data=new  (){
-                        Robot_Process_Int= Robot_Process_Int_Enum.Panel_Welding_2,
-                    },
-
-                }
-            },
-            new ()
-            {
-                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
-                    Robot_Info_Data=new  (){
-                        Robot_Process_Int= Robot_Process_Int_Enum.LaserCutting_1,
-                    },
-
-                }
-            },
-                new ()
-            {
-                Mes_Robot_Info_Model_Data=new Mes_Robot_Info_Model(){
-                    Robot_Info_Data=new  (){
-                        Robot_Process_Int= Robot_Process_Int_Enum.Spot_Surround_1,
-                    },
-
-                }
-            },
-            },
-                            File_Update_Time = DateTime.Now
-                        };
-
-
-
-
-                        // 历史方案曾在建档时补齐每月日期；现由 Server 初始化流程统一处理。
-                        //foreach (Mes_Server_Info_List_Model item in (Mes_Server_Info_Data)(object)_newVale)
-                        //{
-                        //    item.Work_Factor_Seried.Mes_Date_Int();
-                        //}
-
-
-
-                        // 保存预置列表，后续启动直接从磁盘恢复设备顺序和历史曲线。
-                        Save_Xml(_newVale);
-
-                    }
-                    else
-                    {
-
-
-                        // 恢复本月的看板设备快照。
-                        _newVale = (T1)(object)Read_Xml<Mes_Server_Info_Data>();
-
-
-
-                        // 日期对齐已移到 Robot_Info_VM.Int_Server_Run_Time，避免在纯读取层修改业务数据。
-                        //foreach (Mes_Server_Info_List_Model item in (ObservableCollection<Mes_Server_Info_List_Model>)(object)_newVale)
-                        //{
-                        //    item.Work_Factor_Seried.Mes_Date_Int();
-                        //}
-
-
-
-                    }
-
-
-                    return _newVale;
-
-
-
-                default:
-                    throw new Exception("读取文件类型错误！");
-
-
-
+                T1 defaultModel = CreateDefaultXmlModel<T1>();
+                Save_Xml(defaultModel);
+                return defaultModel;
             }
 
+            return Read_Xml<T1>(rejectUnknownMembers: typeof(T1) == typeof(RobotInfoModbusConfiguration));
+        }
 
+        private static T1 CreateDefaultXmlModel<T1>() where T1 : new()
+        {
+            if (typeof(T1) == typeof(RobotInfoModbusConfiguration))
+            {
+                return (T1)(object)RobotInfoModbusConfiguration.CreateDefault();
+            }
 
+            if (typeof(T1) == typeof(Mes_Server_Info_Data))
+            {
+                var items = new ObservableCollection<Mes_Server_Info_List_Model>();
+                foreach (Robot_Process_Int_Enum process in DefaultServerProcesses)
+                {
+                    items.Add(new Mes_Server_Info_List_Model
+                    {
+                        Mes_Robot_Info_Model_Data = new Mes_Robot_Info_Model
+                        {
+                            Robot_Info_Data = new()
+                            {
+                                Robot_Process_Int = process,
+                            },
+                        },
+                    });
+                }
 
+                return (T1)(object)new Mes_Server_Info_Data
+                {
+                    Mes_Server_Model_List = items,
+                    File_Update_Time = DateTime.Now,
+                };
+            }
+
+            return new T1();
         }
 
         /// <summary>
@@ -450,6 +236,21 @@ namespace Robot_Info_Mes.Model
 
 
 
+        private static (string FolderName, string FileName) GetXmlRelativeLocation<T1>() => typeof(T1) switch
+        {
+            // 不随月份变化的应用配置。
+            Type type when type == typeof(File_Int_Model) => ("Configs", "Configs_Data.Xml"),
+            // 与主配置同目录保存，文件独立，避免 Modbus 点位修改影响原有 Configs_Data.Xml。
+            Type type when type == typeof(RobotInfoModbusConfiguration) => ("Configs", "ModbusTcp_Config.Xml"),
+            // 客户端本机设备状态及累计值。
+            Type type when type == typeof(Mes_Robot_Info_Model) => ("Mes_Info", "Mes_Robot_Info.Xml"),
+            // 客户端按月保存的每日 OEE 趋势。
+            Type type when type == typeof(Work_Factor_Seried_Model) => ("Mes_Info", $"{DateTime.Now:yyyy-MM}_Work_Data.Xml"),
+            // Server 按月保存的多设备汇总快照。
+            Type type when type == typeof(Mes_Server_Info_Data) => ("Server_Date", $"{DateTime.Now:yyyy-MM}.Xml"),
+            _ => throw new Exception("读取文件地址类型错误！"),
+        };
+
         /// <summary>
         /// 根据模型类型获取 XML 文件夹或完整文件路径。
         /// </summary>
@@ -457,58 +258,17 @@ namespace Robot_Info_Mes.Model
         /// <param name="Get_Xml_File">指定返回文件夹还是完整文件路径。</param>
         /// <returns>位于 ProgramData\HanGao\Robot_Info_Mes 下的绝对路径。</returns>
         /// <exception cref="Exception">模型类型或路径种类没有对应规则时抛出。</exception>
-
-
         public static string GetXml_Path<T1>(Get_Xml_File_Enum Get_Xml_File)
         {
-
-
             // CommonApplicationData 对应 Windows ProgramData，多用户运行时共享同一份现场配置和报表。
-            string rootPath = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.CommonApplicationData), "HanGao", "Robot_Info_Mes");
-            string folderPath;
-            string filePath;
+            string rootPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                "HanGao",
+                "Robot_Info_Mes");
+            (string folderName, string fileName) = GetXmlRelativeLocation<T1>();
+            string folderPath = Path.Combine(rootPath, folderName);
+            string filePath = Path.Combine(folderPath, fileName);
 
-            switch (typeof(T1))
-            {
-                case Type type when type == typeof(File_Int_Model):
-                    // 不随月份变化的应用配置。
-                    folderPath = Path.Combine(rootPath, "Configs");
-                    filePath = Path.Combine(folderPath, "Configs_Data.Xml");
-                    break;
-
-                case Type type when type == typeof(RobotInfoModbusConfiguration):
-                    // 与主配置同目录保存，文件独立，避免 Modbus 点位修改影响原有 Configs_Data.Xml。
-                    folderPath = Path.Combine(rootPath, "Configs");
-                    filePath = Path.Combine(folderPath, "ModbusTcp_Config.Xml");
-                    break;
-
-                case Type type when type == typeof(Mes_Robot_Info_Model):
-                    // 客户端本机设备状态及累计值。
-                    folderPath = Path.Combine(rootPath, "Mes_Info");
-                    filePath = Path.Combine(folderPath, "Mes_Robot_Info.Xml");
-                    break;
-
-                case Type type when type == typeof(Work_Factor_Seried_Model):
-                    // 客户端按月保存的每日 OEE 趋势。
-                    folderPath = Path.Combine(rootPath, "Mes_Info");
-                    filePath = Path.Combine(
-                        folderPath,
-                        $"{DateTime.Now:yyyy-MM}_Work_Data.Xml");
-                    break;
-
-                case Type type when type == typeof(Mes_Server_Info_Data):
-                    // Server 按月保存的多设备汇总快照。
-                    folderPath = Path.Combine(rootPath, "Server_Date");
-                    filePath = Path.Combine(
-                        folderPath,
-                        $"{DateTime.Now:yyyy-MM}.Xml");
-                    break;
-
-                default:
-                    throw new Exception("读取文件地址类型错误！");
-            }
-
-            // 调用者即使只查询路径，也可以安全地随后直接创建文件。
             Directory.CreateDirectory(folderPath);
 
             return Get_Xml_File switch
@@ -517,7 +277,6 @@ namespace Robot_Info_Mes.Model
                 Get_Xml_File_Enum.File_Path => filePath,
                 _ => throw new Exception("读取文件地址类型错误！")
             };
-
         }
 
 
@@ -555,43 +314,82 @@ namespace Robot_Info_Mes.Model
         }
 
         /// <summary>
-        /// 通过临时文件和 WriteThrough 将已序列化 XML 字节原子替换到目标文件。
+        /// 通过唯一临时文件和 WriteThrough 将已序列化 XML 字节原子替换到目标文件；保存前先检查并解除只读状态。
         /// </summary>
         internal static void Write_Xml_Bytes<T1>(byte[] bytes)
         {
-            try
+            string filePath = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path);
+            Write_Xml_Bytes_To_Path(filePath, bytes);
+        }
+
+        /// <summary>
+        /// 将序列化 XML 字节写入指定路径：先校验目标文件是否可写（若为只读/隐藏/系统则清除并验证可写），再原子替换。
+        /// </summary>
+        internal static void Write_Xml_Bytes_To_Path(string filePath, byte[] bytes)
+        {
+            string fullPath = Path.GetFullPath(filePath);
+            string? folderPath = Path.GetDirectoryName(fullPath);
+
+            object syncRoot = FileWriteLocks.GetOrAdd(fullPath, _ => new object());
+            lock (syncRoot)
             {
-                GetXml_Path<T1>(Get_Xml_File_Enum.Folder_Path);
-                string _Path = GetXml_Path<T1>(Get_Xml_File_Enum.File_Path);
-                string tempPath = _Path + ".tmp";
-
-                if (File.Exists(tempPath))
-                    File.Delete(tempPath);
-
-                using (var fs = new FileStream(
-                    tempPath,
-                    FileMode.Create,
-                    FileAccess.Write,
-                    FileShare.None,
-                    bufferSize: 4096,
-                    options: FileOptions.WriteThrough))
+                try
                 {
-                    fs.Write(bytes, 0, bytes.Length);
+                    if (!string.IsNullOrEmpty(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    EnsureFileWritable(fullPath);
+
+                    string tempPath = $"{fullPath}.{Guid.NewGuid():N}.tmp";
+                    try
+                    {
+                        using (var fs = new FileStream(
+                            tempPath,
+                            FileMode.CreateNew,
+                            FileAccess.Write,
+                            FileShare.None,
+                            bufferSize: 4096,
+                            options: FileOptions.WriteThrough))
+                        {
+                            fs.Write(bytes, 0, bytes.Length);
+                        }
+
+                        File.Move(tempPath, fullPath, overwrite: true);
+                    }
+                    finally
+                    {
+                        if (File.Exists(tempPath))
+                        {
+                            try { File.Delete(tempPath); } catch { }
+                        }
+                    }
                 }
-
-                if (File.Exists(_Path))
+                catch (Exception e)
                 {
-                    File.Replace(tempPath, _Path, null);
-                }
-                else
-                {
-                    File.Move(tempPath, _Path);
+                    throw new Exception("保存文件失败！,原因：" + e.Message, e);
                 }
             }
-            catch (Exception e)
+        }
+
+        private static void EnsureFileWritable(string filePath)
+        {
+            if (!File.Exists(filePath))
             {
-                throw new Exception("保存文件失败！,原因：" + e.Message);
+                return;
             }
+
+            const FileAttributes blocking = FileAttributes.ReadOnly | FileAttributes.Hidden | FileAttributes.System;
+            FileAttributes attributes = File.GetAttributes(filePath);
+            if ((attributes & blocking) != 0)
+            {
+                FileAttributes updated = attributes & ~blocking;
+                File.SetAttributes(filePath, updated == 0 ? FileAttributes.Normal : updated);
+            }
+
+            // 显式校验目标文件当前是否处于可写状态。
+            using var _ = new FileStream(filePath, FileMode.Open, FileAccess.Write, FileShare.Read);
         }
 
         /// <summary>
@@ -643,7 +441,9 @@ namespace Robot_Info_Mes.Model
                             $"位置：第 {eventArgs.LineNumber} 行，第 {eventArgs.LinePosition} 列。");
                 }
                 //if (!File.Exists(@"Date\XmlDate.xml")) ToXmlString();
-                using var reader = new StreamReader(_Path);
+                // 允许与写入替换或只读查询并发，不因读取持有排他删除/写入共享锁。
+                using var stream = new FileStream(_Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+                using var reader = new StreamReader(stream);
 
 
                 //User_Log_Add("读取文件成功: " + _Path, Log_Show_Window_Enum.Home);

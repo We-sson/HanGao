@@ -93,6 +93,38 @@ internal static class ViewportSmokeChecks
                 $"PASS: Macad viewport renders robot, tool and work " +
                 $"({stats.Width}x{stats.Height}, {stats.RowsWithModel}/{stats.Height} rows, " +
                 $"{stats.OrangePixels} robot px, {stats.DarkPixels} edge px): {dumpPath}");
+
+            // 验证真实 V3d_View 上的鼠标转盘旋转严格围绕模型包围盒中心 _orbitCenter 且保持 Z-up 无滚转。
+            var pivot = (Pnt)typeof(RobotSceneService)
+                .GetField("_orbitCenter", BindingFlags.Instance | BindingFlags.NonPublic)!
+                .GetValue(scene)!;
+            var beforeCam = view.Camera();
+            var beforeEye = beforeCam.Eye();
+            var beforeCenter = beforeCam.Center();
+            double radiusBefore = new Vec(pivot, beforeEye).Magnitude();
+            double centerRadiusBefore = new Vec(pivot, beforeCenter).Magnitude();
+
+            scene.OrbitByPointer(-25, -10);
+
+            var afterCam = view.Camera();
+            var afterEye = afterCam.Eye();
+            var afterCenter = afterCam.Center();
+            var afterUp = afterCam.Up();
+            double radiusAfter = new Vec(pivot, afterEye).Magnitude();
+            double centerRadiusAfter = new Vec(pivot, afterCenter).Magnitude();
+            var afterRight = new Vec(afterEye, afterCenter).ToDir().ToVec().Crossed(afterUp.ToVec());
+            Check(new Vec(beforeEye, afterEye).Magnitude() > 1.0, "真实视口调用 OrbitByPointer 后相机位置未移动。");
+            Check(Math.Abs(radiusAfter - radiusBefore) < 1e-4, "真实视口鼠标旋转后 Eye 到模型中心距离未保持不变。");
+            Check(Math.Abs(centerRadiusAfter - centerRadiusBefore) < 1e-4, "真实视口鼠标旋转后 Center 到模型中心半径未保持不变。");
+            Check(afterUp.Z > 0 && Math.Abs(afterRight.Z) < 1e-6, "真实视口鼠标旋转后未保持 Z-up 无滚转。");
+            Console.WriteLine("PASS: real viewport OrbitByPointer rotates around _orbitCenter with Z-up constraint");
+
+            // 验证未按键移出视口触发 Cancel 时，不误暂停自动环绕。
+            scene.SetOrbit(15, -45, 35.264);
+            Check(!scene.IsUserAdjustingView, "开启自动环绕后不应立即处于用户调整状态。");
+            panel.MouseControl.Cancel();
+            Check(!scene.IsUserAdjustingView, "未按键移出视口触发 Cancel 后，自动环绕被误暂停。");
+            Console.WriteLine("PASS: idle viewport mouse leave (Cancel) does not pause auto-orbit");
         }
         finally
         {

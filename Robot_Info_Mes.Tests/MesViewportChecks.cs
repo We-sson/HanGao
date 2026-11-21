@@ -114,6 +114,8 @@ internal static class MesViewportChecks
             await WaitAsync(() => viewer.IsVisible && InteractiveContext.Current?.ViewportController?.V3dView?.Window()?.IsMapped() == true,
                 () => "重新打开三维标签后模型窗口未恢复。");
             Console.WriteLine($"PASS: MES client rendered model, moved on TCP input, displayed cycle and restored its viewport: {output}");
+            await AbbMesCommunicationChecks.RunLoopbackAsync(vm, viewer);
+            await AbbMesCommunicationChecks.RunEdgeChecksAsync(vm, viewer);
             await MesClientEdgeChecks.RunAsync(vm, viewer);
             await MesBoardCommunicationChecks.RunAsync();
             await SocketLifecycleChecks.RunAsync();

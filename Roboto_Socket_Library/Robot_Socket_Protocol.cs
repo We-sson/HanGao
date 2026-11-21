@@ -1,8 +1,11 @@
-﻿
+
 
 
 using Roboto_Socket_Library.Model;
 using System.Text;
+using System.Buffers.Binary;
+using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Xml;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
@@ -108,60 +111,42 @@ namespace Roboto_Socket_Library
 
 
                 case Socket_Robot_Protocols_Enum.ABB:
-                    // ABB 前两字节声明整帧长度；先校验可避免后续固定偏移在半包上误读。
-                    int INI = BitConverter.ToInt16(Receice_byte.Skip(0).Take(2).ToArray());
-
-                    if (INI != Receice_byte.Count)
+                    ReadOnlySpan<byte> abbFrame = CollectionsMarshal.AsSpan(Receice_byte);
+                    // ABB 前两字节声明整帧长度（含该 2 字节头部），后两字节为功能码 ASCII 长度。
+                    if (abbFrame.Length < 4)
                     {
                         Receice_byte.Clear();
                         throw new Exception("通讯协议存在丢包，请检查网络！");
                     }
 
-                    // 接下来的 Int16 是 ASCII 功能码文本长度，正文从偏移 4 开始。
-                    int mode_Len = BitConverter.ToInt16(Receice_byte.Skip(2).Take(2).ToArray());
+                    int expectedLength = BinaryPrimitives.ReadUInt16LittleEndian(abbFrame[..2]);
+                    if (expectedLength != abbFrame.Length)
+                    {
+                        Receice_byte.Clear();
+                        throw new Exception("通讯协议存在丢包，请检查网络！");
+                    }
 
-                    string Model_String = Encoding.ASCII.GetString(Receice_byte.Skip(4).Take(mode_Len).ToArray());
+                    int modeOffset = 2;
+                    string modelString = ReadAbbLengthPrefixedAscii(abbFrame, ref modeOffset, "Vision_Model");
 
-                    if (!Enum.IsDefined(typeof(Vision_Model_Enum), Model_String))
+                    if (!Enum.IsDefined(typeof(Vision_Model_Enum), modelString))
                     {
                         throw new Exception("通讯协议无该功能码，请联系开发者！");
                     }
 
+                    return Enum.Parse<Vision_Model_Enum>(modelString);
 
-                    return Enum.Parse<Vision_Model_Enum>(Model_String);
 
+                case Socket_Robot_Protocols_Enum.FANUC or Socket_Robot_Protocols_Enum.川崎:
+                    // FANUC 与川崎文本帧统一以“功能码:字段列表;”开头，冒号前即枚举名称。
+                    string delimitedModelString = Encoding.ASCII.GetString(Receice_byte.ToArray()).Split(':')[0];
 
-                case Socket_Robot_Protocols_Enum.FANUC:
-                    // FANUC 文本帧以“功能码:字段列表;”开头，冒号前即枚举名称。
-                    string Mes_Model_String = Encoding.ASCII.GetString(Receice_byte.ToArray()).Split(':')[0];
-
-                   
-
-                    if (!Enum.IsDefined(typeof(Vision_Model_Enum), Mes_Model_String))
+                    if (!Enum.IsDefined(typeof(Vision_Model_Enum), delimitedModelString))
                     {
                         throw new Exception("通讯协议无该功能码，请联系开发者！");
                     }
 
-
-                    return Enum.Parse<Vision_Model_Enum>(Mes_Model_String);
-
-
-
-                 
-
-
-                case Socket_Robot_Protocols_Enum.川崎:
-                    // 川崎 MES 帧与 FANUC 共用相同的分隔文本头格式。
-                    string Kawasaki_Model_String = Encoding.ASCII.GetString(Receice_byte.ToArray()).Split(':')[0];
-
-
-                    if (!Enum.IsDefined(typeof(Vision_Model_Enum), Kawasaki_Model_String))
-                    {
-                        throw new Exception("通讯协议无该功能码，请联系开发者！");
-                    }
-
-
-                    return Enum.Parse<Vision_Model_Enum>(Kawasaki_Model_String);
+                    return Enum.Parse<Vision_Model_Enum>(delimitedModelString);
 
 
        
@@ -647,70 +632,7 @@ namespace Roboto_Socket_Library
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB:
-                    // ABB 每个可变文本字段均采用 Int16 长度前缀，游标通过 Read_Byte 逐段向后推进。
-                    int Byte_Start = 2;
-                    int Len_Cont = 2;
-
-                    // 跳过整帧长度字段后，首先读取功能码名称。
-                    byte[] Read_Byte = Receice_byte.Skip(Byte_Start).ToArray();
-
-                    int mode_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
-                    string Model_String = Encoding.ASCII.GetString(Receice_byte.Skip(Byte_Start + Len_Cont).Take(mode_Len).ToArray());
-
-                    _Mes_Robot_Data_Receive.Vision_Model = Enum.Parse<Vision_Model_Enum>(Model_String);
-
-                    // 读取机器人品牌枚举名称。
-                    Read_Byte = Read_Byte.Skip(Len_Cont + mode_Len).ToArray();
-
-                    int Robot_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
-                    string Robot_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Robot_Len).ToArray());
-
-                    _Mes_Robot_Data_Receive.Robot_Type = Enum.Parse<Robot_Type_Enum>(Robot_String);
-
-                    // 读取控制器运行模式枚举名称。
-                    Read_Byte = Read_Byte.Skip(Len_Cont + Robot_Len).ToArray();
-
-                    int Robot_Mode_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
-                    string Robot_Mode_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Robot_Mode_Len).ToArray());
-
-                    _Mes_Robot_Data_Receive.Mes_Robot_Mode = Enum.Parse<KUKA_Mode_OP_Enum>(Robot_Mode_String);
-
-                    // 程序名是普通 ASCII 文本，不执行枚举转换。
-                    Read_Byte = Read_Byte.Skip(Len_Cont + Robot_Mode_Len).ToArray();
-
-                    int Programs_Name_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
-
-                    _Mes_Robot_Data_Receive.Mes_Programs_Name = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Programs_Name_Len).ToArray());
-
-                    // A、B、C、D 四个工位状态依次以带长度前缀的 True/False 文本传输。
-                    Read_Byte = Read_Byte.Skip(Len_Cont + Programs_Name_Len).ToArray();
-
-                    int Work_A_State_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
-                    string Work_A_State_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Work_A_State_Len).ToArray());
-                    _Mes_Robot_Data_Receive.Mes_Work_A_State = bool.Parse(Work_A_State_String);
-
-                    Read_Byte = Read_Byte.Skip(Len_Cont + Work_A_State_Len).ToArray();
-                    int Work_B_State_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
-                    string Work_B_State_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Work_B_State_Len).ToArray());
-                    _Mes_Robot_Data_Receive.Mes_Work_B_State = bool.Parse(Work_B_State_String);
-
-                    Read_Byte = Read_Byte.Skip(Len_Cont + Work_B_State_Len).ToArray();
-                    int Work_C_State_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
-                    string Work_C_State_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Work_C_State_Len).ToArray());
-                    _Mes_Robot_Data_Receive.Mes_Work_C_State = bool.Parse(Work_C_State_String);
-
-
-                    Read_Byte = Read_Byte.Skip(Len_Cont + Work_C_State_Len).ToArray();
-                    int Work_D_State_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
-                    string Work_D_State_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Work_D_State_Len).ToArray());
-                    _Mes_Robot_Data_Receive.Mes_Work_D_State = bool.Parse(Work_D_State_String);
-
-                    // 最后一段是当前工艺枚举名称。
-                    Read_Byte = Read_Byte.Skip(Len_Cont + Work_D_State_Len).ToArray();
-                    int Robot_Process_Int_Len = BitConverter.ToInt16(Read_Byte.Take(Len_Cont).ToArray());
-                    string Robot_Process_Int_Len_String = Encoding.ASCII.GetString(Read_Byte.Skip(Len_Cont).Take(Robot_Process_Int_Len).ToArray());
-                    _Mes_Robot_Data_Receive.Robot_Process_Int = Enum.Parse<Robot_Process_Int_Enum>(Robot_Process_Int_Len_String);
-
+                    ParseAbbMesRobotInfo(CollectionsMarshal.AsSpan(Receice_byte), _Mes_Robot_Data_Receive);
                     break;
        
                 case Socket_Robot_Protocols_Enum.通用:
@@ -752,6 +674,86 @@ namespace Roboto_Socket_Library
             return _Mes_Robot_Data_Receive;
 
 
+        }
+
+        /// <summary>
+        /// 从 ABB 长度前缀帧的指定偏移处读取一段 UInt16 长度前缀的 ASCII 文本并推进游标。
+        /// </summary>
+        private static string ReadAbbLengthPrefixedAscii(ReadOnlySpan<byte> frame, ref int offset, string fieldName)
+        {
+            if (offset + 2 > frame.Length)
+            {
+                throw new InvalidDataException($"ABB 报文缺少字段 {fieldName} 的长度头。");
+            }
+
+            int length = BinaryPrimitives.ReadUInt16LittleEndian(frame.Slice(offset, 2));
+            offset += 2;
+            if (offset + length > frame.Length)
+            {
+                throw new InvalidDataException($"ABB 报文字段 {fieldName} 长度越界（声明 {length} 字节）。");
+            }
+
+            string value = Encoding.ASCII.GetString(frame.Slice(offset, length));
+            offset += length;
+            return value;
+        }
+
+        /// <summary>
+        /// 解码 ABB 生产/MES 二进制报文：前 9 段兼容旧版 ABB 协议，末尾可选追加焊接开关与六轴 Float4 角度。
+        /// </summary>
+        private static void ParseAbbMesRobotInfo(ReadOnlySpan<byte> frame, Robot_Mes_Info_Data_Receive target)
+        {
+            const int AxisPayloadBytes = 6 * sizeof(float);
+            int offset = 2;
+
+            target.Vision_Model = Enum.Parse<Vision_Model_Enum>(ReadAbbLengthPrefixedAscii(frame, ref offset, "Vision_Model"));
+            target.Robot_Type = Enum.Parse<Robot_Type_Enum>(ReadAbbLengthPrefixedAscii(frame, ref offset, "Robot_Type"));
+            target.Mes_Robot_Mode = Enum.Parse<KUKA_Mode_OP_Enum>(ReadAbbLengthPrefixedAscii(frame, ref offset, "Mes_Robot_Mode"));
+            target.Mes_Programs_Name = ReadAbbLengthPrefixedAscii(frame, ref offset, "Mes_Programs_Name");
+            target.Mes_Work_A_State = bool.Parse(ReadAbbLengthPrefixedAscii(frame, ref offset, "Mes_Work_A_State"));
+            target.Mes_Work_B_State = bool.Parse(ReadAbbLengthPrefixedAscii(frame, ref offset, "Mes_Work_B_State"));
+            target.Mes_Work_C_State = bool.Parse(ReadAbbLengthPrefixedAscii(frame, ref offset, "Mes_Work_C_State"));
+            target.Mes_Work_D_State = bool.Parse(ReadAbbLengthPrefixedAscii(frame, ref offset, "Mes_Work_D_State"));
+            target.Robot_Process_Int = Enum.Parse<Robot_Process_Int_Enum>(ReadAbbLengthPrefixedAscii(frame, ref offset, "Robot_Process_Int"));
+
+            // 兼容旧版 9 字段 ABB 报文：无扩展尾部时焊接状态为 false、轴组保持 null。
+            if (offset == frame.Length)
+            {
+                return;
+            }
+
+            // 扩展字段 10：焊接/激光开关状态（与工位状态一致的长度前缀 TRUE/FALSE）。
+            target.Mes_Weld_State = bool.Parse(ReadAbbLengthPrefixedAscii(frame, ref offset, "Mes_Weld_State"));
+
+            int remaining = frame.Length - offset;
+            if (remaining == 0)
+            {
+                return;
+            }
+
+            // 扩展字段 11：J1～J6 小端序单精度浮点角度（6 × 4 = 24 字节）。
+            if (remaining == AxisPayloadBytes)
+            {
+                target.Robot_Axis = new Robot_Axis_Model
+                {
+                    J1 = BinaryPrimitives.ReadSingleLittleEndian(frame.Slice(offset, 4)),
+                    J2 = BinaryPrimitives.ReadSingleLittleEndian(frame.Slice(offset + 4, 4)),
+                    J3 = BinaryPrimitives.ReadSingleLittleEndian(frame.Slice(offset + 8, 4)),
+                    J4 = BinaryPrimitives.ReadSingleLittleEndian(frame.Slice(offset + 12, 4)),
+                    J5 = BinaryPrimitives.ReadSingleLittleEndian(frame.Slice(offset + 16, 4)),
+                    J6 = BinaryPrimitives.ReadSingleLittleEndian(frame.Slice(offset + 20, 4)),
+                };
+                return;
+            }
+
+            if (remaining < AxisPayloadBytes)
+            {
+                // 轴组字节不足 6 轴时保留缺轴对象，由上层按缺轴帧拒绝并维持最近有效姿态。
+                target.Robot_Axis = new Robot_Axis_Model();
+                return;
+            }
+
+            throw new InvalidDataException($"ABB MES 报文包含未识别的尾部数据（剩余 {remaining} 字节）。");
         }
 
         /// <summary>
@@ -910,15 +912,12 @@ namespace Roboto_Socket_Library
 
                     break;
                 case Socket_Robot_Protocols_Enum.ABB or Socket_Robot_Protocols_Enum.FANUC or Socket_Robot_Protocols_Enum.川崎:
-                    // 三类控制器在此应答方向共用：状态 Int32 + 轮询秒数 Int32。
-                    var st = BitConverter.GetBytes(_Propertie.IsStatus?1:0);
-
+                    // 三类控制器在此应答方向共用固定 8 字节小端序：状态 Int32 + 轮询秒数 Int32。
+                    byte[] ack = new byte[8];
+                    BinaryPrimitives.WriteInt32LittleEndian(ack.AsSpan(0, 4), _Propertie.IsStatus ? 1 : 0);
                     // DTO 使用毫秒，线上协议使用整秒，整数除法会舍弃不足一秒部分。
-                    var Polling_Time = BitConverter.GetBytes(_Propertie.Socket_Polling_Time / 1000);
-                    // 保持状态在前、周期在后的固定 8 字节顺序。
-                    _byte_List.AddRange(st);
-                    _byte_List.AddRange(Polling_Time);
-                    return _byte_List.ToArray();
+                    BinaryPrimitives.WriteInt32LittleEndian(ack.AsSpan(4, 4), _Propertie.Socket_Polling_Time / 1000);
+                    return ack;
 
 
 
@@ -1034,6 +1033,82 @@ namespace Roboto_Socket_Library
 
             return _Find_Data_Receive;
 
+        }
+
+        /// <summary>
+        /// 将监视窗口原始字节统一按协议格式解码为可读文本（不区分收发方向）；ABB 二进制帧统一按小端序解码，避免 Float4 字节产生 UTF-8 乱码。
+        /// </summary>
+        /// <param name="protocol">当前监听器使用的机器人协议族。</param>
+        /// <param name="rawData">完整原始报文字节。</param>
+        /// <returns>适合在只读监视面板显示的明文或十六进制文本。</returns>
+        public static string FormatMonitorData(Socket_Robot_Protocols_Enum protocol, byte[]? rawData)
+        {
+            if (rawData is null || rawData.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            if (rawData.Length == 8
+                && protocol is Socket_Robot_Protocols_Enum.ABB
+                    or Socket_Robot_Protocols_Enum.FANUC
+                    or Socket_Robot_Protocols_Enum.川崎)
+            {
+                int status = BinaryPrimitives.ReadInt32LittleEndian(rawData.AsSpan(0, 4));
+                int pollingSeconds = BinaryPrimitives.ReadInt32LittleEndian(rawData.AsSpan(4, 4));
+                return string.Create(
+                    CultureInfo.InvariantCulture,
+                    $"IsStatus: {status}\r\nSocket_Polling_Time: {pollingSeconds}");
+            }
+
+            if (protocol != Socket_Robot_Protocols_Enum.ABB)
+            {
+                return Encoding.UTF8.GetString(rawData);
+            }
+
+            try
+            {
+                var parsed = new Robot_Socket_Protocol(Socket_Robot_Protocols_Enum.ABB, rawData);
+                if (parsed.Vision_Model == Vision_Model_Enum.Mes_Info_Data
+                    && parsed.Socket_Receive_Get_Date<Robot_Mes_Info_Data_Receive>() is { } dto)
+                {
+                    var sb = new StringBuilder(256);
+                    sb.Append("Vision_Model: ").Append(dto.Vision_Model).Append("\r\n");
+                    sb.Append("Robot_Type: ").Append(dto.Robot_Type).Append("\r\n");
+                    sb.Append("Mes_Robot_Mode: ").Append(dto.Mes_Robot_Mode).Append("\r\n");
+                    sb.Append("Mes_Programs_Name: ").Append(dto.Mes_Programs_Name).Append("\r\n");
+                    sb.Append("Mes_Work_A_State: ").Append(dto.Mes_Work_A_State).Append("\r\n");
+                    sb.Append("Mes_Work_B_State: ").Append(dto.Mes_Work_B_State).Append("\r\n");
+                    sb.Append("Mes_Work_C_State: ").Append(dto.Mes_Work_C_State).Append("\r\n");
+                    sb.Append("Mes_Work_D_State: ").Append(dto.Mes_Work_D_State).Append("\r\n");
+                    sb.Append("Robot_Process_Int: ").Append(dto.Robot_Process_Int).Append("\r\n");
+                    sb.Append("Mes_Weld_State: ").Append(dto.Mes_Weld_State);
+
+                    if (dto.Robot_Axis is { } axes)
+                    {
+                        if (axes.HasCompleteFiniteAxes())
+                        {
+                            sb.Append("\r\n").Append(string.Create(CultureInfo.InvariantCulture, $"J1: {axes.J1:F2}"));
+                            sb.Append("\r\n").Append(string.Create(CultureInfo.InvariantCulture, $"J2: {axes.J2:F2}"));
+                            sb.Append("\r\n").Append(string.Create(CultureInfo.InvariantCulture, $"J3: {axes.J3:F2}"));
+                            sb.Append("\r\n").Append(string.Create(CultureInfo.InvariantCulture, $"J4: {axes.J4:F2}"));
+                            sb.Append("\r\n").Append(string.Create(CultureInfo.InvariantCulture, $"J5: {axes.J5:F2}"));
+                            sb.Append("\r\n").Append(string.Create(CultureInfo.InvariantCulture, $"J6: {axes.J6:F2}"));
+                        }
+                        else
+                        {
+                            sb.Append("\r\nRobot_Axis: Invalid");
+                        }
+                    }
+
+                    return sb.ToString();
+                }
+            }
+            catch
+            {
+                // 半包或非 MES 二进制帧统一退回纯十六进制视图，避免输出替换字符乱码。
+            }
+
+            return BitConverter.ToString(rawData).Replace('-', ' ');
         }
 
 

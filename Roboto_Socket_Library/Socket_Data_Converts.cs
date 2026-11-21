@@ -1,4 +1,5 @@
 ﻿using PropertyChanged;
+using Roboto_Socket_Library.Model;
 using System.Text;
 
 namespace Roboto_Socket_Library
@@ -29,7 +30,7 @@ namespace Roboto_Socket_Library
         //}
 
         /// <summary>
-        /// 控制原始字节以 UTF-8 文本还是十六进制字节序列显示。
+        /// 控制原始字节以协议文本还是十六进制字节序列显示。
         /// </summary>
         public Socket_Data_Type_Enum Socket_Data_Type { set; get; } = Socket_Data_Type_Enum.ASCII;
 
@@ -39,11 +40,19 @@ namespace Roboto_Socket_Library
         public string Data_Converts_Str { set; get; } = "....";
 
         /// <summary>
-        /// 按 <see cref="Socket_Data_Type"/> 转换一帧原始数据，并更新 <see cref="Data_Converts_Str"/>。
+        /// 按当前默认文本编码或 HEX 模式转换一帧原始数据；兼容既有无协议参数的事件委托签名。
         /// </summary>
         /// <param name="Raw_Data">本次要展示的完整字节数组。</param>
         /// <remarks>空数组不会覆盖上一次转换结果。</remarks>
         public void Data_Converts_Str_Method(byte[] Raw_Data)
+            => Data_Converts_Str_Method(Raw_Data, Socket_Robot_Protocols_Enum.通用);
+
+        /// <summary>
+        /// 按 <see cref="Socket_Data_Type"/> 与通信协议转换一帧原始数据（不区分收发方向），并更新 <see cref="Data_Converts_Str"/>。
+        /// </summary>
+        /// <param name="Raw_Data">本次要展示的完整字节数组。</param>
+        /// <param name="protocol">由通讯设置统一传入的当前机器人协议。</param>
+        public void Data_Converts_Str_Method(byte[] Raw_Data, Socket_Robot_Protocols_Enum protocol)
         {
 
             string _Data_string = string.Empty;
@@ -54,8 +63,8 @@ namespace Roboto_Socket_Library
                 switch (Socket_Data_Type)
                 {
                     case Socket_Data_Type_Enum.ASCII:
-                        // 协议文本统一按 UTF-8 解码；无效字节由 Encoding 的默认替换策略处理。
-                        _Data_string = Encoding.UTF8.GetString(Raw_Data);
+                        // 统一按传入协议格式化：二进制报文小端解码，文本协议按 UTF-8 原文展示。
+                        _Data_string = Robot_Socket_Protocol.FormatMonitorData(protocol, Raw_Data);
 
                         break;
                     case Socket_Data_Type_Enum.HEX:

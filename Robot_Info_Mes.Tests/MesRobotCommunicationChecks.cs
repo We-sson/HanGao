@@ -20,7 +20,7 @@ internal static class MesRobotCommunicationChecks
         var server = new Socket_Receive
         {
             Socket_Robot = Socket_Robot_Protocols_Enum.KUKA,
-            UseXmlFragmentReceive = true,
+            UseFramedReceive = true,
             Robot_Info_Model_Data_Delegate = vm.Robot_Mes_Info_Receive_Method,
             Socket_ErrorInfo_delegate = vm.Socket_Robot_ErrorLog_Show
         };

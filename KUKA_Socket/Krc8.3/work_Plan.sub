@@ -1,0 +1,112 @@
+&ACCESS RVP
+&COMMENT USER specified PLC program
+DEF work_Plan( ) 
+   decl BOOL OPen1
+   
+   decl BOOL Reset1
+   
+   OPen1=FALSE
+   Reset1=FALSE
+   
+   LOOP
+      IF  ($in[17]==FALSE) AND  ($in[18]==FALSE) and (Reset1 == FALSE) AND (OPen1==FALSE)  THEN
+         ;START
+         $OUT[17]=TRUE
+         $OUT[18]=FALSE
+         
+         $OUT[19]=FALSE
+         
+         $OUT[20]=TRUE 
+         
+         $OUT[21]=FALSE
+         $OUT[22]=TRUE
+         
+         OPen1=FALSE
+         Reset1 = TRUE
+      ENDIF   
+      
+      IF  ($in[17]==FALSE) AND  ($in[18]==FALSE) and (Reset1 == FALSE)  THEN
+         ;START 1
+         $OUT[17]=TRUE
+         $OUT[18]=FALSE
+         $OUT[19]=TRUE
+         $OUT[20]=FALSE 
+         ;$OUT[21]=FALSE
+         ; $OUT[22]=TRUE
+         
+         ;FOLD WAIT Time= 0.5 sec ;%{PE}
+            ;FOLD Parameters ;%{h}
+               ;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.wait; Time=1.0
+            ;ENDFOLD
+            WAIT SEC 0.5
+         ;ENDFOLD
+         
+         ;$OUT[17]=TRUE
+         ;$OUT[18]=FALSE
+         $OUT[19]=FALSE
+         $OUT[20]=TRUE 
+         $OUT[21]=FALSE
+         $OUT[22]=TRUE
+         
+         OPen1=FALSE
+         Reset1 = TRUE
+      ENDIF
+      
+      IF  ($in[17]==TRUE)AND ($in[18]==FALSE) THEN
+         ;START 2
+         $OUT[17]=TRUE
+         $OUT[18]=FALSE
+         $OUT[19]=TRUE
+         $OUT[20]=FALSE 
+         $OUT[21]=TRUE
+         $OUT[22]=FALSE
+         OPen1=FALSE
+         Reset1 = FALSE
+      ENDIF
+      
+      IF  ($in[17]==TRUE) AND ($in[18]==TRUE) and (OPen1==FALSE)  THEN
+         ;START 3
+         $OUT[17]=FALSE
+         $OUT[18]=TRUE
+         $OUT[19]=TRUE
+         $OUT[20]=FALSE 
+         $OUT[21]=TRUE
+         $OUT[22]=FALSE
+         
+         ;FOLD WAIT Time= 2 sec ;%{PE}
+            ;FOLD Parameters ;%{h}
+               ;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.wait; Time=1.0
+            ;ENDFOLD
+            WAIT SEC 2
+         ;ENDFOLD
+         
+         $OUT[17]=FALSE
+         $OUT[18]=TRUE
+         $OUT[21]=TRUE
+         $OUT[22]=FALSE
+         $OUT[19]=FALSE
+         $OUT[20]=TRUE 
+         ;FOLD WAIT Time= 0.3 sec ;%{PE}
+            ;FOLD Parameters ;%{h}
+               ;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.wait; Time=1.0
+            ;ENDFOLD
+            WAIT SEC 0.3
+         ;ENDFOLD
+         $OUT[19]=TRUE
+         $OUT[20]=FALSE
+         ;FOLD WAIT Time= 0.3 sec ;%{PE}
+            ;FOLD Parameters ;%{h}
+               ;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.wait; Time=1.0
+            ;ENDFOLD
+            WAIT SEC 0.3
+         ;ENDFOLD
+         $OUT[19]=FALSE
+         $OUT[20]=TRUE 
+         
+         OPen1=TRUE
+         Reset1 = FALSE
+      ENDIF
+      
+   ENDLOOP
+   
+END

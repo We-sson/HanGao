@@ -6,6 +6,7 @@ using Generic_Extension;
 using PropertyChanged;
 using HanGao.RobotInfo.Modbus;
 using Robot_Info_Mes.Model;
+using RobotSimulator.Models;
 using RobotSimulator.ViewModels;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
@@ -113,6 +114,7 @@ namespace Robot_Info_Mes.ViewModel
 
                         // 只有采集端需要底部三维模型；看板端不创建，省去模型配置读取。
                         Digital_Simulation = new Digital_Simulation(File_Int_Parameters.Mes_Digital_Simulation);
+                        RefreshSimulationProtocolMismatchWarning(logWarning: true);
 
                         // Modbus 使用独立 XML；配置、状态和命令统一放在一个功能对象里。
                         string modbusConfigurationPath =
@@ -343,6 +345,9 @@ namespace Robot_Info_Mes.ViewModel
 
         /// <summary>底部三维模型的全部状态和关节输入；仅采集端创建。</summary>
         public Digital_Simulation? Digital_Simulation { get; private set; }
+
+        /// <summary>当三维仿真模型品牌与通讯协议不一致时的提醒文本；一致或通用协议时为空。</summary>
+        public string SimulationProtocolMismatchWarning { get; private set; } = string.Empty;
 
         /// <summary>Modbus TCP 的配置、状态、命令和点位编辑。</summary>
         public RobotModbusFeature Modbus { get; private set; } = null!;
@@ -1000,13 +1005,16 @@ namespace Robot_Info_Mes.ViewModel
                 Robot_Info_Parameters.Local_IP_UI = new ObservableCollection<string>(_List) { };
 
                 // 每个本地地址对应一个 Socket_Receive，统一使用机器人端口和所选厂商协议。
+                Socket_Robot_Protocols_Enum robotProtocol = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model;
                 bool anyStarted = false;
                 foreach (var _Sever in Robot_Info_Parameters.Local_IP_UI)
                 {
-                    // 流式接收：按 XML 根元素切帧，运动时帧变密也不会因粘包/拆包误判为非法报文。
-                    Socket_Receive listener = new(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port, false)
+                    // 先完成协议与回调装配再启动监听，避免首包到达时协议或委托尚未就绪；
+                    // 统一启用按厂商协议的流式切帧（KUKA 按 XML、ABB 按总长度前缀、FANUC/川崎按分号），避免高频上报拆包/粘包断线。
+                    Socket_Receive listener = new()
                     {
-                        Socket_Robot = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model,
+                        Socket_Robot = robotProtocol,
+                        UseFramedReceive = true,
 
                         Robot_Info_Model_Data_Delegate = Robot_Mes_Info_Receive_Method,
                         Socket_ErrorInfo_delegate = Socket_Robot_ErrorLog_Show,
@@ -1014,17 +1022,12 @@ namespace Robot_Info_Mes.ViewModel
                         Socket_Receive_Meg = Queue_Receive_Monitor,
                         Socket_Send_Meg = Queue_Send_Monitor,
                     };
+                    listener.Server_Strat(_Sever, File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port);
                     Robot_Info_Parameters.Receive_List.Add(listener);
 
-                    // 构造函数内的启动错误会发生在回调赋值之前，必须由宿主读取结果并记录。
                     if (listener.ServerStarted)
                     {
                         anyStarted = true;
-                    }
-                    else
-                    {
-                        User_Log_Add(
-                            $"开启机器人监听失败（{_Sever}:{File_Int_Parameters.Mes_Run_Parameters.Sever_Socket_Port}）：{listener.ServerStartError}");
                     }
                 }
 
@@ -1149,7 +1152,7 @@ namespace Robot_Info_Mes.ViewModel
                     // 统一持久化整个配置对象，Slider/TextBox 的双向绑定值会一并保存。
                     File_Xml_Model.Save_Xml(File_Int_Parameters);
                     ApplyClientStandardAndCycleSettings();
-
+                    RefreshSimulationProtocolMismatchWarning(logWarning: true);
 
                     User_Log_Add("保存设置参数成功！重启软件生效。");
 
@@ -1181,6 +1184,7 @@ namespace Robot_Info_Mes.ViewModel
                 {
                     // 先持久化整份配置，保证下次启动仍使用当前仿真参数。
                     File_Xml_Model.Save_Xml(File_Int_Parameters);
+                    RefreshSimulationProtocolMismatchWarning(logWarning: true);
 
                     // 只有机器人/Tool/工装切换才需要重建场景；自转、显示和跟随参数已在编辑时实时生效。
                     var simulation = File_Int_Parameters.Mes_Digital_Simulation;
@@ -1189,8 +1193,13 @@ namespace Robot_Info_Mes.ViewModel
                             || current.LoadOptions.Tool != simulation.Tool_Model
                             || current.LoadOptions.Work != simulation.Work_Model))
                     {
+                        bool sameRobot = current.LoadOptions.Robot == simulation.Robot_Model;
+                        if (!sameRobot)
+                        {
+                            _latestRobotAxes = null;
+                        }
                         var refreshed = new Digital_Simulation(simulation);
-                        if (current.Joints.Length == 6) refreshed.SetJoints(current.Joints);
+                        if (sameRobot && current.Joints.Length == 6) refreshed.SetJoints(current.Joints);
                         current.Detach();
                         Digital_Simulation = refreshed;
                         User_Log_Add("仿真模型已保存并切换；其它参数已实时生效。");
@@ -1631,6 +1640,36 @@ namespace Robot_Info_Mes.ViewModel
             _clientStatisticsDate = now.Date;
         }
 
+        /// <summary>
+        /// 仅在通讯协议与当前三维仿真模型所属品牌不一致时返回提醒文本，不自动修改用户已选模型。
+        /// </summary>
+        internal string? GetSimulationProtocolMismatchWarning()
+        {
+            Socket_Robot_Protocols_Enum protocol = File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model;
+            if (protocol == Socket_Robot_Protocols_Enum.通用)
+            {
+                return null;
+            }
+
+            RobotModelKind model = File_Int_Parameters.Mes_Digital_Simulation.Robot_Model;
+            string modelBrand = RobotModelCatalog.GetBrand(model);
+            if (string.Equals(modelBrand, protocol.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
+            return $"提示：当前通讯协议为 {protocol}，但三维仿真模型 {model} 属于 {modelBrand} 品牌，请检查通信设置或仿真设置是否选择错误。";
+        }
+
+        private void RefreshSimulationProtocolMismatchWarning(bool logWarning)
+        {
+            SimulationProtocolMismatchWarning = GetSimulationProtocolMismatchWarning() ?? string.Empty;
+            if (logWarning && SimulationProtocolMismatchWarning.Length > 0)
+            {
+                User_Log_Add(SimulationProtocolMismatchWarning);
+            }
+        }
+
         private void CancelRobotCycle()
         {
             Mes_Robot_Info_Model_Data.CancelActiveCycles();
@@ -1678,16 +1717,21 @@ namespace Robot_Info_Mes.ViewModel
         private MonitorUpdateChannel? _receiveMonitorChannel;
         private MonitorUpdateChannel? _sendMonitorChannel;
 
+        private MonitorUpdateChannel CreateMonitorChannel(Func<Socket_Data_Converts> targetAccessor)
+            => new(targetAccessor, () => File_Int_Parameters.Mes_Run_Parameters.Socket_Robot_Model);
+
         /// <summary>在最低渲染优先级（ContextIdle）合并收包监视格式化，绝不占满或拖累最高优先级机器人通信线程。</summary>
         private void Queue_Receive_Monitor(byte[] rawData)
-            => (_receiveMonitorChannel ??= new MonitorUpdateChannel(() => Robot_Info_Parameters.Receive_information)).Enqueue(rawData);
+            => (_receiveMonitorChannel ??= CreateMonitorChannel(() => Robot_Info_Parameters.Receive_information)).Enqueue(rawData);
 
         /// <summary>在最低渲染优先级（ContextIdle）合并发包监视格式化，只展示最新一帧原始字节。</summary>
         private void Queue_Send_Monitor(byte[] rawData)
-            => (_sendMonitorChannel ??= new MonitorUpdateChannel(() => Robot_Info_Parameters.Send_information)).Enqueue(rawData);
+            => (_sendMonitorChannel ??= CreateMonitorChannel(() => Robot_Info_Parameters.Send_information)).Enqueue(rawData);
 
         /// <summary>按 DispatcherPriority.ContextIdle 合并高频 Socket 原始帧的监视文本格式化。</summary>
-        private sealed class MonitorUpdateChannel(Func<Socket_Data_Converts> targetAccessor)
+        private sealed class MonitorUpdateChannel(
+            Func<Socket_Data_Converts> targetAccessor,
+            Func<Socket_Robot_Protocols_Enum> protocolAccessor)
         {
             private byte[]? _pendingBytes;
             private int _queued;
@@ -1716,7 +1760,7 @@ namespace Robot_Info_Mes.ViewModel
                 byte[]? latest = Interlocked.Exchange(ref _pendingBytes, null);
                 if (latest is not null)
                 {
-                    targetAccessor().Data_Converts_Str_Method(latest);
+                    targetAccessor().Data_Converts_Str_Method(latest, protocolAccessor());
                 }
             }
         }

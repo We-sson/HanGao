@@ -117,6 +117,11 @@
                                     Margin="0,4,0,16"
                                     AutomationProperties.Name="机器人显示名称"
                                     Text="{Binding ModelName, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="机器人品牌（如 KUKA、ABB）" />
+                                <TextBox
+                                    Margin="0,4,0,16"
+                                    AutomationProperties.Name="机器人品牌"
+                                    Text="{Binding Brand, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Text="基座 STEP 文件" />
                                 <ComboBox
                                     Margin="0,4,0,16"

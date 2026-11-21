@@ -27,6 +27,8 @@ internal static class Program
             TestConfiguration(fixture);
             TestWorkConfiguration(fixture);
             ConfigurationRecoveryChecks.Run(fixture);
+            CameraViewChecks.RunOrbitChecks();
+            CameraViewChecks.RunMouseControlChecks();
 #if DEBUG
             RobotSetupChecks.Run(fixture);
 #endif

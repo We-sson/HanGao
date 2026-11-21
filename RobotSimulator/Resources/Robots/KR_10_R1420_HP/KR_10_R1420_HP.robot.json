@@ -1,5 +1,6 @@
 {
   "modelName": "KUKA KR 10 R1420 HP",
+  "brand": "KUKA",
   "baseFile": "Base.STEP",
   "flangeOrigin": { "x": 890, "y": 0, "z": 1080 },
   "flangeOrientation": { "a": 0, "b": 90, "c": 0 },

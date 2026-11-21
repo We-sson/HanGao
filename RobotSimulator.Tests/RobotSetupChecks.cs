@@ -21,8 +21,12 @@ internal static class RobotSetupChecks
         var vm = new RobotSetupViewModel();
         vm.SelectDirectory(directory);
         Check(vm.ModelFiles.Count == 7 && vm.Joints.Count == 6 && vm.BaseFile == "Base.STEP", "Model mapping was not detected.");
-        Check(vm.Joints.All(joint => joint.Minimum.Length == 0 && joint.OriginX.Length == 0)
+        Check(vm.Brand.Length == 0
+            && vm.Joints.All(joint => joint.Minimum.Length == 0 && joint.OriginX.Length == 0)
             && vm.FlangeA.Length == 0, "Unmeasured calibration was silently filled in.");
+        vm.NextCommand.Execute(null);
+        Check(vm.StepIndex == 0 && vm.ValidationMessage.Contains("品牌"), "Missing robot brand advanced past step 0.");
+        vm.Brand = "KUKA";
         vm.NextCommand.Execute(null);
         Check(vm.StepIndex == 1, "Valid model mapping did not advance.");
         vm.NextCommand.Execute(null);
@@ -32,7 +36,7 @@ internal static class RobotSetupChecks
         var output = RobotImportService.Save(directory, configuration);
         Check(output == Path.Combine(directory, "NewRobot.robot.json"), "Robot source config did not match its directory.");
         vm.SelectDirectory(directory);
-        Check(vm.Joints[1].HomeAngle == "-90" && vm.FlangeZ == "1055", "Existing calibration was not loaded.");
+        Check(vm.Brand == "KUKA" && vm.Joints[1].HomeAngle == "-90" && vm.FlangeZ == "1055", "Existing calibration was not loaded.");
         vm.NextCommand.Execute(null);
         vm.Joints[0].DirectionZ = "0";
         vm.NextCommand.Execute(null);
@@ -59,13 +63,15 @@ internal static class RobotSetupChecks
         for (var joint = 1; joint < 6; joint++) vm.NextCommand.Execute(null);
         vm.NextCommand.Execute(null);
         Check(vm.StepIndex == 3 && vm.CanSave, "Valid configuration did not complete the wizard.");
+        vm.Brand = "ABB";
         vm.ModelName = "New Robot";
         Check(!vm.CanSave && vm.HasUnsavedChanges && vm.ValidationMessage.Length == 0, "Editing left a stale validation result.");
         vm.ValidateCommand.Execute(null);
         Check(vm.CanSave, "Valid changes failed validation.");
         vm.Save();
         Check(!vm.HasUnsavedChanges, "A saved draft was still marked as unsaved.");
-        Check(RobotImportService.LoadExisting(directory)?.ModelName == "New Robot", "Robot save roundtrip failed.");
+        var roundtrip = RobotImportService.LoadExisting(directory);
+        Check(roundtrip?.ModelName == "New Robot" && roundtrip.Brand == "ABB", "Robot save roundtrip failed.");
         var saved = File.ReadAllBytes(output);
         vm.Joints[0].DirectionX = vm.Joints[0].DirectionY = vm.Joints[0].DirectionZ = "0";
         vm.ValidateCommand.Execute(null);
@@ -102,6 +108,7 @@ internal static class RobotSetupChecks
         foreach (var file in new[] { "Stand", "Shoulder", "Arm", "Elbow", "Wrist", "Hand", "Flange" })
             File.WriteAllText(Path.Combine(custom, file + ".STEP"), "ISO-10303-21;");
         vm.SelectDirectory(custom);
+        vm.Brand = "KUKA";
         vm.BaseFile = "Stand.STEP";
         vm.NextCommand.Execute(null);
         Check(vm.StepIndex == 1, "Custom STEP names could not reach the joint mapping page.");

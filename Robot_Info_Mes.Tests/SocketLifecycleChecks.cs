@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using Robot_Info_Mes.MotionClient;
 using Roboto_Socket_Library;
 using Roboto_Socket_Library.Model;
 using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
@@ -10,9 +11,11 @@ using static Roboto_Socket_Library.Model.Roboto_Socket_Model;
 /// <summary>验证停止监听同时关闭旧连接，以及同一监听对象重启后的容量和收包。</summary>
 internal static class SocketLifecycleChecks
 {
+    private enum ListenerMode { KukaFramed, FixedBuffer, AbbFramed, FanucFramed }
+
     public static async Task RunAsync()
     {
-        foreach (var streaming in new[] { true, false })
+        foreach (var mode in new[] { ListenerMode.KukaFramed, ListenerMode.FixedBuffer, ListenerMode.AbbFramed, ListenerMode.FanucFramed })
         {
             using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             var cancellation = timeout.Token;
@@ -20,8 +23,13 @@ internal static class SocketLifecycleChecks
             var errors = new ConcurrentQueue<string>();
             var server = new Socket_Receive
             {
-                Socket_Robot = Socket_Robot_Protocols_Enum.KUKA,
-                UseXmlFragmentReceive = streaming,
+                Socket_Robot = mode switch
+                {
+                    ListenerMode.AbbFramed => Socket_Robot_Protocols_Enum.ABB,
+                    ListenerMode.FanucFramed => Socket_Robot_Protocols_Enum.FANUC,
+                    _ => Socket_Robot_Protocols_Enum.KUKA,
+                },
+                UseFramedReceive = mode != ListenerMode.FixedBuffer,
                 MaxServerConnections = 1,
                 Robot_Info_Model_Data_Delegate = (_, _) =>
                 {
@@ -38,7 +46,7 @@ internal static class SocketLifecycleChecks
             {
                 using var oldClient = await ConnectAsync(port, cancellation);
                 var oldStream = oldClient.GetStream();
-                await SendAsync(oldStream, cancellation);
+                await SendAsync(oldStream, mode, cancellation);
                 using (var excess = await ConnectAsync(port, cancellation))
                     await CheckClosedAsync(excess.GetStream(), cancellation);
                 Check(callbacks == 1 && errors.Any(error => error.StartsWith("Error:-17", StringComparison.Ordinal)),
@@ -54,7 +62,7 @@ internal static class SocketLifecycleChecks
                 Check(server.ServerStarted, "同一对象停止后无法重新启动。");
                 using var restarted = await ConnectAsync(port, cancellation);
                 var restartedStream = restarted.GetStream();
-                await SendAsync(restartedStream, cancellation);
+                await SendAsync(restartedStream, mode, cancellation);
                 Check(callbacks == 2, "旧连接计数占用了重启后的唯一连接名额。");
                 using (var excess = await ConnectAsync(port, cancellation))
                     await CheckClosedAsync(excess.GetStream(), cancellation);
@@ -63,7 +71,7 @@ internal static class SocketLifecycleChecks
                 server.Server_Strat("127.0.0.1", port.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 await CheckClosedAsync(restartedStream, cancellation);
                 using var latest = await ConnectAsync(port, cancellation);
-                await SendAsync(latest.GetStream(), cancellation);
+                await SendAsync(latest.GetStream(), mode, cancellation);
                 using (var excess = await ConnectAsync(port, cancellation))
                     await CheckClosedAsync(excess.GetStream(), cancellation);
                 Check(callbacks == 3, "重启后连接上限计数或业务调用次数错误。");
@@ -72,7 +80,7 @@ internal static class SocketLifecycleChecks
                 while (!errors.Any(error => error.StartsWith("Error:-9", StringComparison.Ordinal)))
                     await Task.Delay(10, cancellation);
                 using var replacement = await ConnectAsync(port, cancellation);
-                await SendAsync(replacement.GetStream(), cancellation);
+                await SendAsync(replacement.GetStream(), mode, cancellation);
                 using (var excess = await ConnectAsync(port, cancellation))
                     await CheckClosedAsync(excess.GetStream(), cancellation);
                 Check(callbacks == 4, "正常断线后未正确回收唯一连接名额。");
@@ -82,7 +90,7 @@ internal static class SocketLifecycleChecks
                 server.Sever_End();
             }
         }
-        Console.WriteLine("PASS: XML and fixed-buffer listener stop, accepted connection cleanup, restart and connection limit");
+        Console.WriteLine("PASS: unified framed (KUKA/ABB/FANUC) and fixed-buffer listener stop, accepted connection cleanup, restart and connection limit");
     }
 
     private static async Task<TcpClient> ConnectAsync(int port, CancellationToken cancellation)
@@ -93,8 +101,26 @@ internal static class SocketLifecycleChecks
         return client;
     }
 
-    private static async Task SendAsync(NetworkStream stream, CancellationToken cancellation)
+    private static async Task SendAsync(NetworkStream stream, ListenerMode mode, CancellationToken cancellation)
     {
+        if (mode == ListenerMode.AbbFramed)
+        {
+            byte[] abbFrame = AbbMesFrameCodec.BuildMesInfoFrame(weldState: false, joints: [0f, 0f, 0f, 0f, 0f, 0f]);
+            await stream.WriteAsync(abbFrame, cancellation);
+            var (isStatus, _) = await AbbMesFrameCodec.ReadAckAsync(stream, cancellation);
+            Check(isStatus, "ABB 有效连接未得到成功应答。");
+            return;
+        }
+
+        if (mode == ListenerMode.FanucFramed)
+        {
+            byte[] fanucFrame = Encoding.ASCII.GetBytes("Mes_Info_Data:FANUC,Run,MAIN,R_Side_7,FALSE,FALSE,FALSE,FALSE;");
+            await stream.WriteAsync(fanucFrame, cancellation);
+            var (isStatus, _) = await AbbMesFrameCodec.ReadAckAsync(stream, cancellation);
+            Check(isStatus, "FANUC 有效连接未得到成功应答。");
+            return;
+        }
+
         const string frame = "<Robot_Receive Robot_Type=\"KUKA\" Vision_Model=\"Mes_Info_Data\" />";
         await stream.WriteAsync(Encoding.UTF8.GetBytes(frame), cancellation);
         var response = new StringBuilder();

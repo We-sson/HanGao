@@ -7,6 +7,8 @@ namespace RobotSimulator.Models;
 /// <summary>开发时确定并内嵌的固定机器人参数，不包含 Tool，不生成外部机器人配置。</summary>
 public sealed class RobotConfiguration
 {
+    /// <summary>机器人所属控制器品牌（如 KUKA、ABB），与通讯协议品牌对齐。</summary>
+    public required string Brand { get; init; }
     /// <summary>机器人型号名称。</summary>
     public required string ModelName { get; init; }
     /// <summary>当前机器人资源目录中的基座 STEP 文件名。</summary>
@@ -129,9 +131,10 @@ public static class RobotConfigurationStore
     /// <summary>开发配置有误时尽早给出原因，避免非法数据进入原生几何接口。</summary>
     internal static void Validate(RobotConfiguration configuration)
     {
-        if (string.IsNullOrWhiteSpace(configuration.ModelName) || string.IsNullOrWhiteSpace(configuration.BaseFile)
+        if (string.IsNullOrWhiteSpace(configuration.Brand) || string.IsNullOrWhiteSpace(configuration.ModelName)
+            || string.IsNullOrWhiteSpace(configuration.BaseFile)
             || configuration.Joints is null || configuration.Joints.Count != 6)
-            throw new InvalidDataException("机器人必须具有型号名称、基座和 J1～J6 六个关节。");
+            throw new InvalidDataException("机器人必须具有品牌、型号名称、基座和 J1～J6 六个关节。");
         for (var index = 0; index < configuration.Joints.Count; index++)
             ValidateJoint(configuration.Joints[index], index);
         ValidateVector(configuration.FlangeOrigin, "法兰中心");

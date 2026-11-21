@@ -1,5 +1,6 @@
 {
   "modelName": "KUKA KR 20 R1810-2",
+  "brand": "KUKA",
   "baseFile": "Base.STEP",
   "flangeOrigin": { "x": 1173, "y": 0, "z": 1450 },
   "flangeOrientation": { "a": 0, "b": 90, "c": 0 },

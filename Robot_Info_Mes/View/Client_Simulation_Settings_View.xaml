@@ -108,6 +108,25 @@
                         </ComboBox>
                     </Grid>
 
+                    <TextBlock
+                        Margin="85,0,30,6"
+                        FontFamily="{DynamicResource 全局_文字_中文字体}"
+                        FontSize="12"
+                        Foreground="#C86D1F"
+                        Text="{Binding SimulationProtocolMismatchWarning}"
+                        TextWrapping="Wrap">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SimulationProtocolMismatchWarning}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
                     <Grid Height="35" Margin="0,8,0,8">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="85" />

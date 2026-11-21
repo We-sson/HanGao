@@ -1,46 +1,18 @@
 MODULE HG_Mes(SYSMODULE)
 
-
-
-    RECORD Robot_Process_Name_Model
-        string R_Side_7;
-        string R_Side_8;
-        string R_Side_9;
-        string Panel_Surround_7;
-        string Panel_Surround_8;
-        string Panel_Surround_9;
-    ENDRECORD
-
-    RECORD HG_Mes_SocketSend_Model
-        string Robot_Type;
-        string Vision_Model;
-        string Mes_Robot_Mode;
-        string Mes_Programs_Name;
-        string Robot_Process_Int;
-        string Mes_Work_A_State;
-        string Mes_Work_B_State;
-        string Mes_Work_C_State;
-        string Mes_Work_D_State;
-    ENDRECORD
-
-    RECORD HG_Mes_SocketRece_Model
-        num Socket_Polling_Time;
-        num IsStatus;
-
-
-    ENDRECORD
-
-
-    CONST Robot_Process_Name_Model Robot_Process_Name_Enum:=["R_Side_7","R_Side_8","R_Side_9","Panel_Surround_7","Panel_Surround_8","Panel_Surround_9"];
-
-    CONST string Robot_Process_Name:="R_Side_7";
+    ! Process code reported to MES (site value: R_Side_9)
+    CONST string Robot_Process_Name:="R_Side_9";
     CONST string Mes_Info_Data:="Mes_Info_Data";
+
+    ! Fallback motion task name when HG_Mes runs as a non-motion background task
+    CONST string HG_Mes_Motion_Task:="T_ROB1";
+    CONST num Mes_Reconnect_Wait_Time:=1;
+    CONST num Mes_Loop_Wait_Time:=0.02;
 
     PERS num Work_A_Run_Nunber:=0;
     PERS num Work_B_Run_Nunber:=0;
     PERS num Work_C_Run_Nunber:=0;
     PERS num Work_D_Run_Nunber:=0;
-
 
     LOCAL VAR bool Q_Work_A_Stat:=FALSE;
     LOCAL VAR bool Q_Work_B_Stat:=FALSE;
@@ -50,172 +22,151 @@ MODULE HG_Mes(SYSMODULE)
     VAR bool EKRL_Send_Stat:=FALSE;
     VAR bool EKRL_Server_Stat:=FALSE;
 
-
-    PERS bool Work_A_state:=TRUE;
+    ! Cross-task PERS station states owned by T_ROB1 MainModule.mod (read-only here)
+    PERS bool Work_A_state:=FALSE;
     PERS bool Work_B_state:=FALSE;
     PERS bool Work_C_state:=FALSE;
     PERS bool Work_D_state:=FALSE;
 
     VAR num Socket_TimeOut:=5;
-
     VAR clock Socket_Cycle_clock;
-
 
     PROC Main()
         HG_Mes_Info_Main;
     ENDPROC
 
-
-
     PROC HG_Mes_Info_Main()
         HG_Mes_Info_Int;
 
         WHILE TRUE DO
-
-
             HG_Mes_Date_Send EKRL_Connect_Stat,EKRL_Send_Stat;
-
-
+            WaitTime Mes_Loop_Wait_Time;
         ENDWHILE
 
-
-
-
+    UNDO
+        IF SocketGetStatus(Client)<>SOCKET_CLOSED THEN
+            SocketClose Client;
+        ENDIF
+        EKRL_Connect_Stat:=FALSE;
+        EKRL_Send_Stat:=FALSE;
     ENDPROC
 
     PROC HG_Mes_Info_Int()
-
-
-        Work_A_Run_Nunber:=0;
-        Work_B_Run_Nunber:=0;
-        Work_C_Run_Nunber:=0;
-        Work_D_Run_Nunber:=0;
-
-
         Q_Work_A_Stat:=FALSE;
         Q_Work_B_Stat:=FALSE;
         Q_Work_C_Stat:=FALSE;
         Q_Work_D_Stat:=FALSE;
         EKRL_Send_Stat:=FALSE;
         EKRL_Connect_Stat:=FALSE;
+        EKRL_Server_Stat:=FALSE;
 
-
-        Work_A_state:=FALSE;
-        Work_B_state:=FALSE;
-        Work_C_state:=FALSE;
-        Work_D_state:=FALSE;
-
-
-
+        ! Close any leftover socket handle; do NOT reset Work_*_state owned by T_ROB1
+        HG_Socket_Close Client;
     ENDPROC
 
-    PROC HG_Mes_Date_Send(var bool Connt_Stat,var bool Send_Stat)
-        VAR socketstatus status;
-        VAR num Socket_num;
-        VAR num Clock_num;
+    ! Read live J1..J6 joint angles from foreground motion task (T_ROB1)
+    LOCAL FUNC bool HG_Mes_Read_Joints(string motion_task_name,INOUT HG_Mes_RobotAxis_Model axis_out)
+        VAR jointtarget act_joints;
+        VAR string target_task;
 
-        !????????
-        IF Connt_Stat=FALSE THEN
-            !ClkReset Socket_Cycle_clock;
-            Connt_Stat:=HG_Socket_Client_Connect(Client,HG_Mes_Client_PORT\Wait_out:=false\wait_time:=Socket_TimeOut);
-            IF Connt_Stat=TRUE THEN
-                !ClkStart Socket_Cycle_clock;
-                Send_Stat:=TRUE;
+        axis_out:=[0,0,0,0,0,0];
+        IF TaskRunMec() THEN
+            act_joints:=CJointT();
+        ELSE
+            target_task:=motion_task_name;
+            IF StrLen(target_task)=0 THEN
+                target_task:=HG_Mes_Motion_Task;
             ENDIF
-
+            act_joints:=CJointT(\TaskName:=target_task);
         ENDIF
 
-
-
-
-
-        !??????????????
-        IF SocketGetStatus(Client)=SOCKET_CONNECTED THEN
-            Socket_num:=SocketPeek(Client);
+        ! Reject unconfigured/invalid ABB 9E+09 sentinel values
+        IF (Abs(act_joints.robax.rax_1)>=9E8) OR (Abs(act_joints.robax.rax_2)>=9E8) OR (Abs(act_joints.robax.rax_3)>=9E8) THEN
+            RETURN FALSE;
+        ENDIF
+        IF (Abs(act_joints.robax.rax_4)>=9E8) OR (Abs(act_joints.robax.rax_5)>=9E8) OR (Abs(act_joints.robax.rax_6)>=9E8) THEN
+            RETURN FALSE;
         ENDIF
 
-
-
-
-
-
-
-
-        !???????????
-        !Clock_num:=ClkRead(Socket_Cycle_clock);
-        IF (Connt_Stat=TRUE) and (Send_Stat=TRUE) and (SocketGetStatus(Client)=SOCKET_CONNECTED) THEN
-            !ClkStop Socket_Cycle_clock;
-            !ClkReset Socket_Cycle_clock;
-            HG_Mes_Info_Send Send_Stat;
-            !WaitTime 0.3;
-            ! ClkStart Socket_Cycle_clock;
-        ENDIF
-
-        !??????????????
-        IF ((Connt_Stat=TRUE) and (SocketGetStatus(Client)<>SOCKET_CONNECTED) ) OR (Send_Stat=FALSE) THEN
-            HG_Socket_Close Client;
-            Connt_Stat:=FALSE;
-            Send_Stat:=FALSE;
-            !ClkStop Socket_Cycle_clock;
-            !ClkReset Socket_Cycle_clock;
-        ENDIF
-
+        axis_out.J1:=act_joints.robax.rax_1;
+        axis_out.J2:=act_joints.robax.rax_2;
+        axis_out.J3:=act_joints.robax.rax_3;
+        axis_out.J4:=act_joints.robax.rax_4;
+        axis_out.J5:=act_joints.robax.rax_5;
+        axis_out.J6:=act_joints.robax.rax_6;
+        RETURN TRUE;
 
     ERROR
-        !??????????????
-        IF ERRNO=ERR_SOCK_CLOSED THEN
+        axis_out:=[0,0,0,0,0,0];
+        RETURN FALSE;
+    ENDFUNC
+
+    PROC HG_Mes_Date_Send(VAR bool Connt_Stat,VAR bool Send_Stat)
+        ! Connect to MES server when offline
+        IF Connt_Stat=FALSE THEN
+            Connt_Stat:=HG_Socket_Client_Connect(Client,HG_Mes_Client_PORT\Wait_out:=FALSE\wait_time:=Socket_TimeOut);
+            IF Connt_Stat=TRUE THEN
+                Send_Stat:=TRUE;
+            ELSE
+                WaitTime Mes_Reconnect_Wait_Time;
+                RETURN;
+            ENDIF
+        ENDIF
+
+        ! Drain stale bytes before sending the next frame
+        IF SocketGetStatus(Client)=SOCKET_CONNECTED THEN
+            Mes_Socket_Clear_Receive Client;
+        ENDIF
+
+        ! Send MES snapshot and wait for 8-byte ACK
+        IF (Connt_Stat=TRUE) AND (Send_Stat=TRUE) AND (SocketGetStatus(Client)=SOCKET_CONNECTED) THEN
+            HG_Mes_Info_Send Send_Stat;
+        ENDIF
+
+        ! Close and wait before reconnecting when disconnected or ACK failed
+        IF ((Connt_Stat=TRUE) AND (SocketGetStatus(Client)<>SOCKET_CONNECTED)) OR (Send_Stat=FALSE) THEN
             HG_Socket_Close Client;
             Connt_Stat:=FALSE;
             Send_Stat:=FALSE;
-            ! ClkStop Socket_Cycle_clock;
-            ! ClkReset Socket_Cycle_clock;
-
-            RETURN ;
+            WaitTime Mes_Reconnect_Wait_Time;
         ENDIF
 
-
-
+    ERROR
+        HG_Socket_Close Client;
+        Connt_Stat:=FALSE;
+        Send_Stat:=FALSE;
+        WaitTime Mes_Reconnect_Wait_Time;
+        RETURN;
     ENDPROC
 
-
-    PROC HG_Mes_Info_Send(var bool Send_Stat)
+    PROC HG_Mes_Info_Send(VAR bool Send_Stat)
         VAR HG_Mes_SocketSend_Model HG_Mes_SocketSend;
         VAR HG_Mes_SocketRece_Model HG_Mes_SocketRece;
-        VAR num No;
-        VAR string aa;
+        VAR num No:=0;
+        VAR string motion_task_name:="";
 
         HG_Mes_SocketRece.IsStatus:=0;
-        No:=0;
+        HG_Mes_SocketRece.Socket_Polling_Time:=0;
 
         HG_Mes_SocketSend.Robot_Type:="ABB";
-
         HG_Mes_SocketSend.Vision_Model:=Mes_Info_Data;
 
-        HG_Mes_SocketSend.Mes_Programs_Name:=GetTaskName(\MecTaskNo:=No);
+        motion_task_name:=GetTaskName(\MecTaskNo:=No);
+        IF StrLen(motion_task_name)=0 THEN
+            motion_task_name:=HG_Mes_Motion_Task;
+        ENDIF
+        HG_Mes_SocketSend.Mes_Programs_Name:=motion_task_name;
 
-
-
-        IF Robot_Error=1 THEN
+        ! Real controller status signals (EIO.cfg: DNDO05_Error, DNDO06_Run_LED)
+        IF DNDO05_Error=1 THEN
             HG_Mes_SocketSend.Mes_Robot_Mode:="Error";
-
-
-
-
         ELSE
-            No:=RunMode();
-           
-            IF Robot_Run=1 and OpMode()=OP_AUTO THEN
+            IF (DNDO06_Run_LED=1) AND (OpMode()=OP_AUTO) THEN
                 HG_Mes_SocketSend.Mes_Robot_Mode:="Run";
             ELSE
-
                 HG_Mes_SocketSend.Mes_Robot_Mode:="T1";
             ENDIF
-
-
-
         ENDIF
-        aa:=ValToStr(TRUE);
-
 
         HG_Mes_SocketSend.Mes_Work_A_State:=ValToStr(Work_A_state);
         HG_Mes_SocketSend.Mes_Work_B_State:=ValToStr(Work_B_state);
@@ -224,48 +175,35 @@ MODULE HG_Mes(SYSMODULE)
 
         HG_Mes_SocketSend.Robot_Process_Int:=Robot_Process_Name;
 
+        ! Real ArcWare WeldOn laser output signal (PROC.cfg: -WeldOn "DNDO00_Laser")
+        IF DNDO00_Laser=1 THEN
+            HG_Mes_SocketSend.Mes_Weld_State:="TRUE";
+        ELSE
+            HG_Mes_SocketSend.Mes_Weld_State:="FALSE";
+        ENDIF
 
-        !Send Data
+        ! Live 6-axis angles for 3D digital twin (omitted safely if unreadable)
+        HG_Mes_SocketSend.Has_Robot_Axis:=HG_Mes_Read_Joints(motion_task_name,HG_Mes_SocketSend.Robot_Axis);
+
         Mes_Socket_Info_Send Client,HG_Mes_SocketSend;
-
         Mes_Socket_Info_Receive Client,HG_Mes_SocketRece\Wait_Time:=Socket_TimeOut;
-
 
         IF HG_Mes_SocketRece.IsStatus=1 THEN
             Send_Stat:=TRUE;
         ELSE
-            Send_Stat:=false;
-
-
+            Send_Stat:=FALSE;
         ENDIF
-
-
-
-
-
 
     ERROR
-
         IF ERRNO=ERR_SOCK_TIMEOUT THEN
-            TPWrite "upack msg from sensor socket timeout, timeout time is: "+ValToStr(Socket_TimeOut);
-
+            HTWrite "MES exchange timeout, timeout = "+ValToStr(Socket_TimeOut);
         ELSEIF ERRNO=ERR_SOCK_CLOSED THEN
-            TPWrite "upack msg from sensor socket closed";
+            HTWrite "MES exchange socket closed";
         ELSE
-            TPWrite "upack msg from sensor socket unknow";
+            HTWrite "MES exchange error, ERRNO = "+ValToStr(ERRNO);
         ENDIF
-
-
-        Send_Stat:=false;
-        RETURN ;
-
-
-
-
-
-
+        Send_Stat:=FALSE;
+        RETURN;
     ENDPROC
-
-
 
 ENDMODULE

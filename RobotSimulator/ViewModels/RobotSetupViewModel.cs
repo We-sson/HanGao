@@ -20,6 +20,7 @@ public sealed partial class RobotSetupViewModel : ObservableObject
     private string _validationMessage = string.Empty;
     private string _statusMessage = "选择保存有 Base、J1～J6 的 STEP 源模型目录。";
 
+    [ObservableProperty] private string _brand = string.Empty;
     [ObservableProperty] private string _modelName = string.Empty;
     [ObservableProperty] private string _baseFile = string.Empty;
     [ObservableProperty] private string _flangeX = string.Empty;
@@ -101,6 +102,7 @@ public sealed partial class RobotSetupViewModel : ObservableObject
         if (existing is not null)
         {
             for (var i = 0; i < _joints.Count; i++) _joints[i].Load(existing.Joints[i]);
+            Brand = existing.Brand;
             ModelName = existing.ModelName;
             BaseFile = existing.BaseFile;
             FlangeX = Format(existing.FlangeOrigin.X); FlangeY = Format(existing.FlangeOrigin.Y); FlangeZ = Format(existing.FlangeOrigin.Z);
@@ -108,6 +110,7 @@ public sealed partial class RobotSetupViewModel : ObservableObject
         }
         else
         {
+            Brand = string.Empty;
             ModelName = new DirectoryInfo(directory).Name;
             BaseFile = MatchFile("Base.STEP");
             foreach (var joint in _joints) joint.ModelFile = MatchFile($"{joint.Name}.STEP");
@@ -142,6 +145,7 @@ public sealed partial class RobotSetupViewModel : ObservableObject
         {
             if (StepIndex == 0)
             {
+                if (string.IsNullOrWhiteSpace(Brand)) throw new InvalidDataException("请输入机器人品牌（如 KUKA、ABB）。");
                 if (string.IsNullOrWhiteSpace(ModelName)) throw new InvalidDataException("请输入机器人型号名称。");
                 if (RobotImportService.GetModelFiles(SourceDirectory).Count < 7)
                     throw new InvalidDataException("请先准备 Base 和 J1～J6 共七份独立 STEP 文件。");
@@ -242,7 +246,7 @@ public sealed partial class RobotSetupViewModel : ObservableObject
         ValidateModels();
         var configuration = new RobotConfiguration
         {
-            ModelName = ModelName.Trim(), BaseFile = BaseFile,
+            Brand = Brand.Trim(), ModelName = ModelName.Trim(), BaseFile = BaseFile,
             Joints = Joints.Select(ValidateJointDraft).ToArray(),
             FlangeOrigin = includeFlange ? new VectorConfiguration
             {
@@ -260,6 +264,7 @@ public sealed partial class RobotSetupViewModel : ObservableObject
     private void ValidateModels()
     {
         if (SourceDirectory.Length == 0) throw new InvalidDataException("请先选择机器人源模型目录。");
+        if (string.IsNullOrWhiteSpace(Brand)) throw new InvalidDataException("请输入机器人品牌（如 KUKA、ABB）。");
         if (string.IsNullOrWhiteSpace(ModelName)) throw new InvalidDataException("请输入机器人型号名称。");
         RobotImportService.ValidateFiles(SourceDirectory, BaseFile, Joints.Select(joint => joint.ModelFile));
     }
@@ -276,7 +281,7 @@ public sealed partial class RobotSetupViewModel : ObservableObject
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.PropertyName is nameof(ModelName) or nameof(BaseFile) or nameof(FlangeX) or nameof(FlangeY)
+        if (e.PropertyName is nameof(Brand) or nameof(ModelName) or nameof(BaseFile) or nameof(FlangeX) or nameof(FlangeY)
             or nameof(FlangeZ) or nameof(FlangeA) or nameof(FlangeB) or nameof(FlangeC)) Invalidate();
     }
 

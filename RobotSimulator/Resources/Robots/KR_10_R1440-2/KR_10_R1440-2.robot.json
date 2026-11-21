@@ -1,5 +1,6 @@
 {
   "modelName": "KUKA KR 10 R1440-2",
+  "brand": "KUKA",
   "baseFile": "Base.STEP",
   "flangeOrigin": {
     "x": 930.0,

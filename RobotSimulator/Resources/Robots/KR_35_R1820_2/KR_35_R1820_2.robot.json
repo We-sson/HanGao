@@ -1,5 +1,6 @@
 {
   "modelName": "KUKA KR 35 R1820-2",
+  "brand": "KUKA",
   "baseFile": "Base.STEP",
   "flangeOrigin": {
     "x": 1153.3,

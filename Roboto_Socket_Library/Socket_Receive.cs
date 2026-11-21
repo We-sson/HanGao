@@ -1,10 +1,13 @@
 ﻿
 using System.Buffers;
+using System.Buffers.Binary;
 using Roboto_Socket_Library.Model;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -39,11 +42,11 @@ namespace Roboto_Socket_Library
         /// </summary>
         /// <param name="_IP">要绑定的本地 IPv4 地址。</param>
         /// <param name="_Port">要绑定的 TCP 端口文本。</param>
-        /// <param name="_UseXmlFragmentReceive">为 <see langword="true"/> 时按 XML 根元素边界持续读取，适合拆包/粘包场景。</param>
-        public Socket_Receive(string _IP, string _Port,bool _UseXmlFragmentReceive)
+        /// <param name="_UseFramedReceive">为 <see langword="true"/> 时按当前 <see cref="Socket_Robot"/> 厂商协议帧边界持续切帧，统一处理拆包/粘包。</param>
+        public Socket_Receive(string _IP, string _Port, bool _UseFramedReceive)
         {
 
-            UseXmlFragmentReceive = _UseXmlFragmentReceive;
+            UseFramedReceive = _UseFramedReceive;
             Server_Strat(_IP, _Port);
 
 
@@ -145,10 +148,11 @@ namespace Roboto_Socket_Library
 
 
         /// <summary>
-        /// 是否使用流式 XML Fragment 读取模式。
-        /// 开启后，只有读取到完整顶层 XML 元素才交给协议层，可正确处理 TCP 拆包和粘包。
+        /// 是否启用按协议帧边界的统一流式接收模式。
+        /// 开启后按 <see cref="Socket_Robot"/> 自动复用对应切帧规则（KUKA 按 XML 根元素、ABB 按 2 字节总长度前缀、FANUC/川崎按分号结束符），
+        /// 统一处理 TCP 拆包与粘包，无需为各厂商分别维护独立接收开关和循环。
         /// </summary>
-        public bool UseXmlFragmentReceive { get; set; } = false;
+        public bool UseFramedReceive { get; set; } = false;
 
 
         /// <summary>
@@ -166,11 +170,11 @@ namespace Roboto_Socket_Library
         /// </summary>
         public const int Receive_Buffer_Size = 256 * 1024;   // 256KB
 
-        /// <summary>流式 XML 接收时每次向 Socket 申请的块大小。</summary>
-        private const int Xml_Read_Buffer_Size = 16 * 1024;
+        /// <summary>流式切帧接收时每次向 Socket 申请的块大小。</summary>
+        private const int Stream_Read_Buffer_Size = 16 * 1024;
 
-        /// <summary>单条 XML 报文上限，防止异常连接无限占用内存。</summary>
-        private const int Max_Xml_Frame_Size = 16 * 1024 * 1024;
+        /// <summary>单条流式报文上限，防止异常连接无限占用内存。</summary>
+        private const int Max_Stream_Frame_Size = 16 * 1024 * 1024;
 
         /// <summary>收到一帧原始报文后触发，主要用于日志和监视界面。</summary>
         public Message_Byte_delegate<byte[]>? Socket_Receive_Meg { set; get; }
@@ -405,13 +409,13 @@ namespace Roboto_Socket_Library
         }
 
         /// <summary>
-        /// 从主动客户端 Socket 持续读取，直到得到一个完整 XML 根元素。
+        /// 从主动客户端 Socket 持续读取，直到按目标机器人协议提取出一帧完整回执。
         /// TCP 只保证字节顺序，不保证一次 Receive 对应一条业务报文。
         /// </summary>
-        private static byte[] ReceiveXmlMessage(Socket socket)
+        private static byte[] ReceiveFramedMessage(Socket socket, Socket_Robot_Protocols_Enum protocol)
         {
-            List<byte> pending = new(Xml_Read_Buffer_Size);
-            byte[] readBuffer = System.Buffers.ArrayPool<byte>.Shared.Rent(Xml_Read_Buffer_Size);
+            List<byte> pending = new(Stream_Read_Buffer_Size);
+            byte[] readBuffer = System.Buffers.ArrayPool<byte>.Shared.Rent(Stream_Read_Buffer_Size);
             int responseTimeout = socket.ReceiveTimeout;
             Stopwatch responseWatch = Stopwatch.StartNew();
 
@@ -442,18 +446,18 @@ namespace Roboto_Socket_Library
                         pending.Add(readBuffer[index]);
                     }
 
-                    if (pending.Count > Max_Xml_Frame_Size)
+                    if (pending.Count > Max_Stream_Frame_Size)
                     {
-                        throw new InvalidDataException($"XML 回执超过 {Max_Xml_Frame_Size} 字节上限。");
+                        throw new InvalidDataException($"协议回执超过 {Max_Stream_Frame_Size} 字节上限。");
                     }
 
-                    bool hasFrame = TryExtractXmlFrame(pending, out byte[] frame, out int bytesConsumed);
+                    bool hasFrame = TryExtractProtocolFrame(protocol, pending, out byte[] frame, out int bytesConsumed);
                     if (hasFrame)
                     {
                         return frame;
                     }
 
-                    // 只有完整帧前的空白才会在未完成时标记为可丢弃。
+                    // 只有完整帧前的前导空白才会在未完成时标记为可丢弃。
                     if (bytesConsumed > 0)
                     {
                         pending.RemoveRange(0, bytesConsumed);
@@ -812,10 +816,10 @@ namespace Roboto_Socket_Library
                     // 发送日志仍在接收日志之前发布，监视器看到的请求/响应顺序不变。
                     Socket_Send_Meg?.Invoke(Send_byte);
 
-                    // 按完整 XML 根元素收取回执，不能假设一次 Receive 就是一整帧。
+                    // 按目标机器人协议帧边界收取回执，不能假设一次 Receive 就是一整帧。
                     // ReceiveTimeout 仍负责终止无响应等待。
                     operation = "等待回执";
-                    byte[] _Reveice_Meg = ReceiveXmlMessage(socket);
+                    byte[] _Reveice_Meg = ReceiveFramedMessage(socket, Socket_Robot);
 
                     // 回执方向由报文头决定，协议对象会先识别 Vision_Model 再反序列化。
                     operation = "解析回执";
@@ -983,7 +987,7 @@ namespace Roboto_Socket_Library
 
 
         /// <summary>
-        /// 完成一次客户端接受，并按配置启动固定缓冲或流式 XML 接收循环。
+        /// 完成一次客户端接受，并按配置启动固定缓冲或统一协议流式接收循环。
         /// </summary>
         /// <param name="ar">AsyncState 中保存监听 Socket。</param>
         private void ClienAppcet(IAsyncResult ar)
@@ -1018,8 +1022,8 @@ namespace Roboto_Socket_Library
                         $"Error:-17,连接数超过上限 {MaxServerConnections}，拒绝新连接。", client);
                     return;
                 }
-                if (UseXmlFragmentReceive)
-                    StartXmlFragmentReceiveThread(received!);
+                if (UseFramedReceive)
+                    StartFramedReceiveThread(received!);
                 else
                     client.BeginReceive(received!.buffer, 0, received.buffer.Length, SocketFlags.None,
                         new AsyncCallback(ReceiveMessage), received);
@@ -1080,11 +1084,11 @@ namespace Roboto_Socket_Library
                     }
 
 
-                    // 先续挂接收，缩短处理当前报文期间的网络空窗。
-                    client.Client_Socket?.BeginReceive(client.buffer, 0, client.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
+                    // 先复制本帧有效数据再续挂接收，避免下一批网络字节覆盖当前缓冲。
+                    byte[] _Reveice_Meg = client.buffer.AsSpan(0, length).ToArray();
 
-                    // 当前缓冲会被下一次接收复用，因此续挂后立即复制本帧有效数据，再进入较慢的业务处理。
-                    byte[] _Reveice_Meg = client.buffer.Skip(0).Take(length).ToArray();
+                    // 立即续挂接收，缩短处理当前报文期间的网络空窗。
+                    client.Client_Socket?.BeginReceive(client.buffer, 0, client.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMessage), client);
 
                     // 固定缓冲路径把这批字节视为完整报文，并进入统一业务分派。
                     ProcessReceivedMessage(client, _Reveice_Meg);
@@ -1254,11 +1258,11 @@ namespace Roboto_Socket_Library
         }
 
         /// <summary>
-        /// 为流式 XML 接收启动专用最高优先级后台线程，避免 3D 渲染或 UI 忙碌时通信回执被线程池调度拖延。
+        /// 为统一协议流式接收启动专用最高优先级后台线程，避免 3D 渲染或 UI 忙碌时通信回执被线程池调度拖延。
         /// </summary>
-        private void StartXmlFragmentReceiveThread(Receive_State client)
+        private void StartFramedReceiveThread(Receive_State client)
         {
-            Thread receiveThread = new(() => ReceiveXmlFragmentLoop(client))
+            Thread receiveThread = new(() => ReceiveFramedLoop(client))
             {
                 IsBackground = true,
                 Name = "HanGao.RobotSocketReceive"
@@ -1276,20 +1280,20 @@ namespace Roboto_Socket_Library
         }
 
         /// <summary>
-        /// 在一个客户端连接上持续累计 TCP 字节，并按完整 XML 根元素逐帧处理。
+        /// 在一个客户端连接上持续累计 TCP 字节，并按当前 <see cref="Socket_Robot"/> 协议族提取完整帧逐帧分派。
+        /// 各家机器人共用同一接收循环、超时管理、缓冲限流和异常回收逻辑，仅切帧边界按协议委派。
         /// </summary>
         /// <param name="client">拥有网络流的客户端状态。</param>
         /// <remarks>
-        /// 不直接在长连接上使用 <see cref="XmlReader"/> 加 <c>XElement.LoadAsync</c>：该组合可能
-        /// 为读取根元素后的下一个节点而继续等待，和同步等待回执的客户端形成互等。这里先在累计
-        /// 字节中定位闭合根元素，再交给协议层解析，同时兼容拆包、粘包和旧版无分隔符 XML。
+        /// KUKA 不直接使用 <see cref="XmlReader"/> 加 <c>XElement.LoadAsync</c>，避免等待后续节点造成同步请求互等；
+        /// ABB 按帧首 2 字节小端序 UInt16 总长度切帧；FANUC/川崎按分号结束符切帧，均兼容拆包与粘包。
         /// </remarks>
-        private void ReceiveXmlFragmentLoop(Receive_State client)
+        private void ReceiveFramedLoop(Receive_State client)
         {
             Socket? socket = client.Client_Socket;
             if (socket is null) return;
 
-            byte[] readBuffer = ArrayPool<byte>.Shared.Rent(Xml_Read_Buffer_Size);
+            byte[] readBuffer = ArrayPool<byte>.Shared.Rent(Stream_Read_Buffer_Size);
             try
             {
                 socket.ReceiveTimeout = ServerReceiveTimeoutMilliseconds;
@@ -1300,7 +1304,7 @@ namespace Roboto_Socket_Library
                     int length;
                     try
                     {
-                        length = socket.Receive(readBuffer, 0, Xml_Read_Buffer_Size, SocketFlags.None);
+                        length = socket.Receive(readBuffer, 0, Stream_Read_Buffer_Size, SocketFlags.None);
                     }
                     catch (SocketException ex) when (ex.SocketErrorCode == SocketError.TimedOut)
                     {
@@ -1312,25 +1316,22 @@ namespace Roboto_Socket_Library
                     if (!IsServerClientActive(client)) return;
                     if (length == 0)
                     {
-                        if (pending.Any(value => !IsXmlWhitespace(value)))
-                        {
-                            throw new XmlException("连接关闭时仍有未完成的 XML 报文。");
-                        }
-
+                        EnsureNoIncompleteFrameOnClose(Socket_Robot, pending);
                         CloseServerClientWithError(client, "Error:-9,客户端断开连接！", socket);
                         return;
                     }
 
                     pending.AddRange(readBuffer.AsSpan(0, length));
 
-                    if (pending.Count > Max_Xml_Frame_Size)
+                    if (pending.Count > Max_Stream_Frame_Size)
                     {
-                        throw new InvalidDataException($"XML 请求超过 {Max_Xml_Frame_Size} 字节上限。");
+                        throw new InvalidDataException($"协议请求超过 {Max_Stream_Frame_Size} 字节上限。");
                     }
 
                     while (true)
                     {
-                        bool hasFrame = TryExtractXmlFrame(
+                        bool hasFrame = TryExtractProtocolFrame(
+                            Socket_Robot,
                             pending,
                             out byte[] completeMessage,
                             out int bytesConsumed);
@@ -1366,6 +1367,136 @@ namespace Roboto_Socket_Library
                 ArrayPool<byte>.Shared.Return(readBuffer);
             }
 
+        }
+
+        /// <summary>
+        /// 按机器人协议族从累计字节流中提取一帧完整报文，供服务端流式循环和客户端回执读取共同复用。
+        /// </summary>
+        private static bool TryExtractProtocolFrame(
+            Socket_Robot_Protocols_Enum protocol,
+            List<byte> buffer,
+            out byte[] frame,
+            out int bytesConsumed)
+            => protocol switch
+            {
+                Socket_Robot_Protocols_Enum.KUKA => TryExtractXmlFrame(buffer, out frame, out bytesConsumed),
+                Socket_Robot_Protocols_Enum.ABB => TryExtractAbbLengthPrefixedFrame(buffer, out frame, out bytesConsumed),
+                Socket_Robot_Protocols_Enum.FANUC or Socket_Robot_Protocols_Enum.川崎 => TryExtractDelimitedFrame(buffer, (byte)';', out frame, out bytesConsumed),
+                _ => TryExtractRawChunkFrame(buffer, out frame, out bytesConsumed),
+            };
+
+        /// <summary>
+        /// 对端有序关闭连接时检查是否残留半包，各厂商协议按自身边界语义判定。
+        /// </summary>
+        private static void EnsureNoIncompleteFrameOnClose(Socket_Robot_Protocols_Enum protocol, List<byte> pending)
+        {
+            switch (protocol)
+            {
+                case Socket_Robot_Protocols_Enum.KUKA:
+                    if (pending.Any(value => !IsXmlWhitespace(value)))
+                    {
+                        throw new XmlException("连接关闭时仍有未完成的 XML 报文。");
+                    }
+                    break;
+                case Socket_Robot_Protocols_Enum.ABB:
+                    if (pending.Count > 0)
+                    {
+                        throw new InvalidDataException("连接关闭时仍有未完成的 ABB 报文。");
+                    }
+                    break;
+                case Socket_Robot_Protocols_Enum.FANUC or Socket_Robot_Protocols_Enum.川崎:
+                    if (pending.Any(value => !IsXmlWhitespace(value)))
+                    {
+                        throw new InvalidDataException($"连接关闭时仍有未完成的 {protocol} 报文。");
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 从累计字节流中提取一帧完整的 ABB 长度前缀报文（前 2 字节 UInt16 为包含头部的整帧字节数）。
+        /// </summary>
+        private static bool TryExtractAbbLengthPrefixedFrame(
+            List<byte> buffer,
+            out byte[] frame,
+            out int bytesConsumed)
+        {
+            frame = Array.Empty<byte>();
+            bytesConsumed = 0;
+
+            if (buffer.Count < 2)
+            {
+                return false;
+            }
+
+            int frameLength = BinaryPrimitives.ReadUInt16LittleEndian(CollectionsMarshal.AsSpan(buffer)[..2]);
+            if (frameLength < 4)
+            {
+                throw new InvalidDataException($"ABB 报文总长度非法：{frameLength}。");
+            }
+
+            if (buffer.Count < frameLength)
+            {
+                return false;
+            }
+
+            frame = buffer.GetRange(0, frameLength).ToArray();
+            bytesConsumed = frameLength;
+            return true;
+        }
+
+        /// <summary>
+        /// 从累计字节流中提取以指定结束符（如 FANUC/川崎分号 ';'）结束的一帧完整文本报文。
+        /// </summary>
+        private static bool TryExtractDelimitedFrame(
+            List<byte> buffer,
+            byte delimiter,
+            out byte[] frame,
+            out int bytesConsumed)
+        {
+            frame = Array.Empty<byte>();
+            bytesConsumed = 0;
+
+            int start = 0;
+            while (start < buffer.Count && IsXmlWhitespace(buffer[start]))
+            {
+                start++;
+            }
+
+            if (start == buffer.Count)
+            {
+                bytesConsumed = start;
+                return false;
+            }
+
+            int end = IndexOfByte(buffer, delimiter, start);
+            if (end < 0)
+            {
+                bytesConsumed = start;
+                return false;
+            }
+
+            frame = buffer.GetRange(start, end - start + 1).ToArray();
+            bytesConsumed = end + 1;
+            return true;
+        }
+
+        /// <summary>通用或未定义边界协议的兜底切帧：将当前已收字节整批交付。</summary>
+        private static bool TryExtractRawChunkFrame(
+            List<byte> buffer,
+            out byte[] frame,
+            out int bytesConsumed)
+        {
+            if (buffer.Count == 0)
+            {
+                frame = Array.Empty<byte>();
+                bytesConsumed = 0;
+                return false;
+            }
+
+            frame = buffer.ToArray();
+            bytesConsumed = buffer.Count;
+            return true;
         }
 
 

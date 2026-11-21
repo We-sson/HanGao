@@ -99,6 +99,7 @@ internal static class ConfigurationRecoveryChecks
         var models = RobotConfigurationStore.Discover();
         var original = JsonSerializer.Serialize(models.Single(model => model.Id == "KR_10_R1440-2").Configuration, JsonOptions);
         Directory.CreateDirectory(directory);
+        CheckMissingNumber(original, json => json, "brand", directory);
         foreach (var property in new[] { "minimum", "maximum", "homeAngle", "modelReferenceAngle" })
             CheckMissingNumber(original, json => json["joints"]![1]!.AsObject(), property, directory);
         foreach (var property in new[] { "x", "y", "z" })

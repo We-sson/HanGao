@@ -117,8 +117,8 @@ public sealed class RobotSceneService : IRobotSceneService
         var workspace = context.WorkspaceController
             ?? throw new InvalidOperationException("Macad 工作区尚未就绪。");
 
-        // 只读仿真视口使用项目约定的手势：左键旋转、右键平移、滚轮缩放，不启用 Macad 的框选/选择。
-        _panel.MouseControl = new RobotViewportMouseControl(OnPointerInteraction)
+        // 只读仿真视口使用项目约定的手势：左键绕模型中心 Z-up 转盘旋转、右键平移、滚轮缩放，不启用 Macad 的框选/选择。
+        _panel.MouseControl = new RobotViewportMouseControl(OnPointerInteraction, OrbitByPointer)
         {
             ViewportController = context.ViewportController,
         };
@@ -504,24 +504,7 @@ public sealed class RobotSceneService : IRobotSceneService
         var length = Math.Sqrt(ox * ox + oy * oy + oz * oz);
         if (length <= 1e-12) return;
 
-        var box = _content?.GetModelBounds();
-        var center = box is not null && !box.IsVoid() ? BoxCenter(box) : Pnt.Origin;
-        var distance = box is not null && !box.IsVoid() ? Math.Max(10.0, BoxDiagonal(box)) : 2000.0;
-
-        var direction = new Vec(ox / length, oy / length, oz / length);
-        var eye = center.Translated(direction.Multiplied(distance));
-
-        var camera = view.Camera();
-        camera.SetEyeAndCenter(eye, center);
-        camera.SetUp(new Dir(ux, uy, uz));
-        camera.SetProjectionType(Graphic3d_Camera.Projection.Orthographic);
-        view.SetCamera(camera);
-        view.FitAll(FitMargin, false);
-        view.ZFitAll();
-        _orbitCenter = center;
-        UpdateCoordinateScale();
-        view.Redraw();
-        RememberCamera(view);
+        ApplyCameraPose(view, new Vec(ox / length, oy / length, oz / length), new Dir(ux, uy, uz), fitModelBox: false);
     }
 
     void ApplyOrbitPose()
@@ -537,30 +520,36 @@ public sealed class RobotSceneService : IRobotSceneService
         _pendingOrbitPose = false;
         _pendingZoomAll = false;
 
+        var azimuth = _orbitStartAngle * Math.PI / 180.0;
+        var elevation = Math.Clamp(_orbitElevation, -85.0, 85.0) * Math.PI / 180.0;
+        var direction = new Vec(
+            Math.Cos(elevation) * Math.Cos(azimuth),
+            Math.Cos(elevation) * Math.Sin(azimuth),
+            Math.Sin(elevation));
+        ApplyCameraPose(view, direction, new Dir(0, 0, 1), fitModelBox: true);
+    }
+
+    /// <summary>按给定单位观测方向与上方向定位正交相机并适配模型包围盒。</summary>
+    void ApplyCameraPose(V3d_View view, Vec unitOffsetDirection, Dir up, bool fitModelBox)
+    {
         var box = _content?.GetModelBounds();
         var center = box is not null && !box.IsVoid() ? BoxCenter(box) : Pnt.Origin;
         var distance = box is not null && !box.IsVoid() ? Math.Max(10.0, BoxDiagonal(box)) : 2000.0;
-
-        var azimuth = _orbitStartAngle * Math.PI / 180.0;
-        var elevation = Math.Clamp(_orbitElevation, -85.0, 85.0) * Math.PI / 180.0;
-        var eye = new Pnt(
-            center.X + Math.Cos(elevation) * Math.Cos(azimuth) * distance,
-            center.Y + Math.Cos(elevation) * Math.Sin(azimuth) * distance,
-            center.Z + Math.Sin(elevation) * distance);
+        var eye = center.Translated(unitOffsetDirection.Multiplied(distance));
 
         var camera = view.Camera();
         camera.SetEyeAndCenter(eye, center);
-        camera.SetUp(new Dir(0, 0, 1));
+        camera.SetUp(up);
         camera.SetProjectionType(Graphic3d_Camera.Projection.Orthographic);
         view.SetCamera(camera);
-        if (box is not null && !box.IsVoid()) view.FitAll(box, FitMargin, false);
+        if (fitModelBox && box is not null && !box.IsVoid()) view.FitAll(box, FitMargin, false);
         else view.FitAll(FitMargin, false);
         view.ZFitAll();
         _orbitCenter = center;
         UpdateCoordinateScale();
         _sceneDirty = false;
-        _lastRedrawTimestamp = Stopwatch.GetTimestamp();
         view.Redraw();
+        _lastRedrawTimestamp = Stopwatch.GetTimestamp();
         RememberCamera(view);
     }
 
@@ -608,20 +597,38 @@ public sealed class RobotSceneService : IRobotSceneService
         _orbitElapsed = 0;
         if (!double.IsFinite(degrees) || Math.Abs(degrees) <= 1e-9) return;
 
-        // 绕模型包围盒中心（_orbitCenter）同时旋转相机 Eye 与 Center，保证平移后再自转也严格围绕模型盒子中心。
         var camera = view.Camera();
         var center = camera.Center();
         var eye = camera.Eye();
-        var pivot = _orbitCenter;
-        var nextEye = RotateEyeAroundZ(eye, pivot, degrees);
-        var nextCenter = RotateEyeAroundZ(center, pivot, degrees);
-        var dx = nextEye.X - nextCenter.X;
-        var dy = nextEye.Y - nextCenter.Y;
-        var dz = nextEye.Z - nextCenter.Z;
+        var dx = eye.X - center.X;
+        var dy = eye.Y - center.Y;
+        var dz = eye.Z - center.Z;
         if (dx * dx + dy * dy <= Math.Max(1e-6, dz * dz * 1e-4)) return;
 
+        ApplyCameraOrbit(view, degrees, 0.0);
+    }
+
+    internal void OrbitByPointer(double yawDegrees, double pitchDegrees)
+    {
+        var view = ReadyView;
+        if (view is null) return;
+        ApplyCameraOrbit(view, yawDegrees, pitchDegrees);
+    }
+
+    /// <summary>绕 <see cref="_orbitCenter"/> 旋转相机并刷新像素比例、重绘与冷却时间戳，供鼠标拖拽和自动环绕共用。</summary>
+    void ApplyCameraOrbit(V3d_View view, double yawDegrees, double pitchDegrees)
+    {
+        var camera = view.Camera();
+        var (nextEye, nextCenter, nextUp) = OrbitCameraAroundPivot(
+            camera.Eye(),
+            camera.Center(),
+            camera.Up(),
+            _orbitCenter,
+            yawDegrees,
+            pitchDegrees);
+
         camera.SetEyeAndCenter(nextEye, nextCenter);
-        camera.SetUp(new Dir(0, 0, 1));
+        camera.SetUp(nextUp);
         view.SetCamera(camera);
         UpdateCoordinateScale();
         _sceneDirty = false;
@@ -631,17 +638,98 @@ public sealed class RobotSceneService : IRobotSceneService
         RememberCamera(view);
     }
 
-    internal static Pnt RotateEyeAroundZ(Pnt eye, Pnt center, double degrees)
+    /// <summary>
+    /// 绕 <paramref name="pivot"/> 执行 Z-up 转盘旋转（先沿水平右轴俯仰并限制仰角在 ±89°，再绕世界 Z 轴偏航，最后消除滚转）。
+    /// </summary>
+    internal static (Pnt Eye, Pnt Center, Dir Up) OrbitCameraAroundPivot(
+        Pnt eye,
+        Pnt center,
+        Dir currentUp,
+        Pnt pivot,
+        double yawDegrees,
+        double pitchDegrees)
     {
-        var radians = degrees * Math.PI / 180.0;
-        var cos = Math.Cos(radians);
-        var sin = Math.Sin(radians);
-        var dx = eye.X - center.X;
-        var dy = eye.Y - center.Y;
-        return new Pnt(
-            center.X + dx * cos - dy * sin,
-            center.Y + dx * sin + dy * cos,
-            eye.Z);
+        const double maxElevationRadians = 89.0 * Math.PI / 180.0;
+        if (!double.IsFinite(yawDegrees) || !double.IsFinite(pitchDegrees))
+            return (eye, center, currentUp);
+
+        var backVec = new Vec(center, eye);
+        if (backVec.Magnitude() <= 1e-9)
+            return (eye, center, currentUp);
+
+        var backDir = backVec.ToDir();
+        var viewDir = backDir.Reversed();
+
+        // 从视角方向与世界 +Z 计算水平屏幕右轴；正顶/正底视角的水平分量为零，改用 viewDir × currentUp。
+        Dir rightDir;
+        var rx = viewDir.Y;
+        var ry = -viewDir.X;
+        if (Math.Sqrt(rx * rx + ry * ry) > 1e-6)
+        {
+            rightDir = new Dir(rx, ry, 0);
+        }
+        else
+        {
+            var crossVec = viewDir.ToVec().Crossed(currentUp.ToVec());
+            rightDir = crossVec.Magnitude() > 1e-6 ? crossVec.ToDir() : Dir.DX;
+        }
+
+        var elevation = Math.Atan2(backDir.Z, Math.Sqrt(backDir.X * backDir.X + backDir.Y * backDir.Y));
+        var pitchRad = pitchDegrees * Math.PI / 180.0;
+        double appliedPitchRad;
+        if (pitchRad < 0)
+            appliedPitchRad = elevation >= maxElevationRadians ? 0.0 : elevation - Math.Min(elevation - pitchRad, maxElevationRadians);
+        else if (pitchRad > 0)
+            appliedPitchRad = elevation <= -maxElevationRadians ? 0.0 : elevation - Math.Max(elevation - pitchRad, -maxElevationRadians);
+        else
+            appliedPitchRad = 0.0;
+
+        var nextEye = eye;
+        var nextCenter = center;
+        var nextUp = currentUp;
+
+        if (Math.Abs(appliedPitchRad) > 1e-12)
+        {
+            var pitchTrsf = new Trsf(new Ax1(pivot, rightDir), appliedPitchRad);
+            nextEye = nextEye.Transformed(pitchTrsf);
+            nextCenter = nextCenter.Transformed(pitchTrsf);
+            nextUp = nextUp.Transformed(pitchTrsf);
+        }
+
+        var yawRad = yawDegrees * Math.PI / 180.0;
+        if (Math.Abs(yawRad) > 1e-12)
+        {
+            var yawTrsf = new Trsf(new Ax1(pivot, Dir.DZ), yawRad);
+            nextEye = nextEye.Transformed(yawTrsf);
+            nextCenter = nextCenter.Transformed(yawTrsf);
+            nextUp = nextUp.Transformed(yawTrsf);
+        }
+
+        var nextViewVec = new Vec(nextEye, nextCenter);
+        if (nextViewVec.Magnitude() <= 1e-9)
+            return (eye, center, currentUp);
+
+        var nextViewDir = nextViewVec.ToDir();
+        if (Math.Sqrt(nextViewDir.Y * nextViewDir.Y + nextViewDir.X * nextViewDir.X) > 1e-4)
+        {
+            var horizRight = new Vec(nextViewDir.Y, -nextViewDir.X, 0);
+            var upVec = horizRight.Crossed(nextViewDir.ToVec());
+            nextUp = upVec.Magnitude() > 1e-9 ? upVec.ToDir() : nextUp;
+        }
+        else
+        {
+            var nextUpVec = nextUp.ToVec();
+            var viewUnit = nextViewDir.ToVec();
+            var dot = nextUpVec.Dot(viewUnit);
+            var ortho = new Vec(
+                nextUpVec.X - dot * viewUnit.X,
+                nextUpVec.Y - dot * viewUnit.Y,
+                nextUpVec.Z - dot * viewUnit.Z);
+            if (ortho.Magnitude() > 1e-9)
+                nextUp = ortho.ToDir();
+        }
+
+        return (nextEye, nextCenter, nextUp);
     }
 
     // ── 坐标轴/像素尺寸 ────────────────────────────────────────────────
